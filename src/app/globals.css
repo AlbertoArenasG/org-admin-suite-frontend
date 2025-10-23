@@ -1,9 +1,26 @@
+/* ----------------------------- */
+/*   🧩 Configuración base        */
+/* ----------------------------- */
+
+@import 'tailwindcss';
+@plugin "tailwindcss-animate";
+
+/* Habilita variantes de modo oscuro para shadcn */
+@custom-variant dark (&:is(.dark *));
+
+/* ----------------------------- */
+/*   🎨 Paleta de colores        */
+/* ----------------------------- */
+
 :root {
+  /* ===== Base ===== */
   --background: #f9fafb;
   --foreground: #0a0a0a;
   --card: #ffffff;
   --card-foreground: #1a1a1a;
+  --radius: 0.625rem;
 
+  /* ===== Turquesa (principal del logo) ===== */
   --primary-50: #e6fbf9;
   --primary-100: #c2f2ec;
   --primary-200: #8ce0d7;
@@ -15,6 +32,7 @@
   --primary-800: #0f5954;
   --primary-900: #0a423e;
 
+  /* ===== Acento púrpura (profundo y elegante) ===== */
   --accent-50: #efeaff;
   --accent-100: #d7ccff;
   --accent-200: #b5a3ff;
@@ -26,6 +44,7 @@
   --accent-800: #180a53;
   --accent-900: #0e042e;
 
+  /* ===== Estados ===== */
   --success-50: #e9f7ef;
   --success-500: #43a047;
   --success-700: #2e7d32;
@@ -37,7 +56,26 @@
   --error-50: #fdecea;
   --error-500: #e53935;
   --error-700: #b71c1c;
+
+  /* ===== Elementos UI ===== */
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #2ab8ad;
+
+  /* ===== Sidebar / Extras shadcn ===== */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #1d9f9a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #2ab8ad;
 }
+
+/* ----------------------------- */
+/*   🌙 Modo oscuro               */
+/* ----------------------------- */
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -68,92 +106,57 @@
     --accent-800: #d7ccff;
     --accent-900: #efeaff;
 
-    --success-50: #1b5e20;
-    --success-500: #43a047;
-    --success-700: #a5d6a7;
+    --ring: #2ab8ad;
 
-    --warning-50: #ffb300;
-    --warning-500: #ffd54f;
-    --warning-700: #fff8e1;
-
-    --error-50: #c62828;
-    --error-500: #e57373;
-    --error-700: #ffcdd2;
+    --sidebar: #1a1d1f;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #2ab8ad;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #0d0f10;
+    --sidebar-accent-foreground: #f5f5f5;
+    --sidebar-border: #2b2f31;
+    --sidebar-ring: #2ab8ad;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family:
-    var(--font-geist-sans),
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
+/* ----------------------------- */
+/*   🧱 Radios y tema inline      */
+/* ----------------------------- */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Vinculación con variables Tailwind */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary-500);
+  --color-accent: var(--accent-500);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
 }
 
-/* @import "tailwindcss";
+/* ----------------------------- */
+/*   🪶 Estilos base Tailwind     */
+/* ----------------------------- */
 
-:root {
-  --background: #FFFFFF;
-  --foreground: #000000;
-  --card: #F7F8F9;
-  --card-foreground: #000000;
-
-  --primary-50: #E8FAF7;
-  --primary-100: #D1F4EE;
-  --primary-200: #A4E9DD;
-  --primary-300: #77DDCC;
-  --primary-400: #4BD1BB;
-  --primary-500: #61C0B0;
-  --primary-600: #4DA79A;
-  --primary-700: #3B8E84;
-  --primary-800: #2A756E;
-  --primary-900: #1B5B58;
-
-  --success-50: #E8F6EE;
-  --success-500: #4CAF50;
-  --success-700: #2E7D32;
-
-  --warning-50: #FFF8E1;
-  --warning-500: #FFC107;
-  --warning-700: #FF8F00;
-
-  --error-50: #FDECEA;
-  --error-500: #E53935;
-  --error-700: #B71C1C;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0F1112;
-    --foreground: #FFFFFF;
-    --card: #1A1D1F;
-    --card-foreground: #FFFFFF;
-
-    --primary-50: #1B5B58;
-    --primary-100: #2A756E;
-    --primary-200: #3B8E84;
-    --primary-300: #4DA79A;
-    --primary-400: #61C0B0;
-    --primary-500: #77DDCC;
-    --primary-600: #8CD5C7;
-    --primary-700: #A4E9DD;
-    --primary-800: #D1F4EE;
-    --primary-900: #E8FAF7;
-
-    --success-50: #1B5E20;
-    --success-500: #388E3C;
-    --success-700: #A5D6A7;
-
-    --warning-50: #FFB300;
-    --warning-500: #FFD54F;
-    --warning-700: #FFF8E1;
-
-    --error-50: #C62828;
-    --error-500: #E57373;
-    --error-700: #FFCDD2;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-} */
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      var(--font-geist-sans),
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+  }
+}
