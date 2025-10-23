@@ -1,11 +1,11 @@
 interface SurveyPageProps {
-  params: {
+  params: Promise<{
     token: string;
-  };
+  }>;
 }
 
-export default function PublicSurveyPage({ params }: SurveyPageProps) {
-  const { token } = params;
+export default async function PublicSurveyPage({ params }: SurveyPageProps) {
+  const { token } = await params;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-8">

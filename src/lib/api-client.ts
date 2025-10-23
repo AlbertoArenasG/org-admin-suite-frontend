@@ -97,8 +97,8 @@ export async function jsonRequest<TResponse>(
   if (expectsJson) {
     try {
       parsedBody = (await response.json()) as ApiResponse<TResponse>;
-    } catch (error) {
-      // ignore JSON parse errors; handled below
+    } catch {
+      throw new ApiError('Invalid JSON response received from API', response.status || 500);
     }
   }
 
