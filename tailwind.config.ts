@@ -64,6 +64,10 @@ const config: Config = {
           500: 'var(--error-500)',
           700: 'var(--error-700)',
         },
+        destructive: {
+          DEFAULT: 'var(--destructive)',
+          foreground: 'var(--destructive-foreground)',
+        },
 
         /* ===== Sidebar y componentes extra de shadcn ===== */
         sidebar: {

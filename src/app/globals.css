@@ -67,6 +67,9 @@
   --error-500: #e53935;
   --error-700: #b71c1c;
 
+  --destructive: var(--error-500);
+  --destructive-foreground: #ffffff;
+
   /* ===== Elementos UI ===== */
   --border: #e5e7eb;
   --input: #e5e7eb;
@@ -133,6 +136,9 @@
   --popover: #1a1d1f;
   --popover-foreground: #f5f5f5;
 
+  --destructive: #f97066;
+  --destructive-foreground: #1a1a1a;
+
   --sidebar: #1a1d1f;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #2ab8ad;
@@ -189,6 +195,9 @@
   --popover: #ffffff;
   --popover-foreground: #1a1a1a;
 
+  --destructive: var(--error-500);
+  --destructive-foreground: #ffffff;
+
   --sidebar: #ffffff;
   --sidebar-foreground: #0a0a0a;
   --sidebar-primary: #1d9f9a;
@@ -209,6 +218,30 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  /* Primary */
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
+
+  /* Accent */
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+
   /* Vinculación con variables Tailwind */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -221,6 +254,8 @@
   --color-sidebar: var(--sidebar);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
 }

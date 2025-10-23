@@ -1,6 +1,6 @@
 'use client';
 
-import { LoginForm } from '@/components/login-form';
+import { LoginForm } from '@/components/auth/LoginForm';
 import { ModeToggle } from '@/components/ModeToggle';
 import { GalleryVerticalEnd } from 'lucide-react';
 
