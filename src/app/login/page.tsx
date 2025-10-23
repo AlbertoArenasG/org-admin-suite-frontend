@@ -1,7 +1,7 @@
 'use client';
 
 import { LoginForm } from '@/components/auth/LoginForm';
-import { ModeToggle } from '@/components/ModeToggle';
+import { ModeToggle } from '@/components/shared/ModeToggle';
 import { GalleryVerticalEnd } from 'lucide-react';
 
 export default function LoginPage() {
