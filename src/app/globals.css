@@ -1,26 +1,281 @@
-@import "tailwindcss";
+/* ----------------------------- */
+/*   🧩 Configuración base        */
+/* ----------------------------- */
+
+@import 'tailwindcss';
+@plugin "tailwindcss-animate";
+
+/* Habilita variantes de modo oscuro para shadcn */
+@custom-variant dark (&:is(.dark *));
+
+/* ----------------------------- */
+/*   🎨 Paleta de colores        */
+/* ----------------------------- */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ===== Base ===== */
+  --background: #f9fafb;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+  --radius: 0.625rem;
+
+  /* ===== Turquesa (principal del logo) ===== */
+  --primary-50: #e6fbf9;
+  --primary-100: #c2f2ec;
+  --primary-200: #8ce0d7;
+  --primary-300: #56cec2;
+  --primary-400: #2ab8ad;
+  --primary-500: #1d9f9a;
+  --primary-600: #188883;
+  --primary-700: #14706b;
+  --primary-800: #0f5954;
+  --primary-900: #0a423e;
+
+  /* ===== Acento púrpura (profundo y elegante) ===== */
+  --accent-50: #e6fbf9;
+  --accent-100: #c2f2ec;
+  --accent-200: #8ce0d7;
+  --accent-300: #56cec2;
+  --accent-400: #2ab8ad;
+  --accent-500: #1d9f9a;
+  --accent-600: #188883;
+  --accent-700: #14706b;
+  --accent-800: #0f5954;
+  --accent-900: #0a423e;
+  /* --accent-50: #efeaff;
+  --accent-100: #d7ccff;
+  --accent-200: #b5a3ff;
+  --accent-300: #917aff;
+  --accent-400: #6c52f6;
+  --accent-500: #4b32d6;
+  --accent-600: #3522a8;
+  --accent-700: #220d7d;
+  --accent-800: #180a53;
+  --accent-900: #0e042e; */
+
+  /* ===== Estados ===== */
+  --success-50: #e9f7ef;
+  --success-500: #43a047;
+  --success-700: #2e7d32;
+
+  --warning-50: #fff4e5;
+  --warning-500: #fb8c00;
+  --warning-700: #e65100;
+
+  --error-50: #fdecea;
+  --error-500: #e53935;
+  --error-700: #b71c1c;
+
+  --destructive: var(--error-500);
+  --destructive-foreground: #ffffff;
+
+  /* ===== Elementos UI ===== */
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #2ab8ad;
+  --muted: #f3f4f6;
+  --muted-foreground: #4b5563;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+
+  /* ===== Sidebar / Extras shadcn ===== */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #1d9f9a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #2ab8ad;
 }
+
+.dark {
+  color-scheme: dark;
+  --background: #0d0f10;
+  --foreground: #ffffff;
+  --card: #1a1d1f;
+  --card-foreground: #f5f5f5;
+
+  --primary-50: #0a423e;
+  --primary-100: #0f5954;
+  --primary-200: #14706b;
+  --primary-300: #188883;
+  --primary-400: #1d9f9a;
+  --primary-500: #2ab8ad;
+  --primary-600: #56cecb;
+  --primary-700: #8ce0d7;
+  --primary-800: #c2f2ec;
+  --primary-900: #e6fbf9;
+
+  --accent-50: #0a423e;
+  --accent-100: #0f5954;
+  --accent-200: #14706b;
+  --accent-300: #188883;
+  --accent-400: #1d9f9a;
+  --accent-500: #2ab8ad;
+  --accent-600: #56cecb;
+  --accent-700: #8ce0d7;
+  --accent-800: #c2f2ec;
+  --accent-900: #e6fbf9;
+
+  /* --accent-50: #0e042e;
+  --accent-100: #180a53;
+  --accent-200: #220d7d;
+  --accent-300: #3522a8;
+  --accent-400: #4b32d6;
+  --accent-500: #6c52f6;
+  --accent-600: #917aff;
+  --accent-700: #b5a3ff;
+  --accent-800: #d7ccff;
+  --accent-900: #efeaff; */
+
+  --ring: #2ab8ad;
+  --muted: #1f2933;
+  --muted-foreground: #d1d5db;
+  --popover: #1a1d1f;
+  --popover-foreground: #f5f5f5;
+
+  --destructive: #f97066;
+  --destructive-foreground: #1a1a1a;
+
+  --sidebar: #1a1d1f;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #2ab8ad;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #0d0f10;
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: #2b2f31;
+  --sidebar-ring: #2ab8ad;
+}
+
+.light {
+  color-scheme: light;
+  --background: #f9fafb;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+
+  --primary-50: #e6fbf9;
+  --primary-100: #c2f2ec;
+  --primary-200: #8ce0d7;
+  --primary-300: #56cec2;
+  --primary-400: #2ab8ad;
+  --primary-500: #1d9f9a;
+  --primary-600: #188883;
+  --primary-700: #14706b;
+  --primary-800: #0f5954;
+  --primary-900: #0a423e;
+
+  --accent-50: #e6fbf9;
+  --accent-100: #c2f2ec;
+  --accent-200: #8ce0d7;
+  --accent-300: #56cec2;
+  --accent-400: #2ab8ad;
+  --accent-500: #1d9f9a;
+  --accent-600: #188883;
+  --accent-700: #14706b;
+  --accent-800: #0f5954;
+  --accent-900: #0a423e;
+
+  /* --accent-50: #efeaff;
+  --accent-100: #d7ccff;
+  --accent-200: #b5a3ff;
+  --accent-300: #917aff;
+  --accent-400: #6c52f6;
+  --accent-500: #4b32d6;
+  --accent-600: #3522a8;
+  --accent-700: #220d7d;
+  --accent-800: #180a53;
+  --accent-900: #0e042e; */
+
+  --ring: #2ab8ad;
+  --muted: #f3f4f6;
+  --muted-foreground: #4b5563;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a1a;
+
+  --destructive: var(--error-500);
+  --destructive-foreground: #ffffff;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0a0a0a;
+  --sidebar-primary: #1d9f9a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f3f4f6;
+  --sidebar-accent-foreground: #0a0a0a;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #2ab8ad;
+}
+
+/* ----------------------------- */
+/*   🧱 Radios y tema inline      */
+/* ----------------------------- */
 
 @theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* Primary */
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
+
+  /* Accent */
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+
+  /* Vinculación con variables Tailwind */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary-500);
+  --color-accent: var(--accent-500);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ----------------------------- */
+/*   🪶 Estilos base Tailwind     */
+/* ----------------------------- */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+    font-family:
+      var(--font-geist-sans),
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+  }
 }
