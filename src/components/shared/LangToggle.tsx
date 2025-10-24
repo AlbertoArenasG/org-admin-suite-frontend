@@ -13,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
 
 export const title = 'Language Selector';
 
@@ -21,7 +22,17 @@ const languageOptions = [
   { value: 'es', flag: '🇪🇸', labelKey: 'common:spanish' },
 ] as const;
 
-const SelectLang = () => {
+interface SelectLangProps {
+  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
+  buttonSize?: React.ComponentProps<typeof Button>['size'];
+  buttonClassName?: string;
+}
+
+const SelectLang = ({
+  buttonVariant = 'outline',
+  buttonSize = 'default',
+  buttonClassName,
+}: SelectLangProps) => {
   const { t, i18n } = useTranslation('common');
   const [language, setLanguage] = useState(i18n.language || 'es');
 
@@ -52,9 +63,13 @@ const SelectLang = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" aria-label={t('changeLanguage')}>
+        <Button
+          variant={buttonVariant}
+          size={buttonSize}
+          aria-label={t('changeLanguage')}
+          className={cn('flex items-center gap-2', buttonClassName)}
+        >
           <Globe className="h-4 w-4" />
-          {/* {t('language')} */}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48">

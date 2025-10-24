@@ -12,12 +12,15 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
+  LayoutDashboard,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/sidebar/NavMain';
 import { NavProjects } from '@/components/sidebar/NavProjects';
 import { NavUser } from '@/components/sidebar/NavUser';
 import { TeamSwitcher } from '@/components/sidebar/TeamSwitcher';
+import SelectLang from '@/components/shared/LangToggle';
+import { ModeToggle } from '@/components/shared/ModeToggle';
 import {
   Sidebar,
   SidebarContent,
@@ -53,10 +56,16 @@ const data = {
   ],
   navMain: [
     {
+      title: 'Dashboard',
+      url: '#',
+      icon: LayoutDashboard,
+      isActive: true,
+    },
+    {
       title: 'Playground',
       url: '#',
       icon: SquareTerminal,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: 'History',
@@ -172,14 +181,26 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       {...props}
     >
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <NavUser user={data.user} />
+        {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
+      <SidebarFooter className="gap-3">
+        <div className="flex flex-col items-stretch gap-3 rounded-xl p-2 backdrop-blur-sm group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:gap-2 group-data-[collapsible=icon]:rounded-lg group-data-[collapsible=icon]:p-2">
+          <ModeToggle
+            buttonVariant="ghost"
+            buttonSize="icon"
+            buttonClassName="size-10 rounded-xl border-none bg-white/15 text-sidebar-foreground hover:bg-white/40 group-data-[collapsible=icon]:size-9"
+          />
+          <SelectLang
+            buttonVariant="ghost"
+            buttonSize="icon"
+            buttonClassName="size-10 rounded-xl border-none bg-white/15 text-sidebar-foreground hover:bg-white/40 group-data-[collapsible=icon]:size-9"
+          />
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
