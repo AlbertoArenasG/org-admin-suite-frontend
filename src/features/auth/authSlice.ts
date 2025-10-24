@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { login } from './authThunks';
 import type { AuthUser } from './types';
+import { persistAuthToken } from './persistence';
 
 export interface AuthState {
   user: AuthUser | null;
@@ -26,6 +27,7 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.token = null;
+      persistAuthToken(null);
       state.status = 'idle';
       state.error = null;
       state.successMessage = null;
@@ -37,6 +39,7 @@ const authSlice = createSlice({
     },
     setAuthToken(state, action: PayloadAction<string | null>) {
       state.token = action.payload;
+      persistAuthToken(action.payload);
     },
   },
   extraReducers: (builder) => {
@@ -50,6 +53,7 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload.user;
         state.token = action.payload.token;
+        persistAuthToken(action.payload.token);
         state.error = null;
         state.successMessage = action.payload.message ?? 'La sesión se inició correctamente';
       })

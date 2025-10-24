@@ -1,0 +1,10 @@
+{
+  "language": "Language",
+  "selectLanguage": "Select language",
+  "english": "English",
+  "spanish": "Spanish",
+  "changeLanguage": "Change language",
+  "done": "All set",
+  "errorTitle": "Something went wrong",
+  "loading": "Loading..."
+}
