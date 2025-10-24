@@ -3,22 +3,14 @@
 import * as React from 'react';
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
   LayoutDashboard,
   Users,
   Wrench,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/sidebar/NavMain';
-import { NavProjects } from '@/components/sidebar/NavProjects';
 import { NavUser } from '@/components/sidebar/NavUser';
 import SelectLang from '@/components/shared/LangToggle';
 import { ModeToggle } from '@/components/shared/ModeToggle';
@@ -71,7 +63,7 @@ const data = {
       items: [
         {
           title: 'All Users',
-          url: 'dashboard/users',
+          url: '/dashboard/users',
         },
         {
           title: 'Active Users',
@@ -228,6 +220,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       className={cn(
         'border-none [&_[data-slot=sidebar-gap]]:bg-transparent',
         '[&_[data-slot=sidebar-inner]]:border [&_[data-slot=sidebar-inner]]:border-sidebar-border [&_[data-slot=sidebar-inner]]:bg-gradient-to-b [&_[data-slot=sidebar-inner]]:from-[var(--sidebar-gradient-from)] [&_[data-slot=sidebar-inner]]:via-[var(--sidebar-gradient-via)] [&_[data-slot=sidebar-inner]]:to-[var(--sidebar-gradient-to)] [&_[data-slot=sidebar-inner]]:text-sidebar-foreground [&_[data-slot=sidebar-inner]]:shadow-[0_20px_45px_rgba(14,4,46,0.45)]',
+        // '[&_[data-slot=sidebar-inner]]:border [&_[data-slot=sidebar-inner]]:border-sidebar-border [&_[data-slot=sidebar-inner]]:bg-[color:var(--sidebar)] [&_[data-slot=sidebar-inner]]:text-sidebar-foreground [&_[data-slot=sidebar-inner]]:shadow-[0_20px_45px_rgba(14,4,46,0.45)]',
         '[&_[data-slot=sidebar-header]]:px-4 [&_[data-slot=sidebar-header]]:pt-6 [&_[data-slot=sidebar-header]]:pb-4',
         '[&_[data-slot=sidebar-content]]:px-2',
         '[&_[data-slot=sidebar-footer]]:px-4 [&_[data-slot=sidebar-footer]]:pb-6',

@@ -91,6 +91,20 @@
   --sidebar-accent-foreground: #f7f3ff;
   --sidebar-border: rgba(61, 34, 121, 0.65);
   --sidebar-ring: rgba(122, 88, 214, 0.6);
+  --sidebar-gradient-from: var(--secondary-900);
+  --sidebar-gradient-via: var(--secondary-900);
+  --sidebar-gradient-to: var(--secondary-800);
+
+  --surface-bg: color-mix(in srgb, var(--card) 94%, var(--secondary-50) 6%);
+  --surface-border: color-mix(in srgb, var(--secondary-100) 45%, transparent);
+  --surface-shadow: 0 18px 40px rgba(14, 4, 46, 0.12);
+
+  --data-grid-header-bg: color-mix(in srgb, var(--secondary-100) 35%, transparent);
+  --data-grid-header-border: color-mix(in srgb, var(--secondary-100) 35%, transparent);
+  --data-grid-row-hover: color-mix(in srgb, var(--secondary-100) 20%, transparent);
+  --data-grid-cell-border: color-mix(in srgb, var(--secondary-100) 25%, transparent);
+  --data-grid-progress-track: color-mix(in srgb, var(--secondary-100) 25%, transparent);
+  --data-grid-progress-bar: var(--secondary-500);
 }
 
 .dark {
@@ -151,6 +165,20 @@
   --sidebar-accent-foreground: #f7f3ff;
   --sidebar-border: rgba(57, 34, 112, 0.65);
   --sidebar-ring: rgba(142, 120, 236, 0.6);
+  --sidebar-gradient-from: var(--secondary-900);
+  --sidebar-gradient-via: var(--secondary-800);
+  --sidebar-gradient-to: var(--secondary-700);
+
+  --surface-bg: color-mix(in srgb, var(--sidebar) 88%, transparent);
+  --surface-border: color-mix(in srgb, var(--secondary-600) 40%, transparent);
+  --surface-shadow: 0 18px 38px rgba(2, 2, 32, 0.45);
+
+  --data-grid-header-bg: color-mix(in srgb, var(--secondary-700) 35%, transparent);
+  --data-grid-header-border: color-mix(in srgb, var(--secondary-700) 30%, transparent);
+  --data-grid-row-hover: color-mix(in srgb, var(--secondary-700) 25%, transparent);
+  --data-grid-cell-border: color-mix(in srgb, var(--secondary-700) 20%, transparent);
+  --data-grid-progress-track: color-mix(in srgb, var(--secondary-700) 20%, transparent);
+  --data-grid-progress-bar: var(--secondary-400);
 }
 
 .light {
@@ -308,7 +336,11 @@
   --sidebar-foreground: #f7f3ff;
   --sidebar-primary: #6c52f6;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #180a53;
+  --sidebar-accent: #241054;
   --sidebar-accent-foreground: #f7f3ff;
-  --sidebar-ring: rgba(122, 88, 214, 0.6);
+  --sidebar-border: rgba(53, 30, 104, 0.55);
+  --sidebar-ring: rgba(122, 88, 214, 0.45);
+  --sidebar-gradient-from: var(--sidebar);
+  --sidebar-gradient-via: var(--sidebar);
+  --sidebar-gradient-to: var(--sidebar);
 }

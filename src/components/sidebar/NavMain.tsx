@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { ChevronRight, type LucideIcon } from 'lucide-react';
 
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
@@ -66,9 +67,9 @@ export function NavMain({
                                     {subItem.items.map((child) => (
                                       <SidebarMenuSubItem key={child.title}>
                                         <SidebarMenuSubButton asChild>
-                                          <a href={child.url}>
+                                          <Link href={child.url}>
                                             <span>{child.title}</span>
-                                          </a>
+                                          </Link>
                                         </SidebarMenuSubButton>
                                       </SidebarMenuSubItem>
                                     ))}
@@ -78,9 +79,9 @@ export function NavMain({
                             </Collapsible>
                           ) : (
                             <SidebarMenuSubButton asChild>
-                              <a href={subItem.url}>
+                              <Link href={subItem.url}>
                                 <span>{subItem.title}</span>
-                              </a>
+                              </Link>
                             </SidebarMenuSubButton>
                           )}
                         </SidebarMenuSubItem>
@@ -91,10 +92,10 @@ export function NavMain({
               </Collapsible>
             ) : (
               <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
-                <a href={item.url} className="flex items-center gap-2">
+                <Link href={item.url} className="flex items-center gap-2">
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             )}
           </SidebarMenuItem>
