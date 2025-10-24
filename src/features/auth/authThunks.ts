@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jsonRequest, ApiError } from '@/lib/api-client';
+import type { RootState } from '@/store';
 import type { AuthUser } from './types';
 
 export interface LoginPayload {
@@ -71,7 +72,26 @@ export const login = createAsyncThunk<LoginResult, LoginPayload, { rejectValue: 
   }
 );
 
-export const fetchCurrentUser = createAsyncThunk<AuthUser>('auth/fetchCurrentUser', async () => {
-  // TODO: replace with real API integration
-  throw new Error('fetchCurrentUser thunk not implemented yet');
-});
+export const fetchCurrentUser = createAsyncThunk<AuthUser, void, { state: RootState }>(
+  'auth/fetchCurrentUser',
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().auth.token;
+      if (!token) {
+        return rejectWithValue('Sesión no encontrada');
+      }
+
+      const { data } = await jsonRequest<LoginResponseUser>('/v1/auth/me', {
+        method: 'GET',
+        token,
+      });
+
+      return mapLoginUser(data);
+    } catch (error) {
+      if (error instanceof ApiError) {
+        return rejectWithValue(error.message || 'No fue posible recuperar la sesión');
+      }
+      return rejectWithValue('No fue posible recuperar la sesión');
+    }
+  }
+);
