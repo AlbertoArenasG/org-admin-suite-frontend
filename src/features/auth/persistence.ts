@@ -2,6 +2,7 @@ import type { AppDispatch } from '@/store';
 import type { AuthUser } from './types';
 import { markHydrated, setAuthSnapshot } from './authSlice';
 import { fetchCurrentUser } from './authThunks';
+import { parseUserRole } from '@/features/users/roles';
 
 const AUTH_TOKEN_KEY = 'auth-token';
 const AUTH_USER_KEY = 'auth-user';
@@ -35,7 +36,11 @@ export function hydrateAuthFromStorage(dispatch: AppDispatch) {
 
   if (rawUser) {
     try {
-      user = JSON.parse(rawUser) as AuthUser;
+      const parsed = JSON.parse(rawUser) as AuthUser;
+      user = {
+        ...parsed,
+        role: parseUserRole(parsed.role as unknown as string),
+      };
     } catch {
       window.localStorage.removeItem(AUTH_USER_KEY);
     }

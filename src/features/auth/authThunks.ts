@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jsonRequest, ApiError } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type { AuthUser } from './types';
+import { parseUserRole } from '@/features/users/roles';
 
 export interface LoginPayload {
   email: string;
@@ -38,7 +39,7 @@ function mapLoginUser(user: LoginResponseUser): AuthUser {
     email: user.email,
     name: user.name,
     lastname: user.lastname,
-    role: user.role,
+    role: parseUserRole(user.role),
     status: user.status,
     cellPhone: user.cell_phone
       ? {

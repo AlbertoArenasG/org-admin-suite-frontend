@@ -38,6 +38,68 @@
       }
     },
     "empty": "No hay usuarios para mostrar.",
-    "pagination": "Página {{page}} de {{pages}} · {{total}} usuarios"
+    "pagination": "Página {{page}} de {{pages}} · {{total}} usuarios",
+    "actions": {
+      "invite": "Invitar usuario",
+      "inviteShort": "Invitar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "openMenu": "Abrir menú de acciones",
+      "openInvite": "Abrir panel de invitación",
+      "openEdit": "Abrir panel de edición"
+    },
+    "form": {
+      "title": {
+        "create": "Invitar usuario",
+        "edit": "Editar usuario"
+      },
+      "description": {
+        "create": "Envía una invitación por correo para sumar a un miembro del equipo.",
+        "edit": "Actualiza los datos básicos del usuario seleccionado."
+      },
+      "labels": {
+        "email": "Correo electrónico",
+        "role": "Rol",
+        "name": "Nombre",
+        "lastname": "Apellido",
+        "phoneCode": "Código de país",
+        "phoneNumber": "Número telefónico"
+      },
+      "placeholders": {
+        "email": "nombre@ejemplo.com",
+        "name": "Nombre opcional",
+        "lastname": "Apellido opcional",
+        "phoneCode": "+52",
+        "phoneNumber": "0000000000"
+      },
+      "errors": {
+        "emailRequired": "El correo es obligatorio",
+        "emailInvalid": "Ingresa un correo válido",
+        "roleRequired": "Selecciona un rol"
+      },
+      "cancel": "Cancelar",
+      "submitting": "Guardando...",
+      "submit": {
+        "create": "Enviar invitación",
+        "edit": "Guardar cambios"
+      }
+    },
+    "roles": {
+      "MASTER_ADMIN": "Master admin",
+      "MASTER_STAFF": "Master staff",
+      "ADMIN": "Administrador",
+      "STAFF": "Staff",
+      "CUSTOMER": "Cliente"
+    },
+    "confirmDelete": {
+      "title": "Eliminar usuario",
+      "description": "Esta acción eliminará a {{name}}. Conecta el API más adelante para completarla.",
+      "confirm": "Eliminar usuario",
+      "cancel": "Cancelar"
+    },
+    "permissions": {
+      "inviteRestricted": "No cuentas con permisos para enviar invitaciones con tu rol actual.",
+      "inviteRestrictedAction": "Solicita a un administrador acceso adicional si lo necesitas."
+    }
   }
 }

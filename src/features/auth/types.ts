@@ -1,9 +1,11 @@
+import type { UserRole } from '@/features/users/roles';
+
 export interface AuthUser {
   id: string;
   email: string;
   name: string;
   lastname: string;
-  role: string;
+  role: UserRole;
   status: string;
   cellPhone: {
     countryCode: string;

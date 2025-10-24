@@ -38,6 +38,68 @@
       }
     },
     "empty": "No users to show.",
-    "pagination": "Page {{page}} of {{pages}} · {{total}} users"
+    "pagination": "Page {{page}} of {{pages}} · {{total}} users",
+    "actions": {
+      "invite": "Invite user",
+      "inviteShort": "Invite",
+      "edit": "Edit",
+      "delete": "Delete",
+      "openMenu": "Open actions menu",
+      "openInvite": "Open invite drawer",
+      "openEdit": "Open edit drawer"
+    },
+    "form": {
+      "title": {
+        "create": "Invite user",
+        "edit": "Edit user"
+      },
+      "description": {
+        "create": "Send an invitation email to add a teammate to the organization.",
+        "edit": "Update basic details for the selected user."
+      },
+      "labels": {
+        "email": "Email",
+        "role": "Role",
+        "name": "First name",
+        "lastname": "Last name",
+        "phoneCode": "Country code",
+        "phoneNumber": "Phone number"
+      },
+      "placeholders": {
+        "email": "name@example.com",
+        "name": "Optional first name",
+        "lastname": "Optional last name",
+        "phoneCode": "+52",
+        "phoneNumber": "0000000000"
+      },
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Enter a valid email",
+        "roleRequired": "Select a role"
+      },
+      "cancel": "Cancel",
+      "submitting": "Saving...",
+      "submit": {
+        "create": "Send invitation",
+        "edit": "Save changes"
+      }
+    },
+    "roles": {
+      "MASTER_ADMIN": "Master admin",
+      "MASTER_STAFF": "Master staff",
+      "ADMIN": "Admin",
+      "STAFF": "Staff",
+      "CUSTOMER": "Customer"
+    },
+    "confirmDelete": {
+      "title": "Remove user",
+      "description": "This will remove {{name}}. Wire the API later to finalize the action.",
+      "confirm": "Remove user",
+      "cancel": "Cancel"
+    },
+    "permissions": {
+      "inviteRestricted": "You do not have permission to send invitations for your current role.",
+      "inviteRestrictedAction": "Ask an administrator to grant additional access if needed."
+    }
   }
 }
