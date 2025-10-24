@@ -8,9 +8,14 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 export default function DashboardLayout({ children }: PropsWithChildren) {
   return (
     <AuthGuard>
-      <SidebarProvider>
+      <SidebarProvider className="bg-sidebar text-secondary-foreground/90">
         <AppSidebar />
-        <SidebarInset className="min-h-screen">{children}</SidebarInset>
+        <SidebarInset className="bg-sidebar px-4 pb-5">
+          <h1>Dashboard</h1>
+          <div className="mx-auto flex w-full flex-1 rounded-[2rem] bg-background/95 p-6 md:p-4">
+            <div className="flex w-full flex-1 flex-col gap-6">{children}</div>
+          </div>
+        </SidebarInset>
       </SidebarProvider>
     </AuthGuard>
   );

@@ -25,6 +25,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 
 // This is sample data.
 const data = {
@@ -156,9 +157,20 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar
+      collapsible="icon"
+      className={cn(
+        'border-none [&_[data-slot=sidebar-gap]]:bg-transparent',
+        '[&_[data-slot=sidebar-inner]]:border [&_[data-slot=sidebar-inner]]:border-sidebar-border [&_[data-slot=sidebar-inner]]:bg-gradient-to-b [&_[data-slot=sidebar-inner]]:from-secondary-900 [&_[data-slot=sidebar-inner]]:via-secondary-900 [&_[data-slot=sidebar-inner]]:to-secondary-800 [&_[data-slot=sidebar-inner]]:text-sidebar-foreground [&_[data-slot=sidebar-inner]]:shadow-[0_20px_45px_rgba(14,4,46,0.45)]',
+        '[&_[data-slot=sidebar-header]]:px-4 [&_[data-slot=sidebar-header]]:pt-6 [&_[data-slot=sidebar-header]]:pb-4',
+        '[&_[data-slot=sidebar-content]]:px-2',
+        '[&_[data-slot=sidebar-footer]]:px-4 [&_[data-slot=sidebar-footer]]:pb-6',
+        className
+      )}
+      {...props}
+    >
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
