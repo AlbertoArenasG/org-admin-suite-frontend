@@ -1,6 +1,7 @@
 'use client';
 
 import { BadgeCheck, Bell, ChevronsUpDown, CreditCard, LogOut, Sparkles } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -18,6 +19,22 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { logout } from '@/features/auth';
+
+function getInitials(nameOrEmail: string) {
+  const parts = nameOrEmail.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) {
+    return '??';
+  }
+
+  const initials = parts
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('')
+    .slice(0, 2);
+
+  return initials || '??';
+}
 
 export function NavUser({
   user,
@@ -25,10 +42,14 @@ export function NavUser({
   user: {
     name: string;
     email: string;
-    avatar: string;
+    avatar?: string | null;
   };
 }) {
   const { isMobile } = useSidebar();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const initials = getInitials(user.name || user.email);
+  const avatarSrc = user.avatar ?? undefined;
 
   return (
     <SidebarMenu>
@@ -40,8 +61,8 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                {avatarSrc ? <AvatarImage src={avatarSrc} alt={user.name} /> : null}
+                <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{user.name}</span>
@@ -59,8 +80,8 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  {avatarSrc ? <AvatarImage src={avatarSrc} alt={user.name} /> : null}
+                  <AvatarFallback className="rounded-lg">{initials}</AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">{user.name}</span>
@@ -91,7 +112,12 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                dispatch(logout());
+                router.push('/login');
+              }}
+            >
               <LogOut />
               Log out
             </DropdownMenuItem>
