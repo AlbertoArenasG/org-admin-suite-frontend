@@ -1,14 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import {
-  AudioWaveform,
-  Command,
-  GalleryVerticalEnd,
-  LayoutDashboard,
-  Users,
-  Wrench,
-} from 'lucide-react';
+import { LayoutDashboard, Users, Wrench } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { usePathname } from 'next/navigation';
 
 import { NavMain } from '@/components/sidebar/NavMain';
 import { NavUser } from '@/components/sidebar/NavUser';
@@ -31,173 +26,11 @@ const data = {
     email: 'm@example.com',
     avatar: '/avatars/shadcn.jpg',
   },
-  teams: [
-    {
-      name: 'Acme Inc',
-      logo: GalleryVerticalEnd,
-      plan: 'Enterprise',
-    },
-    {
-      name: 'Acme Corp.',
-      logo: AudioWaveform,
-      plan: 'Startup',
-    },
-    {
-      name: 'Evil Corp.',
-      logo: Command,
-      plan: 'Free',
-    },
-  ],
-  navMain: [
-    {
-      title: 'Dashboard',
-      url: '#',
-      icon: LayoutDashboard,
-      isActive: true,
-    },
-    {
-      title: 'Users',
-      url: '#',
-      icon: Users,
-      isActive: false,
-      items: [
-        {
-          title: 'All Users',
-          url: '/dashboard/users',
-        },
-        {
-          title: 'Active Users',
-          url: '#',
-        },
-        {
-          title: 'Inactive Users',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Services',
-      url: '#',
-      icon: Wrench,
-      isActive: false,
-    },
-    // {
-    //   title: 'Playground',
-    //   url: '#',
-    //   icon: SquareTerminal,
-    //   isActive: false,
-    //   items: [
-    //     {
-    //       title: 'History',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Starred',
-    //       url: '#',
-    //       items: [
-    //         {
-    //           title: 'Starred Reports',
-    //           url: '#',
-    //         },
-    //         {
-    //           title: 'Pinned Models',
-    //           url: '#',
-    //         },
-    //       ],
-    //     },
-    //     {
-    //       title: 'Settings',
-    //       url: '#',
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: 'Models',
-    //   url: '#',
-    //   icon: Bot,
-    //   items: [
-    //     {
-    //       title: 'Genesis',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Explorer',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Quantum',
-    //       url: '#',
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: 'Documentation',
-    //   url: '#',
-    //   icon: BookOpen,
-    //   items: [
-    //     {
-    //       title: 'Introduction',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Get Started',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Tutorials',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Changelog',
-    //       url: '#',
-    //     },
-    //   ],
-    // },
-    // {
-    //   title: 'Settings',
-    //   url: '#',
-    //   icon: Settings2,
-    //   items: [
-    //     {
-    //       title: 'General',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Team',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Billing',
-    //       url: '#',
-    //     },
-    //     {
-    //       title: 'Limits',
-    //       url: '#',
-    //     },
-    //   ],
-    // },
-  ],
-  // projects: [
-  //   {
-  //     name: 'Design Engineering',
-  //     url: '#',
-  //     icon: Frame,
-  //   },
-  //   {
-  //     name: 'Sales & Marketing',
-  //     url: '#',
-  //     icon: PieChart,
-  //   },
-  //   {
-  //     name: 'Travel',
-  //     url: '#',
-  //     icon: Map,
-  //   },
-  // ],
-  projects: [],
 };
 
 export function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { t } = useTranslation();
+  const pathname = usePathname();
   const authUser = useAppSelector((state) => state.auth.user);
 
   const sidebarUser = React.useMemo(() => {
@@ -213,6 +46,37 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       avatar: '',
     };
   }, [authUser]);
+
+  const navItems = React.useMemo(
+    () => [
+      {
+        title: t('nav.dashboard'),
+        url: '/dashboard',
+        icon: LayoutDashboard,
+        isActive: pathname === '/dashboard',
+      },
+      {
+        title: t('nav.users'),
+        url: '/dashboard/users',
+        icon: Users,
+        isActive: pathname.startsWith('/dashboard/users'),
+        items: [
+          {
+            title: t('nav.usersList'),
+            url: '/dashboard/users',
+            isActive: pathname === '/dashboard/users',
+          },
+        ],
+      },
+      {
+        title: t('nav.services'),
+        url: '/dashboard/services',
+        icon: Wrench,
+        isActive: pathname.startsWith('/dashboard/services'),
+      },
+    ],
+    [pathname, t]
+  );
 
   return (
     <Sidebar
@@ -233,7 +97,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navItems} label={t('nav.platform')} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter className="gap-3">

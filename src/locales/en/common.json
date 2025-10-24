@@ -6,5 +6,38 @@
   "changeLanguage": "Change language",
   "done": "All set",
   "errorTitle": "Something went wrong",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "nav": {
+    "platform": "Platform",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "usersList": "Users list",
+    "usersAll": "All users",
+    "usersActive": "Active users",
+    "usersInactive": "Inactive users",
+    "services": "Services"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "users": "Users"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview"
+  },
+  "users": {
+    "title": "Users",
+    "table": {
+      "columns": {
+        "fullName": "User",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "createdAt": "Created"
+      }
+    },
+    "empty": "No users to show.",
+    "pagination": "Page {{page}} of {{pages}} · {{total}} users"
+  }
 }

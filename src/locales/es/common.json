@@ -6,5 +6,38 @@
   "changeLanguage": "Cambiar idioma",
   "done": "Listo",
   "errorTitle": "Ocurri\u00f3 un problema",
-  "loading": "Cargando..."
+  "loading": "Cargando...",
+  "nav": {
+    "platform": "Plataforma",
+    "dashboard": "Panel",
+    "users": "Usuarios",
+    "usersList": "Lista de usuarios",
+    "usersAll": "Todos los usuarios",
+    "usersActive": "Usuarios activos",
+    "usersInactive": "Usuarios inactivos",
+    "services": "Servicios"
+  },
+  "breadcrumbs": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "users": "Usuarios"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "subtitle": "Resumen"
+  },
+  "users": {
+    "title": "Usuarios",
+    "table": {
+      "columns": {
+        "fullName": "Usuario",
+        "email": "Correo electrónico",
+        "role": "Rol",
+        "status": "Estado",
+        "createdAt": "Creado"
+      }
+    },
+    "empty": "No hay usuarios para mostrar.",
+    "pagination": "Página {{page}} de {{pages}} · {{total}} usuarios"
+  }
 }

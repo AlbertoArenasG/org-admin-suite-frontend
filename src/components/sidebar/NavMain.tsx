@@ -15,27 +15,18 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-      items?: {
-        title: string;
-        url: string;
-      }[];
-    }[];
-  }[];
-}) {
+type NavItem = {
+  title: string;
+  url: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
+  items?: NavItem[];
+};
+
+export function NavMain({ items, label }: { items: NavItem[]; label: string }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>
@@ -66,7 +57,7 @@ export function NavMain({
                                   <SidebarMenuSub className="pl-4">
                                     {subItem.items.map((child) => (
                                       <SidebarMenuSubItem key={child.title}>
-                                        <SidebarMenuSubButton asChild>
+                                        <SidebarMenuSubButton asChild isActive={child.isActive}>
                                           <Link href={child.url}>
                                             <span>{child.title}</span>
                                           </Link>
@@ -78,7 +69,7 @@ export function NavMain({
                               </div>
                             </Collapsible>
                           ) : (
-                            <SidebarMenuSubButton asChild>
+                            <SidebarMenuSubButton asChild isActive={subItem.isActive}>
                               <Link href={subItem.url}>
                                 <span>{subItem.title}</span>
                               </Link>
