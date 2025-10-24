@@ -30,6 +30,7 @@ import {
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { BrandLogo } from '../shared/BrandLogo';
 
 // This is sample data.
 const data = {
