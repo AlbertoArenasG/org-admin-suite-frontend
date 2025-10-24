@@ -32,7 +32,6 @@ const config: Config = {
           foreground: 'var(--primary-foreground)',
         },
 
-        /* ===== Acentos (púrpuras) ===== */
         accent: {
           DEFAULT: 'var(--accent-500)',
           50: 'var(--accent-50)',
@@ -46,6 +45,22 @@ const config: Config = {
           800: 'var(--accent-800)',
           900: 'var(--accent-900)',
           foreground: 'var(--accent-foreground)',
+        },
+
+        /* ===== Acentos (púrpuras) ===== */
+        secondary: {
+          DEFAULT: 'var(--secondary-500)',
+          50: 'var(--secondary-50)',
+          100: 'var(--secondary-100)',
+          200: 'var(--secondary-200)',
+          300: 'var(--secondary-300)',
+          400: 'var(--secondary-400)',
+          500: 'var(--secondary-500)',
+          600: 'var(--secondary-600)',
+          700: 'var(--secondary-700)',
+          800: 'var(--secondary-800)',
+          900: 'var(--secondary-900)',
+          foreground: 'var(--secondary-foreground)',
         },
 
         /* ===== Estados ===== */
