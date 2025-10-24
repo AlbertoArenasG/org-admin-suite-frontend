@@ -15,10 +15,10 @@ interface AuthGuardProps extends PropsWithChildren {
 export function AuthGuard({ children, className, redirectTo = '/login' }: AuthGuardProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { token, status } = useAppSelector((state) => state.auth);
+  const { token, status, hydrated } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    if (status === 'loading') {
+    if (!hydrated || status === 'loading') {
       return;
     }
 
@@ -26,9 +26,9 @@ export function AuthGuard({ children, className, redirectTo = '/login' }: AuthGu
       const next = encodeURIComponent(pathname || '/dashboard');
       router.replace(`${redirectTo}?next=${next}`);
     }
-  }, [token, status, router, redirectTo, pathname]);
+  }, [token, status, hydrated, router, redirectTo, pathname]);
 
-  if (!token) {
+  if (!hydrated || status === 'loading' || !token) {
     return (
       <div className={cn('flex min-h-screen items-center justify-center bg-background', className)}>
         <Spinner className="size-8 text-primary" aria-label="Cargando sesión" />

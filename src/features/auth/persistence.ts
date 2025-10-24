@@ -1,5 +1,5 @@
 import type { AppDispatch } from '@/store';
-import { setAuthToken } from './authSlice';
+import { markHydrated, setAuthToken } from './authSlice';
 
 const AUTH_STORAGE_KEY = 'auth-token';
 
@@ -17,4 +17,6 @@ export function hydrateAuthFromStorage(dispatch: AppDispatch) {
   if (storedToken) {
     dispatch(setAuthToken(storedToken));
   }
+
+  dispatch(markHydrated(true));
 }

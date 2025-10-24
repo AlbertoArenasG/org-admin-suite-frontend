@@ -10,6 +10,7 @@ export interface AuthState {
   error: string | null;
   token: string | null;
   successMessage: string | null;
+  hydrated: boolean;
 }
 
 const initialState: AuthState = {
@@ -18,6 +19,7 @@ const initialState: AuthState = {
   error: null,
   token: null,
   successMessage: null,
+  hydrated: false,
 };
 
 const authSlice = createSlice({
@@ -31,6 +33,7 @@ const authSlice = createSlice({
       state.status = 'idle';
       state.error = null;
       state.successMessage = null;
+      state.hydrated = true;
     },
     resetStatus(state) {
       state.status = 'idle';
@@ -40,6 +43,9 @@ const authSlice = createSlice({
     setAuthToken(state, action: PayloadAction<string | null>) {
       state.token = action.payload;
       persistAuthToken(action.payload);
+    },
+    markHydrated(state, action: PayloadAction<boolean | undefined>) {
+      state.hydrated = action.payload ?? true;
     },
   },
   extraReducers: (builder) => {
@@ -56,6 +62,7 @@ const authSlice = createSlice({
         persistAuthToken(action.payload.token);
         state.error = null;
         state.successMessage = action.payload.message ?? 'La sesión se inició correctamente';
+        state.hydrated = true;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
@@ -66,10 +73,11 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         state.successMessage = null;
+        state.hydrated = true;
       });
   },
 });
 
-export const { logout, resetStatus, setAuthToken } = authSlice.actions;
+export const { logout, resetStatus, setAuthToken, markHydrated } = authSlice.actions;
 export default authSlice.reducer;
 export type { AuthUser } from './types';
