@@ -1,13 +1,32 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { ModeToggle } from '@/components/shared/ModeToggle';
 import SelectLang from '@/components/shared/LangToggle';
 import { BrandLogo } from '@/components/shared/BrandLogo';
 import { Spinner } from '@/components/ui/spinner';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+  const { token } = useAppSelector((state) => state.auth);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!token) {
+      return;
+    }
+
+    const handle = window.requestAnimationFrame(() => {
+      router.replace('/dashboard');
+    });
+
+    return () => {
+      window.cancelAnimationFrame(handle);
+    };
+  }, [token, router]);
+
   return (
     <div className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
       <div className="absolute right-6 top-6 flex gap-2 md:right-10 md:top-10">

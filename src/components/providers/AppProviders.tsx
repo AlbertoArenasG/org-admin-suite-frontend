@@ -6,6 +6,7 @@ import { store } from '@/store/store';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { I18nextProvider } from 'react-i18next';
 import { initI18n, LANGUAGE_STORAGE_KEY } from '@/lib/i18n';
+import { hydrateAuthFromStorage } from '@/features/auth/persistence';
 
 const i18n = initI18n();
 
@@ -31,6 +32,8 @@ export function AppProviders({ children }: PropsWithChildren) {
     if (storedLanguage && storedLanguage !== i18n.language) {
       void i18n.changeLanguage(storedLanguage);
     }
+
+    hydrateAuthFromStorage(store.dispatch);
 
     return () => {
       i18n.off('languageChanged', handleLanguageChange);
