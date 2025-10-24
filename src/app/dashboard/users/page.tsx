@@ -144,7 +144,7 @@ export default function UsersPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <header className="flex h-16 items-center gap-2 rounded-2xl border border-secondary-100/40 bg-muted/40 px-4 shadow-sm backdrop-blur-sm transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+      <header className="flex h-16 items-center gap-3 rounded-3xl border border-border/60 bg-card/80 px-4 shadow-sm backdrop-blur-sm transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
@@ -165,9 +165,10 @@ export default function UsersPage() {
       <Paper
         elevation={0}
         sx={{
-          borderRadius: '28px',
+          borderRadius: '24px',
           border: '1px solid var(--surface-border)',
-          bgcolor: 'var(--primary)',
+          bgcolor: 'var(--surface-bg)',
+          color: 'var(--foreground)',
           boxShadow: 'var(--surface-shadow)',
           overflow: 'hidden',
           display: 'flex',
@@ -235,8 +236,12 @@ export default function UsersPage() {
               color: 'var(--foreground)',
               backgroundColor: 'transparent',
               '& .MuiDataGrid-columnHeaders': {
-                bgcolor: 'var(--data-grid-header-bg)',
+                backgroundColor: 'var(--data-grid-header-bg)',
                 borderBottom: '1px solid var(--data-grid-header-border)',
+                color: 'var(--foreground)',
+              },
+              '& .MuiDataGrid-columnHeader': {
+                backgroundColor: 'var(--data-grid-header-bg)',
                 color: 'var(--foreground)',
               },
               '& .MuiDataGrid-cell': {
@@ -248,8 +253,23 @@ export default function UsersPage() {
               '& .MuiDataGrid-row:hover': {
                 backgroundColor: 'var(--data-grid-row-hover)',
               },
+              '& .MuiDataGrid-row.Mui-selected': {
+                backgroundColor: 'var(--primary-50)',
+                '&:hover': {
+                  backgroundColor: 'var(--primary-100)',
+                },
+              },
               '& .MuiCheckbox-root.Mui-checked': {
-                color: 'var(--secondary-500)',
+                color: 'var(--primary-500)',
+              },
+              '& .MuiCheckbox-root .MuiSvgIcon-root': {
+                fill: 'var(--foreground)',
+              },
+              '& .MuiButtonBase-root.MuiIconButton-root': {
+                color: 'var(--muted-foreground)',
+              },
+              '& .MuiButtonBase-root.MuiIconButton-root:hover': {
+                backgroundColor: 'var(--muted)',
               },
               '& .MuiDataGrid-footerContainer': {
                 borderTop: '1px solid var(--surface-border)',
