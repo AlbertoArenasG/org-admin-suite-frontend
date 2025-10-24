@@ -304,15 +304,11 @@
 }
 
 .theme-sidebar {
-  --sidebar: #0e042e;
+  --sidebar: #220d7d;
   --sidebar-foreground: #f7f3ff;
   --sidebar-primary: #6c52f6;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #180a53;
   --sidebar-accent-foreground: #f7f3ff;
-  --sidebar-border: rgba(61, 34, 121, 0.65);
   --sidebar-ring: rgba(122, 88, 214, 0.6);
-  --sidebar-gradient-from: #100334;
-  --sidebar-gradient-via: #140845;
-  --sidebar-gradient-to: #1a0f52;
 }

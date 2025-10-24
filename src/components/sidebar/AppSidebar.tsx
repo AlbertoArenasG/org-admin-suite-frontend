@@ -198,7 +198,8 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       {...props}
     >
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <NavUser user={sidebarUser} />
+        {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
@@ -217,7 +218,6 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             buttonClassName="size-10 rounded-xl border-none bg-white/15 text-sidebar-foreground hover:bg-white/40 group-data-[collapsible=icon]:size-9"
           />
         </div>
-        <NavUser user={sidebarUser} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

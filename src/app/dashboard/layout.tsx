@@ -10,8 +10,7 @@ export default function DashboardLayout({ children }: PropsWithChildren) {
     <AuthGuard>
       <SidebarProvider className="theme-sidebar bg-[color:var(--sidebar)] text-secondary-foreground/90">
         <AppSidebar />
-        <SidebarInset className="bg-[color:var(--sidebar)] px-4 pb-5">
-          <h1>Dashboard</h1>
+        <SidebarInset className="bg-[color:var(--sidebar)] px-4 p-5">
           <div className="mx-auto flex w-full flex-1 rounded-[2rem] bg-background/95 p-6 md:p-4">
             <div className="flex w-full flex-1 flex-col gap-6">{children}</div>
           </div>
