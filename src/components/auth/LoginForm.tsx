@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/utils';
@@ -144,6 +144,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const { status, error, successMessage } = useAppSelector((state) => state.auth);
   const router = useRouter();
   const { t } = useTranslation(['auth', 'common']);
+  const searchParams = useSearchParams();
+  const nextParam = searchParams?.get('next');
+  const nextRoute = nextParam && nextParam.startsWith('/') ? nextParam : null;
 
   const {
     register,
@@ -171,9 +174,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
   useEffect(() => {
     if (status === 'succeeded') {
-      router.replace('/dashboard');
+      router.replace(nextRoute ?? '/dashboard');
     }
-  }, [status, router]);
+  }, [status, router, nextRoute]);
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
