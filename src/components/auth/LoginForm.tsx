@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { AlertCircle, CheckCircle2, Eye, EyeOff } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 import { login, resetStatus } from '@/features/auth';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
@@ -63,6 +63,8 @@ interface LoginFieldsProps {
 }
 
 function LoginFields({ register, errors, t }: LoginFieldsProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="grid gap-4">
       <div className="grid gap-2">
@@ -91,13 +93,18 @@ function LoginFields({ register, errors, t }: LoginFieldsProps) {
       <div className="grid gap-2">
         <div className="flex items-center">
           <Label htmlFor="password">{t('auth:passwordLabel')}</Label>
-          <a href="#" className="ml-auto text-sm underline-offset-4 hover:underline">
-            {t('auth:forgotPassword')}
-          </a>
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="ml-auto inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
+          >
+            {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+            <span>{showPassword ? t('auth:hidePassword') : t('auth:showPassword')}</span>
+          </button>
         </div>
         <Input
           id="password"
-          type="password"
+          type={showPassword ? 'text' : 'password'}
           autoComplete="current-password"
           placeholder={t('auth:passwordPlaceholder')}
           {...register('password', {

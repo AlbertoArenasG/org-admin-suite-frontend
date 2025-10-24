@@ -19,16 +19,18 @@ export function AppProviders({ children }: PropsWithChildren) {
       return;
     }
 
+    const handleLanguageChange = (lng: string) => {
+      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, lng);
+      document.documentElement.setAttribute('lang', lng);
+    };
+
+    handleLanguageChange(i18n.language);
+    i18n.on('languageChanged', handleLanguageChange);
+
     const storedLanguage = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
     if (storedLanguage && storedLanguage !== i18n.language) {
       void i18n.changeLanguage(storedLanguage);
     }
-
-    const handleLanguageChange = (lng: string) => {
-      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, lng);
-    };
-
-    i18n.on('languageChanged', handleLanguageChange);
 
     return () => {
       i18n.off('languageChanged', handleLanguageChange);

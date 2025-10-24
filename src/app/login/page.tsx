@@ -1,9 +1,11 @@
 'use client';
 
+import { Suspense } from 'react';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { ModeToggle } from '@/components/shared/ModeToggle';
 import SelectLang from '@/components/shared/LangToggle';
 import { BrandLogo } from '@/components/shared/BrandLogo';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function LoginPage() {
   return (
@@ -14,7 +16,15 @@ export default function LoginPage() {
       </div>
       <div className="flex w-full max-w-sm flex-col gap-6">
         <BrandLogo href="#" size="lg" className="self-center" />
-        <LoginForm />
+        <Suspense
+          fallback={
+            <div className="flex justify-center py-10">
+              <Spinner className="size-6 text-primary" aria-label="Cargando formulario" />
+            </div>
+          }
+        >
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );
