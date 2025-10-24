@@ -12,7 +12,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 export default function Page() {
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <header className="flex h-16 items-center gap-2 rounded-2xl border border-secondary-100/40 bg-background px-4 shadow-sm backdrop-blur-sm transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+      <header className="flex h-16 items-center gap-2 rounded-2xl border border-secondary-100/40 bg-muted/40 px-4 shadow-sm backdrop-blur-sm transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
         <div className="flex items-center gap-2">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />

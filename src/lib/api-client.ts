@@ -32,6 +32,8 @@ interface ApiSuccessResponse<T> {
   success_message: string | null;
   status_code: number;
   data: T;
+  pagination?: unknown;
+  meta?: unknown;
 }
 
 interface ApiFailureResponse {
@@ -43,10 +45,12 @@ interface ApiFailureResponse {
 
 type ApiResponse<T> = ApiSuccessResponse<T> | ApiFailureResponse;
 
-export interface JsonSuccess<T> {
-  data: T;
+export interface JsonSuccess<TResponse, TMeta = unknown> {
+  data: TResponse;
   successMessage: string | null;
   statusCode: number;
+  meta?: TMeta;
+  raw: ApiSuccessResponse<TResponse>;
 }
 
 export interface JsonRequestOptions extends Omit<RequestInit, 'body'> {
@@ -75,10 +79,10 @@ function buildHeaders(
 /**
  * Lightweight helper for invoking the backend API with JSON payloads.
  */
-export async function jsonRequest<TResponse>(
+export async function jsonRequest<TResponse, TMeta = unknown>(
   path: string,
   { body, headers, token, ...init }: JsonRequestOptions = {}
-): Promise<JsonSuccess<TResponse>> {
+): Promise<JsonSuccess<TResponse, TMeta>> {
   const hasJsonBody = body !== undefined && body !== null;
 
   const requestInit: RequestInit = {
@@ -103,10 +107,14 @@ export async function jsonRequest<TResponse>(
   }
 
   if (response.ok && parsedBody && parsedBody.success) {
+    const pagination = (parsedBody as { pagination?: unknown }).pagination;
+    const meta = pagination !== undefined ? ({ pagination } as TMeta) : undefined;
     return {
       data: parsedBody.data,
       successMessage: parsedBody.success_message,
       statusCode: parsedBody.status_code,
+      meta,
+      raw: parsedBody,
     };
   }
 
