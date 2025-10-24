@@ -3,14 +3,6 @@
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useTranslation } from 'react-i18next';
@@ -22,6 +14,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { USER_ROLE_LIST, canInviteRole } from '@/features/users/roles';
 import type { UserRole } from '@/features/users/roles';
 import { Button } from '@/components/ui/button';
+import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 
 export default function InviteUserPage() {
   const { t } = useTranslation();
@@ -86,21 +79,23 @@ export default function InviteUserPage() {
         <div className="flex items-center gap-2">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">{t('breadcrumbs.dashboard')}</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard/users">{t('breadcrumbs.users')}</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{t('users.form.title.create')}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <PageBreadcrumbs
+            segments={[
+              {
+                label: t('breadcrumbs.dashboard'),
+                href: '/dashboard',
+                hideOnDesktop: true,
+              },
+              {
+                label: t('breadcrumbs.users'),
+                href: '/dashboard/users',
+                hideOnDesktop: true,
+              },
+              {
+                label: t('users.form.title.create'),
+              },
+            ]}
+          />
         </div>
       </header>
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -150,7 +150,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const dispatch = useAppDispatch();
   const { status, error, successMessage } = useAppSelector((state) => state.auth);
   const router = useRouter();
-  const { t } = useTranslation(['auth', 'common']);
+  const { t } = useTranslationHydrated(['auth', 'common']);
   const searchParams = useSearchParams();
   const nextParam = searchParams?.get('next');
   const nextRoute = nextParam && nextParam.startsWith('/') ? nextParam : null;

@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Chip from '@mui/material/Chip';
@@ -15,7 +14,7 @@ import {
   type GridRenderCellParams,
 } from '@mui/x-data-grid';
 import { useTranslation } from 'react-i18next';
-import { MoreVertical, Pencil, Trash2, UserPlus } from 'lucide-react';
+import { UserPlus } from 'lucide-react';
 
 import { fetchUsers } from '@/features/users/usersThunks';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
@@ -28,22 +27,14 @@ import {
   canManageRole,
   parseUserRole,
 } from '@/features/users/roles';
-import { Button } from '@/components/ui/button';
+import { UsersTableHeader } from '@/components/users/UsersTableHeader';
+import { UsersTableActionsMenu } from '@/components/users/UsersTableActionsMenu';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { UserForm, type UserFormValues } from '@/components/users/UserForm';
+  UsersTableDeleteSheet,
+  UsersTableEditSheet,
+  UsersTableInviteSheet,
+} from '@/components/users/UsersTableModals';
+import type { UserFormValues } from '@/components/users/UserForm';
 
 function formatDate(isoDate: string, locale: string) {
   const date = new Date(isoDate);
@@ -82,65 +73,6 @@ function mapUserToFormValues(user: User): UserFormValues {
       number: user.cellPhone?.number ?? '',
     },
   };
-}
-
-interface UserRowActionsProps {
-  canEdit: boolean;
-  canDelete: boolean;
-  onEdit: () => void;
-  onDelete: () => void;
-  labels: {
-    menu: string;
-    edit: string;
-    delete: string;
-  };
-}
-
-function UserRowActions({ canEdit, canDelete, onEdit, onDelete, labels }: UserRowActionsProps) {
-  const hasActions = canEdit || canDelete;
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          className="text-muted-foreground hover:text-foreground"
-          aria-label={labels.menu}
-          disabled={!hasActions}
-        >
-          <MoreVertical className="size-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      {hasActions ? (
-        <DropdownMenuContent align="end" className="min-w-[10rem]">
-          {canEdit ? (
-            <DropdownMenuItem
-              onSelect={(event) => {
-                event.preventDefault();
-                onEdit();
-              }}
-            >
-              <Pencil className="size-4" />
-              {labels.edit}
-            </DropdownMenuItem>
-          ) : null}
-          {canDelete ? (
-            <DropdownMenuItem
-              variant="destructive"
-              onSelect={(event) => {
-                event.preventDefault();
-                onDelete();
-              }}
-            >
-              <Trash2 className="size-4" />
-              {labels.delete}
-            </DropdownMenuItem>
-          ) : null}
-        </DropdownMenuContent>
-      ) : null}
-    </DropdownMenu>
-  );
 }
 
 export function UsersTable() {
@@ -326,7 +258,7 @@ export function UsersTable() {
           : false;
         const canDelete = currentRole ? !isSelf && canManageRole(currentRole, row.roleId) : false;
         return (
-          <UserRowActions
+          <UsersTableActionsMenu
             canEdit={canEdit}
             canDelete={canDelete}
             onEdit={() => handleRequestEdit(row.id)}
@@ -430,45 +362,23 @@ export function UsersTable() {
         height: '100%',
       }}
     >
-      <Box
-        sx={{
-          px: { xs: 2.5, md: 4 },
-          py: 3,
-          borderBottom: '1px solid var(--surface-border)',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 2,
-          flexWrap: 'wrap',
-        }}
-      >
-        <div>
-          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-            {t('users.title')}
-          </Typography>
-        </div>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
-          {pagination ? (
-            <Typography variant="caption" color="text.secondary">
-              {t('users.pagination', {
+      <UsersTableHeader
+        title={t('users.title')}
+        summary={
+          pagination
+            ? t('users.pagination', {
                 page: pagination.page,
                 pages: pagination.totalPages,
                 total: pagination.total,
-              })}
-            </Typography>
-          ) : null}
-          <Button
-            type="button"
-            size="sm"
-            onClick={() => setInviteOpen(true)}
-            disabled={!canInvite}
-            aria-label={t('users.actions.openInvite')}
-          >
-            <UserPlus className="size-4" />
-            {t('users.actions.inviteShort')}
-          </Button>
-        </Box>
-      </Box>
+              })
+            : null
+        }
+        canInvite={canInvite}
+        inviteLabel={t('users.actions.inviteShort')}
+        inviteAriaLabel={t('users.actions.openInvite')}
+        onInvite={() => setInviteOpen(true)}
+        inviteIcon={<UserPlus className="size-4" />}
+      />
 
       {isLoading ? (
         <LinearProgress
@@ -557,74 +467,49 @@ export function UsersTable() {
         />
       </Box>
 
-      <Sheet open={inviteOpen} onOpenChange={setInviteOpen}>
-        <SheetContent side="right" className="sm:max-w-md">
-          <SheetHeader>
-            <SheetTitle>{t('users.form.title.create')}</SheetTitle>
-            <SheetDescription>{t('users.form.description.create')}</SheetDescription>
-          </SheetHeader>
-          <UserForm
-            mode="create"
-            defaultValues={inviteDefaults}
-            onSubmit={handleInviteSubmit}
-            onCancel={() => setInviteOpen(false)}
-            roleOptions={inviteRoleOptions}
-          />
-        </SheetContent>
-      </Sheet>
+      <UsersTableInviteSheet
+        open={inviteOpen}
+        onOpenChange={setInviteOpen}
+        defaultValues={inviteDefaults}
+        roleOptions={inviteRoleOptions}
+        onSubmit={handleInviteSubmit}
+        onCancel={() => setInviteOpen(false)}
+        title={t('users.form.title.create')}
+        description={t('users.form.description.create')}
+      />
 
-      <Sheet
+      <UsersTableEditSheet
         open={Boolean(editTarget)}
         onOpenChange={(open) => {
           if (!open) {
             setEditTargetId(null);
           }
         }}
-      >
-        <SheetContent side="right" className="sm:max-w-md">
-          <SheetHeader>
-            <SheetTitle>{t('users.form.title.edit')}</SheetTitle>
-            <SheetDescription>{t('users.form.description.edit')}</SheetDescription>
-          </SheetHeader>
-          {editTarget && editDefaults ? (
-            <UserForm
-              mode="edit"
-              defaultValues={editDefaults}
-              onSubmit={handleEditSubmit}
-              onCancel={() => setEditTargetId(null)}
-              roleOptions={editRoleOptions}
-            />
-          ) : null}
-        </SheetContent>
-      </Sheet>
+        targetExists={Boolean(editTarget)}
+        defaultValues={editDefaults}
+        roleOptions={editRoleOptions}
+        onSubmit={handleEditSubmit}
+        onCancel={() => setEditTargetId(null)}
+        title={t('users.form.title.edit')}
+        description={t('users.form.description.edit')}
+      />
 
-      <Sheet
+      <UsersTableDeleteSheet
         open={Boolean(deleteTarget)}
         onOpenChange={(open) => {
           if (!open) {
             setDeleteTargetId(null);
           }
         }}
-      >
-        <SheetContent side="right" className="sm:max-w-md">
-          <SheetHeader>
-            <SheetTitle>{t('users.confirmDelete.title')}</SheetTitle>
-            <SheetDescription>
-              {t('users.confirmDelete.description', {
-                name: deleteTarget?.fullName ?? deleteTarget?.email ?? '—',
-              })}
-            </SheetDescription>
-          </SheetHeader>
-          <SheetFooter className="mt-auto flex-col gap-2">
-            <Button variant="ghost" onClick={() => setDeleteTargetId(null)}>
-              {t('users.confirmDelete.cancel')}
-            </Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm}>
-              {t('users.confirmDelete.confirm')}
-            </Button>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
+        name={t('users.confirmDelete.title')}
+        description={t('users.confirmDelete.description', {
+          name: deleteTarget?.fullName ?? deleteTarget?.email ?? '—',
+        })}
+        confirmLabel={t('users.confirmDelete.confirm')}
+        cancelLabel={t('users.confirmDelete.cancel')}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => setDeleteTargetId(null)}
+      />
     </Paper>
   );
 }

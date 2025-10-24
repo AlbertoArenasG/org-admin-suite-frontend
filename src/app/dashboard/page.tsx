@@ -1,16 +1,9 @@
 'use client';
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useTranslation } from 'react-i18next';
+import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 
 export default function DashboardPage() {
   const { t } = useTranslation();
@@ -21,17 +14,18 @@ export default function DashboardPage() {
         <div className="flex items-center gap-2">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/dashboard">{t('breadcrumbs.home')}</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{t('dashboard.title')}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <PageBreadcrumbs
+            segments={[
+              {
+                label: t('breadcrumbs.home'),
+                href: '/dashboard',
+                hideOnDesktop: true,
+              },
+              {
+                label: t('dashboard.title'),
+              },
+            ]}
+          />
         </div>
       </header>
 

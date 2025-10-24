@@ -6,7 +6,7 @@ import authEn from '@/locales/en/auth.json';
 import commonEs from '@/locales/es/common.json';
 import authEs from '@/locales/es/auth.json';
 
-const FALLBACK_LANGUAGE = 'en';
+const FALLBACK_LANGUAGE = 'es';
 export const LANGUAGE_STORAGE_KEY = 'preferred-language';
 
 const resources = {
@@ -21,7 +21,12 @@ const resources = {
 };
 
 function resolveInitialLanguage() {
-  if (typeof document !== 'undefined') {
+  if (typeof window !== 'undefined') {
+    const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    if (stored && stored in resources) {
+      return stored;
+    }
+
     const htmlLang = document.documentElement.getAttribute('lang');
     if (htmlLang && htmlLang in resources) {
       return htmlLang;
