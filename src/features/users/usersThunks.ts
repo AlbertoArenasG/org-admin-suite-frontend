@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
-import type { User } from './usersSlice';
+import type { User, UserRoleInfo } from './usersSlice';
+import { parseUserRole } from '@/features/users/roles';
 
 export interface FetchUsersParams {
   page?: number;
@@ -123,3 +124,47 @@ export const inviteUser = createAsyncThunk<User, { email: string }>('users/invit
   // TODO: replace with API call
   throw new Error('inviteUser thunk not implemented yet');
 });
+
+interface ApiUserRole {
+  id: string;
+  name: string;
+  description?: string | null;
+  rank?: number | null;
+}
+
+export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: RootState }>(
+  'users/fetchRoles',
+  async (_void, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const token = state.auth.token;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue('No hay token de autenticación');
+    }
+
+    try {
+      const response = await jsonRequest<ApiUserRole[]>(`/v1/users/roles`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'x-user-lang':
+            typeof document !== 'undefined' ? document.documentElement.lang || 'es' : 'es',
+        },
+        token,
+      });
+
+      const roles = Array.isArray(response.data) ? response.data : [];
+
+      return roles.map((role) => ({
+        id: parseUserRole(role.id),
+        rawId: role.id,
+        name: role.name,
+        description: role.description ?? null,
+        rank: typeof role.rank === 'number' ? role.rank : null,
+      }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No fue posible obtener los roles';
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);

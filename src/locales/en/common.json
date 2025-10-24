@@ -46,7 +46,12 @@
       "delete": "Delete",
       "openMenu": "Open actions menu",
       "openInvite": "Open invite drawer",
-      "openEdit": "Open edit drawer"
+      "openEdit": "Open edit drawer",
+      "view": "View details",
+      "searchPlaceholder": "Search users...",
+      "manageColumns": "Manage columns",
+      "previous": "Previous",
+      "next": "Next"
     },
     "form": {
       "title": {
@@ -95,11 +100,21 @@
       "title": "Remove user",
       "description": "This will remove {{name}}. Wire the API later to finalize the action.",
       "confirm": "Remove user",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "warning": "This action cannot be undone."
     },
     "permissions": {
       "inviteRestricted": "You do not have permission to send invitations for your current role.",
       "inviteRestrictedAction": "Ask an administrator to grant additional access if needed."
+    },
+    "detail": {
+      "subtitle": "User details and activity",
+      "missingTitle": "User not found",
+      "notFound": "We could not find this user yet."
+    },
+    "edit": {
+      "subtitle": "Update roles and contact details.",
+      "restricted": "You do not have permissions to edit this user."
     }
   }
 }

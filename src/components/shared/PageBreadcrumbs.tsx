@@ -1,9 +1,9 @@
 'use client';
 
+import Link from 'next/link';
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -39,7 +39,9 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
           return (
             <BreadcrumbItem key={`${segment.label}-${index}`} className={itemClass}>
               {segment.href && !isLast ? (
-                <BreadcrumbLink href={segment.href}>{segment.label}</BreadcrumbLink>
+                <Link href={segment.href} className="hover:text-foreground transition-colors">
+                  {segment.label}
+                </Link>
               ) : (
                 <BreadcrumbPage>{segment.label}</BreadcrumbPage>
               )}

@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchUsers } from './usersThunks';
+import { fetchUsers, fetchUserRoles } from './usersThunks';
+import type { UserRole } from '@/features/users/roles';
 
 export interface User {
   id: string;
@@ -29,6 +30,19 @@ export interface UsersState {
     total: number;
     totalPages: number;
   } | null;
+  roles: {
+    items: UserRoleInfo[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+  };
+}
+
+export interface UserRoleInfo {
+  id: UserRole;
+  rawId: string;
+  name: string;
+  description: string | null;
+  rank: number | null;
 }
 
 const initialState: UsersState = {
@@ -36,6 +50,11 @@ const initialState: UsersState = {
   status: 'idle',
   error: null,
   pagination: null,
+  roles: {
+    items: [],
+    status: 'idle',
+    error: null,
+  },
 };
 
 const usersSlice = createSlice({
@@ -72,6 +91,21 @@ const usersSlice = createSlice({
           (action.payload as string | undefined) ??
           action.error.message ??
           'No fue posible obtener la lista de usuarios';
+      })
+      .addCase(fetchUserRoles.pending, (state) => {
+        state.roles.status = 'loading';
+        state.roles.error = null;
+      })
+      .addCase(fetchUserRoles.fulfilled, (state, action) => {
+        state.roles.status = 'succeeded';
+        state.roles.items = action.payload;
+      })
+      .addCase(fetchUserRoles.rejected, (state, action) => {
+        state.roles.status = 'failed';
+        state.roles.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible obtener los roles disponibles';
       });
   },
 });

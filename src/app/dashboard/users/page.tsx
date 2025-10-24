@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useTranslation } from 'react-i18next';
 
-import { UsersTable } from '@/components/users/UsersTable';
+import { UsersTableContainer } from '@/components/users2/UsersTableContainer';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 
 export default function UsersPage() {
@@ -31,7 +31,7 @@ export default function UsersPage() {
         </div>
       </header>
 
-      <UsersTable />
+      <UsersTableContainer />
     </div>
   );
 }

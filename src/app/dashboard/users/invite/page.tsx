@@ -6,12 +6,15 @@ import Typography from '@mui/material/Typography';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useTranslation } from 'react-i18next';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { UserForm, type UserFormValues } from '@/components/users/UserForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { fetchUserRoles } from '@/features/users/usersThunks';
 import { USER_ROLE_LIST, canInviteRole } from '@/features/users/roles';
+import type { UserRoleInfo } from '@/features/users/usersSlice';
 import type { UserRole } from '@/features/users/roles';
 import { Button } from '@/components/ui/button';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
@@ -19,17 +22,35 @@ import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 export default function InviteUserPage() {
   const { t } = useTranslation();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const authUser = useAppSelector((state) => state.auth.user);
   const currentRole = authUser?.role ?? null;
+  const rolesState = useAppSelector((state) => state.users.roles);
 
-  const roleOptions = useMemo<Array<{ value: UserRole; label: string }>>(
-    () =>
-      USER_ROLE_LIST.filter((role) => canInviteRole(currentRole, role)).map((role) => ({
-        value: role,
-        label: t(`users.roles.${role}`),
-      })),
-    [currentRole, t]
-  );
+  useEffect(() => {
+    if (rolesState.status === 'idle') {
+      void dispatch(fetchUserRoles());
+    }
+  }, [dispatch, rolesState.status]);
+
+  const roleOptions = useMemo<Array<{ value: UserRole; label: string }>>(() => {
+    const fallback: UserRoleInfo[] = USER_ROLE_LIST.map((role) => ({
+      id: role,
+      rawId: role,
+      name: t(`users.roles.${role}`),
+      description: null,
+      rank: null,
+    }));
+
+    const source = rolesState.items.length ? rolesState.items : fallback;
+
+    return source
+      .filter((role) => canInviteRole(currentRole, role.id))
+      .map((role) => ({
+        value: role.id,
+        label: role.name ?? t(`users.roles.${role.id}`),
+      }));
+  }, [currentRole, rolesState.items, t]);
 
   const hasInvitePermission = roleOptions.length > 0;
 

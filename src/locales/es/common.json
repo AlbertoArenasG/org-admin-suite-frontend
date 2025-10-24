@@ -46,7 +46,12 @@
       "delete": "Eliminar",
       "openMenu": "Abrir menú de acciones",
       "openInvite": "Abrir panel de invitación",
-      "openEdit": "Abrir panel de edición"
+      "openEdit": "Abrir panel de edición",
+      "view": "Ver detalles",
+      "searchPlaceholder": "Buscar usuarios...",
+      "manageColumns": "Administrar columnas",
+      "previous": "Anterior",
+      "next": "Siguiente"
     },
     "form": {
       "title": {
@@ -95,11 +100,21 @@
       "title": "Eliminar usuario",
       "description": "Esta acción eliminará a {{name}}. Conecta el API más adelante para completarla.",
       "confirm": "Eliminar usuario",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "warning": "Esta acción no se puede deshacer."
     },
     "permissions": {
       "inviteRestricted": "No cuentas con permisos para enviar invitaciones con tu rol actual.",
       "inviteRestrictedAction": "Solicita a un administrador acceso adicional si lo necesitas."
+    },
+    "detail": {
+      "subtitle": "Detalle e historial del usuario",
+      "missingTitle": "Usuario no encontrado",
+      "notFound": "Aún no pudimos encontrar este usuario."
+    },
+    "edit": {
+      "subtitle": "Actualiza roles y datos de contacto.",
+      "restricted": "No tienes permisos para editar a este usuario."
     }
   }
 }
