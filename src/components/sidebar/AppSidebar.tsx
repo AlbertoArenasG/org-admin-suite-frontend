@@ -13,12 +13,13 @@ import {
   Settings2,
   SquareTerminal,
   LayoutDashboard,
+  Users,
+  Wrench,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/sidebar/NavMain';
 import { NavProjects } from '@/components/sidebar/NavProjects';
 import { NavUser } from '@/components/sidebar/NavUser';
-import { TeamSwitcher } from '@/components/sidebar/TeamSwitcher';
 import SelectLang from '@/components/shared/LangToggle';
 import { ModeToggle } from '@/components/shared/ModeToggle';
 import {
@@ -30,7 +31,6 @@ import {
 } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { BrandLogo } from '../shared/BrandLogo';
 
 // This is sample data.
 const data = {
@@ -64,108 +64,145 @@ const data = {
       isActive: true,
     },
     {
-      title: 'Playground',
+      title: 'Users',
       url: '#',
-      icon: SquareTerminal,
+      icon: Users,
       isActive: false,
       items: [
         {
-          title: 'History',
+          title: 'All Users',
+          url: 'dashboard/users',
+        },
+        {
+          title: 'Active Users',
           url: '#',
         },
         {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
+          title: 'Inactive Users',
           url: '#',
         },
       ],
     },
     {
-      title: 'Models',
+      title: 'Services',
       url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
+      icon: Wrench,
+      isActive: false,
     },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
-        },
-      ],
-    },
+    // {
+    //   title: 'Playground',
+    //   url: '#',
+    //   icon: SquareTerminal,
+    //   isActive: false,
+    //   items: [
+    //     {
+    //       title: 'History',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Starred',
+    //       url: '#',
+    //       items: [
+    //         {
+    //           title: 'Starred Reports',
+    //           url: '#',
+    //         },
+    //         {
+    //           title: 'Pinned Models',
+    //           url: '#',
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       title: 'Settings',
+    //       url: '#',
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: 'Models',
+    //   url: '#',
+    //   icon: Bot,
+    //   items: [
+    //     {
+    //       title: 'Genesis',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Explorer',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Quantum',
+    //       url: '#',
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: 'Documentation',
+    //   url: '#',
+    //   icon: BookOpen,
+    //   items: [
+    //     {
+    //       title: 'Introduction',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Get Started',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Tutorials',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Changelog',
+    //       url: '#',
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: 'Settings',
+    //   url: '#',
+    //   icon: Settings2,
+    //   items: [
+    //     {
+    //       title: 'General',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Team',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Billing',
+    //       url: '#',
+    //     },
+    //     {
+    //       title: 'Limits',
+    //       url: '#',
+    //     },
+    //   ],
+    // },
   ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
+  // projects: [
+  //   {
+  //     name: 'Design Engineering',
+  //     url: '#',
+  //     icon: Frame,
+  //   },
+  //   {
+  //     name: 'Sales & Marketing',
+  //     url: '#',
+  //     icon: PieChart,
+  //   },
+  //   {
+  //     name: 'Travel',
+  //     url: '#',
+  //     icon: Map,
+  //   },
+  // ],
+  projects: [],
 };
 
 export function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -204,7 +241,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter className="gap-3">
         <div className="flex flex-col items-stretch gap-3 rounded-xl p-2 backdrop-blur-sm group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:gap-2 group-data-[collapsible=icon]:rounded-lg group-data-[collapsible=icon]:p-2">
