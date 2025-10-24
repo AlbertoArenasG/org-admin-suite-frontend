@@ -99,6 +99,7 @@ function LoginFields({ register, errors, t }: LoginFieldsProps) {
           id="password"
           type="password"
           autoComplete="current-password"
+          placeholder={t('auth:passwordPlaceholder')}
           {...register('password', {
             required: t('auth:passwordRequired'),
             minLength: {

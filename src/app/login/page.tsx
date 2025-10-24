@@ -3,7 +3,7 @@
 import { LoginForm } from '@/components/auth/LoginForm';
 import { ModeToggle } from '@/components/shared/ModeToggle';
 import SelectLang from '@/components/shared/LangToggle';
-import { GalleryVerticalEnd } from 'lucide-react';
+import { BrandLogo } from '@/components/shared/BrandLogo';
 
 export default function LoginPage() {
   return (
@@ -13,12 +13,7 @@ export default function LoginPage() {
         <ModeToggle />
       </div>
       <div className="flex w-full max-w-sm flex-col gap-6">
-        <a href="#" className="flex items-center gap-2 self-center font-medium">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <GalleryVerticalEnd className="size-4" />
-          </div>
-          Acme Inc.
-        </a>
+        <BrandLogo href="#" size="lg" className="self-center" />
         <LoginForm />
       </div>
     </div>
