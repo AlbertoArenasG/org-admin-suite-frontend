@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import type { TOptions } from 'i18next';
+import type { TFunction, TOptions } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
 export function useTranslationHydrated(namespace?: Parameters<typeof useTranslation>[0]) {
@@ -12,7 +12,7 @@ export function useTranslationHydrated(namespace?: Parameters<typeof useTranslat
     setHydrated(true);
   }, []);
 
-  const safeT: typeof translation.t = (...args) => {
+  const safeT: TFunction = ((...args: Parameters<TFunction>) => {
     if (hydrated) {
       return translation.t(...args);
     }
@@ -21,10 +21,7 @@ export function useTranslationHydrated(namespace?: Parameters<typeof useTranslat
     const options = (args[1] ?? {}) as TOptions;
     const defaultValue = options.defaultValue ?? (typeof key === 'string' ? key : '');
     return defaultValue;
-  };
+  }) as TFunction;
 
-  return { ...translation, t: safeT, hydrated } as typeof translation & {
-    t: typeof translation.t;
-    hydrated: boolean;
-  };
+  return { ...translation, t: safeT, hydrated };
 }

@@ -15,7 +15,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { StatusAlert } from '@/components/shared/StatusAlert';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
 
-type TranslateFn = ReturnType<typeof useTranslation>['t'];
+type TranslateFn = ReturnType<typeof useTranslationHydrated>['t'];
 
 interface LoginFormValues {
   email: string;
