@@ -12,27 +12,27 @@ import {
 import { SlidersHorizontal } from 'lucide-react';
 import type { Table } from '@tanstack/react-table';
 import type { UsersTableUser } from '@/components/users2/types';
+import { useUsersTableStore } from '@/components/users2/useUsersTableStore';
 
 interface UsersTableToolbarProps {
   table: Table<UsersTableUser>;
-  globalFilter: string;
-  onGlobalFilterChange: (value: string) => void;
   searchPlaceholder: string;
   columnLabel: string;
 }
 
 export function UsersTableToolbar({
   table,
-  globalFilter,
-  onGlobalFilterChange,
   searchPlaceholder,
   columnLabel,
 }: UsersTableToolbarProps) {
+  const globalFilter = useUsersTableStore((state) => state.globalFilter);
+  const setGlobalFilter = useUsersTableStore((state) => state.setGlobalFilter);
+
   return (
     <div className="flex flex-col gap-3 border-b border-border/60 px-4 pb-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
       <Input
         value={globalFilter}
-        onChange={(event) => onGlobalFilterChange(event.target.value)}
+        onChange={(event) => setGlobalFilter(event.target.value)}
         placeholder={searchPlaceholder}
         className="max-w-md"
       />

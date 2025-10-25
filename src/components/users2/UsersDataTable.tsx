@@ -37,10 +37,6 @@ interface UsersDataTableProps {
       confirm: string;
     };
   };
-  toolbarState: {
-    globalFilter: string;
-    onGlobalFilterChange: (value: string) => void;
-  };
   tableLabels: {
     noData: string;
     pagination: {
@@ -62,7 +58,6 @@ export function UsersDataTable({
   searchPlaceholder,
   columnLabel,
   deleteDialog,
-  toolbarState,
   tableLabels,
 }: UsersDataTableProps) {
   return (
@@ -98,8 +93,6 @@ export function UsersDataTable({
 
       <UsersTableToolbar
         table={table}
-        globalFilter={toolbarState.globalFilter}
-        onGlobalFilterChange={toolbarState.onGlobalFilterChange}
         searchPlaceholder={searchPlaceholder}
         columnLabel={columnLabel}
       />

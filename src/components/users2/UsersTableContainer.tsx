@@ -1,18 +1,15 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import {
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-  type VisibilityState,
 } from '@tanstack/react-table';
-import type { PaginationState, SortingState } from '@tanstack/react-table';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { UsersDataTable } from '@/components/users2/UsersDataTable';
-import type { UsersTableUser } from '@/components/users2/types';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { fetchUsers } from '@/features/users/usersThunks';
@@ -25,6 +22,7 @@ import {
 } from '@/utils/usersQuery';
 import { useUsersTableColumns } from '@/components/users2/useUsersTableColumns';
 import { useUsersTableData } from '@/components/users2/useUsersTableData';
+import { useUsersTableStore } from '@/components/users2/useUsersTableStore';
 
 function getInitialPagination(params: URLSearchParams) {
   const initialPage = Number(params.get('page'));
@@ -46,19 +44,24 @@ export function UsersTableContainer() {
   const { entities, status, error, pagination } = useAppSelector((state) => state.users);
   const authUser = useAppSelector((state) => state.auth.user);
 
-  const [paginationState, setPaginationState] = useState<PaginationState>(() =>
-    getInitialPagination(new URLSearchParams(searchParamsString))
-  );
-  const [sorting, setSorting] = useState<SortingState>(() =>
-    parseSortingFromParams(new URLSearchParams(searchParamsString))
-  );
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [globalFilter, setGlobalFilter] = useState(
-    new URLSearchParams(searchParamsString).get('search') ?? ''
-  );
-  const [debouncedFilter, setDebouncedFilter] = useState(globalFilter);
-  const [deleteTarget, setDeleteTarget] = useState<UsersTableUser | null>(null);
-  const lastSyncedQueryRef = useRef(searchParamsString);
+  const paginationState = useUsersTableStore((state) => state.pagination);
+  const sorting = useUsersTableStore((state) => state.sorting);
+  const columnVisibility = useUsersTableStore((state) => state.columnVisibility);
+  const globalFilter = useUsersTableStore((state) => state.globalFilter);
+  const debouncedFilter = useUsersTableStore((state) => state.debouncedFilter);
+  const deleteTarget = useUsersTableStore((state) => state.deleteTarget);
+  const initialized = useUsersTableStore((state) => state.initialized);
+
+  const setPaginationState = useUsersTableStore((state) => state.setPagination);
+  const setSorting = useUsersTableStore((state) => state.setSorting);
+  const setColumnVisibility = useUsersTableStore((state) => state.setColumnVisibility);
+  const setGlobalFilter = useUsersTableStore((state) => state.setGlobalFilter);
+  const setDebouncedFilter = useUsersTableStore((state) => state.setDebouncedFilter);
+  const setDeleteTarget = useUsersTableStore((state) => state.setDeleteTarget);
+  const syncFromUrl = useUsersTableStore((state) => state.syncFromUrl);
+  const resetTableStore = useUsersTableStore((state) => state.reset);
+
+  useEffect(() => () => resetTableStore(), [resetTableStore]);
 
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;
@@ -76,9 +79,27 @@ export function UsersTableContainer() {
       setDebouncedFilter(globalFilter.trim());
     }, 350);
     return () => window.clearTimeout(timer);
-  }, [globalFilter]);
+  }, [globalFilter, setDebouncedFilter]);
 
   useEffect(() => {
+    const params = new URLSearchParams(searchParamsString);
+    const nextPagination = getInitialPagination(params);
+    const nextFilter = params.get('search') ?? '';
+    const nextSorting = parseSortingFromParams(params);
+
+    syncFromUrl({
+      pagination: nextPagination,
+      sorting: nextSorting,
+      globalFilter: nextFilter,
+      debouncedFilter: nextFilter.trim(),
+    });
+  }, [searchParamsString, syncFromUrl]);
+
+  useEffect(() => {
+    if (!initialized) {
+      return;
+    }
+
     void dispatch(
       fetchUsers({
         page: paginationState.pageIndex + 1,
@@ -88,48 +109,35 @@ export function UsersTableContainer() {
         sorts: mapSortingToApi(sorting),
       })
     );
-  }, [debouncedFilter, dispatch, paginationState.pageIndex, paginationState.pageSize, sorting]);
+  }, [
+    debouncedFilter,
+    dispatch,
+    paginationState.pageIndex,
+    paginationState.pageSize,
+    sorting,
+    initialized,
+  ]);
 
   useEffect(() => {
-    const currentQuery = searchParamsString;
-    if (currentQuery === lastSyncedQueryRef.current) {
+    if (!initialized) {
       return;
     }
-    lastSyncedQueryRef.current = currentQuery;
 
-    const params = new URLSearchParams(currentQuery);
-    const nextPagination = getInitialPagination(params);
-    setPaginationState((current) => {
-      if (
-        current.pageIndex === nextPagination.pageIndex &&
-        current.pageSize === nextPagination.pageSize
-      ) {
-        return current;
-      }
-      return nextPagination;
-    });
-
-    const nextFilter = params.get('search') ?? '';
-    setGlobalFilter((current) => (current === nextFilter ? current : nextFilter));
-
-    const nextSorting = parseSortingFromParams(params);
-    setSorting((current) => (areSortingEqual(current, nextSorting) ? current : nextSorting));
-  }, [searchParamsString]);
-
-  useEffect(() => {
+    const baseParams = new URLSearchParams(searchParamsString);
     const nextParams = buildUserQuery({
       pageIndex: paginationState.pageIndex,
       pageSize: paginationState.pageSize,
       search: globalFilter,
       sorting,
-      baseParams: new URLSearchParams(searchParamsString),
+      baseParams,
     });
 
     const nextQuery = nextParams.toString();
-    if (nextQuery !== lastSyncedQueryRef.current) {
-      lastSyncedQueryRef.current = nextQuery;
-      router.replace(`${pathname}?${nextQuery}`, { scroll: false });
+    if (nextQuery === searchParamsString) {
+      return;
     }
+
+    router.replace(`${pathname}?${nextQuery}`, { scroll: false });
   }, [
     globalFilter,
     paginationState.pageIndex,
@@ -138,22 +146,29 @@ export function UsersTableContainer() {
     router,
     searchParamsString,
     sorting,
+    initialized,
   ]);
 
   useEffect(() => {
-    if (!pagination) {
+    if (!pagination || !initialized) {
       return;
     }
 
+    const totalPages = Math.max(1, pagination.totalPages);
+    const maxPageIndex = Math.max(0, totalPages - 1);
+    const serverPageSize = pagination.perPage;
+
     setPaginationState((current) => {
-      const newPageIndex = Math.max(0, Math.min(pagination.page - 1, pagination.totalPages - 1));
-      const newPageSize = pagination.perPage;
-      if (current.pageIndex === newPageIndex && current.pageSize === newPageSize) {
+      const nextPageIndex = current.pageIndex > maxPageIndex ? maxPageIndex : current.pageIndex;
+      const nextPageSize = serverPageSize > 0 ? serverPageSize : current.pageSize;
+
+      if (nextPageIndex === current.pageIndex && nextPageSize === current.pageSize) {
         return current;
       }
-      return { pageIndex: newPageIndex, pageSize: newPageSize };
+
+      return { pageIndex: nextPageIndex, pageSize: nextPageSize };
     });
-  }, [pagination]);
+  }, [initialized, pagination, setPaginationState]);
 
   const tableData = useUsersTableData(entities);
 
@@ -180,6 +195,8 @@ export function UsersTableContainer() {
     onColumnVisibilityChange: setColumnVisibility,
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPaginationState,
+    autoResetAll: false,
+    autoResetPageIndex: false,
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
@@ -241,10 +258,6 @@ export function UsersTableContainer() {
           previous: t('users.actions.previous') ?? 'Anterior',
           next: t('users.actions.next') ?? 'Siguiente',
         },
-      }}
-      toolbarState={{
-        globalFilter,
-        onGlobalFilterChange: setGlobalFilter,
       }}
     />
   );
