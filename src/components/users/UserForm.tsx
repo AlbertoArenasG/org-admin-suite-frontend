@@ -113,8 +113,12 @@ export function UserForm({
               required: t('form.errors.roleRequired'),
             })}
           >
-            {roleOptions.map((option) => (
-              <option key={option.value} value={option.value} disabled={option.disabled}>
+            {roleOptions.map((option, index) => (
+              <option
+                key={`${option.value}-${index}`}
+                value={option.value}
+                disabled={option.disabled}
+              >
                 {option.label}
               </option>
             ))}
