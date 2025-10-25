@@ -12,6 +12,7 @@
     "dashboard": "Panel",
     "users": "Usuarios",
     "usersList": "Lista de usuarios",
+    "usersInvite": "Invitar usuario",
     "usersAll": "Todos los usuarios",
     "usersActive": "Usuarios activos",
     "usersInactive": "Usuarios inactivos",
@@ -114,7 +115,9 @@
     },
     "edit": {
       "subtitle": "Actualiza roles y datos de contacto.",
-      "restricted": "No tienes permisos para editar a este usuario."
+      "restricted": "No tienes permisos para editar a este usuario.",
+      "successFeedback": "Usuario actualizado correctamente.",
+      "errorFeedback": "No fue posible actualizar el usuario."
     }
   }
 }

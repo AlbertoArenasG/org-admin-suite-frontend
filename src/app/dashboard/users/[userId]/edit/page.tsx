@@ -10,6 +10,7 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
@@ -17,6 +18,7 @@ import { UserForm, type UserFormValues } from '@/components/users/UserForm';
 import { USER_ROLE_LIST, canManageRole, parseUserRole } from '@/features/users/roles';
 import Chip from '@mui/material/Chip';
 import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';
+import { resetUserUpdateState } from '@/features/users/usersSlice';
 import type { UserRoleInfo } from '@/features/users/usersSlice';
 
 export default function UserEditPage() {
@@ -24,6 +26,7 @@ export default function UserEditPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { t } = useTranslationHydrated('common');
+  const { showSnackbar } = useSnackbar();
 
   const user = useAppSelector((state) =>
     state.users.entities.find((entity) => entity.id === params.userId)
@@ -109,10 +112,32 @@ export default function UserEditPage() {
       ? detailState.error
       : null;
   const isUpdating = updateState.status === 'loading' && updateState.currentId === params.userId;
-  const updateError =
-    updateState.status === 'failed' && updateState.currentId === params.userId
-      ? updateState.error
-      : null;
+
+  useEffect(() => {
+    if (updateState.currentId !== params.userId) {
+      return;
+    }
+
+    if (updateState.status === 'succeeded') {
+      showSnackbar({
+        message:
+          updateState.message ??
+          t('users.edit.successFeedback', {
+            defaultValue: 'Usuario actualizado correctamente.',
+          }),
+        severity: 'success',
+      });
+      dispatch(resetUserUpdateState());
+    } else if (updateState.status === 'failed') {
+      showSnackbar({
+        message:
+          updateState.error ??
+          t('users.edit.errorFeedback', { defaultValue: 'No fue posible actualizar el usuario.' }),
+        severity: 'error',
+      });
+      dispatch(resetUserUpdateState());
+    }
+  }, [dispatch, params.userId, showSnackbar, t, updateState]);
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -230,9 +255,6 @@ export default function UserEditPage() {
               {t('users.detail.notFound', { defaultValue: 'We could not find this user yet.' })}
             </div>
           )}
-          {updateError ? (
-            <div className="px-6 pb-6 text-sm text-destructive">{updateError}</div>
-          ) : null}
         </div>
       </Paper>
     </div>

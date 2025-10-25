@@ -39,6 +39,7 @@ export interface UsersState {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
     currentId: string | null;
+    message: string | null;
   };
   roles: {
     items: UserRoleInfo[];
@@ -69,6 +70,7 @@ const initialState: UsersState = {
     status: 'idle',
     error: null,
     currentId: null,
+    message: null,
   },
   roles: {
     items: [],
@@ -98,6 +100,15 @@ const usersSlice = createSlice({
         status: 'idle',
         error: null,
         currentId: null,
+        message: null,
+      };
+    },
+    resetUserUpdateState(state) {
+      state.update = {
+        status: 'idle',
+        error: null,
+        currentId: null,
+        message: null,
       };
     },
   },
@@ -166,12 +177,14 @@ const usersSlice = createSlice({
         state.update.status = 'loading';
         state.update.error = null;
         state.update.currentId = action.meta.arg.id;
+        state.update.message = null;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.update.status = 'succeeded';
         state.update.error = null;
         const updatedUser = action.payload.user;
         state.update.currentId = updatedUser.id;
+        state.update.message = action.payload.message ?? null;
         const existingIndex = state.entities.findIndex((user) => user.id === updatedUser.id);
         if (existingIndex >= 0) {
           state.entities[existingIndex] = updatedUser;
@@ -190,9 +203,10 @@ const usersSlice = createSlice({
           action.error.message ??
           'No fue posible actualizar el usuario';
         state.update.currentId = action.meta.arg.id;
+        state.update.message = null;
       });
   },
 });
 
-export const { addUser, resetUsersState } = usersSlice.actions;
+export const { addUser, resetUsersState, resetUserUpdateState } = usersSlice.actions;
 export default usersSlice.reducer;

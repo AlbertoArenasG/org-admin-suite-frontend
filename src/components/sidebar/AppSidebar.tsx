@@ -66,6 +66,11 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             url: '/dashboard/users',
             isActive: pathname === '/dashboard/users',
           },
+          {
+            title: t('nav.usersInvite'),
+            url: '/dashboard/users/invite',
+            isActive: pathname === '/dashboard/users/invite',
+          },
         ],
       },
       {

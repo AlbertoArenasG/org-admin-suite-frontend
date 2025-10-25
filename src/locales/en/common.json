@@ -12,6 +12,7 @@
     "dashboard": "Dashboard",
     "users": "Users",
     "usersList": "Users list",
+    "usersInvite": "Invite user",
     "usersAll": "All users",
     "usersActive": "Active users",
     "usersInactive": "Inactive users",
@@ -114,7 +115,9 @@
     },
     "edit": {
       "subtitle": "Update roles and contact details.",
-      "restricted": "You do not have permissions to edit this user."
+      "restricted": "You do not have permissions to edit this user.",
+      "successFeedback": "User updated successfully.",
+      "errorFeedback": "We couldn't update the user."
     }
   }
 }

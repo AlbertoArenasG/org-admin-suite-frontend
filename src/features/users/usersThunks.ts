@@ -35,6 +35,7 @@ export interface UpdateUserPayload {
 
 export interface UpdateUserResult {
   user: User;
+  message: string | null;
 }
 
 interface ApiUser {
@@ -183,7 +184,7 @@ export const fetchUserById = createAsyncThunk<
 
     const user = mapUser(response.data);
 
-    return { user };
+    return { user, message: response.successMessage ?? null };
   } catch (error) {
     const message =
       error instanceof Error && error.message ? error.message : 'No fue posible obtener el usuario';
@@ -228,7 +229,7 @@ export const updateUser = createAsyncThunk<
 
     const user = mapUser(response.data);
 
-    return { user };
+    return { user, message: response.successMessage ?? null };
   } catch (error) {
     const message =
       error instanceof Error && error.message
