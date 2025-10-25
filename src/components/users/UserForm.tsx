@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type { UserRole } from '@/features/users/roles';
+import { Loader2 } from 'lucide-react';
 
 export interface UserFormValues {
   email: string;
@@ -176,7 +177,14 @@ export function UserForm({
           </Button>
         ) : null}
         <Button type="submit" disabled={effectiveSubmitting} className="sm:min-w-[10rem]">
-          {effectiveSubmitting ? t('form.submitting') : t(`form.submit.${mode}`)}
+          {effectiveSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {t('form.submitting')}
+            </>
+          ) : (
+            t(`form.submit.${mode}`)
+          )}
         </Button>
       </div>
     </form>

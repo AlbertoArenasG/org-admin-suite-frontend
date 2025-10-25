@@ -3,6 +3,8 @@ import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type { User, UserRoleInfo } from './usersSlice';
 import { parseUserRole } from '@/features/users/roles';
+import type { UserRole } from '@/features/users/roles';
+import { readPersistedAuthToken } from '@/features/auth/persistence';
 
 export interface FetchUsersParams {
   page?: number;
@@ -13,6 +15,25 @@ export interface FetchUsersParams {
 }
 
 export interface FetchUserByIdResult {
+  user: User;
+}
+
+export interface UpdateUserPayload {
+  id: string;
+  data: {
+    name: string;
+    lastname: string;
+    email: string;
+    roleId: UserRole;
+    statusId: string;
+    cellPhone: {
+      countryCode: string;
+      number: string;
+    } | null;
+  };
+}
+
+export interface UpdateUserResult {
   user: User;
 }
 
@@ -108,7 +129,6 @@ export const fetchUsers = createAsyncThunk<
     method: 'GET',
     headers: {
       Accept: 'application/json',
-      'x-user-lang': typeof document !== 'undefined' ? document.documentElement.lang || 'es' : 'es',
     },
     token,
   });
@@ -145,19 +165,18 @@ export const fetchUserById = createAsyncThunk<
   { state: RootState }
 >('users/fetchById', async ({ id }, thunkAPI) => {
   const state = thunkAPI.getState();
-  const token = state.auth.token;
+  const tokenFromState = state.auth.token;
+  const token = tokenFromState ?? readPersistedAuthToken();
 
   if (!token) {
     return thunkAPI.rejectWithValue('No hay token de autenticación');
   }
 
   try {
-    const response = await jsonRequest<ApiUser, ApiUserDetailResponse['data']>(`/v1/users/${id}`, {
+    const response = await jsonRequest<ApiUser>(`/v1/users/${id}`, {
       method: 'GET',
       headers: {
         Accept: 'application/json',
-        'x-user-lang':
-          typeof document !== 'undefined' ? document.documentElement.lang || 'es' : 'es',
       },
       token,
     });
@@ -168,6 +187,53 @@ export const fetchUserById = createAsyncThunk<
   } catch (error) {
     const message =
       error instanceof Error && error.message ? error.message : 'No fue posible obtener el usuario';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const updateUser = createAsyncThunk<
+  UpdateUserResult,
+  UpdateUserPayload,
+  { state: RootState }
+>('users/updateOne', async ({ id, data }, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const tokenFromState = state.auth.token;
+  const token = tokenFromState ?? readPersistedAuthToken();
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiUser>(`/v1/users/${id}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: {
+        name: data.name,
+        lastname: data.lastname,
+        email: data.email,
+        role_id: data.roleId,
+        status_id: data.statusId,
+        cell_phone: data.cellPhone
+          ? {
+              country_code: data.cellPhone.countryCode,
+              number: data.cellPhone.number,
+            }
+          : null,
+      },
+      token,
+    });
+
+    const user = mapUser(response.data);
+
+    return { user };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible actualizar la información del usuario';
     return thunkAPI.rejectWithValue(message);
   }
 });
@@ -199,8 +265,6 @@ export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: Ro
         method: 'GET',
         headers: {
           Accept: 'application/json',
-          'x-user-lang':
-            typeof document !== 'undefined' ? document.documentElement.lang || 'es' : 'es',
         },
         token,
       });
@@ -220,6 +284,3 @@ export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: Ro
     }
   }
 );
-interface ApiUserDetailResponse {
-  data: ApiUser;
-}

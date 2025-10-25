@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, type PropsWithChildren } from 'react';
+import { useLayoutEffect, useEffect, type PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
@@ -15,6 +15,14 @@ const i18n = initI18n();
  * Extend this component as new global providers are introduced.
  */
 export function AppProviders({ children }: PropsWithChildren) {
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    hydrateAuthFromStorage(store.dispatch);
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
@@ -32,8 +40,6 @@ export function AppProviders({ children }: PropsWithChildren) {
     if (storedLanguage && storedLanguage !== i18n.language) {
       void i18n.changeLanguage(storedLanguage);
     }
-
-    hydrateAuthFromStorage(store.dispatch);
 
     return () => {
       i18n.off('languageChanged', handleLanguageChange);

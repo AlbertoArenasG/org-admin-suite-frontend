@@ -5,23 +5,37 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import { useParams, useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { parseUserRole, canManageRole } from '@/features/users/roles';
+import { fetchUserById } from '@/features/users/usersThunks';
 
 export default function UserDetailPage() {
   const params = useParams<{ userId: string }>();
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const { t, hydrated, i18n } = useTranslationHydrated('common');
   const user = useAppSelector((state) =>
     state.users.entities.find((entity) => entity.id === params.userId)
   );
   const authUser = useAppSelector((state) => state.auth.user);
+  const detailState = useAppSelector((state) => state.users.detail);
+  const authHydrated = useAppSelector((state) => state.auth.hydrated);
+
+  useEffect(() => {
+    if (!params.userId || !authHydrated) {
+      return;
+    }
+
+    void dispatch(fetchUserById({ id: params.userId }));
+  }, [authHydrated, dispatch, params.userId]);
 
   const currentRole = authUser?.role ?? null;
   const targetRole = user ? parseUserRole(user.role) : null;
@@ -66,6 +80,14 @@ export default function UserDetailPage() {
         },
       ]
     : [];
+
+  const isLoading =
+    (!authHydrated && Boolean(params.userId)) ||
+    (detailState.status === 'loading' && detailState.currentId === params.userId);
+  const loadError =
+    authHydrated && detailState.status === 'failed' && detailState.currentId === params.userId
+      ? detailState.error
+      : null;
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -118,7 +140,18 @@ export default function UserDetailPage() {
           ) : null}
         </Box>
         <div className="flex flex-col gap-4 p-6">
-          {user ? (
+          {isLoading ? (
+            <div className="space-y-4">
+              <Skeleton className="h-10 w-full rounded-xl" />
+              <Skeleton className="h-10 w-full rounded-xl" />
+              <Skeleton className="h-10 w-full rounded-xl" />
+              <Skeleton className="h-10 w-full rounded-xl" />
+            </div>
+          ) : loadError ? (
+            <div className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-12 text-center text-sm text-destructive">
+              {loadError}
+            </div>
+          ) : user ? (
             detailRows.map((row) => (
               <div
                 key={row.label}

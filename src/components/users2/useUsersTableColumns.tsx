@@ -56,6 +56,9 @@ export function useUsersTableColumns({
         header: ({ column }) => (
           <SortingHeader title={t('users.table.columns.fullName')} column={column} />
         ),
+        meta: {
+          label: t('users.table.columns.fullName'),
+        },
         cell: ({ getValue }) => (
           <span className="font-medium text-foreground">{getValue<string>()}</span>
         ),
@@ -65,6 +68,9 @@ export function useUsersTableColumns({
         header: ({ column }) => (
           <SortingHeader title={t('users.table.columns.email')} column={column} />
         ),
+        meta: {
+          label: t('users.table.columns.email'),
+        },
         cell: ({ getValue }) => <span className="text-foreground">{getValue<string>()}</span>,
       },
       {
@@ -72,12 +78,18 @@ export function useUsersTableColumns({
         header: ({ column }) => (
           <SortingHeader title={t('users.table.columns.role')} column={column} />
         ),
+        meta: {
+          label: t('users.table.columns.role'),
+        },
       },
       {
         accessorKey: 'statusName',
         header: ({ column }) => (
           <SortingHeader title={t('users.table.columns.status')} column={column} />
         ),
+        meta: {
+          label: t('users.table.columns.status'),
+        },
         cell: ({ row }) => {
           const normalized = (row.original.status ?? '').toLowerCase();
           const color =
@@ -92,6 +104,9 @@ export function useUsersTableColumns({
         header: ({ column }) => (
           <SortingHeader title={t('users.table.columns.createdAt')} column={column} />
         ),
+        meta: {
+          label: t('users.table.columns.createdAt'),
+        },
         cell: ({ getValue }) => {
           const raw = getValue<string>();
           const date = new Date(raw);

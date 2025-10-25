@@ -9,13 +9,14 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { UserForm, type UserFormValues } from '@/components/users/UserForm';
 import { USER_ROLE_LIST, canManageRole, parseUserRole } from '@/features/users/roles';
 import Chip from '@mui/material/Chip';
-import { fetchUserRoles } from '@/features/users/usersThunks';
+import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';
 import type { UserRoleInfo } from '@/features/users/usersSlice';
 
 export default function UserEditPage() {
@@ -29,10 +30,20 @@ export default function UserEditPage() {
   );
   const authUser = useAppSelector((state) => state.auth.user);
   const rolesState = useAppSelector((state) => state.users.roles);
+  const detailState = useAppSelector((state) => state.users.detail);
+  const authHydrated = useAppSelector((state) => state.auth.hydrated);
+  const updateState = useAppSelector((state) => state.users.update);
 
   const currentRole = authUser?.role ?? null;
   const targetRole = user ? parseUserRole(user.role) : null;
   const isSelf = user && authUser?.id === user.id;
+
+  useEffect(() => {
+    if (!params.userId || !authHydrated) {
+      return;
+    }
+    void dispatch(fetchUserById({ id: params.userId }));
+  }, [authHydrated, dispatch, params.userId]);
 
   useEffect(() => {
     if (rolesState.status === 'idle') {
@@ -89,6 +100,19 @@ export default function UserEditPage() {
         },
       }
     : undefined;
+
+  const isLoading =
+    (!authHydrated && Boolean(params.userId)) ||
+    (detailState.status === 'loading' && detailState.currentId === params.userId);
+  const loadError =
+    authHydrated && detailState.status === 'failed' && detailState.currentId === params.userId
+      ? detailState.error
+      : null;
+  const isUpdating = updateState.status === 'loading' && updateState.currentId === params.userId;
+  const updateError =
+    updateState.status === 'failed' && updateState.currentId === params.userId
+      ? updateState.error
+      : null;
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -156,7 +180,19 @@ export default function UserEditPage() {
           ) : null}
         </Box>
         <div className="flex flex-1 flex-col">
-          {user && defaultValues ? (
+          {isLoading ? (
+            <div className="flex flex-1 flex-col gap-4 p-6">
+              <Skeleton className="h-8 w-1/3 rounded-md" />
+              <Skeleton className="h-14 w-full rounded-xl" />
+              <Skeleton className="h-14 w-full rounded-xl" />
+              <Skeleton className="h-14 w-full rounded-xl" />
+              <Skeleton className="h-20 w-full rounded-xl" />
+            </div>
+          ) : loadError ? (
+            <div className="flex flex-1 items-center justify-center text-sm text-destructive">
+              {loadError}
+            </div>
+          ) : user && defaultValues ? (
             <UserForm
               mode="edit"
               defaultValues={defaultValues}
@@ -164,17 +200,39 @@ export default function UserEditPage() {
                 if (!canEdit) {
                   return;
                 }
-                console.log('Update user payload', { id: user.id, values });
+                const normalizedCellPhone =
+                  values.cellPhone.countryCode || values.cellPhone.number
+                    ? {
+                        countryCode: values.cellPhone.countryCode,
+                        number: values.cellPhone.number,
+                      }
+                    : null;
+                void dispatch(
+                  updateUser({
+                    id: user.id,
+                    data: {
+                      name: values.name,
+                      lastname: values.lastname,
+                      email: values.email,
+                      roleId: values.roleId,
+                      statusId: user.status,
+                      cellPhone: normalizedCellPhone,
+                    },
+                  })
+                );
               }}
               onCancel={() => router.back()}
               roleOptions={roleOptionsWithLabels}
-              isSubmitting={!canEdit}
+              isSubmitting={!canEdit || isUpdating}
             />
           ) : (
             <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
               {t('users.detail.notFound', { defaultValue: 'We could not find this user yet.' })}
             </div>
           )}
+          {updateError ? (
+            <div className="px-6 pb-6 text-sm text-destructive">{updateError}</div>
+          ) : null}
         </div>
       </Paper>
     </div>

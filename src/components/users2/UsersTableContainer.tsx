@@ -14,12 +14,7 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { fetchUsers } from '@/features/users/usersThunks';
 import { parseUserRole } from '@/features/users/roles';
-import {
-  areSortingEqual,
-  buildUserQuery,
-  mapSortingToApi,
-  parseSortingFromParams,
-} from '@/utils/usersQuery';
+import { buildUserQuery, mapSortingToApi, parseSortingFromParams } from '@/utils/usersQuery';
 import { useUsersTableColumns } from '@/components/users2/useUsersTableColumns';
 import { useUsersTableData } from '@/components/users2/useUsersTableData';
 import { useUsersTableStore } from '@/components/users2/useUsersTableStore';
