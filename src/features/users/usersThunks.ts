@@ -12,6 +12,10 @@ export interface FetchUsersParams {
   sorts?: Array<{ field: string; direction: 'asc' | 'desc' }>;
 }
 
+export interface FetchUserByIdResult {
+  user: User;
+}
+
 interface ApiUser {
   id: string;
   name: string;
@@ -135,6 +139,39 @@ export const fetchUsers = createAsyncThunk<
   };
 });
 
+export const fetchUserById = createAsyncThunk<
+  FetchUserByIdResult,
+  { id: string },
+  { state: RootState }
+>('users/fetchById', async ({ id }, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const token = state.auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiUser, ApiUserDetailResponse['data']>(`/v1/users/${id}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'x-user-lang':
+          typeof document !== 'undefined' ? document.documentElement.lang || 'es' : 'es',
+      },
+      token,
+    });
+
+    const user = mapUser(response.data);
+
+    return { user };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message ? error.message : 'No fue posible obtener el usuario';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const inviteUser = createAsyncThunk<User, { email: string }>('users/invite', async () => {
   // TODO: replace with API call
   throw new Error('inviteUser thunk not implemented yet');
@@ -183,3 +220,6 @@ export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: Ro
     }
   }
 );
+interface ApiUserDetailResponse {
+  data: ApiUser;
+}
