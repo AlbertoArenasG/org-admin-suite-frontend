@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { login } from './authThunks';
+import { fetchCurrentUser, login } from './authThunks';
 import type { AuthUser } from './types';
-import { persistAuthToken } from './persistence';
+import { persistAuthSession } from './persistence';
 
 export interface AuthState {
   user: AuthUser | null;
@@ -10,6 +10,7 @@ export interface AuthState {
   error: string | null;
   token: string | null;
   successMessage: string | null;
+  hydrated: boolean;
 }
 
 const initialState: AuthState = {
@@ -18,6 +19,7 @@ const initialState: AuthState = {
   error: null,
   token: null,
   successMessage: null,
+  hydrated: false,
 };
 
 const authSlice = createSlice({
@@ -27,10 +29,11 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.token = null;
-      persistAuthToken(null);
+      persistAuthSession(null, null);
       state.status = 'idle';
       state.error = null;
       state.successMessage = null;
+      state.hydrated = true;
     },
     resetStatus(state) {
       state.status = 'idle';
@@ -39,7 +42,17 @@ const authSlice = createSlice({
     },
     setAuthToken(state, action: PayloadAction<string | null>) {
       state.token = action.payload;
-      persistAuthToken(action.payload);
+      persistAuthSession(action.payload, state.user);
+    },
+    setAuthSnapshot(state, action: PayloadAction<{ token: string | null; user: AuthUser | null }>) {
+      state.token = action.payload.token;
+      state.user = action.payload.user;
+      state.status = action.payload.token ? 'succeeded' : 'idle';
+      state.error = null;
+      state.successMessage = null;
+    },
+    markHydrated(state, action: PayloadAction<boolean | undefined>) {
+      state.hydrated = action.payload ?? true;
     },
   },
   extraReducers: (builder) => {
@@ -53,9 +66,10 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload.user;
         state.token = action.payload.token;
-        persistAuthToken(action.payload.token);
+        persistAuthSession(action.payload.token, action.payload.user);
         state.error = null;
         state.successMessage = action.payload.message ?? 'La sesión se inició correctamente';
+        state.hydrated = true;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
@@ -66,10 +80,31 @@ const authSlice = createSlice({
         state.user = null;
         state.token = null;
         state.successMessage = null;
+        state.hydrated = true;
+        persistAuthSession(null, null);
+      })
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.user = action.payload;
+        state.error = null;
+        state.hydrated = true;
+        persistAuthSession(state.token, action.payload);
+      })
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible recuperar la sesión';
+        state.hydrated = true;
       });
   },
 });
 
-export const { logout, resetStatus, setAuthToken } = authSlice.actions;
+export const { logout, resetStatus, setAuthToken, setAuthSnapshot, markHydrated } =
+  authSlice.actions;
 export default authSlice.reducer;
 export type { AuthUser } from './types';

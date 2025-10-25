@@ -6,5 +6,115 @@
   "changeLanguage": "Change language",
   "done": "All set",
   "errorTitle": "Something went wrong",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "nav": {
+    "platform": "Platform",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "usersList": "Users list",
+    "usersAll": "All users",
+    "usersActive": "Active users",
+    "usersInactive": "Inactive users",
+    "services": "Services"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "users": "Users"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview"
+  },
+  "users": {
+    "title": "Users",
+    "table": {
+      "columns": {
+        "fullName": "User",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "createdAt": "Created"
+      }
+    },
+    "empty": "No users to show.",
+    "pagination": "Page {{page}} of {{pages}} · {{total}} users",
+    "actions": {
+      "invite": "Invite user",
+      "inviteShort": "Invite",
+      "edit": "Edit",
+      "delete": "Delete",
+      "openMenu": "Open actions menu",
+      "openInvite": "Open invite drawer",
+      "openEdit": "Open edit drawer",
+      "view": "View details",
+      "searchPlaceholder": "Search users...",
+      "manageColumns": "Manage columns",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "form": {
+      "title": {
+        "create": "Invite user",
+        "edit": "Edit user"
+      },
+      "description": {
+        "create": "Send an invitation email to add a teammate to the organization.",
+        "edit": "Update basic details for the selected user."
+      },
+      "labels": {
+        "email": "Email",
+        "role": "Role",
+        "name": "First name",
+        "lastname": "Last name",
+        "phoneCode": "Country code",
+        "phoneNumber": "Phone number"
+      },
+      "placeholders": {
+        "email": "name@example.com",
+        "name": "Optional first name",
+        "lastname": "Optional last name",
+        "phoneCode": "+52",
+        "phoneNumber": "0000000000"
+      },
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Enter a valid email",
+        "roleRequired": "Select a role"
+      },
+      "cancel": "Cancel",
+      "submitting": "Saving...",
+      "submit": {
+        "create": "Send invitation",
+        "edit": "Save changes"
+      }
+    },
+    "roles": {
+      "MASTER_ADMIN": "Master admin",
+      "MASTER_STAFF": "Master staff",
+      "ADMIN": "Admin",
+      "STAFF": "Staff",
+      "CUSTOMER": "Customer"
+    },
+    "confirmDelete": {
+      "title": "Remove user",
+      "description": "This will remove {{name}}. Wire the API later to finalize the action.",
+      "confirm": "Remove user",
+      "cancel": "Cancel",
+      "warning": "This action cannot be undone."
+    },
+    "permissions": {
+      "inviteRestricted": "You do not have permission to send invitations for your current role.",
+      "inviteRestrictedAction": "Ask an administrator to grant additional access if needed."
+    },
+    "detail": {
+      "subtitle": "User details and activity",
+      "missingTitle": "User not found",
+      "notFound": "We could not find this user yet."
+    },
+    "edit": {
+      "subtitle": "Update roles and contact details.",
+      "restricted": "You do not have permissions to edit this user."
+    }
+  }
 }

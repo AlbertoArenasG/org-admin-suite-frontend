@@ -6,5 +6,115 @@
   "changeLanguage": "Cambiar idioma",
   "done": "Listo",
   "errorTitle": "Ocurri\u00f3 un problema",
-  "loading": "Cargando..."
+  "loading": "Cargando...",
+  "nav": {
+    "platform": "Plataforma",
+    "dashboard": "Panel",
+    "users": "Usuarios",
+    "usersList": "Lista de usuarios",
+    "usersAll": "Todos los usuarios",
+    "usersActive": "Usuarios activos",
+    "usersInactive": "Usuarios inactivos",
+    "services": "Servicios"
+  },
+  "breadcrumbs": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "users": "Usuarios"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "subtitle": "Resumen"
+  },
+  "users": {
+    "title": "Usuarios",
+    "table": {
+      "columns": {
+        "fullName": "Usuario",
+        "email": "Correo electrónico",
+        "role": "Rol",
+        "status": "Estado",
+        "createdAt": "Creado"
+      }
+    },
+    "empty": "No hay usuarios para mostrar.",
+    "pagination": "Página {{page}} de {{pages}} · {{total}} usuarios",
+    "actions": {
+      "invite": "Invitar usuario",
+      "inviteShort": "Invitar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "openMenu": "Abrir menú de acciones",
+      "openInvite": "Abrir panel de invitación",
+      "openEdit": "Abrir panel de edición",
+      "view": "Ver detalles",
+      "searchPlaceholder": "Buscar usuarios...",
+      "manageColumns": "Administrar columnas",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
+    "form": {
+      "title": {
+        "create": "Invitar usuario",
+        "edit": "Editar usuario"
+      },
+      "description": {
+        "create": "Envía una invitación por correo para sumar a un miembro del equipo.",
+        "edit": "Actualiza los datos básicos del usuario seleccionado."
+      },
+      "labels": {
+        "email": "Correo electrónico",
+        "role": "Rol",
+        "name": "Nombre",
+        "lastname": "Apellido",
+        "phoneCode": "Código de país",
+        "phoneNumber": "Número telefónico"
+      },
+      "placeholders": {
+        "email": "nombre@ejemplo.com",
+        "name": "Nombre opcional",
+        "lastname": "Apellido opcional",
+        "phoneCode": "+52",
+        "phoneNumber": "0000000000"
+      },
+      "errors": {
+        "emailRequired": "El correo es obligatorio",
+        "emailInvalid": "Ingresa un correo válido",
+        "roleRequired": "Selecciona un rol"
+      },
+      "cancel": "Cancelar",
+      "submitting": "Guardando...",
+      "submit": {
+        "create": "Enviar invitación",
+        "edit": "Guardar cambios"
+      }
+    },
+    "roles": {
+      "MASTER_ADMIN": "Master admin",
+      "MASTER_STAFF": "Master staff",
+      "ADMIN": "Administrador",
+      "STAFF": "Staff",
+      "CUSTOMER": "Cliente"
+    },
+    "confirmDelete": {
+      "title": "Eliminar usuario",
+      "description": "Esta acción eliminará a {{name}}. Conecta el API más adelante para completarla.",
+      "confirm": "Eliminar usuario",
+      "cancel": "Cancelar",
+      "warning": "Esta acción no se puede deshacer."
+    },
+    "permissions": {
+      "inviteRestricted": "No cuentas con permisos para enviar invitaciones con tu rol actual.",
+      "inviteRestrictedAction": "Solicita a un administrador acceso adicional si lo necesitas."
+    },
+    "detail": {
+      "subtitle": "Detalle e historial del usuario",
+      "missingTitle": "Usuario no encontrado",
+      "notFound": "Aún no pudimos encontrar este usuario."
+    },
+    "edit": {
+      "subtitle": "Actualiza roles y datos de contacto.",
+      "restricted": "No tienes permisos para editar a este usuario."
+    }
+  }
 }

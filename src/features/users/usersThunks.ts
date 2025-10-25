@@ -1,11 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
-import type { User } from './usersSlice';
+import type { User, UserRoleInfo } from './usersSlice';
+import { parseUserRole } from '@/features/users/roles';
 
 export interface FetchUsersParams {
   page?: number;
   limit?: number;
+  itemsPerPage?: number;
+  search?: string;
+  sorts?: Array<{ field: string; direction: 'asc' | 'desc' }>;
+}
+
+export interface FetchUserByIdResult {
+  user: User;
 }
 
 interface ApiUser {
@@ -68,7 +76,7 @@ export const fetchUsers = createAsyncThunk<
   FetchUsersParams | undefined,
   { state: RootState }
 >('users/fetchAll', async (params = {}, thunkAPI) => {
-  const { page = 1, limit = 10 } = params;
+  const { page = 1, limit = 10, itemsPerPage, search, sorts = [] } = params;
   const state = thunkAPI.getState();
   const token = state.auth.token;
 
@@ -79,7 +87,19 @@ export const fetchUsers = createAsyncThunk<
   const query = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    items_per_page: String(itemsPerPage ?? limit),
   });
+
+  if (search && search.trim().length > 0) {
+    query.set('search', search.trim());
+  }
+
+  sorts
+    .filter((sort) => sort.field && sort.direction)
+    .forEach((sort, index) => {
+      query.set(`sort[${index}][field]`, sort.field);
+      query.set(`sort[${index}][direction]`, sort.direction);
+    });
 
   const response = await jsonRequest<
     ApiUser[],
@@ -119,7 +139,87 @@ export const fetchUsers = createAsyncThunk<
   };
 });
 
+export const fetchUserById = createAsyncThunk<
+  FetchUserByIdResult,
+  { id: string },
+  { state: RootState }
+>('users/fetchById', async ({ id }, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const token = state.auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiUser, ApiUserDetailResponse['data']>(`/v1/users/${id}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'x-user-lang':
+          typeof document !== 'undefined' ? document.documentElement.lang || 'es' : 'es',
+      },
+      token,
+    });
+
+    const user = mapUser(response.data);
+
+    return { user };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message ? error.message : 'No fue posible obtener el usuario';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const inviteUser = createAsyncThunk<User, { email: string }>('users/invite', async () => {
   // TODO: replace with API call
   throw new Error('inviteUser thunk not implemented yet');
 });
+
+interface ApiUserRole {
+  id: string;
+  name: string;
+  description?: string | null;
+  rank?: number | null;
+}
+
+export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: RootState }>(
+  'users/fetchRoles',
+  async (_void, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const token = state.auth.token;
+
+    if (!token) {
+      return thunkAPI.rejectWithValue('No hay token de autenticación');
+    }
+
+    try {
+      const response = await jsonRequest<ApiUserRole[]>(`/v1/users/roles`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'x-user-lang':
+            typeof document !== 'undefined' ? document.documentElement.lang || 'es' : 'es',
+        },
+        token,
+      });
+
+      const roles = Array.isArray(response.data) ? response.data : [];
+
+      return roles.map((role) => ({
+        id: parseUserRole(role.id),
+        rawId: role.id,
+        name: role.name,
+        description: role.description ?? null,
+        rank: typeof role.rank === 'number' ? role.rank : null,
+      }));
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'No fue posible obtener los roles';
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+interface ApiUserDetailResponse {
+  data: ApiUser;
+}

@@ -18,8 +18,8 @@ import { cn } from '@/lib/utils';
 export const title = 'Language Selector';
 
 const languageOptions = [
-  { value: 'en', flag: '🇺🇸', labelKey: 'common:english' },
   { value: 'es', flag: '🇪🇸', labelKey: 'common:spanish' },
+  { value: 'en', flag: '🇺🇸', labelKey: 'common:english' },
 ] as const;
 
 interface SelectLangProps {
@@ -67,6 +67,7 @@ const SelectLang = ({
           variant={buttonVariant}
           size={buttonSize}
           aria-label={t('changeLanguage')}
+          suppressHydrationWarning
           className={cn('flex items-center gap-2', buttonClassName)}
         >
           <Globe className="h-4 w-4" />
