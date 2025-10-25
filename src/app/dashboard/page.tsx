@@ -17,12 +17,8 @@ export default function DashboardPage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.home'),
-                href: '/dashboard',
-                hideOnDesktop: true,
-              },
-              {
                 label: t('dashboard.title'),
+                hideOnDesktop: true,
               },
             ]}
           />

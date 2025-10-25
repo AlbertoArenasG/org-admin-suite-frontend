@@ -7,6 +7,9 @@ import { parseUserRole } from '@/features/users/roles';
 export interface FetchUsersParams {
   page?: number;
   limit?: number;
+  itemsPerPage?: number;
+  search?: string;
+  sorts?: Array<{ field: string; direction: 'asc' | 'desc' }>;
 }
 
 interface ApiUser {
@@ -69,7 +72,7 @@ export const fetchUsers = createAsyncThunk<
   FetchUsersParams | undefined,
   { state: RootState }
 >('users/fetchAll', async (params = {}, thunkAPI) => {
-  const { page = 1, limit = 10 } = params;
+  const { page = 1, limit = 10, itemsPerPage, search, sorts = [] } = params;
   const state = thunkAPI.getState();
   const token = state.auth.token;
 
@@ -80,7 +83,19 @@ export const fetchUsers = createAsyncThunk<
   const query = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    items_per_page: String(itemsPerPage ?? limit),
   });
+
+  if (search && search.trim().length > 0) {
+    query.set('search', search.trim());
+  }
+
+  sorts
+    .filter((sort) => sort.field && sort.direction)
+    .forEach((sort, index) => {
+      query.set(`sort[${index}][field]`, sort.field);
+      query.set(`sort[${index}][direction]`, sort.direction);
+    });
 
   const response = await jsonRequest<
     ApiUser[],
