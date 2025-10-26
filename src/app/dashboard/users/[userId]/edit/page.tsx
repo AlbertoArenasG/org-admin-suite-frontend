@@ -14,7 +14,7 @@ import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
-import { UserForm, type UserFormValues } from '@/components/users/UserForm';
+import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { USER_ROLE_LIST, canManageRole, parseUserRole } from '@/features/users/roles';
 import Chip from '@mui/material/Chip';
 import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';

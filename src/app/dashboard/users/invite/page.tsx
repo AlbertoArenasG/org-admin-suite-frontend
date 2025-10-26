@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useMemo, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { UserForm, type UserFormValues } from '@/components/users/UserForm';
+import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { fetchUserRoles, inviteUser } from '@/features/users/usersThunks';
