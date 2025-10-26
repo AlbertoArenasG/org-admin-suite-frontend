@@ -76,9 +76,16 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       },
       {
         title: t('nav.services'),
-        url: '/dashboard/services',
+        url: '/dashboard/service-entries',
         icon: Wrench,
-        isActive: pathname.startsWith('/dashboard/services'),
+        isActive: pathname.startsWith('/dashboard/service-entries'),
+        items: [
+          {
+            title: t('nav.serviceEntries'),
+            url: '/dashboard/service-entries',
+            isActive: pathname.startsWith('/dashboard/service-entries'),
+          },
+        ],
       },
     ],
     [pathname, t]
