@@ -13,6 +13,8 @@ export interface ServiceEntriesTableRow {
   createdAt: string;
   updatedAt: string | null;
   serviceOrderIdentifier: string;
+  surveyStatus: ServiceEntry['surveyStatus'];
+  downloadStatus: ServiceEntry['downloadStatus'];
 }
 
 export function useServiceEntriesTableData(entries: ServiceEntry[]): ServiceEntriesTableRow[] {
@@ -28,6 +30,8 @@ export function useServiceEntriesTableData(entries: ServiceEntry[]): ServiceEntr
         createdAt: entry.createdAt,
         updatedAt: entry.updatedAt,
         serviceOrderIdentifier: entry.serviceOrderIdentifier,
+        surveyStatus: entry.surveyStatus,
+        downloadStatus: entry.downloadStatus,
       })),
     [entries]
   );

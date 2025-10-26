@@ -19,8 +19,7 @@ import {
   type ServiceEntryFileMetadata,
 } from '@/features/serviceEntries/serviceEntriesSlice';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
-import { FullScreenLoader } from '@/components/ui/full-screen-loader';
-
+import { Skeleton } from '@/components/ui/skeleton';
 export default function ServiceEntryDetailPage() {
   const params = useParams<{ serviceEntryId: string }>();
   const router = useRouter();
@@ -56,13 +55,8 @@ export default function ServiceEntryDetailPage() {
     dateStyle: 'medium',
     timeStyle: 'short',
   });
-
   if (detail.status === 'idle' || detail.status === 'loading') {
-    return (
-      <FullScreenLoader
-        text={t('serviceEntries.detail.loading', { defaultValue: 'Cargando servicio...' })}
-      />
-    );
+    return <ServiceEntryDetailSkeleton />;
   }
 
   const entry = detail.entry;
@@ -147,11 +141,30 @@ export default function ServiceEntryDetailPage() {
           />
           <DetailItem
             label={t('serviceEntries.detail.surveyStatus')}
-            value={
-              entry?.surveyStatus?.completed
-                ? t('serviceEntries.detail.surveyCompleted')
-                : t('serviceEntries.detail.surveyPending')
-            }
+            value={getSurveyStatusLabel(entry?.surveyStatus, {
+              completed: (submittedAt) =>
+                submittedAt
+                  ? t('serviceEntries.detail.surveyCompletedWithDate', {
+                      date: dateFormatter.format(new Date(submittedAt)),
+                    })
+                  : t('serviceEntries.detail.surveyCompleted'),
+              pending: t('serviceEntries.detail.surveyPending'),
+              notStarted: t('serviceEntries.detail.surveyNotStarted'),
+            })}
+          />
+          <DetailItem
+            label={t('serviceEntries.detail.downloadStatus')}
+            value={getDownloadStatusLabel(entry?.downloadStatus, {
+              available: (count, lastAt) =>
+                t('serviceEntries.detail.downloadAvailable', {
+                  count,
+                  last: lastAt
+                    ? dateFormatter.format(new Date(lastAt))
+                    : t('serviceEntries.detail.notDownloaded'),
+                }),
+              never: t('serviceEntries.detail.downloadNever'),
+              inactive: t('serviceEntries.detail.downloadUnavailable'),
+            })}
           />
         </div>
         <div className="px-6 pb-6">
@@ -231,4 +244,97 @@ function FileList({ title, files }: { title: string; files: ServiceEntryFileMeta
       </ul>
     </div>
   );
+}
+
+function ServiceEntryDetailSkeleton() {
+  return (
+    <div className="flex flex-1 flex-col gap-6">
+      <Skeleton className="h-16 rounded-3xl" />
+      <Paper
+        elevation={0}
+        sx={{
+          borderRadius: '24px',
+          border: '1px solid var(--surface-border)',
+          bgcolor: 'var(--surface-bg)',
+          color: 'var(--foreground)',
+          boxShadow: 'var(--surface-shadow)',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '50vh',
+        }}
+      >
+        <div className="flex items-center justify-between gap-4 border-b border-border/60 px-6 py-5">
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-52 rounded-lg" />
+            <Skeleton className="h-4 w-32 rounded-lg" />
+          </div>
+          <Skeleton className="h-7 w-24 rounded-full" />
+        </div>
+        <div className="grid gap-4 p-6 md:grid-cols-2">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <Skeleton key={index} className="h-16 w-full rounded-xl" />
+          ))}
+        </div>
+        <div className="px-6 pb-6">
+          <Skeleton className="h-5 w-48 rounded-lg" />
+          <div className="mt-4 space-y-3">
+            <Skeleton className="h-10 w-full rounded-xl" />
+            <Skeleton className="h-10 w-full rounded-xl" />
+          </div>
+        </div>
+        <div className="flex gap-2 border-t border-border/60 px-6 py-4">
+          <Skeleton className="h-10 w-28 rounded-full" />
+          <Skeleton className="h-10 w-28 rounded-full" />
+        </div>
+      </Paper>
+    </div>
+  );
+}
+
+function getSurveyStatusLabel(
+  survey:
+    | {
+        completed: boolean;
+        submitted_at: string | null;
+      }
+    | null
+    | undefined,
+  labels: {
+    completed: (submittedAt: string | null) => string;
+    pending: string;
+    notStarted: string;
+  }
+) {
+  if (!survey) {
+    return labels.notStarted;
+  }
+  if (survey.completed) {
+    return labels.completed(survey.submitted_at);
+  }
+  return labels.pending;
+}
+
+function getDownloadStatusLabel(
+  download:
+    | {
+        has_download: boolean;
+        last_downloaded_at: string | null;
+        download_count: number;
+      }
+    | null
+    | undefined,
+  labels: {
+    available: (count: number, lastAt: string | null) => string;
+    never: string;
+    inactive: string;
+  }
+) {
+  if (!download) {
+    return labels.inactive;
+  }
+  if (download.has_download) {
+    return labels.available(download.download_count ?? 0, download.last_downloaded_at ?? null);
+  }
+  return labels.never;
 }

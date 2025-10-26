@@ -8,6 +8,7 @@ import { I18nextProvider } from 'react-i18next';
 import { initI18n, LANGUAGE_STORAGE_KEY } from '@/lib/i18n';
 import { hydrateAuthFromStorage } from '@/features/auth/persistence';
 import { SnackbarProvider } from '@/components/providers/SnackbarProvider';
+import { RouteChangeLoader } from '@/components/providers/RouteChangeLoader';
 
 const i18n = initI18n();
 
@@ -51,7 +52,10 @@ export function AppProviders({ children }: PropsWithChildren) {
     <I18nextProvider i18n={i18n}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <Provider store={store}>
-          <SnackbarProvider>{children}</SnackbarProvider>
+          <SnackbarProvider>
+            <RouteChangeLoader />
+            {children}
+          </SnackbarProvider>
         </Provider>
       </ThemeProvider>
     </I18nextProvider>

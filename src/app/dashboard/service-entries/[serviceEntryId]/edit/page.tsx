@@ -27,7 +27,7 @@ import {
 } from '@/components/serviceEntries/ServiceEntryForm';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { parseUserRole } from '@/features/users/roles';
-import { FullScreenLoader } from '@/components/ui/full-screen-loader';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ServiceEntryEditPage() {
   const params = useParams<{ serviceEntryId: string }>();
@@ -111,11 +111,7 @@ export default function ServiceEntryEditPage() {
   };
 
   if (isLoadingDetail) {
-    return (
-      <FullScreenLoader
-        text={t('serviceEntries.detail.loading', { defaultValue: 'Cargando servicio...' })}
-      />
-    );
+    return <ServiceEntryEditSkeleton />;
   }
 
   if (loadError) {
@@ -214,6 +210,50 @@ export default function ServiceEntryEditPage() {
           isSubmitting={formState.status === 'loading'}
           disableActions={!canManage}
         />
+      </Paper>
+    </div>
+  );
+}
+
+function ServiceEntryEditSkeleton() {
+  return (
+    <div className="flex flex-1 flex-col gap-6">
+      <Skeleton className="h-16 rounded-3xl" />
+      <Paper
+        elevation={0}
+        sx={{
+          borderRadius: '24px',
+          border: '1px solid var(--surface-border)',
+          bgcolor: 'var(--surface-bg)',
+          color: 'var(--foreground)',
+          boxShadow: 'var(--surface-shadow)',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '60vh',
+        }}
+      >
+        <div className="flex flex-col gap-3 border-b border-border/60 px-6 py-5">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="space-y-2">
+              <Skeleton className="h-5 w-60 rounded-lg" />
+              <Skeleton className="h-4 w-40 rounded-lg" />
+            </div>
+            <Skeleton className="h-9 w-24 rounded-full" />
+          </div>
+          <Skeleton className="h-4 w-48 rounded-lg" />
+        </div>
+        <div className="flex flex-1 flex-col gap-4 p-6">
+          {Array.from({ length: 5 }).map((_, index) => (
+            <Skeleton key={index} className="h-20 w-full rounded-xl" />
+          ))}
+          <Skeleton className="h-24 w-full rounded-xl" />
+          <Skeleton className="h-24 w-full rounded-xl" />
+        </div>
+        <div className="flex gap-2 border-t border-border/60 px-6 py-4">
+          <Skeleton className="h-10 w-28 rounded-full" />
+          <Skeleton className="h-10 w-28 rounded-full" />
+        </div>
       </Paper>
     </div>
   );

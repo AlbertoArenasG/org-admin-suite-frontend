@@ -22,21 +22,21 @@
     "usersActive": "Usuarios activos",
     "usersInactive": "Usuarios inactivos",
     "services": "Servicios",
-    "serviceEntries": "Entradas de servicio"
+    "serviceEntries": "Registro de servicios"
   },
   "breadcrumbs": {
     "home": "Inicio",
     "dashboard": "Panel",
     "users": "Usuarios",
-    "serviceEntries": "Entradas de servicio"
+    "serviceEntries": "Registro de servicios"
   },
   "dashboard": {
     "title": "Panel",
     "subtitle": "Resumen"
   },
   "serviceEntries": {
-    "title": "Entradas de servicio",
-    "breadcrumb": "Entradas de servicio",
+    "title": "Registro de servicios",
+    "breadcrumb": "Registro de servicios",
     "empty": "No hay entradas de servicio para mostrar.",
     "pagination": "Página {{page}} de {{pages}} · {{total}} servicios",
     "actions": {
@@ -59,7 +59,20 @@
         "contactName": "Contacto",
         "category": "Categoría",
         "status": "Estado",
-        "createdAt": "Fecha de creación"
+        "createdAt": "Fecha de creación",
+        "surveyStatus": "Encuesta",
+        "downloadStatus": "Descargas"
+      },
+      "survey": {
+        "notStarted": "Sin actividad",
+        "pending": "Pendiente de respuesta",
+        "completed": "Encuesta completada",
+        "completedAt": "Completada el {{date}}"
+      },
+      "download": {
+        "unavailable": "No disponible",
+        "never": "Sin descargas registradas",
+        "count": "{{count, plural, one {# descarga} other {# descargas}}}"
       }
     },
     "delete": {
@@ -98,7 +111,9 @@
         "cancel": "Cancelar",
         "processing": "Guardando...",
         "create": "Registrar servicio",
-        "update": "Guardar cambios"
+        "update": "Guardar cambios",
+        "selectFile": "Seleccionar archivo",
+        "selectFiles": "Seleccionar archivos"
       }
     },
     "create": {
@@ -122,12 +137,19 @@
       "updatedAt": "Actualizado",
       "surveyStatus": "Encuesta",
       "surveyCompleted": "Encuesta completada",
+      "surveyCompletedWithDate": "Encuesta completada el {{date}}",
       "surveyPending": "Encuesta pendiente",
+      "surveyNotStarted": "Sin actividad de encuesta",
       "files": "Archivos",
       "calibrationCertificate": "Certificado de calibración",
       "attachments": "Adjuntos",
       "loading": "Cargando servicio...",
       "notFound": "No fue posible encontrar este servicio.",
+      "downloadStatus": "Descargas",
+      "downloadAvailable": "Descargado {{count, plural, one {# vez} other {# veces}}} · Última: {{last}}",
+      "downloadNever": "Sin registros de descarga",
+      "downloadUnavailable": "Descarga no disponible",
+      "notDownloaded": "Nunca",
       "actions": {
         "back": "Regresar",
         "edit": "Editar"

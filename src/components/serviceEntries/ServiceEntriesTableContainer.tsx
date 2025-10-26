@@ -12,6 +12,8 @@ import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { ServiceEntriesDataTable } from '@/components/serviceEntries/ServiceEntriesDataTable';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import Paper from '@mui/material/Paper';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   fetchServiceEntries,
   deleteServiceEntry,
@@ -241,6 +243,12 @@ export function ServiceEntriesTableContainer() {
       })
     : null;
 
+  const isInitialLoading = !initialized || (status === 'loading' && !entities.length && !error);
+
+  if (isInitialLoading) {
+    return <ServiceEntriesTableSkeleton />;
+  }
+
   return (
     <ServiceEntriesDataTable
       table={table}
@@ -323,4 +331,45 @@ function parseSortingFromParams(params: URLSearchParams) {
       return { id: sort.id, desc: Boolean(sort.desc) };
     })
     .filter(Boolean) as { id: string; desc: boolean }[];
+}
+
+function ServiceEntriesTableSkeleton() {
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        borderRadius: '24px',
+        border: '1px solid var(--surface-border)',
+        bgcolor: 'var(--surface-bg)',
+        color: 'var(--foreground)',
+        boxShadow: 'var(--surface-shadow)',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '60vh',
+      }}
+      className="animate-in fade-in-0 duration-200"
+    >
+      <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
+        <div className="space-y-2">
+          <Skeleton className="h-5 w-48 rounded-lg" />
+          <Skeleton className="h-3 w-32 rounded-lg" />
+        </div>
+        <Skeleton className="h-9 w-36 rounded-full" />
+      </div>
+      <div className="flex flex-col gap-3 border-b border-border/60 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <Skeleton className="h-10 w-full max-w-md rounded-xl" />
+        <Skeleton className="h-9 w-40 rounded-full" />
+      </div>
+      <div className="flex-1 space-y-3 p-4">
+        {Array.from({ length: 6 }).map((_, index) => (
+          <Skeleton key={index} className="h-12 w-full rounded-xl" />
+        ))}
+      </div>
+      <div className="flex items-center justify-end gap-2 border-t border-border/60 px-4 py-3">
+        <Skeleton className="h-9 w-24 rounded-full" />
+        <Skeleton className="h-9 w-24 rounded-full" />
+      </div>
+    </Paper>
+  );
 }

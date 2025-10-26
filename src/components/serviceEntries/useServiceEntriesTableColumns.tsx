@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import type { Column, ColumnDef } from '@tanstack/react-table';
-import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, CheckCircle2, Clock, Download } from 'lucide-react';
 import type { TFunction } from 'i18next';
 import type { ServiceEntriesTableRow } from '@/components/serviceEntries/useServiceEntriesTableData';
 import { ServiceEntriesRowActions } from '@/components/serviceEntries/ServiceEntriesRowActions';
@@ -120,6 +120,78 @@ export function useServiceEntriesTableColumns({
             return value;
           }
           return dateFormatter.format(date);
+        },
+      },
+      {
+        id: 'surveyStatus',
+        enableSorting: false,
+        header: () => t('serviceEntries.table.columns.surveyStatus'),
+        meta: {
+          label: t('serviceEntries.table.columns.surveyStatus'),
+        },
+        cell: ({ row }) => {
+          const survey = row.original.surveyStatus;
+          if (!survey) {
+            return (
+              <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <Clock className="size-3.5" />
+                {t('serviceEntries.table.survey.notStarted')}
+              </span>
+            );
+          }
+          if (survey.completed) {
+            return (
+              <span className="inline-flex items-center gap-2 text-xs font-medium text-primary">
+                <CheckCircle2 className="size-3.5" />
+                {survey.submitted_at
+                  ? t('serviceEntries.table.survey.completedAt', {
+                      date: dateFormatter.format(new Date(survey.submitted_at)),
+                    })
+                  : t('serviceEntries.table.survey.completed')}
+              </span>
+            );
+          }
+          return (
+            <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+              <Clock className="size-3.5" />
+              {t('serviceEntries.table.survey.pending')}
+            </span>
+          );
+        },
+      },
+      {
+        id: 'downloadStatus',
+        enableSorting: false,
+        header: () => t('serviceEntries.table.columns.downloadStatus'),
+        meta: {
+          label: t('serviceEntries.table.columns.downloadStatus'),
+        },
+        cell: ({ row }) => {
+          const download = row.original.downloadStatus;
+          if (!download) {
+            return (
+              <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+                <Download className="size-3.5" />
+                {t('serviceEntries.table.download.unavailable')}
+              </span>
+            );
+          }
+          if (download.has_download) {
+            return (
+              <span className="inline-flex items-center gap-2 text-xs font-medium text-primary">
+                <Download className="size-3.5" />
+                {t('serviceEntries.table.download.count', {
+                  count: download.download_count ?? 0,
+                })}
+              </span>
+            );
+          }
+          return (
+            <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
+              <Download className="size-3.5" />
+              {t('serviceEntries.table.download.never')}
+            </span>
+          );
         },
       },
       {
