@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -61,6 +61,14 @@ const registrationSchema = z
 type RegistrationFormValues = z.infer<typeof registrationSchema>;
 
 export default function PublicUserRegisterPage() {
+  return (
+    <Suspense fallback={<FullScreenLoader text="" />}>
+      <UserRegisterContent />
+    </Suspense>
+  );
+}
+
+function UserRegisterContent() {
   const { t } = useTranslation('common');
   const router = useRouter();
   const searchParams = useSearchParams();

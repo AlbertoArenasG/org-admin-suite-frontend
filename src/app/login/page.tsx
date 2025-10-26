@@ -8,11 +8,9 @@ import { BrandLogo } from '@/components/shared/BrandLogo';
 import { Spinner } from '@/components/ui/spinner';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useRouter } from 'next/navigation';
-import { useTranslation } from 'react-i18next';
 import { FullScreenLoader } from '@/components/ui/full-screen-loader';
 
 export default function LoginPage() {
-  const { t } = useTranslation('common');
   const { token } = useAppSelector((state) => state.auth);
   const [checkingSession, setCheckingSession] = useState(true);
   const router = useRouter();
