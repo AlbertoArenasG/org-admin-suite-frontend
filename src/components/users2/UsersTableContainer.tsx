@@ -12,12 +12,14 @@ import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { UsersDataTable } from '@/components/users2/UsersDataTable';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { fetchUsers } from '@/features/users/usersThunks';
+import { fetchUsers, deleteUser } from '@/features/users/usersThunks';
 import { parseUserRole } from '@/features/users/roles';
 import { buildUserQuery, mapSortingToApi, parseSortingFromParams } from '@/utils/usersQuery';
 import { useUsersTableColumns } from '@/components/users2/useUsersTableColumns';
 import { useUsersTableData } from '@/components/users2/useUsersTableData';
 import { useUsersTableStore } from '@/components/users2/useUsersTableStore';
+import { useSnackbar } from '@/components/providers/useSnackbarStore';
+import { resetDeleteState } from '@/features/users/usersSlice';
 
 function getInitialPagination(params: URLSearchParams) {
   const initialPage = Number(params.get('page'));
@@ -36,7 +38,13 @@ export function UsersTableContainer() {
   const searchParams = useSearchParams();
   const searchParamsString = searchParams.toString();
 
-  const { entities, status, error, pagination } = useAppSelector((state) => state.users);
+  const {
+    entities,
+    status,
+    error,
+    pagination,
+    delete: deleteState,
+  } = useAppSelector((state) => state.users);
   const authUser = useAppSelector((state) => state.auth.user);
 
   const paginationState = useUsersTableStore((state) => state.pagination);
@@ -55,8 +63,30 @@ export function UsersTableContainer() {
   const setDeleteTarget = useUsersTableStore((state) => state.setDeleteTarget);
   const syncFromUrl = useUsersTableStore((state) => state.syncFromUrl);
   const resetTableStore = useUsersTableStore((state) => state.reset);
+  const { showSnackbar } = useSnackbar();
 
   useEffect(() => () => resetTableStore(), [resetTableStore]);
+
+  useEffect(() => {
+    if (deleteState.status === 'succeeded' && deleteState.targetId) {
+      showSnackbar({
+        message:
+          deleteState.message ??
+          t('users.delete.success', { defaultValue: 'Usuario eliminado correctamente.' }),
+        severity: 'success',
+      });
+      setDeleteTarget(null);
+      dispatch(resetDeleteState());
+    } else if (deleteState.status === 'failed') {
+      showSnackbar({
+        message:
+          deleteState.error ??
+          t('users.delete.error', { defaultValue: 'No fue posible eliminar al usuario.' }),
+        severity: 'error',
+      });
+      dispatch(resetDeleteState());
+    }
+  }, [deleteState, dispatch, setDeleteTarget, showSnackbar, t]);
 
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;
@@ -232,11 +262,12 @@ export function UsersTableContainer() {
           }
         },
         onConfirm: () => {
-          if (deleteTarget) {
-            console.log('Delete user payload', deleteTarget.id);
+          if (!deleteTarget) {
+            return;
           }
-          setDeleteTarget(null);
+          void dispatch(deleteUser({ id: deleteTarget.id }));
         },
+        isLoading: deleteState.status === 'loading',
         labels: {
           title: t('users.confirmDelete.title'),
           description: t('users.confirmDelete.description', {

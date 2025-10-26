@@ -17,6 +17,7 @@ interface UsersDeleteDialogProps {
   user: UsersTableUser | null;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
+  isLoading?: boolean;
   labels: {
     title: string;
     description: string;
@@ -31,6 +32,7 @@ export function UsersDeleteDialog({
   user,
   onOpenChange,
   onConfirm,
+  isLoading = false,
   labels,
 }: UsersDeleteDialogProps) {
   return (
@@ -48,7 +50,7 @@ export function UsersDeleteDialog({
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             {labels.cancel}
           </Button>
-          <Button variant="destructive" onClick={onConfirm}>
+          <Button variant="destructive" onClick={onConfirm} disabled={isLoading}>
             {labels.confirm}
           </Button>
         </SheetFooter>

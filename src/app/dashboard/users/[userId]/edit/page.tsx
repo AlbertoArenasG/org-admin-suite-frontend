@@ -54,37 +54,23 @@ export default function UserEditPage() {
     }
   }, [dispatch, rolesState.status]);
 
-  const fallbackRoles: UserRoleInfo[] = USER_ROLE_LIST.map((role) => ({
+  const fallbackRoles: UserRoleInfo[] = USER_ROLE_LIST.map((role, index) => ({
     id: role,
-    rawId: role,
+    normalizedId: role,
     name: t(`users.roles.${role}`),
     description: null,
-    rank: null,
+    rank: index,
   }));
 
   const availableRoles = rolesState.items.length ? rolesState.items : fallbackRoles;
 
-  const manageableRoles = availableRoles.filter((role) =>
-    currentRole ? canManageRole(currentRole, role.id, { allowSameLevel: isSelf }) : false
-  );
-
-  if (targetRole && !manageableRoles.some((role) => role.id === targetRole)) {
-    const existing = availableRoles.find((role) => role.id === targetRole);
-    manageableRoles.push(
-      existing ?? {
-        id: targetRole,
-        rawId: targetRole,
-        name: t(`users.roles.${targetRole}`),
-        description: null,
-        rank: null,
-      }
-    );
-  }
-
-  const roleOptionsWithLabels = manageableRoles.map((role) => ({
-    value: role.id,
-    label: role.name ?? t(`users.roles.${role.id}`),
-  }));
+  const roleOptionsWithLabels = availableRoles.map((role) => {
+    const identifier = role.id ?? role.normalizedId;
+    return {
+      value: identifier,
+      label: role.name ?? t(`users.roles.${identifier}`),
+    };
+  });
 
   const canEdit =
     user && currentRole
@@ -128,6 +114,7 @@ export default function UserEditPage() {
         severity: 'success',
       });
       dispatch(resetUserUpdateState());
+      router.push(`/dashboard/users/${params.userId}`);
     } else if (updateState.status === 'failed') {
       showSnackbar({
         message:
@@ -137,7 +124,7 @@ export default function UserEditPage() {
       });
       dispatch(resetUserUpdateState());
     }
-  }, [dispatch, params.userId, showSnackbar, t, updateState]);
+  }, [dispatch, params.userId, router, showSnackbar, t, updateState]);
 
   return (
     <div className="flex flex-1 flex-col gap-6">

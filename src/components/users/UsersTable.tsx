@@ -16,7 +16,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { UserPlus } from 'lucide-react';
 
-import { fetchUsers } from '@/features/users/usersThunks';
+import { fetchUsers, deleteUser } from '@/features/users/usersThunks';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import type { User } from '@/features/users/usersSlice';
@@ -236,9 +236,15 @@ export function UsersTable() {
     if (!deleteTargetId) {
       return;
     }
-    console.log('Delete user payload', { userId: deleteTargetId });
-    setDeleteTargetId(null);
-  }, [deleteTargetId]);
+    void dispatch(deleteUser({ id: deleteTargetId }))
+      .unwrap()
+      .then(() => {
+        setDeleteTargetId(null);
+      })
+      .catch((error: unknown) => {
+        console.error('Failed to delete user', error);
+      });
+  }, [deleteTargetId, dispatch]);
 
   const actionsColumn: GridColDef<TableRow> = useMemo(
     () => ({

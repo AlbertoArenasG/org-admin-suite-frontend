@@ -7,12 +7,11 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { UserRole } from '@/features/users/roles';
 import { Loader2 } from 'lucide-react';
 
 export interface UserFormValues {
   email: string;
-  roleId: UserRole;
+  roleId: string;
   name: string;
   lastname: string;
   cellPhone: {
@@ -24,7 +23,7 @@ export interface UserFormValues {
 export interface UserFormProps {
   defaultValues?: Partial<UserFormValues>;
   mode: 'create' | 'edit';
-  roleOptions: Array<{ value: UserRole; label: string; disabled?: boolean }>;
+  roleOptions: Array<{ value: string; label: string; disabled?: boolean }>;
   onSubmit: (values: UserFormValues) => void;
   onCancel?: () => void;
   isSubmitting?: boolean;

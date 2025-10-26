@@ -88,7 +88,9 @@
       "submit": {
         "create": "Send invitation",
         "edit": "Save changes"
-      }
+      },
+      "inviteSuccess": "Invitation sent successfully.",
+      "inviteError": "We couldn't send the invitation."
     },
     "roles": {
       "MASTER_ADMIN": "Master admin",
@@ -107,6 +109,10 @@
     "permissions": {
       "inviteRestricted": "You do not have permission to send invitations for your current role.",
       "inviteRestrictedAction": "Ask an administrator to grant additional access if needed."
+    },
+    "delete": {
+      "success": "User deleted successfully.",
+      "error": "We couldn't delete the user."
     },
     "detail": {
       "subtitle": "User details and activity",

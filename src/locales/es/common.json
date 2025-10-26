@@ -88,7 +88,9 @@
       "submit": {
         "create": "Enviar invitación",
         "edit": "Guardar cambios"
-      }
+      },
+      "inviteSuccess": "La invitación se envió correctamente.",
+      "inviteError": "No fue posible enviar la invitación."
     },
     "roles": {
       "MASTER_ADMIN": "Master admin",
@@ -107,6 +109,10 @@
     "permissions": {
       "inviteRestricted": "No cuentas con permisos para enviar invitaciones con tu rol actual.",
       "inviteRestrictedAction": "Solicita a un administrador acceso adicional si lo necesitas."
+    },
+    "delete": {
+      "success": "Usuario eliminado correctamente.",
+      "error": "No fue posible eliminar al usuario."
     },
     "detail": {
       "subtitle": "Detalle e historial del usuario",

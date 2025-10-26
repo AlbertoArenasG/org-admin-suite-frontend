@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchUsers, fetchUserRoles, fetchUserById, updateUser } from './usersThunks';
+import {
+  fetchUsers,
+  fetchUserRoles,
+  fetchUserById,
+  updateUser,
+  inviteUser,
+  deleteUser,
+} from './usersThunks';
 import type { UserRole } from '@/features/users/roles';
 
 export interface User {
@@ -46,11 +53,17 @@ export interface UsersState {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
   };
+  delete: {
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+    targetId: string | null;
+    message: string | null;
+  };
 }
 
 export interface UserRoleInfo {
-  id: UserRole;
-  rawId: string;
+  id: string;
+  normalizedId: UserRole;
   name: string;
   description: string | null;
   rank: number | null;
@@ -77,6 +90,12 @@ const initialState: UsersState = {
     status: 'idle',
     error: null,
   },
+  delete: {
+    status: 'idle',
+    error: null,
+    targetId: null,
+    message: null,
+  },
 };
 
 const usersSlice = createSlice({
@@ -102,12 +121,26 @@ const usersSlice = createSlice({
         currentId: null,
         message: null,
       };
+      state.delete = {
+        status: 'idle',
+        error: null,
+        targetId: null,
+        message: null,
+      };
     },
     resetUserUpdateState(state) {
       state.update = {
         status: 'idle',
         error: null,
         currentId: null,
+        message: null,
+      };
+    },
+    resetDeleteState(state) {
+      state.delete = {
+        status: 'idle',
+        error: null,
+        targetId: null,
         message: null,
       };
     },
@@ -204,9 +237,56 @@ const usersSlice = createSlice({
           'No fue posible actualizar el usuario';
         state.update.currentId = action.meta.arg.id;
         state.update.message = null;
+      })
+      .addCase(inviteUser.pending, (state) => {
+        state.update.status = 'loading';
+        state.update.error = null;
+        state.update.message = null;
+      })
+      .addCase(inviteUser.fulfilled, (state) => {
+        state.update.status = 'succeeded';
+        state.update.error = null;
+        state.update.message = null;
+      })
+      .addCase(inviteUser.rejected, (state, action) => {
+        state.update.status = 'failed';
+        state.update.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible enviar la invitación';
+        state.update.message = null;
+      })
+      .addCase(deleteUser.pending, (state, action) => {
+        state.delete.status = 'loading';
+        state.delete.error = null;
+        state.delete.targetId = action.meta.arg.id;
+        state.delete.message = null;
+      })
+      .addCase(deleteUser.fulfilled, (state, action) => {
+        state.delete.status = 'succeeded';
+        state.delete.error = null;
+        state.delete.targetId = action.payload.userId;
+        state.delete.message = action.payload.message;
+        state.entities = state.entities.filter((user) => user.id !== action.payload.userId);
+        if (state.detail.currentId === action.payload.userId) {
+          state.detail = {
+            status: 'idle',
+            error: null,
+            currentId: null,
+          };
+        }
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.delete.status = 'failed';
+        state.delete.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible eliminar al usuario';
+        state.delete.message = null;
       });
   },
 });
 
-export const { addUser, resetUsersState, resetUserUpdateState } = usersSlice.actions;
+export const { addUser, resetUsersState, resetUserUpdateState, resetDeleteState } =
+  usersSlice.actions;
 export default usersSlice.reducer;

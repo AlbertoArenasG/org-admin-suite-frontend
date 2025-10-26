@@ -3,7 +3,6 @@ import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type { User, UserRoleInfo } from './usersSlice';
 import { parseUserRole } from '@/features/users/roles';
-import type { UserRole } from '@/features/users/roles';
 import { readPersistedAuthToken } from '@/features/auth/persistence';
 
 export interface FetchUsersParams {
@@ -24,7 +23,7 @@ export interface UpdateUserPayload {
     name: string;
     lastname: string;
     email: string;
-    roleId: UserRole;
+    roleId: string;
     statusId: string;
     cellPhone: {
       countryCode: string;
@@ -239,16 +238,108 @@ export const updateUser = createAsyncThunk<
   }
 });
 
-export const inviteUser = createAsyncThunk<User, { email: string }>('users/invite', async () => {
-  // TODO: replace with API call
-  throw new Error('inviteUser thunk not implemented yet');
+export interface InviteUserPayload {
+  email: string;
+  roleId: string;
+  name: string;
+  lastname: string;
+  cellPhone: {
+    countryCode: string;
+    number: string;
+  } | null;
+}
+
+interface InviteUserResponse {
+  email: string;
+  role_id: string;
+  name: string | null;
+  lastname: string | null;
+  cell_phone: {
+    country_code: string;
+    number: string;
+  } | null;
+  invitation_token: string;
+}
+
+export const inviteUser = createAsyncThunk<
+  InviteUserResponse,
+  InviteUserPayload,
+  { state: RootState }
+>('users/invite', async (payload, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const tokenFromState = state.auth.token;
+  const token = tokenFromState ?? readPersistedAuthToken();
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<InviteUserResponse>(`/v1/user-registration-invitations`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: {
+        email: payload.email,
+        role_id: payload.roleId,
+        name: payload.name,
+        lastname: payload.lastname,
+        cell_phone: payload.cellPhone
+          ? {
+              country_code: payload.cellPhone.countryCode,
+              number: payload.cellPhone.number,
+            }
+          : null,
+      },
+      token,
+    });
+
+    return response.data;
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible enviar la invitación';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const deleteUser = createAsyncThunk<
+  { message: string | null; userId: string },
+  { id: string },
+  { state: RootState }
+>('users/delete', async ({ id }, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const tokenFromState = state.auth.token;
+  const token = tokenFromState ?? readPersistedAuthToken();
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<null>(`/v1/users/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+      },
+      token,
+    });
+
+    return { message: response.successMessage ?? null, userId: id };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible eliminar al usuario';
+    return thunkAPI.rejectWithValue(message);
+  }
 });
 
 interface ApiUserRole {
-  id: string;
-  name: string;
-  description?: string | null;
-  rank?: number | null;
+  role_id: string;
+  role_name: string;
 }
 
 export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: RootState }>(
@@ -272,13 +363,17 @@ export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: Ro
 
       const roles = Array.isArray(response.data) ? response.data : [];
 
-      return roles.map((role) => ({
-        id: parseUserRole(role.id),
-        rawId: role.id,
-        name: role.name,
-        description: role.description ?? null,
-        rank: typeof role.rank === 'number' ? role.rank : null,
-      }));
+      return roles.map((role, index) => {
+        const rawId = role.role_id;
+        const normalizedId = parseUserRole(rawId);
+        return {
+          id: rawId,
+          normalizedId,
+          name: role.role_name ?? rawId,
+          description: null,
+          rank: index,
+        };
+      });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'No fue posible obtener los roles';
       return thunkAPI.rejectWithValue(message);

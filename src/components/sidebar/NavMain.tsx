@@ -49,6 +49,7 @@ export function NavMain({ items, label }: { items: NavItem[]; label: string }) {
                               <div>
                                 <CollapsibleTrigger asChild>
                                   <SidebarMenuSubButton className="flex items-center gap-2">
+                                    {subItem.icon ? <subItem.icon className="size-4" /> : null}
                                     <span>{subItem.title}</span>
                                     <ChevronRight className="ml-auto size-4 transition-transform duration-200 group-data-[state=open]/nested:rotate-90" />
                                   </SidebarMenuSubButton>
@@ -58,7 +59,11 @@ export function NavMain({ items, label }: { items: NavItem[]; label: string }) {
                                     {subItem.items.map((child) => (
                                       <SidebarMenuSubItem key={child.title}>
                                         <SidebarMenuSubButton asChild isActive={child.isActive}>
-                                          <Link href={child.url}>
+                                          <Link
+                                            href={child.url}
+                                            className="flex w-full items-center gap-2"
+                                          >
+                                            {child.icon ? <child.icon className="size-4" /> : null}
                                             <span>{child.title}</span>
                                           </Link>
                                         </SidebarMenuSubButton>
@@ -70,7 +75,8 @@ export function NavMain({ items, label }: { items: NavItem[]; label: string }) {
                             </Collapsible>
                           ) : (
                             <SidebarMenuSubButton asChild isActive={subItem.isActive}>
-                              <Link href={subItem.url}>
+                              <Link href={subItem.url} className="flex w-full items-center gap-2">
+                                {subItem.icon ? <subItem.icon className="size-4" /> : null}
                                 <span>{subItem.title}</span>
                               </Link>
                             </SidebarMenuSubButton>

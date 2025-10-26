@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { LayoutDashboard, Users, Wrench } from 'lucide-react';
+import { LayoutDashboard, Users, Wrench, UserPlus2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePathname } from 'next/navigation';
 
@@ -70,6 +70,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             title: t('nav.usersInvite'),
             url: '/dashboard/users/invite',
             isActive: pathname === '/dashboard/users/invite',
+            icon: UserPlus2,
           },
         ],
       },
