@@ -54,7 +54,17 @@ export function UsersTableToolbar({
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(Boolean(value))}
               >
-                {column.columnDef.header as string}
+                {(() => {
+                  const header = column.columnDef.header;
+                  if (typeof header === 'string') {
+                    return header;
+                  }
+                  const label = (column.columnDef.meta as { label?: string } | undefined)?.label;
+                  if (label) {
+                    return label;
+                  }
+                  return column.id;
+                })()}
               </DropdownMenuCheckboxItem>
             ))}
         </DropdownMenuContent>

@@ -63,7 +63,7 @@ function arePaginationEqual(a: PaginationState, b: PaginationState) {
   return a.pageIndex === b.pageIndex && a.pageSize === b.pageSize;
 }
 
-export const useUsersTableStore = create<UsersTableStore>((set, get) => ({
+export const useUsersTableStore = create<UsersTableStore>((set) => ({
   ...createInitialState(),
   setPagination: (updater) =>
     set((state) => {

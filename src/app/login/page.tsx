@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { ModeToggle } from '@/components/shared/ModeToggle';
 import SelectLang from '@/components/shared/LangToggle';
@@ -8,13 +8,18 @@ import { BrandLogo } from '@/components/shared/BrandLogo';
 import { Spinner } from '@/components/ui/spinner';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import { FullScreenLoader } from '@/components/ui/full-screen-loader';
 
 export default function LoginPage() {
+  const { t } = useTranslation('common');
   const { token } = useAppSelector((state) => state.auth);
+  const [checkingSession, setCheckingSession] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     if (!token) {
+      setCheckingSession(false);
       return;
     }
 
@@ -26,6 +31,14 @@ export default function LoginPage() {
       window.cancelAnimationFrame(handle);
     };
   }, [token, router]);
+
+  if (checkingSession) {
+    return (
+      <div className="relative flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+        <FullScreenLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">

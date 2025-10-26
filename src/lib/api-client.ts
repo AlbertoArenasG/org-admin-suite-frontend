@@ -58,6 +58,21 @@ export interface JsonRequestOptions extends Omit<RequestInit, 'body'> {
   token?: string | null;
 }
 
+const DEFAULT_LANGUAGE = 'es';
+
+function resolveLanguage(): string {
+  if (typeof document !== 'undefined') {
+    const explicit = document.documentElement.getAttribute('lang');
+    if (explicit && explicit.trim().length > 0) {
+      return explicit.trim();
+    }
+  }
+  if (typeof navigator !== 'undefined' && typeof navigator.language === 'string') {
+    return navigator.language;
+  }
+  return DEFAULT_LANGUAGE;
+}
+
 function buildHeaders(
   headers: HeadersInit | undefined,
   hasJsonBody: boolean,
@@ -71,6 +86,10 @@ function buildHeaders(
 
   if (token) {
     nextHeaders.set('Authorization', `Bearer ${token}`);
+  }
+
+  if (!nextHeaders.has('x-user-lang')) {
+    nextHeaders.set('x-user-lang', resolveLanguage());
   }
 
   return nextHeaders;

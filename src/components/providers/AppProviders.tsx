@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, type PropsWithChildren } from 'react';
+import { useLayoutEffect, useEffect, type PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { I18nextProvider } from 'react-i18next';
 import { initI18n, LANGUAGE_STORAGE_KEY } from '@/lib/i18n';
 import { hydrateAuthFromStorage } from '@/features/auth/persistence';
+import { SnackbarProvider } from '@/components/providers/SnackbarProvider';
 
 const i18n = initI18n();
 
@@ -15,6 +16,14 @@ const i18n = initI18n();
  * Extend this component as new global providers are introduced.
  */
 export function AppProviders({ children }: PropsWithChildren) {
+  useLayoutEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    hydrateAuthFromStorage(store.dispatch);
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined') {
       return;
@@ -33,8 +42,6 @@ export function AppProviders({ children }: PropsWithChildren) {
       void i18n.changeLanguage(storedLanguage);
     }
 
-    hydrateAuthFromStorage(store.dispatch);
-
     return () => {
       i18n.off('languageChanged', handleLanguageChange);
     };
@@ -43,7 +50,9 @@ export function AppProviders({ children }: PropsWithChildren) {
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          <SnackbarProvider>{children}</SnackbarProvider>
+        </Provider>
       </ThemeProvider>
     </I18nextProvider>
   );

@@ -29,6 +29,7 @@ interface UsersDataTableProps {
     user: UsersTableUser | null;
     onOpenChange: (open: boolean) => void;
     onConfirm: () => void;
+    isLoading?: boolean;
     labels: {
       title: string;
       description: string;
