@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useEffect, type PropsWithChildren } from 'react';
+import { Suspense, useLayoutEffect, useEffect, type PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { store } from '@/store/store';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
@@ -53,7 +53,9 @@ export function AppProviders({ children }: PropsWithChildren) {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
         <Provider store={store}>
           <SnackbarProvider>
-            <RouteChangeLoader />
+            <Suspense fallback={null}>
+              <RouteChangeLoader />
+            </Suspense>
             {children}
           </SnackbarProvider>
         </Provider>

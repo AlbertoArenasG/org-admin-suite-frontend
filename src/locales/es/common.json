@@ -157,6 +157,68 @@
     },
     "restricted": "No cuentas con permisos para gestionar entradas de servicio."
   },
+  "publicServiceEntry": {
+    "header": "Portal de servicio",
+    "survey": {
+      "title": "Encuesta de experiencia",
+      "subtitle": "Tu retroalimentación nos ayuda a mejorar nuestros servicios.",
+      "instructions": "Responde la encuesta para desbloquear las descargas.",
+      "alreadyCompleted": "Ya registraste esta encuesta. Las descargas están disponibles abajo.",
+      "placeholders": {
+        "selectOption": "Elige una opción"
+      },
+      "questions": {
+        "staffServiceTreatment": "¿Cómo calificarías el trato del personal al solicitar el servicio?",
+        "responseTime": "¿Cómo calificas el tiempo de respuesta del servicio de calibración?",
+        "staffAttitude": "¿Cómo evalúas la actitud y presentación del personal durante la calibración?",
+        "documentationDelivery": "¿Cómo consideras el tiempo de entrega de la documentación?",
+        "observations": "Observaciones"
+      },
+      "answers": {
+        "EXCELENTE": "Excelente",
+        "MUY_BUENO": "Muy bueno",
+        "BUENO": "Bueno",
+        "REGULAR": "Regular",
+        "MALO": "Malo"
+      },
+      "errors": {
+        "required": "Selecciona una opción",
+        "observationsMax": "Las observaciones deben tener 1000 caracteres o menos."
+      },
+      "actions": {
+        "submit": "Enviar encuesta",
+        "submitting": "Enviando..."
+      },
+      "success": "La encuesta se envió correctamente. Ya puedes descargar los archivos."
+    },
+    "info": {
+      "serviceOrder": "Orden de servicio: {{id}}",
+      "contactName": "Nombre de contacto",
+      "contactEmail": "Correo de contacto",
+      "category": "Categoría",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "notAvailable": "No disponible"
+    },
+    "files": {
+      "title": "Archivos",
+      "subtitleLocked": "Completa la encuesta para desbloquear las descargas.",
+      "subtitleReady": "Los archivos están listos para descargar.",
+      "calibrationCertificate": "Certificado de calibración",
+      "attachment": "Adjunto",
+      "attachmentIndexed": "Adjunto {{index}}",
+      "notAvailable": "No disponible",
+      "download": "Descargar",
+      "downloading": "Descargando...",
+      "success": "La descarga ha comenzado.",
+      "error": "No fue posible descargar el archivo."
+    },
+    "error": {
+      "title": "No fue posible cargar la entrada de servicio",
+      "retry": "Reintentar"
+    }
+  },
   "users": {
     "title": "Usuarios",
     "table": {
