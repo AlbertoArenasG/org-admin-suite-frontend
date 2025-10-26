@@ -21,12 +21,14 @@
     "usersAll": "All users",
     "usersActive": "Active users",
     "usersInactive": "Inactive users",
-    "services": "Services"
+    "services": "Services",
+    "serviceEntries": "Service entries"
   },
   "breadcrumbs": {
     "home": "Home",
     "dashboard": "Dashboard",
-    "users": "Users"
+    "users": "Users",
+    "serviceEntries": "Service entries"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -162,6 +164,191 @@
         "autoLoginFailed": "Registration succeeded, but we couldn't start your session."
       },
       "success": "Registration completed successfully."
+    }
+  },
+  "serviceEntries": {
+    "title": "Service entries",
+    "breadcrumb": "Service entries",
+    "empty": "No service entries to display.",
+    "pagination": "Page {{page}} of {{pages}} · {{total}} services",
+    "actions": {
+      "create": "Register service",
+      "createDisabled": "No permission",
+      "openCreate": "Open new service form",
+      "view": "View details",
+      "edit": "Edit",
+      "delete": "Delete",
+      "openMenu": "Open actions menu",
+      "searchPlaceholder": "Search service entries...",
+      "manageColumns": "Manage columns",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "table": {
+      "columns": {
+        "companyName": "Company",
+        "serviceOrder": "Service order",
+        "contactName": "Contact",
+        "category": "Category",
+        "status": "Status",
+        "createdAt": "Created at",
+        "surveyStatus": "Survey",
+        "downloadStatus": "Downloads"
+      },
+      "survey": {
+        "notStarted": "No activity yet",
+        "pending": "Pending response",
+        "completed": "Survey completed",
+        "completedAt": "Completed on {{date}}"
+      },
+      "download": {
+        "unavailable": "Not available",
+        "never": "No downloads recorded",
+        "count": "{{count, plural, one {# download} other {# downloads}}}"
+      }
+    },
+    "delete": {
+      "title": "Delete service entry",
+      "description": "This action will delete {{name}}.",
+      "warning": "This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "success": "Service entry deleted successfully.",
+      "error": "We couldn't delete the service entry."
+    },
+    "form": {
+      "fields": {
+        "companyName": "Company name",
+        "contactName": "Contact name",
+        "contactEmail": "Contact email",
+        "serviceOrder": "Service order",
+        "category": "Category",
+        "calibrationCertificate": "Calibration certificate",
+        "attachments": "Attachments"
+      },
+      "errors": {
+        "companyName": "Company name is required.",
+        "contactName": "Contact name is required.",
+        "contactEmail": "Enter a valid email.",
+        "serviceOrder": "Service order is required.",
+        "category": "Category is required."
+      },
+      "dragCertificate": "Drag the certificate here or click to upload (max 1 file).",
+      "dragAttachments": "Drag files here or click to upload attachments.",
+      "uploading": "Uploading files...",
+      "uploadSuccess": "File uploaded successfully.",
+      "uploadError": "We couldn't upload the files.",
+      "removeFile": "Remove file",
+      "actions": {
+        "cancel": "Cancel",
+        "processing": "Saving...",
+        "create": "Register service",
+        "update": "Save changes",
+        "selectFile": "Select file",
+        "selectFiles": "Select files"
+      }
+    },
+    "create": {
+      "title": "Register service entry",
+      "subtitle": "Fill out the service information.",
+      "success": "Service registered successfully.",
+      "error": "We couldn't register the service."
+    },
+    "edit": {
+      "title": "Edit service entry",
+      "subtitle": "Update the service information.",
+      "success": "Service updated successfully.",
+      "error": "We couldn't update the service."
+    },
+    "detail": {
+      "placeholder": "Service detail",
+      "contactName": "Contact name",
+      "contactEmail": "Contact email",
+      "category": "Category",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "surveyStatus": "Survey",
+      "surveyCompleted": "Survey completed",
+      "surveyCompletedWithDate": "Survey completed on {{date}}",
+      "surveyPending": "Survey pending",
+      "surveyNotStarted": "No survey activity",
+      "files": "Files",
+      "calibrationCertificate": "Calibration certificate",
+      "attachments": "Attachments",
+      "loading": "Loading service...",
+      "notFound": "We couldn't find this service entry.",
+      "downloadStatus": "Downloads",
+      "downloadAvailable": "Downloaded {{count, plural, one {# time} other {# times}}} · Last: {{last}}",
+      "downloadNever": "No download history",
+      "downloadUnavailable": "Downloads not available",
+      "notDownloaded": "Never",
+      "actions": {
+        "back": "Go back",
+        "edit": "Edit"
+      }
+    },
+    "restricted": "You do not have permissions to manage service entries."
+  },
+  "publicServiceEntry": {
+    "header": "Service entry portal",
+    "survey": {
+      "title": "Service experience survey",
+      "subtitle": "Your feedback helps us improve our services.",
+      "instructions": "Please answer the survey to unlock the downloads.",
+      "alreadyCompleted": "You have already submitted this survey. Downloads are available below.",
+      "placeholders": {
+        "selectOption": "Choose an option"
+      },
+      "questions": {
+        "staffServiceTreatment": "How would you rate the staff's treatment when requesting the service?",
+        "responseTime": "How would you rate the response time for the calibration service?",
+        "staffAttitude": "How would you rate the staff's attitude and appearance during calibration?",
+        "documentationDelivery": "How would you rate the documentation delivery time?",
+        "observations": "Observations"
+      },
+      "answers": {
+        "EXCELENTE": "Excellent",
+        "MUY_BUENO": "Very good",
+        "BUENO": "Good",
+        "REGULAR": "Average",
+        "MALO": "Poor"
+      },
+      "errors": {
+        "required": "Select an option",
+        "observationsMax": "Observations must be 1000 characters or fewer."
+      },
+      "actions": {
+        "submit": "Submit survey",
+        "submitting": "Submitting..."
+      },
+      "success": "Survey submitted successfully. You can now download the files."
+    },
+    "info": {
+      "serviceOrder": "Service order: {{id}}",
+      "contactName": "Contact name",
+      "contactEmail": "Contact email",
+      "category": "Category",
+      "status": "Status",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "notAvailable": "Not available"
+    },
+    "files": {
+      "title": "Files",
+      "subtitleLocked": "Complete the survey to unlock the downloads.",
+      "subtitleReady": "Files are ready to download.",
+      "calibrationCertificate": "Calibration certificate",
+      "attachment": "Attachment",
+      "attachmentIndexed": "Attachment {{index}}",
+      "notAvailable": "Not available",
+      "download": "Download",
+      "downloading": "Downloading...",
+      "success": "Download started.",
+      "error": "We couldn't download the file."
+    },
+    "error": {
+      "title": "We couldn't load the service entry",
+      "retry": "Retry"
     }
   }
 }

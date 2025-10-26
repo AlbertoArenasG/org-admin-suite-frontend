@@ -10,7 +10,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { useRouter } from 'next/navigation';
 import { FullScreenLoader } from '@/components/ui/full-screen-loader';
 
-export default function LoginPage() {
+function LoginPageContent() {
   const { token } = useAppSelector((state) => state.auth);
   const [checkingSession, setCheckingSession] = useState(true);
   const router = useRouter();
@@ -57,5 +57,13 @@ export default function LoginPage() {
         </Suspense>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<FullScreenLoader text="" />}>
+      <LoginPageContent />
+    </Suspense>
   );
 }
