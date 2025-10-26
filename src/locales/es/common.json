@@ -7,6 +7,11 @@
   "done": "Listo",
   "errorTitle": "Ocurri\u00f3 un problema",
   "loading": "Cargando...",
+  "auth": {
+    "login": {
+      "validating": "Validando tu sesión..."
+    }
+  },
   "nav": {
     "platform": "Plataforma",
     "dashboard": "Panel",
@@ -38,6 +43,7 @@
         "createdAt": "Creado"
       }
     },
+    "loading": "Procesando tu registro...",
     "empty": "No hay usuarios para mostrar.",
     "pagination": "Página {{page}} de {{pages}} · {{total}} usuarios",
     "actions": {
@@ -124,6 +130,37 @@
       "restricted": "No tienes permisos para editar a este usuario.",
       "successFeedback": "Usuario actualizado correctamente.",
       "errorFeedback": "No fue posible actualizar el usuario."
+    },
+    "register": {
+      "title": "Completa tu registro",
+      "subtitle": "Completa la información para activar tu cuenta.",
+      "roleLabel": "Rol:",
+      "fields": {
+        "email": "Correo electrónico",
+        "name": "Nombre",
+        "lastname": "Apellido",
+        "password": "Contraseña",
+        "phoneCode": "Código de país",
+        "phoneNumber": "Número telefónico",
+        "confirmPassword": "Confirmar contraseña"
+      },
+      "actions": {
+        "backToLogin": "Volver al inicio de sesión",
+        "complete": "Completar registro"
+      },
+      "errors": {
+        "missingToken": "No se recibió un token de invitación.",
+        "invalidInvitation": "No pudimos validar tu invitación.",
+        "alreadyUsed": "Esta invitación ya fue utilizada o no está disponible.",
+        "fetchFailed": "No fue posible validar la invitación.",
+        "submitFailed": "No pudimos completar tu registro.",
+        "nameRequired": "El nombre es obligatorio.",
+        "lastnameRequired": "El apellido es obligatorio.",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres.",
+        "passwordMismatch": "Las contraseñas no coinciden.",
+        "autoLoginFailed": "El registro se completó, pero no fue posible iniciar tu sesión."
+      },
+      "success": "Registro completado correctamente."
     }
   }
 }

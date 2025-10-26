@@ -7,6 +7,11 @@
   "done": "All set",
   "errorTitle": "Something went wrong",
   "loading": "Loading...",
+  "auth": {
+    "login": {
+      "validating": "Validating your session..."
+    }
+  },
   "nav": {
     "platform": "Platform",
     "dashboard": "Dashboard",
@@ -38,6 +43,7 @@
         "createdAt": "Created"
       }
     },
+    "loading": "Processing your registration...",
     "empty": "No users to show.",
     "pagination": "Page {{page}} of {{pages}} · {{total}} users",
     "actions": {
@@ -124,6 +130,38 @@
       "restricted": "You do not have permissions to edit this user.",
       "successFeedback": "User updated successfully.",
       "errorFeedback": "We couldn't update the user."
+    },
+    "register": {
+      "title": "Complete your registration",
+      "subtitle": "Fill in the details below to activate your account.",
+      "roleLabel": "Role:",
+      "fields": {
+        "email": "Email",
+        "name": "First name",
+        "lastname": "Last name",
+        "password": "Password",
+        "phoneCode": "Country code",
+        "phoneNumber": "Phone number",
+        "confirmPassword": "Confirm password"
+      },
+      "actions": {
+        "backToLogin": "Back to login",
+        "complete": "Complete registration"
+      },
+      "errors": {
+        "missingToken": "No invitation token was provided.",
+        "invalidInvitation": "We could not validate your invitation.",
+        "alreadyUsed": "This invitation has already been used or is no longer available.",
+        "fetchFailed": "We could not validate the invitation.",
+        "submitFailed": "We couldn't complete your registration.",
+        "nameRequired": "First name is required.",
+        "lastnameRequired": "Last name is required.",
+        "passwordLength": "Password must be at least 6 characters.",
+        "passwordMismatch": "Passwords must match.",
+        "passwordInvalid": "Enter a valid password.",
+        "autoLoginFailed": "Registration succeeded, but we couldn't start your session."
+      },
+      "success": "Registration completed successfully."
     }
   }
 }
