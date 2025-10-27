@@ -1,0 +1,94 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { cn } from '@/lib/utils';
+
+export const title = 'Language Selector';
+
+const languageOptions = [
+  { value: 'es', flag: '🇪🇸', labelKey: 'common:spanish' },
+  { value: 'en', flag: '🇺🇸', labelKey: 'common:english' },
+] as const;
+
+interface SelectLangProps {
+  buttonVariant?: React.ComponentProps<typeof Button>['variant'];
+  buttonSize?: React.ComponentProps<typeof Button>['size'];
+  buttonClassName?: string;
+}
+
+const SelectLang = ({
+  buttonVariant = 'outline',
+  buttonSize = 'default',
+  buttonClassName,
+}: SelectLangProps) => {
+  const { t, i18n } = useTranslation('common');
+  const [language, setLanguage] = useState(i18n.language || 'es');
+
+  useEffect(() => {
+    const currentLanguage = i18n.language;
+    if (currentLanguage) {
+      setLanguage(currentLanguage);
+    }
+
+    const handleLanguageChanged = (lng: string) => {
+      setLanguage(lng);
+    };
+
+    i18n.on('languageChanged', handleLanguageChanged);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChanged);
+    };
+  }, [i18n]);
+
+  const handleLanguageChange = (value: string) => {
+    if (value === language) {
+      return;
+    }
+    void i18n.changeLanguage(value);
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant={buttonVariant}
+          size={buttonSize}
+          aria-label={t('changeLanguage')}
+          suppressHydrationWarning
+          className={cn('flex items-center gap-2', buttonClassName)}
+        >
+          <Globe className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-48">
+        <DropdownMenuLabel>{t('selectLanguage')}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup onValueChange={handleLanguageChange} value={language}>
+          {languageOptions.map((option) => (
+            <DropdownMenuRadioItem key={option.value} value={option.value}>
+              <span className="flex items-center gap-2">
+                {/* <span>{option.flag}</span> */}
+                <span>{t(option.labelKey)}</span>
+              </span>
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export default SelectLang;

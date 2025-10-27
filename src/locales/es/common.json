@@ -1,0 +1,426 @@
+{
+  "language": "Idioma",
+  "selectLanguage": "Selecciona idioma",
+  "english": "Ingl\u00e9s",
+  "spanish": "Espa\u00f1ol",
+  "changeLanguage": "Cambiar idioma",
+  "done": "Listo",
+  "errorTitle": "Ocurri\u00f3 un problema",
+  "loading": "Cargando...",
+  "auth": {
+    "login": {
+      "validating": "Validando tu sesión..."
+    }
+  },
+  "nav": {
+    "platform": "Plataforma",
+    "dashboard": "Panel",
+    "users": "Usuarios",
+    "usersList": "Lista de usuarios",
+    "usersInvite": "Invitar usuario",
+    "usersAll": "Todos los usuarios",
+    "usersActive": "Usuarios activos",
+    "usersInactive": "Usuarios inactivos",
+    "services": "Servicios",
+    "serviceEntries": "Registro de servicios",
+    "serviceEntrySurveys": "Encuestas de servicio"
+  },
+  "breadcrumbs": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "users": "Usuarios",
+    "serviceEntries": "Registro de servicios",
+    "serviceEntrySurveys": "Encuestas de servicio"
+  },
+  "dashboard": {
+    "title": "Panel",
+    "subtitle": "Resumen"
+  },
+  "serviceEntries": {
+    "title": "Registro de servicios",
+    "breadcrumb": "Registro de servicios",
+    "empty": "No hay entradas de servicio para mostrar.",
+    "pagination": "Página {{page}} de {{pages}} · {{total}} servicios",
+    "actions": {
+      "create": "Registrar servicio",
+      "createDisabled": "Sin permisos",
+      "openCreate": "Abrir formulario de nuevo servicio",
+      "view": "Ver detalles",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "openMenu": "Abrir menú de acciones",
+      "searchPlaceholder": "Buscar entradas de servicio...",
+      "manageColumns": "Administrar columnas",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
+    "table": {
+      "columns": {
+        "companyName": "Empresa",
+        "serviceOrder": "Orden de servicio",
+        "contactName": "Contacto",
+        "category": "Categoría",
+        "status": "Estado",
+        "createdAt": "Fecha de creación",
+        "surveyStatus": "Encuesta",
+        "downloadStatus": "Descargas"
+      },
+      "survey": {
+        "notStarted": "Sin actividad",
+        "pending": "Pendiente de respuesta",
+        "completed": "Encuesta completada",
+        "completedAt": "Completada el {{date}}"
+      },
+      "download": {
+        "unavailable": "No disponible",
+        "never": "Sin descargas registradas",
+        "count": "{{count, plural, one {# descarga} other {# descargas}}}"
+      }
+    },
+    "delete": {
+      "title": "Eliminar entrada de servicio",
+      "description": "Esta acción eliminará a {{name}}.",
+      "warning": "Esta acción no se puede deshacer.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "success": "Servicio eliminado correctamente.",
+      "error": "No fue posible eliminar la entrada de servicio."
+    },
+    "form": {
+      "fields": {
+        "companyName": "Nombre de la empresa",
+        "contactName": "Nombre de contacto",
+        "contactEmail": "Correo de contacto",
+        "serviceOrder": "Orden de servicio",
+        "category": "Categoría",
+        "calibrationCertificate": "Certificado de calibración",
+        "attachments": "Adjuntos"
+      },
+      "errors": {
+        "companyName": "El nombre de la empresa es obligatorio.",
+        "contactName": "El nombre de contacto es obligatorio.",
+        "contactEmail": "Ingresa un correo válido.",
+        "serviceOrder": "La orden de servicio es obligatoria.",
+        "category": "La categoría es obligatoria."
+      },
+      "dragCertificate": "Arrastra el certificado o haz clic para subirlo (máximo 1 archivo).",
+      "dragAttachments": "Arrastra archivos o haz clic para subir adjuntos.",
+      "uploading": "Subiendo archivos...",
+      "uploadSuccess": "Archivo cargado correctamente.",
+      "uploadError": "No fue posible cargar los archivos.",
+      "removeFile": "Quitar archivo",
+      "actions": {
+        "cancel": "Cancelar",
+        "processing": "Guardando...",
+        "create": "Registrar servicio",
+        "update": "Guardar cambios",
+        "selectFile": "Seleccionar archivo",
+        "selectFiles": "Seleccionar archivos"
+      },
+      "placeholders": {
+        "category": "Selecciona una categoría"
+      },
+      "categoriesError": "No fue posible obtener las categorías."
+    },
+    "create": {
+      "title": "Registrar entrada de servicio",
+      "subtitle": "Completa la información del servicio.",
+      "success": "Servicio registrado correctamente.",
+      "error": "No fue posible registrar el servicio."
+    },
+    "edit": {
+      "title": "Editar entrada de servicio",
+      "subtitle": "Actualiza la información del servicio.",
+      "success": "Servicio actualizado correctamente.",
+      "error": "No fue posible actualizar el servicio."
+    },
+    "detail": {
+      "placeholder": "Detalle del servicio",
+      "contactName": "Nombre de contacto",
+      "contactEmail": "Correo de contacto",
+      "category": "Categoría",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "surveyStatus": "Encuesta",
+      "surveyCompleted": "Encuesta completada",
+      "surveyCompletedWithDate": "Encuesta completada el {{date}}",
+      "surveyPending": "Encuesta pendiente",
+      "surveyNotStarted": "Sin actividad de encuesta",
+      "files": "Archivos",
+      "calibrationCertificate": "Certificado de calibración",
+      "attachments": "Adjuntos",
+      "loading": "Cargando servicio...",
+      "notFound": "No fue posible encontrar este servicio.",
+      "downloadStatus": "Descargas",
+      "downloadAvailable": "Descargado {{count, plural, one {# vez} other {# veces}}} · Última: {{last}}",
+      "downloadNever": "Sin registros de descarga",
+      "downloadUnavailable": "Descarga no disponible",
+      "notDownloaded": "Nunca",
+      "actions": {
+        "back": "Regresar",
+        "edit": "Editar"
+      }
+    },
+    "restricted": "No cuentas con permisos para gestionar entradas de servicio."
+  },
+  "publicServiceEntry": {
+    "header": "Portal de servicio",
+    "survey": {
+      "title": "Encuesta de experiencia",
+      "subtitle": "Tu retroalimentación nos ayuda a mejorar nuestros servicios.",
+      "instructions": "Responde la encuesta para desbloquear las descargas.",
+      "alreadyCompleted": "Ya registraste esta encuesta. Las descargas están disponibles abajo.",
+      "placeholders": {
+        "selectOption": "Elige una opción"
+      },
+      "questions": {
+        "staffServiceTreatment": "¿Cómo calificarías el trato del personal al solicitar el servicio?",
+        "responseTime": "¿Cómo calificas el tiempo de respuesta del servicio de calibración?",
+        "staffAttitude": "¿Cómo evalúas la actitud y presentación del personal durante la calibración?",
+        "documentationDelivery": "¿Cómo consideras el tiempo de entrega de la documentación?",
+        "observations": "Observaciones"
+      },
+      "answers": {
+        "EXCELENTE": "Excelente",
+        "MUY_BUENO": "Muy bueno",
+        "BUENO": "Bueno",
+        "REGULAR": "Regular",
+        "MALO": "Malo"
+      },
+      "errors": {
+        "required": "Selecciona una opción",
+        "observationsMax": "Las observaciones deben tener 1000 caracteres o menos."
+      },
+      "actions": {
+        "submit": "Enviar encuesta",
+        "submitting": "Enviando..."
+      },
+      "success": "La encuesta se envió correctamente. Ya puedes descargar los archivos."
+    },
+    "info": {
+      "serviceOrder": "Orden de servicio: {{id}}",
+      "contactName": "Nombre de contacto",
+      "contactEmail": "Correo de contacto",
+      "category": "Categoría",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "notAvailable": "No disponible"
+    },
+    "files": {
+      "title": "Archivos",
+      "subtitleLocked": "Completa la encuesta para desbloquear las descargas.",
+      "subtitleReady": "Los archivos están listos para descargar.",
+      "calibrationCertificate": "Certificado de calibración",
+      "attachment": "Adjunto",
+      "attachmentIndexed": "Adjunto {{index}}",
+      "notAvailable": "No disponible",
+      "download": "Descargar",
+      "downloading": "Descargando...",
+      "success": "La descarga ha comenzado.",
+      "error": "No fue posible descargar el archivo."
+    },
+    "error": {
+      "title": "No fue posible cargar la entrada de servicio",
+      "retry": "Reintentar"
+    }
+  },
+  "serviceEntrySurveys": {
+    "title": "Encuestas de servicio",
+    "tabs": {
+      "stats": "Estadísticas",
+      "list": "Listado"
+    },
+    "filters": {
+      "title": "Filtros",
+      "subtitle": "Ajusta el rango de fechas y la plantilla para consultar los resultados.",
+      "from": "Desde",
+      "to": "Hasta",
+      "template": "Plantilla",
+      "templatePlaceholder": "Selecciona una plantilla",
+      "search": "Buscar",
+      "searchPlaceholder": "Buscar por orden de servicio, empresa o contacto",
+      "allDates": "Buscar en cualquier fecha",
+      "pageSize": "Registros por página",
+      "refresh": "Actualizar"
+    },
+    "chart": {
+      "labels": {
+        "staff_service_treatment": "Trato del personal",
+        "response_time": "Tiempo de respuesta",
+        "staff_attitude": "Actitud del personal",
+        "documentation_delivery_time": "Entrega de documentación"
+      }
+    },
+    "table": {
+      "title": "Resultados de encuestas",
+      "noData": "No hay respuestas registradas.",
+      "pagination": "Página {{page}} de {{pages}} · {{total}} respuestas",
+      "columns": {
+        "serviceInfo": "Servicio",
+        "submittedAt": "Respondida",
+        "ratings": "Calificaciones",
+        "observations": "Comentario"
+      },
+      "labels": {
+        "serviceOrder": "Orden {{serviceOrder}}",
+        "serviceOrderShort": "Orden",
+        "contact": "Contacto: {{contact}}",
+        "contactShort": "Contacto",
+        "email": "Correo: {{email}}",
+        "emailShort": "Correo"
+      },
+      "actions": {
+        "previous": "Anterior",
+        "next": "Siguiente"
+      }
+    },
+    "stats": {
+      "title": "Resumen de satisfacción",
+      "loading": "Calculando estadísticas...",
+      "summary": "{{count}} respuestas totales en el periodo seleccionado.",
+      "selectQuestion": "Selecciona una pregunta",
+      "questionSummary": "Detalle de la pregunta",
+      "responseCount": "Respuestas",
+      "averageRating": "Promedio",
+      "textResponses": "Respuestas de texto",
+      "noData": "Aún no hay datos para mostrar."
+    },
+    "dashboardCard": {
+      "title": "Satisfacción de servicios",
+      "subtitle": "{{count}} respuestas este periodo",
+      "viewAll": "Ver detalle"
+    }
+  },
+  "users": {
+    "title": "Usuarios",
+    "table": {
+      "columns": {
+        "fullName": "Usuario",
+        "email": "Correo electrónico",
+        "role": "Rol",
+        "status": "Estado",
+        "createdAt": "Creado"
+      }
+    },
+    "loading": "Procesando tu registro...",
+    "empty": "No hay usuarios para mostrar.",
+    "pagination": "Página {{page}} de {{pages}} · {{total}} usuarios",
+    "actions": {
+      "invite": "Invitar usuario",
+      "inviteShort": "Invitar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "openMenu": "Abrir menú de acciones",
+      "openInvite": "Abrir panel de invitación",
+      "openEdit": "Abrir panel de edición",
+      "view": "Ver detalles",
+      "searchPlaceholder": "Buscar usuarios...",
+      "manageColumns": "Administrar columnas",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
+    "form": {
+      "title": {
+        "create": "Invitar usuario",
+        "edit": "Editar usuario"
+      },
+      "description": {
+        "create": "Envía una invitación por correo para sumar a un miembro del equipo.",
+        "edit": "Actualiza los datos básicos del usuario seleccionado."
+      },
+      "labels": {
+        "email": "Correo electrónico",
+        "role": "Rol",
+        "name": "Nombre",
+        "lastname": "Apellido",
+        "phoneCode": "Código de país",
+        "phoneNumber": "Número telefónico"
+      },
+      "placeholders": {
+        "email": "nombre@ejemplo.com",
+        "name": "Nombre opcional",
+        "lastname": "Apellido opcional",
+        "phoneCode": "+52",
+        "phoneNumber": "0000000000"
+      },
+      "errors": {
+        "emailRequired": "El correo es obligatorio",
+        "emailInvalid": "Ingresa un correo válido",
+        "roleRequired": "Selecciona un rol"
+      },
+      "cancel": "Cancelar",
+      "submitting": "Guardando...",
+      "submit": {
+        "create": "Enviar invitación",
+        "edit": "Guardar cambios"
+      },
+      "inviteSuccess": "La invitación se envió correctamente.",
+      "inviteError": "No fue posible enviar la invitación."
+    },
+    "roles": {
+      "MASTER_ADMIN": "Master admin",
+      "MASTER_STAFF": "Master staff",
+      "ADMIN": "Administrador",
+      "STAFF": "Staff",
+      "CUSTOMER": "Cliente"
+    },
+    "confirmDelete": {
+      "title": "Eliminar usuario",
+      "description": "Esta acción eliminará a {{name}}. Conecta el API más adelante para completarla.",
+      "confirm": "Eliminar usuario",
+      "cancel": "Cancelar",
+      "warning": "Esta acción no se puede deshacer."
+    },
+    "permissions": {
+      "inviteRestricted": "No cuentas con permisos para enviar invitaciones con tu rol actual.",
+      "inviteRestrictedAction": "Solicita a un administrador acceso adicional si lo necesitas."
+    },
+    "delete": {
+      "success": "Usuario eliminado correctamente.",
+      "error": "No fue posible eliminar al usuario."
+    },
+    "detail": {
+      "subtitle": "Detalle e historial del usuario",
+      "missingTitle": "Usuario no encontrado",
+      "notFound": "Aún no pudimos encontrar este usuario."
+    },
+    "edit": {
+      "subtitle": "Actualiza roles y datos de contacto.",
+      "restricted": "No tienes permisos para editar a este usuario.",
+      "successFeedback": "Usuario actualizado correctamente.",
+      "errorFeedback": "No fue posible actualizar el usuario."
+    },
+    "register": {
+      "title": "Completa tu registro",
+      "subtitle": "Completa la información para activar tu cuenta.",
+      "roleLabel": "Rol:",
+      "fields": {
+        "email": "Correo electrónico",
+        "name": "Nombre",
+        "lastname": "Apellido",
+        "password": "Contraseña",
+        "phoneCode": "Código de país",
+        "phoneNumber": "Número telefónico",
+        "confirmPassword": "Confirmar contraseña"
+      },
+      "actions": {
+        "backToLogin": "Volver al inicio de sesión",
+        "complete": "Completar registro"
+      },
+      "errors": {
+        "missingToken": "No se recibió un token de invitación.",
+        "invalidInvitation": "No pudimos validar tu invitación.",
+        "alreadyUsed": "Esta invitación ya fue utilizada o no está disponible.",
+        "fetchFailed": "No fue posible validar la invitación.",
+        "submitFailed": "No pudimos completar tu registro.",
+        "nameRequired": "El nombre es obligatorio.",
+        "lastnameRequired": "El apellido es obligatorio.",
+        "passwordLength": "La contraseña debe tener al menos 6 caracteres.",
+        "passwordMismatch": "Las contraseñas no coinciden.",
+        "autoLoginFailed": "El registro se completó, pero no fue posible iniciar tu sesión."
+      },
+      "success": "Registro completado correctamente."
+    }
+  }
+}

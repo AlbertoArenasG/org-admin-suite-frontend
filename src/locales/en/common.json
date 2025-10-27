@@ -1,0 +1,427 @@
+{
+  "language": "Language",
+  "selectLanguage": "Select language",
+  "english": "English",
+  "spanish": "Spanish",
+  "changeLanguage": "Change language",
+  "done": "All set",
+  "errorTitle": "Something went wrong",
+  "loading": "Loading...",
+  "auth": {
+    "login": {
+      "validating": "Validating your session..."
+    }
+  },
+  "nav": {
+    "platform": "Platform",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "usersList": "Users list",
+    "usersInvite": "Invite user",
+    "usersAll": "All users",
+    "usersActive": "Active users",
+    "usersInactive": "Inactive users",
+    "services": "Services",
+    "serviceEntries": "Service entries",
+    "serviceEntrySurveys": "Service surveys"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "serviceEntries": "Service entries",
+    "serviceEntrySurveys": "Service surveys"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview"
+  },
+  "users": {
+    "title": "Users",
+    "table": {
+      "columns": {
+        "fullName": "User",
+        "email": "Email",
+        "role": "Role",
+        "status": "Status",
+        "createdAt": "Created"
+      }
+    },
+    "loading": "Processing your registration...",
+    "empty": "No users to show.",
+    "pagination": "Page {{page}} of {{pages}} · {{total}} users",
+    "actions": {
+      "invite": "Invite user",
+      "inviteShort": "Invite",
+      "edit": "Edit",
+      "delete": "Delete",
+      "openMenu": "Open actions menu",
+      "openInvite": "Open invite drawer",
+      "openEdit": "Open edit drawer",
+      "view": "View details",
+      "searchPlaceholder": "Search users...",
+      "manageColumns": "Manage columns",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "form": {
+      "title": {
+        "create": "Invite user",
+        "edit": "Edit user"
+      },
+      "description": {
+        "create": "Send an invitation email to add a teammate to the organization.",
+        "edit": "Update basic details for the selected user."
+      },
+      "labels": {
+        "email": "Email",
+        "role": "Role",
+        "name": "First name",
+        "lastname": "Last name",
+        "phoneCode": "Country code",
+        "phoneNumber": "Phone number"
+      },
+      "placeholders": {
+        "email": "name@example.com",
+        "name": "Optional first name",
+        "lastname": "Optional last name",
+        "phoneCode": "+52",
+        "phoneNumber": "0000000000"
+      },
+      "errors": {
+        "emailRequired": "Email is required",
+        "emailInvalid": "Enter a valid email",
+        "roleRequired": "Select a role"
+      },
+      "cancel": "Cancel",
+      "submitting": "Saving...",
+      "submit": {
+        "create": "Send invitation",
+        "edit": "Save changes"
+      },
+      "inviteSuccess": "Invitation sent successfully.",
+      "inviteError": "We couldn't send the invitation."
+    },
+    "roles": {
+      "MASTER_ADMIN": "Master admin",
+      "MASTER_STAFF": "Master staff",
+      "ADMIN": "Admin",
+      "STAFF": "Staff",
+      "CUSTOMER": "Customer"
+    },
+    "confirmDelete": {
+      "title": "Remove user",
+      "description": "This will remove {{name}}. Wire the API later to finalize the action.",
+      "confirm": "Remove user",
+      "cancel": "Cancel",
+      "warning": "This action cannot be undone."
+    },
+    "permissions": {
+      "inviteRestricted": "You do not have permission to send invitations for your current role.",
+      "inviteRestrictedAction": "Ask an administrator to grant additional access if needed."
+    },
+    "delete": {
+      "success": "User deleted successfully.",
+      "error": "We couldn't delete the user."
+    },
+    "detail": {
+      "subtitle": "User details and activity",
+      "missingTitle": "User not found",
+      "notFound": "We could not find this user yet."
+    },
+    "edit": {
+      "subtitle": "Update roles and contact details.",
+      "restricted": "You do not have permissions to edit this user.",
+      "successFeedback": "User updated successfully.",
+      "errorFeedback": "We couldn't update the user."
+    },
+    "register": {
+      "title": "Complete your registration",
+      "subtitle": "Fill in the details below to activate your account.",
+      "roleLabel": "Role:",
+      "fields": {
+        "email": "Email",
+        "name": "First name",
+        "lastname": "Last name",
+        "password": "Password",
+        "phoneCode": "Country code",
+        "phoneNumber": "Phone number",
+        "confirmPassword": "Confirm password"
+      },
+      "actions": {
+        "backToLogin": "Back to login",
+        "complete": "Complete registration"
+      },
+      "errors": {
+        "missingToken": "No invitation token was provided.",
+        "invalidInvitation": "We could not validate your invitation.",
+        "alreadyUsed": "This invitation has already been used or is no longer available.",
+        "fetchFailed": "We could not validate the invitation.",
+        "submitFailed": "We couldn't complete your registration.",
+        "nameRequired": "First name is required.",
+        "lastnameRequired": "Last name is required.",
+        "passwordLength": "Password must be at least 6 characters.",
+        "passwordMismatch": "Passwords must match.",
+        "passwordInvalid": "Enter a valid password.",
+        "autoLoginFailed": "Registration succeeded, but we couldn't start your session."
+      },
+      "success": "Registration completed successfully."
+    }
+  },
+  "serviceEntries": {
+    "title": "Service entries",
+    "breadcrumb": "Service entries",
+    "empty": "No service entries to display.",
+    "pagination": "Page {{page}} of {{pages}} · {{total}} services",
+    "actions": {
+      "create": "Register service",
+      "createDisabled": "No permission",
+      "openCreate": "Open new service form",
+      "view": "View details",
+      "edit": "Edit",
+      "delete": "Delete",
+      "openMenu": "Open actions menu",
+      "searchPlaceholder": "Search service entries...",
+      "manageColumns": "Manage columns",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "table": {
+      "columns": {
+        "companyName": "Company",
+        "serviceOrder": "Service order",
+        "contactName": "Contact",
+        "category": "Category",
+        "status": "Status",
+        "createdAt": "Created at",
+        "surveyStatus": "Survey",
+        "downloadStatus": "Downloads"
+      },
+      "survey": {
+        "notStarted": "No activity yet",
+        "pending": "Pending response",
+        "completed": "Survey completed",
+        "completedAt": "Completed on {{date}}"
+      },
+      "download": {
+        "unavailable": "Not available",
+        "never": "No downloads recorded",
+        "count": "{{count, plural, one {# download} other {# downloads}}}"
+      }
+    },
+    "delete": {
+      "title": "Delete service entry",
+      "description": "This action will delete {{name}}.",
+      "warning": "This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "success": "Service entry deleted successfully.",
+      "error": "We couldn't delete the service entry."
+    },
+    "form": {
+      "fields": {
+        "companyName": "Company name",
+        "contactName": "Contact name",
+        "contactEmail": "Contact email",
+        "serviceOrder": "Service order",
+        "category": "Category",
+        "calibrationCertificate": "Calibration certificate",
+        "attachments": "Attachments"
+      },
+      "errors": {
+        "companyName": "Company name is required.",
+        "contactName": "Contact name is required.",
+        "contactEmail": "Enter a valid email.",
+        "serviceOrder": "Service order is required.",
+        "category": "Category is required."
+      },
+      "dragCertificate": "Drag the certificate here or click to upload (max 1 file).",
+      "dragAttachments": "Drag files here or click to upload attachments.",
+      "uploading": "Uploading files...",
+      "uploadSuccess": "File uploaded successfully.",
+      "uploadError": "We couldn't upload the files.",
+      "removeFile": "Remove file",
+      "actions": {
+        "cancel": "Cancel",
+        "processing": "Saving...",
+        "create": "Register service",
+        "update": "Save changes",
+        "selectFile": "Select file",
+        "selectFiles": "Select files"
+      },
+      "placeholders": {
+        "category": "Choose a category"
+      },
+      "categoriesError": "We couldn't load the categories."
+    },
+    "create": {
+      "title": "Register service entry",
+      "subtitle": "Fill out the service information.",
+      "success": "Service registered successfully.",
+      "error": "We couldn't register the service."
+    },
+    "edit": {
+      "title": "Edit service entry",
+      "subtitle": "Update the service information.",
+      "success": "Service updated successfully.",
+      "error": "We couldn't update the service."
+    },
+    "detail": {
+      "placeholder": "Service detail",
+      "contactName": "Contact name",
+      "contactEmail": "Contact email",
+      "category": "Category",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "surveyStatus": "Survey",
+      "surveyCompleted": "Survey completed",
+      "surveyCompletedWithDate": "Survey completed on {{date}}",
+      "surveyPending": "Survey pending",
+      "surveyNotStarted": "No survey activity",
+      "files": "Files",
+      "calibrationCertificate": "Calibration certificate",
+      "attachments": "Attachments",
+      "loading": "Loading service...",
+      "notFound": "We couldn't find this service entry.",
+      "downloadStatus": "Downloads",
+      "downloadAvailable": "Downloaded {{count, plural, one {# time} other {# times}}} · Last: {{last}}",
+      "downloadNever": "No download history",
+      "downloadUnavailable": "Downloads not available",
+      "notDownloaded": "Never",
+      "actions": {
+        "back": "Go back",
+        "edit": "Edit"
+      }
+    },
+    "restricted": "You do not have permissions to manage service entries."
+  },
+  "publicServiceEntry": {
+    "header": "Service entry portal",
+    "survey": {
+      "title": "Service experience survey",
+      "subtitle": "Your feedback helps us improve our services.",
+      "instructions": "Please answer the survey to unlock the downloads.",
+      "alreadyCompleted": "You have already submitted this survey. Downloads are available below.",
+      "placeholders": {
+        "selectOption": "Choose an option"
+      },
+      "questions": {
+        "staffServiceTreatment": "How would you rate the staff's treatment when requesting the service?",
+        "responseTime": "How would you rate the response time for the calibration service?",
+        "staffAttitude": "How would you rate the staff's attitude and appearance during calibration?",
+        "documentationDelivery": "How would you rate the documentation delivery time?",
+        "observations": "Observations"
+      },
+      "answers": {
+        "EXCELENTE": "Excellent",
+        "MUY_BUENO": "Very good",
+        "BUENO": "Good",
+        "REGULAR": "Average",
+        "MALO": "Poor"
+      },
+      "errors": {
+        "required": "Select an option",
+        "observationsMax": "Observations must be 1000 characters or fewer."
+      },
+      "actions": {
+        "submit": "Submit survey",
+        "submitting": "Submitting..."
+      },
+      "success": "Survey submitted successfully. You can now download the files."
+    },
+    "info": {
+      "serviceOrder": "Service order: {{id}}",
+      "contactName": "Contact name",
+      "contactEmail": "Contact email",
+      "category": "Category",
+      "status": "Status",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "notAvailable": "Not available"
+    },
+    "files": {
+      "title": "Files",
+      "subtitleLocked": "Complete the survey to unlock the downloads.",
+      "subtitleReady": "Files are ready to download.",
+      "calibrationCertificate": "Calibration certificate",
+      "attachment": "Attachment",
+      "attachmentIndexed": "Attachment {{index}}",
+      "notAvailable": "Not available",
+      "download": "Download",
+      "downloading": "Downloading...",
+      "success": "Download started.",
+      "error": "We couldn't download the file."
+    },
+    "error": {
+      "title": "We couldn't load the service entry",
+      "retry": "Retry"
+    }
+  },
+  "serviceEntrySurveys": {
+    "title": "Service survey results",
+    "tabs": {
+      "stats": "Statistics",
+      "list": "Responses"
+    },
+    "filters": {
+      "title": "Filters",
+      "subtitle": "Adjust the date range and template to review survey results.",
+      "from": "From",
+      "to": "To",
+      "template": "Template",
+      "templatePlaceholder": "Select a template",
+      "search": "Search",
+      "searchPlaceholder": "Search by service order, company name or contact",
+      "allDates": "Search across all dates",
+      "pageSize": "Rows per page",
+      "refresh": "Refresh"
+    },
+    "chart": {
+      "labels": {
+        "staff_service_treatment": "Service treatment",
+        "response_time": "Response time",
+        "staff_attitude": "Staff attitude",
+        "documentation_delivery_time": "Documentation delivery"
+      }
+    },
+    "table": {
+      "title": "Survey responses",
+      "noData": "No survey responses to display.",
+      "pagination": "Page {{page}} of {{pages}} · {{total}} responses",
+      "columns": {
+        "serviceInfo": "Service entry",
+        "submittedAt": "Submitted",
+        "ratings": "Ratings",
+        "observations": "Observations"
+      },
+      "labels": {
+        "serviceOrder": "Order {{serviceOrder}}",
+        "serviceOrderShort": "Order",
+        "contact": "Contact: {{contact}}",
+        "contactShort": "Contact",
+        "email": "Email: {{email}}",
+        "emailShort": "Email"
+      },
+      "actions": {
+        "previous": "Previous",
+        "next": "Next"
+      }
+    },
+    "stats": {
+      "title": "Satisfaction overview",
+      "loading": "Calculating stats...",
+      "summary": "{{count}} total responses in the selected range.",
+      "selectQuestion": "Select a question",
+      "questionSummary": "Question details",
+      "responseCount": "Responses",
+      "averageRating": "Average",
+      "textResponses": "Text responses",
+      "noData": "No data to display yet."
+    },
+    "dashboardCard": {
+      "title": "Service satisfaction",
+      "subtitle": "{{count}} responses in this period",
+      "viewAll": "View details"
+    }
+  }
+}
