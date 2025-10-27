@@ -127,10 +127,10 @@ export function ServiceEntrySurveyStatsCard() {
                 margin={{ left: 40, right: 16, top: 20, bottom: 60 }}
                 sx={{
                   '& .MuiChartsAxis-tickLabel': {
-                    fill: 'var(--foreground)',
+                    fill: 'var(--foreground) !important',
                   },
                   '& .MuiChartsAxis-label': {
-                    fill: 'var(--foreground)',
+                    fill: 'var(--foreground) !important',
                   },
                   '& .MuiChartsAxis-line': {
                     stroke: 'var(--foreground) !important',
@@ -138,16 +138,20 @@ export function ServiceEntrySurveyStatsCard() {
                   '& .MuiChartsAxis-tick line': {
                     stroke: 'var(--foreground) !important',
                   },
+                  '& .MuiChartsAxis-tick': {
+                    stroke: 'var(--foreground) !important',
+                    fill: 'var(--foreground) !important',
+                  },
                   '& .MuiChartsLegend-root text': {
-                    fill: 'var(--foreground)',
+                    fill: 'var(--foreground) !important',
                   },
                   '& .MuiChartsLegend-root .MuiChartsLegend-label': {
-                    color: 'var(--foreground)',
-                    fill: 'var(--foreground)',
+                    color: 'var(--foreground) !important',
+                    fill: 'var(--foreground) !important',
                   },
                   '& .MuiChartsLegend-root .MuiTypography-root': {
-                    color: 'var(--foreground)',
-                    fill: 'var(--foreground)',
+                    color: 'var(--foreground) !important',
+                    fill: 'var(--foreground) !important',
                   },
                 }}
               />
