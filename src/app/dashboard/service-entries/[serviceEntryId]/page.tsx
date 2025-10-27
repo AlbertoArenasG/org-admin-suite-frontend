@@ -108,7 +108,7 @@ export default function ServiceEntryDetailPage() {
             <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
               {entry?.companyName ?? t('serviceEntries.detail.placeholder')}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.foreground">
               {entry?.serviceOrderIdentifier ? `#${entry.serviceOrderIdentifier}` : '—'}
             </Typography>
           </div>
@@ -214,10 +214,10 @@ function FileList({ title, files }: { title: string; files: ServiceEntryFileMeta
   if (!files.length) {
     return (
       <div>
-        <Typography variant="subtitle2" color="text.secondary">
+        <Typography variant="subtitle2" color="text.foreground">
           {title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.foreground">
           —
         </Typography>
       </div>
@@ -225,7 +225,7 @@ function FileList({ title, files }: { title: string; files: ServiceEntryFileMeta
   }
   return (
     <div>
-      <Typography variant="subtitle2" color="text.secondary">
+      <Typography variant="subtitle2" color="text.foreground">
         {title}
       </Typography>
       <ul className="mt-1 space-y-2">

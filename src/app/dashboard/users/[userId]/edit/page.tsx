@@ -169,7 +169,7 @@ export default function UserEditPage() {
               <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
                 {t('users.actions.edit')} · {user?.fullName ?? user?.email ?? '—'}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.foreground">
                 {t('users.edit.subtitle', { defaultValue: 'Update roles and contact details.' })}
               </Typography>
             </div>

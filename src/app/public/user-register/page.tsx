@@ -256,7 +256,7 @@ function UserRegisterContent() {
             })}
           </Typography>
           {errorMessage ? (
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.foreground">
               {errorMessage}
             </Typography>
           ) : null}
@@ -447,13 +447,13 @@ function UserRegisterContent() {
             <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
               {t('users.register.title', { defaultValue: 'Complete your registration' })}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.foreground">
               {t('users.register.subtitle', {
                 defaultValue: 'Fill in the details below to activate your account.',
               })}
             </Typography>
             {invitationRoleLabel ? (
-              <Typography variant="caption" color="text.secondary">
+              <Typography variant="caption" color="text.foreground">
                 {t('users.register.roleLabel', { defaultValue: 'Role:' })}{' '}
                 <strong>{invitationRoleLabel}</strong>
               </Typography>

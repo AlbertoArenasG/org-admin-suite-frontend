@@ -129,7 +129,7 @@ export default function UserDetailPage() {
                 ? user.fullName || user.email
                 : t('users.detail.missingTitle', { defaultValue: 'User not found' })}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.foreground">
               {t('users.detail.subtitle', { defaultValue: 'User details and activity' })}
             </Typography>
           </div>

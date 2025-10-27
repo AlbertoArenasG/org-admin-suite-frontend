@@ -131,7 +131,7 @@ export default function ServiceEntryCreatePage() {
             <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
               {t('serviceEntries.create.title')}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.foreground">
               {t('serviceEntries.create.subtitle', {
                 defaultValue: 'Completa la información del servicio.',
               })}

@@ -84,7 +84,7 @@ function PublicServiceEntryContent() {
             <Typography variant="h6" color="error">
               {t('publicServiceEntry.error.title')}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" color="text.foreground">
               {error}
             </Typography>
             <Button type="button" onClick={() => token && fetchEntry(token)}>

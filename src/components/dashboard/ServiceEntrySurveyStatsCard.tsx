@@ -92,7 +92,7 @@ export function ServiceEntrySurveyStatsCard() {
           <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
             {t('serviceEntrySurveys.dashboardCard.title')}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.foreground">
             {t('serviceEntrySurveys.dashboardCard.subtitle', {
               count: statsState.data?.total_responses ?? 0,
             })}
@@ -107,7 +107,7 @@ export function ServiceEntrySurveyStatsCard() {
 
       <div className="mt-6 flex-1">
         {statsState.status === 'loading' ? (
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.foreground">
             {t('serviceEntrySurveys.stats.loading')}
           </Typography>
         ) : dataset.length ? (
@@ -119,11 +119,36 @@ export function ServiceEntrySurveyStatsCard() {
                 series={series}
                 height={260}
                 margin={{ left: 40, right: 16, top: 20, bottom: 60 }}
+                sx={{
+                  '.MuiChartsAxis-tickLabel': {
+                    fill: 'var(--foreground)',
+                  },
+                  '.MuiChartsAxis-label': {
+                    fill: 'var(--foreground)',
+                  },
+                  '.MuiChartsAxis-line': {
+                    stroke: 'var(--foreground)',
+                  },
+                  '.MuiChartsAxis-tick': {
+                    stroke: 'var(--foreground)',
+                  },
+                  '.MuiChartsLegend-root text': {
+                    fill: 'var(--foreground)',
+                  },
+                  '.MuiChartsLegend-root .MuiChartsLegend-label': {
+                    color: 'var(--foreground)',
+                    fill: 'var(--foreground)',
+                  },
+                  '.MuiChartsLegend-root .MuiTypography-root': {
+                    color: 'var(--foreground)',
+                    fill: 'var(--foreground)',
+                  },
+                }}
               />
             </div>
           </div>
         ) : (
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.foreground">
             {statsState.error ?? t('serviceEntrySurveys.stats.noData')}
           </Typography>
         )}

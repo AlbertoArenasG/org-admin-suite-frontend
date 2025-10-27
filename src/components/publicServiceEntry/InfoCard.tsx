@@ -37,7 +37,7 @@ export function PublicServiceEntryInfoCard({ entry }: InfoCardProps) {
           <Typography variant="h6" sx={{ fontWeight: 700, fontSize: '1.2rem' }}>
             {entry.companyName}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.foreground">
             {t('publicServiceEntry.info.serviceOrder', {
               id: entry.serviceOrderIdentifier,
             })}

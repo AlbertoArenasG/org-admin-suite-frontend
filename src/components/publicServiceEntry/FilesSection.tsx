@@ -85,7 +85,7 @@ export function PublicServiceEntryFilesSection({
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
           {t('publicServiceEntry.files.title')}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.foreground">
           {downloadsEnabled
             ? t('publicServiceEntry.files.subtitleReady')
             : t('publicServiceEntry.files.subtitleLocked')}

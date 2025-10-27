@@ -82,7 +82,7 @@ export function UsersDataTable({
             {title}
           </Typography>
           {paginationSummary ? (
-            <Typography variant="caption" color="text.secondary">
+            <Typography variant="caption" color="text.foreground">
               {paginationSummary}
             </Typography>
           ) : null}

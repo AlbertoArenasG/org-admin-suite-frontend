@@ -192,7 +192,7 @@ export default function InviteUserPage() {
           <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
             {t('users.form.title.create')}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.foreground">
             {t('users.form.description.create')}
           </Typography>
         </Box>
@@ -209,10 +209,10 @@ export default function InviteUserPage() {
             />
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center">
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="body1" color="text.foreground">
                 {t('users.permissions.inviteRestricted')}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.foreground">
                 {t('users.permissions.inviteRestrictedAction')}
               </Typography>
               <Button variant="ghost" onClick={handleCancel}>

@@ -50,7 +50,7 @@ export function AppProviders({ children }: PropsWithChildren) {
 
   return (
     <I18nextProvider i18n={i18n}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
         <Provider store={store}>
           <SnackbarProvider>
             <Suspense fallback={null}>

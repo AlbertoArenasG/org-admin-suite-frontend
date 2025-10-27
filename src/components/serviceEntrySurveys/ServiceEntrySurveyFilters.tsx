@@ -58,7 +58,7 @@ export function ServiceEntrySurveyFilters({
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
           {t('serviceEntrySurveys.filters.title')}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.foreground">
           {t('serviceEntrySurveys.filters.subtitle')}
         </Typography>
       </div>

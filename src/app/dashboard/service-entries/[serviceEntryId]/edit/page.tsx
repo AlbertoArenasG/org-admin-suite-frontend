@@ -189,7 +189,7 @@ export default function ServiceEntryEditPage() {
               <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
                 {t('serviceEntries.edit.title')} · {entry.companyName}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography variant="body2" color="text.foreground">
                 {t('serviceEntries.edit.subtitle', {
                   defaultValue: 'Actualiza la información del servicio.',
                 })}

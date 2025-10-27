@@ -81,7 +81,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
           {t('serviceEntrySurveys.stats.title')}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.foreground">
           {loading
             ? t('serviceEntrySurveys.stats.loading')
             : error
@@ -94,7 +94,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
 
       {loading ? (
         <div className="flex flex-1 items-center justify-center">
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" color="text.foreground">
             {t('serviceEntrySurveys.stats.loading')}
           </Typography>
         </div>
@@ -114,6 +114,31 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
                 series={series}
                 height={300}
                 margin={{ left: 32, right: 16, top: 16, bottom: 48 }}
+                sx={{
+                  '.MuiChartsAxis-tickLabel': {
+                    fill: 'var(--foreground)',
+                  },
+                  '.MuiChartsAxis-label': {
+                    fill: 'var(--foreground)',
+                  },
+                  '.MuiChartsAxis-line': {
+                    stroke: 'var(--foreground)',
+                  },
+                  '.MuiChartsAxis-tick': {
+                    stroke: 'var(--foreground)',
+                  },
+                  '.MuiChartsLegend-root text': {
+                    fill: 'var(--foreground)',
+                  },
+                  '.MuiChartsLegend-root .MuiChartsLegend-label': {
+                    color: 'var(--foreground)',
+                    fill: 'var(--foreground)',
+                  },
+                  '.MuiChartsLegend-root .MuiTypography-root': {
+                    color: 'var(--foreground)',
+                    fill: 'var(--foreground)',
+                  },
+                }}
               />
             </div>
           </div>

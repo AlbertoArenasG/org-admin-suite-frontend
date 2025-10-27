@@ -147,7 +147,7 @@ export function PublicServiceEntrySurveyForm({ token, disabled, initialAnswers }
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
           {t('publicServiceEntry.survey.title')}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.foreground">
           {t('publicServiceEntry.survey.subtitle')}
         </Typography>
       </div>
