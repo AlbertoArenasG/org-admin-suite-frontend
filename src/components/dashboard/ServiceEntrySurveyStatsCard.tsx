@@ -126,26 +126,26 @@ export function ServiceEntrySurveyStatsCard() {
                 height={260}
                 margin={{ left: 40, right: 16, top: 20, bottom: 60 }}
                 sx={{
-                  '.MuiChartsAxis-tickLabel': {
+                  '& .MuiChartsAxis-tickLabel': {
                     fill: 'var(--foreground)',
                   },
-                  '.MuiChartsAxis-label': {
+                  '& .MuiChartsAxis-label': {
                     fill: 'var(--foreground)',
                   },
-                  '.MuiChartsAxis-line': {
+                  '& .MuiChartsAxis-line': {
                     stroke: 'var(--foreground)',
                   },
-                  '.MuiChartsAxis-tick': {
+                  '& .MuiChartsAxis-tick line': {
                     stroke: 'var(--foreground)',
                   },
-                  '.MuiChartsLegend-root text': {
+                  '& .MuiChartsLegend-root text': {
                     fill: 'var(--foreground)',
                   },
-                  '.MuiChartsLegend-root .MuiChartsLegend-label': {
+                  '& .MuiChartsLegend-root .MuiChartsLegend-label': {
                     color: 'var(--foreground)',
                     fill: 'var(--foreground)',
                   },
-                  '.MuiChartsLegend-root .MuiTypography-root': {
+                  '& .MuiChartsLegend-root .MuiTypography-root': {
                     color: 'var(--foreground)',
                     fill: 'var(--foreground)',
                   },
