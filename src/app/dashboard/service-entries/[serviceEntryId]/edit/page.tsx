@@ -16,6 +16,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import {
   fetchServiceEntryById,
   updateServiceEntry,
+  fetchServiceEntryCategories,
 } from '@/features/serviceEntries/serviceEntriesThunks';
 import {
   resetServiceEntryDetail,
@@ -28,6 +29,7 @@ import {
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { parseUserRole } from '@/features/users/roles';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function ServiceEntryEditPage() {
   const params = useParams<{ serviceEntryId: string }>();
@@ -38,6 +40,7 @@ export default function ServiceEntryEditPage() {
 
   const detailState = useAppSelector((state) => state.serviceEntries.detail);
   const formState = useAppSelector((state) => state.serviceEntries.form);
+  const categoriesState = useAppSelector((state) => state.serviceEntries.categories);
   const authUser = useAppSelector((state) => state.auth.user);
 
   const currentRole = authUser ? parseUserRole(authUser.role) : null;
@@ -56,6 +59,12 @@ export default function ServiceEntryEditPage() {
     }
     void dispatch(fetchServiceEntryById({ id: params.serviceEntryId }));
   }, [dispatch, params.serviceEntryId]);
+
+  useEffect(() => {
+    if (categoriesState.status === 'idle') {
+      void dispatch(fetchServiceEntryCategories());
+    }
+  }, [categoriesState.status, dispatch]);
 
   useEffect(() => {
     return () => {
@@ -202,14 +211,28 @@ export default function ServiceEntryEditPage() {
             </div>
           ) : null}
         </Box>
-        <ServiceEntryForm
-          mode="edit"
-          defaultValues={defaultValues}
-          onSubmit={handleSubmit}
-          onCancel={() => router.back()}
-          isSubmitting={formState.status === 'loading'}
-          disableActions={!canManage}
-        />
+        {categoriesState.status === 'loading' ? (
+          <div className="flex flex-1 items-center justify-center py-10">
+            <Spinner className="size-6 text-primary" />
+          </div>
+        ) : categoriesState.status === 'failed' ? (
+          <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+            {categoriesState.error ??
+              t('serviceEntries.form.categoriesError', {
+                defaultValue: 'No fue posible obtener las categorías.',
+              })}
+          </div>
+        ) : (
+          <ServiceEntryForm
+            mode="edit"
+            defaultValues={defaultValues}
+            onSubmit={handleSubmit}
+            onCancel={() => router.back()}
+            isSubmitting={formState.status === 'loading'}
+            disableActions={!canManage}
+            categories={categoriesState.items}
+          />
+        )}
       </Paper>
     </div>
   );

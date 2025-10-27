@@ -16,10 +16,14 @@ import {
 } from '@/components/serviceEntries/ServiceEntryForm';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { createServiceEntry } from '@/features/serviceEntries/serviceEntriesThunks';
+import {
+  createServiceEntry,
+  fetchServiceEntryCategories,
+} from '@/features/serviceEntries/serviceEntriesThunks';
 import { resetServiceEntryForm } from '@/features/serviceEntries/serviceEntriesSlice';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { parseUserRole } from '@/features/users/roles';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function ServiceEntryCreatePage() {
   const { t } = useTranslationHydrated('common');
@@ -29,6 +33,7 @@ export default function ServiceEntryCreatePage() {
 
   const authUser = useAppSelector((state) => state.auth.user);
   const formState = useAppSelector((state) => state.serviceEntries.form);
+  const categoriesState = useAppSelector((state) => state.serviceEntries.categories);
 
   const currentRole = authUser ? parseUserRole(authUser.role) : null;
   const canManage = Boolean(currentRole && currentRole !== 'CUSTOMER');
@@ -38,6 +43,12 @@ export default function ServiceEntryCreatePage() {
       dispatch(resetServiceEntryForm());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    if (categoriesState.status === 'idle') {
+      void dispatch(fetchServiceEntryCategories());
+    }
+  }, [categoriesState.status, dispatch]);
 
   useEffect(() => {
     if (formState.status === 'succeeded' && formState.lastCreatedId) {
@@ -139,13 +150,27 @@ export default function ServiceEntryCreatePage() {
           </div>
         ) : null}
 
-        <ServiceEntryForm
-          mode="create"
-          onSubmit={handleSubmit}
-          onCancel={() => router.back()}
-          isSubmitting={formState.status === 'loading'}
-          disableActions={!canManage}
-        />
+        {categoriesState.status === 'loading' ? (
+          <div className="flex flex-1 items-center justify-center py-10">
+            <Spinner className="size-6 text-primary" />
+          </div>
+        ) : categoriesState.status === 'failed' ? (
+          <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+            {categoriesState.error ??
+              t('serviceEntries.form.categoriesError', {
+                defaultValue: 'No fue posible obtener las categorías.',
+              })}
+          </div>
+        ) : (
+          <ServiceEntryForm
+            mode="create"
+            onSubmit={handleSubmit}
+            onCancel={() => router.back()}
+            isSubmitting={formState.status === 'loading'}
+            disableActions={!canManage}
+            categories={categoriesState.items}
+          />
+        )}
       </Paper>
     </div>
   );

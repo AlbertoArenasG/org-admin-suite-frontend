@@ -77,6 +77,15 @@ export function UsersTableContainer() {
       });
       setDeleteTarget(null);
       dispatch(resetDeleteState());
+      void dispatch(
+        fetchUsers({
+          page: paginationState.pageIndex + 1,
+          limit: paginationState.pageSize,
+          itemsPerPage: paginationState.pageSize,
+          search: debouncedFilter,
+          sorts: mapSortingToApi(sorting),
+        })
+      );
     } else if (deleteState.status === 'failed') {
       showSnackbar({
         message:
@@ -86,7 +95,17 @@ export function UsersTableContainer() {
       });
       dispatch(resetDeleteState());
     }
-  }, [deleteState, dispatch, setDeleteTarget, showSnackbar, t]);
+  }, [
+    debouncedFilter,
+    deleteState,
+    dispatch,
+    paginationState.pageIndex,
+    paginationState.pageSize,
+    setDeleteTarget,
+    showSnackbar,
+    sorting,
+    t,
+  ]);
 
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;

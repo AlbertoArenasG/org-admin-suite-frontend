@@ -4,6 +4,7 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useTranslation } from 'react-i18next';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
+import { ServiceEntrySurveyStatsCard } from '@/components/dashboard/ServiceEntrySurveyStatsCard';
 
 export default function DashboardPage() {
   const { t } = useTranslation();
@@ -30,8 +31,10 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-semibold text-foreground">{t('dashboard.title')}</h1>
           <p className="text-sm text-muted-foreground">{t('dashboard.subtitle')}</p>
         </div>
-        <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-          <div className="aspect-video rounded-2xl border border-border/50 bg-muted/40" />
+        <div className="grid auto-rows-min gap-4 md:grid-cols-4">
+          <div className="md:col-span-2 lg:col-span-3">
+            <ServiceEntrySurveyStatsCard />
+          </div>
           <div className="aspect-video rounded-2xl border border-border/50 bg-muted/40" />
           <div className="aspect-video rounded-2xl border border-border/50 bg-muted/40" />
         </div>

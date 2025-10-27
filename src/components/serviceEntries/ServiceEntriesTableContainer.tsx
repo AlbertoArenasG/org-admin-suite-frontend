@@ -171,6 +171,14 @@ export function ServiceEntriesTableContainer() {
       });
       setDeleteTargetId(null);
       dispatch(resetServiceEntryDelete());
+      void dispatch(
+        fetchServiceEntries({
+          page: paginationState.pageIndex + 1,
+          limit: paginationState.pageSize,
+          search: debouncedFilter,
+          sorts: mapServiceEntrySortingToApi(sorting),
+        })
+      );
     } else if (deleteState.status === 'failed') {
       showSnackbar({
         message:
@@ -180,7 +188,17 @@ export function ServiceEntriesTableContainer() {
       });
       dispatch(resetServiceEntryDelete());
     }
-  }, [deleteState, dispatch, setDeleteTargetId, showSnackbar, t]);
+  }, [
+    debouncedFilter,
+    deleteState,
+    dispatch,
+    paginationState.pageIndex,
+    paginationState.pageSize,
+    setDeleteTargetId,
+    showSnackbar,
+    sorting,
+    t,
+  ]);
 
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;

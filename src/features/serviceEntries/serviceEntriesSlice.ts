@@ -8,6 +8,7 @@ import {
   updateServiceEntry,
   deleteServiceEntry,
   uploadServiceEntryFiles,
+  fetchServiceEntryCategories,
 } from '@/features/serviceEntries/serviceEntriesThunks';
 
 export interface ServiceEntryFileMetadata {
@@ -64,6 +65,11 @@ export interface ServiceEntriesState {
   } | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  categories: {
+    items: Array<{ id: string; name: string }>;
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+  };
   detail: {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
@@ -92,6 +98,11 @@ const initialState: ServiceEntriesState = {
   pagination: null,
   status: 'idle',
   error: null,
+  categories: {
+    items: [],
+    status: 'idle',
+    error: null,
+  },
   detail: {
     status: 'idle',
     error: null,
@@ -127,6 +138,13 @@ const serviceEntriesSlice = createSlice({
         status: 'idle',
         error: null,
         entry: null,
+      };
+    },
+    resetServiceEntryCategories(state) {
+      state.categories = {
+        items: [],
+        status: 'idle',
+        error: null,
       };
     },
     resetServiceEntryForm(state) {
@@ -187,6 +205,24 @@ const serviceEntriesSlice = createSlice({
           action.error.message ??
           'No fue posible obtener la entrada de servicio';
         state.detail.entry = null;
+      })
+      .addCase(fetchServiceEntryCategories.pending, (state) => {
+        state.categories.status = 'loading';
+        state.categories.error = null;
+      })
+      .addCase(fetchServiceEntryCategories.fulfilled, (state, action) => {
+        state.categories.status = 'succeeded';
+        state.categories.items = action.payload.map((category) => ({
+          id: category.category_id,
+          name: category.category_name,
+        }));
+      })
+      .addCase(fetchServiceEntryCategories.rejected, (state, action) => {
+        state.categories.status = 'failed';
+        state.categories.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible obtener las categorías.';
       })
       .addCase(createServiceEntry.pending, (state) => {
         state.form.status = 'loading';
@@ -283,6 +319,7 @@ const serviceEntriesSlice = createSlice({
 export const {
   resetServiceEntriesState,
   resetServiceEntryDetail,
+  resetServiceEntryCategories,
   resetServiceEntryForm,
   resetServiceEntryDelete,
   resetServiceEntryUpload,

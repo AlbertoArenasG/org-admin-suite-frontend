@@ -16,6 +16,7 @@ import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import type { ServiceEntry } from '@/features/serviceEntries/serviceEntriesSlice';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
+import { normalizeFilesForUpload } from '@/lib/normalize-files-for-upload';
 
 const formSchema = z.object({
   companyName: z.string().trim().min(1, 'serviceEntries.form.errors.companyName'),
@@ -40,6 +41,7 @@ interface ServiceEntryFormProps {
   onCancel: () => void;
   isSubmitting?: boolean;
   disableActions?: boolean;
+  categories: Array<{ id: string; name: string }>;
 }
 
 export function ServiceEntryForm({
@@ -49,6 +51,7 @@ export function ServiceEntryForm({
   onCancel,
   isSubmitting = false,
   disableActions = false,
+  categories,
 }: ServiceEntryFormProps) {
   const { t } = useTranslation('common');
   const dispatch = useAppDispatch();
@@ -105,86 +108,86 @@ export function ServiceEntryForm({
     }
   }, [defaultValues]);
 
-  const processCertificateFiles = (files: FileList | null) => {
+  const processCertificateFiles = async (files: FileList | null) => {
     if (!files || !files.length) {
       return;
     }
     setUploadingCertificate(true);
-    void dispatch(uploadServiceEntryFiles({ files: Array.from(files).slice(0, 1) }))
-      .unwrap()
-      .then((uploaded) => {
-        if (!uploaded.length) {
-          return;
-        }
-        form.setValue('calibrationCertificateFileId', uploaded[0].id, { shouldDirty: true });
-        setCertificateLabel(uploaded[0].original_name);
-        showSnackbar({
-          message: t('serviceEntries.form.uploadSuccess', { defaultValue: 'File uploaded.' }),
-          severity: 'success',
-        });
-      })
-      .catch((error: unknown) => {
-        const message =
-          typeof error === 'string'
-            ? error
-            : t('serviceEntries.form.uploadError', { defaultValue: 'Upload failed.' });
-        showSnackbar({ message, severity: 'error' });
-      })
-      .finally(() => setUploadingCertificate(false));
+    try {
+      const normalized = await normalizeFilesForUpload(files, { limit: 1 });
+      const uploaded = await dispatch(uploadServiceEntryFiles({ files: normalized })).unwrap();
+      if (!uploaded.length) {
+        return;
+      }
+      form.setValue('calibrationCertificateFileId', uploaded[0].id, { shouldDirty: true });
+      setCertificateLabel(uploaded[0].original_name);
+      showSnackbar({
+        message: t('serviceEntries.form.uploadSuccess', { defaultValue: 'File uploaded.' }),
+        severity: 'success',
+      });
+    } catch (error) {
+      const message =
+        typeof error === 'string'
+          ? error
+          : t('serviceEntries.form.uploadError', { defaultValue: 'Upload failed.' });
+      showSnackbar({ message, severity: 'error' });
+    } finally {
+      setUploadingCertificate(false);
+    }
   };
 
   const handleCertificateDrop = (files: FileList | null) => {
-    processCertificateFiles(files);
+    void processCertificateFiles(files);
   };
 
   const handleCertificateInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    processCertificateFiles(event.target.files);
+    void processCertificateFiles(event.target.files);
     event.target.value = '';
   };
 
-  const processAttachmentFiles = (files: FileList | null) => {
+  const processAttachmentFiles = async (files: FileList | null) => {
     if (!files || !files.length) {
       return;
     }
     setUploadingAttachments(true);
-    void dispatch(uploadServiceEntryFiles({ files: Array.from(files) }))
-      .unwrap()
-      .then((uploaded) => {
-        if (!uploaded.length) {
-          return;
-        }
-        const ids = form.getValues('attachmentFileIds');
-        form.setValue('attachmentFileIds', [...ids, ...uploaded.map((item) => item.id)], {
-          shouldDirty: true,
+    try {
+      const normalized = await normalizeFilesForUpload(files);
+      const uploaded = await dispatch(uploadServiceEntryFiles({ files: normalized })).unwrap();
+      if (!uploaded.length) {
+        return;
+      }
+      const ids = form.getValues('attachmentFileIds');
+      form.setValue('attachmentFileIds', [...ids, ...uploaded.map((item) => item.id)], {
+        shouldDirty: true,
+      });
+      setAttachmentLabels((prev) => {
+        const next = { ...prev };
+        uploaded.forEach((item) => {
+          next[item.id] = item.original_name;
         });
-        setAttachmentLabels((prev) => {
-          const next = { ...prev };
-          uploaded.forEach((item) => {
-            next[item.id] = item.original_name;
-          });
-          return next;
-        });
-        showSnackbar({
-          message: t('serviceEntries.form.uploadSuccess', { defaultValue: 'File uploaded.' }),
-          severity: 'success',
-        });
-      })
-      .catch((error: unknown) => {
-        const message =
-          typeof error === 'string'
-            ? error
-            : t('serviceEntries.form.uploadError', { defaultValue: 'Upload failed.' });
-        showSnackbar({ message, severity: 'error' });
-      })
-      .finally(() => setUploadingAttachments(false));
+        return next;
+      });
+      showSnackbar({
+        message: t('serviceEntries.form.uploadSuccess', { defaultValue: 'File uploaded.' }),
+        severity: 'success',
+      });
+    } catch (error) {
+      const message =
+        typeof error === 'string'
+          ? error
+          : t('serviceEntries.form.uploadError', { defaultValue: 'Upload failed.' });
+      showSnackbar({ message, severity: 'error' });
+    } finally {
+      setUploadingAttachments(false);
+    }
   };
 
   const handleAttachmentsDrop = (files: FileList | null) => {
-    processAttachmentFiles(files);
+    void processAttachmentFiles(files);
   };
 
   const handleAttachmentsInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    processAttachmentFiles(event.target.files);
+    void processAttachmentFiles(event.target.files);
     event.target.value = '';
   };
 
@@ -258,7 +261,22 @@ export function ServiceEntryForm({
         </div>
         <div className="grid gap-2">
           <Label htmlFor="service-category">{t('serviceEntries.form.fields.category')}</Label>
-          <Input id="service-category" {...form.register('categoryId')} />
+          <select
+            id="service-category"
+            {...form.register('categoryId')}
+            className="h-10 w-full rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+          >
+            <option value="">
+              {t('serviceEntries.form.placeholders.category', {
+                defaultValue: 'Choose a category',
+              })}
+            </option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
           {form.formState.errors.categoryId ? (
             <p className="text-sm text-destructive">
               {t(form.formState.errors.categoryId.message ?? '', {

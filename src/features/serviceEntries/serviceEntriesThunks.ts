@@ -70,6 +70,11 @@ interface ApiPagination {
   total_pages: number;
 }
 
+interface ApiCategory {
+  category_id: string;
+  category_name: string;
+}
+
 const mapServiceEntry = (entry: ApiServiceEntry): ServiceEntry => ({
   id: entry.service_entry_id,
   companyName: entry.company_name,
@@ -148,6 +153,37 @@ export const fetchServiceEntries = createAsyncThunk<
       totalPages: pagination?.total_pages ?? 1,
     },
   };
+});
+
+export const fetchServiceEntryCategories = createAsyncThunk<
+  ApiCategory[],
+  void,
+  { state: RootState }
+>('serviceEntries/fetchCategories', async (_arg, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const token = state.auth.token ?? readPersistedAuthToken();
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiCategory[]>(`/v1/services/service-entry/categories`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+      token,
+    });
+
+    return response.data ?? [];
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible obtener las categorías.';
+    return thunkAPI.rejectWithValue(message);
+  }
 });
 
 export const fetchServiceEntryById = createAsyncThunk<

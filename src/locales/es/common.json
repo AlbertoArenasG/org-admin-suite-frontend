@@ -22,13 +22,15 @@
     "usersActive": "Usuarios activos",
     "usersInactive": "Usuarios inactivos",
     "services": "Servicios",
-    "serviceEntries": "Registro de servicios"
+    "serviceEntries": "Registro de servicios",
+    "serviceEntrySurveys": "Encuestas de servicio"
   },
   "breadcrumbs": {
     "home": "Inicio",
     "dashboard": "Panel",
     "users": "Usuarios",
-    "serviceEntries": "Registro de servicios"
+    "serviceEntries": "Registro de servicios",
+    "serviceEntrySurveys": "Encuestas de servicio"
   },
   "dashboard": {
     "title": "Panel",
@@ -114,7 +116,11 @@
         "update": "Guardar cambios",
         "selectFile": "Seleccionar archivo",
         "selectFiles": "Seleccionar archivos"
-      }
+      },
+      "placeholders": {
+        "category": "Selecciona una categoría"
+      },
+      "categoriesError": "No fue posible obtener las categorías."
     },
     "create": {
       "title": "Registrar entrada de servicio",
@@ -217,6 +223,70 @@
     "error": {
       "title": "No fue posible cargar la entrada de servicio",
       "retry": "Reintentar"
+    }
+  },
+  "serviceEntrySurveys": {
+    "title": "Encuestas de servicio",
+    "tabs": {
+      "stats": "Estadísticas",
+      "list": "Listado"
+    },
+    "filters": {
+      "title": "Filtros",
+      "subtitle": "Ajusta el rango de fechas y la plantilla para consultar los resultados.",
+      "from": "Desde",
+      "to": "Hasta",
+      "template": "Plantilla",
+      "templatePlaceholder": "Selecciona una plantilla",
+      "pageSize": "Registros por página",
+      "refresh": "Actualizar"
+    },
+    "chart": {
+      "labels": {
+        "staff_service_treatment": "Trato del personal",
+        "response_time": "Tiempo de respuesta",
+        "staff_attitude": "Actitud del personal",
+        "documentation_delivery_time": "Entrega de documentación"
+      }
+    },
+    "table": {
+      "title": "Resultados de encuestas",
+      "noData": "No hay respuestas registradas.",
+      "pagination": "Página {{page}} de {{pages}} · {{total}} respuestas",
+      "columns": {
+        "serviceInfo": "Servicio",
+        "submittedAt": "Respondida",
+        "ratings": "Calificaciones",
+        "observations": "Comentario"
+      },
+      "labels": {
+        "serviceOrder": "Orden {{serviceOrder}}",
+        "serviceOrderShort": "Orden",
+        "contact": "Contacto: {{contact}}",
+        "contactShort": "Contacto",
+        "email": "Correo: {{email}}",
+        "emailShort": "Correo"
+      },
+      "actions": {
+        "previous": "Anterior",
+        "next": "Siguiente"
+      }
+    },
+    "stats": {
+      "title": "Resumen de satisfacción",
+      "loading": "Calculando estadísticas...",
+      "summary": "{{count}} respuestas totales en el periodo seleccionado.",
+      "selectQuestion": "Selecciona una pregunta",
+      "questionSummary": "Detalle de la pregunta",
+      "responseCount": "Respuestas",
+      "averageRating": "Promedio",
+      "textResponses": "Respuestas de texto",
+      "noData": "Aún no hay datos para mostrar."
+    },
+    "dashboardCard": {
+      "title": "Satisfacción de servicios",
+      "subtitle": "{{count}} respuestas este periodo",
+      "viewAll": "Ver detalle"
     }
   },
   "users": {

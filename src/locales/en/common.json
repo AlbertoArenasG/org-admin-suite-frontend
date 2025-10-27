@@ -22,13 +22,15 @@
     "usersActive": "Active users",
     "usersInactive": "Inactive users",
     "services": "Services",
-    "serviceEntries": "Service entries"
+    "serviceEntries": "Service entries",
+    "serviceEntrySurveys": "Service surveys"
   },
   "breadcrumbs": {
     "home": "Home",
     "dashboard": "Dashboard",
     "users": "Users",
-    "serviceEntries": "Service entries"
+    "serviceEntries": "Service entries",
+    "serviceEntrySurveys": "Service surveys"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -246,7 +248,11 @@
         "update": "Save changes",
         "selectFile": "Select file",
         "selectFiles": "Select files"
-      }
+      },
+      "placeholders": {
+        "category": "Choose a category"
+      },
+      "categoriesError": "We couldn't load the categories."
     },
     "create": {
       "title": "Register service entry",
@@ -349,6 +355,70 @@
     "error": {
       "title": "We couldn't load the service entry",
       "retry": "Retry"
+    }
+  },
+  "serviceEntrySurveys": {
+    "title": "Service survey results",
+    "tabs": {
+      "stats": "Statistics",
+      "list": "Responses"
+    },
+    "filters": {
+      "title": "Filters",
+      "subtitle": "Adjust the date range and template to review survey results.",
+      "from": "From",
+      "to": "To",
+      "template": "Template",
+      "templatePlaceholder": "Select a template",
+      "pageSize": "Rows per page",
+      "refresh": "Refresh"
+    },
+    "chart": {
+      "labels": {
+        "staff_service_treatment": "Service treatment",
+        "response_time": "Response time",
+        "staff_attitude": "Staff attitude",
+        "documentation_delivery_time": "Documentation delivery"
+      }
+    },
+    "table": {
+      "title": "Survey responses",
+      "noData": "No survey responses to display.",
+      "pagination": "Page {{page}} of {{pages}} · {{total}} responses",
+      "columns": {
+        "serviceInfo": "Service entry",
+        "submittedAt": "Submitted",
+        "ratings": "Ratings",
+        "observations": "Observations"
+      },
+      "labels": {
+        "serviceOrder": "Order {{serviceOrder}}",
+        "serviceOrderShort": "Order",
+        "contact": "Contact: {{contact}}",
+        "contactShort": "Contact",
+        "email": "Email: {{email}}",
+        "emailShort": "Email"
+      },
+      "actions": {
+        "previous": "Previous",
+        "next": "Next"
+      }
+    },
+    "stats": {
+      "title": "Satisfaction overview",
+      "loading": "Calculating stats...",
+      "summary": "{{count}} total responses in the selected range.",
+      "selectQuestion": "Select a question",
+      "questionSummary": "Question details",
+      "responseCount": "Responses",
+      "averageRating": "Average",
+      "textResponses": "Text responses",
+      "noData": "No data to display yet."
+    },
+    "dashboardCard": {
+      "title": "Service satisfaction",
+      "subtitle": "{{count}} responses in this period",
+      "viewAll": "View details"
     }
   }
 }
