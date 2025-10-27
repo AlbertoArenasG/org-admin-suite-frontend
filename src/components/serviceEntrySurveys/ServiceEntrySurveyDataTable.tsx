@@ -9,7 +9,10 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Button } from '@/components/ui/button';
 import type { ServiceEntrySurveyTableRow } from '@/components/serviceEntrySurveys/useServiceEntrySurveyTableData';
-import { SERVICE_ENTRY_SURVEY_RATING_CLASSES } from '@/components/serviceEntrySurveys/constants';
+import {
+  SERVICE_ENTRY_SURVEY_RATING_CLASSES,
+  isSurveyRatingValue,
+} from '@/components/serviceEntrySurveys/constants';
 
 interface ServiceEntrySurveyDataTableProps {
   table: Table<ServiceEntrySurveyTableRow>;
@@ -193,7 +196,11 @@ export function ServiceEntrySurveyDataTable({
                                     {question.label}
                                   </span>
                                   <span
-                                    className={`inline-flex w-max rounded-full px-2 py-0.5 text-xs font-semibold uppercase tracking-wide ${value ? SERVICE_ENTRY_SURVEY_RATING_CLASSES[value] : 'bg-muted text-muted-foreground'}`}
+                                    className={`inline-flex w-max rounded-full px-2 py-0.5 text-xs font-semibold uppercase tracking-wide ${
+                                      value && isSurveyRatingValue(value)
+                                        ? SERVICE_ENTRY_SURVEY_RATING_CLASSES[value]
+                                        : 'bg-muted text-muted-foreground'
+                                    }`}
                                   >
                                     {value ? (ratingValueLabels[value] ?? value) : '—'}
                                   </span>

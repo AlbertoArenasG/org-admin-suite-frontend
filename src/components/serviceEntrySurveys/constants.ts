@@ -1,4 +1,5 @@
 import type { SurveyRatingValue } from '@/features/serviceEntrySurveys/serviceEntrySurveysThunks';
+import { SURVEY_RATING_VALUES } from '@/features/publicServiceEntry/constants';
 
 export const SERVICE_ENTRY_SURVEY_RATING_CLASSES: Record<SurveyRatingValue, string> = {
   EXCELENTE: 'bg-blue-500/15 text-blue-600 border border-blue-500/30',
@@ -15,3 +16,9 @@ export const SERVICE_ENTRY_SURVEY_RATING_COLORS: Record<SurveyRatingValue, strin
   REGULAR: '#f97316',
   MALO: '#ef4444',
 };
+
+export function isSurveyRatingValue(value: unknown): value is SurveyRatingValue {
+  return (
+    typeof value === 'string' && (SURVEY_RATING_VALUES as ReadonlyArray<string>).includes(value)
+  );
+}

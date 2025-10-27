@@ -5,7 +5,10 @@ import type { ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 import type { ServiceEntrySurveyTableRow } from '@/components/serviceEntrySurveys/useServiceEntrySurveyTableData';
 import { PUBLIC_SURVEY_QUESTIONS } from '@/features/publicServiceEntry/constants';
-import { SERVICE_ENTRY_SURVEY_RATING_CLASSES } from '@/components/serviceEntrySurveys/constants';
+import {
+  SERVICE_ENTRY_SURVEY_RATING_CLASSES,
+  isSurveyRatingValue,
+} from '@/components/serviceEntrySurveys/constants';
 
 interface UseServiceEntrySurveyTableColumnsParams {
   t: TFunction<'common', undefined>;
@@ -100,7 +103,11 @@ export function useServiceEntrySurveyTableColumns({
                   >
                     <span className="text-xs font-medium text-muted-foreground">{label}</span>
                     <span
-                      className={`inline-flex w-max rounded-full px-2 py-0.5 text-xs font-semibold uppercase tracking-wide ${SERVICE_ENTRY_SURVEY_RATING_CLASSES[value] ?? 'bg-muted text-foreground'}`}
+                      className={`inline-flex w-max rounded-full px-2 py-0.5 text-xs font-semibold uppercase tracking-wide ${
+                        value && isSurveyRatingValue(value)
+                          ? SERVICE_ENTRY_SURVEY_RATING_CLASSES[value]
+                          : 'bg-muted text-foreground'
+                      }`}
                     >
                       {ratingLabel}
                     </span>
