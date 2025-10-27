@@ -9,6 +9,8 @@ export interface ServiceEntrySurveyFilters {
   to: string;
   templateId: string | null;
   templateVersion: number | null;
+  search: string;
+  allDates: boolean;
 }
 
 interface ServiceEntrySurveysStoreState {
@@ -29,11 +31,19 @@ interface ServiceEntrySurveysStoreState {
   resetPagination: () => void;
 }
 
+const currentYear = new Date().getFullYear();
+const startOfYear = `${currentYear}-01-01`;
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+const formattedTomorrow = tomorrow.toISOString().split('T')[0];
+
 const defaultFilters: ServiceEntrySurveyFilters = {
-  from: '2025-01-01',
-  to: new Date().toISOString().split('T')[0],
+  from: startOfYear,
+  to: formattedTomorrow,
   templateId: 'service-entry-calibration-survey-v5',
   templateVersion: 5,
+  search: '',
+  allDates: false,
 };
 
 export const useServiceEntrySurveysStore = create<ServiceEntrySurveysStoreState>((set) => ({

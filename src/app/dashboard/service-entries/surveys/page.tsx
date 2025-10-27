@@ -35,23 +35,10 @@ export default function ServiceEntrySurveysPage() {
   useEffect(() => {
     void dispatch(
       fetchServiceEntrySurveyStats({
-        from: filters.from,
-        to: filters.to,
+        from: filters.allDates ? null : filters.from,
+        to: filters.allDates ? null : filters.to,
         templateId: filters.templateId,
         templateVersion: filters.templateVersion ?? undefined,
-      })
-    );
-  }, [dispatch, filters.from, filters.to, filters.templateId, filters.templateVersion]);
-
-  useEffect(() => {
-    void dispatch(
-      fetchServiceEntrySurveyList({
-        from: filters.from,
-        to: filters.to,
-        templateId: filters.templateId,
-        templateVersion: filters.templateVersion ?? undefined,
-        page: pagination.pageIndex + 1,
-        perPage: pagination.pageSize,
       })
     );
   }, [
@@ -60,6 +47,29 @@ export default function ServiceEntrySurveysPage() {
     filters.to,
     filters.templateId,
     filters.templateVersion,
+    filters.allDates,
+  ]);
+
+  useEffect(() => {
+    void dispatch(
+      fetchServiceEntrySurveyList({
+        from: filters.allDates ? null : filters.from,
+        to: filters.allDates ? null : filters.to,
+        templateId: filters.templateId,
+        templateVersion: filters.templateVersion ?? undefined,
+        page: pagination.pageIndex + 1,
+        perPage: pagination.pageSize,
+        search: filters.search,
+      })
+    );
+  }, [
+    dispatch,
+    filters.from,
+    filters.to,
+    filters.templateId,
+    filters.templateVersion,
+    filters.allDates,
+    filters.search,
     pagination.pageIndex,
     pagination.pageSize,
   ]);
@@ -67,12 +77,13 @@ export default function ServiceEntrySurveysPage() {
   const handleRefresh = () => {
     void dispatch(
       fetchServiceEntrySurveyList({
-        from: filters.from,
-        to: filters.to,
+        from: filters.allDates ? null : filters.from,
+        to: filters.allDates ? null : filters.to,
         templateId: filters.templateId,
         templateVersion: filters.templateVersion ?? undefined,
         page: pagination.pageIndex + 1,
         perPage: pagination.pageSize,
+        search: filters.search,
       })
     );
     void dispatch(

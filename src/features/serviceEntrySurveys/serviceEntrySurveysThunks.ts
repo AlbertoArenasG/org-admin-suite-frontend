@@ -41,12 +41,13 @@ export interface ServiceEntrySurveyListResult {
 }
 
 export interface FetchServiceEntrySurveyListParams {
-  from: string;
-  to: string;
+  from?: string | null;
+  to?: string | null;
   templateId?: string | null;
   templateVersion?: number | null;
   page?: number;
   perPage?: number;
+  search?: string | null;
 }
 
 interface ApiSurveyAnswer {
@@ -150,18 +151,26 @@ export const fetchServiceEntrySurveyList = createAsyncThunk<
     return thunkAPI.rejectWithValue('No hay token de autenticación');
   }
 
-  const query = new URLSearchParams({
-    from: params.from,
-    to: params.to,
-    page: String(params.page ?? 1),
-    per_page: String(params.perPage ?? 10),
-  });
+  const query = new URLSearchParams();
+
+  if (params.from) {
+    query.set('from', params.from);
+  }
+  if (params.to) {
+    query.set('to', params.to);
+  }
+
+  query.set('page', String(params.page ?? 1));
+  query.set('per_page', String(params.perPage ?? 10));
 
   if (params.templateId) {
     query.set('template_id', params.templateId);
   }
   if (params.templateVersion != null) {
     query.set('template_version', String(params.templateVersion));
+  }
+  if (params.search && params.search.trim().length > 0) {
+    query.set('search', params.search.trim());
   }
 
   const response = await jsonRequest<
@@ -198,8 +207,8 @@ export const fetchServiceEntrySurveyList = createAsyncThunk<
 });
 
 export interface FetchServiceEntrySurveyStatsParams {
-  from: string;
-  to: string;
+  from?: string | null;
+  to?: string | null;
   templateId?: string | null;
   templateVersion?: number | null;
 }
@@ -216,10 +225,14 @@ export const fetchServiceEntrySurveyStats = createAsyncThunk<
     return thunkAPI.rejectWithValue('No hay token de autenticación');
   }
 
-  const query = new URLSearchParams({
-    from: params.from,
-    to: params.to,
-  });
+  const query = new URLSearchParams();
+
+  if (params.from) {
+    query.set('from', params.from);
+  }
+  if (params.to) {
+    query.set('to', params.to);
+  }
 
   if (params.templateId) {
     query.set('template_id', params.templateId);

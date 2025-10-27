@@ -16,8 +16,14 @@ import { SURVEY_RATING_VALUES } from '@/features/publicServiceEntry/constants';
 import Link from 'next/link';
 import { SERVICE_ENTRY_SURVEY_RATING_COLORS } from '@/components/serviceEntrySurveys/constants';
 
-const DEFAULT_FROM = '2025-01-01';
-const DEFAULT_TO = '2025-12-31';
+const currentYear = new Date().getFullYear();
+const startOfYear = `${currentYear}-01-01`;
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+const formattedTomorrow = tomorrow.toISOString().split('T')[0];
+
+const DEFAULT_FROM = startOfYear;
+const DEFAULT_TO = formattedTomorrow;
 
 export function ServiceEntrySurveyStatsCard() {
   const { t } = useTranslationHydrated('common');

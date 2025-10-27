@@ -76,6 +76,7 @@ export function ServiceEntrySurveyFilters({
               }))
             }
             className="h-10 rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+            disabled={filters.allDates}
           />
         </label>
         <label className="flex flex-col gap-2 text-sm">
@@ -90,6 +91,7 @@ export function ServiceEntrySurveyFilters({
               }))
             }
             className="h-10 rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+            disabled={filters.allDates}
           />
         </label>
         <label className="flex flex-col gap-2 text-sm md:col-span-2">
@@ -124,6 +126,35 @@ export function ServiceEntrySurveyFilters({
               </option>
             ))}
           </select>
+        </label>
+        <label className="flex items-center gap-2 text-sm text-muted-foreground md:col-span-4">
+          <input
+            type="checkbox"
+            checked={filters.allDates}
+            onChange={(event) =>
+              setFilters((current) => ({
+                ...current,
+                allDates: event.target.checked,
+              }))
+            }
+            className="h-4 w-4 rounded border-border/60 text-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+          />
+          <span>{t('serviceEntrySurveys.filters.allDates')}</span>
+        </label>
+        <label className="flex flex-col gap-2 text-sm md:col-span-4">
+          <span className="text-muted-foreground">{t('serviceEntrySurveys.filters.search')}</span>
+          <input
+            type="search"
+            value={filters.search}
+            onChange={(event) =>
+              setFilters((current) => ({
+                ...current,
+                search: event.target.value,
+              }))
+            }
+            placeholder={t('serviceEntrySurveys.filters.searchPlaceholder')}
+            className="h-10 rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+          />
         </label>
       </div>
       <div className="flex flex-col gap-3 border-t border-border/60 pt-4 sm:flex-row sm:items-center sm:justify-between">

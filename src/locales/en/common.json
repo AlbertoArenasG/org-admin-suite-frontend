@@ -370,6 +370,9 @@
       "to": "To",
       "template": "Template",
       "templatePlaceholder": "Select a template",
+      "search": "Search",
+      "searchPlaceholder": "Search by service order, company name or contact",
+      "allDates": "Search across all dates",
       "pageSize": "Rows per page",
       "refresh": "Refresh"
     },

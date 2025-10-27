@@ -12,7 +12,7 @@ export function FullScreenLoader({ text, className }: FullScreenLoaderProps) {
   return (
     <div
       className={clsx(
-        'fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-background/80 backdrop-blur-sm',
+        'fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-background/50 backdrop-blur-[0.4px]',
         className
       )}
     >

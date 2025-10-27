@@ -238,6 +238,9 @@
       "to": "Hasta",
       "template": "Plantilla",
       "templatePlaceholder": "Selecciona una plantilla",
+      "search": "Buscar",
+      "searchPlaceholder": "Buscar por orden de servicio, empresa o contacto",
+      "allDates": "Buscar en cualquier fecha",
       "pageSize": "Registros por página",
       "refresh": "Actualizar"
     },
