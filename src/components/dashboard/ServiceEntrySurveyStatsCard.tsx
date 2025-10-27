@@ -133,10 +133,10 @@ export function ServiceEntrySurveyStatsCard() {
                     fill: 'var(--foreground)',
                   },
                   '& .MuiChartsAxis-line': {
-                    stroke: 'var(--foreground)',
+                    stroke: 'var(--foreground) !important',
                   },
                   '& .MuiChartsAxis-tick line': {
-                    stroke: 'var(--foreground)',
+                    stroke: 'var(--foreground) !important',
                   },
                   '& .MuiChartsLegend-root text': {
                     fill: 'var(--foreground)',
