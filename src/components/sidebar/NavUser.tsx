@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronsUpDown, LogOut } from 'lucide-react';
+import { ChevronsUpDown, LogOut, UserCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -20,19 +20,11 @@ import {
 } from '@/components/ui/sidebar';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { logout } from '@/features/auth';
+import { useTranslation } from 'react-i18next';
+import { getInitialsFromText } from '@/lib/get-initials';
 
 function getInitials(nameOrEmail: string) {
-  const parts = nameOrEmail.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) {
-    return '??';
-  }
-
-  const initials = parts
-    .map((part) => part[0]?.toUpperCase() ?? '')
-    .join('')
-    .slice(0, 2);
-
-  return initials || '??';
+  return getInitialsFromText(nameOrEmail, '??');
 }
 
 export function NavUser({
@@ -47,6 +39,7 @@ export function NavUser({
   const { isMobile } = useSidebar();
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { t } = useTranslation('common');
   const initials = getInitials(user.name || user.email);
   const avatarSrc = user.avatar ?? undefined;
 
@@ -89,28 +82,15 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
+            <DropdownMenuItem
+              onClick={() => {
+                router.push('/dashboard/me');
+              }}
+            >
+              <UserCircle />
+              {t('myProfile.actions.view')}
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Bell />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator /> */}
             <DropdownMenuItem
               onClick={() => {
                 dispatch(logout());
@@ -118,7 +98,7 @@ export function NavUser({
               }}
             >
               <LogOut />
-              Log out
+              {t('auth.logout')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

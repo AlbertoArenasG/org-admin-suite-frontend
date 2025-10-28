@@ -1,50 +1,45 @@
 'use client';
 
+import { useEffect, useMemo } from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useAppSelector } from '@/hooks/useAppSelector';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
-import { parseUserRole, canManageRole } from '@/features/users/roles';
-import { fetchUserById } from '@/features/users/usersThunks';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
+import { fetchMyProfile } from '@/features/myProfile/myProfileThunks';
+import { useRouter } from 'next/navigation';
 import { getInitialsFromText } from '@/lib/get-initials';
 
-export default function UserDetailPage() {
-  const params = useParams<{ userId: string }>();
-  const router = useRouter();
-  const dispatch = useAppDispatch();
+export default function MyProfilePage() {
   const { t, hydrated, i18n } = useTranslationHydrated('common');
-  const user = useAppSelector((state) =>
-    state.users.entities.find((entity) => entity.id === params.userId)
-  );
-  const authUser = useAppSelector((state) => state.auth.user);
-  const detailState = useAppSelector((state) => state.users.detail);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
+  const profileState = useAppSelector((state) => state.myProfile.profile);
 
   useEffect(() => {
-    if (!params.userId || !authHydrated) {
+    if (!authHydrated) {
       return;
     }
+    if (profileState.status === 'idle') {
+      void dispatch(fetchMyProfile());
+    }
+  }, [authHydrated, dispatch, profileState.status]);
 
-    void dispatch(fetchUserById({ id: params.userId }));
-  }, [authHydrated, dispatch, params.userId]);
-
-  const currentRole = authUser?.role ?? null;
-  const targetRole = user ? parseUserRole(user.role) : null;
-  const canEdit =
-    user && currentRole
-      ? canManageRole(currentRole, targetRole, { allowSameLevel: authUser?.id === user.id })
-      : false;
+  const profile = profileState.data;
+  const displayName = profile
+    ? `${profile.name ?? ''} ${profile.lastname ?? ''}`.replace(/\s+/g, ' ').trim()
+    : '';
+  const profileInitials = profile ? getInitialsFromText(displayName || profile.email, '?') : '?';
 
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;
@@ -54,49 +49,41 @@ export default function UserDetailPage() {
         ? fallback
         : 'es';
     const locale = hydrated ? i18n.language : fallbackLang;
-    return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
+    return new Intl.DateTimeFormat(locale, { dateStyle: 'medium', timeStyle: 'short' });
   }, [hydrated, i18n.language, i18n.options.fallbackLng]);
 
-  const displayName = user
-    ? `${user.name ?? ''} ${user.lastname ?? ''}`.replace(/\s+/g, ' ').trim()
-    : '';
-  const userInitials = user
-    ? getInitialsFromText(displayName || user.fullName || user.email, '?')
-    : '?';
+  const statusChip = profile ? (
+    <Chip
+      color={profile.status.toLowerCase() === 'active' ? 'success' : 'default'}
+      variant="outlined"
+      size="small"
+      label={profile.statusName}
+    />
+  ) : null;
 
-  const detailRows = user
+  const detailRows = profile
     ? [
-        { label: t('users.table.columns.fullName'), value: user.fullName || '—' },
-        { label: t('users.table.columns.email'), value: user.email },
-        { label: t('users.table.columns.role'), value: user.roleName },
+        { label: t('myProfile.detail.email'), value: profile.email },
+        { label: t('myProfile.detail.role'), value: profile.roleName },
+        { label: t('myProfile.detail.status'), value: statusChip },
         {
-          label: t('users.table.columns.status'),
-          value: (
-            <Chip
-              color={user.status?.toLowerCase() === 'active' ? 'success' : 'default'}
-              variant="outlined"
-              size="small"
-              label={user.statusName}
-            />
-          ),
+          label: t('myProfile.detail.phone'),
+          value: profile.cellPhone
+            ? `${profile.cellPhone.countryCode} ${profile.cellPhone.number}`
+            : '—',
         },
         {
-          label: t('users.table.columns.createdAt'),
+          label: t('myProfile.detail.joined'),
           value:
-            user.createdAt && !Number.isNaN(new Date(user.createdAt).getTime())
-              ? dateFormatter.format(new Date(user.createdAt))
+            profile.createdAt && !Number.isNaN(new Date(profile.createdAt).getTime())
+              ? dateFormatter.format(new Date(profile.createdAt))
               : '—',
         },
       ]
     : [];
 
-  const isLoading =
-    (!authHydrated && Boolean(params.userId)) ||
-    (detailState.status === 'loading' && detailState.currentId === params.userId);
-  const loadError =
-    authHydrated && detailState.status === 'failed' && detailState.currentId === params.userId
-      ? detailState.error
-      : null;
+  const isLoading = !authHydrated || profileState.status === 'loading';
+  const loadError = profileState.status === 'failed' ? profileState.error : null;
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -107,8 +94,7 @@ export default function UserDetailPage() {
           <PageBreadcrumbs
             segments={[
               { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('breadcrumbs.users'), href: '/dashboard/users', hideOnDesktop: true },
-              { label: user?.fullName ?? user?.email ?? '—' },
+              { label: t('myProfile.breadcrumb') },
             ]}
           />
         </div>
@@ -138,35 +124,31 @@ export default function UserDetailPage() {
             ) : (
               <Avatar className="h-16 w-16 rounded-2xl border border-border/60 bg-muted/60">
                 <AvatarFallback className="rounded-2xl text-lg font-semibold text-foreground">
-                  {userInitials}
+                  {profileInitials}
                 </AvatarFallback>
               </Avatar>
             )}
             <div className="space-y-1">
               {isLoading ? (
                 <>
-                  <Skeleton className="h-6 w-48 rounded-md" />
-                  <Skeleton className="h-4 w-64 rounded-md" />
+                  <Skeleton className="h-6 w-40 rounded-md" />
+                  <Skeleton className="h-4 w-56 rounded-md" />
                 </>
               ) : (
                 <>
                   <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                    {user
-                      ? user.fullName || user.email
-                      : t('users.detail.missingTitle', { defaultValue: 'User not found' })}
+                    {displayName || profile?.email || t('myProfile.detail.titlePlaceholder')}
                   </Typography>
                   <Typography variant="body2" color="text.foreground">
-                    {t('users.detail.subtitle', { defaultValue: 'User details and activity' })}
+                    {t('myProfile.detail.subtitle')}
                   </Typography>
                 </>
               )}
             </div>
           </div>
-          {canEdit ? (
-            <Button onClick={() => router.push(`/dashboard/users/${params.userId}/edit`)} size="sm">
-              {t('users.actions.edit')}
-            </Button>
-          ) : null}
+          <Button size="sm" onClick={() => router.push('/dashboard/me/edit')} disabled={isLoading}>
+            {t('myProfile.actions.edit')}
+          </Button>
         </Box>
         <div className="flex flex-col gap-4 p-6">
           {isLoading ? (
@@ -180,7 +162,7 @@ export default function UserDetailPage() {
             <div className="rounded-xl border border-destructive/40 bg-destructive/10 px-4 py-12 text-center text-sm text-destructive">
               {loadError}
             </div>
-          ) : user ? (
+          ) : profile ? (
             detailRows.map((row) => (
               <div
                 key={row.label}
@@ -192,7 +174,7 @@ export default function UserDetailPage() {
             ))
           ) : (
             <div className="rounded-xl border border-border/60 bg-card/60 px-4 py-12 text-center text-sm text-muted-foreground">
-              {t('users.detail.notFound', { defaultValue: 'We could not find this user yet.' })}
+              {t('myProfile.detail.empty')}
             </div>
           )}
         </div>

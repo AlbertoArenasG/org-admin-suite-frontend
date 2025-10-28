@@ -20,6 +20,8 @@ import Chip from '@mui/material/Chip';
 import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';
 import { resetUserUpdateState } from '@/features/users/usersSlice';
 import type { UserRoleInfo } from '@/features/users/usersSlice';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { getInitialsFromText } from '@/lib/get-initials';
 
 export default function UserEditPage() {
   const params = useParams<{ userId: string }>();
@@ -99,6 +101,13 @@ export default function UserEditPage() {
       : null;
   const isUpdating = updateState.status === 'loading' && updateState.currentId === params.userId;
 
+  const displayName = user
+    ? `${user.name ?? ''} ${user.lastname ?? ''}`.replace(/\s+/g, ' ').trim()
+    : '';
+  const userInitials = user
+    ? getInitialsFromText(displayName || user.fullName || user.email, '?')
+    : '?';
+
   useEffect(() => {
     if (updateState.currentId !== params.userId) {
       return;
@@ -164,14 +173,36 @@ export default function UserEditPage() {
           sx={{ px: 4, py: 4, borderBottom: '1px solid var(--surface-border)' }}
           className="flex flex-col gap-3"
         >
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                {t('users.actions.edit')} · {user?.fullName ?? user?.email ?? '—'}
-              </Typography>
-              <Typography variant="body2" color="text.foreground">
-                {t('users.edit.subtitle', { defaultValue: 'Update roles and contact details.' })}
-              </Typography>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              {isLoading ? (
+                <Skeleton className="h-16 w-16 rounded-2xl" />
+              ) : (
+                <Avatar className="h-16 w-16 rounded-2xl border border-border/60 bg-muted/60">
+                  <AvatarFallback className="rounded-2xl text-lg font-semibold text-foreground">
+                    {userInitials}
+                  </AvatarFallback>
+                </Avatar>
+              )}
+              <div className="space-y-1">
+                {isLoading ? (
+                  <>
+                    <Skeleton className="h-6 w-48 rounded-md" />
+                    <Skeleton className="h-4 w-64 rounded-md" />
+                  </>
+                ) : (
+                  <>
+                    <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
+                      {t('users.actions.edit')} · {user?.fullName ?? user?.email ?? '—'}
+                    </Typography>
+                    <Typography variant="body2" color="text.foreground">
+                      {t('users.edit.subtitle', {
+                        defaultValue: 'Update roles and contact details.',
+                      })}
+                    </Typography>
+                  </>
+                )}
+              </div>
             </div>
             <Button variant="ghost" size="sm" onClick={() => router.back()}>
               {t('common:done')}

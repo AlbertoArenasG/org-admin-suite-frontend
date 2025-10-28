@@ -5,6 +5,7 @@ import servicesReducer from '@/features/services/servicesSlice';
 import usersReducer from '@/features/users/usersSlice';
 import serviceEntriesReducer from '@/features/serviceEntries/serviceEntriesSlice';
 import serviceEntrySurveysReducer from '@/features/serviceEntrySurveys/serviceEntrySurveysSlice';
+import myProfileReducer from '@/features/myProfile/myProfileSlice';
 
 /**
  * Central Redux store setup. Extend the reducer map as new slices are added.
@@ -17,6 +18,7 @@ export const store = configureStore({
     users: usersReducer,
     serviceEntries: serviceEntriesReducer,
     serviceEntrySurveys: serviceEntrySurveysReducer,
+    myProfile: myProfileReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
