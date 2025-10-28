@@ -365,3 +365,19 @@
   --sidebar-gradient-via: var(--sidebar);
   --sidebar-gradient-to: var(--sidebar);
 }
+
+@keyframes route-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  40% {
+    transform: translateX(-35%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-route-progress {
+  animation: route-progress 0.6s ease-in-out forwards;
+}

@@ -14,6 +14,7 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { StatusAlert } from '@/components/shared/StatusAlert';
 import type { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { ForgotPasswordDialog } from '@/components/auth/ForgotPasswordDialog';
 
 type TranslateFn = ReturnType<typeof useTranslationHydrated>['t'];
 
@@ -60,9 +61,10 @@ interface LoginFieldsProps {
   register: UseFormRegister<LoginFormValues>;
   errors: FieldErrors<LoginFormValues>;
   t: TranslateFn;
+  onForgotPassword: () => void;
 }
 
-function LoginFields({ register, errors, t }: LoginFieldsProps) {
+function LoginFields({ register, errors, t, onForgotPassword }: LoginFieldsProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -121,6 +123,13 @@ function LoginFields({ register, errors, t }: LoginFieldsProps) {
             {errors.password.message ?? t('auth:passwordRequired')}
           </p>
         ) : null}
+        <button
+          type="button"
+          onClick={onForgotPassword}
+          className="ml-auto mt-1 inline-flex items-center text-sm text-primary underline-offset-4 hover:underline"
+        >
+          {t('auth:forgotPassword')}
+        </button>
       </div>
     </div>
   );
@@ -154,6 +163,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const searchParams = useSearchParams();
   const nextParam = searchParams?.get('next');
   const nextRoute = nextParam && nextParam.startsWith('/') ? nextParam : null;
+  const [forgotOpen, setForgotOpen] = useState(false);
 
   const {
     register,
@@ -195,11 +205,19 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
         <CardContent>
           <LoginFeedback successMessage={successMessage} error={error} t={t} />
           <form onSubmit={onSubmit} className="grid gap-6" noValidate>
-            <LoginFields register={register} errors={errors} t={t} />
+            <LoginFields
+              register={register}
+              errors={errors}
+              t={t}
+              onForgotPassword={() => setForgotOpen(true)}
+            />
             <LoginSubmitButton isLoading={isLoading} t={t} />
           </form>
         </CardContent>
       </Card>
+      <ForgotPasswordDialog open={forgotOpen} onOpenChange={setForgotOpen}>
+        <span />
+      </ForgotPasswordDialog>
     </div>
   );
 }

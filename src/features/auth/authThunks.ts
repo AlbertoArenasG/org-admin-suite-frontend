@@ -33,6 +33,17 @@ export interface LoginResult {
   message: string | null;
 }
 
+export interface PasswordResetRequestPayload {
+  email: string;
+  lang?: string;
+}
+
+export interface PasswordResetConfirmPayload {
+  token: string;
+  password: string;
+  lang?: string;
+}
+
 function mapLoginUser(user: LoginResponseUser): AuthUser {
   return {
     id: user.id,
@@ -96,3 +107,67 @@ export const fetchCurrentUser = createAsyncThunk<AuthUser, void, { state: RootSt
     }
   }
 );
+
+export interface PasswordResetRequestResult {
+  message: string | null;
+}
+
+export const requestPasswordReset = createAsyncThunk<
+  PasswordResetRequestResult,
+  PasswordResetRequestPayload,
+  { rejectValue: string }
+>('auth/requestPasswordReset', async (payload, { rejectWithValue }) => {
+  try {
+    const { successMessage } = await jsonRequest<unknown>('/v1/auth/password-reset/request', {
+      method: 'POST',
+      body: { email: payload.email },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-lang': payload.lang ?? 'es',
+      },
+    });
+
+    return {
+      message: successMessage,
+    };
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return rejectWithValue(
+        error.message || 'No fue posible solicitar el restablecimiento de contraseña.'
+      );
+    }
+    return rejectWithValue('No fue posible solicitar el restablecimiento de contraseña.');
+  }
+});
+
+export interface PasswordResetConfirmResult {
+  message: string | null;
+}
+
+export const confirmPasswordReset = createAsyncThunk<
+  PasswordResetConfirmResult,
+  PasswordResetConfirmPayload,
+  { rejectValue: string }
+>('auth/confirmPasswordReset', async (payload, { rejectWithValue }) => {
+  try {
+    const { successMessage } = await jsonRequest<unknown>('/v1/auth/password-reset/confirm', {
+      method: 'POST',
+      body: { token: payload.token, password: payload.password },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-user-lang': payload.lang ?? 'es',
+      },
+    });
+
+    return {
+      message: successMessage,
+    };
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return rejectWithValue(
+        error.message || 'El token para restablecer la contraseña no es válido.'
+      );
+    }
+    return rejectWithValue('No fue posible restablecer la contraseña.');
+  }
+});

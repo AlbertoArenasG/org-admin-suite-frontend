@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { fetchCurrentUser, login } from './authThunks';
+import { updateMyProfile } from '@/features/myProfile/myProfileThunks';
 import type { AuthUser } from './types';
 import { persistAuthSession } from './persistence';
 
@@ -100,6 +101,17 @@ const authSlice = createSlice({
           action.error.message ??
           'No fue posible recuperar la sesión';
         state.hydrated = true;
+      })
+      .addCase(updateMyProfile.fulfilled, (state, action) => {
+        if (state.user) {
+          state.user = {
+            ...state.user,
+            name: action.payload.name,
+            lastname: action.payload.lastname,
+            cellPhone: action.payload.cellPhone,
+          };
+          persistAuthSession(state.token, state.user);
+        }
       });
   },
 });
