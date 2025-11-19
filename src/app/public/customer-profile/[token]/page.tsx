@@ -4,6 +4,7 @@ import { Suspense, useEffect, useMemo } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
+import Image from 'next/image';
 import { ModeToggle } from '@/components/shared/ModeToggle';
 import SelectLang from '@/components/shared/LangToggle';
 import { usePublicCustomerProfileStore } from '@/stores/usePublicCustomerProfileStore';
@@ -80,12 +81,20 @@ function PublicCustomerProfileContent() {
 
   return (
     <div className="min-h-screen bg-[color:var(--public-bg,#f5f5fb)] dark:bg-background">
-      <header className="flex items-center justify-between gap-3 px-6 py-4">
-        <div>
-          <p className="text-sm font-semibold tracking-tight text-muted-foreground">
+      <header className="flex flex-col items-center gap-4 px-6 py-6">
+        <Image
+          src="/logo.jpeg"
+          alt={t('publicCustomerProfile.logoAlt') ?? 'ICSACV'}
+          width={120}
+          height={120}
+          className="h-24 w-24 rounded-2xl object-contain shadow-md"
+          priority
+        />
+        <div className="text-center">
+          <p className="text-base font-semibold tracking-widest text-muted-foreground uppercase">
             {t('publicCustomerProfile.header')}
           </p>
-          <h1 className="text-xl font-bold">{t('publicCustomerProfile.title')}</h1>
+          <h1 className="text-3xl font-bold text-foreground">{t('publicCustomerProfile.title')}</h1>
         </div>
         <div className="flex items-center gap-2">
           <ModeToggle

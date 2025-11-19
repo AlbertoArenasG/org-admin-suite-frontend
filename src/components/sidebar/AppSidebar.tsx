@@ -16,6 +16,7 @@ import { usePathname } from 'next/navigation';
 
 import { NavMain } from '@/components/sidebar/NavMain';
 import { NavUser } from '@/components/sidebar/NavUser';
+import { SidebarLogo } from '@/components/sidebar/SidebarLogo';
 import SelectLang from '@/components/shared/LangToggle';
 import { ModeToggle } from '@/components/shared/ModeToggle';
 import {
@@ -142,7 +143,12 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       )}
       {...props}
     >
-      <SidebarHeader>
+      <SidebarHeader className="flex flex-col gap-3">
+        <SidebarLogo
+          name="ICSA"
+          logoSrc="/logo.jpeg"
+          logoAlt={t('publicCustomerProfile.logoAlt') ?? 'Company logo'}
+        />
         <NavUser user={sidebarUser} />
         {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
