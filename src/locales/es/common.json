@@ -54,7 +54,7 @@
         "accountsContact": "Contacto de cuentas por pagar",
         "notes": "Notas y requisitos",
         "taxCertificate": "Constancia fiscal",
-        "invoiceRequirements": "Requisitos para facturación"
+        "invoiceRequirements": "Documento con los requisitos para la recepción de facturas (en caso de tenerlo)"
       },
       "files": {
         "empty": "Sin archivo cargado",
@@ -265,7 +265,7 @@
       "files": {
         "subtitle": "Certificados y requisitos cargados",
         "taxCertificate": "Certificado fiscal",
-        "invoiceRequirements": "Requisitos para facturación",
+        "invoiceRequirements": "Documento con los requisitos para la recepción de facturas (en caso de tenerlo)",
         "download": "Descargar",
         "empty": "No se han cargado archivos."
       },

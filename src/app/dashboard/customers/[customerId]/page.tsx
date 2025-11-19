@@ -98,7 +98,8 @@ export default function CustomerDetailPage() {
   }, [copied]);
 
   const handleCopyLink = useCallback(() => {
-    if (!customer?.publicAccessUrl) {
+    const link = customer?.publicAccessUrl;
+    if (!link) {
       showSnackbar({
         message: t('customers.detail.copy.error'),
         severity: 'error',
@@ -106,22 +107,42 @@ export default function CustomerDetailPage() {
       return;
     }
 
-    if (typeof navigator === 'undefined' || !navigator.clipboard) {
-      showSnackbar({
-        message: t('customers.detail.copy.error'),
-        severity: 'error',
-      });
-      return;
-    }
+    const copyValue = async () => {
+      if (typeof navigator !== 'undefined' && window.isSecureContext && navigator.clipboard) {
+        await navigator.clipboard.writeText(link);
+        return true;
+      }
 
-    void navigator.clipboard
-      .writeText(customer.publicAccessUrl)
-      .then(() => {
-        setCopied(true);
-        showSnackbar({
-          message: t('customers.detail.copy.success'),
-          severity: 'success',
-        });
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = link;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        return success;
+      } catch {
+        return false;
+      }
+    };
+
+    void copyValue()
+      .then((success) => {
+        if (success) {
+          setCopied(true);
+          showSnackbar({
+            message: t('customers.detail.copy.success'),
+            severity: 'success',
+          });
+        } else {
+          showSnackbar({
+            message: t('customers.detail.copy.error'),
+            severity: 'error',
+          });
+        }
       })
       .catch(() => {
         showSnackbar({
