@@ -561,6 +561,6 @@ function mapFormToPayload(
     },
     requirements_notes: values.requirementsNotes,
     tax_certificate_file_id: values.taxCertificateFileId,
-    invoice_requirements_file_id: values.invoiceRequirementsFileId,
+    invoice_requirements_file_id: values.invoiceRequirementsFileId || null,
   };
 }

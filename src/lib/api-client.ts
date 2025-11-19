@@ -1,4 +1,5 @@
 import { API_BASE_URL } from '@/config/env';
+import { persistAuthSession } from '@/features/auth/persistence';
 
 export interface ApiErrorDetails {
   message: string;
@@ -56,6 +57,7 @@ export interface JsonSuccess<TResponse, TMeta = unknown> {
 export interface JsonRequestOptions extends Omit<RequestInit, 'body'> {
   body?: unknown;
   token?: string | null;
+  skipAuthRedirect?: boolean;
 }
 
 const DEFAULT_LANGUAGE = 'es';
@@ -100,7 +102,7 @@ function buildHeaders(
  */
 export async function jsonRequest<TResponse, TMeta = unknown>(
   path: string,
-  { body, headers, token, ...init }: JsonRequestOptions = {}
+  { body, headers, token, skipAuthRedirect, ...init }: JsonRequestOptions = {}
 ): Promise<JsonSuccess<TResponse, TMeta>> {
   const hasJsonBody = body !== undefined && body !== null;
 
@@ -139,10 +141,22 @@ export async function jsonRequest<TResponse, TMeta = unknown>(
 
   const status = parsedBody?.status_code ?? response.status;
 
+  if (status === 401 && token && !skipAuthRedirect) {
+    handleUnauthorizedRedirect();
+  }
+
   if (parsedBody && !parsedBody.success) {
     const { message, error_code, validation_errors } = parsedBody.error_details;
     throw new ApiError(message, status, error_code, validation_errors);
   }
 
   throw new ApiError(response.statusText || 'Unexpected API error', status);
+}
+
+function handleUnauthorizedRedirect() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  persistAuthSession(null, null);
+  window.location.href = '/login';
 }
