@@ -65,26 +65,6 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         isActive: pathname === '/dashboard',
       },
       {
-        title: t('nav.customers'),
-        url: '/dashboard/customers',
-        icon: Building2,
-        isActive: pathname.startsWith('/dashboard/customers'),
-        items: [
-          {
-            title: t('nav.customersList'),
-            url: '/dashboard/customers',
-            isActive: pathname === '/dashboard/customers',
-            icon: List,
-          },
-          {
-            title: t('nav.customersCreate'),
-            url: '/dashboard/customers/new',
-            isActive: pathname === '/dashboard/customers/new',
-            icon: PlusCircle,
-          },
-        ],
-      },
-      {
         title: t('nav.users'),
         url: '/dashboard/users',
         icon: Users,
@@ -100,6 +80,25 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             url: '/dashboard/users/invite',
             isActive: pathname === '/dashboard/users/invite',
             icon: UserPlus2,
+          },
+        ],
+      },
+      {
+        title: t('nav.customers'),
+        url: '/dashboard/customers',
+        icon: Building2,
+        isActive: pathname.startsWith('/dashboard/customers'),
+        items: [
+          {
+            title: t('nav.customersList'),
+            url: '/dashboard/customers',
+            isActive: pathname === '/dashboard/customers',
+          },
+          {
+            title: t('nav.customersCreate'),
+            url: '/dashboard/customers/new',
+            isActive: pathname === '/dashboard/customers/new',
+            icon: PlusCircle,
           },
         ],
       },
