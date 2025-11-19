@@ -68,6 +68,7 @@ export const login = createAsyncThunk<LoginResult, LoginPayload, { rejectValue: 
       const { data, successMessage } = await jsonRequest<LoginResponseData>('/v1/auth/login', {
         method: 'POST',
         body: payload,
+        skipAuthRedirect: true,
       });
 
       return {
