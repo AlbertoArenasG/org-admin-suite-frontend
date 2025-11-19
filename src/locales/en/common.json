@@ -16,6 +16,7 @@
   "publicCustomerProfile": {
     "header": "Fiscal portal",
     "title": "Customer fiscal profile",
+    "logoAlt": "Company logo",
     "summary": {
       "status": "Profile status",
       "clientCode": "Client code",

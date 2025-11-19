@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import {
   LayoutDashboard,
   Users,
@@ -142,7 +143,22 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       )}
       {...props}
     >
-      <SidebarHeader>
+      <SidebarHeader className="flex flex-col gap-3">
+        <div className="flex items-center gap-3 rounded-2xl bg-white/10 p-3 text-center text-sidebar-foreground">
+          <div className="bg-white rounded-2xl">
+            <Image
+              src="/logo.jpeg"
+              alt={t('publicCustomerProfile.logoAlt') ?? 'Company logo'}
+              width={48}
+              height={48}
+              className="h-12 w-12 rounded-2xl object-contain"
+              priority
+            />
+          </div>
+          <div className="flex flex-col text-left">
+            <span className="text-base font-semibold leading-tight">ICSA</span>
+          </div>
+        </div>
         <NavUser user={sidebarUser} />
         {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
