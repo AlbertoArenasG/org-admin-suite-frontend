@@ -1,7 +1,16 @@
 'use client';
 
 import * as React from 'react';
-import { LayoutDashboard, Users, Wrench, UserPlus2, List, ChartColumn } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Users,
+  Wrench,
+  UserPlus2,
+  List,
+  ChartColumn,
+  Building2,
+  PlusCircle,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePathname } from 'next/navigation';
 
@@ -54,6 +63,26 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         url: '/dashboard',
         icon: LayoutDashboard,
         isActive: pathname === '/dashboard',
+      },
+      {
+        title: t('nav.customers'),
+        url: '/dashboard/customers',
+        icon: Building2,
+        isActive: pathname.startsWith('/dashboard/customers'),
+        items: [
+          {
+            title: t('nav.customersList'),
+            url: '/dashboard/customers',
+            isActive: pathname === '/dashboard/customers',
+            icon: List,
+          },
+          {
+            title: t('nav.customersCreate'),
+            url: '/dashboard/customers/new',
+            isActive: pathname === '/dashboard/customers/new',
+            icon: PlusCircle,
+          },
+        ],
       },
       {
         title: t('nav.users'),
