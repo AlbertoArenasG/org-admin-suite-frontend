@@ -104,7 +104,8 @@
     "usersInactive": "Usuarios inactivos",
     "services": "Servicios",
     "serviceEntries": "Registro de servicios",
-    "serviceEntrySurveys": "Encuestas de servicio"
+    "serviceEntrySurveys": "Encuestas de servicio",
+    "servicePackagesRecords": "Recolección"
   },
   "breadcrumbs": {
     "home": "Inicio",
@@ -112,7 +113,8 @@
     "customers": "Clientes",
     "users": "Usuarios",
     "serviceEntries": "Registro de servicios",
-    "serviceEntrySurveys": "Encuestas de servicio"
+    "serviceEntrySurveys": "Encuestas de servicio",
+    "servicePackagesRecords": "Recolección"
   },
   "dashboard": {
     "title": "Panel",
@@ -551,6 +553,91 @@
       "title": "Satisfacción de servicios",
       "subtitle": "{{count}} respuestas este periodo",
       "viewAll": "Ver detalle"
+    }
+  },
+  "servicePackagesRecords": {
+    "title": "Recolección",
+    "table": {
+      "searchPlaceholder": "Buscar por servicio, empresa o recolector...",
+      "columnLabel": "Columnas",
+      "columns": {
+        "serviceOrder": "Orden de servicio",
+        "company": "Empresa",
+        "collector": "Recolector",
+        "visitDate": "Fecha de visita",
+        "status": "Estatus",
+        "createdAt": "Creado",
+        "actions": "Acciones"
+      },
+      "noData": "No hay registros para mostrar.",
+      "summary": "Mostrando {{from}}-{{to}} de {{total}} registros",
+      "pagination": {
+        "previous": "Anterior",
+        "next": "Siguiente"
+      }
+    },
+    "actions": {
+      "openMenu": "Abrir acciones",
+      "view": "Ver detalle",
+      "delete": "Eliminar registro"
+    },
+    "delete": {
+      "title": "Eliminar registro",
+      "description": "Esta acción eliminará el registro y sus archivos asociados.",
+      "warning": "Confirma que deseas eliminar este registro",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "success": "Registro eliminado correctamente.",
+      "error": "No fue posible eliminar el registro."
+    },
+    "detail": {
+      "notFound": "Registro de recolección no encontrado.",
+      "back": "Ir al listado",
+      "goBack": "Regresar",
+      "section": {
+        "contact": "Contacto",
+        "service": "Servicio",
+        "flags": "Sincronización y firmas"
+      },
+      "company": "Empresa",
+      "collector": "Recolector",
+      "contact": "Contacto",
+      "email": "Correo",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "serviceType": "Tipo de servicio",
+      "purpose": "Propósito",
+      "packageId": "Registro",
+      "originalFile": "Archivo original",
+      "folderKey": "Carpeta en S3",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "files": {
+        "title": "Archivos recolectados",
+        "preview": "Vista previa",
+        "download": "Descargar",
+        "empty": "No hay archivos adjuntos.",
+        "previewTitle": "Vista previa",
+        "close": "Cerrar",
+        "unsupported": "Este tipo de archivo no tiene vista previa disponible.",
+        "previewError": "No fue posible cargar la vista previa."
+      },
+      "observations": "Observaciones",
+      "equipment": "Equipos",
+      "equipmentNumber": "#",
+      "equipmentName": "Equipo",
+      "equipmentBrand": "Marca",
+      "equipmentModel": "Modelo",
+      "equipmentIdentification": "Identificación",
+      "equipmentSerial": "Serie",
+      "noEquipment": "No se registraron equipos.",
+      "flags": {
+        "synced": "Sincronizado",
+        "collectorSignature": "Firma de recolector",
+        "clientSignature": "Firma de cliente",
+        "yes": "Sí",
+        "no": "No"
+      }
     }
   },
   "myProfile": {
