@@ -10,6 +10,7 @@ import {
   ChartColumn,
   Building2,
   PlusCircle,
+  Archive,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePathname } from 'next/navigation';
@@ -122,6 +123,12 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             url: '/dashboard/service-entries/surveys',
             isActive: pathname.startsWith('/dashboard/service-entries/surveys'),
             icon: ChartColumn,
+          },
+          {
+            title: t('nav.servicePackagesRecords'),
+            url: '/dashboard/service-packages-records',
+            isActive: pathname.startsWith('/dashboard/service-packages-records'),
+            icon: Archive,
           },
         ],
       },
