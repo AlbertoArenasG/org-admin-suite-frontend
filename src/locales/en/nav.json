@@ -1,0 +1,20 @@
+{
+  "platform": "Platform",
+  "dashboard": "Dashboard",
+  "customers": "Customers",
+  "customersList": "Customers list",
+  "customersCreate": "Add customer",
+  "providers": "Providers",
+  "providersList": "Providers list",
+  "providersCreate": "Add provider",
+  "users": "Users",
+  "usersList": "Users list",
+  "usersInvite": "Invite user",
+  "usersAll": "All users",
+  "usersActive": "Active users",
+  "usersInactive": "Inactive users",
+  "services": "Services",
+  "serviceEntries": "Service entries",
+  "serviceEntrySurveys": "Service surveys",
+  "servicePackagesRecords": "Collection"
+}

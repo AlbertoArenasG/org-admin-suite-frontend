@@ -1,15 +1,24 @@
 import Link from 'next/link';
+import { MoreHorizontal } from 'lucide-react';
 
 import { Card, CardAction, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { Provider } from '@/features/providers/providersSlice';
 import { getProviderStatusTone } from '@/components/providers/status';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 export interface ProviderCardLabels {
   notAvailable: string;
   actions: {
     viewDetail: string;
+    edit: string;
+    delete: string;
   };
   metadata: {
     createdAt: string;
@@ -21,9 +30,17 @@ interface ProviderCardProps {
   provider: Provider;
   labels: ProviderCardLabels;
   formatDate: (value: string | null) => string;
+  onEdit?: (provider: Provider) => void;
+  onDelete?: (provider: Provider) => void;
 }
 
-export function ProviderCard({ provider, labels, formatDate }: ProviderCardProps) {
+export function ProviderCard({
+  provider,
+  labels,
+  formatDate,
+  onEdit,
+  onDelete,
+}: ProviderCardProps) {
   const providerStatusName = provider.statusName || labels.notAvailable;
 
   return (
@@ -46,9 +63,35 @@ export function ProviderCard({ provider, labels, formatDate }: ProviderCardProps
           >
             {providerStatusName}
           </span>
-          <Button variant="outline" size="sm" asChild className="whitespace-nowrap">
-            <Link href={`/dashboard/providers/${provider.id}`}>{labels.actions.viewDetail}</Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild className="whitespace-nowrap">
+              <Link href={`/dashboard/providers/${provider.id}`}>{labels.actions.viewDetail}</Link>
+            </Button>
+            {(onEdit || onDelete) && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon-sm" aria-label="Acciones">
+                    <MoreHorizontal className="size-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {onEdit ? (
+                    <DropdownMenuItem onClick={() => onEdit(provider)}>
+                      {labels.actions.edit}
+                    </DropdownMenuItem>
+                  ) : null}
+                  {onDelete ? (
+                    <DropdownMenuItem
+                      onClick={() => onDelete(provider)}
+                      className="text-destructive focus:text-destructive"
+                    >
+                      {labels.actions.delete}
+                    </DropdownMenuItem>
+                  ) : null}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
         </CardAction>
       </CardHeader>
       <CardFooter className="grid gap-4 border-t border-border/60 pt-6 text-sm text-muted-foreground sm:grid-cols-2">

@@ -1,0 +1,62 @@
+{
+  "header": "Service entry portal",
+  "survey": {
+    "title": "Service experience survey",
+    "subtitle": "Your feedback helps us improve our services.",
+    "instructions": "Please answer the survey to unlock the downloads.",
+    "alreadyCompleted": "You have already submitted this survey. Downloads are available below.",
+    "placeholders": {
+      "selectOption": "Choose an option"
+    },
+    "questions": {
+      "staffServiceTreatment": "How would you rate the staff's treatment when requesting the service?",
+      "responseTime": "How would you rate the response time for the calibration service?",
+      "staffAttitude": "How would you rate the staff's attitude and appearance during calibration?",
+      "documentationDelivery": "How would you rate the documentation delivery time?",
+      "observations": "Observations"
+    },
+    "answers": {
+      "EXCELENTE": "Excellent",
+      "MUY_BUENO": "Very good",
+      "BUENO": "Good",
+      "REGULAR": "Average",
+      "MALO": "Poor"
+    },
+    "errors": {
+      "required": "Select an option",
+      "observationsMax": "Observations must be 1000 characters or fewer."
+    },
+    "actions": {
+      "submit": "Submit survey",
+      "submitting": "Submitting..."
+    },
+    "success": "Survey submitted successfully. You can now download the files."
+  },
+  "info": {
+    "serviceOrder": "Service order: {{id}}",
+    "contactName": "Contact name",
+    "contactEmail": "Contact email",
+    "category": "Category",
+    "status": "Status",
+    "createdAt": "Created",
+    "updatedAt": "Updated",
+    "notAvailable": "Not available"
+  },
+  "files": {
+    "title": "Files",
+    "subtitleLocked": "Complete the survey to unlock the downloads.",
+    "subtitleReady": "Files are ready to download.",
+    "calibrationCertificate": "Calibration certificate",
+    "attachment": "Attachment",
+    "attachmentIndexed": "Attachment {{index}}",
+    "notAvailable": "Not available",
+    "download": "Download",
+    "downloading": "Downloading...",
+    "success": "Download started.",
+    "error": "We couldn't download the file."
+  },
+  "error": {
+    "title": "We couldn't load the service entry",
+    "retry": "Retry"
+  }
+}

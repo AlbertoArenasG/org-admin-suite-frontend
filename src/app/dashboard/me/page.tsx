@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation';
 import { getInitialsFromText } from '@/lib/get-initials';
 
 export default function MyProfilePage() {
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated(['myProfile', 'breadcrumbs']);
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -63,17 +63,17 @@ export default function MyProfilePage() {
 
   const detailRows = profile
     ? [
-        { label: t('myProfile.detail.email'), value: profile.email },
-        { label: t('myProfile.detail.role'), value: profile.roleName },
-        { label: t('myProfile.detail.status'), value: statusChip },
+        { label: t('detail.email'), value: profile.email },
+        { label: t('detail.role'), value: profile.roleName },
+        { label: t('detail.status'), value: statusChip },
         {
-          label: t('myProfile.detail.phone'),
+          label: t('detail.phone'),
           value: profile.cellPhone
             ? `${profile.cellPhone.countryCode} ${profile.cellPhone.number}`
             : '—',
         },
         {
-          label: t('myProfile.detail.joined'),
+          label: t('detail.joined'),
           value:
             profile.createdAt && !Number.isNaN(new Date(profile.createdAt).getTime())
               ? dateFormatter.format(new Date(profile.createdAt))
@@ -93,8 +93,8 @@ export default function MyProfilePage() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('myProfile.breadcrumb') },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('breadcrumb') },
             ]}
           />
         </div>
@@ -137,17 +137,17 @@ export default function MyProfilePage() {
               ) : (
                 <>
                   <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                    {displayName || profile?.email || t('myProfile.detail.titlePlaceholder')}
+                    {displayName || profile?.email || t('detail.titlePlaceholder')}
                   </Typography>
                   <Typography variant="body2" color="text.foreground">
-                    {t('myProfile.detail.subtitle')}
+                    {t('detail.subtitle')}
                   </Typography>
                 </>
               )}
             </div>
           </div>
           <Button size="sm" onClick={() => router.push('/dashboard/me/edit')} disabled={isLoading}>
-            {t('myProfile.actions.edit')}
+            {t('actions.edit')}
           </Button>
         </Box>
         <div className="flex flex-col gap-4 p-6">
@@ -174,7 +174,7 @@ export default function MyProfilePage() {
             ))
           ) : (
             <div className="rounded-xl border border-border/60 bg-card/60 px-4 py-12 text-center text-sm text-muted-foreground">
-              {t('myProfile.detail.empty')}
+              {t('detail.empty')}
             </div>
           )}
         </div>

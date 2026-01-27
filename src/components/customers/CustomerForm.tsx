@@ -27,7 +27,7 @@ interface CustomerFormProps {
 }
 
 export function CustomerForm({ mode, customerId, initialValues }: CustomerFormProps) {
-  const { t } = useTranslation();
+  const { t } = useTranslation('customers');
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { showSnackbar } = useSnackbar();
@@ -68,7 +68,7 @@ export function CustomerForm({ mode, customerId, initialValues }: CustomerFormPr
         showSnackbar({
           message:
             createState.message ??
-            t('customers.create.success', { defaultValue: 'Cliente creado correctamente.' }),
+            t('create.success', { defaultValue: 'Cliente creado correctamente.' }),
           severity: 'success',
         });
         router.replace(`/dashboard/customers/${createState.lastCreatedId}`);
@@ -84,7 +84,7 @@ export function CustomerForm({ mode, customerId, initialValues }: CustomerFormPr
         showSnackbar({
           message:
             updateState.message ??
-            t('customers.edit.success', { defaultValue: 'Cliente actualizado correctamente.' }),
+            t('edit.success', { defaultValue: 'Cliente actualizado correctamente.' }),
           severity: 'success',
         });
         router.replace(`/dashboard/customers/${updateState.lastUpdatedId}`);
@@ -131,8 +131,8 @@ export function CustomerForm({ mode, customerId, initialValues }: CustomerFormPr
   const isLoading = formState.status === 'loading' || isSubmitting;
 
   const fieldLabels = {
-    company: t('customers.create.fields.companyName'),
-    clientCode: t('customers.create.fields.clientCode'),
+    company: t('create.fields.companyName'),
+    clientCode: t('create.fields.clientCode'),
   };
 
   return (
@@ -143,15 +143,13 @@ export function CustomerForm({ mode, customerId, initialValues }: CustomerFormPr
           <Input
             id="companyName"
             {...register('companyName', {
-              required: t('customers.create.errors.companyNameRequired') ?? 'Campo requerido',
+              required: t('create.errors.companyNameRequired') ?? 'Campo requerido',
               minLength: {
                 value: 3,
-                message: t('customers.create.errors.companyNameLength') ?? 'Muy corto',
+                message: t('create.errors.companyNameLength') ?? 'Muy corto',
               },
             })}
-            placeholder={
-              t('customers.create.placeholders.companyName') ?? 'Comercializadora Ejemplo'
-            }
+            placeholder={t('create.placeholders.companyName') ?? 'Comercializadora Ejemplo'}
             disabled={isLoading}
           />
           {errors.companyName ? (
@@ -164,17 +162,17 @@ export function CustomerForm({ mode, customerId, initialValues }: CustomerFormPr
           <Input
             id="clientCode"
             {...register('clientCode', {
-              required: t('customers.create.errors.clientCodeRequired') ?? 'Campo requerido',
+              required: t('create.errors.clientCodeRequired') ?? 'Campo requerido',
               minLength: {
                 value: 3,
-                message: t('customers.create.errors.clientCodeLength') ?? 'Muy corto',
+                message: t('create.errors.clientCodeLength') ?? 'Muy corto',
               },
               pattern: {
                 value: /^[A-Za-z0-9-_]+$/,
-                message: t('customers.create.errors.clientCodeFormat') ?? 'Formato inválido',
+                message: t('create.errors.clientCodeFormat') ?? 'Formato inválido',
               },
             })}
-            placeholder={t('customers.create.placeholders.clientCode') ?? 'CLT-001'}
+            placeholder={t('create.placeholders.clientCode') ?? 'CLT-001'}
             disabled={isLoading}
           />
           {errors.clientCode ? (
@@ -196,18 +194,16 @@ export function CustomerForm({ mode, customerId, initialValues }: CustomerFormPr
           disabled={isLoading}
           onClick={() => router.push('/dashboard/customers')}
         >
-          {mode === 'create'
-            ? t('customers.create.actions.cancel')
-            : t('customers.edit.actions.cancel')}
+          {mode === 'create' ? t('create.actions.cancel') : t('edit.actions.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
           {isLoading
             ? mode === 'create'
-              ? t('customers.create.actions.processing')
-              : t('customers.edit.actions.processing')
+              ? t('create.actions.processing')
+              : t('edit.actions.processing')
             : mode === 'create'
-              ? t('customers.create.actions.submit')
-              : t('customers.edit.actions.submit')}
+              ? t('create.actions.submit')
+              : t('edit.actions.submit')}
         </Button>
       </div>
     </form>

@@ -135,6 +135,26 @@ export interface CreateProviderResult {
   message: string | null;
 }
 
+export interface UpdateProviderPayload {
+  id: string;
+  companyName: string;
+  providerCode: string;
+}
+
+export interface UpdateProviderResult {
+  provider: Provider;
+  message: string | null;
+}
+
+export interface DeleteProviderPayload {
+  id: string;
+}
+
+export interface DeleteProviderResult {
+  id: string;
+  message: string | null;
+}
+
 function mapContact(contact?: ApiProviderContact | null): ProviderContact | null {
   if (!contact) {
     return null;
@@ -373,6 +393,78 @@ export const createProvider = createAsyncThunk<
   } catch (error) {
     const message =
       error instanceof Error && error.message ? error.message : 'No fue posible crear el proveedor';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const updateProvider = createAsyncThunk<
+  UpdateProviderResult,
+  UpdateProviderPayload,
+  { state: RootState }
+>('providers/update', async ({ id, companyName, providerCode }, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const token = state.auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiProvider>(`/v1/providers/${id}`, {
+      method: 'PATCH',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: {
+        company_name: companyName,
+        provider_code: providerCode,
+      },
+      token,
+    });
+
+    return {
+      provider: mapProvider(response.data),
+      message: response.successMessage ?? null,
+    };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible actualizar el proveedor';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const deleteProvider = createAsyncThunk<
+  DeleteProviderResult,
+  DeleteProviderPayload,
+  { state: RootState }
+>('providers/delete', async ({ id }, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const token = state.auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<null>(`/v1/providers/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Accept: 'application/json',
+      },
+      token,
+    });
+
+    return {
+      id,
+      message: response.successMessage ?? null,
+    };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible eliminar el proveedor';
     return thunkAPI.rejectWithValue(message);
   }
 });

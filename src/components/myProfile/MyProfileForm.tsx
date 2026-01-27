@@ -50,7 +50,7 @@ export function MyProfileForm({
   onCancel,
   isSubmitting = false,
 }: MyProfileFormProps) {
-  const { t } = useTranslation('common', { keyPrefix: 'myProfile.form' });
+  const { t } = useTranslation('myProfile', { keyPrefix: 'form' });
 
   const {
     register,

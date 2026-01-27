@@ -8,7 +8,7 @@ import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { CustomersListContainer } from '@/components/customers/CustomersListContainer';
 
 export default function CustomersPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['customers', 'breadcrumbs']);
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -19,12 +19,12 @@ export default function CustomersPage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.dashboard'),
+                label: t('breadcrumbs:dashboard'),
                 href: '/dashboard',
                 hideOnDesktop: true,
               },
               {
-                label: t('breadcrumbs.customers'),
+                label: t('breadcrumbs:customers'),
               },
             ]}
           />
@@ -32,8 +32,8 @@ export default function CustomersPage() {
       </header>
 
       <section className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">{t('customers.title')}</h1>
-        <p className="text-muted-foreground">{t('customers.subtitle')}</p>
+        <h1 className="text-2xl font-semibold tracking-tight">{t('title')}</h1>
+        <p className="text-muted-foreground">{t('subtitle')}</p>
       </section>
 
       <CustomersListContainer />

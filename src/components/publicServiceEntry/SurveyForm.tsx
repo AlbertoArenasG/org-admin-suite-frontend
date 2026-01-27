@@ -23,10 +23,10 @@ import { useTranslation } from 'react-i18next';
 
 const ratingSchema = z
   .string()
-  .min(1, 'publicServiceEntry.survey.errors.required')
+  .min(1, 'survey.errors.required')
   .refine(
     (value) => SURVEY_RATING_VALUES.includes(value as (typeof SURVEY_RATING_VALUES)[number]),
-    'publicServiceEntry.survey.errors.required'
+    'survey.errors.required'
   );
 
 const surveySchema = z
@@ -36,7 +36,7 @@ const surveySchema = z
   .extend({
     observations: z
       .string()
-      .max(1000, 'publicServiceEntry.survey.errors.observationsMax')
+      .max(1000, 'survey.errors.observationsMax')
       .optional()
       .or(z.literal('')),
   });
@@ -50,7 +50,7 @@ interface SurveyFormProps {
 }
 
 export function PublicServiceEntrySurveyForm({ token, disabled, initialAnswers }: SurveyFormProps) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('publicServiceEntry');
   const { showSnackbar } = useSnackbar();
   const submitSurvey = usePublicServiceEntryStore((state) => state.submitSurvey);
   const surveySubmitting = usePublicServiceEntryStore((state) => state.surveySubmitting);
@@ -119,7 +119,7 @@ export function PublicServiceEntrySurveyForm({ token, disabled, initialAnswers }
         observations: observationsValue ?? '',
       });
       showSnackbar({
-        message: t('publicServiceEntry.survey.success', {
+        message: t('survey.success', {
           defaultValue: 'Survey submitted successfully. You can now download the files.',
         }),
         severity: 'success',
@@ -145,10 +145,10 @@ export function PublicServiceEntrySurveyForm({ token, disabled, initialAnswers }
     >
       <div className="border-b border-border/50 px-6 py-4">
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
-          {t('publicServiceEntry.survey.title')}
+          {t('survey.title')}
         </Typography>
         <Typography variant="body2" color="text.foreground">
-          {t('publicServiceEntry.survey.subtitle')}
+          {t('survey.subtitle')}
         </Typography>
       </div>
       <form onSubmit={onSubmit} className="flex flex-col gap-5 px-6 py-6">
@@ -162,13 +162,13 @@ export function PublicServiceEntrySurveyForm({ token, disabled, initialAnswers }
               className="w-full rounded-xl border border-border/60 bg-background px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40 disabled:cursor-not-allowed disabled:opacity-70"
             >
               <option value="">
-                {t('publicServiceEntry.survey.placeholders.selectOption', {
+                {t('survey.placeholders.selectOption', {
                   defaultValue: 'Choose an option',
                 })}
               </option>
               {SURVEY_RATING_VALUES.map((value) => (
                 <option key={value} value={value}>
-                  {t(`publicServiceEntry.survey.answers.${value}`)}
+                  {t(`survey.answers.${value}`)}
                 </option>
               ))}
             </select>
@@ -200,9 +200,7 @@ export function PublicServiceEntrySurveyForm({ token, disabled, initialAnswers }
 
         <div className="flex flex-col gap-3 border-t border-border/60 pt-4 sm:flex-row sm:justify-end">
           <Button type="submit" disabled={disabled || surveySubmitting}>
-            {surveySubmitting
-              ? t('publicServiceEntry.survey.actions.submitting')
-              : t('publicServiceEntry.survey.actions.submit')}
+            {surveySubmitting ? t('survey.actions.submitting') : t('survey.actions.submit')}
           </Button>
         </div>
       </form>

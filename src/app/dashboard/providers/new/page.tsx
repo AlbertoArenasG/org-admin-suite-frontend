@@ -8,7 +8,7 @@ import { ProviderForm } from '@/components/providers/ProviderForm';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
 export default function ProviderCreatePage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['providers', 'breadcrumbs']);
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -19,16 +19,16 @@ export default function ProviderCreatePage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.dashboard'),
+                label: t('breadcrumbs:dashboard'),
                 href: '/dashboard',
                 hideOnDesktop: true,
               },
               {
-                label: t('breadcrumbs.providers'),
+                label: t('breadcrumbs:providers'),
                 href: '/dashboard/providers',
               },
               {
-                label: t('providers.create.breadcrumb'),
+                label: t('create.breadcrumb'),
               },
             ]}
           />
@@ -36,17 +36,17 @@ export default function ProviderCreatePage() {
       </header>
 
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">{t('providers.create.title')}</h1>
-        <p className="text-muted-foreground">{t('providers.create.subtitle')}</p>
+        <h1 className="text-2xl font-semibold tracking-tight">{t('create.title')}</h1>
+        <p className="text-muted-foreground">{t('create.subtitle')}</p>
       </div>
 
       <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
         <CardHeader>
-          <CardTitle>{t('providers.create.formTitle')}</CardTitle>
-          <CardDescription>{t('providers.create.formSubtitle')}</CardDescription>
+          <CardTitle>{t('create.formTitle')}</CardTitle>
+          <CardDescription>{t('create.formSubtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <ProviderForm />
+          <ProviderForm mode="create" />
         </CardContent>
       </Card>
     </div>

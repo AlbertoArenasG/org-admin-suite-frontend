@@ -11,7 +11,7 @@ import {
 } from '@/components/serviceEntrySurveys/constants';
 
 interface UseServiceEntrySurveyTableColumnsParams {
-  t: TFunction<'common', undefined>;
+  t: TFunction<'serviceEntrySurveys', undefined>;
   dateFormatter: Intl.DateTimeFormat;
 }
 
@@ -23,7 +23,7 @@ export function useServiceEntrySurveyTableColumns({
     () => [
       {
         id: 'serviceInfo',
-        header: t('serviceEntrySurveys.table.columns.serviceInfo'),
+        header: t('table.columns.serviceInfo'),
         cell: ({ row }) => {
           const data = row.original;
           return (
@@ -36,15 +36,13 @@ export function useServiceEntrySurveyTableColumns({
               </div>
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                 <span className="font-mono uppercase tracking-wide text-foreground/70">
-                  {t('serviceEntrySurveys.table.labels.serviceOrder', {
+                  {t('table.labels.serviceOrder', {
                     serviceOrder: data.serviceOrder,
                   })}
                 </span>
-                <span>
-                  {t('serviceEntrySurveys.table.labels.contact', { contact: data.contactName })}
-                </span>
+                <span>{t('table.labels.contact', { contact: data.contactName })}</span>
                 <span className="break-all">
-                  {t('serviceEntrySurveys.table.labels.email', { email: data.contactEmail })}
+                  {t('table.labels.email', { email: data.contactEmail })}
                 </span>
               </div>
             </div>
@@ -53,7 +51,7 @@ export function useServiceEntrySurveyTableColumns({
       },
       {
         accessorKey: 'submittedAt',
-        header: t('serviceEntrySurveys.table.columns.submittedAt'),
+        header: t('table.columns.submittedAt'),
         cell: ({ getValue }) => {
           const value = getValue<string>();
           const date = new Date(value);
@@ -69,14 +67,14 @@ export function useServiceEntrySurveyTableColumns({
       },
       {
         id: 'ratings',
-        header: t('serviceEntrySurveys.table.columns.ratings'),
+        header: t('table.columns.ratings'),
         cell: ({ row }) => {
           const ratings = row.original.ratings;
           return (
             <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
               {PUBLIC_SURVEY_QUESTIONS.map((question) => {
                 const value = ratings[question.id];
-                const label = t(`serviceEntrySurveys.chart.labels.${question.id}`, {
+                const label = t(`chart.labels.${question.id}`, {
                   defaultValue: question.id,
                 });
 
@@ -92,7 +90,7 @@ export function useServiceEntrySurveyTableColumns({
                   );
                 }
 
-                const ratingLabel = t(`publicServiceEntry.survey.answers.${value}`, {
+                const ratingLabel = t(`publicServiceEntry:survey.answers.${value}`, {
                   defaultValue: value,
                 });
 
@@ -120,7 +118,7 @@ export function useServiceEntrySurveyTableColumns({
       },
       {
         accessorKey: 'observations',
-        header: t('serviceEntrySurveys.table.columns.observations'),
+        header: t('table.columns.observations'),
         cell: ({ getValue }) => {
           const value = getValue<string>();
           return value ? (

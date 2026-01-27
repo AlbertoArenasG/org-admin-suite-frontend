@@ -30,7 +30,7 @@ import { useSnackbar } from '@/components/providers/useSnackbarStore';
 const DEFAULT_PAGE_SIZE = 12;
 
 export function CustomersListContainer() {
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated('customers');
   const router = useRouter();
   const dispatch = useAppDispatch();
   const {
@@ -92,7 +92,7 @@ export function CustomersListContainer() {
       showSnackbar({
         message:
           deleteState.message ??
-          t('customers.delete.success', { defaultValue: 'Cliente eliminado correctamente.' }),
+          t('delete.success', { defaultValue: 'Cliente eliminado correctamente.' }),
         severity: 'success',
       });
       setDeleteDialogOpen(false);
@@ -123,12 +123,12 @@ export function CustomersListContainer() {
   const formatDate = useCallback(
     (value: string | null) => {
       if (!value) {
-        return t('customers.card.notAvailable');
+        return t('card.notAvailable');
       }
       try {
         return dateFormatter.format(new Date(value));
       } catch {
-        return t('customers.card.notAvailable');
+        return t('card.notAvailable');
       }
     },
     [dateFormatter, t]
@@ -136,16 +136,16 @@ export function CustomersListContainer() {
 
   const cardLabels: CustomerCardLabels = useMemo(
     () => ({
-      clientCode: t('customers.card.clientCode'),
-      notAvailable: t('customers.card.notAvailable'),
+      clientCode: t('card.clientCode'),
+      notAvailable: t('card.notAvailable'),
       actions: {
-        viewDetail: t('customers.card.viewDetail'),
-        edit: t('customers.detail.actions.edit'),
-        delete: t('customers.detail.actions.delete'),
+        viewDetail: t('card.viewDetail'),
+        edit: t('detail.actions.edit'),
+        delete: t('detail.actions.delete'),
       },
       metadata: {
-        createdAt: t('customers.card.createdAt'),
-        updatedAt: t('customers.card.updatedAt'),
+        createdAt: t('card.createdAt'),
+        updatedAt: t('card.updatedAt'),
       },
     }),
     [t]
@@ -164,13 +164,13 @@ export function CustomersListContainer() {
   const isEmpty = !isLoading && status === 'succeeded' && items.length === 0;
 
   const rangeLabel = isLoading
-    ? t('customers.list.loadingSummary')
+    ? t('list.loadingSummary')
     : totalItems > 0
-      ? t('customers.list.range', { from: startIndex, to: endIndex, total: totalItems })
-      : t('customers.list.emptySummary');
+      ? t('list.range', { from: startIndex, to: endIndex, total: totalItems })
+      : t('list.emptySummary');
 
   const paginationSummary = pagination
-    ? t('customers.pagination.summary', {
+    ? t('pagination.summary', {
         page: pagination.page,
         pages: pagination.totalPages,
         total: pagination.total,
@@ -203,8 +203,8 @@ export function CustomersListContainer() {
       <CustomersToolbar
         searchValue={searchValue}
         onSearchChange={setSearchValue}
-        placeholder={t('customers.filters.searchPlaceholder') ?? 'Buscar clientes...'}
-        clearLabel={t('customers.filters.clear') ?? 'Limpiar búsqueda'}
+        placeholder={t('filters.searchPlaceholder') ?? 'Buscar clientes...'}
+        clearLabel={t('filters.clear') ?? 'Limpiar búsqueda'}
         summary={rangeLabel}
         actions={
           <Button
@@ -214,7 +214,7 @@ export function CustomersListContainer() {
             onClick={() => router.push('/dashboard/customers/new')}
           >
             <Plus className="size-4" aria-hidden />
-            {t('customers.create.action')}
+            {t('create.action')}
           </Button>
         }
       />
@@ -224,9 +224,9 @@ export function CustomersListContainer() {
           variant="destructive"
           className="rounded-3xl border border-destructive/50 bg-destructive/5"
         >
-          <AlertTitle>{t('customers.errors.loadFailed')}</AlertTitle>
+          <AlertTitle>{t('errors.loadFailed')}</AlertTitle>
           <AlertDescription className="mt-2 flex flex-col gap-3 text-sm text-destructive">
-            {error ?? t('customers.errors.generic')}
+            {error ?? t('errors.generic')}
             <Button
               type="button"
               variant="outline"
@@ -235,7 +235,7 @@ export function CustomersListContainer() {
               onClick={handleRetry}
             >
               <RefreshCw className="size-4" aria-hidden />
-              {t('customers.errors.retry')}
+              {t('errors.retry')}
             </Button>
           </AlertDescription>
         </Alert>
@@ -244,7 +244,7 @@ export function CustomersListContainer() {
       {isLoading ? (
         <CustomersSkeletonGrid items={6} />
       ) : isEmpty ? (
-        <CustomersEmptyState message={t('customers.empty')} />
+        <CustomersEmptyState message={t('empty')} />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
           {items.map((customer) => (
@@ -270,8 +270,8 @@ export function CustomersListContainer() {
           summary={paginationSummary}
           onPageChange={handlePageChange}
           labels={{
-            previous: t('customers.pagination.previous') ?? 'Anterior',
-            next: t('customers.pagination.next') ?? 'Siguiente',
+            previous: t('pagination.previous') ?? 'Anterior',
+            next: t('pagination.next') ?? 'Siguiente',
           }}
         />
       ) : null}
@@ -287,14 +287,14 @@ export function CustomersListContainer() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t('customers.delete.title')}</DialogTitle>
+            <DialogTitle>{t('delete.title')}</DialogTitle>
             <DialogDescription>
-              {t('customers.delete.description', {
+              {t('delete.description', {
                 name: deleteTarget?.companyName ?? deleteTarget?.clientCode ?? '—',
               })}
             </DialogDescription>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">{t('customers.delete.warning')}</p>
+          <p className="text-sm text-muted-foreground">{t('delete.warning')}</p>
           <DialogFooter className="gap-2">
             <Button
               type="button"
@@ -302,7 +302,7 @@ export function CustomersListContainer() {
               onClick={() => setDeleteDialogOpen(false)}
               disabled={deleteState.status === 'loading'}
             >
-              {t('customers.delete.cancel')}
+              {t('delete.cancel')}
             </Button>
             <Button
               type="button"
@@ -310,9 +310,7 @@ export function CustomersListContainer() {
               onClick={handleDeleteConfirm}
               disabled={deleteState.status === 'loading'}
             >
-              {deleteState.status === 'loading'
-                ? t('customers.delete.processing')
-                : t('customers.delete.confirm')}
+              {deleteState.status === 'loading' ? t('delete.processing') : t('delete.confirm')}
             </Button>
           </DialogFooter>
         </DialogContent>

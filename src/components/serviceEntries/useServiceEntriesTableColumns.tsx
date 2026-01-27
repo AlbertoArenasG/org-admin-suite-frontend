@@ -9,7 +9,7 @@ import { ServiceEntriesRowActions } from '@/components/serviceEntries/ServiceEnt
 import type { UserRole } from '@/features/users/roles';
 import { cn } from '@/lib/utils';
 
-type Translate = TFunction<'common', undefined>;
+type Translate = TFunction<'serviceEntries', undefined>;
 
 interface UseServiceEntriesTableColumnsParams {
   t: Translate;
@@ -57,47 +57,45 @@ export function useServiceEntriesTableColumns({
       {
         accessorKey: 'companyName',
         header: ({ column }) => (
-          <SortingHeader title={t('serviceEntries.table.columns.companyName')} column={column} />
+          <SortingHeader title={t('table.columns.companyName')} column={column} />
         ),
         meta: {
-          label: t('serviceEntries.table.columns.companyName'),
+          label: t('table.columns.companyName'),
         },
       },
       {
         accessorKey: 'serviceOrderIdentifier',
         header: ({ column }) => (
-          <SortingHeader title={t('serviceEntries.table.columns.serviceOrder')} column={column} />
+          <SortingHeader title={t('table.columns.serviceOrder')} column={column} />
         ),
         meta: {
-          label: t('serviceEntries.table.columns.serviceOrder'),
+          label: t('table.columns.serviceOrder'),
         },
         cell: ({ getValue }) => <span className="font-mono text-sm">{getValue<string>()}</span>,
       },
       {
         accessorKey: 'contactName',
         header: ({ column }) => (
-          <SortingHeader title={t('serviceEntries.table.columns.contactName')} column={column} />
+          <SortingHeader title={t('table.columns.contactName')} column={column} />
         ),
         meta: {
-          label: t('serviceEntries.table.columns.contactName'),
+          label: t('table.columns.contactName'),
         },
       },
       {
         accessorKey: 'categoryName',
         header: ({ column }) => (
-          <SortingHeader title={t('serviceEntries.table.columns.category')} column={column} />
+          <SortingHeader title={t('table.columns.category')} column={column} />
         ),
         meta: {
-          label: t('serviceEntries.table.columns.category'),
+          label: t('table.columns.category'),
         },
       },
       {
         accessorKey: 'statusName',
-        header: ({ column }) => (
-          <SortingHeader title={t('serviceEntries.table.columns.status')} column={column} />
-        ),
+        header: ({ column }) => <SortingHeader title={t('table.columns.status')} column={column} />,
         meta: {
-          label: t('serviceEntries.table.columns.status'),
+          label: t('table.columns.status'),
         },
         cell: ({ getValue }) => (
           <span className="rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
@@ -108,10 +106,10 @@ export function useServiceEntriesTableColumns({
       {
         accessorKey: 'createdAt',
         header: ({ column }) => (
-          <SortingHeader title={t('serviceEntries.table.columns.createdAt')} column={column} />
+          <SortingHeader title={t('table.columns.createdAt')} column={column} />
         ),
         meta: {
-          label: t('serviceEntries.table.columns.createdAt'),
+          label: t('table.columns.createdAt'),
         },
         cell: ({ getValue }) => {
           const value = getValue<string>();
@@ -125,9 +123,9 @@ export function useServiceEntriesTableColumns({
       {
         id: 'surveyStatus',
         enableSorting: false,
-        header: () => t('serviceEntries.table.columns.surveyStatus'),
+        header: () => t('table.columns.surveyStatus'),
         meta: {
-          label: t('serviceEntries.table.columns.surveyStatus'),
+          label: t('table.columns.surveyStatus'),
         },
         cell: ({ row }) => {
           const survey = row.original.surveyStatus;
@@ -135,7 +133,7 @@ export function useServiceEntriesTableColumns({
             return (
               <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                 <Clock className="size-3.5" />
-                {t('serviceEntries.table.survey.notStarted')}
+                {t('table.survey.notStarted')}
               </span>
             );
           }
@@ -144,17 +142,17 @@ export function useServiceEntriesTableColumns({
               <span className="inline-flex items-center gap-2 text-xs font-medium text-primary">
                 <CheckCircle2 className="size-3.5" />
                 {survey.submitted_at
-                  ? t('serviceEntries.table.survey.completedAt', {
+                  ? t('table.survey.completedAt', {
                       date: dateFormatter.format(new Date(survey.submitted_at)),
                     })
-                  : t('serviceEntries.table.survey.completed')}
+                  : t('table.survey.completed')}
               </span>
             );
           }
           return (
             <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
               <Clock className="size-3.5" />
-              {t('serviceEntries.table.survey.pending')}
+              {t('table.survey.pending')}
             </span>
           );
         },
@@ -162,9 +160,9 @@ export function useServiceEntriesTableColumns({
       {
         id: 'downloadStatus',
         enableSorting: false,
-        header: () => t('serviceEntries.table.columns.downloadStatus'),
+        header: () => t('table.columns.downloadStatus'),
         meta: {
-          label: t('serviceEntries.table.columns.downloadStatus'),
+          label: t('table.columns.downloadStatus'),
         },
         cell: ({ row }) => {
           const download = row.original.downloadStatus;
@@ -172,7 +170,7 @@ export function useServiceEntriesTableColumns({
             return (
               <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
                 <Download className="size-3.5" />
-                {t('serviceEntries.table.download.unavailable')}
+                {t('table.download.unavailable')}
               </span>
             );
           }
@@ -180,7 +178,7 @@ export function useServiceEntriesTableColumns({
             return (
               <span className="inline-flex items-center gap-2 text-xs font-medium text-primary">
                 <Download className="size-3.5" />
-                {t('serviceEntries.table.download.count', {
+                {t('table.download.count', {
                   count: download.download_count ?? 0,
                 })}
               </span>
@@ -189,7 +187,7 @@ export function useServiceEntriesTableColumns({
           return (
             <span className="inline-flex items-center gap-2 text-xs text-muted-foreground">
               <Download className="size-3.5" />
-              {t('serviceEntries.table.download.never')}
+              {t('table.download.never')}
             </span>
           );
         },
@@ -197,7 +195,7 @@ export function useServiceEntriesTableColumns({
       {
         id: 'actions',
         enableHiding: false,
-        header: () => <span className="sr-only">{t('serviceEntries.actions.openMenu')}</span>,
+        header: () => <span className="sr-only">{t('actions.openMenu')}</span>,
         cell: ({ row }) => (
           <ServiceEntriesRowActions
             entryId={row.original.id}
@@ -206,10 +204,10 @@ export function useServiceEntriesTableColumns({
             onEdit={() => onEdit(row.original.id)}
             onDelete={() => onDelete(row.original.id)}
             labels={{
-              menu: t('serviceEntries.actions.openMenu'),
-              view: t('serviceEntries.actions.view'),
-              edit: t('serviceEntries.actions.edit'),
-              delete: t('serviceEntries.actions.delete'),
+              menu: t('actions.openMenu'),
+              view: t('actions.view'),
+              edit: t('actions.edit'),
+              delete: t('actions.delete'),
             }}
           />
         ),

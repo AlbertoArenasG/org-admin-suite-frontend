@@ -46,15 +46,15 @@ type InvitationStatus = 'idle' | 'loading' | 'success' | 'error';
 
 const registrationSchema = z
   .object({
-    name: z.string().trim().min(1, 'users.register.errors.nameRequired'),
-    lastname: z.string().trim().min(1, 'users.register.errors.lastnameRequired'),
-    password: z.string().min(6, 'users.register.errors.passwordLength'),
+    name: z.string().trim().min(1, 'register.errors.nameRequired'),
+    lastname: z.string().trim().min(1, 'register.errors.lastnameRequired'),
+    password: z.string().min(6, 'register.errors.passwordLength'),
     confirmPassword: z.string(),
     cellPhoneCode: z.string().trim(),
     cellPhoneNumber: z.string().trim(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: 'users.register.errors.passwordMismatch',
+    message: 'register.errors.passwordMismatch',
     path: ['confirmPassword'],
   });
 
@@ -69,7 +69,7 @@ export default function PublicUserRegisterPage() {
 }
 
 function UserRegisterContent() {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('users');
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
@@ -101,9 +101,7 @@ function UserRegisterContent() {
   useEffect(() => {
     if (!token) {
       setInvitationStatus('error');
-      setErrorMessage(
-        t('users.register.errors.missingToken', { defaultValue: 'No token provided.' })
-      );
+      setErrorMessage(t('register.errors.missingToken', { defaultValue: 'No token provided.' }));
       return;
     }
 
@@ -133,7 +131,7 @@ function UserRegisterContent() {
         const message =
           error instanceof Error && error.message
             ? error.message
-            : t('users.register.errors.fetchFailed', {
+            : t('register.errors.fetchFailed', {
                 defaultValue: 'We could not validate your invitation. Please try again later.',
               });
         setErrorMessage(message);
@@ -182,7 +180,7 @@ function UserRegisterContent() {
     })
       .then(() => {
         showSnackbar({
-          message: t('users.register.success', {
+          message: t('register.success', {
             defaultValue: 'Registration completed successfully.',
           }),
           severity: 'success',
@@ -203,7 +201,7 @@ function UserRegisterContent() {
             const message =
               typeof error === 'string'
                 ? error
-                : t('users.register.errors.autoLoginFailed', {
+                : t('register.errors.autoLoginFailed', {
                     defaultValue: 'Registration succeeded, but we could not start your session.',
                   });
             showSnackbar({ message, severity: 'error' });
@@ -215,7 +213,7 @@ function UserRegisterContent() {
         const message =
           error instanceof Error && error.message
             ? error.message
-            : t('users.register.errors.submitFailed', {
+            : t('register.errors.submitFailed', {
                 defaultValue: 'We could not complete your registration.',
               });
         showSnackbar({ message, severity: 'error' });
@@ -230,10 +228,10 @@ function UserRegisterContent() {
       return (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center">
           <Typography variant="h6">
-            {t('users.register.errors.missingToken', { defaultValue: 'Missing invitation token.' })}
+            {t('register.errors.missingToken', { defaultValue: 'Missing invitation token.' })}
           </Typography>
           <Button onClick={() => router.push('/login')}>
-            {t('users.register.actions.backToLogin', { defaultValue: 'Back to login' })}
+            {t('register.actions.backToLogin', { defaultValue: 'Back to login' })}
           </Button>
         </div>
       );
@@ -251,7 +249,7 @@ function UserRegisterContent() {
       return (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center">
           <Typography variant="h6">
-            {t('users.register.errors.invalidInvitation', {
+            {t('register.errors.invalidInvitation', {
               defaultValue: 'We could not validate your invitation.',
             })}
           </Typography>
@@ -261,7 +259,7 @@ function UserRegisterContent() {
             </Typography>
           ) : null}
           <Button onClick={() => router.push('/login')}>
-            {t('users.register.actions.backToLogin', { defaultValue: 'Back to login' })}
+            {t('register.actions.backToLogin', { defaultValue: 'Back to login' })}
           </Button>
         </div>
       );
@@ -271,12 +269,12 @@ function UserRegisterContent() {
       return (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 p-8 text-center">
           <Typography variant="h6">
-            {t('users.register.errors.alreadyUsed', {
+            {t('register.errors.alreadyUsed', {
               defaultValue: 'This invitation is no longer available.',
             })}
           </Typography>
           <Button onClick={() => router.push('/login')}>
-            {t('users.register.actions.backToLogin', { defaultValue: 'Back to login' })}
+            {t('register.actions.backToLogin', { defaultValue: 'Back to login' })}
           </Button>
         </div>
       );
@@ -291,36 +289,33 @@ function UserRegisterContent() {
     return (
       <form onSubmit={onSubmit} className="flex flex-1 flex-col gap-4 p-6">
         <div className="grid gap-2">
-          <Label>{t('users.register.fields.email')}</Label>
+          <Label>{t('register.fields.email')}</Label>
           <Input value={invitationData.email} disabled />
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="register-name">{t('users.register.fields.name')}</Label>
+          <Label htmlFor="register-name">{t('register.fields.name')}</Label>
           <Input id="register-name" {...form.register('name')} />
           {form.formState.errors.name ? (
             <p className="text-sm text-destructive">
-              {t(form.formState.errors.name.message ?? 'users.register.errors.nameRequired', {
+              {t(form.formState.errors.name.message ?? 'register.errors.nameRequired', {
                 defaultValue: 'Name is required.',
               })}
             </p>
           ) : null}
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="register-lastname">{t('users.register.fields.lastname')}</Label>
+          <Label htmlFor="register-lastname">{t('register.fields.lastname')}</Label>
           <Input id="register-lastname" {...form.register('lastname')} />
           {form.formState.errors.lastname ? (
             <p className="text-sm text-destructive">
-              {t(
-                form.formState.errors.lastname.message ?? 'users.register.errors.lastnameRequired',
-                {
-                  defaultValue: 'Last name is required.',
-                }
-              )}
+              {t(form.formState.errors.lastname.message ?? 'register.errors.lastnameRequired', {
+                defaultValue: 'Last name is required.',
+              })}
             </p>
           ) : null}
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="register-password">{t('users.register.fields.password')}</Label>
+          <Label htmlFor="register-password">{t('register.fields.password')}</Label>
           <div className="relative">
             <Input
               id="register-password"
@@ -338,7 +333,7 @@ function UserRegisterContent() {
           </div>
           {form.formState.errors.password ? (
             <p className="text-sm text-destructive">
-              {t(form.formState.errors.password.message ?? 'users.register.errors.passwordLength', {
+              {t(form.formState.errors.password.message ?? 'register.errors.passwordLength', {
                 defaultValue: 'Password must be at least 6 characters.',
               })}
             </p>
@@ -346,7 +341,7 @@ function UserRegisterContent() {
         </div>
         <div className="grid gap-2">
           <Label htmlFor="register-confirm-password">
-            {t('users.register.fields.confirmPassword', { defaultValue: 'Confirm password' })}
+            {t('register.fields.confirmPassword', { defaultValue: 'Confirm password' })}
           </Label>
           <div className="relative">
             <Input
@@ -366,8 +361,7 @@ function UserRegisterContent() {
           {form.formState.errors.confirmPassword ? (
             <p className="text-sm text-destructive">
               {t(
-                form.formState.errors.confirmPassword.message ??
-                  'users.register.errors.passwordMismatch',
+                form.formState.errors.confirmPassword.message ?? 'register.errors.passwordMismatch',
                 {
                   defaultValue: 'Passwords must match.',
                 }
@@ -377,22 +371,22 @@ function UserRegisterContent() {
         </div>
         <div className="grid gap-2 md:grid-cols-[0.9fr_1fr] md:gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="register-phone-code">{t('users.register.fields.phoneCode')}</Label>
+            <Label htmlFor="register-phone-code">{t('register.fields.phoneCode')}</Label>
             <Input id="register-phone-code" {...form.register('cellPhoneCode')} />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="register-phone-number">{t('users.register.fields.phoneNumber')}</Label>
+            <Label htmlFor="register-phone-number">{t('register.fields.phoneNumber')}</Label>
             <Input id="register-phone-number" {...form.register('cellPhoneNumber')} />
           </div>
         </div>
         <div className="mt-auto flex flex-col gap-2 border-t border-border/50 pt-4 sm:flex-row sm:justify-end sm:gap-3">
           <Button type="button" variant="ghost" onClick={() => router.push('/login')}>
-            {t('users.register.actions.backToLogin', { defaultValue: 'Back to login' })}
+            {t('register.actions.backToLogin', { defaultValue: 'Back to login' })}
           </Button>
           <Button type="submit" disabled={isFormBusy}>
             {isFormBusy
-              ? t('users.form.submitting')
-              : t('users.register.actions.complete', { defaultValue: 'Complete registration' })}
+              ? t('form.submitting')
+              : t('register.actions.complete', { defaultValue: 'Complete registration' })}
           </Button>
         </div>
       </form>
@@ -403,7 +397,7 @@ function UserRegisterContent() {
     <div className="flex min-h-screen flex-col bg-[radial-gradient(circle_at_top,_rgba(147,197,253,0.25),_rgba(59,130,246,0.1)_35%,_transparent)] p-4">
       {isSubmitting ? (
         <FullScreenLoader
-          text={t('users.register.loading', { defaultValue: 'Processing your registration...' })}
+          text={t('register.loading', { defaultValue: 'Processing your registration...' })}
         />
       ) : null}
       <header className="mb-6 flex items-center justify-end gap-2">
@@ -445,16 +439,16 @@ function UserRegisterContent() {
             }}
           >
             <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-              {t('users.register.title', { defaultValue: 'Complete your registration' })}
+              {t('register.title', { defaultValue: 'Complete your registration' })}
             </Typography>
             <Typography variant="body2" color="text.foreground">
-              {t('users.register.subtitle', {
+              {t('register.subtitle', {
                 defaultValue: 'Fill in the details below to activate your account.',
               })}
             </Typography>
             {invitationRoleLabel ? (
               <Typography variant="caption" color="text.foreground">
-                {t('users.register.roleLabel', { defaultValue: 'Role:' })}{' '}
+                {t('register.roleLabel', { defaultValue: 'Role:' })}{' '}
                 <strong>{invitationRoleLabel}</strong>
               </Typography>
             ) : null}

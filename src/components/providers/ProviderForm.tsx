@@ -11,8 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { createProvider } from '@/features/providers/providersThunks';
-import { resetProviderCreate } from '@/features/providers/providersSlice';
+import { createProvider, updateProvider } from '@/features/providers/providersThunks';
+import { resetProviderCreate, resetProviderUpdate } from '@/features/providers/providersSlice';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 
 export interface ProviderFormValues {
@@ -20,19 +20,26 @@ export interface ProviderFormValues {
   providerCode: string;
 }
 
-export function ProviderForm() {
-  const { t } = useTranslation();
+interface ProviderFormProps {
+  mode: 'create' | 'edit';
+  providerId?: string;
+  initialValues?: ProviderFormValues;
+}
+
+export function ProviderForm({ mode, providerId, initialValues }: ProviderFormProps) {
+  const { t } = useTranslation('providers');
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { showSnackbar } = useSnackbar();
   const createState = useAppSelector((state) => state.providers.create);
+  const updateState = useAppSelector((state) => state.providers.update);
 
   const defaultValues = useMemo<ProviderFormValues>(
     () => ({
-      companyName: '',
-      providerCode: '',
+      companyName: initialValues?.companyName ?? '',
+      providerCode: initialValues?.providerCode ?? '',
     }),
-    []
+    [initialValues]
   );
 
   const {
@@ -53,45 +60,79 @@ export function ProviderForm() {
     setFocus('companyName');
   }, [setFocus]);
 
+  const formState = mode === 'create' ? createState : updateState;
+
   useEffect(() => {
-    if (createState.status === 'succeeded' && createState.lastCreatedId) {
-      showSnackbar({
-        message:
-          createState.message ??
-          t('providers.create.success', { defaultValue: 'Proveedor creado correctamente.' }),
-        severity: 'success',
-      });
-      router.replace(`/dashboard/providers/${createState.lastCreatedId}`);
-      dispatch(resetProviderCreate());
-    } else if (createState.status === 'failed' && createState.error) {
-      showSnackbar({
-        message: createState.error,
-        severity: 'error',
-      });
+    if (mode === 'create') {
+      if (createState.status === 'succeeded' && createState.lastCreatedId) {
+        showSnackbar({
+          message:
+            createState.message ??
+            t('create.success', { defaultValue: 'Proveedor creado correctamente.' }),
+          severity: 'success',
+        });
+        router.replace(`/dashboard/providers/${createState.lastCreatedId}`);
+        dispatch(resetProviderCreate());
+      } else if (createState.status === 'failed' && createState.error) {
+        showSnackbar({
+          message: createState.error,
+          severity: 'error',
+        });
+      }
+    } else if (mode === 'edit') {
+      if (updateState.status === 'succeeded' && updateState.lastUpdatedId) {
+        showSnackbar({
+          message:
+            updateState.message ??
+            t('edit.success', { defaultValue: 'Proveedor actualizado correctamente.' }),
+          severity: 'success',
+        });
+        router.replace(`/dashboard/providers/${updateState.lastUpdatedId}`);
+        dispatch(resetProviderUpdate());
+      } else if (updateState.status === 'failed' && updateState.error) {
+        showSnackbar({
+          message: updateState.error,
+          severity: 'error',
+        });
+      }
     }
-  }, [createState, dispatch, router, showSnackbar, t]);
+  }, [createState, dispatch, mode, router, showSnackbar, t, updateState]);
 
   useEffect(
     () => () => {
-      dispatch(resetProviderCreate());
+      if (mode === 'create') {
+        dispatch(resetProviderCreate());
+      } else {
+        dispatch(resetProviderUpdate());
+      }
     },
-    [dispatch]
+    [dispatch, mode]
   );
 
   const onSubmit = handleSubmit((values) => {
-    void dispatch(
-      createProvider({
-        companyName: values.companyName.trim(),
-        providerCode: values.providerCode.trim(),
-      })
-    );
+    if (mode === 'create') {
+      void dispatch(
+        createProvider({
+          companyName: values.companyName.trim(),
+          providerCode: values.providerCode.trim(),
+        })
+      );
+    } else if (providerId) {
+      void dispatch(
+        updateProvider({
+          id: providerId,
+          companyName: values.companyName.trim(),
+          providerCode: values.providerCode.trim(),
+        })
+      );
+    }
   });
 
-  const isLoading = createState.status === 'loading' || isSubmitting;
+  const isLoading = formState.status === 'loading' || isSubmitting;
 
   const fieldLabels = {
-    company: t('providers.create.fields.companyName'),
-    providerCode: t('providers.create.fields.providerCode'),
+    company: t('create.fields.companyName'),
+    providerCode: t('create.fields.providerCode'),
   };
 
   return (
@@ -102,15 +143,13 @@ export function ProviderForm() {
           <Input
             id="companyName"
             {...register('companyName', {
-              required: t('providers.create.errors.companyNameRequired') ?? 'Campo requerido',
+              required: t('create.errors.companyNameRequired') ?? 'Campo requerido',
               minLength: {
                 value: 3,
-                message: t('providers.create.errors.companyNameLength') ?? 'Muy corto',
+                message: t('create.errors.companyNameLength') ?? 'Muy corto',
               },
             })}
-            placeholder={
-              t('providers.create.placeholders.companyName') ?? 'Comercializadora Ejemplo'
-            }
+            placeholder={t('create.placeholders.companyName') ?? 'Comercializadora Ejemplo'}
             disabled={isLoading}
           />
           {errors.companyName ? (
@@ -123,17 +162,17 @@ export function ProviderForm() {
           <Input
             id="providerCode"
             {...register('providerCode', {
-              required: t('providers.create.errors.providerCodeRequired') ?? 'Campo requerido',
+              required: t('create.errors.providerCodeRequired') ?? 'Campo requerido',
               minLength: {
                 value: 3,
-                message: t('providers.create.errors.providerCodeLength') ?? 'Muy corto',
+                message: t('create.errors.providerCodeLength') ?? 'Muy corto',
               },
               pattern: {
                 value: /^[A-Za-z0-9-_]+$/,
-                message: t('providers.create.errors.providerCodeFormat') ?? 'Formato inválido',
+                message: t('create.errors.providerCodeFormat') ?? 'Formato inválido',
               },
             })}
-            placeholder={t('providers.create.placeholders.providerCode') ?? 'PROV-001'}
+            placeholder={t('create.placeholders.providerCode') ?? 'PROV-001'}
             disabled={isLoading}
           />
           {errors.providerCode ? (
@@ -142,9 +181,9 @@ export function ProviderForm() {
         </div>
       </div>
 
-      {createState.status === 'failed' && createState.error ? (
+      {formState.status === 'failed' && formState.error ? (
         <Alert variant="destructive">
-          <AlertDescription>{createState.error}</AlertDescription>
+          <AlertDescription>{formState.error}</AlertDescription>
         </Alert>
       ) : null}
 
@@ -155,12 +194,16 @@ export function ProviderForm() {
           disabled={isLoading}
           onClick={() => router.push('/dashboard/providers')}
         >
-          {t('providers.create.actions.cancel')}
+          {mode === 'create' ? t('create.actions.cancel') : t('edit.actions.cancel')}
         </Button>
         <Button type="submit" disabled={isLoading}>
           {isLoading
-            ? t('providers.create.actions.processing')
-            : t('providers.create.actions.submit')}
+            ? mode === 'create'
+              ? t('create.actions.processing')
+              : t('edit.actions.processing')
+            : mode === 'create'
+              ? t('create.actions.submit')
+              : t('edit.actions.submit')}
         </Button>
       </div>
     </form>

@@ -10,7 +10,7 @@ import type { UsersTableUser } from '@/components/users2/types';
 import type { UserRole } from '@/features/users/roles';
 import { UsersTableRowActions } from '@/components/users2/UsersTableRowActions';
 
-type Translate = TFunction<'common', undefined>;
+type Translate = TFunction<'users', undefined>;
 
 interface UseUsersTableColumnsParams {
   t: Translate;
@@ -54,10 +54,10 @@ export function useUsersTableColumns({
       {
         accessorKey: 'fullName',
         header: ({ column }) => (
-          <SortingHeader title={t('users.table.columns.fullName')} column={column} />
+          <SortingHeader title={t('table.columns.fullName')} column={column} />
         ),
         meta: {
-          label: t('users.table.columns.fullName'),
+          label: t('table.columns.fullName'),
         },
         cell: ({ getValue }) => (
           <span className="font-medium text-foreground">{getValue<string>()}</span>
@@ -65,30 +65,24 @@ export function useUsersTableColumns({
       },
       {
         accessorKey: 'email',
-        header: ({ column }) => (
-          <SortingHeader title={t('users.table.columns.email')} column={column} />
-        ),
+        header: ({ column }) => <SortingHeader title={t('table.columns.email')} column={column} />,
         meta: {
-          label: t('users.table.columns.email'),
+          label: t('table.columns.email'),
         },
         cell: ({ getValue }) => <span className="text-foreground">{getValue<string>()}</span>,
       },
       {
         accessorKey: 'roleName',
-        header: ({ column }) => (
-          <SortingHeader title={t('users.table.columns.role')} column={column} />
-        ),
+        header: ({ column }) => <SortingHeader title={t('table.columns.role')} column={column} />,
         meta: {
-          label: t('users.table.columns.role'),
+          label: t('table.columns.role'),
         },
       },
       {
         accessorKey: 'statusName',
-        header: ({ column }) => (
-          <SortingHeader title={t('users.table.columns.status')} column={column} />
-        ),
+        header: ({ column }) => <SortingHeader title={t('table.columns.status')} column={column} />,
         meta: {
-          label: t('users.table.columns.status'),
+          label: t('table.columns.status'),
         },
         cell: ({ row }) => {
           const normalized = (row.original.status ?? '').toLowerCase();
@@ -102,10 +96,10 @@ export function useUsersTableColumns({
       {
         accessorKey: 'createdAt',
         header: ({ column }) => (
-          <SortingHeader title={t('users.table.columns.createdAt')} column={column} />
+          <SortingHeader title={t('table.columns.createdAt')} column={column} />
         ),
         meta: {
-          label: t('users.table.columns.createdAt'),
+          label: t('table.columns.createdAt'),
         },
         cell: ({ getValue }) => {
           const raw = getValue<string>();
@@ -119,7 +113,7 @@ export function useUsersTableColumns({
       {
         id: 'actions',
         enableHiding: false,
-        header: () => <span className="sr-only">{t('users.actions.openMenu')}</span>,
+        header: () => <span className="sr-only">{t('actions.openMenu')}</span>,
         cell: ({ row }) => (
           <UsersTableRowActions
             user={row.original}
@@ -127,11 +121,11 @@ export function useUsersTableColumns({
             currentUserId={currentUserId}
             onDelete={onDelete}
             labels={{
-              menu: t('users.actions.openMenu'),
-              view: t('users.actions.view') ?? 'Ver',
-              edit: t('users.actions.edit'),
-              invite: t('users.actions.invite'),
-              delete: t('users.actions.delete'),
+              menu: t('actions.openMenu'),
+              view: t('actions.view') ?? 'Ver',
+              edit: t('actions.edit'),
+              invite: t('actions.invite'),
+              delete: t('actions.delete'),
             }}
           />
         ),

@@ -40,7 +40,7 @@ function LoginFeedback({ successMessage, error, t }: LoginFeedbackProps) {
         <StatusAlert
           icon={CheckCircle2}
           title={t('common:done')}
-          description={successMessage ?? t('auth:genericSuccess')}
+          description={successMessage ?? t('genericSuccess')}
           size="md"
         />
       ) : null}
@@ -49,7 +49,7 @@ function LoginFeedback({ successMessage, error, t }: LoginFeedbackProps) {
           variant="destructive"
           icon={AlertCircle}
           title={t('common:errorTitle')}
-          description={error ?? t('auth:genericError')}
+          description={error ?? t('genericError')}
           size="md"
         />
       ) : null}
@@ -70,57 +70,55 @@ function LoginFields({ register, errors, t, onForgotPassword }: LoginFieldsProps
   return (
     <div className="grid gap-4">
       <div className="grid gap-2">
-        <Label htmlFor="email">{t('auth:emailLabel')}</Label>
+        <Label htmlFor="email">{t('emailLabel')}</Label>
         <Input
           id="email"
           type="email"
           autoComplete="email"
-          placeholder={t('auth:emailPlaceholder')}
+          placeholder={t('emailPlaceholder')}
           {...register('email', {
-            required: t('auth:emailRequired'),
+            required: t('emailRequired'),
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: t('auth:emailInvalid'),
+              message: t('emailInvalid'),
             },
           })}
           aria-invalid={errors.email ? 'true' : 'false'}
         />
         {errors.email ? (
-          <p className="text-sm text-destructive">
-            {errors.email.message ?? t('auth:emailInvalid')}
-          </p>
+          <p className="text-sm text-destructive">{errors.email.message ?? t('emailInvalid')}</p>
         ) : null}
       </div>
 
       <div className="grid gap-2">
         <div className="flex items-center">
-          <Label htmlFor="password">{t('auth:passwordLabel')}</Label>
+          <Label htmlFor="password">{t('passwordLabel')}</Label>
           <button
             type="button"
             onClick={() => setShowPassword((prev) => !prev)}
             className="ml-auto inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-foreground"
           >
             {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
-            <span>{showPassword ? t('auth:hidePassword') : t('auth:showPassword')}</span>
+            <span>{showPassword ? t('hidePassword') : t('showPassword')}</span>
           </button>
         </div>
         <Input
           id="password"
           type={showPassword ? 'text' : 'password'}
           autoComplete="current-password"
-          placeholder={t('auth:passwordPlaceholder')}
+          placeholder={t('passwordPlaceholder')}
           {...register('password', {
-            required: t('auth:passwordRequired'),
+            required: t('passwordRequired'),
             minLength: {
               value: 6,
-              message: t('auth:passwordMinLength'),
+              message: t('passwordMinLength'),
             },
           })}
           aria-invalid={errors.password ? 'true' : 'false'}
         />
         {errors.password ? (
           <p className="text-sm text-destructive">
-            {errors.password.message ?? t('auth:passwordRequired')}
+            {errors.password.message ?? t('passwordRequired')}
           </p>
         ) : null}
         <button
@@ -128,7 +126,7 @@ function LoginFields({ register, errors, t, onForgotPassword }: LoginFieldsProps
           onClick={onForgotPassword}
           className="ml-auto mt-1 inline-flex items-center text-sm text-primary underline-offset-4 hover:underline"
         >
-          {t('auth:forgotPassword')}
+          {t('forgotPassword')}
         </button>
       </div>
     </div>
@@ -146,10 +144,10 @@ function LoginSubmitButton({ isLoading, t }: LoginSubmitButtonProps) {
       {isLoading ? (
         <>
           <Spinner className="size-4" aria-label={t('common:loading')} />
-          {t('auth:submitting')}
+          {t('submitting')}
         </>
       ) : (
-        t('auth:submit')
+        t('submit')
       )}
     </Button>
   );
@@ -159,7 +157,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const dispatch = useAppDispatch();
   const { status, error, successMessage } = useAppSelector((state) => state.auth);
   const router = useRouter();
-  const { t } = useTranslationHydrated(['auth', 'common']);
+  const { t } = useTranslationHydrated('auth');
   const searchParams = useSearchParams();
   const nextParam = searchParams?.get('next');
   const nextRoute = nextParam && nextParam.startsWith('/') ? nextParam : null;
@@ -199,8 +197,8 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">{t('auth:loginTitle')}</CardTitle>
-          <CardDescription className="text-sm">{t('auth:loginSubtitle')}</CardDescription>
+          <CardTitle className="text-xl">{t('loginTitle')}</CardTitle>
+          <CardDescription className="text-sm">{t('loginSubtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
           <LoginFeedback successMessage={successMessage} error={error} t={t} />

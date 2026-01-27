@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   createProvider,
+  deleteProvider,
   fetchProviderById,
   fetchProviders,
+  updateProvider,
 } from '@/features/providers/providersThunks';
 
 export interface ProviderContact {
@@ -109,6 +111,18 @@ export interface ProvidersState {
     lastCreatedId: string | null;
     message: string | null;
   };
+  update: {
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+    lastUpdatedId: string | null;
+    message: string | null;
+  };
+  delete: {
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+    lastDeletedId: string | null;
+    message: string | null;
+  };
 }
 
 const initialState: ProvidersState = {
@@ -126,6 +140,18 @@ const initialState: ProvidersState = {
     status: 'idle',
     error: null,
     lastCreatedId: null,
+    message: null,
+  },
+  update: {
+    status: 'idle',
+    error: null,
+    lastUpdatedId: null,
+    message: null,
+  },
+  delete: {
+    status: 'idle',
+    error: null,
+    lastDeletedId: null,
     message: null,
   },
 };
@@ -150,6 +176,22 @@ const providersSlice = createSlice({
         status: 'idle',
         error: null,
         lastCreatedId: null,
+        message: null,
+      };
+    },
+    resetProviderUpdate(state) {
+      state.update = {
+        status: 'idle',
+        error: null,
+        lastUpdatedId: null,
+        message: null,
+      };
+    },
+    resetProviderDelete(state) {
+      state.delete = {
+        status: 'idle',
+        error: null,
+        lastDeletedId: null,
         message: null,
       };
     },
@@ -213,10 +255,68 @@ const providersSlice = createSlice({
           'No fue posible crear el proveedor';
         state.create.lastCreatedId = null;
         state.create.message = null;
+      })
+      .addCase(updateProvider.pending, (state, action) => {
+        state.update.status = 'loading';
+        state.update.error = null;
+        state.update.lastUpdatedId = action.meta.arg.id;
+        state.update.message = null;
+      })
+      .addCase(updateProvider.fulfilled, (state, action) => {
+        state.update.status = 'succeeded';
+        state.update.error = null;
+        state.update.lastUpdatedId = action.payload.provider.id;
+        state.update.message = action.payload.message ?? null;
+        const index = state.items.findIndex((item) => item.id === action.payload.provider.id);
+        if (index >= 0) {
+          state.items[index] = action.payload.provider;
+        } else {
+          state.items = [action.payload.provider, ...state.items];
+        }
+        if (state.detail.entry && state.detail.entry.id === action.payload.provider.id) {
+          state.detail.entry = action.payload.provider;
+        }
+      })
+      .addCase(updateProvider.rejected, (state, action) => {
+        state.update.status = 'failed';
+        state.update.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible actualizar el proveedor';
+        state.update.message = null;
+      })
+      .addCase(deleteProvider.pending, (state, action) => {
+        state.delete.status = 'loading';
+        state.delete.error = null;
+        state.delete.lastDeletedId = action.meta.arg.id;
+        state.delete.message = null;
+      })
+      .addCase(deleteProvider.fulfilled, (state, action) => {
+        state.delete.status = 'succeeded';
+        state.delete.error = null;
+        state.delete.lastDeletedId = action.payload.id;
+        state.delete.message = action.payload.message ?? null;
+        state.items = state.items.filter((item) => item.id !== action.payload.id);
+        if (state.detail.entry?.id === action.payload.id) {
+          state.detail.entry = null;
+        }
+      })
+      .addCase(deleteProvider.rejected, (state, action) => {
+        state.delete.status = 'failed';
+        state.delete.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible eliminar el proveedor';
+        state.delete.message = null;
       });
   },
 });
 
-export const { resetProvidersState, resetProviderDetail, resetProviderCreate } =
-  providersSlice.actions;
+export const {
+  resetProvidersState,
+  resetProviderDetail,
+  resetProviderCreate,
+  resetProviderUpdate,
+  resetProviderDelete,
+} = providersSlice.actions;
 export default providersSlice.reducer;

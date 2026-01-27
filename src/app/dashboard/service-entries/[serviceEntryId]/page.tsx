@@ -23,7 +23,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function ServiceEntryDetailPage() {
   const params = useParams<{ serviceEntryId: string }>();
   const router = useRouter();
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated(['serviceEntries', 'breadcrumbs']);
   const dispatch = useAppDispatch();
   const detail = useAppSelector((state) => state.serviceEntries.detail);
   const { showSnackbar } = useSnackbar();
@@ -64,8 +64,7 @@ export default function ServiceEntryDetailPage() {
   if (detail.status === 'failed' || !entry) {
     return (
       <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-        {detail.error ??
-          t('serviceEntries.detail.notFound', { defaultValue: 'Servicio no encontrado.' })}
+        {detail.error ?? t('detail.notFound', { defaultValue: 'Servicio no encontrado.' })}
       </div>
     );
   }
@@ -78,8 +77,8 @@ export default function ServiceEntryDetailPage() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('serviceEntries.breadcrumb'), href: '/dashboard/service-entries' },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('breadcrumb'), href: '/dashboard/service-entries' },
               { label: entry?.companyName ?? '—' },
             ]}
           />
@@ -106,7 +105,7 @@ export default function ServiceEntryDetailPage() {
         >
           <div>
             <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-              {entry?.companyName ?? t('serviceEntries.detail.placeholder')}
+              {entry?.companyName ?? t('detail.placeholder')}
             </Typography>
             <Typography variant="body2" color="text.foreground">
               {entry?.serviceOrderIdentifier ? `#${entry.serviceOrderIdentifier}` : '—'}
@@ -115,24 +114,15 @@ export default function ServiceEntryDetailPage() {
           <Chip label={entry?.statusName ?? '—'} color="primary" variant="outlined" />
         </Box>
         <div className="grid gap-4 p-6 md:grid-cols-2">
+          <DetailItem label={t('detail.contactName')} value={entry?.contactName ?? '—'} />
+          <DetailItem label={t('detail.contactEmail')} value={entry?.contactEmail ?? '—'} />
+          <DetailItem label={t('detail.category')} value={entry?.categoryName ?? '—'} />
           <DetailItem
-            label={t('serviceEntries.detail.contactName')}
-            value={entry?.contactName ?? '—'}
-          />
-          <DetailItem
-            label={t('serviceEntries.detail.contactEmail')}
-            value={entry?.contactEmail ?? '—'}
-          />
-          <DetailItem
-            label={t('serviceEntries.detail.category')}
-            value={entry?.categoryName ?? '—'}
-          />
-          <DetailItem
-            label={t('serviceEntries.detail.createdAt')}
+            label={t('detail.createdAt')}
             value={entry?.createdAt ? dateFormatter.format(new Date(entry.createdAt)) : '—'}
           />
           <DetailItem
-            label={t('serviceEntries.detail.updatedAt')}
+            label={t('detail.updatedAt')}
             value={
               entry?.updatedAt
                 ? dateFormatter.format(new Date(entry.updatedAt))
@@ -140,40 +130,38 @@ export default function ServiceEntryDetailPage() {
             }
           />
           <DetailItem
-            label={t('serviceEntries.detail.surveyStatus')}
+            label={t('detail.surveyStatus')}
             value={getSurveyStatusLabel(entry?.surveyStatus, {
               completed: (submittedAt) =>
                 submittedAt
-                  ? t('serviceEntries.detail.surveyCompletedWithDate', {
+                  ? t('detail.surveyCompletedWithDate', {
                       date: dateFormatter.format(new Date(submittedAt)),
                     })
-                  : t('serviceEntries.detail.surveyCompleted'),
-              pending: t('serviceEntries.detail.surveyPending'),
-              notStarted: t('serviceEntries.detail.surveyNotStarted'),
+                  : t('detail.surveyCompleted'),
+              pending: t('detail.surveyPending'),
+              notStarted: t('detail.surveyNotStarted'),
             })}
           />
           <DetailItem
-            label={t('serviceEntries.detail.downloadStatus')}
+            label={t('detail.downloadStatus')}
             value={getDownloadStatusLabel(entry?.downloadStatus, {
               available: (count, lastAt) =>
-                t('serviceEntries.detail.downloadAvailable', {
+                t('detail.downloadAvailable', {
                   count,
-                  last: lastAt
-                    ? dateFormatter.format(new Date(lastAt))
-                    : t('serviceEntries.detail.notDownloaded'),
+                  last: lastAt ? dateFormatter.format(new Date(lastAt)) : t('detail.notDownloaded'),
                 }),
-              never: t('serviceEntries.detail.downloadNever'),
-              inactive: t('serviceEntries.detail.downloadUnavailable'),
+              never: t('detail.downloadNever'),
+              inactive: t('detail.downloadUnavailable'),
             })}
           />
         </div>
         <div className="px-6 pb-6">
           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-            {t('serviceEntries.detail.files')}
+            {t('detail.files')}
           </Typography>
           <div className="mt-3 grid gap-3">
             <FileList
-              title={t('serviceEntries.detail.calibrationCertificate')}
+              title={t('detail.calibrationCertificate')}
               files={
                 entry?.filesMetadata?.calibration_certificate
                   ? [entry.filesMetadata.calibration_certificate]
@@ -181,19 +169,19 @@ export default function ServiceEntryDetailPage() {
               }
             />
             <FileList
-              title={t('serviceEntries.detail.attachments')}
+              title={t('detail.attachments')}
               files={entry?.filesMetadata?.attachments ?? []}
             />
           </div>
         </div>
         <div className="flex gap-2 border-t border-border/60 px-6 py-4">
           <Button variant="outline" onClick={() => router.back()}>
-            {t('serviceEntries.detail.actions.back')}
+            {t('detail.actions.back')}
           </Button>
           <Button
             onClick={() => router.push(`/dashboard/service-entries/${params.serviceEntryId}/edit`)}
           >
-            {t('serviceEntries.detail.actions.edit')}
+            {t('detail.actions.edit')}
           </Button>
         </div>
       </Paper>

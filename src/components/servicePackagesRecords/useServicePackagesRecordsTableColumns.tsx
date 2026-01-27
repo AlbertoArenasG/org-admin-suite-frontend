@@ -16,7 +16,7 @@ import type { ServicePackagesRecordsTableRow } from '@/components/servicePackage
 import { RecordsRowActions } from '@/components/servicePackagesRecords/RecordsRowActions';
 import { cn } from '@/lib/utils';
 
-type Translate = TFunction<'common', undefined>;
+type Translate = TFunction<'servicePackagesRecords', undefined>;
 
 interface UseServicePackagesRecordsTableColumnsParams {
   t: Translate;
@@ -63,13 +63,10 @@ export function useServicePackagesRecordsTableColumns({
       {
         accessorKey: 'serviceOrder',
         header: ({ column }) => (
-          <SortingHeader
-            title={t('servicePackagesRecords.table.columns.serviceOrder')}
-            column={column}
-          />
+          <SortingHeader title={t('table.columns.serviceOrder')} column={column} />
         ),
         meta: {
-          label: t('servicePackagesRecords.table.columns.serviceOrder'),
+          label: t('table.columns.serviceOrder'),
         },
         cell: ({ getValue }) => (
           <span className="inline-flex items-center gap-2 font-mono text-sm">
@@ -81,13 +78,10 @@ export function useServicePackagesRecordsTableColumns({
       {
         accessorKey: 'company',
         header: ({ column }) => (
-          <SortingHeader
-            title={t('servicePackagesRecords.table.columns.company')}
-            column={column}
-          />
+          <SortingHeader title={t('table.columns.company')} column={column} />
         ),
         meta: {
-          label: t('servicePackagesRecords.table.columns.company'),
+          label: t('table.columns.company'),
         },
         cell: ({ getValue }) => (
           <span className="inline-flex items-center gap-2">
@@ -99,13 +93,10 @@ export function useServicePackagesRecordsTableColumns({
       {
         accessorKey: 'collectorName',
         header: ({ column }) => (
-          <SortingHeader
-            title={t('servicePackagesRecords.table.columns.collector')}
-            column={column}
-          />
+          <SortingHeader title={t('table.columns.collector')} column={column} />
         ),
         meta: {
-          label: t('servicePackagesRecords.table.columns.collector'),
+          label: t('table.columns.collector'),
         },
         cell: ({ getValue }) => (
           <span className="inline-flex items-center gap-2">
@@ -117,13 +108,10 @@ export function useServicePackagesRecordsTableColumns({
       {
         accessorKey: 'visitDate',
         header: ({ column }) => (
-          <SortingHeader
-            title={t('servicePackagesRecords.table.columns.visitDate')}
-            column={column}
-          />
+          <SortingHeader title={t('table.columns.visitDate')} column={column} />
         ),
         meta: {
-          label: t('servicePackagesRecords.table.columns.visitDate'),
+          label: t('table.columns.visitDate'),
         },
         cell: ({ getValue }) => {
           const raw = getValue<string>();
@@ -139,9 +127,9 @@ export function useServicePackagesRecordsTableColumns({
       {
         accessorKey: 'status',
         enableSorting: false,
-        header: () => t('servicePackagesRecords.table.columns.status'),
+        header: () => t('table.columns.status'),
         meta: {
-          label: t('servicePackagesRecords.table.columns.status'),
+          label: t('table.columns.status'),
         },
         cell: ({ getValue }) => {
           const status = getValue<string>();
@@ -161,13 +149,10 @@ export function useServicePackagesRecordsTableColumns({
       {
         accessorKey: 'createdAt',
         header: ({ column }) => (
-          <SortingHeader
-            title={t('servicePackagesRecords.table.columns.createdAt')}
-            column={column}
-          />
+          <SortingHeader title={t('table.columns.createdAt')} column={column} />
         ),
         meta: {
-          label: t('servicePackagesRecords.table.columns.createdAt'),
+          label: t('table.columns.createdAt'),
         },
         cell: ({ getValue }) => {
           const raw = getValue<string>();
@@ -178,17 +163,15 @@ export function useServicePackagesRecordsTableColumns({
       {
         id: 'actions',
         enableHiding: false,
-        header: () => (
-          <span className="sr-only">{t('servicePackagesRecords.table.columns.actions')}</span>
-        ),
+        header: () => <span className="sr-only">{t('table.columns.actions')}</span>,
         cell: ({ row }) => (
           <RecordsRowActions
             onView={() => onView(row.original.id)}
             onDelete={() => onDelete(row.original.id)}
             labels={{
-              menu: t('servicePackagesRecords.actions.openMenu'),
-              view: t('servicePackagesRecords.actions.view'),
-              delete: t('servicePackagesRecords.actions.delete'),
+              menu: t('actions.openMenu'),
+              view: t('actions.view'),
+              delete: t('actions.delete'),
             }}
           />
         ),

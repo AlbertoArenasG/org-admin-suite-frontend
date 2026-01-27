@@ -36,7 +36,7 @@ export function ForgotPasswordDialog({
   onOpenChange,
 }: ForgotPasswordDialogProps) {
   const dispatch = useAppDispatch();
-  const { t, i18n } = useTranslationHydrated(['auth', 'common']);
+  const { t, i18n } = useTranslationHydrated('auth');
   const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
   const open = controlledOpen ?? uncontrolledOpen;
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -61,15 +61,15 @@ export function ForgotPasswordDialog({
       };
       const result = await dispatch(requestPasswordReset(payload)).unwrap();
       setStatus('success');
-      setMessage(result.message ?? t('auth:reset.successRequest'));
+      setMessage(result.message ?? t('reset.successRequest'));
       reset();
     } catch (error) {
       setStatus('error');
-      setMessage((error as string) ?? t('auth:reset.errorRequest'));
+      setMessage((error as string) ?? t('reset.errorRequest'));
     }
   });
 
-  const description = useMemo(() => t('auth:reset.description'), [t]);
+  const description = useMemo(() => t('reset.description'), [t]);
 
   const closeDialog = () => {
     if (onOpenChange) {
@@ -98,7 +98,7 @@ export function ForgotPasswordDialog({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{t('auth:reset.title')}</DialogTitle>
+          <DialogTitle>{t('reset.title')}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {status === 'success' && message ? (
@@ -120,17 +120,17 @@ export function ForgotPasswordDialog({
         ) : null}
         <form onSubmit={onSubmit} className="space-y-4" noValidate>
           <div className="grid gap-2">
-            <Label htmlFor="forgot-email">{t('auth:emailLabel')}</Label>
+            <Label htmlFor="forgot-email">{t('emailLabel')}</Label>
             <Input
               id="forgot-email"
               type="email"
               autoComplete="email"
-              placeholder={t('auth:emailPlaceholder')}
+              placeholder={t('emailPlaceholder')}
               {...register('email', {
-                required: t('auth:emailRequired'),
+                required: t('emailRequired'),
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                  message: t('auth:emailInvalid'),
+                  message: t('emailInvalid'),
                 },
               })}
               aria-invalid={errors.email ? 'true' : 'false'}
@@ -149,7 +149,7 @@ export function ForgotPasswordDialog({
               {t('common:cancel')}
             </Button>
             <Button type="submit" disabled={status === 'loading'} className="sm:min-w-[10rem]">
-              {t('auth:reset.submit')}
+              {t('reset.submit')}
             </Button>
           </DialogFooter>
         </form>

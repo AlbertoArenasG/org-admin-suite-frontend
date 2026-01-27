@@ -7,7 +7,7 @@ import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { ServicePackagesRecordsTableContainer } from '@/components/servicePackagesRecords/ServicePackagesRecordsTableContainer';
 
 export default function ServicePackagesRecordsPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['servicePackagesRecords', 'breadcrumbs']);
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -18,12 +18,12 @@ export default function ServicePackagesRecordsPage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.dashboard'),
+                label: t('breadcrumbs:dashboard'),
                 href: '/dashboard',
                 hideOnDesktop: true,
               },
               {
-                label: t('breadcrumbs.servicePackagesRecords'),
+                label: t('breadcrumbs:servicePackagesRecords'),
               },
             ]}
           />

@@ -50,7 +50,7 @@ export function ServicePackagesRecordsDetailView({
   recordId,
 }: ServicePackagesRecordsDetailViewProps) {
   const router = useRouter();
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated(['servicePackagesRecords', 'breadcrumbs']);
   const dispatch = useAppDispatch();
   const detail = useAppSelector((state) => state.servicePackagesRecords.detail);
   const { showSnackbar } = useSnackbar();
@@ -126,12 +126,12 @@ export function ServicePackagesRecordsDetailView({
             <PageBreadcrumbs
               segments={[
                 {
-                  label: t('breadcrumbs.dashboard'),
+                  label: t('breadcrumbs:dashboard'),
                   href: '/dashboard',
                   hideOnDesktop: true,
                 },
                 {
-                  label: t('breadcrumbs.servicePackagesRecords'),
+                  label: t('breadcrumbs:servicePackagesRecords'),
                   href: '/dashboard/service-packages-records',
                 },
               ]}
@@ -140,7 +140,7 @@ export function ServicePackagesRecordsDetailView({
         </header>
         <div className="flex flex-1 items-center justify-center rounded-3xl border border-dashed border-border/60 p-6 text-sm text-muted-foreground">
           {detail.error ??
-            t('servicePackagesRecords.detail.notFound', {
+            t('detail.notFound', {
               defaultValue: 'Registro de servicio no encontrado.',
             })}
         </div>
@@ -162,32 +162,32 @@ export function ServicePackagesRecordsDetailView({
 
   const detailItems = [
     {
-      label: t('servicePackagesRecords.detail.company'),
+      label: t('detail.company'),
       value: record.company ?? '—',
       icon: Building2,
     },
     {
-      label: t('servicePackagesRecords.detail.collector'),
+      label: t('detail.collector'),
       value: record.collectorName ?? '—',
       icon: User,
     },
     {
-      label: t('servicePackagesRecords.detail.contact'),
+      label: t('detail.contact'),
       value: record.contactPerson ?? '—',
       icon: User,
     },
     {
-      label: t('servicePackagesRecords.detail.email'),
+      label: t('detail.email'),
       value: record.email ?? '—',
       icon: Mail,
     },
     {
-      label: t('servicePackagesRecords.detail.phone'),
+      label: t('detail.phone'),
       value: record.phone ?? '—',
       icon: Phone,
     },
     {
-      label: t('servicePackagesRecords.detail.address'),
+      label: t('detail.address'),
       value: record.address ?? '—',
       icon: MapPin,
     },
@@ -209,9 +209,9 @@ export function ServicePackagesRecordsDetailView({
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
               {
-                label: t('breadcrumbs.servicePackagesRecords'),
+                label: t('breadcrumbs:servicePackagesRecords'),
                 href: '/dashboard/service-packages-records',
               },
               { label: record.company ?? '—' },
@@ -257,7 +257,7 @@ export function ServicePackagesRecordsDetailView({
 
         <div className="grid gap-6 p-6 lg:grid-cols-3">
           <div className="space-y-4 lg:col-span-2">
-            <SectionCard title={t('servicePackagesRecords.detail.section.contact')}>
+            <SectionCard title={t('detail.section.contact')}>
               <div className="grid gap-4 md:grid-cols-2">
                 {detailItems.map((item) => (
                   <DetailItem
@@ -269,73 +269,67 @@ export function ServicePackagesRecordsDetailView({
                 ))}
               </div>
             </SectionCard>
-            <SectionCard title={t('servicePackagesRecords.detail.section.service')}>
+            <SectionCard title={t('detail.section.service')}>
               <div className="grid gap-4 md:grid-cols-2">
+                <DetailItem label={t('detail.serviceType')} value={record.serviceType ?? '—'} />
+                <DetailItem label={t('detail.folderKey')} value={record.folderKey ?? '—'} />
                 <DetailItem
-                  label={t('servicePackagesRecords.detail.serviceType')}
-                  value={record.serviceType ?? '—'}
-                />
-                <DetailItem
-                  label={t('servicePackagesRecords.detail.folderKey')}
-                  value={record.folderKey ?? '—'}
-                />
-                <DetailItem
-                  label={t('servicePackagesRecords.detail.createdAt')}
+                  label={t('detail.createdAt')}
                   value={record.createdAt ? dateFormatter.format(new Date(record.createdAt)) : '—'}
                 />
                 <DetailItem
-                  label={t('servicePackagesRecords.detail.updatedAt')}
+                  label={t('detail.updatedAt')}
                   value={record.updatedAt ? dateFormatter.format(new Date(record.updatedAt)) : '—'}
                 />
               </div>
             </SectionCard>
 
-            <SectionCard title={t('servicePackagesRecords.detail.section.flags')}>
+            <SectionCard title={t('detail.section.flags')}>
               <div className="grid gap-4 md:grid-cols-2">
                 <BooleanFlag
-                  label={t('servicePackagesRecords.detail.flags.collectorSignature')}
+                  label={t('detail.flags.collectorSignature')}
                   value={Boolean(record.details?.hasCollectorSignature)}
-                  trueLabel={t('servicePackagesRecords.detail.flags.yes')}
-                  falseLabel={t('servicePackagesRecords.detail.flags.no')}
+                  trueLabel={t('detail.flags.yes')}
+                  falseLabel={t('detail.flags.no')}
                 />
                 <BooleanFlag
-                  label={t('servicePackagesRecords.detail.flags.clientSignature')}
+                  label={t('detail.flags.clientSignature')}
                   value={Boolean(record.details?.hasClientSignature)}
-                  trueLabel={t('servicePackagesRecords.detail.flags.yes')}
-                  falseLabel={t('servicePackagesRecords.detail.flags.no')}
+                  trueLabel={t('detail.flags.yes')}
+                  falseLabel={t('detail.flags.no')}
                 />
               </div>
             </SectionCard>
 
             {record.details?.observations ? (
-              <SectionCard title={t('servicePackagesRecords.detail.observations')}>
+              <SectionCard title={t('detail.observations')}>
                 <p className="text-sm text-muted-foreground">{record.details.observations}</p>
               </SectionCard>
             ) : null}
 
-            <SectionCard title={t('servicePackagesRecords.detail.equipment')}>
+            <SectionCard title={t('detail.equipment')}>
               {record.details?.equipment?.length ? (
                 <div className="overflow-x-auto rounded-2xl border border-border/60">
                   <table className="w-full min-w-[640px] border-collapse text-sm">
                     <thead className="bg-muted/80">
                       <tr>
                         <th className="px-4 py-2 text-left font-semibold">
-                          {t('servicePackagesRecords.detail.equipmentNumber')}
+                          {t('detail.equipmentNumber')}
                         </th>
                         <th className="px-4 py-2 text-left font-semibold">
-                          {t('servicePackagesRecords.detail.equipmentName')}
+                          {t('detail.equipmentName')}
                         </th>
                         <th className="px-4 py-2 text-left font-semibold">
-                          {t('servicePackagesRecords.detail.equipmentBrand')}
+                          {t('detail.equipmentBrand')}
                         </th>
                         <th className="px-4 py-2 text-left font-semibold">
-                          {t('servicePackagesRecords.detail.equipmentModel')}
+                          {t('detail.equipmentModel')}
                         </th>
                         <th className="px-4 py-2 text-left font-semibold">
-                          {t('servicePackagesRecords.detail.equipmentIdentification')}
+                          {t('detail.equipmentIdentification')}
                         </th>
                         <th className="px-4 py-2 text-left font-semibold">
-                          {t('servicePackagesRecords.detail.equipmentSerial')}
+                          {t('detail.equipmentSerial')}
                         </th>
                       </tr>
                     </thead>
@@ -357,15 +351,13 @@ export function ServicePackagesRecordsDetailView({
                   </table>
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  {t('servicePackagesRecords.detail.noEquipment')}
-                </p>
+                <p className="text-sm text-muted-foreground">{t('detail.noEquipment')}</p>
               )}
             </SectionCard>
           </div>
 
           <div className="space-y-4">
-            <SectionCard title={t('servicePackagesRecords.detail.files.title')}>
+            <SectionCard title={t('detail.files.title')}>
               <div className="space-y-3">
                 {displayFiles.length ? (
                   displayFiles.map((file) => (
@@ -374,14 +366,12 @@ export function ServicePackagesRecordsDetailView({
                       file={file}
                       canPreview={isPreviewableFile(file)}
                       onPreview={() => handleOpenPreview(file)}
-                      previewLabel={t('servicePackagesRecords.detail.files.preview')}
-                      downloadLabel={t('servicePackagesRecords.detail.files.download')}
+                      previewLabel={t('detail.files.preview')}
+                      downloadLabel={t('detail.files.download')}
                     />
                   ))
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    {t('servicePackagesRecords.detail.files.empty')}
-                  </p>
+                  <p className="text-sm text-muted-foreground">{t('detail.files.empty')}</p>
                 )}
               </div>
             </SectionCard>
@@ -393,10 +383,10 @@ export function ServicePackagesRecordsDetailView({
             variant="outline"
             onClick={() => router.push('/dashboard/service-packages-records')}
           >
-            {t('servicePackagesRecords.detail.back')}
+            {t('detail.back')}
           </Button>
           <Button variant="ghost" onClick={() => router.back()}>
-            {t('servicePackagesRecords.detail.goBack')}
+            {t('detail.goBack')}
           </Button>
         </div>
       </Paper>
@@ -409,11 +399,11 @@ export function ServicePackagesRecordsDetailView({
           onClose={() => setPreviewOpen(false)}
           onNavigate={(index) => setPreviewIndex(index)}
           labels={{
-            title: t('servicePackagesRecords.detail.files.previewTitle'),
-            download: t('servicePackagesRecords.detail.files.download'),
-            close: t('servicePackagesRecords.detail.files.close'),
-            unsupported: t('servicePackagesRecords.detail.files.unsupported'),
-            error: t('servicePackagesRecords.detail.files.previewError'),
+            title: t('detail.files.previewTitle'),
+            download: t('detail.files.download'),
+            close: t('detail.files.close'),
+            unsupported: t('detail.files.unsupported'),
+            error: t('detail.files.previewError'),
           }}
         />
       ) : null}

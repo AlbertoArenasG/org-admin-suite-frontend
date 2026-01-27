@@ -33,7 +33,7 @@ function getPaginationFromParams(params: URLSearchParams): PaginationState {
 }
 
 export function ServicePackagesRecordsTableContainer() {
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated('servicePackagesRecords');
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -151,7 +151,7 @@ export function ServicePackagesRecordsTableContainer() {
       showSnackbar({
         message:
           deleteState.message ??
-          t('servicePackagesRecords.delete.success', {
+          t('delete.success', {
             defaultValue: 'Registro eliminado correctamente.',
           }),
         severity: 'success',
@@ -169,7 +169,7 @@ export function ServicePackagesRecordsTableContainer() {
       showSnackbar({
         message:
           deleteState.error ??
-          t('servicePackagesRecords.delete.error', {
+          t('delete.error', {
             defaultValue: 'No fue posible eliminar el registro.',
           }),
         severity: 'error',
@@ -227,7 +227,7 @@ export function ServicePackagesRecordsTableContainer() {
     }
     const from = (pagination.page - 1) * pagination.perPage + 1;
     const to = Math.min(pagination.page * pagination.perPage, pagination.total);
-    return t('servicePackagesRecords.table.summary', {
+    return t('table.summary', {
       defaultValue: 'Mostrando {{from}}-{{to}} de {{total}} registros',
       from: pagination.total ? from : 0,
       to: pagination.total ? to : 0,
@@ -244,15 +244,15 @@ export function ServicePackagesRecordsTableContainer() {
       table={table}
       isLoading={status === 'loading' && !entities.length}
       error={error}
-      title={t('servicePackagesRecords.title')}
+      title={t('title')}
       subtitle={paginationSummary}
-      searchPlaceholder={t('servicePackagesRecords.table.searchPlaceholder')}
-      columnLabel={t('servicePackagesRecords.table.columnLabel')}
+      searchPlaceholder={t('table.searchPlaceholder')}
+      columnLabel={t('table.columnLabel')}
       tableLabels={{
-        noData: t('servicePackagesRecords.table.noData'),
+        noData: t('table.noData'),
         pagination: {
-          previous: t('servicePackagesRecords.table.pagination.previous'),
-          next: t('servicePackagesRecords.table.pagination.next'),
+          previous: t('table.pagination.previous'),
+          next: t('table.pagination.next'),
         },
       }}
       deleteDialog={{
@@ -275,11 +275,11 @@ export function ServicePackagesRecordsTableContainer() {
         },
         isLoading: deleteState.status === 'loading',
         labels: {
-          title: t('servicePackagesRecords.delete.title'),
-          description: t('servicePackagesRecords.delete.description'),
-          warning: t('servicePackagesRecords.delete.warning'),
-          cancel: t('servicePackagesRecords.delete.cancel'),
-          confirm: t('servicePackagesRecords.delete.confirm'),
+          title: t('delete.title'),
+          description: t('delete.description'),
+          warning: t('delete.warning'),
+          cancel: t('delete.cancel'),
+          confirm: t('delete.confirm'),
         },
       }}
     />

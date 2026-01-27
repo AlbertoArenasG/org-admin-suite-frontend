@@ -1,0 +1,77 @@
+{
+  "header": "Fiscal portal",
+  "title": "Customer fiscal profile",
+  "logoAlt": "Company logo",
+  "summary": {
+    "status": "Profile status",
+    "clientCode": "Client code",
+    "lastUpdated": "Last update",
+    "notAvailable": "Not available"
+  },
+  "error": {
+    "title": "We couldn’t load the profile.",
+    "retry": "Try again"
+  },
+  "form": {
+    "success": "Fiscal information sent successfully.",
+    "error": "We couldn’t submit the information.",
+    "uploadSuccess": "File uploaded successfully.",
+    "uploadError": "We couldn’t upload the file.",
+    "sections": {
+      "address": "Fiscal address",
+      "cfdi": "CFDI data",
+      "contacts": "Contacts",
+      "files": "Documents"
+    },
+    "fields": {
+      "businessName": "Business name",
+      "rfc": "RFC",
+      "taxRegime": "Tax regime",
+      "street": "Street",
+      "number": "Number",
+      "neighborhood": "Neighborhood",
+      "delegation": "Delegation / Municipality",
+      "city": "City",
+      "postalCode": "Postal code",
+      "cfdiUse": "CFDI use",
+      "paymentMethod": "Payment method",
+      "paymentForm": "Payment form",
+      "billingContact": "Billing contact",
+      "accountsContact": "Accounts payable contact",
+      "notes": "Notes and requirements",
+      "taxCertificate": "Tax certificate",
+      "invoiceRequirements": "Invoice requirements"
+    },
+    "files": {
+      "empty": "No file uploaded",
+      "upload": "Upload file",
+      "uploading": "Uploading..."
+    },
+    "placeholders": {
+      "businessName": "Acme Corp.",
+      "rfc": "XAXX010101000",
+      "taxRegime": "Tax regime",
+      "street": "123 Main St",
+      "number": "Suite 100",
+      "neighborhood": "Neighborhood",
+      "delegation": "Municipality / Delegation",
+      "city": "City",
+      "postalCode": "00000",
+      "cfdiUse": "G03",
+      "paymentMethod": "Transferencia",
+      "paymentForm": "03",
+      "notes": "Add any requirement or instruction",
+      "contactName": "Full name",
+      "contactEmail": "name@company.com",
+      "contactPhone": "+1 555 000 0000"
+    },
+    "errors": {
+      "required": "This field is required"
+    },
+    "lastUpdated": "Last updated: {{date}}",
+    "actions": {
+      "submit": "Save information",
+      "submitting": "Sending information..."
+    }
+  }
+}

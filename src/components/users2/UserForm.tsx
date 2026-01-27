@@ -50,7 +50,7 @@ export function UserForm({
   roleOptions,
   isSubmitting = false,
 }: UserFormProps) {
-  const { t } = useTranslation('common', { keyPrefix: 'users' });
+  const { t } = useTranslation('users');
 
   const {
     register,

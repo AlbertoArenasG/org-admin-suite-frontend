@@ -26,7 +26,7 @@ export default function PublicServiceEntryPage() {
 function PublicServiceEntryContent() {
   const params = useParams<{ token: string }>();
   const token = params.token;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('publicServiceEntry');
   const { showSnackbar } = useSnackbar();
 
   const fetchEntry = usePublicServiceEntryStore((state) => state.fetchEntry);
@@ -60,7 +60,7 @@ function PublicServiceEntryContent() {
     <div className="min-h-screen bg-[color:var(--public-bg,#f5f5fb)] dark:bg-background">
       <header className="flex items-center justify-between gap-3 bg-transparent px-6 py-4">
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-          {t('publicServiceEntry.header')}
+          {t('header')}
         </Typography>
         <div className="flex items-center gap-2">
           <ModeToggle
@@ -82,13 +82,13 @@ function PublicServiceEntryContent() {
         ) : status === 'error' ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-3xl border border-dashed border-border/70 bg-card/70 p-8 text-center">
             <Typography variant="h6" color="error">
-              {t('publicServiceEntry.error.title')}
+              {t('error.title')}
             </Typography>
             <Typography variant="body2" color="text.foreground">
               {error}
             </Typography>
             <Button type="button" onClick={() => token && fetchEntry(token)}>
-              {t('publicServiceEntry.error.retry')}
+              {t('error.retry')}
             </Button>
           </div>
         ) : (
@@ -98,11 +98,11 @@ function PublicServiceEntryContent() {
               <div className="space-y-4">
                 {surveyAlreadyCompleted ? (
                   <div className="rounded-2xl border border-emerald-300 bg-emerald-200/20 px-4 py-3 text-sm text-emerald-900 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-200">
-                    {t('publicServiceEntry.survey.alreadyCompleted')}
+                    {t('survey.alreadyCompleted')}
                   </div>
                 ) : (
                   <div className="rounded-2xl border border-primary/30 bg-primary/10 px-4 py-3 text-sm text-primary">
-                    {t('publicServiceEntry.survey.instructions')}
+                    {t('survey.instructions')}
                   </div>
                 )}
                 <PublicServiceEntrySurveyForm token={token} disabled={surveyAlreadyCompleted} />
@@ -116,9 +116,7 @@ function PublicServiceEntryContent() {
           </>
         )}
       </main>
-      {surveySubmitting ? (
-        <FullScreenLoader text={t('publicServiceEntry.survey.actions.submitting')} />
-      ) : null}
+      {surveySubmitting ? <FullScreenLoader text={t('survey.actions.submitting')} /> : null}
     </div>
   );
 }

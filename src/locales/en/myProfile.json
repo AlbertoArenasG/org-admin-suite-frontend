@@ -1,0 +1,60 @@
+{
+  "breadcrumb": "My profile",
+  "actions": {
+    "view": "View profile",
+    "edit": "Edit profile",
+    "cancel": "Back",
+    "save": "Save changes",
+    "saving": "Saving..."
+  },
+  "notifications": {
+    "updated": "Profile updated successfully."
+  },
+  "detail": {
+    "titlePlaceholder": "Profile",
+    "subtitle": "Account information",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "phone": "Phone",
+    "joined": "Created",
+    "empty": "We could not load your information yet."
+  },
+  "edit": {
+    "subtitle": "Update your basic information and password."
+  },
+  "form": {
+    "emailLabel": "Email",
+    "fields": {
+      "name": "First name",
+      "lastname": "Last name",
+      "phoneCode": "Country code",
+      "phoneNumber": "Phone number"
+    },
+    "placeholders": {
+      "name": "First name",
+      "lastname": "Last name",
+      "phoneCode": "+1",
+      "phoneNumber": "0000000000"
+    },
+    "password": {
+      "sectionTitle": "Password",
+      "sectionHint": "Only complete these fields if you want to change your password.",
+      "toggleOpen": "Change password",
+      "toggleClose": "Cancel",
+      "toggleShow": "Show password",
+      "toggleHide": "Hide password",
+      "new": "New password",
+      "placeholder": "Enter a new password (minimum 6 characters)",
+      "minLength": "Password must be at least 6 characters.",
+      "confirm": "Confirm password",
+      "confirmPlaceholder": "Re-enter the new password",
+      "mismatch": "Passwords do not match."
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving..."
+    }
+  }
+}

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { TFunction } from 'i18next';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Check, Copy, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Check, Copy, RefreshCw, Trash2 } from 'lucide-react';
 
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Separator } from '@/components/ui/separator';
@@ -11,8 +11,8 @@ import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { fetchProviderById } from '@/features/providers/providersThunks';
-import { resetProviderDetail } from '@/features/providers/providersSlice';
+import { deleteProvider, fetchProviderById } from '@/features/providers/providersThunks';
+import { resetProviderDelete, resetProviderDetail } from '@/features/providers/providersSlice';
 import { ProviderDetailSkeleton } from '@/components/providers/ProviderDetailSkeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -27,18 +27,28 @@ import {
 import { getProviderProfileTone, getProviderStatusTone } from '@/components/providers/status';
 import type { Provider, ProviderContact } from '@/features/providers/providersSlice';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 export default function ProviderDetailPage() {
   const params = useParams<{ providerId?: string }>();
   const router = useRouter();
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated(['providers', 'breadcrumbs']);
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbar();
   const [copied, setCopied] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const providerId = typeof params?.providerId === 'string' ? params.providerId : undefined;
 
   const detailState = useAppSelector((state) => state.providers.detail);
+  const deleteState = useAppSelector((state) => state.providers.delete);
   const provider = detailState.entry;
 
   const dateFormatter = useMemo(() => {
@@ -55,12 +65,12 @@ export default function ProviderDetailPage() {
   const formatDate = useCallback(
     (value: string | null) => {
       if (!value) {
-        return t('providers.card.notAvailable');
+        return t('card.notAvailable');
       }
       try {
         return dateFormatter.format(new Date(value));
       } catch {
-        return t('providers.card.notAvailable');
+        return t('card.notAvailable');
       }
     },
     [dateFormatter, t]
@@ -75,6 +85,7 @@ export default function ProviderDetailPage() {
 
     return () => {
       dispatch(resetProviderDetail());
+      dispatch(resetProviderDelete());
     };
   }, [providerId, dispatch]);
 
@@ -90,7 +101,7 @@ export default function ProviderDetailPage() {
     const link = provider?.publicAccessUrl;
     if (!link) {
       showSnackbar({
-        message: t('providers.detail.copy.error'),
+        message: t('detail.copy.error'),
         severity: 'error',
       });
       return;
@@ -123,19 +134,19 @@ export default function ProviderDetailPage() {
         if (success) {
           setCopied(true);
           showSnackbar({
-            message: t('providers.detail.copy.success'),
+            message: t('detail.copy.success'),
             severity: 'success',
           });
         } else {
           showSnackbar({
-            message: t('providers.detail.copy.error'),
+            message: t('detail.copy.error'),
             severity: 'error',
           });
         }
       })
       .catch(() => {
         showSnackbar({
-          message: t('providers.detail.copy.error'),
+          message: t('detail.copy.error'),
           severity: 'error',
         });
       });
@@ -148,13 +159,41 @@ export default function ProviderDetailPage() {
     void dispatch(fetchProviderById({ id: providerId }));
   }, [providerId, dispatch]);
 
+  useEffect(() => {
+    if (deleteState.status === 'succeeded' && deleteState.lastDeletedId === providerId) {
+      showSnackbar({
+        message:
+          deleteState.message ??
+          t('delete.success', { defaultValue: 'Proveedor eliminado correctamente.' }),
+        severity: 'success',
+      });
+      setDeleteDialogOpen(false);
+      dispatch(resetProviderDelete());
+      router.replace('/dashboard/providers');
+    } else if (deleteState.status === 'failed' && deleteState.error) {
+      showSnackbar({
+        message: deleteState.error,
+        severity: 'error',
+      });
+      setDeleteDialogOpen(false);
+      dispatch(resetProviderDelete());
+    }
+  }, [deleteState, dispatch, providerId, router, showSnackbar, t]);
+
+  const handleDelete = useCallback(() => {
+    if (!providerId) {
+      return;
+    }
+    void dispatch(deleteProvider({ id: providerId }));
+  }, [providerId, dispatch]);
+
   const isLoading = detailState.status === 'loading';
   const hasError = detailState.status === 'failed' && Boolean(detailState.error);
 
-  const pageTitle = provider?.companyName ?? t('providers.detail.title');
+  const pageTitle = provider?.companyName ?? t('detail.title');
   const pageSubtitle = provider
-    ? t('providers.detail.subtitle', { code: provider.providerCode })
-    : t('providers.detail.subtitleFallback');
+    ? t('detail.subtitle', { code: provider.providerCode })
+    : t('detail.subtitleFallback');
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -165,16 +204,16 @@ export default function ProviderDetailPage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.dashboard'),
+                label: t('breadcrumbs:dashboard'),
                 href: '/dashboard',
                 hideOnDesktop: true,
               },
               {
-                label: t('breadcrumbs.providers'),
+                label: t('breadcrumbs:providers'),
                 href: '/dashboard/providers',
               },
               {
-                label: provider?.companyName ?? t('providers.detail.breadcrumb'),
+                label: provider?.companyName ?? t('detail.breadcrumb'),
               },
             ]}
           />
@@ -187,6 +226,26 @@ export default function ProviderDetailPage() {
           <p className="text-muted-foreground">{pageSubtitle}</p>
         </div>
         <div className="flex flex-wrap gap-2">
+          {provider ? (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => router.push(`/dashboard/providers/${provider.id}/edit`)}
+              className="gap-2"
+            >
+              {t('detail.actions.edit')}
+            </Button>
+          ) : null}
+          <Button
+            variant="destructive"
+            size="sm"
+            className="gap-2"
+            onClick={() => setDeleteDialogOpen(true)}
+            disabled={!provider}
+          >
+            <Trash2 className="size-4" aria-hidden />
+            {t('detail.actions.delete')}
+          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -194,7 +253,7 @@ export default function ProviderDetailPage() {
             className="gap-2"
           >
             <ArrowLeft className="size-4" aria-hidden />
-            {t('providers.detail.actions.back')}
+            {t('detail.actions.back')}
           </Button>
         </div>
       </div>
@@ -204,13 +263,13 @@ export default function ProviderDetailPage() {
           variant="destructive"
           className="rounded-3xl border border-destructive/50 bg-destructive/5"
         >
-          <AlertTitle>{t('providers.detail.error.title')}</AlertTitle>
+          <AlertTitle>{t('detail.error.title')}</AlertTitle>
           <AlertDescription className="mt-2 flex flex-col gap-3 text-sm text-destructive">
-            {detailState.error ?? t('providers.detail.error.message')}
+            {detailState.error ?? t('detail.error.message')}
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={handleRetry}>
                 <RefreshCw className="size-4" aria-hidden />
-                {t('providers.detail.error.retry')}
+                {t('detail.error.retry')}
               </Button>
             </div>
           </AlertDescription>
@@ -229,9 +288,41 @@ export default function ProviderDetailPage() {
         />
       ) : hasError ? null : (
         <div className="rounded-3xl border border-dashed border-border/60 bg-muted/20 px-6 py-12 text-center text-muted-foreground">
-          {t('providers.detail.notFound')}
+          {t('detail.notFound')}
         </div>
       )}
+
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{t('delete.title')}</DialogTitle>
+            <DialogDescription>
+              {t('delete.description', {
+                name: provider?.companyName ?? provider?.providerCode ?? '—',
+              })}
+            </DialogDescription>
+          </DialogHeader>
+          <p className="text-sm text-muted-foreground">{t('delete.warning')}</p>
+          <DialogFooter className="gap-2">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setDeleteDialogOpen(false)}
+              disabled={deleteState.status === 'loading'}
+            >
+              {t('delete.cancel')}
+            </Button>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={deleteState.status === 'loading'}
+            >
+              {deleteState.status === 'loading' ? t('delete.processing') : t('delete.confirm')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -255,33 +346,33 @@ function ProviderDetailContent({
   const bankingInfo = provider.bankingInfo;
   const files = [
     {
-      label: t('providers.detail.files.taxStatusCertificate'),
+      label: t('detail.files.taxStatusCertificate'),
       file: fiscalProfile?.filesMetadata?.taxStatusCertificate ?? null,
     },
     {
-      label: t('providers.detail.files.taxComplianceOpinion'),
+      label: t('detail.files.taxComplianceOpinion'),
       file: fiscalProfile?.filesMetadata?.taxComplianceOpinion ?? null,
     },
     {
-      label: t('providers.detail.files.addressProof'),
+      label: t('detail.files.addressProof'),
       file: fiscalProfile?.filesMetadata?.addressProof ?? null,
     },
     {
-      label: t('providers.detail.files.bankStatement'),
+      label: t('detail.files.bankStatement'),
       file: bankingInfo?.filesMetadata?.bankStatement ?? null,
     },
   ];
 
   const formatAddress = () => {
     if (!fiscalProfile?.address) {
-      return t('providers.detail.address.empty');
+      return t('detail.address.empty');
     }
     const raw = fiscalProfile.address;
     const lineOne = [raw.street, raw.number].filter(Boolean).join(' ').trim();
     const segments = [lineOne, raw.neighborhood, raw.city, raw.state, raw.postalCode]
       .filter((segment) => segment && segment.trim().length > 0)
       .map((segment) => segment!.trim());
-    return segments.length ? segments.join(', ') : t('providers.detail.address.empty');
+    return segments.length ? segments.join(', ') : t('detail.address.empty');
   };
 
   return (
@@ -289,19 +380,16 @@ function ProviderDetailContent({
       <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
         <CardHeader className="gap-2">
           <CardDescription className="text-xs uppercase tracking-widest text-muted-foreground">
-            {t('providers.detail.sections.general')}
+            {t('detail.sections.general')}
           </CardDescription>
           <CardTitle className="text-2xl">{provider.companyName}</CardTitle>
           <p className="text-sm text-muted-foreground">{provider.providerCode}</p>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2">
-          <DetailField
-            label={t('providers.detail.fields.providerCode')}
-            value={provider.providerCode}
-          />
+          <DetailField label={t('detail.fields.providerCode')} value={provider.providerCode} />
           <div className="rounded-2xl border border-border/60 bg-background/60 px-4 py-3">
             <p className="text-xs uppercase tracking-wide text-muted-foreground">
-              {t('providers.detail.fields.status')}
+              {t('detail.fields.status')}
             </p>
             <span
               className={`mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getProviderStatusTone(provider.statusId)}`}
@@ -310,25 +398,23 @@ function ProviderDetailContent({
             </span>
           </div>
           <DetailField
-            label={t('providers.detail.fields.createdAt')}
+            label={t('detail.fields.createdAt')}
             value={formatDate(provider.createdAt)}
           />
           <DetailField
-            label={t('providers.detail.fields.updatedAt')}
+            label={t('detail.fields.updatedAt')}
             value={formatDate(provider.updatedAt)}
           />
           <div className="md:col-span-2">
             <DetailField
-              label={t('providers.detail.sections.publicLink')}
+              label={t('detail.sections.publicLink')}
               value={
                 provider.publicAccessUrl ? (
                   <span className="font-mono text-xs text-foreground">
                     {provider.publicAccessUrl}
                   </span>
                 ) : (
-                  <span className="text-muted-foreground">
-                    {t('providers.detail.publicLink.empty')}
-                  </span>
+                  <span className="text-muted-foreground">{t('detail.publicLink.empty')}</span>
                 )
               }
             />
@@ -343,7 +429,7 @@ function ProviderDetailContent({
             disabled={!provider.publicAccessUrl}
           >
             {copied ? <Check className="size-4" aria-hidden /> : <Copy className="size-4" />}
-            {copied ? t('providers.detail.copy.copied') : t('providers.detail.copy.action')}
+            {copied ? t('detail.copy.copied') : t('detail.copy.action')}
           </Button>
         </CardFooter>
       </Card>
@@ -351,17 +437,15 @@ function ProviderDetailContent({
       <div className="grid gap-4 lg:grid-cols-2">
         <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
           <CardHeader>
-            <CardTitle className="text-xl">
-              {t('providers.detail.sections.fiscalProfile')}
-            </CardTitle>
-            <CardDescription>{t('providers.detail.fiscal.subtitle')}</CardDescription>
+            <CardTitle className="text-xl">{t('detail.sections.fiscalProfile')}</CardTitle>
+            <CardDescription>{t('detail.fiscal.subtitle')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {fiscalProfile ? (
               <>
                 <div className="grid gap-4 md:grid-cols-2">
                   <DetailField
-                    label={t('providers.detail.fields.fiscalStatus')}
+                    label={t('detail.fields.fiscalStatus')}
                     value={
                       <span
                         className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getProviderProfileTone(fiscalProfile.statusId)}`}
@@ -371,59 +455,56 @@ function ProviderDetailContent({
                     }
                   />
                   <DetailField
-                    label={t('providers.detail.fields.submittedAt')}
+                    label={t('detail.fields.submittedAt')}
                     value={formatDate(fiscalProfile.submittedAt)}
                   />
                   <DetailField
-                    label={t('providers.detail.fields.businessName')}
-                    value={fiscalProfile.businessName ?? t('providers.card.notAvailable')}
+                    label={t('detail.fields.businessName')}
+                    value={fiscalProfile.businessName ?? t('card.notAvailable')}
                   />
                   <DetailField
-                    label={t('providers.detail.fields.rfc')}
-                    value={fiscalProfile.rfc ?? t('providers.card.notAvailable')}
+                    label={t('detail.fields.rfc')}
+                    value={fiscalProfile.rfc ?? t('card.notAvailable')}
+                  />
+                  <DetailField label={t('detail.fields.address')} value={formatAddress()} />
+                  <DetailField
+                    label={t('detail.fields.billingContact')}
+                    value={fiscalProfile.billingContact?.name ?? t('card.notAvailable')}
                   />
                   <DetailField
-                    label={t('providers.detail.fields.address')}
-                    value={formatAddress()}
+                    label={t('detail.fields.billingContactEmail')}
+                    value={fiscalProfile.billingContact?.email ?? t('card.notAvailable')}
                   />
                   <DetailField
-                    label={t('providers.detail.fields.billingContact')}
-                    value={fiscalProfile.billingContact?.name ?? t('providers.card.notAvailable')}
-                  />
-                  <DetailField
-                    label={t('providers.detail.fields.billingContactEmail')}
-                    value={fiscalProfile.billingContact?.email ?? t('providers.card.notAvailable')}
-                  />
-                  <DetailField
-                    label={t('providers.detail.fields.billingContactPhone')}
-                    value={fiscalProfile.billingContact?.phone ?? t('providers.card.notAvailable')}
+                    label={t('detail.fields.billingContactPhone')}
+                    value={fiscalProfile.billingContact?.phone ?? t('card.notAvailable')}
                   />
                 </div>
                 {fiscalProfile.notes ? (
                   <div className="rounded-3xl border border-dashed border-border/60 bg-muted/20 px-4 py-3 text-sm">
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      {t('providers.detail.notes.title')}
+                      {t('detail.notes.title')}
                     </p>
                     <p className="mt-1 text-foreground">{fiscalProfile.notes}</p>
                   </div>
                 ) : null}
               </>
             ) : (
-              <p className="text-sm text-muted-foreground">{t('providers.detail.fiscal.empty')}</p>
+              <p className="text-sm text-muted-foreground">{t('detail.fiscal.empty')}</p>
             )}
           </CardContent>
         </Card>
 
         <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
           <CardHeader>
-            <CardTitle className="text-xl">{t('providers.detail.sections.bankingInfo')}</CardTitle>
-            <CardDescription>{t('providers.detail.banking.subtitle')}</CardDescription>
+            <CardTitle className="text-xl">{t('detail.sections.bankingInfo')}</CardTitle>
+            <CardDescription>{t('detail.banking.subtitle')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {bankingInfo ? (
               <div className="grid gap-4 md:grid-cols-2">
                 <DetailField
-                  label={t('providers.detail.fields.bankingStatus')}
+                  label={t('detail.fields.bankingStatus')}
                   value={
                     <span
                       className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getProviderProfileTone(bankingInfo.statusId)}`}
@@ -433,32 +514,32 @@ function ProviderDetailContent({
                   }
                 />
                 <DetailField
-                  label={t('providers.detail.fields.submittedAt')}
+                  label={t('detail.fields.submittedAt')}
                   value={formatDate(bankingInfo.submittedAt)}
                 />
                 <DetailField
-                  label={t('providers.detail.fields.beneficiary')}
-                  value={bankingInfo.beneficiary ?? t('providers.card.notAvailable')}
+                  label={t('detail.fields.beneficiary')}
+                  value={bankingInfo.beneficiary ?? t('card.notAvailable')}
                 />
                 <DetailField
-                  label={t('providers.detail.fields.bank')}
-                  value={bankingInfo.bank ?? t('providers.card.notAvailable')}
+                  label={t('detail.fields.bank')}
+                  value={bankingInfo.bank ?? t('card.notAvailable')}
                 />
                 <DetailField
-                  label={t('providers.detail.fields.accountNumber')}
-                  value={bankingInfo.accountNumber ?? t('providers.card.notAvailable')}
+                  label={t('detail.fields.accountNumber')}
+                  value={bankingInfo.accountNumber ?? t('card.notAvailable')}
                 />
                 <DetailField
-                  label={t('providers.detail.fields.clabe')}
-                  value={bankingInfo.clabe ?? t('providers.card.notAvailable')}
+                  label={t('detail.fields.clabe')}
+                  value={bankingInfo.clabe ?? t('card.notAvailable')}
                 />
                 <DetailField
-                  label={t('providers.detail.fields.creditGranted')}
-                  value={bankingInfo.creditGranted ?? t('providers.card.notAvailable')}
+                  label={t('detail.fields.creditGranted')}
+                  value={bankingInfo.creditGranted ?? t('card.notAvailable')}
                 />
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">{t('providers.detail.banking.empty')}</p>
+              <p className="text-sm text-muted-foreground">{t('detail.banking.empty')}</p>
             )}
           </CardContent>
         </Card>
@@ -466,8 +547,8 @@ function ProviderDetailContent({
 
       <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
         <CardHeader>
-          <CardTitle className="text-xl">{t('providers.detail.sections.files')}</CardTitle>
-          <CardDescription>{t('providers.detail.files.subtitle')}</CardDescription>
+          <CardTitle className="text-xl">{t('detail.sections.files')}</CardTitle>
+          <CardDescription>{t('detail.files.subtitle')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {files.some((entry) => entry.file) ? (
@@ -483,31 +564,31 @@ function ProviderDetailContent({
                   </div>
                   <Button variant="outline" size="sm" asChild>
                     <a href={entry.file.downloadUrl} target="_blank" rel="noreferrer">
-                      {t('providers.detail.files.download')}
+                      {t('detail.files.download')}
                     </a>
                   </Button>
                 </div>
               ) : null
             )
           ) : (
-            <p className="text-sm text-muted-foreground">{t('providers.detail.files.empty')}</p>
+            <p className="text-sm text-muted-foreground">{t('detail.files.empty')}</p>
           )}
         </CardContent>
       </Card>
 
       <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
         <CardHeader>
-          <CardTitle className="text-xl">{t('providers.detail.sections.contact')}</CardTitle>
-          <CardDescription>{t('providers.detail.contact.subtitle')}</CardDescription>
+          <CardTitle className="text-xl">{t('detail.sections.contact')}</CardTitle>
+          <CardDescription>{t('detail.contact.subtitle')}</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2">
           <ContactCard
-            title={t('providers.detail.contact.title')}
+            title={t('detail.contact.title')}
             contact={provider.contact}
             labels={{
-              email: t('providers.detail.contact.email'),
-              phone: t('providers.detail.contact.phone'),
-              missing: t('providers.detail.contact.empty'),
+              email: t('detail.contact.email'),
+              phone: t('detail.contact.phone'),
+              missing: t('detail.contact.empty'),
             }}
           />
         </CardContent>

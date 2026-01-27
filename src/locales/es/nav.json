@@ -1,0 +1,20 @@
+{
+  "platform": "Plataforma",
+  "dashboard": "Panel",
+  "customers": "Clientes",
+  "customersList": "Lista de clientes",
+  "customersCreate": "Registrar cliente",
+  "providers": "Proveedores",
+  "providersList": "Lista de proveedores",
+  "providersCreate": "Registrar proveedor",
+  "users": "Usuarios",
+  "usersList": "Lista de usuarios",
+  "usersInvite": "Invitar usuario",
+  "usersAll": "Todos los usuarios",
+  "usersActive": "Usuarios activos",
+  "usersInactive": "Usuarios inactivos",
+  "services": "Servicios",
+  "serviceEntries": "Registro de servicios",
+  "serviceEntrySurveys": "Encuestas de servicio",
+  "servicePackagesRecords": "Recolección"
+}

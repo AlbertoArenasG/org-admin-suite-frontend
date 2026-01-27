@@ -22,7 +22,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitialsFromText } from '@/lib/get-initials';
 
 export default function EditMyProfilePage() {
-  const { t } = useTranslationHydrated('common');
+  const { t } = useTranslationHydrated(['myProfile', 'breadcrumbs']);
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { showSnackbar } = useSnackbar();
@@ -43,7 +43,7 @@ export default function EditMyProfilePage() {
   useEffect(() => {
     if (updateState.status === 'succeeded') {
       showSnackbar({
-        message: updateState.message ?? t('myProfile.notifications.updated'),
+        message: updateState.message ?? t('notifications.updated'),
         severity: 'success',
       });
       dispatch(resetProfileUpdate());
@@ -96,9 +96,9 @@ export default function EditMyProfilePage() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('myProfile.breadcrumb'), href: '/dashboard/me' },
-              { label: t('myProfile.actions.edit') },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('breadcrumb'), href: '/dashboard/me' },
+              { label: t('actions.edit') },
             ]}
           />
         </div>
@@ -142,10 +142,10 @@ export default function EditMyProfilePage() {
                 ) : (
                   <>
                     <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                      {t('myProfile.actions.edit')}
+                      {t('actions.edit')}
                     </Typography>
                     <Typography variant="body2" color="text.foreground">
-                      {t('myProfile.edit.subtitle')}
+                      {t('edit.subtitle')}
                     </Typography>
                   </>
                 )}
@@ -157,7 +157,7 @@ export default function EditMyProfilePage() {
               onClick={() => router.push('/dashboard/me')}
               disabled={isLoading}
             >
-              {t('myProfile.actions.cancel')}
+              {t('actions.cancel')}
             </Button>
           </div>
         </Box>
@@ -186,12 +186,12 @@ export default function EditMyProfilePage() {
             />
           ) : (
             <div className="flex flex-1 items-center justify-center p-6 text-sm text-muted-foreground">
-              {t('myProfile.detail.empty')}
+              {t('detail.empty')}
             </div>
           )}
         </div>
       </Paper>
-      {isSubmitting ? <FullScreenLoader text={t('myProfile.form.actions.saving')} /> : null}
+      {isSubmitting ? <FullScreenLoader text={t('form.actions.saving')} /> : null}
     </div>
   );
 }

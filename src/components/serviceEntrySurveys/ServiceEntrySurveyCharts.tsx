@@ -19,7 +19,7 @@ interface ServiceEntrySurveyChartsProps {
 }
 
 export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntrySurveyChartsProps) {
-  const { t } = useTranslationHydrated('common');
+  const { t } = useTranslationHydrated('serviceEntrySurveys');
 
   const template = stats?.templates?.[0] ?? null;
 
@@ -39,7 +39,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
         question.rating_distribution ?? ({} as Partial<Record<SurveyRatingValue, number>>);
       const entry: Record<string, string | number> = {
         question:
-          t(`serviceEntrySurveys.chart.labels.${question.question_id}`, {
+          t(`chart.labels.${question.question_id}`, {
             defaultValue: question.question_id,
           }) ?? question.question_id,
       };
@@ -54,7 +54,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
     () =>
       SURVEY_RATING_VALUES.map((rating) => ({
         dataKey: rating,
-        label: t(`publicServiceEntry.survey.answers.${rating}`),
+        label: t(`publicServiceEntry:survey.answers.${rating}`),
         stack: 'ratings',
         color: SERVICE_ENTRY_SURVEY_RATING_COLORS[rating],
       })),
@@ -79,14 +79,14 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
     >
       <div className="space-y-1">
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
-          {t('serviceEntrySurveys.stats.title')}
+          {t('stats.title')}
         </Typography>
         <Typography variant="body2" color="text.foreground">
           {loading
-            ? t('serviceEntrySurveys.stats.loading')
+            ? t('stats.loading')
             : error
               ? error
-              : t('serviceEntrySurveys.stats.summary', {
+              : t('stats.summary', {
                   count: stats?.total_responses ?? 0,
                 })}
         </Typography>
@@ -95,7 +95,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
       {loading ? (
         <div className="flex flex-1 items-center justify-center">
           <Typography variant="body2" color="text.foreground">
-            {t('serviceEntrySurveys.stats.loading')}
+            {t('stats.loading')}
           </Typography>
         </div>
       ) : error ? (
@@ -152,20 +152,20 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
               <thead>
                 <tr className="border-b border-border/60 bg-muted/50">
                   <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    {t('serviceEntrySurveys.stats.questionSummary')}
+                    {t('stats.questionSummary')}
                   </th>
                   <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    {t('serviceEntrySurveys.stats.responseCount')}
+                    {t('stats.responseCount')}
                   </th>
                   <th className="px-4 py-3 text-left font-medium text-muted-foreground">
-                    {t('serviceEntrySurveys.stats.averageRating')}
+                    {t('stats.averageRating')}
                   </th>
                   {SURVEY_RATING_VALUES.map((rating) => (
                     <th
                       key={rating}
                       className="px-4 py-3 text-left font-medium text-muted-foreground"
                     >
-                      {t(`publicServiceEntry.survey.answers.${rating}`)}
+                      {t(`publicServiceEntry:survey.answers.${rating}`)}
                     </th>
                   ))}
                 </tr>
@@ -178,7 +178,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
                   return (
                     <tr key={question.question_id} className="border-b border-border/40">
                       <td className="px-4 py-3 font-medium text-foreground">
-                        {t(`serviceEntrySurveys.chart.labels.${question.question_id}`, {
+                        {t(`chart.labels.${question.question_id}`, {
                           defaultValue: question.question_text,
                         })}
                       </td>
@@ -209,7 +209,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
           {/* {textQuestions.length ? (
             <div className="space-y-3">
               <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                {t('serviceEntrySurveys.stats.textResponses')}
+                {t('stats.textResponses')}
               </Typography>
               <div className="grid gap-3 md:grid-cols-2">
                 {textQuestions.map((question) => (
@@ -232,7 +232,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
                         ))
                       ) : (
                         <li className="rounded-xl border border-dashed border-border/40 bg-muted/20 px-3 py-2">
-                          {t('serviceEntrySurveys.stats.noData')}
+                          {t('stats.noData')}
                         </li>
                       )}
                     </ul>

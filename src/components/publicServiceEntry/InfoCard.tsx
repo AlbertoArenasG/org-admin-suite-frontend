@@ -10,7 +10,7 @@ interface InfoCardProps {
 }
 
 export function PublicServiceEntryInfoCard({ entry }: InfoCardProps) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('publicServiceEntry');
 
   const dateFormatter = new Intl.DateTimeFormat(undefined, {
     dateStyle: 'medium',
@@ -38,26 +38,26 @@ export function PublicServiceEntryInfoCard({ entry }: InfoCardProps) {
             {entry.companyName}
           </Typography>
           <Typography variant="body2" color="text.foreground">
-            {t('publicServiceEntry.info.serviceOrder', {
+            {t('info.serviceOrder', {
               id: entry.serviceOrderIdentifier,
             })}
           </Typography>
         </div>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <InfoItem label={t('publicServiceEntry.info.contactName')} value={entry.contactName} />
-          <InfoItem label={t('publicServiceEntry.info.contactEmail')} value={entry.contactEmail} />
-          <InfoItem label={t('publicServiceEntry.info.category')} value={entry.categoryName} />
-          <InfoItem label={t('publicServiceEntry.info.status')} value={entry.statusName} />
+          <InfoItem label={t('info.contactName')} value={entry.contactName} />
+          <InfoItem label={t('info.contactEmail')} value={entry.contactEmail} />
+          <InfoItem label={t('info.category')} value={entry.categoryName} />
+          <InfoItem label={t('info.status')} value={entry.statusName} />
           <InfoItem
-            label={t('publicServiceEntry.info.createdAt')}
+            label={t('info.createdAt')}
             value={dateFormatter.format(new Date(entry.createdAt))}
           />
           <InfoItem
-            label={t('publicServiceEntry.info.updatedAt')}
+            label={t('info.updatedAt')}
             value={
               entry.updatedAt
                 ? dateFormatter.format(new Date(entry.updatedAt))
-                : t('publicServiceEntry.info.notAvailable')
+                : t('info.notAvailable')
             }
           />
         </div>

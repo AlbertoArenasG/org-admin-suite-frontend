@@ -31,7 +31,7 @@ function getInitialPagination(params: URLSearchParams) {
 }
 
 export function UsersTableContainer() {
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated('users');
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -72,7 +72,7 @@ export function UsersTableContainer() {
       showSnackbar({
         message:
           deleteState.message ??
-          t('users.delete.success', { defaultValue: 'Usuario eliminado correctamente.' }),
+          t('delete.success', { defaultValue: 'Usuario eliminado correctamente.' }),
         severity: 'success',
       });
       setDeleteTarget(null);
@@ -90,7 +90,7 @@ export function UsersTableContainer() {
       showSnackbar({
         message:
           deleteState.error ??
-          t('users.delete.error', { defaultValue: 'No fue posible eliminar al usuario.' }),
+          t('delete.error', { defaultValue: 'No fue posible eliminar al usuario.' }),
         severity: 'error',
       });
       dispatch(resetDeleteState());
@@ -253,7 +253,7 @@ export function UsersTableContainer() {
   const isLoading = status === 'loading';
 
   const paginationSummary = pagination
-    ? t('users.pagination', {
+    ? t('pagination', {
         page: pagination.page,
         pages: pagination.totalPages,
         total: pagination.total,
@@ -266,12 +266,12 @@ export function UsersTableContainer() {
       isLoading={isLoading}
       error={error}
       onInviteClick={() => router.push('/dashboard/users/invite')}
-      title={t('users.title')}
-      inviteLabel={t('users.actions.inviteShort')}
-      inviteAriaLabel={t('users.actions.openInvite')}
+      title={t('title')}
+      inviteLabel={t('actions.inviteShort')}
+      inviteAriaLabel={t('actions.openInvite')}
       paginationSummary={paginationSummary}
-      searchPlaceholder={t('users.actions.searchPlaceholder') ?? 'Buscar usuarios'}
-      columnLabel={t('users.actions.manageColumns') ?? 'Columnas'}
+      searchPlaceholder={t('actions.searchPlaceholder') ?? 'Buscar usuarios'}
+      columnLabel={t('actions.manageColumns') ?? 'Columnas'}
       deleteDialog={{
         open: Boolean(deleteTarget),
         user: deleteTarget,
@@ -288,20 +288,20 @@ export function UsersTableContainer() {
         },
         isLoading: deleteState.status === 'loading',
         labels: {
-          title: t('users.confirmDelete.title'),
-          description: t('users.confirmDelete.description', {
+          title: t('confirmDelete.title'),
+          description: t('confirmDelete.description', {
             name: deleteTarget?.fullName ?? deleteTarget?.email ?? '—',
           }),
-          warning: t('users.confirmDelete.warning') ?? 'Esta acción no se puede deshacer.',
-          cancel: t('users.confirmDelete.cancel'),
-          confirm: t('users.confirmDelete.confirm'),
+          warning: t('confirmDelete.warning') ?? 'Esta acción no se puede deshacer.',
+          cancel: t('confirmDelete.cancel'),
+          confirm: t('confirmDelete.confirm'),
         },
       }}
       tableLabels={{
-        noData: t('users.empty'),
+        noData: t('empty'),
         pagination: {
-          previous: t('users.actions.previous') ?? 'Anterior',
-          next: t('users.actions.next') ?? 'Siguiente',
+          previous: t('actions.previous') ?? 'Anterior',
+          next: t('actions.next') ?? 'Siguiente',
         },
       }}
     />

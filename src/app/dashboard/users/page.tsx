@@ -8,7 +8,7 @@ import { UsersTableContainer } from '@/components/users2/UsersTableContainer';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 
 export default function UsersPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['users', 'breadcrumbs']);
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -19,12 +19,12 @@ export default function UsersPage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.dashboard'),
+                label: t('breadcrumbs:dashboard'),
                 href: '/dashboard',
                 hideOnDesktop: true,
               },
               {
-                label: t('breadcrumbs.users'),
+                label: t('breadcrumbs:users'),
               },
             ]}
           />

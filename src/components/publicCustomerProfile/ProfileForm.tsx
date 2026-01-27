@@ -31,7 +31,7 @@ export function PublicCustomerProfileForm({
   token,
   formatDate,
 }: PublicCustomerProfileFormProps) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('publicCustomerProfile');
   const submitProfile = usePublicCustomerProfileStore((state) => state.submitProfile);
   const uploadingFn = usePublicCustomerProfileStore((state) => state.uploadFiles);
   const submitting = usePublicCustomerProfileStore((state) => state.submitting);
@@ -149,15 +149,14 @@ export function PublicCustomerProfileForm({
     try {
       await submitProfile(token, payload);
       showSnackbar({
-        message:
-          t('publicCustomerProfile.form.success') ?? 'Información fiscal enviada correctamente.',
+        message: t('form.success') ?? 'Información fiscal enviada correctamente.',
         severity: 'success',
       });
     } catch (error) {
       const message =
         error instanceof Error && error.message
           ? error.message
-          : (t('publicCustomerProfile.form.error') ?? 'No fue posible enviar la información.');
+          : (t('form.error') ?? 'No fue posible enviar la información.');
       showSnackbar({ message, severity: 'error' });
     }
   });
@@ -170,14 +169,12 @@ export function PublicCustomerProfileForm({
     try {
       const [file] = await normalizeFilesForUpload(fileList, { limit: 1 });
       if (!file) {
-        throw new Error(t('publicCustomerProfile.form.uploadError') ?? 'Archivo inválido.');
+        throw new Error(t('form.uploadError') ?? 'Archivo inválido.');
       }
       const uploaded = await uploadingFn([file]);
       const first = uploaded[0];
       if (!first) {
-        throw new Error(
-          t('publicCustomerProfile.form.uploadError') ?? 'Sin respuesta del servidor.'
-        );
+        throw new Error(t('form.uploadError') ?? 'Sin respuesta del servidor.');
       }
       if (field === 'tax') {
         setValue('taxCertificateFileId', first.id, { shouldDirty: true });
@@ -187,14 +184,14 @@ export function PublicCustomerProfileForm({
         setInvoiceFileMeta(first);
       }
       showSnackbar({
-        message: t('publicCustomerProfile.form.uploadSuccess') ?? 'Archivo subido correctamente.',
+        message: t('form.uploadSuccess') ?? 'Archivo subido correctamente.',
         severity: 'success',
       });
     } catch (error) {
       const message =
         error instanceof Error && error.message
           ? error.message
-          : (t('publicCustomerProfile.form.uploadError') ?? 'No fue posible subir el archivo.');
+          : (t('form.uploadError') ?? 'No fue posible subir el archivo.');
       showSnackbar({ message, severity: 'error' });
     } finally {
       setUploadingField(null);
@@ -212,115 +209,115 @@ export function PublicCustomerProfileForm({
       <form onSubmit={onSubmit} className="space-y-6">
         <div className="grid gap-4 md:grid-cols-3">
           <TextField
-            label={t('publicCustomerProfile.form.fields.businessName')}
+            label={t('form.fields.businessName')}
             registration={register('businessName', {
-              required: t('publicCustomerProfile.form.errors.required') ?? 'Campo requerido',
+              required: t('form.errors.required') ?? 'Campo requerido',
             })}
             error={errors.businessName?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.businessName') ?? ''}
+            placeholder={t('form.placeholders.businessName') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.rfc')}
+            label={t('form.fields.rfc')}
             registration={register('rfc', {
-              required: t('publicCustomerProfile.form.errors.required') ?? 'Campo requerido',
+              required: t('form.errors.required') ?? 'Campo requerido',
             })}
             error={errors.rfc?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.rfc') ?? ''}
+            placeholder={t('form.placeholders.rfc') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.taxRegime')}
+            label={t('form.fields.taxRegime')}
             registration={register('taxRegime', {
-              required: t('publicCustomerProfile.form.errors.required') ?? 'Campo requerido',
+              required: t('form.errors.required') ?? 'Campo requerido',
             })}
             error={errors.taxRegime?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.taxRegime') ?? ''}
+            placeholder={t('form.placeholders.taxRegime') ?? ''}
           />
         </div>
 
-        <SectionTitle title={t('publicCustomerProfile.form.sections.address')} />
+        <SectionTitle title={t('form.sections.address')} />
         <div className="grid gap-4 md:grid-cols-2">
           <TextField
-            label={t('publicCustomerProfile.form.fields.street')}
+            label={t('form.fields.street')}
             registration={register('address.street', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.address?.street?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.street') ?? ''}
+            placeholder={t('form.placeholders.street') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.number')}
+            label={t('form.fields.number')}
             registration={register('address.number', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.address?.number?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.number') ?? ''}
+            placeholder={t('form.placeholders.number') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.neighborhood')}
+            label={t('form.fields.neighborhood')}
             registration={register('address.neighborhood', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.address?.neighborhood?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.neighborhood') ?? ''}
+            placeholder={t('form.placeholders.neighborhood') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.delegation')}
+            label={t('form.fields.delegation')}
             registration={register('address.delegation', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.address?.delegation?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.delegation') ?? ''}
+            placeholder={t('form.placeholders.delegation') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.city')}
+            label={t('form.fields.city')}
             registration={register('address.city', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.address?.city?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.city') ?? ''}
+            placeholder={t('form.placeholders.city') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.postalCode')}
+            label={t('form.fields.postalCode')}
             registration={register('address.postalCode', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.address?.postalCode?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.postalCode') ?? ''}
+            placeholder={t('form.placeholders.postalCode') ?? ''}
           />
         </div>
 
-        <SectionTitle title={t('publicCustomerProfile.form.sections.cfdi')} />
+        <SectionTitle title={t('form.sections.cfdi')} />
         <div className="grid gap-4 md:grid-cols-3">
           <TextField
-            label={t('publicCustomerProfile.form.fields.cfdiUse')}
+            label={t('form.fields.cfdiUse')}
             registration={register('cfdi.use', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.cfdi?.use?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.cfdiUse') ?? ''}
+            placeholder={t('form.placeholders.cfdiUse') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.paymentMethod')}
+            label={t('form.fields.paymentMethod')}
             registration={register('cfdi.paymentMethod', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.cfdi?.paymentMethod?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.paymentMethod') ?? ''}
+            placeholder={t('form.placeholders.paymentMethod') ?? ''}
           />
           <TextField
-            label={t('publicCustomerProfile.form.fields.paymentForm')}
+            label={t('form.fields.paymentForm')}
             registration={register('cfdi.paymentForm', {
-              required: t('publicCustomerProfile.form.errors.required'),
+              required: t('form.errors.required'),
             })}
             error={errors.cfdi?.paymentForm?.message}
-            placeholder={t('publicCustomerProfile.form.placeholders.paymentForm') ?? ''}
+            placeholder={t('form.placeholders.paymentForm') ?? ''}
           />
         </div>
 
-        <SectionTitle title={t('publicCustomerProfile.form.sections.contacts')} />
+        <SectionTitle title={t('form.sections.contacts')} />
         <div className="grid gap-4 md:grid-cols-2">
           <ContactFields
-            title={t('publicCustomerProfile.form.fields.billingContact')}
+            title={t('form.fields.billingContact')}
             control={{
               name: 'billingContact',
               register,
@@ -333,7 +330,7 @@ export function PublicCustomerProfileForm({
             }}
           />
           <ContactFields
-            title={t('publicCustomerProfile.form.fields.accountsContact')}
+            title={t('form.fields.accountsContact')}
             control={{
               name: 'accountsContact',
               register,
@@ -348,38 +345,36 @@ export function PublicCustomerProfileForm({
         </div>
 
         <div className="flex flex-col gap-2">
-          <Label htmlFor="requirementsNotes">{t('publicCustomerProfile.form.fields.notes')}</Label>
+          <Label htmlFor="requirementsNotes">{t('form.fields.notes')}</Label>
           <Textarea
             id="requirementsNotes"
             rows={4}
-            placeholder={t('publicCustomerProfile.form.placeholders.notes') ?? ''}
+            placeholder={t('form.placeholders.notes') ?? ''}
             {...register('requirementsNotes')}
           />
         </div>
 
-        <SectionTitle title={t('publicCustomerProfile.form.sections.files')} />
+        <SectionTitle title={t('form.sections.files')} />
         <div className="grid gap-4 md:grid-cols-2">
           <FileUploadField
-            label={t('publicCustomerProfile.form.fields.taxCertificate')}
-            description={taxFileMeta?.originalName ?? t('publicCustomerProfile.form.files.empty')}
+            label={t('form.fields.taxCertificate')}
+            description={taxFileMeta?.originalName ?? t('form.files.empty')}
             downloadingUrl={taxFileMeta?.downloadUrl}
             isUploading={uploadingField === 'tax'}
             onUpload={(files) => handleUpload('tax', files)}
             inputRef={taxFileInputRef}
-            uploadLabel={t('publicCustomerProfile.form.files.upload')}
-            uploadingLabel={t('publicCustomerProfile.form.files.uploading')}
+            uploadLabel={t('form.files.upload')}
+            uploadingLabel={t('form.files.uploading')}
           />
           <FileUploadField
-            label={t('publicCustomerProfile.form.fields.invoiceRequirements')}
-            description={
-              invoiceFileMeta?.originalName ?? t('publicCustomerProfile.form.files.empty')
-            }
+            label={t('form.fields.invoiceRequirements')}
+            description={invoiceFileMeta?.originalName ?? t('form.files.empty')}
             downloadingUrl={invoiceFileMeta?.downloadUrl}
             isUploading={uploadingField === 'invoice'}
             onUpload={(files) => handleUpload('invoice', files)}
             inputRef={invoiceFileInputRef}
-            uploadLabel={t('publicCustomerProfile.form.files.upload')}
-            uploadingLabel={t('publicCustomerProfile.form.files.uploading')}
+            uploadLabel={t('form.files.upload')}
+            uploadingLabel={t('form.files.uploading')}
           />
         </div>
 
@@ -387,7 +382,7 @@ export function PublicCustomerProfileForm({
           <p className="text-sm text-destructive">{submitError}</p>
         ) : (
           <p className="text-sm text-muted-foreground">
-            {t('publicCustomerProfile.form.lastUpdated', {
+            {t('form.lastUpdated', {
               date: formatDate(profile.updatedAt),
             })}
           </p>
@@ -395,9 +390,7 @@ export function PublicCustomerProfileForm({
 
         <div className="flex justify-end">
           <Button type="submit" disabled={submitting}>
-            {submitting
-              ? t('publicCustomerProfile.form.actions.submitting')
-              : t('publicCustomerProfile.form.actions.submit')}
+            {submitting ? t('form.actions.submitting') : t('form.actions.submit')}
           </Button>
         </div>
       </form>
@@ -446,24 +439,24 @@ function ContactFields({
     <div className="space-y-3 rounded-2xl border border-border/60 bg-background/60 px-4 py-3">
       <p className="text-sm font-semibold">{title}</p>
       <Input
-        placeholder={t('publicCustomerProfile.form.placeholders.contactName') ?? ''}
+        placeholder={t('form.placeholders.contactName') ?? ''}
         {...register(`${name}.name`, {
-          required: t('publicCustomerProfile.form.errors.required') ?? 'Campo requerido',
+          required: t('form.errors.required') ?? 'Campo requerido',
         })}
       />
       {errors?.name ? <p className="text-sm text-destructive">{errors.name}</p> : null}
       <Input
-        placeholder={t('publicCustomerProfile.form.placeholders.contactEmail') ?? ''}
+        placeholder={t('form.placeholders.contactEmail') ?? ''}
         {...register(`${name}.email`, {
-          required: t('publicCustomerProfile.form.errors.required') ?? 'Campo requerido',
+          required: t('form.errors.required') ?? 'Campo requerido',
         })}
         type="email"
       />
       {errors?.email ? <p className="text-sm text-destructive">{errors.email}</p> : null}
       <Input
-        placeholder={t('publicCustomerProfile.form.placeholders.contactPhone') ?? ''}
+        placeholder={t('form.placeholders.contactPhone') ?? ''}
         {...register(`${name}.phone`, {
-          required: t('publicCustomerProfile.form.errors.required') ?? 'Campo requerido',
+          required: t('form.errors.required') ?? 'Campo requerido',
         })}
       />
       {errors?.phone ? <p className="text-sm text-destructive">{errors.phone}</p> : null}

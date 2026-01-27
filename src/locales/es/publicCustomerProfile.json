@@ -1,0 +1,77 @@
+{
+  "header": "Portal fiscal",
+  "title": "Perfil fiscal del cliente",
+  "logoAlt": "Logo de la empresa",
+  "summary": {
+    "status": "Estado del perfil",
+    "clientCode": "Código de cliente",
+    "lastUpdated": "Actualizado",
+    "notAvailable": "No disponible"
+  },
+  "error": {
+    "title": "No fue posible cargar la información.",
+    "retry": "Reintentar"
+  },
+  "form": {
+    "success": "Información fiscal enviada correctamente.",
+    "error": "No fue posible enviar la información.",
+    "uploadSuccess": "Archivo subido correctamente.",
+    "uploadError": "No fue posible subir el archivo.",
+    "sections": {
+      "address": "Dirección fiscal",
+      "cfdi": "Datos de CFDI",
+      "contacts": "Contactos",
+      "files": "Documentos"
+    },
+    "fields": {
+      "businessName": "Razón social",
+      "rfc": "RFC",
+      "taxRegime": "Régimen fiscal",
+      "street": "Calle",
+      "number": "Número",
+      "neighborhood": "Colonia",
+      "delegation": "Delegación/Municipio",
+      "city": "Ciudad",
+      "postalCode": "Código postal",
+      "cfdiUse": "Uso de CFDI",
+      "paymentMethod": "Método de pago",
+      "paymentForm": "Forma de pago",
+      "billingContact": "Contacto de facturación",
+      "accountsContact": "Contacto de cuentas por pagar",
+      "notes": "Notas y requisitos",
+      "taxCertificate": "Constancia fiscal",
+      "invoiceRequirements": "Documento con los requisitos para la recepción de facturas (en caso de tenerlo)"
+    },
+    "files": {
+      "empty": "Sin archivo cargado",
+      "upload": "Subir archivo",
+      "uploading": "Subiendo..."
+    },
+    "placeholders": {
+      "businessName": "Razón Social",
+      "rfc": "XAXX010101000",
+      "taxRegime": "Régimen fiscal",
+      "street": "Calle 123",
+      "number": "100",
+      "neighborhood": "Colonia",
+      "delegation": "Municipio o delegación",
+      "city": "Ciudad",
+      "postalCode": "00000",
+      "cfdiUse": "G03",
+      "paymentMethod": "Transferencia",
+      "paymentForm": "03",
+      "notes": "Anota requisitos o instrucciones especiales",
+      "contactName": "Nombre completo",
+      "contactEmail": "correo@empresa.com",
+      "contactPhone": "+52 55 0000 0000"
+    },
+    "errors": {
+      "required": "Campo obligatorio"
+    },
+    "lastUpdated": "Última actualización: {{date}}",
+    "actions": {
+      "submit": "Guardar información",
+      "submitting": "Enviando información..."
+    }
+  }
+}

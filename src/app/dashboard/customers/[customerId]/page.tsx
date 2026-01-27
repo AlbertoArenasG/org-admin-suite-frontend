@@ -39,7 +39,7 @@ import {
 export default function CustomerDetailPage() {
   const params = useParams<{ customerId?: string }>();
   const router = useRouter();
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated(['customers', 'breadcrumbs']);
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbar();
   const [copied, setCopied] = useState(false);
@@ -65,12 +65,12 @@ export default function CustomerDetailPage() {
   const formatDate = useCallback(
     (value: string | null) => {
       if (!value) {
-        return t('customers.card.notAvailable');
+        return t('card.notAvailable');
       }
       try {
         return dateFormatter.format(new Date(value));
       } catch {
-        return t('customers.card.notAvailable');
+        return t('card.notAvailable');
       }
     },
     [dateFormatter, t]
@@ -101,7 +101,7 @@ export default function CustomerDetailPage() {
     const link = customer?.publicAccessUrl;
     if (!link) {
       showSnackbar({
-        message: t('customers.detail.copy.error'),
+        message: t('detail.copy.error'),
         severity: 'error',
       });
       return;
@@ -134,19 +134,19 @@ export default function CustomerDetailPage() {
         if (success) {
           setCopied(true);
           showSnackbar({
-            message: t('customers.detail.copy.success'),
+            message: t('detail.copy.success'),
             severity: 'success',
           });
         } else {
           showSnackbar({
-            message: t('customers.detail.copy.error'),
+            message: t('detail.copy.error'),
             severity: 'error',
           });
         }
       })
       .catch(() => {
         showSnackbar({
-          message: t('customers.detail.copy.error'),
+          message: t('detail.copy.error'),
           severity: 'error',
         });
       });
@@ -164,7 +164,7 @@ export default function CustomerDetailPage() {
       showSnackbar({
         message:
           deleteState.message ??
-          t('customers.delete.success', { defaultValue: 'Cliente eliminado correctamente.' }),
+          t('delete.success', { defaultValue: 'Cliente eliminado correctamente.' }),
         severity: 'success',
       });
       setDeleteDialogOpen(false);
@@ -190,10 +190,10 @@ export default function CustomerDetailPage() {
   const isLoading = detailState.status === 'loading';
   const hasError = detailState.status === 'failed' && Boolean(detailState.error);
 
-  const pageTitle = customer?.companyName ?? t('customers.detail.title');
+  const pageTitle = customer?.companyName ?? t('detail.title');
   const pageSubtitle = customer
-    ? t('customers.detail.subtitle', { code: customer.clientCode })
-    : t('customers.detail.subtitleFallback');
+    ? t('detail.subtitle', { code: customer.clientCode })
+    : t('detail.subtitleFallback');
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -204,16 +204,16 @@ export default function CustomerDetailPage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.dashboard'),
+                label: t('breadcrumbs:dashboard'),
                 href: '/dashboard',
                 hideOnDesktop: true,
               },
               {
-                label: t('breadcrumbs.customers'),
+                label: t('breadcrumbs:customers'),
                 href: '/dashboard/customers',
               },
               {
-                label: customer?.companyName ?? t('customers.detail.breadcrumb'),
+                label: customer?.companyName ?? t('detail.breadcrumb'),
               },
             ]}
           />
@@ -233,7 +233,7 @@ export default function CustomerDetailPage() {
               onClick={() => router.push(`/dashboard/customers/${customer.id}/edit`)}
               className="gap-2"
             >
-              {t('customers.detail.actions.edit')}
+              {t('detail.actions.edit')}
             </Button>
           ) : null}
           <Button
@@ -244,7 +244,7 @@ export default function CustomerDetailPage() {
             disabled={!customer}
           >
             <Trash2 className="size-4" aria-hidden />
-            {t('customers.detail.actions.delete')}
+            {t('detail.actions.delete')}
           </Button>
           <Button
             variant="ghost"
@@ -253,7 +253,7 @@ export default function CustomerDetailPage() {
             className="gap-2"
           >
             <ArrowLeft className="size-4" aria-hidden />
-            {t('customers.detail.actions.back')}
+            {t('detail.actions.back')}
           </Button>
         </div>
       </div>
@@ -263,13 +263,13 @@ export default function CustomerDetailPage() {
           variant="destructive"
           className="rounded-3xl border border-destructive/50 bg-destructive/5"
         >
-          <AlertTitle>{t('customers.detail.error.title')}</AlertTitle>
+          <AlertTitle>{t('detail.error.title')}</AlertTitle>
           <AlertDescription className="mt-2 flex flex-col gap-3 text-sm text-destructive">
-            {detailState.error ?? t('customers.detail.error.message')}
+            {detailState.error ?? t('detail.error.message')}
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={handleRetry}>
                 <RefreshCw className="size-4" aria-hidden />
-                {t('customers.detail.error.retry')}
+                {t('detail.error.retry')}
               </Button>
             </div>
           </AlertDescription>
@@ -288,21 +288,21 @@ export default function CustomerDetailPage() {
         />
       ) : hasError ? null : (
         <div className="rounded-3xl border border-dashed border-border/60 bg-muted/20 px-6 py-12 text-center text-muted-foreground">
-          {t('customers.detail.notFound')}
+          {t('detail.notFound')}
         </div>
       )}
 
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{t('customers.delete.title')}</DialogTitle>
+            <DialogTitle>{t('delete.title')}</DialogTitle>
             <DialogDescription>
-              {t('customers.delete.description', {
+              {t('delete.description', {
                 name: customer?.companyName ?? customer?.clientCode ?? '—',
               })}
             </DialogDescription>
           </DialogHeader>
-          <p className="text-sm text-muted-foreground">{t('customers.delete.warning')}</p>
+          <p className="text-sm text-muted-foreground">{t('delete.warning')}</p>
           <DialogFooter className="gap-2">
             <Button
               type="button"
@@ -310,7 +310,7 @@ export default function CustomerDetailPage() {
               onClick={() => setDeleteDialogOpen(false)}
               disabled={deleteState.status === 'loading'}
             >
-              {t('customers.delete.cancel')}
+              {t('delete.cancel')}
             </Button>
             <Button
               type="button"
@@ -318,9 +318,7 @@ export default function CustomerDetailPage() {
               onClick={handleDelete}
               disabled={deleteState.status === 'loading'}
             >
-              {deleteState.status === 'loading'
-                ? t('customers.delete.processing')
-                : t('customers.delete.confirm')}
+              {deleteState.status === 'loading' ? t('delete.processing') : t('delete.confirm')}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -347,25 +345,25 @@ function CustomerDetailContent({
   const fiscalProfile = customer.fiscalProfile;
   const files = [
     {
-      label: t('customers.detail.files.taxCertificate'),
+      label: t('detail.files.taxCertificate'),
       file: fiscalProfile?.filesMetadata?.taxCertificate ?? null,
     },
     {
-      label: t('customers.detail.files.invoiceRequirements'),
+      label: t('detail.files.invoiceRequirements'),
       file: fiscalProfile?.filesMetadata?.invoiceRequirements ?? null,
     },
   ];
 
   const formatAddress = () => {
     if (!fiscalProfile?.address) {
-      return t('customers.detail.address.empty');
+      return t('detail.address.empty');
     }
     const raw = fiscalProfile.address;
     const lineOne = [raw.street, raw.number].filter(Boolean).join(' ').trim();
     const segments = [lineOne, raw.neighborhood, raw.delegation, raw.city, raw.postalCode]
       .filter((segment) => segment && segment.trim().length > 0)
       .map((segment) => segment!.trim());
-    return segments.length ? segments.join(', ') : t('customers.detail.address.empty');
+    return segments.length ? segments.join(', ') : t('detail.address.empty');
   };
 
   return (
@@ -373,19 +371,16 @@ function CustomerDetailContent({
       <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
         <CardHeader className="gap-2">
           <CardDescription className="text-xs uppercase tracking-widest text-muted-foreground">
-            {t('customers.detail.sections.general')}
+            {t('detail.sections.general')}
           </CardDescription>
           <CardTitle className="text-2xl">{customer.companyName}</CardTitle>
           <p className="text-sm text-muted-foreground">{customer.clientCode}</p>
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2">
-          <DetailField
-            label={t('customers.detail.fields.clientCode')}
-            value={customer.clientCode}
-          />
+          <DetailField label={t('detail.fields.clientCode')} value={customer.clientCode} />
           <div className="rounded-2xl border border-border/60 bg-background/60 px-4 py-3">
             <p className="text-xs uppercase tracking-wide text-muted-foreground">
-              {t('customers.detail.fields.status')}
+              {t('detail.fields.status')}
             </p>
             <span
               className={`mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${getCustomerStatusTone(customer.statusId)}`}
@@ -394,25 +389,23 @@ function CustomerDetailContent({
             </span>
           </div>
           <DetailField
-            label={t('customers.detail.fields.createdAt')}
+            label={t('detail.fields.createdAt')}
             value={formatDate(customer.createdAt)}
           />
           <DetailField
-            label={t('customers.detail.fields.updatedAt')}
+            label={t('detail.fields.updatedAt')}
             value={formatDate(customer.updatedAt)}
           />
           <div className="md:col-span-2">
             <DetailField
-              label={t('customers.detail.sections.publicLink')}
+              label={t('detail.sections.publicLink')}
               value={
                 customer.publicAccessUrl ? (
                   <span className="font-mono text-xs text-foreground">
                     {customer.publicAccessUrl}
                   </span>
                 ) : (
-                  <span className="text-muted-foreground">
-                    {t('customers.detail.publicLink.empty')}
-                  </span>
+                  <span className="text-muted-foreground">{t('detail.publicLink.empty')}</span>
                 )
               }
             />
@@ -431,7 +424,7 @@ function CustomerDetailContent({
             ) : (
               <Copy className="size-4" aria-hidden />
             )}
-            {copied ? t('customers.detail.copy.copied') : t('customers.detail.copy.action')}
+            {copied ? t('detail.copy.copied') : t('detail.copy.action')}
           </Button>
         </CardFooter>
       </Card>
@@ -439,87 +432,85 @@ function CustomerDetailContent({
       <div className="grid gap-4 lg:grid-cols-2">
         <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
           <CardHeader>
-            <CardTitle className="text-xl">
-              {t('customers.detail.sections.fiscalProfile')}
-            </CardTitle>
-            <CardDescription>{t('customers.detail.fiscal.subtitle')}</CardDescription>
+            <CardTitle className="text-xl">{t('detail.sections.fiscalProfile')}</CardTitle>
+            <CardDescription>{t('detail.fiscal.subtitle')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {fiscalProfile ? (
               <>
                 <div className="grid gap-4 md:grid-cols-2">
                   <DetailField
-                    label={t('customers.detail.fields.fiscalStatus')}
+                    label={t('detail.fields.fiscalStatus')}
                     value={fiscalProfile.statusName}
                   />
                   <DetailField
-                    label={t('customers.detail.fields.submittedAt')}
+                    label={t('detail.fields.submittedAt')}
                     value={formatDate(fiscalProfile.submittedAt)}
                   />
                   <DetailField
-                    label={t('customers.detail.fields.businessName')}
-                    value={fiscalProfile.businessName ?? t('customers.card.notAvailable')}
+                    label={t('detail.fields.businessName')}
+                    value={fiscalProfile.businessName ?? t('card.notAvailable')}
                   />
                   <DetailField
-                    label={t('customers.detail.fields.rfc')}
-                    value={fiscalProfile.rfc ?? t('customers.card.notAvailable')}
+                    label={t('detail.fields.rfc')}
+                    value={fiscalProfile.rfc ?? t('card.notAvailable')}
                   />
                   <DetailField
-                    label={t('customers.detail.fields.taxRegime')}
-                    value={fiscalProfile.taxRegime ?? t('customers.card.notAvailable')}
+                    label={t('detail.fields.taxRegime')}
+                    value={fiscalProfile.taxRegime ?? t('card.notAvailable')}
                   />
                   <DetailField
-                    label={t('customers.detail.fields.cfdiUse')}
-                    value={fiscalProfile.cfdi?.use ?? t('customers.card.notAvailable')}
+                    label={t('detail.fields.cfdiUse')}
+                    value={fiscalProfile.cfdi?.use ?? t('card.notAvailable')}
                   />
                   <DetailField
-                    label={t('customers.detail.fields.paymentMethod')}
-                    value={fiscalProfile.cfdi?.paymentMethod ?? t('customers.card.notAvailable')}
+                    label={t('detail.fields.paymentMethod')}
+                    value={fiscalProfile.cfdi?.paymentMethod ?? t('card.notAvailable')}
                   />
                   <DetailField
-                    label={t('customers.detail.fields.paymentForm')}
-                    value={fiscalProfile.cfdi?.paymentForm ?? t('customers.card.notAvailable')}
+                    label={t('detail.fields.paymentForm')}
+                    value={fiscalProfile.cfdi?.paymentForm ?? t('card.notAvailable')}
                   />
                 </div>
                 {fiscalProfile.requirementsNotes ? (
                   <div className="rounded-3xl border border-dashed border-border/60 bg-muted/20 px-4 py-3 text-sm">
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                      {t('customers.detail.notes.title')}
+                      {t('detail.notes.title')}
                     </p>
                     <p className="mt-1 text-foreground">{fiscalProfile.requirementsNotes}</p>
                   </div>
                 ) : null}
               </>
             ) : (
-              <p className="text-sm text-muted-foreground">{t('customers.detail.fiscal.empty')}</p>
+              <p className="text-sm text-muted-foreground">{t('detail.fiscal.empty')}</p>
             )}
           </CardContent>
         </Card>
 
         <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
           <CardHeader>
-            <CardTitle className="text-xl">{t('customers.detail.sections.address')}</CardTitle>
-            <CardDescription>{t('customers.detail.address.subtitle')}</CardDescription>
+            <CardTitle className="text-xl">{t('detail.sections.address')}</CardTitle>
+            <CardDescription>{t('detail.address.subtitle')}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <DetailField label={t('customers.detail.fields.address')} value={formatAddress()} />
+            <DetailField label={t('detail.fields.address')} value={formatAddress()} />
             <div className="grid gap-4 sm:grid-cols-2">
               <ContactCard
-                title={t('customers.detail.contacts.billing')}
+                title={t('detail.contacts.billing')}
                 contact={fiscalProfile?.billingContact ?? null}
                 labels={{
-                  email: t('customers.detail.contacts.email'),
-                  phone: t('customers.detail.contacts.phone'),
-                  missing: t('customers.detail.contacts.empty'),
+                  email: t('detail.contacts.email'),
+                  phone: t('detail.contacts.phone'),
+                  missing: t('detail.contacts.empty'),
                 }}
               />
               <ContactCard
-                title={t('customers.detail.contacts.accounts')}
+                title={t('detail.contacts.accounts')}
                 contact={fiscalProfile?.accountsPayableContact ?? null}
                 labels={{
-                  email: t('customers.detail.contacts.email'),
-                  phone: t('customers.detail.contacts.phone'),
-                  missing: t('customers.detail.contacts.empty'),
+                  email: t('detail.contacts.email'),
+                  phone: t('detail.contacts.phone'),
+                  missing: t('detail.contacts.empty'),
                 }}
               />
             </div>
@@ -529,8 +520,8 @@ function CustomerDetailContent({
 
       <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
         <CardHeader>
-          <CardTitle className="text-xl">{t('customers.detail.sections.files')}</CardTitle>
-          <CardDescription>{t('customers.detail.files.subtitle')}</CardDescription>
+          <CardTitle className="text-xl">{t('detail.sections.files')}</CardTitle>
+          <CardDescription>{t('detail.files.subtitle')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {files.some((entry) => entry.file) ? (
@@ -546,14 +537,14 @@ function CustomerDetailContent({
                   </div>
                   <Button variant="outline" size="sm" asChild>
                     <a href={entry.file.downloadUrl} target="_blank" rel="noreferrer">
-                      {t('customers.detail.files.download')}
+                      {t('detail.files.download')}
                     </a>
                   </Button>
                 </div>
               ) : null
             )
           ) : (
-            <p className="text-sm text-muted-foreground">{t('customers.detail.files.empty')}</p>
+            <p className="text-sm text-muted-foreground">{t('detail.files.empty')}</p>
           )}
         </CardContent>
       </Card>

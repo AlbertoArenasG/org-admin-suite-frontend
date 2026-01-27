@@ -23,7 +23,7 @@ export function ServiceEntrySurveyFilters({
   templates,
   onRefresh,
 }: ServiceEntrySurveyFiltersProps) {
-  const { t } = useTranslationHydrated('common');
+  const { t } = useTranslationHydrated('serviceEntrySurveys');
   const filters = useServiceEntrySurveysStore((state) => state.filters);
   const pagination = useServiceEntrySurveysStore((state) => state.pagination);
   const setFilters = useServiceEntrySurveysStore((state) => state.setFilters);
@@ -56,16 +56,16 @@ export function ServiceEntrySurveyFilters({
     >
       <div className="flex flex-col gap-2">
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
-          {t('serviceEntrySurveys.filters.title')}
+          {t('filters.title')}
         </Typography>
         <Typography variant="body2" color="text.foreground">
-          {t('serviceEntrySurveys.filters.subtitle')}
+          {t('filters.subtitle')}
         </Typography>
       </div>
       <Separator />
       <div className="grid gap-4 md:grid-cols-4">
         <label className="flex flex-col gap-2 text-sm">
-          <span className="text-muted-foreground">{t('serviceEntrySurveys.filters.from')}</span>
+          <span className="text-muted-foreground">{t('filters.from')}</span>
           <input
             type="date"
             value={filters.from}
@@ -80,7 +80,7 @@ export function ServiceEntrySurveyFilters({
           />
         </label>
         <label className="flex flex-col gap-2 text-sm">
-          <span className="text-muted-foreground">{t('serviceEntrySurveys.filters.to')}</span>
+          <span className="text-muted-foreground">{t('filters.to')}</span>
           <input
             type="date"
             value={filters.to}
@@ -95,7 +95,7 @@ export function ServiceEntrySurveyFilters({
           />
         </label>
         <label className="flex flex-col gap-2 text-sm md:col-span-2">
-          <span className="text-muted-foreground">{t('serviceEntrySurveys.filters.template')}</span>
+          <span className="text-muted-foreground">{t('filters.template')}</span>
           <select
             value={
               filters.templateId ? `${filters.templateId}:${filters.templateVersion ?? ''}` : ''
@@ -116,7 +116,7 @@ export function ServiceEntrySurveyFilters({
             }}
             className="h-10 rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
           >
-            <option value="">{t('serviceEntrySurveys.filters.templatePlaceholder')}</option>
+            <option value="">{t('filters.templatePlaceholder')}</option>
             {templateOptions.map((template) => (
               <option
                 key={`${template.templateId}-${template.templateVersion}`}
@@ -139,10 +139,10 @@ export function ServiceEntrySurveyFilters({
             }
             className="h-4 w-4 rounded border-border/60 text-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
-          <span>{t('serviceEntrySurveys.filters.allDates')}</span>
+          <span>{t('filters.allDates')}</span>
         </label>
         <label className="flex flex-col gap-2 text-sm md:col-span-4">
-          <span className="text-muted-foreground">{t('serviceEntrySurveys.filters.search')}</span>
+          <span className="text-muted-foreground">{t('filters.search')}</span>
           <input
             type="search"
             value={filters.search}
@@ -152,14 +152,14 @@ export function ServiceEntrySurveyFilters({
                 search: event.target.value,
               }))
             }
-            placeholder={t('serviceEntrySurveys.filters.searchPlaceholder')}
+            placeholder={t('filters.searchPlaceholder')}
             className="h-10 rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
           />
         </label>
       </div>
       <div className="flex flex-col gap-3 border-t border-border/60 pt-4 sm:flex-row sm:items-center sm:justify-between">
         <label className="flex items-center gap-2 text-sm text-muted-foreground">
-          {t('serviceEntrySurveys.filters.pageSize')}
+          {t('filters.pageSize')}
           <select
             value={pagination.pageSize}
             onChange={(event) =>
@@ -184,7 +184,7 @@ export function ServiceEntrySurveyFilters({
             onClick={onRefresh}
             className="self-end sm:self-auto"
           >
-            {t('serviceEntrySurveys.filters.refresh')}
+            {t('filters.refresh')}
           </Button>
         ) : null}
       </div>

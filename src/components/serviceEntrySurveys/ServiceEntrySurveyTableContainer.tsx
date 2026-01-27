@@ -14,7 +14,7 @@ import {
 } from '@/features/publicServiceEntry/constants';
 
 export function ServiceEntrySurveyTableContainer() {
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated('serviceEntrySurveys');
   const listState = useAppSelector((state) => state.serviceEntrySurveys.list);
 
   const paginationState = useServiceEntrySurveysStore((state) => state.pagination);
@@ -47,7 +47,7 @@ export function ServiceEntrySurveyTableContainer() {
     () =>
       PUBLIC_SURVEY_QUESTIONS.map((question) => ({
         id: question.id,
-        label: t(`serviceEntrySurveys.chart.labels.${question.id}`, {
+        label: t(`chart.labels.${question.id}`, {
           defaultValue: question.id,
         }),
       })),
@@ -57,7 +57,7 @@ export function ServiceEntrySurveyTableContainer() {
   const ratingValueLabels = useMemo(
     () =>
       SURVEY_RATING_VALUES.reduce<Record<string, string>>((acc, value) => {
-        acc[value] = t(`publicServiceEntry.survey.answers.${value}`, { defaultValue: value });
+        acc[value] = t(`publicServiceEntry:survey.answers.${value}`, { defaultValue: value });
         return acc;
       }, {}),
     [t]
@@ -93,7 +93,7 @@ export function ServiceEntrySurveyTableContainer() {
   }, [listState.pagination, setPagination]);
 
   const paginationSummary = listState.pagination
-    ? t('serviceEntrySurveys.table.pagination', {
+    ? t('table.pagination', {
         page: listState.pagination.page,
         pages: listState.pagination.totalPages,
         total: listState.pagination.total,
@@ -106,20 +106,20 @@ export function ServiceEntrySurveyTableContainer() {
       isLoading={listState.status === 'loading'}
       error={listState.error}
       paginationSummary={paginationSummary}
-      title={t('serviceEntrySurveys.table.title')}
+      title={t('table.title')}
       labels={{
-        empty: t('serviceEntrySurveys.table.noData'),
+        empty: t('table.noData'),
         pagination: {
-          previous: t('serviceEntrySurveys.table.actions.previous'),
-          next: t('serviceEntrySurveys.table.actions.next'),
+          previous: t('table.actions.previous'),
+          next: t('table.actions.next'),
         },
         fields: {
-          submittedAt: t('serviceEntrySurveys.table.columns.submittedAt'),
-          ratings: t('serviceEntrySurveys.table.columns.ratings'),
-          observations: t('serviceEntrySurveys.table.columns.observations'),
-          serviceOrder: t('serviceEntrySurveys.table.labels.serviceOrderShort'),
-          contact: t('serviceEntrySurveys.table.labels.contactShort'),
-          email: t('serviceEntrySurveys.table.labels.emailShort'),
+          submittedAt: t('table.columns.submittedAt'),
+          ratings: t('table.columns.ratings'),
+          observations: t('table.columns.observations'),
+          serviceOrder: t('table.labels.serviceOrderShort'),
+          contact: t('table.labels.contactShort'),
+          email: t('table.labels.emailShort'),
         },
       }}
       ratingQuestions={ratingQuestions}

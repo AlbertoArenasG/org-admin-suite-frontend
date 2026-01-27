@@ -20,7 +20,7 @@ export function PublicServiceEntryFilesSection({
   attachments,
   downloadsEnabled,
 }: FilesSectionProps) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('publicServiceEntry');
   const { showSnackbar } = useSnackbar();
   const downloadFile = usePublicServiceEntryStore((state) => state.downloadFile);
   const downloadingFileId = usePublicServiceEntryStore((state) => state.downloadingFileId);
@@ -29,7 +29,7 @@ export function PublicServiceEntryFilesSection({
     try {
       await downloadFile(file);
       showSnackbar({
-        message: t('publicServiceEntry.files.success', {
+        message: t('files.success', {
           defaultValue: 'Download started.',
         }),
         severity: 'success',
@@ -38,7 +38,7 @@ export function PublicServiceEntryFilesSection({
       const message =
         error instanceof Error && error.message
           ? error.message
-          : t('publicServiceEntry.files.error', {
+          : t('files.error', {
               defaultValue: 'Unable to download the file.',
             });
       showSnackbar({
@@ -54,15 +54,15 @@ export function PublicServiceEntryFilesSection({
     isCertificate?: boolean;
   }> = [
     {
-      title: t('publicServiceEntry.files.calibrationCertificate'),
+      title: t('files.calibrationCertificate'),
       file: certificate,
       isCertificate: true,
     },
     ...attachments.map((attachment, index) => ({
       title:
         attachments.length > 1
-          ? t('publicServiceEntry.files.attachmentIndexed', { index: index + 1 })
-          : t('publicServiceEntry.files.attachment'),
+          ? t('files.attachmentIndexed', { index: index + 1 })
+          : t('files.attachment'),
       file: attachment,
     })),
   ];
@@ -83,12 +83,10 @@ export function PublicServiceEntryFilesSection({
     >
       <div className="border-b border-border/50 px-6 py-4">
         <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
-          {t('publicServiceEntry.files.title')}
+          {t('files.title')}
         </Typography>
         <Typography variant="body2" color="text.foreground">
-          {downloadsEnabled
-            ? t('publicServiceEntry.files.subtitleReady')
-            : t('publicServiceEntry.files.subtitleLocked')}
+          {downloadsEnabled ? t('files.subtitleReady') : t('files.subtitleLocked')}
         </Typography>
       </div>
       <div className="flex flex-col gap-4 px-6 py-6">
@@ -98,7 +96,7 @@ export function PublicServiceEntryFilesSection({
               <div>
                 <p className="text-sm font-semibold text-foreground">{title}</p>
                 <p className="text-xs text-muted-foreground">
-                  {file ? file.original_name : t('publicServiceEntry.files.notAvailable')}
+                  {file ? file.original_name : t('files.notAvailable')}
                 </p>
               </div>
               <Button
@@ -110,9 +108,7 @@ export function PublicServiceEntryFilesSection({
                 className="flex items-center gap-2"
               >
                 <Download className="size-4" />
-                {downloadingFileId === file?.file_id
-                  ? t('publicServiceEntry.files.downloading')
-                  : t('publicServiceEntry.files.download')}
+                {downloadingFileId === file?.file_id ? t('files.downloading') : t('files.download')}
               </Button>
             </div>
           </div>
