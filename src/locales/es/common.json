@@ -96,6 +96,9 @@
     "customers": "Clientes",
     "customersList": "Lista de clientes",
     "customersCreate": "Registrar cliente",
+    "providers": "Proveedores",
+    "providersList": "Lista de proveedores",
+    "providersCreate": "Registrar proveedor",
     "users": "Usuarios",
     "usersList": "Lista de usuarios",
     "usersInvite": "Invitar usuario",
@@ -111,6 +114,7 @@
     "home": "Inicio",
     "dashboard": "Panel",
     "customers": "Clientes",
+    "providers": "Proveedores",
     "users": "Usuarios",
     "serviceEntries": "Registro de servicios",
     "serviceEntrySurveys": "Encuestas de servicio",
@@ -697,6 +701,147 @@
         "cancel": "Cancelar",
         "save": "Guardar cambios",
         "saving": "Guardando..."
+      }
+    }
+  },
+  "providers": {
+    "title": "Proveedores",
+    "subtitle": "Consulta perfiles fiscales, contactos y datos bancarios.",
+    "empty": "No hay proveedores para mostrar.",
+    "filters": {
+      "searchPlaceholder": "Buscar proveedores...",
+      "clear": "Limpiar búsqueda"
+    },
+    "list": {
+      "range": "Mostrando {{from}}-{{to}} de {{total}} proveedores",
+      "emptySummary": "Sin resultados para la búsqueda actual",
+      "loadingSummary": "Buscando proveedores..."
+    },
+    "card": {
+      "notAvailable": "No disponible",
+      "viewDetail": "Ver detalle",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado"
+    },
+    "pagination": {
+      "summary": "Página {{page}} de {{pages}} · {{total}} proveedores",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    },
+    "errors": {
+      "loadFailed": "No fue posible cargar los proveedores.",
+      "generic": "Intenta nuevamente en unos segundos.",
+      "retry": "Reintentar"
+    },
+    "create": {
+      "title": "Registrar proveedor",
+      "subtitle": "Captura el código y nombre de la empresa.",
+      "formTitle": "Información básica",
+      "formSubtitle": "Estos datos se podrán editar más adelante.",
+      "breadcrumb": "Nuevo proveedor",
+      "action": "Registrar proveedor",
+      "fields": {
+        "companyName": "Nombre de la empresa",
+        "providerCode": "Código de proveedor"
+      },
+      "placeholders": {
+        "companyName": "Nombre de la empresa",
+        "providerCode": "PROV-001"
+      },
+      "errors": {
+        "companyNameRequired": "El nombre de la empresa es obligatorio.",
+        "companyNameLength": "Debe tener al menos 3 caracteres.",
+        "providerCodeRequired": "El código del proveedor es obligatorio.",
+        "providerCodeLength": "Debe tener al menos 3 caracteres.",
+        "providerCodeFormat": "Solo usa letras, números, guiones y guiones bajos."
+      },
+      "actions": {
+        "cancel": "Cancelar",
+        "submit": "Registrar proveedor",
+        "processing": "Registrando..."
+      },
+      "success": "Proveedor creado correctamente."
+    },
+    "detail": {
+      "title": "Detalle del proveedor",
+      "subtitle": "Código {{code}}",
+      "subtitleFallback": "Información del proveedor",
+      "breadcrumb": "Detalle",
+      "notFound": "Aún no pudimos encontrar este proveedor.",
+      "actions": {
+        "back": "Volver"
+      },
+      "error": {
+        "title": "No fue posible cargar el proveedor.",
+        "message": "Intenta nuevamente en unos segundos.",
+        "retry": "Reintentar"
+      },
+      "sections": {
+        "general": "Información general",
+        "publicLink": "Portal público",
+        "fiscalProfile": "Perfil fiscal",
+        "bankingInfo": "Información bancaria",
+        "files": "Archivos",
+        "contact": "Contacto"
+      },
+      "fields": {
+        "providerCode": "Código de proveedor",
+        "status": "Estado",
+        "createdAt": "Creado",
+        "updatedAt": "Actualizado",
+        "fiscalStatus": "Estado fiscal",
+        "submittedAt": "Enviado",
+        "businessName": "Razón social",
+        "rfc": "RFC",
+        "address": "Dirección",
+        "billingContact": "Contacto de facturación",
+        "billingContactEmail": "Correo de facturación",
+        "billingContactPhone": "Teléfono de facturación",
+        "bankingStatus": "Estado bancario",
+        "beneficiary": "Beneficiario",
+        "bank": "Banco",
+        "accountNumber": "Número de cuenta",
+        "clabe": "CLABE",
+        "creditGranted": "Crédito otorgado"
+      },
+      "publicLink": {
+        "empty": "Sin enlace público"
+      },
+      "copy": {
+        "action": "Copiar enlace",
+        "copied": "Copiado",
+        "success": "Enlace copiado correctamente.",
+        "error": "No fue posible copiar el enlace."
+      },
+      "fiscal": {
+        "subtitle": "Información fiscal registrada.",
+        "empty": "Sin información fiscal registrada."
+      },
+      "banking": {
+        "subtitle": "Información bancaria registrada.",
+        "empty": "Sin información bancaria registrada."
+      },
+      "address": {
+        "empty": "Sin dirección registrada."
+      },
+      "notes": {
+        "title": "Notas"
+      },
+      "files": {
+        "subtitle": "Documentos del proveedor.",
+        "taxStatusCertificate": "Constancia de Situación Fiscal",
+        "taxComplianceOpinion": "Opinión del Cumplimiento de Obligaciones fiscales",
+        "addressProof": "Comprobante de domicilio",
+        "bankStatement": "Carátula del estado de cuenta",
+        "download": "Descargar",
+        "empty": "No hay documentos disponibles."
+      },
+      "contact": {
+        "subtitle": "Datos de contacto del proveedor.",
+        "title": "Contacto principal",
+        "email": "Correo",
+        "phone": "Teléfono",
+        "empty": "Sin información"
       }
     }
   },

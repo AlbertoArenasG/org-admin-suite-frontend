@@ -96,6 +96,9 @@
     "customers": "Customers",
     "customersList": "Customers list",
     "customersCreate": "Add customer",
+    "providers": "Providers",
+    "providersList": "Providers list",
+    "providersCreate": "Add provider",
     "users": "Users",
     "usersList": "Users list",
     "usersInvite": "Invite user",
@@ -111,6 +114,7 @@
     "home": "Home",
     "dashboard": "Dashboard",
     "customers": "Customers",
+    "providers": "Providers",
     "users": "Users",
     "serviceEntries": "Service entries",
     "serviceEntrySurveys": "Service surveys",
@@ -119,6 +123,147 @@
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Overview"
+  },
+  "providers": {
+    "title": "Providers",
+    "subtitle": "Review fiscal profiles, contacts, and banking details.",
+    "empty": "No providers to display.",
+    "filters": {
+      "searchPlaceholder": "Search providers...",
+      "clear": "Clear search"
+    },
+    "list": {
+      "range": "Showing {{from}}-{{to}} of {{total}} providers",
+      "emptySummary": "No results for the current filters",
+      "loadingSummary": "Searching providers..."
+    },
+    "card": {
+      "notAvailable": "Not available",
+      "viewDetail": "View details",
+      "createdAt": "Created",
+      "updatedAt": "Updated"
+    },
+    "pagination": {
+      "summary": "Page {{page}} of {{pages}} · {{total}} providers",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "errors": {
+      "loadFailed": "We couldn’t load the providers.",
+      "generic": "Please try again in a few seconds.",
+      "retry": "Try again"
+    },
+    "create": {
+      "title": "Add provider",
+      "subtitle": "Capture the provider code and company name.",
+      "formTitle": "Basic information",
+      "formSubtitle": "You can edit these details later.",
+      "breadcrumb": "New provider",
+      "action": "Add provider",
+      "fields": {
+        "companyName": "Company name",
+        "providerCode": "Provider code"
+      },
+      "placeholders": {
+        "companyName": "Acme Corp.",
+        "providerCode": "PROV-001"
+      },
+      "errors": {
+        "companyNameRequired": "Company name is required.",
+        "companyNameLength": "Use at least 3 characters.",
+        "providerCodeRequired": "Provider code is required.",
+        "providerCodeLength": "Use at least 3 characters.",
+        "providerCodeFormat": "Only letters, numbers, dashes, and underscores."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "submit": "Add provider",
+        "processing": "Adding..."
+      },
+      "success": "Provider created successfully."
+    },
+    "detail": {
+      "title": "Provider details",
+      "subtitle": "Code {{code}}",
+      "subtitleFallback": "Provider information",
+      "breadcrumb": "Details",
+      "notFound": "We couldn’t find this provider yet.",
+      "actions": {
+        "back": "Back"
+      },
+      "error": {
+        "title": "We couldn’t load the provider.",
+        "message": "Please try again in a few seconds.",
+        "retry": "Try again"
+      },
+      "sections": {
+        "general": "General information",
+        "publicLink": "Public portal",
+        "fiscalProfile": "Fiscal profile",
+        "bankingInfo": "Banking information",
+        "files": "Files",
+        "contact": "Contact"
+      },
+      "fields": {
+        "providerCode": "Provider code",
+        "status": "Status",
+        "createdAt": "Created",
+        "updatedAt": "Updated",
+        "fiscalStatus": "Fiscal status",
+        "submittedAt": "Submitted",
+        "businessName": "Business name",
+        "rfc": "RFC",
+        "address": "Address",
+        "billingContact": "Billing contact",
+        "billingContactEmail": "Billing email",
+        "billingContactPhone": "Billing phone",
+        "bankingStatus": "Banking status",
+        "beneficiary": "Beneficiary",
+        "bank": "Bank",
+        "accountNumber": "Account number",
+        "clabe": "CLABE",
+        "creditGranted": "Credit granted"
+      },
+      "publicLink": {
+        "empty": "No public link"
+      },
+      "copy": {
+        "action": "Copy link",
+        "copied": "Copied",
+        "success": "Link copied successfully.",
+        "error": "We couldn’t copy the link."
+      },
+      "fiscal": {
+        "subtitle": "Registered fiscal information.",
+        "empty": "No fiscal information available."
+      },
+      "banking": {
+        "subtitle": "Registered banking information.",
+        "empty": "No banking information available."
+      },
+      "address": {
+        "empty": "No address on file."
+      },
+      "notes": {
+        "title": "Notes"
+      },
+      "files": {
+        "subtitle": "Provider's documents.",
+        "taxStatusCertificate": "Fiscal status certificate",
+        "taxComplianceOpinion": "Tax compliance opinion",
+        "addressProof": "Proof of address",
+        "bankStatement": "Bank statement cover page",
+        "download": "Download",
+        "empty": "No documents available."
+      },
+      "contact": {
+        "subtitle": "Provider contact information.",
+        "title": "Primary contact",
+        "email": "Email",
+        "phone": "Phone",
+        "empty": "Not available"
+      }
+    }
   },
   "customers": {
     "title": "Customers",

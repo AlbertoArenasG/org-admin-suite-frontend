@@ -11,6 +11,7 @@ import {
   Building2,
   PlusCircle,
   Archive,
+  Truck,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePathname } from 'next/navigation';
@@ -100,6 +101,25 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             title: t('nav.customersCreate'),
             url: '/dashboard/customers/new',
             isActive: pathname === '/dashboard/customers/new',
+            icon: PlusCircle,
+          },
+        ],
+      },
+      {
+        title: t('nav.providers'),
+        url: '/dashboard/providers',
+        icon: Truck,
+        isActive: pathname.startsWith('/dashboard/providers'),
+        items: [
+          {
+            title: t('nav.providersList'),
+            url: '/dashboard/providers',
+            isActive: pathname === '/dashboard/providers',
+          },
+          {
+            title: t('nav.providersCreate'),
+            url: '/dashboard/providers/new',
+            isActive: pathname === '/dashboard/providers/new',
             icon: PlusCircle,
           },
         ],
