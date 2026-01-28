@@ -27,7 +27,7 @@ export default function UserEditPage() {
   const params = useParams<{ userId: string }>();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { t } = useTranslationHydrated('common');
+  const { t } = useTranslationHydrated(['users', 'breadcrumbs']);
   const { showSnackbar } = useSnackbar();
 
   const user = useAppSelector((state) =>
@@ -59,7 +59,7 @@ export default function UserEditPage() {
   const fallbackRoles: UserRoleInfo[] = USER_ROLE_LIST.map((role, index) => ({
     id: role,
     normalizedId: role,
-    name: t(`users.roles.${role}`),
+    name: t(`roles.${role}`),
     description: null,
     rank: index,
   }));
@@ -70,7 +70,7 @@ export default function UserEditPage() {
     const identifier = role.id ?? role.normalizedId;
     return {
       value: identifier,
-      label: role.name ?? t(`users.roles.${identifier}`),
+      label: role.name ?? t(`roles.${identifier}`),
     };
   });
 
@@ -117,7 +117,7 @@ export default function UserEditPage() {
       showSnackbar({
         message:
           updateState.message ??
-          t('users.edit.successFeedback', {
+          t('edit.successFeedback', {
             defaultValue: 'Usuario actualizado correctamente.',
           }),
         severity: 'success',
@@ -128,7 +128,7 @@ export default function UserEditPage() {
       showSnackbar({
         message:
           updateState.error ??
-          t('users.edit.errorFeedback', { defaultValue: 'No fue posible actualizar el usuario.' }),
+          t('edit.errorFeedback', { defaultValue: 'No fue posible actualizar el usuario.' }),
         severity: 'error',
       });
       dispatch(resetUserUpdateState());
@@ -143,13 +143,13 @@ export default function UserEditPage() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('breadcrumbs.users'), href: '/dashboard/users', hideOnDesktop: true },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('breadcrumbs:users'), href: '/dashboard/users', hideOnDesktop: true },
               {
                 label: user?.fullName ?? user?.email ?? '—',
                 href: `/dashboard/users/${params.userId}`,
               },
-              { label: t('users.actions.edit') },
+              { label: t('actions.edit') },
             ]}
           />
         </div>
@@ -193,10 +193,10 @@ export default function UserEditPage() {
                 ) : (
                   <>
                     <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                      {t('users.actions.edit')} · {user?.fullName ?? user?.email ?? '—'}
+                      {t('actions.edit')} · {user?.fullName ?? user?.email ?? '—'}
                     </Typography>
                     <Typography variant="body2" color="text.foreground">
-                      {t('users.edit.subtitle', {
+                      {t('edit.subtitle', {
                         defaultValue: 'Update roles and contact details.',
                       })}
                     </Typography>
@@ -216,7 +216,7 @@ export default function UserEditPage() {
           ) : null}
           {!canEdit ? (
             <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-              {t('users.edit.restricted', {
+              {t('edit.restricted', {
                 defaultValue: 'You do not have permissions to edit this user.',
               })}
             </div>
@@ -270,7 +270,7 @@ export default function UserEditPage() {
             />
           ) : (
             <div className="flex flex-1 items-center justify-center text-sm text-muted-foreground">
-              {t('users.detail.notFound', { defaultValue: 'We could not find this user yet.' })}
+              {t('detail.notFound', { defaultValue: 'We could not find this user yet.' })}
             </div>
           )}
         </div>

@@ -36,7 +36,7 @@ function getInitialPagination(params: URLSearchParams) {
 }
 
 export function ServiceEntriesTableContainer() {
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated('serviceEntries');
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathname = usePathname();
@@ -165,8 +165,7 @@ export function ServiceEntriesTableContainer() {
     if (deleteState.status === 'succeeded') {
       showSnackbar({
         message:
-          deleteState.message ??
-          t('serviceEntries.delete.success', { defaultValue: 'Service entry deleted.' }),
+          deleteState.message ?? t('delete.success', { defaultValue: 'Service entry deleted.' }),
         severity: 'success',
       });
       setDeleteTargetId(null);
@@ -183,7 +182,7 @@ export function ServiceEntriesTableContainer() {
       showSnackbar({
         message:
           deleteState.error ??
-          t('serviceEntries.delete.error', { defaultValue: 'Unable to delete the service entry.' }),
+          t('delete.error', { defaultValue: 'Unable to delete the service entry.' }),
         severity: 'error',
       });
       dispatch(resetServiceEntryDelete());
@@ -254,7 +253,7 @@ export function ServiceEntriesTableContainer() {
     : null;
 
   const paginationSummary = pagination
-    ? t('serviceEntries.pagination', {
+    ? t('pagination', {
         page: pagination.page,
         pages: pagination.totalPages,
         total: pagination.total,
@@ -274,14 +273,12 @@ export function ServiceEntriesTableContainer() {
       error={error}
       onCreateClick={() => router.push('/dashboard/service-entries/new')}
       canManage={Boolean(canManage)}
-      title={t('serviceEntries.title')}
-      createLabel={
-        canManage ? t('serviceEntries.actions.create') : t('serviceEntries.actions.createDisabled')
-      }
-      createAriaLabel={t('serviceEntries.actions.openCreate')}
+      title={t('title')}
+      createLabel={canManage ? t('actions.create') : t('actions.createDisabled')}
+      createAriaLabel={t('actions.openCreate')}
       paginationSummary={paginationSummary}
-      searchPlaceholder={t('serviceEntries.actions.searchPlaceholder') ?? 'Buscar servicios'}
-      columnLabel={t('serviceEntries.actions.manageColumns') ?? 'Columnas'}
+      searchPlaceholder={t('actions.searchPlaceholder') ?? 'Buscar servicios'}
+      columnLabel={t('actions.manageColumns') ?? 'Columnas'}
       deleteDialog={{
         open: Boolean(deleteTarget),
         entry: deleteTarget,
@@ -297,20 +294,20 @@ export function ServiceEntriesTableContainer() {
           }
         },
         labels: {
-          title: t('serviceEntries.delete.title'),
-          description: t('serviceEntries.delete.description', {
+          title: t('delete.title'),
+          description: t('delete.description', {
             name: deleteTarget?.companyName ?? '—',
           }),
-          warning: t('serviceEntries.delete.warning'),
-          cancel: t('serviceEntries.delete.cancel'),
-          confirm: t('serviceEntries.delete.confirm'),
+          warning: t('delete.warning'),
+          cancel: t('delete.cancel'),
+          confirm: t('delete.confirm'),
         },
       }}
       tableLabels={{
-        noData: t('serviceEntries.empty'),
+        noData: t('empty'),
         pagination: {
-          previous: t('serviceEntries.actions.previous') ?? 'Anterior',
-          next: t('serviceEntries.actions.next') ?? 'Siguiente',
+          previous: t('actions.previous') ?? 'Anterior',
+          next: t('actions.next') ?? 'Siguiente',
         },
       }}
     />

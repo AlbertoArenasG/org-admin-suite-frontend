@@ -1,0 +1,87 @@
+{
+  "header": "Portal de proveedores",
+  "title": "Perfil del proveedor",
+  "logoAlt": "Logo de la empresa",
+  "summary": {
+    "status": "Estado del proveedor",
+    "providerCode": "Código de proveedor",
+    "fiscalStatus": "Estado fiscal",
+    "bankingStatus": "Estado bancario",
+    "lastUpdated": "Actualizado",
+    "notAvailable": "No disponible"
+  },
+  "error": {
+    "title": "No fue posible cargar la información.",
+    "retry": "Reintentar"
+  },
+  "form": {
+    "success": "Información del proveedor enviada correctamente.",
+    "error": "No fue posible enviar la información.",
+    "uploadSuccess": "Archivo subido correctamente.",
+    "uploadError": "No fue posible subir el archivo.",
+    "sections": {
+      "contact": "Contacto",
+      "fiscal": "Perfil fiscal",
+      "address": "Dirección fiscal",
+      "billingContact": "Contacto de facturación",
+      "banking": "Información bancaria",
+      "files": "Documentos"
+    },
+    "fields": {
+      "contact": "Contacto principal",
+      "businessName": "Razón social",
+      "rfc": "RFC",
+      "street": "Calle",
+      "number": "Número",
+      "neighborhood": "Colonia",
+      "city": "Ciudad",
+      "state": "Estado",
+      "postalCode": "Código postal",
+      "billingContact": "Contacto de facturación",
+      "fiscalNotes": "Notas fiscales",
+      "beneficiary": "Beneficiario",
+      "bank": "Banco",
+      "accountNumber": "Número de cuenta",
+      "clabe": "CLABE",
+      "creditGranted": "Crédito otorgado",
+      "bankingNotes": "Notas bancarias",
+      "taxStatusCertificate": "Constancia de Situación Fiscal",
+      "taxComplianceOpinion": "Opinión del Cumplimiento de Obligaciones fiscales",
+      "addressProof": "Comprobante de domicilio",
+      "bankStatement": "Carátula del estado de cuenta"
+    },
+    "files": {
+      "empty": "Sin archivo cargado",
+      "upload": "Subir archivo",
+      "uploading": "Subiendo..."
+    },
+    "placeholders": {
+      "businessName": "Razón Social",
+      "rfc": "XAXX010101000",
+      "street": "Calle 123",
+      "number": "100",
+      "neighborhood": "Colonia",
+      "city": "Ciudad",
+      "state": "Estado",
+      "postalCode": "00000",
+      "contactName": "Nombre completo",
+      "contactEmail": "correo@empresa.com",
+      "contactPhone": "+52 55 0000 0000",
+      "fiscalNotes": "Notas fiscales o requisitos",
+      "beneficiary": "Empresa beneficiaria",
+      "bank": "Banco",
+      "accountNumber": "0123456789",
+      "clabe": "012180001234567890",
+      "creditGranted": "30 días",
+      "bankingNotes": "Notas bancarias"
+    },
+    "errors": {
+      "required": "Campo obligatorio"
+    },
+    "lastUpdated": "Última actualización: {{date}}",
+    "actions": {
+      "submit": "Guardar información",
+      "submitting": "Enviando información..."
+    }
+  }
+}

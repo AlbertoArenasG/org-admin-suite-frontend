@@ -1,0 +1,60 @@
+{
+  "breadcrumb": "Mi perfil",
+  "actions": {
+    "view": "Ver mi perfil",
+    "edit": "Editar perfil",
+    "cancel": "Volver",
+    "save": "Guardar cambios",
+    "saving": "Guardando..."
+  },
+  "notifications": {
+    "updated": "Perfil actualizado correctamente."
+  },
+  "detail": {
+    "titlePlaceholder": "Perfil",
+    "subtitle": "Información de tu cuenta",
+    "email": "Correo",
+    "role": "Rol",
+    "status": "Estado",
+    "phone": "Teléfono",
+    "joined": "Creado",
+    "empty": "Aún no pudimos cargar tu información."
+  },
+  "edit": {
+    "subtitle": "Actualiza tus datos básicos y contraseña."
+  },
+  "form": {
+    "emailLabel": "Correo electrónico",
+    "fields": {
+      "name": "Nombre",
+      "lastname": "Apellido",
+      "phoneCode": "Código de país",
+      "phoneNumber": "Número telefónico"
+    },
+    "placeholders": {
+      "name": "Nombre",
+      "lastname": "Apellido",
+      "phoneCode": "+52",
+      "phoneNumber": "0000000000"
+    },
+    "password": {
+      "sectionTitle": "Contraseña",
+      "sectionHint": "Solo llena estos campos si deseas cambiar tu contraseña.",
+      "toggleOpen": "Cambiar contraseña",
+      "toggleClose": "Cancelar cambio",
+      "toggleShow": "Mostrar contraseña",
+      "toggleHide": "Ocultar contraseña",
+      "new": "Nueva contraseña",
+      "placeholder": "Ingresa una nueva contraseña (mínimo 6 caracteres)",
+      "minLength": "La contraseña debe tener al menos 6 caracteres.",
+      "confirm": "Confirmar contraseña",
+      "confirmPlaceholder": "Vuelve a escribir la nueva contraseña",
+      "mismatch": "Las contraseñas no coinciden."
+    },
+    "actions": {
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
+      "saving": "Guardando..."
+    }
+  }
+}

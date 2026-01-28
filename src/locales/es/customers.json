@@ -1,0 +1,179 @@
+{
+  "title": "Clientes",
+  "subtitle": "Consulta los perfiles fiscales y contactos.",
+  "empty": "No hay clientes para mostrar.",
+  "filters": {
+    "searchPlaceholder": "Buscar clientes...",
+    "clear": "Limpiar búsqueda"
+  },
+  "list": {
+    "range": "Mostrando {{from}}-{{to}} de {{total}} clientes",
+    "emptySummary": "Sin resultados para la búsqueda actual",
+    "loadingSummary": "Buscando clientes..."
+  },
+  "card": {
+    "clientCode": "Código de cliente",
+    "notAvailable": "No disponible",
+    "fiscalProfile": {
+      "title": "Perfil fiscal",
+      "businessName": "Razón social",
+      "rfc": "RFC",
+      "taxRegime": "Régimen fiscal",
+      "cfdiUse": "Uso de CFDI",
+      "paymentMethod": "Método de pago",
+      "paymentForm": "Forma de pago",
+      "missing": "Sin información fiscal registrada",
+      "requirements": "Requisitos adicionales"
+    },
+    "address": {
+      "title": "Dirección fiscal",
+      "missing": "Sin dirección registrada"
+    },
+    "contacts": {
+      "title": "Contactos",
+      "billing": "Contacto de facturación",
+      "accounts": "Contacto de cuentas por pagar",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "missing": "Sin información"
+    },
+    "viewDetail": "Ver detalle",
+    "publicProfile": "Abrir portal fiscal",
+    "createdAt": "Creado",
+    "updatedAt": "Actualizado"
+  },
+  "pagination": {
+    "summary": "Página {{page}} de {{pages}} · {{total}} clientes",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "errors": {
+    "loadFailed": "No fue posible cargar los clientes.",
+    "generic": "Intenta nuevamente en unos segundos.",
+    "retry": "Reintentar"
+  },
+  "create": {
+    "title": "Registrar cliente",
+    "subtitle": "Captura el código y nombre de la empresa.",
+    "formTitle": "Información básica",
+    "formSubtitle": "Estos datos se podrán editar más adelante.",
+    "breadcrumb": "Nuevo cliente",
+    "action": "Registrar cliente",
+    "fields": {
+      "companyName": "Nombre de la empresa",
+      "clientCode": "Código de cliente"
+    },
+    "placeholders": {
+      "companyName": "Nombre de la empresa",
+      "clientCode": "CLT-001"
+    },
+    "errors": {
+      "companyNameRequired": "El nombre de la empresa es obligatorio.",
+      "companyNameLength": "Debe tener al menos 3 caracteres.",
+      "clientCodeRequired": "El código del cliente es obligatorio.",
+      "clientCodeLength": "Debe tener al menos 3 caracteres.",
+      "clientCodeFormat": "Solo usa letras, números, guiones y guiones bajos."
+    },
+    "actions": {
+      "cancel": "Cancelar",
+      "submit": "Crear cliente",
+      "processing": "Creando cliente..."
+    },
+    "success": "Cliente creado correctamente."
+  },
+  "detail": {
+    "title": "Detalle del cliente",
+    "subtitle": "Cliente {{code}}",
+    "subtitleFallback": "Consulta el perfil fiscal del cliente.",
+    "breadcrumb": "Detalle",
+    "notFound": "No se encontró el cliente.",
+    "actions": {
+      "back": "Regresar",
+      "edit": "Editar cliente",
+      "delete": "Eliminar cliente"
+    },
+    "error": {
+      "title": "No fue posible obtener el cliente.",
+      "message": "Intenta nuevamente en unos segundos.",
+      "retry": "Reintentar"
+    },
+    "copy": {
+      "action": "Copiar enlace",
+      "copied": "Enlace copiado",
+      "success": "El enlace público se copió al portapapeles.",
+      "error": "No fue posible copiar el enlace."
+    },
+    "sections": {
+      "general": "Información general",
+      "publicLink": "Portal público",
+      "fiscalProfile": "Perfil fiscal",
+      "address": "Dirección fiscal",
+      "files": "Documentos"
+    },
+    "fields": {
+      "clientCode": "Código de cliente",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "fiscalStatus": "Estado del perfil",
+      "submittedAt": "Enviado",
+      "businessName": "Razón social",
+      "rfc": "RFC",
+      "taxRegime": "Régimen fiscal",
+      "cfdiUse": "Uso de CFDI",
+      "paymentMethod": "Método de pago",
+      "paymentForm": "Forma de pago",
+      "address": "Dirección"
+    },
+    "fiscal": {
+      "subtitle": "Datos fiscales y de facturación",
+      "empty": "Sin información fiscal registrada."
+    },
+    "address": {
+      "subtitle": "Dirección usada para facturación",
+      "empty": "Sin dirección registrada"
+    },
+    "contacts": {
+      "billing": "Contacto de facturación",
+      "accounts": "Contacto de cuentas por pagar",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "empty": "Sin información"
+    },
+    "notes": {
+      "title": "Requisitos especiales"
+    },
+    "files": {
+      "subtitle": "Certificados y requisitos cargados",
+      "taxCertificate": "Certificado fiscal",
+      "invoiceRequirements": "Documento con los requisitos para la recepción de facturas (en caso de tenerlo)",
+      "download": "Descargar",
+      "empty": "No se han cargado archivos."
+    },
+    "publicLink": {
+      "empty": "Sin enlace público disponible"
+    }
+  },
+  "delete": {
+    "title": "Eliminar cliente",
+    "description": "¿Seguro que quieres eliminar a {{name}}?",
+    "warning": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar",
+    "processing": "Eliminando...",
+    "success": "Cliente eliminado correctamente."
+  },
+  "edit": {
+    "title": "Editar cliente",
+    "subtitle": "Actualiza el nombre y código del cliente.",
+    "formTitle": "Actualizar información",
+    "formSubtitle": "Estos cambios se reflejarán inmediatamente.",
+    "breadcrumb": "Editar cliente",
+    "success": "Cliente actualizado correctamente.",
+    "actions": {
+      "cancel": "Cancelar",
+      "submit": "Guardar cambios",
+      "processing": "Guardando..."
+    }
+  }
+}

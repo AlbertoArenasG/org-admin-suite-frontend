@@ -8,6 +8,7 @@ const BAR_VISIBLE_TIME_MS = 600;
 export function RouteChangeLoader() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const searchParamsString = searchParams?.toString() ?? '';
   const [visible, setVisible] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
 
@@ -38,7 +39,7 @@ export function RouteChangeLoader() {
         hideTimerRef.current = null;
       }
     };
-  }, [pathname, searchParams?.toString()]);
+  }, [pathname, searchParamsString]);
 
   useEffect(() => {
     return () => {

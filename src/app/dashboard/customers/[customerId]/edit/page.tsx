@@ -18,7 +18,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 export default function CustomerEditPage() {
   const params = useParams<{ customerId: string }>();
   const customerId = params.customerId;
-  const { t } = useTranslation();
+  const { t } = useTranslation(['customers', 'breadcrumbs']);
   const dispatch = useAppDispatch();
 
   const detailState = useAppSelector((state) => state.customers.detail);
@@ -52,16 +52,16 @@ export default function CustomerEditPage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.dashboard'),
+                label: t('breadcrumbs:dashboard'),
                 href: '/dashboard',
                 hideOnDesktop: true,
               },
               {
-                label: t('breadcrumbs.customers'),
+                label: t('breadcrumbs:customers'),
                 href: '/dashboard/customers',
               },
               {
-                label: t('customers.edit.breadcrumb'),
+                label: t('edit.breadcrumb'),
               },
             ]}
           />
@@ -69,21 +69,21 @@ export default function CustomerEditPage() {
       </header>
 
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-semibold tracking-tight">{t('customers.edit.title')}</h1>
-        <p className="text-muted-foreground">{t('customers.edit.subtitle')}</p>
+        <h1 className="text-2xl font-semibold tracking-tight">{t('edit.title')}</h1>
+        <p className="text-muted-foreground">{t('edit.subtitle')}</p>
       </div>
 
       {isLoading ? (
         <CustomerDetailSkeleton />
       ) : hasError ? (
         <Alert variant="destructive">
-          <AlertDescription>{detailState.error ?? t('customers.detail.notFound')}</AlertDescription>
+          <AlertDescription>{detailState.error ?? t('detail.notFound')}</AlertDescription>
         </Alert>
       ) : customer ? (
         <Card className="rounded-3xl border border-border/70 bg-card/90 shadow-md">
           <CardHeader>
-            <CardTitle>{t('customers.edit.formTitle')}</CardTitle>
-            <CardDescription>{t('customers.edit.formSubtitle')}</CardDescription>
+            <CardTitle>{t('edit.formTitle')}</CardTitle>
+            <CardDescription>{t('edit.formSubtitle')}</CardDescription>
           </CardHeader>
           <CardContent>
             <CustomerForm

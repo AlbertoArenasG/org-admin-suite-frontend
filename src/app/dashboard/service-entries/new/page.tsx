@@ -26,7 +26,7 @@ import { parseUserRole } from '@/features/users/roles';
 import { Spinner } from '@/components/ui/spinner';
 
 export default function ServiceEntryCreatePage() {
-  const { t } = useTranslationHydrated('common');
+  const { t } = useTranslationHydrated(['serviceEntries', 'breadcrumbs']);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbar();
@@ -56,7 +56,7 @@ export default function ServiceEntryCreatePage() {
       showSnackbar({
         message:
           formState.error ??
-          t('serviceEntries.create.success', {
+          t('create.success', {
             defaultValue: 'Servicio registrado correctamente.',
           }),
         severity: 'success',
@@ -67,7 +67,7 @@ export default function ServiceEntryCreatePage() {
       showSnackbar({
         message:
           formState.error ??
-          t('serviceEntries.create.error', {
+          t('create.error', {
             defaultValue: 'No fue posible registrar el servicio.',
           }),
         severity: 'error',
@@ -101,9 +101,9 @@ export default function ServiceEntryCreatePage() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('serviceEntries.breadcrumb'), href: '/dashboard/service-entries' },
-              { label: t('serviceEntries.create.title') },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('breadcrumb'), href: '/dashboard/service-entries' },
+              { label: t('create.title') },
             ]}
           />
         </div>
@@ -129,10 +129,10 @@ export default function ServiceEntryCreatePage() {
         >
           <div>
             <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-              {t('serviceEntries.create.title')}
+              {t('create.title')}
             </Typography>
             <Typography variant="body2" color="text.foreground">
-              {t('serviceEntries.create.subtitle', {
+              {t('create.subtitle', {
                 defaultValue: 'Completa la información del servicio.',
               })}
             </Typography>
@@ -144,7 +144,7 @@ export default function ServiceEntryCreatePage() {
 
         {!canManage ? (
           <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
-            {t('serviceEntries.restricted', {
+            {t('restricted', {
               defaultValue: 'No cuentas con permisos para gestionar entradas de servicio.',
             })}
           </div>
@@ -157,7 +157,7 @@ export default function ServiceEntryCreatePage() {
         ) : categoriesState.status === 'failed' ? (
           <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
             {categoriesState.error ??
-              t('serviceEntries.form.categoriesError', {
+              t('form.categoriesError', {
                 defaultValue: 'No fue posible obtener las categorías.',
               })}
           </div>

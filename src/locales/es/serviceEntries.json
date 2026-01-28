@@ -1,0 +1,127 @@
+{
+  "title": "Registro de servicios",
+  "breadcrumb": "Registro de servicios",
+  "empty": "No hay entradas de servicio para mostrar.",
+  "pagination": "Página {{page}} de {{pages}} · {{total}} servicios",
+  "actions": {
+    "create": "Registrar servicio",
+    "createDisabled": "Sin permisos",
+    "openCreate": "Abrir formulario de nuevo servicio",
+    "view": "Ver detalles",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "openMenu": "Abrir menú de acciones",
+    "searchPlaceholder": "Buscar entradas de servicio...",
+    "manageColumns": "Administrar columnas",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "table": {
+    "columns": {
+      "companyName": "Empresa",
+      "serviceOrder": "Orden de servicio",
+      "contactName": "Contacto",
+      "category": "Categoría",
+      "status": "Estado",
+      "createdAt": "Fecha de creación",
+      "surveyStatus": "Encuesta",
+      "downloadStatus": "Descargas"
+    },
+    "survey": {
+      "notStarted": "Sin actividad",
+      "pending": "Pendiente de respuesta",
+      "completed": "Encuesta completada",
+      "completedAt": "Completada el {{date}}"
+    },
+    "download": {
+      "unavailable": "No disponible",
+      "never": "Sin descargas registradas",
+      "count": "{{count, plural, one {# descarga} other {# descargas}}}"
+    }
+  },
+  "delete": {
+    "title": "Eliminar entrada de servicio",
+    "description": "Esta acción eliminará a {{name}}.",
+    "warning": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar",
+    "success": "Servicio eliminado correctamente.",
+    "error": "No fue posible eliminar la entrada de servicio."
+  },
+  "form": {
+    "fields": {
+      "companyName": "Nombre de la empresa",
+      "contactName": "Nombre de contacto",
+      "contactEmail": "Correo de contacto",
+      "serviceOrder": "Orden de servicio",
+      "category": "Categoría",
+      "calibrationCertificate": "Certificado de calibración",
+      "attachments": "Adjuntos"
+    },
+    "errors": {
+      "companyName": "El nombre de la empresa es obligatorio.",
+      "contactName": "El nombre de contacto es obligatorio.",
+      "contactEmail": "Ingresa un correo válido.",
+      "serviceOrder": "La orden de servicio es obligatoria.",
+      "category": "La categoría es obligatoria."
+    },
+    "dragCertificate": "Arrastra el certificado o haz clic para subirlo (máximo 1 archivo).",
+    "dragAttachments": "Arrastra archivos o haz clic para subir adjuntos.",
+    "uploading": "Subiendo archivos...",
+    "uploadSuccess": "Archivo cargado correctamente.",
+    "uploadError": "No fue posible cargar los archivos.",
+    "removeFile": "Quitar archivo",
+    "actions": {
+      "cancel": "Cancelar",
+      "processing": "Guardando...",
+      "create": "Registrar servicio",
+      "update": "Guardar cambios",
+      "selectFile": "Seleccionar archivo",
+      "selectFiles": "Seleccionar archivos"
+    },
+    "placeholders": {
+      "category": "Selecciona una categoría"
+    },
+    "categoriesError": "No fue posible obtener las categorías."
+  },
+  "create": {
+    "title": "Registrar entrada de servicio",
+    "subtitle": "Completa la información del servicio.",
+    "success": "Servicio registrado correctamente.",
+    "error": "No fue posible registrar el servicio."
+  },
+  "edit": {
+    "title": "Editar entrada de servicio",
+    "subtitle": "Actualiza la información del servicio.",
+    "success": "Servicio actualizado correctamente.",
+    "error": "No fue posible actualizar el servicio."
+  },
+  "detail": {
+    "placeholder": "Detalle del servicio",
+    "contactName": "Nombre de contacto",
+    "contactEmail": "Correo de contacto",
+    "category": "Categoría",
+    "createdAt": "Creado",
+    "updatedAt": "Actualizado",
+    "surveyStatus": "Encuesta",
+    "surveyCompleted": "Encuesta completada",
+    "surveyCompletedWithDate": "Encuesta completada el {{date}}",
+    "surveyPending": "Encuesta pendiente",
+    "surveyNotStarted": "Sin actividad de encuesta",
+    "files": "Archivos",
+    "calibrationCertificate": "Certificado de calibración",
+    "attachments": "Adjuntos",
+    "loading": "Cargando servicio...",
+    "notFound": "No fue posible encontrar este servicio.",
+    "downloadStatus": "Descargas",
+    "downloadAvailable": "Descargado {{count, plural, one {# vez} other {# veces}}} · Última: {{last}}",
+    "downloadNever": "Sin registros de descarga",
+    "downloadUnavailable": "Descarga no disponible",
+    "notDownloaded": "Nunca",
+    "actions": {
+      "back": "Regresar",
+      "edit": "Editar"
+    }
+  },
+  "restricted": "No cuentas con permisos para gestionar entradas de servicio."
+}

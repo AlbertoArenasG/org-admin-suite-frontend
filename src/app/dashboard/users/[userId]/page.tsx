@@ -23,7 +23,7 @@ export default function UserDetailPage() {
   const params = useParams<{ userId: string }>();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { t, hydrated, i18n } = useTranslationHydrated('common');
+  const { t, hydrated, i18n } = useTranslationHydrated(['users', 'breadcrumbs']);
   const user = useAppSelector((state) =>
     state.users.entities.find((entity) => entity.id === params.userId)
   );
@@ -66,11 +66,11 @@ export default function UserDetailPage() {
 
   const detailRows = user
     ? [
-        { label: t('users.table.columns.fullName'), value: user.fullName || '—' },
-        { label: t('users.table.columns.email'), value: user.email },
-        { label: t('users.table.columns.role'), value: user.roleName },
+        { label: t('table.columns.fullName'), value: user.fullName || '—' },
+        { label: t('table.columns.email'), value: user.email },
+        { label: t('table.columns.role'), value: user.roleName },
         {
-          label: t('users.table.columns.status'),
+          label: t('table.columns.status'),
           value: (
             <Chip
               color={user.status?.toLowerCase() === 'active' ? 'success' : 'default'}
@@ -81,7 +81,7 @@ export default function UserDetailPage() {
           ),
         },
         {
-          label: t('users.table.columns.createdAt'),
+          label: t('table.columns.createdAt'),
           value:
             user.createdAt && !Number.isNaN(new Date(user.createdAt).getTime())
               ? dateFormatter.format(new Date(user.createdAt))
@@ -106,8 +106,8 @@ export default function UserDetailPage() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('breadcrumbs.users'), href: '/dashboard/users', hideOnDesktop: true },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('breadcrumbs:users'), href: '/dashboard/users', hideOnDesktop: true },
               { label: user?.fullName ?? user?.email ?? '—' },
             ]}
           />
@@ -153,10 +153,10 @@ export default function UserDetailPage() {
                   <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
                     {user
                       ? user.fullName || user.email
-                      : t('users.detail.missingTitle', { defaultValue: 'User not found' })}
+                      : t('detail.missingTitle', { defaultValue: 'User not found' })}
                   </Typography>
                   <Typography variant="body2" color="text.foreground">
-                    {t('users.detail.subtitle', { defaultValue: 'User details and activity' })}
+                    {t('detail.subtitle', { defaultValue: 'User details and activity' })}
                   </Typography>
                 </>
               )}
@@ -164,7 +164,7 @@ export default function UserDetailPage() {
           </div>
           {canEdit ? (
             <Button onClick={() => router.push(`/dashboard/users/${params.userId}/edit`)} size="sm">
-              {t('users.actions.edit')}
+              {t('actions.edit')}
             </Button>
           ) : null}
         </Box>
@@ -192,7 +192,7 @@ export default function UserDetailPage() {
             ))
           ) : (
             <div className="rounded-xl border border-border/60 bg-card/60 px-4 py-12 text-center text-sm text-muted-foreground">
-              {t('users.detail.notFound', { defaultValue: 'We could not find this user yet.' })}
+              {t('detail.notFound', { defaultValue: 'We could not find this user yet.' })}
             </div>
           )}
         </div>

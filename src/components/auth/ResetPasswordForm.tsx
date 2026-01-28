@@ -24,7 +24,7 @@ interface ResetPasswordFormValues {
 }
 
 export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) {
-  const { t, i18n } = useTranslationHydrated(['auth', 'common']);
+  const { t, i18n } = useTranslationHydrated('auth');
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -54,25 +54,25 @@ export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) 
         confirmPasswordReset({ token, password: values.password, lang: i18n.language })
       ).unwrap();
       setStatus('success');
-      setMessage(result.message ?? t('auth:reset.successConfirm'));
+      setMessage(result.message ?? t('reset.successConfirm'));
     } catch (error) {
       setStatus('error');
-      setMessage((error as string) ?? t('auth:reset.errorConfirm'));
+      setMessage((error as string) ?? t('reset.errorConfirm'));
     }
   });
 
-  const successDescription = useMemo(() => message ?? t('auth:reset.successConfirm'), [message, t]);
+  const successDescription = useMemo(() => message ?? t('reset.successConfirm'), [message, t]);
 
   if (isTokenMissing) {
     return (
       <Card className={className}>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">{t('auth:reset.invalidTokenTitle')}</CardTitle>
-          <CardDescription>{t('auth:reset.invalidTokenDescription')}</CardDescription>
+          <CardTitle className="text-xl">{t('reset.invalidTokenTitle')}</CardTitle>
+          <CardDescription>{t('reset.invalidTokenDescription')}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center gap-4">
           <Button onClick={() => router.push('/login')} className="min-w-[12rem]">
-            {t('auth:reset.backToLogin')}
+            {t('reset.backToLogin')}
           </Button>
         </CardContent>
       </Card>
@@ -83,8 +83,8 @@ export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) 
     return (
       <Card className={className}>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">{t('auth:reset.successTitle')}</CardTitle>
-          <CardDescription>{t('auth:reset.successSubtitle')}</CardDescription>
+          <CardTitle className="text-xl">{t('reset.successTitle')}</CardTitle>
+          <CardDescription>{t('reset.successSubtitle')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <StatusAlert
@@ -94,7 +94,7 @@ export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) 
             size="md"
           />
           <Button onClick={() => router.push('/login')} className="w-full">
-            {t('auth:reset.backToLogin')}
+            {t('reset.backToLogin')}
           </Button>
         </CardContent>
       </Card>
@@ -104,8 +104,8 @@ export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) 
   return (
     <Card className={className}>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">{t('auth:reset.formTitle')}</CardTitle>
-        <CardDescription>{t('auth:reset.formSubtitle')}</CardDescription>
+        <CardTitle className="text-xl">{t('reset.formTitle')}</CardTitle>
+        <CardDescription>{t('reset.formSubtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         {status === 'error' && message ? (
@@ -119,18 +119,18 @@ export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) 
         ) : null}
         <form onSubmit={submitHandler} className="mt-4 space-y-5" noValidate>
           <div className="grid gap-2">
-            <Label htmlFor="reset-password">{t('auth:passwordLabel')}</Label>
+            <Label htmlFor="reset-password">{t('passwordLabel')}</Label>
             <div className="relative">
               <Input
                 id="reset-password"
                 type={showPassword ? 'text' : 'password'}
                 autoComplete="new-password"
-                placeholder={t('auth:passwordPlaceholder')}
+                placeholder={t('passwordPlaceholder')}
                 {...register('password', {
-                  required: t('auth:passwordRequired'),
+                  required: t('passwordRequired'),
                   minLength: {
                     value: 6,
-                    message: t('auth:passwordMinLength'),
+                    message: t('passwordMinLength'),
                   },
                 })}
                 aria-invalid={errors.password ? 'true' : 'false'}
@@ -145,30 +145,30 @@ export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) 
             </div>
             {errors.password ? (
               <p className="text-sm text-destructive">
-                {errors.password.message ?? t('auth:passwordMinLength')}
+                {errors.password.message ?? t('passwordMinLength')}
               </p>
             ) : null}
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="reset-confirm-password">{t('auth:reset.confirmPasswordLabel')}</Label>
+            <Label htmlFor="reset-confirm-password">{t('reset.confirmPasswordLabel')}</Label>
             <div className="relative">
               <Input
                 id="reset-confirm-password"
                 type={showConfirmPassword ? 'text' : 'password'}
                 autoComplete="new-password"
-                placeholder={t('auth:reset.confirmPasswordPlaceholder')}
+                placeholder={t('reset.confirmPasswordPlaceholder')}
                 {...register('confirmPassword', {
                   validate: (value) => {
                     const password = watch('password');
                     if (!value) {
-                      return t('auth:reset.confirmPasswordRequired');
+                      return t('reset.confirmPasswordRequired');
                     }
                     if (value.length < 6) {
-                      return t('auth:passwordMinLength');
+                      return t('passwordMinLength');
                     }
                     if (value !== password) {
-                      return t('auth:reset.passwordMismatch');
+                      return t('reset.passwordMismatch');
                     }
                     return true;
                   },
@@ -185,7 +185,7 @@ export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) 
             </div>
             {errors.confirmPassword ? (
               <p className="text-sm text-destructive">
-                {errors.confirmPassword.message ?? t('auth:reset.passwordMismatch')}
+                {errors.confirmPassword.message ?? t('reset.passwordMismatch')}
               </p>
             ) : null}
           </div>
@@ -197,8 +197,8 @@ export function ResetPasswordForm({ token, className }: ResetPasswordFormProps) 
             aria-busy={status === 'loading' || isSubmitting}
           >
             {status === 'loading' || isSubmitting
-              ? t('auth:reset.submitting')
-              : t('auth:reset.submitNewPassword')}
+              ? t('reset.submitting')
+              : t('reset.submitNewPassword')}
           </Button>
         </form>
       </CardContent>

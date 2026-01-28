@@ -11,6 +11,7 @@ import {
   Building2,
   PlusCircle,
   Archive,
+  Truck,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePathname } from 'next/navigation';
@@ -40,7 +41,7 @@ const data = {
 };
 
 export function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['nav', 'publicCustomerProfile']);
   const pathname = usePathname();
   const authUser = useAppSelector((state) => state.auth.user);
 
@@ -61,24 +62,24 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
   const navItems = React.useMemo(
     () => [
       {
-        title: t('nav.dashboard'),
+        title: t('dashboard'),
         url: '/dashboard',
         icon: LayoutDashboard,
         isActive: pathname === '/dashboard',
       },
       {
-        title: t('nav.users'),
+        title: t('users'),
         url: '/dashboard/users',
         icon: Users,
         isActive: pathname.startsWith('/dashboard/users'),
         items: [
           {
-            title: t('nav.usersList'),
+            title: t('usersList'),
             url: '/dashboard/users',
             isActive: pathname === '/dashboard/users',
           },
           {
-            title: t('nav.usersInvite'),
+            title: t('usersInvite'),
             url: '/dashboard/users/invite',
             isActive: pathname === '/dashboard/users/invite',
             icon: UserPlus2,
@@ -86,18 +87,18 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         ],
       },
       {
-        title: t('nav.customers'),
+        title: t('customers'),
         url: '/dashboard/customers',
         icon: Building2,
         isActive: pathname.startsWith('/dashboard/customers'),
         items: [
           {
-            title: t('nav.customersList'),
+            title: t('customersList'),
             url: '/dashboard/customers',
             isActive: pathname === '/dashboard/customers',
           },
           {
-            title: t('nav.customersCreate'),
+            title: t('customersCreate'),
             url: '/dashboard/customers/new',
             isActive: pathname === '/dashboard/customers/new',
             icon: PlusCircle,
@@ -105,13 +106,32 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         ],
       },
       {
-        title: t('nav.services'),
+        title: t('providers'),
+        url: '/dashboard/providers',
+        icon: Truck,
+        isActive: pathname.startsWith('/dashboard/providers'),
+        items: [
+          {
+            title: t('providersList'),
+            url: '/dashboard/providers',
+            isActive: pathname === '/dashboard/providers',
+          },
+          {
+            title: t('providersCreate'),
+            url: '/dashboard/providers/new',
+            isActive: pathname === '/dashboard/providers/new',
+            icon: PlusCircle,
+          },
+        ],
+      },
+      {
+        title: t('services'),
         url: '/dashboard/service-entries',
         icon: Wrench,
         isActive: pathname.startsWith('/dashboard/service-entries'),
         items: [
           {
-            title: t('nav.serviceEntries'),
+            title: t('serviceEntries'),
             url: '/dashboard/service-entries',
             isActive:
               pathname === '/dashboard/service-entries' ||
@@ -119,13 +139,13 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             icon: List,
           },
           {
-            title: t('nav.serviceEntrySurveys'),
+            title: t('serviceEntrySurveys'),
             url: '/dashboard/service-entries/surveys',
             isActive: pathname.startsWith('/dashboard/service-entries/surveys'),
             icon: ChartColumn,
           },
           {
-            title: t('nav.servicePackagesRecords'),
+            title: t('servicePackagesRecords'),
             url: '/dashboard/service-packages-records',
             isActive: pathname.startsWith('/dashboard/service-packages-records'),
             icon: Archive,
@@ -154,13 +174,13 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         <SidebarLogo
           name="ICSA"
           logoSrc="/logo.jpeg"
-          logoAlt={t('publicCustomerProfile.logoAlt') ?? 'Company logo'}
+          logoAlt={t('publicCustomerProfile:logoAlt') ?? 'Company logo'}
         />
         <NavUser user={sidebarUser} />
         {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navItems} label={t('nav.platform')} />
+        <NavMain items={navItems} label={t('platform')} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter className="gap-3">

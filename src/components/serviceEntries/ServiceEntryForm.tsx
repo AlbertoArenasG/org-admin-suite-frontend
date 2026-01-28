@@ -19,11 +19,11 @@ import { cn } from '@/lib/utils';
 import { normalizeFilesForUpload } from '@/lib/normalize-files-for-upload';
 
 const formSchema = z.object({
-  companyName: z.string().trim().min(1, 'serviceEntries.form.errors.companyName'),
-  contactName: z.string().trim().min(1, 'serviceEntries.form.errors.contactName'),
-  contactEmail: z.string().trim().email('serviceEntries.form.errors.contactEmail'),
-  serviceOrderIdentifier: z.string().trim().min(1, 'serviceEntries.form.errors.serviceOrder'),
-  categoryId: z.string().trim().min(1, 'serviceEntries.form.errors.category'),
+  companyName: z.string().trim().min(1, 'form.errors.companyName'),
+  contactName: z.string().trim().min(1, 'form.errors.contactName'),
+  contactEmail: z.string().trim().email('form.errors.contactEmail'),
+  serviceOrderIdentifier: z.string().trim().min(1, 'form.errors.serviceOrder'),
+  categoryId: z.string().trim().min(1, 'form.errors.category'),
   calibrationCertificateFileId: z.string().trim().nullable(),
   attachmentFileIds: z.array(z.string().trim()),
 });
@@ -53,7 +53,7 @@ export function ServiceEntryForm({
   disableActions = false,
   categories,
 }: ServiceEntryFormProps) {
-  const { t } = useTranslation('common');
+  const { t } = useTranslation('serviceEntries');
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbar();
   const [uploadingCertificate, setUploadingCertificate] = useState(false);
@@ -122,14 +122,14 @@ export function ServiceEntryForm({
       form.setValue('calibrationCertificateFileId', uploaded[0].id, { shouldDirty: true });
       setCertificateLabel(uploaded[0].original_name);
       showSnackbar({
-        message: t('serviceEntries.form.uploadSuccess', { defaultValue: 'File uploaded.' }),
+        message: t('form.uploadSuccess', { defaultValue: 'File uploaded.' }),
         severity: 'success',
       });
     } catch (error) {
       const message =
         typeof error === 'string'
           ? error
-          : t('serviceEntries.form.uploadError', { defaultValue: 'Upload failed.' });
+          : t('form.uploadError', { defaultValue: 'Upload failed.' });
       showSnackbar({ message, severity: 'error' });
     } finally {
       setUploadingCertificate(false);
@@ -168,14 +168,14 @@ export function ServiceEntryForm({
         return next;
       });
       showSnackbar({
-        message: t('serviceEntries.form.uploadSuccess', { defaultValue: 'File uploaded.' }),
+        message: t('form.uploadSuccess', { defaultValue: 'File uploaded.' }),
         severity: 'success',
       });
     } catch (error) {
       const message =
         typeof error === 'string'
           ? error
-          : t('serviceEntries.form.uploadError', { defaultValue: 'Upload failed.' });
+          : t('form.uploadError', { defaultValue: 'Upload failed.' });
       showSnackbar({ message, severity: 'error' });
     } finally {
       setUploadingAttachments(false);
@@ -216,7 +216,7 @@ export function ServiceEntryForm({
     <form onSubmit={onSubmitHandler} className="flex flex-1 flex-col gap-4 p-6">
       <div className="grid gap-4 md:grid-cols-2">
         <div className="grid gap-2">
-          <Label htmlFor="service-company">{t('serviceEntries.form.fields.companyName')}</Label>
+          <Label htmlFor="service-company">{t('form.fields.companyName')}</Label>
           <Input id="service-company" {...form.register('companyName')} />
           {form.formState.errors.companyName ? (
             <p className="text-sm text-destructive">
@@ -227,7 +227,7 @@ export function ServiceEntryForm({
           ) : null}
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="service-contact">{t('serviceEntries.form.fields.contactName')}</Label>
+          <Label htmlFor="service-contact">{t('form.fields.contactName')}</Label>
           <Input id="service-contact" {...form.register('contactName')} />
           {form.formState.errors.contactName ? (
             <p className="text-sm text-destructive">
@@ -238,7 +238,7 @@ export function ServiceEntryForm({
           ) : null}
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="service-email">{t('serviceEntries.form.fields.contactEmail')}</Label>
+          <Label htmlFor="service-email">{t('form.fields.contactEmail')}</Label>
           <Input id="service-email" type="email" {...form.register('contactEmail')} />
           {form.formState.errors.contactEmail ? (
             <p className="text-sm text-destructive">
@@ -249,7 +249,7 @@ export function ServiceEntryForm({
           ) : null}
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="service-order">{t('serviceEntries.form.fields.serviceOrder')}</Label>
+          <Label htmlFor="service-order">{t('form.fields.serviceOrder')}</Label>
           <Input id="service-order" {...form.register('serviceOrderIdentifier')} />
           {form.formState.errors.serviceOrderIdentifier ? (
             <p className="text-sm text-destructive">
@@ -260,14 +260,14 @@ export function ServiceEntryForm({
           ) : null}
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="service-category">{t('serviceEntries.form.fields.category')}</Label>
+          <Label htmlFor="service-category">{t('form.fields.category')}</Label>
           <select
             id="service-category"
             {...form.register('categoryId')}
             className="h-10 w-full rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
           >
             <option value="">
-              {t('serviceEntries.form.placeholders.category', {
+              {t('form.placeholders.category', {
                 defaultValue: 'Choose a category',
               })}
             </option>
@@ -288,9 +288,7 @@ export function ServiceEntryForm({
       </div>
 
       <div className="space-y-3 rounded-xl border border-dashed border-border/70 bg-muted/10 p-4">
-        <Label className="font-medium">
-          {t('serviceEntries.form.fields.calibrationCertificate')}
-        </Label>
+        <Label className="font-medium">{t('form.fields.calibrationCertificate')}</Label>
         <div className="relative">
           <FileDrop
             onDrop={handleCertificateDrop}
@@ -302,9 +300,7 @@ export function ServiceEntryForm({
           >
             <div className="flex flex-col items-center gap-3">
               <UploadCloud className="size-8 text-primary" />
-              <p className="text-sm text-muted-foreground">
-                {t('serviceEntries.form.dragCertificate')}
-              </p>
+              <p className="text-sm text-muted-foreground">{t('form.dragCertificate')}</p>
               <Button
                 type="button"
                 variant="outline"
@@ -315,7 +311,7 @@ export function ServiceEntryForm({
                   certificateInputRef.current?.click();
                 }}
               >
-                {t('serviceEntries.form.actions.selectFile')}
+                {t('form.actions.selectFile')}
               </Button>
             </div>
           </FileDrop>
@@ -329,7 +325,7 @@ export function ServiceEntryForm({
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-background/90 text-primary">
               <Spinner className="size-6 text-primary" />
               <p className="text-xs font-semibold">
-                {t('serviceEntries.form.uploading', { defaultValue: 'Uploading...' })}
+                {t('form.uploading', { defaultValue: 'Uploading...' })}
               </p>
             </div>
           ) : null}
@@ -348,14 +344,14 @@ export function ServiceEntryForm({
               }}
               disabled={isSubmitting}
             >
-              {t('serviceEntries.form.removeFile')}
+              {t('form.removeFile')}
             </Button>
           </div>
         ) : null}
       </div>
 
       <div className="space-y-3 rounded-xl border border-dashed border-border/70 bg-muted/10 p-4">
-        <Label className="font-medium">{t('serviceEntries.form.fields.attachments')}</Label>
+        <Label className="font-medium">{t('form.fields.attachments')}</Label>
         <div className="relative">
           <FileDrop
             onDrop={handleAttachmentsDrop}
@@ -367,9 +363,7 @@ export function ServiceEntryForm({
           >
             <div className="flex flex-col items-center gap-3">
               <UploadCloud className="size-8 text-primary" />
-              <p className="text-sm text-muted-foreground">
-                {t('serviceEntries.form.dragAttachments')}
-              </p>
+              <p className="text-sm text-muted-foreground">{t('form.dragAttachments')}</p>
               <Button
                 type="button"
                 variant="outline"
@@ -380,7 +374,7 @@ export function ServiceEntryForm({
                   attachmentsInputRef.current?.click();
                 }}
               >
-                {t('serviceEntries.form.actions.selectFiles')}
+                {t('form.actions.selectFiles')}
               </Button>
             </div>
           </FileDrop>
@@ -395,7 +389,7 @@ export function ServiceEntryForm({
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-2xl bg-background/90 text-primary">
               <Spinner className="size-6 text-primary" />
               <p className="text-xs font-semibold">
-                {t('serviceEntries.form.uploading', { defaultValue: 'Uploading...' })}
+                {t('form.uploading', { defaultValue: 'Uploading...' })}
               </p>
             </div>
           ) : null}
@@ -430,14 +424,14 @@ export function ServiceEntryForm({
           onClick={onCancel}
           disabled={isSubmitting || disableActions}
         >
-          {t('serviceEntries.form.actions.cancel')}
+          {t('form.actions.cancel')}
         </Button>
         <Button type="submit" disabled={isSubmitting || disableActions}>
           {isSubmitting
-            ? t('serviceEntries.form.actions.processing')
+            ? t('form.actions.processing')
             : mode === 'create'
-              ? t('serviceEntries.form.actions.create')
-              : t('serviceEntries.form.actions.update')}
+              ? t('form.actions.create')
+              : t('form.actions.update')}
         </Button>
       </div>
     </form>

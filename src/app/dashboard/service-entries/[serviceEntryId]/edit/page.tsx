@@ -35,7 +35,7 @@ export default function ServiceEntryEditPage() {
   const params = useParams<{ serviceEntryId: string }>();
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { t } = useTranslationHydrated('common');
+  const { t } = useTranslationHydrated(['serviceEntries', 'breadcrumbs']);
   const { showSnackbar } = useSnackbar();
 
   const detailState = useAppSelector((state) => state.serviceEntries.detail);
@@ -79,7 +79,7 @@ export default function ServiceEntryEditPage() {
       showSnackbar({
         message:
           formState.error ??
-          t('serviceEntries.edit.success', {
+          t('edit.success', {
             defaultValue: 'Servicio actualizado correctamente.',
           }),
         severity: 'success',
@@ -90,7 +90,7 @@ export default function ServiceEntryEditPage() {
       showSnackbar({
         message:
           formState.error ??
-          t('serviceEntries.edit.error', {
+          t('edit.error', {
             defaultValue: 'No fue posible actualizar el servicio.',
           }),
         severity: 'error',
@@ -154,13 +154,13 @@ export default function ServiceEntryEditPage() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('serviceEntries.breadcrumb'), href: '/dashboard/service-entries' },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('breadcrumb'), href: '/dashboard/service-entries' },
               {
                 label: entry.companyName,
                 href: `/dashboard/service-entries/${entry.id}`,
               },
-              { label: t('serviceEntries.edit.title') },
+              { label: t('edit.title') },
             ]}
           />
         </div>
@@ -187,10 +187,10 @@ export default function ServiceEntryEditPage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                {t('serviceEntries.edit.title')} · {entry.companyName}
+                {t('edit.title')} · {entry.companyName}
               </Typography>
               <Typography variant="body2" color="text.foreground">
-                {t('serviceEntries.edit.subtitle', {
+                {t('edit.subtitle', {
                   defaultValue: 'Actualiza la información del servicio.',
                 })}
               </Typography>
@@ -205,7 +205,7 @@ export default function ServiceEntryEditPage() {
           </div>
           {!canManage ? (
             <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-              {t('serviceEntries.restricted', {
+              {t('restricted', {
                 defaultValue: 'No cuentas con permisos para gestionar entradas de servicio.',
               })}
             </div>
@@ -218,7 +218,7 @@ export default function ServiceEntryEditPage() {
         ) : categoriesState.status === 'failed' ? (
           <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
             {categoriesState.error ??
-              t('serviceEntries.form.categoriesError', {
+              t('form.categoriesError', {
                 defaultValue: 'No fue posible obtener las categorías.',
               })}
           </div>

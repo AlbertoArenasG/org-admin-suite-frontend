@@ -20,7 +20,7 @@ import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 
 export default function InviteUserPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation(['users', 'breadcrumbs']);
   const router = useRouter();
   const dispatch = useAppDispatch();
   const authUser = useAppSelector((state) => state.auth.user);
@@ -39,7 +39,7 @@ export default function InviteUserPage() {
     const fallback: UserRoleInfo[] = USER_ROLE_LIST.map((role, index) => ({
       id: role,
       normalizedId: role,
-      name: t(`users.roles.${role}`),
+      name: t(`roles.${role}`),
       description: null,
       rank: index,
     }));
@@ -52,7 +52,7 @@ export default function InviteUserPage() {
         const identifier = role.id ?? role.normalizedId;
         return {
           value: identifier,
-          label: role.name ?? t(`users.roles.${identifier}`),
+          label: role.name ?? t(`roles.${identifier}`),
         };
       });
   }, [currentRole, rolesState.items, t]);
@@ -66,7 +66,7 @@ export default function InviteUserPage() {
         : [
             {
               value: 'STAFF',
-              label: t('users.roles.STAFF'),
+              label: t('roles.STAFF'),
               disabled: true,
             },
           ],
@@ -114,7 +114,7 @@ export default function InviteUserPage() {
       .unwrap()
       .then(() => {
         showSnackbar({
-          message: t('users.form.inviteSuccess', {
+          message: t('form.inviteSuccess', {
             defaultValue: 'La invitación se envió correctamente.',
           }),
           severity: 'success',
@@ -125,7 +125,7 @@ export default function InviteUserPage() {
         const message =
           typeof error === 'string'
             ? error
-            : t('users.form.inviteError', {
+            : t('form.inviteError', {
                 defaultValue: 'No fue posible enviar la invitación.',
               });
         showSnackbar({ message, severity: 'error' });
@@ -148,17 +148,17 @@ export default function InviteUserPage() {
           <PageBreadcrumbs
             segments={[
               {
-                label: t('breadcrumbs.dashboard'),
+                label: t('breadcrumbs:dashboard'),
                 href: '/dashboard',
                 hideOnDesktop: true,
               },
               {
-                label: t('breadcrumbs.users'),
+                label: t('breadcrumbs:users'),
                 href: '/dashboard/users',
                 hideOnDesktop: true,
               },
               {
-                label: t('users.form.title.create'),
+                label: t('form.title.create'),
               },
             ]}
           />
@@ -190,10 +190,10 @@ export default function InviteUserPage() {
           }}
         >
           <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-            {t('users.form.title.create')}
+            {t('form.title.create')}
           </Typography>
           <Typography variant="body2" color="text.foreground">
-            {t('users.form.description.create')}
+            {t('form.description.create')}
           </Typography>
         </Box>
 
@@ -210,13 +210,13 @@ export default function InviteUserPage() {
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center">
               <Typography variant="body1" color="text.foreground">
-                {t('users.permissions.inviteRestricted')}
+                {t('permissions.inviteRestricted')}
               </Typography>
               <Typography variant="body2" color="text.foreground">
-                {t('users.permissions.inviteRestrictedAction')}
+                {t('permissions.inviteRestrictedAction')}
               </Typography>
               <Button variant="ghost" onClick={handleCancel}>
-                {t('users.form.cancel')}
+                {t('form.cancel')}
               </Button>
             </div>
           )}

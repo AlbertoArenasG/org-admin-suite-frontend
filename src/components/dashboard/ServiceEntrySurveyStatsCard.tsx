@@ -10,6 +10,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import {
   fetchServiceEntrySurveyStats,
+  type ServiceEntrySurveyStats,
   type SurveyRatingValue,
 } from '@/features/serviceEntrySurveys/serviceEntrySurveysThunks';
 import { SURVEY_RATING_VALUES } from '@/features/publicServiceEntry/constants';
@@ -26,7 +27,7 @@ const DEFAULT_FROM = startOfYear;
 const DEFAULT_TO = formattedTomorrow;
 
 export function ServiceEntrySurveyStatsCard() {
-  const { t } = useTranslationHydrated('common');
+  const { t } = useTranslationHydrated('serviceEntrySurveys');
   const dispatch = useAppDispatch();
   const statsState = useAppSelector((state) => state.serviceEntrySurveys.stats);
   const [filtersApplied, setFiltersApplied] = useState(false);
@@ -46,7 +47,8 @@ export function ServiceEntrySurveyStatsCard() {
   }, [dispatch, filtersApplied]);
 
   const template = statsState.data?.templates?.[0] ?? null;
-  const questionStats = useMemo(
+  type QuestionStat = ServiceEntrySurveyStats['templates'][number]['question_stats'][number];
+  const questionStats = useMemo<QuestionStat[]>(
     () => template?.question_stats?.filter((question) => question.type === 'RATING') ?? [],
     [template]
   );
@@ -56,7 +58,7 @@ export function ServiceEntrySurveyStatsCard() {
       const distribution =
         question.rating_distribution ?? ({} as Partial<Record<SurveyRatingValue, number>>);
       const item: Record<string, string | number> = {
-        question: t(`serviceEntrySurveys.chart.labels.${question.question_id}`, {
+        question: t(`chart.labels.${question.question_id}`, {
           defaultValue: question.question_id,
         }),
       };
@@ -71,7 +73,7 @@ export function ServiceEntrySurveyStatsCard() {
     () =>
       SURVEY_RATING_VALUES.map((rating) => ({
         dataKey: rating,
-        label: t(`publicServiceEntry.survey.answers.${rating}`),
+        label: t(`publicServiceEntry:survey.answers.${rating}`),
         stack: 'ratings',
         color: SERVICE_ENTRY_SURVEY_RATING_COLORS[rating],
       })),
@@ -96,25 +98,23 @@ export function ServiceEntrySurveyStatsCard() {
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
           <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.05rem' }}>
-            {t('serviceEntrySurveys.dashboardCard.title')}
+            {t('dashboardCard.title')}
           </Typography>
           <Typography variant="body2" color="text.foreground">
-            {t('serviceEntrySurveys.dashboardCard.subtitle', {
+            {t('dashboardCard.subtitle', {
               count: statsState.data?.total_responses ?? 0,
             })}
           </Typography>
         </div>
         <Button asChild variant="outline" size="sm">
-          <Link href="/dashboard/service-entries/surveys">
-            {t('serviceEntrySurveys.dashboardCard.viewAll')}
-          </Link>
+          <Link href="/dashboard/service-entries/surveys">{t('dashboardCard.viewAll')}</Link>
         </Button>
       </div>
 
       <div className="mt-6 flex-1">
         {statsState.status === 'loading' ? (
           <Typography variant="body2" color="text.foreground">
-            {t('serviceEntrySurveys.stats.loading')}
+            {t('stats.loading')}
           </Typography>
         ) : dataset.length ? (
           <div className="-mx-2 h-full overflow-x-auto px-2">
@@ -159,7 +159,7 @@ export function ServiceEntrySurveyStatsCard() {
           </div>
         ) : (
           <Typography variant="body2" color="text.foreground">
-            {statsState.error ?? t('serviceEntrySurveys.stats.noData')}
+            {statsState.error ?? t('stats.noData')}
           </Typography>
         )}
       </div>

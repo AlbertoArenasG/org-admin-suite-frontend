@@ -20,7 +20,7 @@ import { ServiceEntrySurveyCharts } from '@/components/serviceEntrySurveys/Servi
 import { ServiceEntrySurveyTableContainer } from '@/components/serviceEntrySurveys/ServiceEntrySurveyTableContainer';
 
 export default function ServiceEntrySurveysPage() {
-  const { t } = useTranslationHydrated('common');
+  const { t } = useTranslationHydrated(['serviceEntrySurveys', 'breadcrumbs', 'serviceEntries']);
   const dispatch = useAppDispatch();
 
   const filters = useServiceEntrySurveysStore((state) => state.filters);
@@ -98,8 +98,8 @@ export default function ServiceEntrySurveysPage() {
 
   const statsError = statsState.status === 'failed' ? (statsState.error ?? null) : null;
 
-  const chartTabLabel = useMemo(() => t('serviceEntrySurveys.tabs.stats'), [t]);
-  const listTabLabel = useMemo(() => t('serviceEntrySurveys.tabs.list'), [t]);
+  const chartTabLabel = useMemo(() => t('tabs.stats'), [t]);
+  const listTabLabel = useMemo(() => t('tabs.list'), [t]);
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -109,9 +109,9 @@ export default function ServiceEntrySurveysPage() {
           <Separator orientation="vertical" className="mr-2 h-4" />
           <PageBreadcrumbs
             segments={[
-              { label: t('breadcrumbs.dashboard'), href: '/dashboard', hideOnDesktop: true },
-              { label: t('serviceEntries.breadcrumb'), href: '/dashboard/service-entries' },
-              { label: t('serviceEntrySurveys.title') },
+              { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+              { label: t('serviceEntries:breadcrumb'), href: '/dashboard/service-entries' },
+              { label: t('title') },
             ]}
           />
         </div>

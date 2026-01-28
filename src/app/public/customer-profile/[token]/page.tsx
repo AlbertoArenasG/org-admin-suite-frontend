@@ -29,7 +29,7 @@ export default function PublicCustomerProfilePage() {
 function PublicCustomerProfileContent() {
   const params = useParams<{ token: string }>();
   const token = params.token;
-  const { t, i18n } = useTranslation('common');
+  const { t, i18n } = useTranslation('publicCustomerProfile');
   const { showSnackbar } = useSnackbar();
 
   const fetchProfile = usePublicCustomerProfileStore((state) => state.fetchProfile);
@@ -63,12 +63,12 @@ function PublicCustomerProfileContent() {
 
   const formatDate = (value: string | null) => {
     if (!value) {
-      return t('publicCustomerProfile.summary.notAvailable');
+      return t('summary.notAvailable');
     }
     try {
       return dateFormatter.format(new Date(value));
     } catch {
-      return t('publicCustomerProfile.summary.notAvailable');
+      return t('summary.notAvailable');
     }
   };
 
@@ -84,7 +84,7 @@ function PublicCustomerProfileContent() {
       <header className="flex flex-col items-center gap-4 px-6 py-6">
         <Image
           src="/logo.jpeg"
-          alt={t('publicCustomerProfile.logoAlt') ?? 'ICSACV'}
+          alt={t('logoAlt') ?? 'ICSACV'}
           width={120}
           height={120}
           className="h-24 w-24 rounded-2xl object-contain shadow-md"
@@ -92,9 +92,9 @@ function PublicCustomerProfileContent() {
         />
         <div className="text-center">
           <p className="text-base font-semibold tracking-widest text-muted-foreground uppercase">
-            {t('publicCustomerProfile.header')}
+            {t('header')}
           </p>
-          <h1 className="text-3xl font-bold text-foreground">{t('publicCustomerProfile.title')}</h1>
+          <h1 className="text-3xl font-bold text-foreground">{t('title')}</h1>
         </div>
         <div className="flex items-center gap-2">
           <ModeToggle
@@ -114,13 +114,11 @@ function PublicCustomerProfileContent() {
           <PublicCustomerProfileSkeleton />
         ) : status === 'error' ? (
           <div className="flex flex-col items-center gap-4 rounded-3xl border border-dashed border-border/60 bg-card/70 p-8 text-center">
-            <p className="text-lg font-semibold text-destructive">
-              {t('publicCustomerProfile.error.title')}
-            </p>
+            <p className="text-lg font-semibold text-destructive">{t('error.title')}</p>
             <p className="text-sm text-muted-foreground">{error}</p>
             <Button type="button" onClick={handleRetry} className="gap-2">
               <RefreshCw className="size-4" aria-hidden />
-              {t('publicCustomerProfile.error.retry')}
+              {t('error.retry')}
             </Button>
           </div>
         ) : profile && token ? (
@@ -129,9 +127,9 @@ function PublicCustomerProfileContent() {
               profile={profile}
               formatDate={formatDate}
               labels={{
-                status: t('publicCustomerProfile.summary.status'),
-                clientCode: t('publicCustomerProfile.summary.clientCode'),
-                lastUpdated: t('publicCustomerProfile.summary.lastUpdated'),
+                status: t('summary.status'),
+                clientCode: t('summary.clientCode'),
+                lastUpdated: t('summary.lastUpdated'),
               }}
             />
             <PublicCustomerProfileForm profile={profile} token={token} formatDate={formatDate} />
@@ -140,9 +138,7 @@ function PublicCustomerProfileContent() {
           <PublicCustomerProfileSkeleton />
         )}
       </main>
-      {submitting ? (
-        <FullScreenLoader text={t('publicCustomerProfile.form.actions.submitting')} />
-      ) : null}
+      {submitting ? <FullScreenLoader text={t('form.actions.submitting')} /> : null}
     </div>
   );
 }

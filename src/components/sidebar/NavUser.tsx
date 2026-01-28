@@ -39,7 +39,7 @@ export function NavUser({
   const { isMobile } = useSidebar();
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['myProfile', 'auth']);
   const initials = getInitials(user.name || user.email);
   const avatarSrc = user.avatar ?? undefined;
 
@@ -92,7 +92,7 @@ export function NavUser({
               }}
             >
               <UserCircle />
-              {t('myProfile.actions.view')}
+              {t('myProfile:actions.view')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -102,7 +102,7 @@ export function NavUser({
               }}
             >
               <LogOut />
-              {t('auth.logout')}
+              {t('auth:logout')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

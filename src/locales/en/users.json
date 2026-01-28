@@ -1,0 +1,132 @@
+{
+  "title": "Users",
+  "table": {
+    "columns": {
+      "fullName": "User",
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "createdAt": "Created"
+    }
+  },
+  "loading": "Processing your registration...",
+  "empty": "No users to show.",
+  "pagination": "Page {{page}} of {{pages}} · {{total}} users",
+  "actions": {
+    "invite": "Invite user",
+    "inviteShort": "Invite",
+    "edit": "Edit",
+    "delete": "Delete",
+    "openMenu": "Open actions menu",
+    "openInvite": "Open invite drawer",
+    "openEdit": "Open edit drawer",
+    "view": "View details",
+    "searchPlaceholder": "Search users...",
+    "manageColumns": "Manage columns",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "form": {
+    "title": {
+      "create": "Invite user",
+      "edit": "Edit user"
+    },
+    "description": {
+      "create": "Send an invitation email to add a teammate to the organization.",
+      "edit": "Update basic details for the selected user."
+    },
+    "labels": {
+      "email": "Email",
+      "role": "Role",
+      "name": "First name",
+      "lastname": "Last name",
+      "phoneCode": "Country code",
+      "phoneNumber": "Phone number"
+    },
+    "placeholders": {
+      "email": "name@example.com",
+      "name": "Optional first name",
+      "lastname": "Optional last name",
+      "phoneCode": "+52",
+      "phoneNumber": "0000000000"
+    },
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Enter a valid email",
+      "roleRequired": "Select a role"
+    },
+    "cancel": "Cancel",
+    "submitting": "Saving...",
+    "submit": {
+      "create": "Send invitation",
+      "edit": "Save changes"
+    },
+    "inviteSuccess": "Invitation sent successfully.",
+    "inviteError": "We couldn't send the invitation."
+  },
+  "roles": {
+    "MASTER_ADMIN": "Master admin",
+    "MASTER_STAFF": "Master staff",
+    "ADMIN": "Admin",
+    "STAFF": "Staff",
+    "CUSTOMER": "Customer"
+  },
+  "confirmDelete": {
+    "title": "Remove user",
+    "description": "This will remove {{name}}. Wire the API later to finalize the action.",
+    "confirm": "Remove user",
+    "cancel": "Cancel",
+    "warning": "This action cannot be undone."
+  },
+  "permissions": {
+    "inviteRestricted": "You do not have permission to send invitations for your current role.",
+    "inviteRestrictedAction": "Ask an administrator to grant additional access if needed."
+  },
+  "delete": {
+    "success": "User deleted successfully.",
+    "error": "We couldn't delete the user."
+  },
+  "detail": {
+    "subtitle": "User details and activity",
+    "missingTitle": "User not found",
+    "notFound": "We could not find this user yet."
+  },
+  "edit": {
+    "subtitle": "Update roles and contact details.",
+    "restricted": "You do not have permissions to edit this user.",
+    "successFeedback": "User updated successfully.",
+    "errorFeedback": "We couldn't update the user."
+  },
+  "register": {
+    "title": "Complete your registration",
+    "subtitle": "Fill in the details below to activate your account.",
+    "roleLabel": "Role:",
+    "fields": {
+      "email": "Email",
+      "name": "First name",
+      "lastname": "Last name",
+      "password": "Password",
+      "phoneCode": "Country code",
+      "phoneNumber": "Phone number",
+      "confirmPassword": "Confirm password"
+    },
+    "actions": {
+      "backToLogin": "Back to login",
+      "complete": "Complete registration"
+    },
+    "errors": {
+      "missingToken": "No invitation token was provided.",
+      "invalidInvitation": "We could not validate your invitation.",
+      "alreadyUsed": "This invitation has already been used or is no longer available.",
+      "fetchFailed": "We could not validate the invitation.",
+      "submitFailed": "We couldn't complete your registration.",
+      "nameRequired": "First name is required.",
+      "lastnameRequired": "Last name is required.",
+      "passwordLength": "Password must be at least 6 characters.",
+      "passwordMismatch": "Passwords must match.",
+      "passwordInvalid": "Enter a valid password.",
+      "autoLoginFailed": "Registration succeeded, but we couldn't start your session."
+    },
+    "success": "Registration completed successfully."
+  }
+}

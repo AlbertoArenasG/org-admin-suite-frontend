@@ -1,0 +1,179 @@
+{
+  "title": "Customers",
+  "subtitle": "Review fiscal profiles and contact details.",
+  "empty": "No customers to display.",
+  "filters": {
+    "searchPlaceholder": "Search customers...",
+    "clear": "Clear search"
+  },
+  "list": {
+    "range": "Showing {{from}}-{{to}} of {{total}} customers",
+    "emptySummary": "No results for the current filters",
+    "loadingSummary": "Searching customers..."
+  },
+  "card": {
+    "clientCode": "Client code",
+    "notAvailable": "Not available",
+    "fiscalProfile": {
+      "title": "Fiscal profile",
+      "businessName": "Business name",
+      "rfc": "RFC",
+      "taxRegime": "Tax regime",
+      "cfdiUse": "CFDI use",
+      "paymentMethod": "Payment method",
+      "paymentForm": "Payment form",
+      "missing": "No fiscal information yet",
+      "requirements": "Special requirements"
+    },
+    "address": {
+      "title": "Fiscal address",
+      "missing": "No address on file"
+    },
+    "contacts": {
+      "title": "Contacts",
+      "billing": "Billing contact",
+      "accounts": "Accounts payable contact",
+      "email": "Email",
+      "phone": "Phone",
+      "missing": "Not provided"
+    },
+    "viewDetail": "View details",
+    "publicProfile": "Open fiscal portal",
+    "createdAt": "Created",
+    "updatedAt": "Updated"
+  },
+  "pagination": {
+    "summary": "Page {{page}} of {{pages}} · {{total}} customers",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "errors": {
+    "loadFailed": "We couldn’t load the customers.",
+    "generic": "Please try again in a few seconds.",
+    "retry": "Try again"
+  },
+  "create": {
+    "title": "Add customer",
+    "subtitle": "Capture the company name and client code.",
+    "formTitle": "Basic information",
+    "formSubtitle": "You can edit these details later.",
+    "breadcrumb": "New customer",
+    "action": "Add customer",
+    "fields": {
+      "companyName": "Company name",
+      "clientCode": "Client code"
+    },
+    "placeholders": {
+      "companyName": "Acme Corp.",
+      "clientCode": "CLT-001"
+    },
+    "errors": {
+      "companyNameRequired": "Company name is required.",
+      "companyNameLength": "Use at least 3 characters.",
+      "clientCodeRequired": "Client code is required.",
+      "clientCodeLength": "Use at least 3 characters.",
+      "clientCodeFormat": "Only letters, numbers, dashes, and underscores."
+    },
+    "actions": {
+      "cancel": "Cancel",
+      "submit": "Create customer",
+      "processing": "Creating customer..."
+    },
+    "success": "Customer created successfully."
+  },
+  "detail": {
+    "title": "Customer detail",
+    "subtitle": "Client {{code}}",
+    "subtitleFallback": "Review the customer's fiscal profile.",
+    "breadcrumb": "Detail",
+    "notFound": "We couldn’t find this customer.",
+    "actions": {
+      "back": "Go back",
+      "edit": "Edit customer",
+      "delete": "Delete customer"
+    },
+    "error": {
+      "title": "We couldn’t fetch the customer.",
+      "message": "Please try again shortly.",
+      "retry": "Try again"
+    },
+    "copy": {
+      "action": "Copy link",
+      "copied": "Link copied",
+      "success": "Public link copied to clipboard.",
+      "error": "We couldn’t copy the link."
+    },
+    "sections": {
+      "general": "General info",
+      "publicLink": "Public portal",
+      "fiscalProfile": "Fiscal profile",
+      "address": "Fiscal address",
+      "files": "Documents"
+    },
+    "fields": {
+      "clientCode": "Client code",
+      "status": "Status",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "fiscalStatus": "Profile status",
+      "submittedAt": "Submitted",
+      "businessName": "Business name",
+      "rfc": "RFC",
+      "taxRegime": "Tax regime",
+      "cfdiUse": "CFDI use",
+      "paymentMethod": "Payment method",
+      "paymentForm": "Payment form",
+      "address": "Address"
+    },
+    "fiscal": {
+      "subtitle": "Fiscal and billing data",
+      "empty": "No fiscal information yet."
+    },
+    "address": {
+      "subtitle": "Address used for billing",
+      "empty": "No address on file"
+    },
+    "contacts": {
+      "billing": "Billing contact",
+      "accounts": "Accounts payable contact",
+      "email": "Email",
+      "phone": "Phone",
+      "empty": "Not provided"
+    },
+    "notes": {
+      "title": "Special requirements"
+    },
+    "files": {
+      "subtitle": "Certificates and uploaded requirements",
+      "taxCertificate": "Tax certificate",
+      "invoiceRequirements": "Invoice requirements",
+      "download": "Download",
+      "empty": "No files uploaded yet."
+    },
+    "publicLink": {
+      "empty": "No public link available"
+    }
+  },
+  "delete": {
+    "title": "Delete customer",
+    "description": "Are you sure you want to delete {{name}}?",
+    "warning": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "processing": "Deleting...",
+    "success": "Customer deleted successfully."
+  },
+  "edit": {
+    "title": "Edit customer",
+    "subtitle": "Update the company name and code.",
+    "formTitle": "Update details",
+    "formSubtitle": "Changes are applied immediately.",
+    "breadcrumb": "Edit customer",
+    "success": "Customer updated successfully.",
+    "actions": {
+      "cancel": "Cancel",
+      "submit": "Save changes",
+      "processing": "Saving..."
+    }
+  }
+}
