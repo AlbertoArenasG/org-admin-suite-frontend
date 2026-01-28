@@ -14,6 +14,7 @@ import serviceEntrySurveysEn from '@/locales/en/serviceEntrySurveys.json';
 import servicePackagesRecordsEn from '@/locales/en/servicePackagesRecords.json';
 import myProfileEn from '@/locales/en/myProfile.json';
 import publicCustomerProfileEn from '@/locales/en/publicCustomerProfile.json';
+import publicProviderProfileEn from '@/locales/en/publicProviderProfile.json';
 import authEn from '@/locales/en/auth.json';
 import commonEs from '@/locales/es/common.json';
 import navEs from '@/locales/es/nav.json';
@@ -28,6 +29,7 @@ import serviceEntrySurveysEs from '@/locales/es/serviceEntrySurveys.json';
 import servicePackagesRecordsEs from '@/locales/es/servicePackagesRecords.json';
 import myProfileEs from '@/locales/es/myProfile.json';
 import publicCustomerProfileEs from '@/locales/es/publicCustomerProfile.json';
+import publicProviderProfileEs from '@/locales/es/publicProviderProfile.json';
 import authEs from '@/locales/es/auth.json';
 
 const FALLBACK_LANGUAGE = 'es';
@@ -49,6 +51,7 @@ const resources = {
     servicePackagesRecords: servicePackagesRecordsEn,
     myProfile: myProfileEn,
     publicCustomerProfile: publicCustomerProfileEn,
+    publicProviderProfile: publicProviderProfileEn,
   },
   es: {
     common: commonEs,
@@ -65,6 +68,7 @@ const resources = {
     servicePackagesRecords: servicePackagesRecordsEs,
     myProfile: myProfileEs,
     publicCustomerProfile: publicCustomerProfileEs,
+    publicProviderProfile: publicProviderProfileEs,
   },
 };
 
@@ -107,6 +111,7 @@ export function initI18n(): I18nInstance {
         'servicePackagesRecords',
         'myProfile',
         'publicCustomerProfile',
+        'publicProviderProfile',
       ],
       defaultNS: 'common',
       interpolation: {

@@ -1,0 +1,87 @@
+{
+  "header": "Provider portal",
+  "title": "Provider profile",
+  "logoAlt": "Company logo",
+  "summary": {
+    "status": "Provider status",
+    "providerCode": "Provider code",
+    "fiscalStatus": "Fiscal status",
+    "bankingStatus": "Banking status",
+    "lastUpdated": "Last update",
+    "notAvailable": "Not available"
+  },
+  "error": {
+    "title": "We couldn’t load the profile.",
+    "retry": "Try again"
+  },
+  "form": {
+    "success": "Provider information sent successfully.",
+    "error": "We couldn’t submit the information.",
+    "uploadSuccess": "File uploaded successfully.",
+    "uploadError": "We couldn’t upload the file.",
+    "sections": {
+      "contact": "Contact",
+      "fiscal": "Fiscal profile",
+      "address": "Fiscal address",
+      "billingContact": "Billing contact",
+      "banking": "Banking information",
+      "files": "Documents"
+    },
+    "fields": {
+      "contact": "Primary contact",
+      "businessName": "Business name",
+      "rfc": "RFC",
+      "street": "Street",
+      "number": "Number",
+      "neighborhood": "Neighborhood",
+      "city": "City",
+      "state": "State",
+      "postalCode": "Postal code",
+      "billingContact": "Billing contact",
+      "fiscalNotes": "Fiscal notes",
+      "beneficiary": "Beneficiary",
+      "bank": "Bank",
+      "accountNumber": "Account number",
+      "clabe": "CLABE",
+      "creditGranted": "Credit granted",
+      "bankingNotes": "Banking notes",
+      "taxStatusCertificate": "Fiscal status certificate",
+      "taxComplianceOpinion": "Tax compliance opinion",
+      "addressProof": "Proof of address",
+      "bankStatement": "Bank statement cover page"
+    },
+    "files": {
+      "empty": "No file uploaded",
+      "upload": "Upload file",
+      "uploading": "Uploading..."
+    },
+    "placeholders": {
+      "businessName": "Acme Corp.",
+      "rfc": "XAXX010101000",
+      "street": "123 Main St",
+      "number": "Suite 100",
+      "neighborhood": "Neighborhood",
+      "city": "City",
+      "state": "State",
+      "postalCode": "00000",
+      "contactName": "Full name",
+      "contactEmail": "name@company.com",
+      "contactPhone": "+1 555 000 0000",
+      "fiscalNotes": "Fiscal notes or requirements",
+      "beneficiary": "Beneficiary company",
+      "bank": "Bank",
+      "accountNumber": "0123456789",
+      "clabe": "012180001234567890",
+      "creditGranted": "30 days",
+      "bankingNotes": "Banking notes"
+    },
+    "errors": {
+      "required": "This field is required"
+    },
+    "lastUpdated": "Last updated: {{date}}",
+    "actions": {
+      "submit": "Save information",
+      "submitting": "Sending information..."
+    }
+  }
+}
