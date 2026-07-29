@@ -48,10 +48,10 @@
       Status: pending
 
 - [ ] Migrar checks legacy restantes en tablas, forms y actions
-      Status: pending
+      Status: done
 
 - [ ] Eliminar helpers, tipos y parseos legacy obsoletos
-      Status: pending
+      Status: done
 
 ## Phase 5. Validation And Cleanup
 
@@ -59,7 +59,7 @@
       Status: pending
 
 - [ ] Limpiar residuos legacy del store, persistencia local y helpers compartidos
-      Status: pending
+      Status: in_progress
 
 - [ ] Actualizar docs frontend relacionadas si aplica
       Status: pending

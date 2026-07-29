@@ -34,3 +34,8 @@
 - Se cerró el tramo de registro público en `src/app/public/user-register/page.tsx` para tratar `system_role` y `role_id` como contrato principal de la invitación, dejando `role` legacy solo como fallback descriptivo si todavía aparece.
 - Con esto, `Slice 4. Invitations` quedó funcionalmente cubierto de punta a punta entre invitación, registro público y autologin posterior.
 - `npm run typecheck` volvió a pasar después de alinear `user-register` al contrato moderno de invitaciones.
+- Se migró `myProfile` para consumir `system_role` y `role_id` desde `/v1/users/me`, dejando `role_name` solo como metadata descriptiva y ya no como contrato principal.
+- Se migró `serviceEntries` para que creación, edición y borrado dependan de permisos efectivos `SERVICE_ENTRIES/*` en vez de checks heredados por jerarquía o por `CUSTOMER/no CUSTOMER`.
+- Se eliminó la API legacy viva de `src/features/users/roles.ts`, conservando solo helpers estructurales basados en `systemRole` que todavía forman parte del modelo vigente.
+- Después de este corte, ya no quedan consumidores activos de `parseUserRole()`, `getComparableLegacyRole()`, `canManageRole()`, `canInviteRole()` ni `USER_ROLE_LIST` dentro de `src/`.
+- `npm run typecheck` volvió a pasar después de este bloque de cleanup transversal.

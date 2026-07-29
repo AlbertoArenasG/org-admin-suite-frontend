@@ -27,7 +27,7 @@ import {
   type ServiceEntryFormValues,
 } from '@/components/serviceEntries/ServiceEntryForm';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
-import { getComparableLegacyRole } from '@/features/users/roles';
+import { useAuthorization } from '@/features/auth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Spinner } from '@/components/ui/spinner';
 
@@ -41,10 +41,9 @@ export default function ServiceEntryEditPage() {
   const detailState = useAppSelector((state) => state.serviceEntries.detail);
   const formState = useAppSelector((state) => state.serviceEntries.form);
   const categoriesState = useAppSelector((state) => state.serviceEntries.categories);
-  const authUser = useAppSelector((state) => state.auth.user);
+  const { hasPermission } = useAuthorization();
 
-  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
-  const canManage = Boolean(currentRole && currentRole !== 'CUSTOMER');
+  const canManage = hasPermission('SERVICE_ENTRIES', 'UPDATE');
 
   const entry =
     detailState.entry && detailState.entry.id === params.serviceEntryId ? detailState.entry : null;

@@ -12,7 +12,8 @@ import { MoreHorizontal, Eye, Pencil, Trash } from 'lucide-react';
 
 interface ServiceEntriesRowActionsProps {
   entryId: string;
-  canManage: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
   onView: () => void;
   onEdit: () => void;
   onDelete: () => void;
@@ -25,7 +26,8 @@ interface ServiceEntriesRowActionsProps {
 }
 
 export function ServiceEntriesRowActions({
-  canManage,
+  canEdit,
+  canDelete,
   onView,
   onEdit,
   onDelete,
@@ -50,14 +52,14 @@ export function ServiceEntriesRowActions({
           <Eye className="size-4" />
           {labels.view}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={onEdit} className="gap-2" disabled={!canManage}>
+        <DropdownMenuItem onClick={onEdit} className="gap-2" disabled={!canEdit}>
           <Pencil className="size-4" />
           {labels.edit}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={onDelete}
           className="gap-2 text-destructive focus:text-destructive"
-          disabled={!canManage}
+          disabled={!canDelete}
         >
           <Trash className="size-4" />
           {labels.delete}

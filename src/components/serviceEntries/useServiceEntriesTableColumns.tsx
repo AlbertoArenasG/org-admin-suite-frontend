@@ -6,7 +6,6 @@ import { ArrowDown, ArrowUp, ArrowUpDown, CheckCircle2, Clock, Download } from '
 import type { TFunction } from 'i18next';
 import type { ServiceEntriesTableRow } from '@/components/serviceEntries/useServiceEntriesTableData';
 import { ServiceEntriesRowActions } from '@/components/serviceEntries/ServiceEntriesRowActions';
-import type { UserRole } from '@/features/users/roles';
 import { cn } from '@/lib/utils';
 
 type Translate = TFunction<'serviceEntries', undefined>;
@@ -14,7 +13,8 @@ type Translate = TFunction<'serviceEntries', undefined>;
 interface UseServiceEntriesTableColumnsParams {
   t: Translate;
   dateFormatter: Intl.DateTimeFormat;
-  currentRole: UserRole | null;
+  canEdit: boolean;
+  canDelete: boolean;
   onView: (id: string) => void;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
@@ -45,13 +45,12 @@ function SortingHeader<TData>({
 export function useServiceEntriesTableColumns({
   t,
   dateFormatter,
-  currentRole,
+  canEdit,
+  canDelete,
   onView,
   onEdit,
   onDelete,
 }: UseServiceEntriesTableColumnsParams) {
-  const canManage = currentRole && currentRole !== 'CUSTOMER';
-
   return useMemo<ColumnDef<ServiceEntriesTableRow>[]>(
     () => [
       {
@@ -199,7 +198,8 @@ export function useServiceEntriesTableColumns({
         cell: ({ row }) => (
           <ServiceEntriesRowActions
             entryId={row.original.id}
-            canManage={Boolean(canManage)}
+            canEdit={canEdit}
+            canDelete={canDelete}
             onView={() => onView(row.original.id)}
             onEdit={() => onEdit(row.original.id)}
             onDelete={() => onDelete(row.original.id)}
@@ -213,6 +213,6 @@ export function useServiceEntriesTableColumns({
         ),
       },
     ],
-    [canManage, dateFormatter, onDelete, onEdit, onView, t]
+    [canDelete, canEdit, dateFormatter, onDelete, onEdit, onView, t]
   );
 }

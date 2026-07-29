@@ -17,7 +17,7 @@ interface ServiceEntriesDataTableProps {
   isLoading: boolean;
   error: string | null;
   onCreateClick: () => void;
-  canManage: boolean;
+  canCreate: boolean;
   title: string;
   createLabel: string;
   createAriaLabel: string;
@@ -52,7 +52,7 @@ export function ServiceEntriesDataTable({
   isLoading,
   error,
   onCreateClick,
-  canManage,
+  canCreate,
   title,
   createLabel,
   createAriaLabel,
@@ -92,7 +92,7 @@ export function ServiceEntriesDataTable({
           size="sm"
           onClick={onCreateClick}
           aria-label={createAriaLabel}
-          disabled={!canManage}
+          disabled={!canCreate}
         >
           {createLabel}
         </Button>

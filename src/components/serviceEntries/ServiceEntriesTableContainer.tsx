@@ -11,21 +11,20 @@ import {
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { ServiceEntriesDataTable } from '@/components/serviceEntries/ServiceEntriesDataTable';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
 import Paper from '@mui/material/Paper';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   fetchServiceEntries,
   deleteServiceEntry,
 } from '@/features/serviceEntries/serviceEntriesThunks';
-import { parseUserRole } from '@/features/users/roles';
 import { mapServiceEntrySortingToApi } from '@/utils/serviceEntriesQuery';
 import { useServiceEntriesTableData } from '@/components/serviceEntries/useServiceEntriesTableData';
 import { useServiceEntriesTableColumns } from '@/components/serviceEntries/useServiceEntriesTableColumns';
 import { useServiceEntriesTableStore } from '@/components/serviceEntries/useServiceEntriesTableStore';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { resetServiceEntryDelete } from '@/features/serviceEntries/serviceEntriesSlice';
-import { getComparableLegacyRole } from '@/features/users/roles';
+import { useAppSelector } from '@/hooks/useAppSelector';
+import { useAuthorization } from '@/features/auth';
 
 function getInitialPagination(params: URLSearchParams) {
   const initialPage = Number(params.get('page'));
@@ -51,7 +50,7 @@ export function ServiceEntriesTableContainer() {
     pagination,
     delete: deleteState,
   } = useAppSelector((state) => state.serviceEntries);
-  const authUser = useAppSelector((state) => state.auth.user);
+  const { hasPermission } = useAuthorization();
 
   const paginationState = useServiceEntriesTableStore((state) => state.pagination);
   const sorting = useServiceEntriesTableStore((state) => state.sorting);
@@ -212,12 +211,15 @@ export function ServiceEntriesTableContainer() {
   }, [hydrated, i18n.language, i18n.options.fallbackLng]);
 
   const tableData = useServiceEntriesTableData(entities);
-  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
+  const canCreate = hasPermission('SERVICE_ENTRIES', 'CREATE');
+  const canEdit = hasPermission('SERVICE_ENTRIES', 'UPDATE');
+  const canDelete = hasPermission('SERVICE_ENTRIES', 'DELETE');
 
   const columns = useServiceEntriesTableColumns({
     t,
     dateFormatter,
-    currentRole,
+    canEdit,
+    canDelete,
     onView: (id) => router.push(`/dashboard/service-entries/${id}`),
     onEdit: (id) => router.push(`/dashboard/service-entries/${id}/edit`),
     onDelete: (id) => setDeleteTargetId(id),
@@ -248,7 +250,6 @@ export function ServiceEntriesTableContainer() {
   });
 
   const isLoading = status === 'loading';
-  const canManage = currentRole !== null && currentRole !== 'CUSTOMER';
   const deleteTarget = deleteTargetId
     ? (tableData.find((entry) => entry.id === deleteTargetId) ?? null)
     : null;
@@ -273,9 +274,9 @@ export function ServiceEntriesTableContainer() {
       isLoading={isLoading}
       error={error}
       onCreateClick={() => router.push('/dashboard/service-entries/new')}
-      canManage={Boolean(canManage)}
+      canCreate={canCreate}
       title={t('title')}
-      createLabel={canManage ? t('actions.create') : t('actions.createDisabled')}
+      createLabel={canCreate ? t('actions.create') : t('actions.createDisabled')}
       createAriaLabel={t('actions.openCreate')}
       paginationSummary={paginationSummary}
       searchPlaceholder={t('actions.searchPlaceholder') ?? 'Buscar servicios'}

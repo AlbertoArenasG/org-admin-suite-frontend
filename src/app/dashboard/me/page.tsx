@@ -64,7 +64,10 @@ export default function MyProfilePage() {
   const detailRows = profile
     ? [
         { label: t('detail.email'), value: profile.email },
-        { label: t('detail.role'), value: profile.roleName },
+        {
+          label: t('detail.role'),
+          value: profile.roleName ?? profile.roleId ?? profile.systemRole,
+        },
         { label: t('detail.status'), value: statusChip },
         {
           label: t('detail.phone'),

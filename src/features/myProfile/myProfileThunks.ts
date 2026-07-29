@@ -3,14 +3,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
+import type { AuthSystemRole } from '@/features/auth/types';
 
 export interface MyProfile {
   id: string;
   name: string;
   lastname: string;
   email: string;
-  role: string;
-  roleName: string;
+  systemRole: AuthSystemRole;
+  roleId: string | null;
+  roleName: string | null;
   status: string;
   statusName: string;
   cellPhone: {
@@ -25,8 +27,9 @@ interface ApiProfileResponse {
   name: string;
   lastname: string;
   email: string;
-  role: string;
-  role_name: string;
+  system_role: AuthSystemRole;
+  role_id: string | null;
+  role_name?: string | null;
   status: string;
   status_name: string;
   cell_phone: {
@@ -42,8 +45,9 @@ function mapProfile(data: ApiProfileResponse): MyProfile {
     name: data.name,
     lastname: data.lastname,
     email: data.email,
-    role: data.role,
-    roleName: data.role_name,
+    systemRole: data.system_role,
+    roleId: data.role_id,
+    roleName: data.role_name ?? null,
     status: data.status,
     statusName: data.status_name,
     cellPhone: data.cell_phone

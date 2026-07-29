@@ -22,7 +22,7 @@ import {
 } from '@/features/serviceEntries/serviceEntriesThunks';
 import { resetServiceEntryForm } from '@/features/serviceEntries/serviceEntriesSlice';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
-import { getComparableLegacyRole } from '@/features/users/roles';
+import { useAuthorization } from '@/features/auth';
 import { Spinner } from '@/components/ui/spinner';
 
 export default function ServiceEntryCreatePage() {
@@ -31,12 +31,11 @@ export default function ServiceEntryCreatePage() {
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbar();
 
-  const authUser = useAppSelector((state) => state.auth.user);
   const formState = useAppSelector((state) => state.serviceEntries.form);
   const categoriesState = useAppSelector((state) => state.serviceEntries.categories);
+  const { hasPermission } = useAuthorization();
 
-  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
-  const canManage = Boolean(currentRole && currentRole !== 'CUSTOMER');
+  const canManage = hasPermission('SERVICE_ENTRIES', 'CREATE');
 
   useEffect(() => {
     return () => {
