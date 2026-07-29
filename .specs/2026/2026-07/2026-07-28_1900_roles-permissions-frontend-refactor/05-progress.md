@@ -46,3 +46,5 @@
 - Se eliminó del store el slice placeholder de `features/dashboard/*`, junto con sus thunks sin implementación, porque ya no participaba en la versión final del dashboard basada en composición por acceso real.
 - Se ejecutaron validaciones estáticas del repositorio con `npm run typecheck` y `npm run lint`, ambas pasando después de los cambios.
 - El residuo técnico visible que permanece fuera del alcance directo de esta iniciativa quedó acotado a `features/services/*`, que sigue teniendo placeholders no implementados pero no forma parte del refactor de roles y permisos.
+- Se corrigió el flujo de invitación de usuarios para consumir el catálogo de `GET /v1/users/roles` como fuente de verdad de opciones asignables, evitando un filtrado redundante en frontend que ocultaba `ADMIN_DEFAULT` a actores `ADMIN`.
+- El estado de roles disponibles en frontend ahora persiste también `systemRole` explícito por opción, y los flujos de invitación y edición dejaron de inferir el rol estructural desde `roleScope`.

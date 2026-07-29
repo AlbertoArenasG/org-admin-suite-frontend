@@ -66,6 +66,7 @@ export interface UserRoleInfo {
   roleId: string;
   roleCode: string;
   roleName: string;
+  systemRole: AuthSystemRole;
   roleScope: string;
   isSystem: boolean;
   isDefault: boolean;

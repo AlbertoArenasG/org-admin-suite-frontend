@@ -15,7 +15,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
-import { canManageSystemRole, getSystemRoleFromRoleScope } from '@/features/users/roles';
+import { canManageSystemRole } from '@/features/users/roles';
 import Chip from '@mui/material/Chip';
 import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';
 import { resetUserUpdateState } from '@/features/users/usersSlice';
@@ -57,7 +57,7 @@ export default function UserEditPage() {
   }, [dispatch, rolesState.status]);
 
   const availableRoles: UserRoleInfo[] = rolesState.items.filter((role) =>
-    canManageSystemRole(currentRole, getSystemRoleFromRoleScope(role.roleScope), {
+    canManageSystemRole(currentRole, role.systemRole, {
       allowSameLevel: Boolean(isSelf),
     })
   );
@@ -255,7 +255,7 @@ export default function UserEditPage() {
                       name: values.name,
                       lastname: values.lastname,
                       email: values.email,
-                      systemRole: getSystemRoleFromRoleScope(selectedRole?.roleScope),
+                      systemRole: selectedRole?.systemRole ?? user.systemRole,
                       roleId: values.roleId,
                       statusId: user.status,
                       cellPhone: normalizedCellPhone,

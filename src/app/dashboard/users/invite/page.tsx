@@ -13,7 +13,6 @@ import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { fetchUserRoles, inviteUser } from '@/features/users/usersThunks';
-import { canInviteSystemRole, getSystemRoleFromRoleScope } from '@/features/users/roles';
 import { Button } from '@/components/ui/button';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
@@ -22,8 +21,6 @@ export default function InviteUserPage() {
   const { t } = useTranslation(['users', 'breadcrumbs']);
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const authUser = useAppSelector((state) => state.auth.user);
-  const currentRole = authUser?.systemRole ?? null;
   const rolesState = useAppSelector((state) => state.users.roles);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showSnackbar } = useSnackbar();
@@ -36,14 +33,12 @@ export default function InviteUserPage() {
 
   const roleOptions = useMemo<Array<{ value: string; label: string }>>(() => {
     return rolesState.items
-      .filter((role) =>
-        canInviteSystemRole(currentRole, getSystemRoleFromRoleScope(role.roleScope))
-      )
+      .filter((role) => role.systemRole !== 'MASTER_ADMIN')
       .map((role) => ({
         value: role.roleId,
         label: role.roleName,
       }));
-  }, [currentRole, rolesState.items]);
+  }, [rolesState.items]);
 
   const hasInvitePermission = roleOptions.length > 0;
 
@@ -90,8 +85,7 @@ export default function InviteUserPage() {
           }
         : null;
     const selectedRole = rolesState.items.find((role) => role.roleId === values.roleId);
-    const systemRole =
-      getSystemRoleFromRoleScope(selectedRole?.roleScope) === 'ADMIN' ? 'ADMIN' : 'USER';
+    const systemRole = selectedRole?.systemRole === 'ADMIN' ? 'ADMIN' : 'USER';
 
     dispatch(
       inviteUser({

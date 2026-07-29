@@ -347,6 +347,7 @@ interface ApiUserRole {
   role_id: string;
   role_code: string;
   role_name: string;
+  system_role: AuthSystemRole;
   role_scope: string;
   is_system: boolean;
   is_default: boolean;
@@ -377,6 +378,7 @@ export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: Ro
         roleId: role.role_id,
         roleCode: role.role_code,
         roleName: role.role_name ?? role.role_id,
+        systemRole: role.system_role,
         roleScope: role.role_scope,
         isSystem: role.is_system,
         isDefault: role.is_default,
