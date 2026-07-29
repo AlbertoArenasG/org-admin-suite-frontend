@@ -6,6 +6,7 @@ import type { PropsWithChildren } from 'react';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils';
+import { selectHasAuthorizationLoaded } from '@/features/auth';
 
 interface AuthGuardProps extends PropsWithChildren {
   className?: string;
@@ -16,6 +17,7 @@ export function AuthGuard({ children, className, redirectTo = '/login' }: AuthGu
   const router = useRouter();
   const pathname = usePathname();
   const { token, status, hydrated } = useAppSelector((state) => state.auth);
+  const hasAuthorizationLoaded = useAppSelector(selectHasAuthorizationLoaded);
 
   useEffect(() => {
     if (!hydrated || status === 'loading') {
@@ -28,7 +30,7 @@ export function AuthGuard({ children, className, redirectTo = '/login' }: AuthGu
     }
   }, [token, status, hydrated, router, redirectTo, pathname]);
 
-  if (!hydrated || status === 'loading' || !token) {
+  if (!hydrated || status === 'loading' || !token || !hasAuthorizationLoaded) {
     return (
       <div className={cn('flex min-h-screen items-center justify-center bg-background', className)}>
         <Spinner className="size-8 text-primary" aria-label="Cargando sesión" />

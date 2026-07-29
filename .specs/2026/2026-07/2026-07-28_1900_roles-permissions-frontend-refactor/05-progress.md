@@ -22,3 +22,6 @@
 - Se implementó el primer corte funcional de `Slice 1` en código: `AuthUser` dejó de depender de `role` legacy, se introdujo `auth.authorization`, se adaptaron los mappers de login y `me`, y la hidratación ya resuelve `GET /v1/auth/me/permissions`.
 - Se dejó una compatibilidad temporal localizada con `getComparableLegacyRole()` para consumidores que aún no migran, sin reintroducir `role` dentro del modelo principal de `AuthUser`.
 - `npm run typecheck` volvió a pasar después de estos cambios.
+- Se implementó la capa reusable inicial de autorización en frontend con helpers, selectors y `useAuthorization()`.
+- `AuthGuard` ya no considera lista la sesión protegida hasta tener `auth.authorization` cargada.
+- La tarea macro de checks reutilizables de autorización quedó cerrada y la adaptación de consumidores iniciales quedó en progreso.

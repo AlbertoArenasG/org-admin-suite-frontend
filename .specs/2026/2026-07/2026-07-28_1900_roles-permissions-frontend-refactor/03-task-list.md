@@ -20,10 +20,10 @@
       Status: done
 
 - [ ] Crear una capa reusable de checks de permisos para UI
-      Status: pending
+      Status: done
 
 - [ ] Adaptar consumidores iniciales de auth al nuevo shape sin reintroducir compatibilidad legacy
-      Status: pending
+      Status: in_progress
 
 ## Phase 3. Users And Invitations
 
