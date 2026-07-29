@@ -26,3 +26,8 @@
 - `AuthGuard` ya no considera lista la sesión protegida hasta tener `auth.authorization` cargada.
 - La tarea macro de checks reutilizables de autorización quedó cerrada y la adaptación de consumidores iniciales quedó en progreso.
 - Se migró `AppSidebar` para usar `modules` efectivos como visibilidad macro y `permissions` para subitems de creación o invitación, manteniendo `Dashboard` como entry transversal del frontend.
+- Se migró el dominio principal de usuarios para tratar `systemRole` y `roleId` como contrato base en `usersSlice`, `usersThunks` y la tabla de usuarios.
+- `GET /v1/users/roles` ya se consume como catálogo real de roles asignables, preservando `role_scope`, `is_system` e `is_default`, sin normalización hacia enums legacy.
+- Los flujos de detalle, edición e invitación de usuarios dejaron de depender de `parseUserRole()` como contrato principal y ahora envían `system_role` explícito al backend.
+- La UI de management de usuarios quedó alineada con la regla estructural vigente del spec usando `MASTER_ADMIN > ADMIN > USER` como base de checks visuales.
+- `npm run typecheck` volvió a pasar después de este corte de `Slice 3` y del tramo inicial de `Slice 4`.

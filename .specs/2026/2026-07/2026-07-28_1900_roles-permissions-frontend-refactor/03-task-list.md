@@ -23,26 +23,26 @@
       Status: done
 
 - [ ] Adaptar consumidores iniciales de auth al nuevo shape sin reintroducir compatibilidad legacy
-      Status: in_progress
+      Status: done
 
 ## Phase 3. Users And Invitations
 
 - [ ] Migrar `usersThunks` y `usersSlice` al nuevo contrato
-      Status: pending
+      Status: done
 
 - [ ] Migrar pantallas y componentes de usuarios
-      Status: pending
+      Status: done
 
 - [ ] Migrar invitaciones y registro publico asociado
-      Status: pending
+      Status: in_progress
 
 - [ ] Eliminar la normalizacion de roles asignables hacia enums legacy
-      Status: pending
+      Status: done
 
 ## Phase 4. Navigation And Remaining UI
 
 - [ ] Migrar sidebar y visibilidad de modulos
-      Status: pending
+      Status: done
 
 - [ ] Migrar dashboard a composicion dinamica basada en acceso real
       Status: pending

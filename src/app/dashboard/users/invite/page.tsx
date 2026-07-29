@@ -13,8 +13,7 @@ import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { fetchUserRoles, inviteUser } from '@/features/users/usersThunks';
-import { USER_ROLE_LIST, canInviteRole, getComparableLegacyRole } from '@/features/users/roles';
-import type { UserRoleInfo } from '@/features/users/usersSlice';
+import { canInviteSystemRole, getSystemRoleFromRoleScope } from '@/features/users/roles';
 import { Button } from '@/components/ui/button';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
@@ -24,7 +23,7 @@ export default function InviteUserPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const authUser = useAppSelector((state) => state.auth.user);
-  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
+  const currentRole = authUser?.systemRole ?? null;
   const rolesState = useAppSelector((state) => state.users.roles);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showSnackbar } = useSnackbar();
@@ -36,26 +35,15 @@ export default function InviteUserPage() {
   }, [dispatch, rolesState.status]);
 
   const roleOptions = useMemo<Array<{ value: string; label: string }>>(() => {
-    const fallback: UserRoleInfo[] = USER_ROLE_LIST.map((role, index) => ({
-      id: role,
-      normalizedId: role,
-      name: t(`roles.${role}`),
-      description: null,
-      rank: index,
-    }));
-
-    const source = rolesState.items.length ? rolesState.items : fallback;
-
-    return source
-      .filter((role) => canInviteRole(currentRole, role.normalizedId))
-      .map((role) => {
-        const identifier = role.id ?? role.normalizedId;
-        return {
-          value: identifier,
-          label: role.name ?? t(`roles.${identifier}`),
-        };
-      });
-  }, [currentRole, rolesState.items, t]);
+    return rolesState.items
+      .filter((role) =>
+        canInviteSystemRole(currentRole, getSystemRoleFromRoleScope(role.roleScope))
+      )
+      .map((role) => ({
+        value: role.roleId,
+        label: role.roleName,
+      }));
+  }, [currentRole, rolesState.items]);
 
   const hasInvitePermission = roleOptions.length > 0;
 
@@ -65,8 +53,8 @@ export default function InviteUserPage() {
         ? roleOptions
         : [
             {
-              value: 'STAFF',
-              label: t('roles.STAFF'),
+              value: '',
+              label: t('permissions.inviteRestricted'),
               disabled: true,
             },
           ],
@@ -74,7 +62,7 @@ export default function InviteUserPage() {
   );
 
   const defaultValues = useMemo<UserFormValues>(() => {
-    const defaultRole: string = safeRoleOptions[0]?.value ?? 'STAFF';
+    const defaultRole: string = safeRoleOptions[0]?.value ?? '';
     return {
       email: '',
       roleId: defaultRole,
@@ -101,10 +89,14 @@ export default function InviteUserPage() {
             number: values.cellPhone.number,
           }
         : null;
+    const selectedRole = rolesState.items.find((role) => role.roleId === values.roleId);
+    const systemRole =
+      getSystemRoleFromRoleScope(selectedRole?.roleScope) === 'ADMIN' ? 'ADMIN' : 'USER';
 
     dispatch(
       inviteUser({
         email: values.email,
+        systemRole,
         roleId: values.roleId,
         name: values.name,
         lastname: values.lastname,

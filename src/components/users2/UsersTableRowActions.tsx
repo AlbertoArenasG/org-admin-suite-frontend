@@ -10,12 +10,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { UsersTableUser } from '@/components/users2/types';
-import { canInviteRole, canManageRole } from '@/features/users/roles';
-import type { UserRole } from '@/features/users/roles';
+import { canInviteSystemRole, canManageSystemRole } from '@/features/users/roles';
+import type { AuthSystemRole } from '@/features/auth/types';
 
 interface UsersTableRowActionsProps {
   user: UsersTableUser;
-  currentRole: UserRole | null;
+  currentRole: AuthSystemRole | null;
   currentUserId: string | null;
   onDelete: (user: UsersTableUser) => void;
   labels: {
@@ -36,10 +36,12 @@ export function UsersTableRowActions({
 }: UsersTableRowActionsProps) {
   const isSelf = currentUserId === user.id;
   const canEdit = currentRole
-    ? canManageRole(currentRole, user.roleId, { allowSameLevel: isSelf })
+    ? canManageSystemRole(currentRole, user.systemRole, { allowSameLevel: isSelf })
     : false;
-  const canDelete = currentRole ? !isSelf && canManageRole(currentRole, user.roleId) : false;
-  const canInvite = currentRole ? canInviteRole(currentRole, user.roleId) : false;
+  const canDelete = currentRole
+    ? !isSelf && canManageSystemRole(currentRole, user.systemRole)
+    : false;
+  const canInvite = currentRole ? canInviteSystemRole(currentRole, user.systemRole) : false;
 
   return (
     <DropdownMenu>

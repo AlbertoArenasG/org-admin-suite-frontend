@@ -15,12 +15,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
-import {
-  USER_ROLE_LIST,
-  canManageRole,
-  parseUserRole,
-  getComparableLegacyRole,
-} from '@/features/users/roles';
+import { canManageSystemRole, getSystemRoleFromRoleScope } from '@/features/users/roles';
 import Chip from '@mui/material/Chip';
 import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';
 import { resetUserUpdateState } from '@/features/users/usersSlice';
@@ -44,8 +39,8 @@ export default function UserEditPage() {
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
   const updateState = useAppSelector((state) => state.users.update);
 
-  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
-  const targetRole = user ? parseUserRole(user.role) : null;
+  const currentRole = authUser?.systemRole ?? null;
+  const targetRole = user?.systemRole ?? null;
   const isSelf = user && authUser?.id === user.id;
 
   useEffect(() => {
@@ -61,33 +56,26 @@ export default function UserEditPage() {
     }
   }, [dispatch, rolesState.status]);
 
-  const fallbackRoles: UserRoleInfo[] = USER_ROLE_LIST.map((role, index) => ({
-    id: role,
-    normalizedId: role,
-    name: t(`roles.${role}`),
-    description: null,
-    rank: index,
+  const availableRoles: UserRoleInfo[] = rolesState.items.filter((role) =>
+    canManageSystemRole(currentRole, getSystemRoleFromRoleScope(role.roleScope), {
+      allowSameLevel: Boolean(isSelf),
+    })
+  );
+
+  const roleOptionsWithLabels = availableRoles.map((role) => ({
+    value: role.roleId,
+    label: role.roleName,
   }));
-
-  const availableRoles = rolesState.items.length ? rolesState.items : fallbackRoles;
-
-  const roleOptionsWithLabels = availableRoles.map((role) => {
-    const identifier = role.id ?? role.normalizedId;
-    return {
-      value: identifier,
-      label: role.name ?? t(`roles.${identifier}`),
-    };
-  });
 
   const canEdit =
     user && currentRole
-      ? canManageRole(currentRole, targetRole, { allowSameLevel: isSelf })
+      ? canManageSystemRole(currentRole, targetRole, { allowSameLevel: isSelf })
       : false;
 
   const defaultValues: UserFormValues | undefined = user
     ? {
         email: user.email,
-        roleId: targetRole ?? 'STAFF',
+        roleId: user.roleId ?? '',
         name: user.name ?? '',
         lastname: user.lastname ?? '',
         cellPhone: {
@@ -216,7 +204,11 @@ export default function UserEditPage() {
           {user ? (
             <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
               <span>{user.email}</span>
-              <Chip size="small" variant="outlined" label={user.roleName} />
+              <Chip
+                size="small"
+                variant="outlined"
+                label={user.roleName ?? user.roleId ?? user.systemRole}
+              />
             </div>
           ) : null}
           {!canEdit ? (
@@ -255,6 +247,7 @@ export default function UserEditPage() {
                         number: values.cellPhone.number,
                       }
                     : null;
+                const selectedRole = rolesState.items.find((role) => role.roleId === values.roleId);
                 void dispatch(
                   updateUser({
                     id: user.id,
@@ -262,6 +255,7 @@ export default function UserEditPage() {
                       name: values.name,
                       lastname: values.lastname,
                       email: values.email,
+                      systemRole: getSystemRoleFromRoleScope(selectedRole?.roleScope),
                       roleId: values.roleId,
                       statusId: user.status,
                       cellPhone: normalizedCellPhone,

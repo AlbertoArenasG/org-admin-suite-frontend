@@ -13,7 +13,6 @@ import { UsersDataTable } from '@/components/users2/UsersDataTable';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { fetchUsers, deleteUser } from '@/features/users/usersThunks';
-import { getComparableLegacyRole } from '@/features/users/roles';
 import { buildUserQuery, mapSortingToApi, parseSortingFromParams } from '@/utils/usersQuery';
 import { useUsersTableColumns } from '@/components/users2/useUsersTableColumns';
 import { useUsersTableData } from '@/components/users2/useUsersTableData';
@@ -216,7 +215,7 @@ export function UsersTableContainer() {
 
   const tableData = useUsersTableData(entities);
 
-  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
+  const currentRole = authUser?.systemRole ?? null;
 
   const columns = useUsersTableColumns({
     t,

@@ -8,7 +8,7 @@ import {
   inviteUser,
   deleteUser,
 } from './usersThunks';
-import type { UserRole } from '@/features/users/roles';
+import type { AuthSystemRole } from '@/features/auth/types';
 
 export interface User {
   id: string;
@@ -16,8 +16,9 @@ export interface User {
   name: string;
   lastname: string;
   fullName: string;
-  role: string;
-  roleName: string;
+  systemRole: AuthSystemRole;
+  roleId: string | null;
+  roleName: string | null;
   status: string;
   statusName: string;
   cellPhone?: {
@@ -62,11 +63,12 @@ export interface UsersState {
 }
 
 export interface UserRoleInfo {
-  id: string;
-  normalizedId: UserRole;
-  name: string;
-  description: string | null;
-  rank: number | null;
+  roleId: string;
+  roleCode: string;
+  roleName: string;
+  roleScope: string;
+  isSystem: boolean;
+  isDefault: boolean;
 }
 
 const initialState: UsersState = {

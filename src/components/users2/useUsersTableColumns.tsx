@@ -7,7 +7,7 @@ import type { Column, ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 
 import type { UsersTableUser } from '@/components/users2/types';
-import type { UserRole } from '@/features/users/roles';
+import type { AuthSystemRole } from '@/features/auth/types';
 import { UsersTableRowActions } from '@/components/users2/UsersTableRowActions';
 
 type Translate = TFunction<'users', undefined>;
@@ -15,7 +15,7 @@ type Translate = TFunction<'users', undefined>;
 interface UseUsersTableColumnsParams {
   t: Translate;
   dateFormatter: Intl.DateTimeFormat;
-  currentRole: UserRole | null;
+  currentRole: AuthSystemRole | null;
   currentUserId: string | null;
   onDelete: (user: UsersTableUser) => void;
 }

@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type { User, UserRoleInfo } from './usersSlice';
-import { parseUserRole } from '@/features/users/roles';
+import type { AuthSystemRole } from '@/features/auth/types';
 import { readPersistedAuthToken } from '@/features/auth/persistence';
 
 export interface FetchUsersParams {
@@ -23,7 +23,8 @@ export interface UpdateUserPayload {
     name: string;
     lastname: string;
     email: string;
-    roleId: string;
+    systemRole: AuthSystemRole;
+    roleId: string | null;
     statusId: string;
     cellPhone: {
       countryCode: string;
@@ -42,8 +43,9 @@ interface ApiUser {
   name: string;
   lastname: string;
   email: string;
-  role: string;
-  role_name: string;
+  system_role: AuthSystemRole;
+  role_id: string | null;
+  role_name?: string | null;
   status: string;
   status_name: string;
   cell_phone: null | {
@@ -79,8 +81,9 @@ const mapUser = (user: ApiUser): User => ({
   name: user.name,
   lastname: user.lastname,
   fullName: [user.name, user.lastname].filter(Boolean).join(' ').trim() || user.email,
-  role: user.role,
-  roleName: user.role_name,
+  systemRole: user.system_role,
+  roleId: user.role_id,
+  roleName: user.role_name ?? null,
   status: user.status,
   statusName: user.status_name,
   cellPhone: user.cell_phone
@@ -214,7 +217,8 @@ export const updateUser = createAsyncThunk<
         name: data.name,
         lastname: data.lastname,
         email: data.email,
-        role_id: data.roleId,
+        system_role: data.systemRole,
+        ...(data.roleId ? { role_id: data.roleId } : {}),
         status_id: data.statusId,
         cell_phone: data.cellPhone
           ? {
@@ -240,6 +244,7 @@ export const updateUser = createAsyncThunk<
 
 export interface InviteUserPayload {
   email: string;
+  systemRole: Exclude<AuthSystemRole, 'MASTER_ADMIN'>;
   roleId: string;
   name: string;
   lastname: string;
@@ -282,7 +287,8 @@ export const inviteUser = createAsyncThunk<
       },
       body: {
         email: payload.email,
-        role_id: payload.roleId,
+        system_role: payload.systemRole,
+        ...(payload.systemRole === 'USER' ? { role_id: payload.roleId } : {}),
         name: payload.name,
         lastname: payload.lastname,
         cell_phone: payload.cellPhone
@@ -339,7 +345,11 @@ export const deleteUser = createAsyncThunk<
 
 interface ApiUserRole {
   role_id: string;
+  role_code: string;
   role_name: string;
+  role_scope: string;
+  is_system: boolean;
+  is_default: boolean;
 }
 
 export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: RootState }>(
@@ -363,17 +373,14 @@ export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: Ro
 
       const roles = Array.isArray(response.data) ? response.data : [];
 
-      return roles.map((role, index) => {
-        const rawId = role.role_id;
-        const normalizedId = parseUserRole(rawId);
-        return {
-          id: rawId,
-          normalizedId,
-          name: role.role_name ?? rawId,
-          description: null,
-          rank: index,
-        };
-      });
+      return roles.map((role) => ({
+        roleId: role.role_id,
+        roleCode: role.role_code,
+        roleName: role.role_name ?? role.role_id,
+        roleScope: role.role_scope,
+        isSystem: role.is_system,
+        isDefault: role.is_default,
+      }));
     } catch (error) {
       const message = error instanceof Error ? error.message : 'No fue posible obtener los roles';
       return thunkAPI.rejectWithValue(message);

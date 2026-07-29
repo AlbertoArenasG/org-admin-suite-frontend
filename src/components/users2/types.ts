@@ -1,11 +1,12 @@
-import type { UserRole } from '@/features/users/roles';
+import type { AuthSystemRole } from '@/features/auth/types';
 
 export interface UsersTableUser {
   id: string;
   fullName: string;
   email: string;
   roleName: string;
-  roleId: UserRole;
+  roleId: string | null;
+  systemRole: AuthSystemRole;
   status: string;
   statusName: string;
   createdAt: string;

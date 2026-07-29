@@ -3,7 +3,6 @@
 import { useMemo } from 'react';
 import type { UsersTableUser } from '@/components/users2/types';
 import type { User } from '@/features/users/usersSlice';
-import { parseUserRole } from '@/features/users/roles';
 
 export function useUsersTableData(users: User[]): UsersTableUser[] {
   return useMemo<UsersTableUser[]>(
@@ -12,8 +11,9 @@ export function useUsersTableData(users: User[]): UsersTableUser[] {
         id: user.id,
         fullName: user.fullName,
         email: user.email,
-        roleName: user.roleName,
-        roleId: parseUserRole(user.role),
+        roleName: user.roleName ?? user.roleId ?? user.systemRole,
+        roleId: user.roleId,
+        systemRole: user.systemRole,
         status: user.status,
         statusName: user.statusName,
         createdAt: user.createdAt,

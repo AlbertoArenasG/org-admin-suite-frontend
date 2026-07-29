@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
-import { parseUserRole, canManageRole, getComparableLegacyRole } from '@/features/users/roles';
+import { canManageSystemRole } from '@/features/users/roles';
 import { fetchUserById } from '@/features/users/usersThunks';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitialsFromText } from '@/lib/get-initials';
@@ -39,11 +39,11 @@ export default function UserDetailPage() {
     void dispatch(fetchUserById({ id: params.userId }));
   }, [authHydrated, dispatch, params.userId]);
 
-  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
-  const targetRole = user ? parseUserRole(user.role) : null;
+  const currentRole = authUser?.systemRole ?? null;
+  const targetRole = user?.systemRole ?? null;
   const canEdit =
     user && currentRole
-      ? canManageRole(currentRole, targetRole, { allowSameLevel: authUser?.id === user.id })
+      ? canManageSystemRole(currentRole, targetRole, { allowSameLevel: authUser?.id === user.id })
       : false;
 
   const dateFormatter = useMemo(() => {
@@ -68,7 +68,7 @@ export default function UserDetailPage() {
     ? [
         { label: t('table.columns.fullName'), value: user.fullName || '—' },
         { label: t('table.columns.email'), value: user.email },
-        { label: t('table.columns.role'), value: user.roleName },
+        { label: t('table.columns.role'), value: user.roleName ?? user.roleId ?? user.systemRole },
         {
           label: t('table.columns.status'),
           value: (

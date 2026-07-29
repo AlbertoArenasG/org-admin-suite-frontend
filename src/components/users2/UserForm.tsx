@@ -32,7 +32,7 @@ export interface UserFormProps {
 function buildInitialValues(defaultValues?: Partial<UserFormValues>): UserFormValues {
   return {
     email: defaultValues?.email ?? '',
-    roleId: defaultValues?.roleId ?? 'STAFF',
+    roleId: defaultValues?.roleId ?? '',
     name: defaultValues?.name ?? '',
     lastname: defaultValues?.lastname ?? '',
     cellPhone: {
