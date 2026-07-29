@@ -56,11 +56,17 @@ export default function UserEditPage() {
     }
   }, [dispatch, rolesState.status]);
 
-  const availableRoles: UserRoleInfo[] = rolesState.items.filter((role) =>
-    canManageSystemRole(currentRole, role.systemRole, {
-      allowSameLevel: Boolean(isSelf),
-    })
-  );
+  const availableRoles: UserRoleInfo[] = rolesState.items.filter((role) => {
+    if (role.systemRole === 'MASTER_ADMIN') {
+      return currentRole === 'MASTER_ADMIN';
+    }
+
+    if (role.systemRole === 'ADMIN') {
+      return currentRole === 'MASTER_ADMIN' || currentRole === 'ADMIN';
+    }
+
+    return Boolean(currentRole);
+  });
 
   const roleOptionsWithLabels = availableRoles.map((role) => ({
     value: role.roleId,

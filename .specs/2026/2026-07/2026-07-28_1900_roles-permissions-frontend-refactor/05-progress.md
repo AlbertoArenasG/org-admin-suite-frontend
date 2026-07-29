@@ -48,3 +48,4 @@
 - El residuo técnico visible que permanece fuera del alcance directo de esta iniciativa quedó acotado a `features/services/*`, que sigue teniendo placeholders no implementados pero no forma parte del refactor de roles y permisos.
 - Se corrigió el flujo de invitación de usuarios para consumir el catálogo de `GET /v1/users/roles` como fuente de verdad de opciones asignables, evitando un filtrado redundante en frontend que ocultaba `ADMIN_DEFAULT` a actores `ADMIN`.
 - El estado de roles disponibles en frontend ahora persiste también `systemRole` explícito por opción, y los flujos de invitación y edición dejaron de inferir el rol estructural desde `roleScope`.
+- Se corrigió también el selector de roles en edición de usuario para reflejar la regla estructural vigente de backend: `ADMIN` puede asignar `ADMIN` y `USER`, aunque siga sin poder gestionar objetivos `MASTER_ADMIN`.
