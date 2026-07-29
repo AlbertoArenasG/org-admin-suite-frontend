@@ -56,7 +56,7 @@
 ## Phase 5. Validation And Cleanup
 
 - [ ] Verificar rutas, auth y acciones principales despues de la migracion
-      Status: pending
+      Status: in_progress
 
 - [ ] Limpiar residuos legacy del store, persistencia local y helpers compartidos
       Status: in_progress

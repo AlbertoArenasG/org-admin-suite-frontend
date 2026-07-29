@@ -1,6 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '@/features/auth/authSlice';
-import dashboardReducer from '@/features/dashboard/dashboardSlice';
 import servicesReducer from '@/features/services/servicesSlice';
 import usersReducer from '@/features/users/usersSlice';
 import serviceEntriesReducer from '@/features/serviceEntries/serviceEntriesSlice';
@@ -16,7 +15,6 @@ import providersReducer from '@/features/providers/providersSlice';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    dashboard: dashboardReducer,
     services: servicesReducer,
     users: usersReducer,
     serviceEntries: serviceEntriesReducer,

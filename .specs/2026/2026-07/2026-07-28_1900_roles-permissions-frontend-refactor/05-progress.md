@@ -43,3 +43,6 @@
 - El dashboard ya no depende de placeholders genéricos ni de tratarse como módulo backend; ahora muestra widgets y accesos condicionados por autorización efectiva.
 - Se actualizaron los locales de `dashboard` en español e inglés para soportar la nueva composición dinámica sin depender de copy implícito de la sesión.
 - `npm run typecheck` volvió a pasar después del cierre de `Slice 5.3`.
+- Se eliminó del store el slice placeholder de `features/dashboard/*`, junto con sus thunks sin implementación, porque ya no participaba en la versión final del dashboard basada en composición por acceso real.
+- Se ejecutaron validaciones estáticas del repositorio con `npm run typecheck` y `npm run lint`, ambas pasando después de los cambios.
+- El residuo técnico visible que permanece fuera del alcance directo de esta iniciativa quedó acotado a `features/services/*`, que sigue teniendo placeholders no implementados pero no forma parte del refactor de roles y permisos.
