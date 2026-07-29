@@ -22,6 +22,7 @@ import { useTranslation } from 'react-i18next';
 import { useRegistrationStore } from '@/stores/useRegistrationStore';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { login } from '@/features/auth/authThunks';
+import type { AuthSystemRole } from '@/features/auth/types';
 import { FullScreenLoader } from '@/components/ui/full-screen-loader';
 
 interface InvitationData {
@@ -29,8 +30,10 @@ interface InvitationData {
   type: string;
   status: string;
   email: string;
-  role: string;
-  role_name?: string;
+  system_role: AuthSystemRole;
+  role_id: string | null;
+  role_name?: string | null;
+  role?: string;
   user_data: {
     name: string;
     lastname: string;
@@ -150,7 +153,7 @@ function UserRegisterContent() {
     if (invitationStatus !== 'success' || !invitationData) {
       return null;
     }
-    return invitationData.role_name ?? invitationData.role;
+    return invitationData.role_name ?? invitationData.role_id ?? invitationData.role ?? null;
   }, [invitationData, invitationStatus]);
 
   const onSubmit = form.handleSubmit((values) => {

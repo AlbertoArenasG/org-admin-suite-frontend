@@ -34,7 +34,7 @@
       Status: done
 
 - [ ] Migrar invitaciones y registro publico asociado
-      Status: in_progress
+      Status: done
 
 - [ ] Eliminar la normalizacion de roles asignables hacia enums legacy
       Status: done

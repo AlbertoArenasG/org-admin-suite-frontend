@@ -213,6 +213,7 @@ Migrar invitaciones y registro publico asociado al nuevo modelo de `systemRole` 
 Done when:
 
 - la invitacion y el registro ya no dependen del modelo legacy como base principal
+- `user-register` consume la invitacion usando `system_role` y `role_id` como contrato principal
 
 ### Risks
 

@@ -31,3 +31,6 @@
 - Los flujos de detalle, edición e invitación de usuarios dejaron de depender de `parseUserRole()` como contrato principal y ahora envían `system_role` explícito al backend.
 - La UI de management de usuarios quedó alineada con la regla estructural vigente del spec usando `MASTER_ADMIN > ADMIN > USER` como base de checks visuales.
 - `npm run typecheck` volvió a pasar después de este corte de `Slice 3` y del tramo inicial de `Slice 4`.
+- Se cerró el tramo de registro público en `src/app/public/user-register/page.tsx` para tratar `system_role` y `role_id` como contrato principal de la invitación, dejando `role` legacy solo como fallback descriptivo si todavía aparece.
+- Con esto, `Slice 4. Invitations` quedó funcionalmente cubierto de punta a punta entre invitación, registro público y autologin posterior.
+- `npm run typecheck` volvió a pasar después de alinear `user-register` al contrato moderno de invitaciones.
