@@ -12,10 +12,12 @@ import {
   PlusCircle,
   Archive,
   Truck,
+  type LucideIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { usePathname } from 'next/navigation';
 
+import { useAuthorization } from '@/features/auth';
 import { NavMain } from '@/components/sidebar/NavMain';
 import { NavUser } from '@/components/sidebar/NavUser';
 import { SidebarLogo } from '@/components/sidebar/SidebarLogo';
@@ -31,6 +33,14 @@ import {
 import { cn } from '@/lib/utils';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
+type SidebarNavItem = {
+  title: string;
+  url: string;
+  icon?: LucideIcon;
+  isActive?: boolean;
+  items?: SidebarNavItem[];
+};
+
 // This is sample data.
 const data = {
   user: {
@@ -44,6 +54,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
   const { t } = useTranslation(['nav', 'publicCustomerProfile']);
   const pathname = usePathname();
   const authUser = useAppSelector((state) => state.auth.user);
+  const { hasModule, hasPermission } = useAuthorization();
 
   const sidebarUser = React.useMemo(() => {
     if (!authUser) {
@@ -59,15 +70,18 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
     };
   }, [authUser]);
 
-  const navItems = React.useMemo(
-    () => [
+  const navItems = React.useMemo<SidebarNavItem[]>(() => {
+    const items: SidebarNavItem[] = [
       {
         title: t('dashboard'),
         url: '/dashboard',
         icon: LayoutDashboard,
         isActive: pathname === '/dashboard',
       },
-      {
+    ];
+
+    if (hasModule('USERS')) {
+      items.push({
         title: t('users'),
         url: '/dashboard/users',
         icon: Users,
@@ -78,15 +92,22 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             url: '/dashboard/users',
             isActive: pathname === '/dashboard/users',
           },
-          {
-            title: t('usersInvite'),
-            url: '/dashboard/users/invite',
-            isActive: pathname === '/dashboard/users/invite',
-            icon: UserPlus2,
-          },
+          ...(hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE')
+            ? [
+                {
+                  title: t('usersInvite'),
+                  url: '/dashboard/users/invite',
+                  isActive: pathname === '/dashboard/users/invite',
+                  icon: UserPlus2,
+                },
+              ]
+            : []),
         ],
-      },
-      {
+      });
+    }
+
+    if (hasModule('CUSTOMERS')) {
+      items.push({
         title: t('customers'),
         url: '/dashboard/customers',
         icon: Building2,
@@ -97,15 +118,22 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             url: '/dashboard/customers',
             isActive: pathname === '/dashboard/customers',
           },
-          {
-            title: t('customersCreate'),
-            url: '/dashboard/customers/new',
-            isActive: pathname === '/dashboard/customers/new',
-            icon: PlusCircle,
-          },
+          ...(hasPermission('CUSTOMERS', 'CREATE')
+            ? [
+                {
+                  title: t('customersCreate'),
+                  url: '/dashboard/customers/new',
+                  isActive: pathname === '/dashboard/customers/new',
+                  icon: PlusCircle,
+                },
+              ]
+            : []),
         ],
-      },
-      {
+      });
+    }
+
+    if (hasModule('PROVIDERS')) {
+      items.push({
         title: t('providers'),
         url: '/dashboard/providers',
         icon: Truck,
@@ -116,45 +144,70 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             url: '/dashboard/providers',
             isActive: pathname === '/dashboard/providers',
           },
-          {
-            title: t('providersCreate'),
-            url: '/dashboard/providers/new',
-            isActive: pathname === '/dashboard/providers/new',
-            icon: PlusCircle,
-          },
+          ...(hasPermission('PROVIDERS', 'CREATE')
+            ? [
+                {
+                  title: t('providersCreate'),
+                  url: '/dashboard/providers/new',
+                  isActive: pathname === '/dashboard/providers/new',
+                  icon: PlusCircle,
+                },
+              ]
+            : []),
         ],
-      },
-      {
+      });
+    }
+
+    const serviceItems = [
+      ...(hasModule('SERVICE_ENTRIES')
+        ? [
+            {
+              title: t('serviceEntries'),
+              url: '/dashboard/service-entries',
+              isActive:
+                pathname === '/dashboard/service-entries' ||
+                (pathname.startsWith('/dashboard/service-entries') &&
+                  !pathname.includes('/surveys')),
+              icon: List,
+            },
+          ]
+        : []),
+      ...(hasModule('SERVICE_ENTRY_SURVEYS')
+        ? [
+            {
+              title: t('serviceEntrySurveys'),
+              url: '/dashboard/service-entries/surveys',
+              isActive: pathname.startsWith('/dashboard/service-entries/surveys'),
+              icon: ChartColumn,
+            },
+          ]
+        : []),
+      ...(hasModule('SERVICE_PACKAGES')
+        ? [
+            {
+              title: t('servicePackagesRecords'),
+              url: '/dashboard/service-packages-records',
+              isActive: pathname.startsWith('/dashboard/service-packages-records'),
+              icon: Archive,
+            },
+          ]
+        : []),
+    ];
+
+    if (serviceItems.length > 0) {
+      items.push({
         title: t('services'),
         url: '/dashboard/service-entries',
         icon: Wrench,
-        isActive: pathname.startsWith('/dashboard/service-entries'),
-        items: [
-          {
-            title: t('serviceEntries'),
-            url: '/dashboard/service-entries',
-            isActive:
-              pathname === '/dashboard/service-entries' ||
-              (pathname.startsWith('/dashboard/service-entries') && !pathname.includes('/surveys')),
-            icon: List,
-          },
-          {
-            title: t('serviceEntrySurveys'),
-            url: '/dashboard/service-entries/surveys',
-            isActive: pathname.startsWith('/dashboard/service-entries/surveys'),
-            icon: ChartColumn,
-          },
-          {
-            title: t('servicePackagesRecords'),
-            url: '/dashboard/service-packages-records',
-            isActive: pathname.startsWith('/dashboard/service-packages-records'),
-            icon: Archive,
-          },
-        ],
-      },
-    ],
-    [pathname, t]
-  );
+        isActive:
+          pathname.startsWith('/dashboard/service-entries') ||
+          pathname.startsWith('/dashboard/service-packages-records'),
+        items: serviceItems,
+      });
+    }
+
+    return items;
+  }, [hasModule, hasPermission, pathname, t]);
 
   return (
     <Sidebar

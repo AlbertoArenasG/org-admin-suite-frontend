@@ -25,3 +25,4 @@
 - Se implementó la capa reusable inicial de autorización en frontend con helpers, selectors y `useAuthorization()`.
 - `AuthGuard` ya no considera lista la sesión protegida hasta tener `auth.authorization` cargada.
 - La tarea macro de checks reutilizables de autorización quedó cerrada y la adaptación de consumidores iniciales quedó en progreso.
+- Se migró `AppSidebar` para usar `modules` efectivos como visibilidad macro y `permissions` para subitems de creación o invitación, manteniendo `Dashboard` como entry transversal del frontend.
