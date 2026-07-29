@@ -369,6 +369,32 @@ Regla operativa:
 
 ## User Flows Affected
 
+### Structural Management Rule For Users
+
+Regla vigente del modelo actual:
+
+- la gestion de otros usuarios no depende solo de permisos funcionales
+- tambien depende de jerarquia estructural por `systemRole`
+
+Jerarquia estructural vigente:
+
+- `MASTER_ADMIN`
+- `ADMIN`
+- `USER`
+
+Regla vigente para management de otro usuario existente:
+
+- `MASTER_ADMIN` puede gestionar `ADMIN` y `USER`
+- `ADMIN` puede gestionar `USER`
+- `USER` no puede gestionar a otro `USER`
+
+Notas:
+
+- esta regla aplica a management de otro usuario existente
+- no aplica a self-service del propio perfil
+- aunque un `USER` tenga permisos funcionales de `USERS/UPDATE` o `USERS/DELETE`, hoy no debe poder editar o eliminar a otro `USER` dentro del alcance de esta iniciativa
+- cualquier cambio futuro a esta política debe tratarse como iniciativa posterior de backend y frontend, no como parte de esta spec actual
+
 ### User List / Detail / Edit
 
 - dejan de leer `role` como contrato principal

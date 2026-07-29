@@ -15,7 +15,12 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
-import { USER_ROLE_LIST, canManageRole, parseUserRole } from '@/features/users/roles';
+import {
+  USER_ROLE_LIST,
+  canManageRole,
+  parseUserRole,
+  getComparableLegacyRole,
+} from '@/features/users/roles';
 import Chip from '@mui/material/Chip';
 import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';
 import { resetUserUpdateState } from '@/features/users/usersSlice';
@@ -39,7 +44,7 @@ export default function UserEditPage() {
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
   const updateState = useAppSelector((state) => state.users.update);
 
-  const currentRole = authUser?.role ?? null;
+  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
   const targetRole = user ? parseUserRole(user.role) : null;
   const isSelf = user && authUser?.id === user.id;
 

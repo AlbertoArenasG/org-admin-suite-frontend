@@ -18,3 +18,7 @@
 - Se aterrizo `06-technical-design.md` con contratos backend relevantes, estrategia de hidratacion, reglas de transicion de estado, capa objetivo de selectors/helpers y criterios de terminado por fase.
 - Se aterrizo `07-implementation-breakdown.md` hasta nivel de slices y microfases ejecutables por futuras sesiones sin depender de este chat.
 - Se actualizo `03-task-list.md` para reflejar que la fase de definicion ya esta cerrada y para dejar visibles tareas macro adicionales de navegacion, dashboard y cleanup.
+- Se dejó explicitada en la spec la regla estructural vigente de management de usuarios: hoy `USER` no puede gestionar a otro `USER`, aunque esa política pueda revisarse en una iniciativa futura aparte.
+- Se implementó el primer corte funcional de `Slice 1` en código: `AuthUser` dejó de depender de `role` legacy, se introdujo `auth.authorization`, se adaptaron los mappers de login y `me`, y la hidratación ya resuelve `GET /v1/auth/me/permissions`.
+- Se dejó una compatibilidad temporal localizada con `getComparableLegacyRole()` para consumidores que aún no migran, sin reintroducir `role` dentro del modelo principal de `AuthUser`.
+- `npm run typecheck` volvió a pasar después de estos cambios.

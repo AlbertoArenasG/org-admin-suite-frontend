@@ -27,7 +27,7 @@ import {
   type ServiceEntryFormValues,
 } from '@/components/serviceEntries/ServiceEntryForm';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
-import { parseUserRole } from '@/features/users/roles';
+import { getComparableLegacyRole } from '@/features/users/roles';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Spinner } from '@/components/ui/spinner';
 
@@ -43,7 +43,7 @@ export default function ServiceEntryEditPage() {
   const categoriesState = useAppSelector((state) => state.serviceEntries.categories);
   const authUser = useAppSelector((state) => state.auth.user);
 
-  const currentRole = authUser ? parseUserRole(authUser.role) : null;
+  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
   const canManage = Boolean(currentRole && currentRole !== 'CUSTOMER');
 
   const entry =

@@ -1,3 +1,5 @@
+import type { AuthSystemRole } from '@/features/auth/types';
+
 export const USER_ROLES = ['MASTER_ADMIN', 'MASTER_STAFF', 'ADMIN', 'STAFF', 'CUSTOMER'] as const;
 
 export type UserRole = (typeof USER_ROLES)[number];
@@ -19,6 +21,22 @@ export function parseUserRole(role: string | null | undefined): UserRole {
     return normalized as UserRole;
   }
   return 'STAFF';
+}
+
+/**
+ * Temporary bridge while UI flows still depend on the legacy role ranking helpers.
+ * `USER` maps to `STAFF` because the old auth model had no generic `USER` role.
+ */
+export function getComparableLegacyRole(systemRole: AuthSystemRole): UserRole {
+  switch (systemRole) {
+    case 'MASTER_ADMIN':
+      return 'MASTER_ADMIN';
+    case 'ADMIN':
+      return 'ADMIN';
+    case 'USER':
+    default:
+      return 'STAFF';
+  }
 }
 
 export function canInviteRole(current: UserRole | null | undefined, target: UserRole): boolean {

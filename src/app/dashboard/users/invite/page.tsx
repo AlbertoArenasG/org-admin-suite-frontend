@@ -13,7 +13,7 @@ import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { fetchUserRoles, inviteUser } from '@/features/users/usersThunks';
-import { USER_ROLE_LIST, canInviteRole } from '@/features/users/roles';
+import { USER_ROLE_LIST, canInviteRole, getComparableLegacyRole } from '@/features/users/roles';
 import type { UserRoleInfo } from '@/features/users/usersSlice';
 import { Button } from '@/components/ui/button';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
@@ -24,7 +24,7 @@ export default function InviteUserPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const authUser = useAppSelector((state) => state.auth.user);
-  const currentRole = authUser?.role ?? null;
+  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
   const rolesState = useAppSelector((state) => state.users.roles);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showSnackbar } = useSnackbar();

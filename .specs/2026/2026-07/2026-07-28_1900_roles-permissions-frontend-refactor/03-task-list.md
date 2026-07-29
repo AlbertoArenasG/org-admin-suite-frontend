@@ -13,11 +13,11 @@
 
 ## Phase 2. Auth And Permission Foundation
 
-- [ ] Migrar `src/features/auth/*` al nuevo modelo principal
-      Status: pending
+- [x] Migrar `src/features/auth/*` al nuevo modelo principal
+      Status: done
 
-- [ ] Implementar carga y persistencia de permisos efectivos del usuario autenticado
-      Status: pending
+- [x] Implementar carga y manejo de permisos efectivos del usuario autenticado
+      Status: done
 
 - [ ] Crear una capa reusable de checks de permisos para UI
       Status: pending

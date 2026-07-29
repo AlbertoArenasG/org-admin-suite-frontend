@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchCurrentUser, login } from './authThunks';
+import { fetchCurrentUser, fetchMyPermissions, login } from './authThunks';
 import { updateMyProfile } from '@/features/myProfile/myProfileThunks';
-import type { AuthUser } from './types';
+import type { AuthAuthorization, AuthUser } from './types';
 import { persistAuthSession } from './persistence';
 
 export interface AuthState {
   user: AuthUser | null;
+  authorization: AuthAuthorization | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
   token: string | null;
@@ -16,6 +17,7 @@ export interface AuthState {
 
 const initialState: AuthState = {
   user: null,
+  authorization: null,
   status: 'idle',
   error: null,
   token: null,
@@ -29,6 +31,7 @@ const authSlice = createSlice({
   reducers: {
     logout(state) {
       state.user = null;
+      state.authorization = null;
       state.token = null;
       persistAuthSession(null, null);
       state.status = 'idle';
@@ -45,9 +48,17 @@ const authSlice = createSlice({
       state.token = action.payload;
       persistAuthSession(action.payload, state.user);
     },
-    setAuthSnapshot(state, action: PayloadAction<{ token: string | null; user: AuthUser | null }>) {
+    setAuthSnapshot(
+      state,
+      action: PayloadAction<{
+        token: string | null;
+        user: AuthUser | null;
+        authorization?: AuthAuthorization | null;
+      }>
+    ) {
       state.token = action.payload.token;
       state.user = action.payload.user;
+      state.authorization = action.payload.authorization ?? null;
       state.status = action.payload.token ? 'succeeded' : 'idle';
       state.error = null;
       state.successMessage = null;
@@ -66,6 +77,7 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.user = action.payload.user;
+        state.authorization = action.payload.authorization;
         state.token = action.payload.token;
         persistAuthSession(action.payload.token, action.payload.user);
         state.error = null;
@@ -79,6 +91,7 @@ const authSlice = createSlice({
           action.error.message ??
           'No fue posible iniciar sesión';
         state.user = null;
+        state.authorization = null;
         state.token = null;
         state.successMessage = null;
         state.hydrated = true;
@@ -91,7 +104,6 @@ const authSlice = createSlice({
         state.status = 'succeeded';
         state.user = action.payload;
         state.error = null;
-        state.hydrated = true;
         persistAuthSession(state.token, action.payload);
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
@@ -100,6 +112,26 @@ const authSlice = createSlice({
           (action.payload as string | undefined) ??
           action.error.message ??
           'No fue posible recuperar la sesión';
+        state.authorization = null;
+        state.hydrated = true;
+      })
+      .addCase(fetchMyPermissions.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+      })
+      .addCase(fetchMyPermissions.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.authorization = action.payload;
+        state.error = null;
+        state.hydrated = true;
+      })
+      .addCase(fetchMyPermissions.rejected, (state, action) => {
+        state.status = 'failed';
+        state.authorization = null;
+        state.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible recuperar los permisos.';
         state.hydrated = true;
       })
       .addCase(updateMyProfile.fulfilled, (state, action) => {

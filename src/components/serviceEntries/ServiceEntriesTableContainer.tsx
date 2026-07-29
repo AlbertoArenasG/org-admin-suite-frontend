@@ -25,6 +25,7 @@ import { useServiceEntriesTableColumns } from '@/components/serviceEntries/useSe
 import { useServiceEntriesTableStore } from '@/components/serviceEntries/useServiceEntriesTableStore';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { resetServiceEntryDelete } from '@/features/serviceEntries/serviceEntriesSlice';
+import { getComparableLegacyRole } from '@/features/users/roles';
 
 function getInitialPagination(params: URLSearchParams) {
   const initialPage = Number(params.get('page'));
@@ -211,7 +212,7 @@ export function ServiceEntriesTableContainer() {
   }, [hydrated, i18n.language, i18n.options.fallbackLng]);
 
   const tableData = useServiceEntriesTableData(entities);
-  const currentRole = authUser ? parseUserRole(authUser.role) : null;
+  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
 
   const columns = useServiceEntriesTableColumns({
     t,

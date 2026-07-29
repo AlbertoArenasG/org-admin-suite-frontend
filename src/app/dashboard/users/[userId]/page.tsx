@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
-import { parseUserRole, canManageRole } from '@/features/users/roles';
+import { parseUserRole, canManageRole, getComparableLegacyRole } from '@/features/users/roles';
 import { fetchUserById } from '@/features/users/usersThunks';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitialsFromText } from '@/lib/get-initials';
@@ -39,7 +39,7 @@ export default function UserDetailPage() {
     void dispatch(fetchUserById({ id: params.userId }));
   }, [authHydrated, dispatch, params.userId]);
 
-  const currentRole = authUser?.role ?? null;
+  const currentRole = authUser ? getComparableLegacyRole(authUser.systemRole) : null;
   const targetRole = user ? parseUserRole(user.role) : null;
   const canEdit =
     user && currentRole

@@ -1,8 +1,7 @@
 import type { AppDispatch } from '@/store';
 import type { AuthUser } from './types';
 import { markHydrated, setAuthSnapshot } from './authSlice';
-import { fetchCurrentUser } from './authThunks';
-import { parseUserRole } from '@/features/users/roles';
+import { fetchCurrentUser, fetchMyPermissions } from './authThunks';
 
 export const AUTH_TOKEN_STORAGE_KEY = 'auth-token';
 const AUTH_USER_KEY = 'auth-user';
@@ -36,11 +35,7 @@ export function hydrateAuthFromStorage(dispatch: AppDispatch) {
 
   if (rawUser) {
     try {
-      const parsed = JSON.parse(rawUser) as AuthUser;
-      user = {
-        ...parsed,
-        role: parseUserRole(parsed.role as unknown as string),
-      };
+      user = JSON.parse(rawUser) as AuthUser;
     } catch {
       window.localStorage.removeItem(AUTH_USER_KEY);
     }
@@ -50,7 +45,17 @@ export function hydrateAuthFromStorage(dispatch: AppDispatch) {
     dispatch(setAuthSnapshot({ token: token ?? null, user }));
 
     if (token && !user) {
-      void dispatch(fetchCurrentUser()).finally(() => {
+      void dispatch(fetchCurrentUser())
+        .unwrap()
+        .then(() => dispatch(fetchMyPermissions()).unwrap())
+        .finally(() => {
+          dispatch(markHydrated(true));
+        });
+      return;
+    }
+
+    if (token && user) {
+      void dispatch(fetchMyPermissions()).finally(() => {
         dispatch(markHydrated(true));
       });
       return;
