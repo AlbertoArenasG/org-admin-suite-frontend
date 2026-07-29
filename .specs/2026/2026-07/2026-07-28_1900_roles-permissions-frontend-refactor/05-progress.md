@@ -39,3 +39,7 @@
 - Se eliminó la API legacy viva de `src/features/users/roles.ts`, conservando solo helpers estructurales basados en `systemRole` que todavía forman parte del modelo vigente.
 - Después de este corte, ya no quedan consumidores activos de `parseUserRole()`, `getComparableLegacyRole()`, `canManageRole()`, `canInviteRole()` ni `USER_ROLE_LIST` dentro de `src/`.
 - `npm run typecheck` volvió a pasar después de este bloque de cleanup transversal.
+- Se migró `src/app/dashboard/page.tsx` para que el dashboard funcione como vista transversal compuesta por acceso real, con acciones rápidas, superficies disponibles y degradación controlada según `modules` y `permissions`.
+- El dashboard ya no depende de placeholders genéricos ni de tratarse como módulo backend; ahora muestra widgets y accesos condicionados por autorización efectiva.
+- Se actualizaron los locales de `dashboard` en español e inglés para soportar la nueva composición dinámica sin depender de copy implícito de la sesión.
+- `npm run typecheck` volvió a pasar después del cierre de `Slice 5.3`.

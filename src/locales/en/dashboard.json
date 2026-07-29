@@ -1,4 +1,63 @@
 {
   "title": "Dashboard",
-  "subtitle": "Overview"
+  "subtitle": "Operational overview for {{name}}",
+  "guestFallback": "your session",
+  "sections": {
+    "quickActions": "Quick actions",
+    "quickActionsHint": "Shortcuts to the operations you can execute right now.",
+    "workspaces": "Available workspaces",
+    "workspacesHint": "Modules and views you already have access to."
+  },
+  "quickActions": {
+    "inviteUser": {
+      "title": "Invite user",
+      "description": "Send a new access invitation."
+    },
+    "createCustomer": {
+      "title": "Add customer",
+      "description": "Register a new customer."
+    },
+    "createProvider": {
+      "title": "Add provider",
+      "description": "Capture a new provider."
+    },
+    "createServiceEntry": {
+      "title": "Create service entry",
+      "description": "Open a new service entry."
+    }
+  },
+  "workspaces": {
+    "users": {
+      "title": "Users",
+      "description": "Manage users, invitations, and access assignment."
+    },
+    "customers": {
+      "title": "Customers",
+      "description": "Review and maintain customer fiscal profiles."
+    },
+    "providers": {
+      "title": "Providers",
+      "description": "Review and update provider information."
+    },
+    "serviceEntries": {
+      "title": "Service entries",
+      "description": "Track orders and service entries."
+    },
+    "serviceEntrySurveys": {
+      "title": "Service surveys",
+      "description": "Review satisfaction and survey results."
+    },
+    "servicePackages": {
+      "title": "Collection",
+      "description": "Manage collected files and related packages."
+    }
+  },
+  "profileCard": {
+    "title": "Your profile",
+    "description": "Review your account data and update your personal information.",
+    "cta": "Go to my profile"
+  },
+  "emptyState": {
+    "description": "Your current access is limited. Use the sidebar to enter the available surfaces or review your profile."
+  }
 }

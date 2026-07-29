@@ -1,4 +1,63 @@
 {
   "title": "Panel",
-  "subtitle": "Resumen"
+  "subtitle": "Resumen operativo para {{name}}",
+  "guestFallback": "tu sesión",
+  "sections": {
+    "quickActions": "Acciones rápidas",
+    "quickActionsHint": "Atajos a las operaciones que puedes ejecutar ahora mismo.",
+    "workspaces": "Superficies disponibles",
+    "workspacesHint": "Módulos y vistas a las que ya tienes acceso."
+  },
+  "quickActions": {
+    "inviteUser": {
+      "title": "Invitar usuario",
+      "description": "Enviar una nueva invitación de acceso."
+    },
+    "createCustomer": {
+      "title": "Registrar cliente",
+      "description": "Dar de alta un nuevo cliente."
+    },
+    "createProvider": {
+      "title": "Registrar proveedor",
+      "description": "Capturar un nuevo proveedor."
+    },
+    "createServiceEntry": {
+      "title": "Registrar servicio",
+      "description": "Crear una nueva entrada de servicio."
+    }
+  },
+  "workspaces": {
+    "users": {
+      "title": "Usuarios",
+      "description": "Administrar usuarios, invitaciones y asignación de acceso."
+    },
+    "customers": {
+      "title": "Clientes",
+      "description": "Consultar y mantener perfiles fiscales de clientes."
+    },
+    "providers": {
+      "title": "Proveedores",
+      "description": "Revisar y actualizar información de proveedores."
+    },
+    "serviceEntries": {
+      "title": "Registro de servicios",
+      "description": "Dar seguimiento a órdenes y entradas de servicio."
+    },
+    "serviceEntrySurveys": {
+      "title": "Encuestas de servicio",
+      "description": "Consultar satisfacción y resultados de encuestas."
+    },
+    "servicePackages": {
+      "title": "Recolección",
+      "description": "Gestionar archivos recolectados y paquetes asociados."
+    }
+  },
+  "profileCard": {
+    "title": "Tu perfil",
+    "description": "Revisa tus datos de cuenta y actualiza tu información personal.",
+    "cta": "Ir a mi perfil"
+  },
+  "emptyState": {
+    "description": "Tu acceso actual es limitado. Usa el menú lateral para entrar a las superficies disponibles o revisa tu perfil."
+  }
 }

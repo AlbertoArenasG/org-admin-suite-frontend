@@ -45,7 +45,7 @@
       Status: done
 
 - [ ] Migrar dashboard a composicion dinamica basada en acceso real
-      Status: pending
+      Status: done
 
 - [ ] Migrar checks legacy restantes en tablas, forms y actions
       Status: done
