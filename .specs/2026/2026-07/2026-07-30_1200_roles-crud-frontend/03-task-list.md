@@ -10,17 +10,17 @@
 
 ## Phase 2. Data And State Foundation
 
-- [ ] Crear `src/features/roles/*` con tipos, thunks y slice
-      Status: pending
+- [x] Crear `src/features/roles/*` con tipos, thunks y slice
+      Status: done
 
-- [ ] Integrar catalogos de modulos y operaciones del backend
-      Status: pending
+- [x] Integrar catalogos de modulos y operaciones del backend
+      Status: done
 
-- [ ] Modelar request/response del CRUD sin duplicar reglas del backend
-      Status: pending
+- [x] Modelar request/response del CRUD sin duplicar reglas del backend
+      Status: done
 
-- [ ] Registrar el slice de roles en `src/store/store.ts`
-      Status: pending
+- [x] Registrar el slice de roles en `src/store/store.ts`
+      Status: done
 
 ## Phase 3. Core UI
 

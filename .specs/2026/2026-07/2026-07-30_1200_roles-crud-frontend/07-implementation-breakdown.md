@@ -43,6 +43,10 @@ Done when:
 - el store reconoce el slice del módulo
 - el shape del estado ya soporta listado, detalle, catálogos y mutaciones
 
+Status actual:
+
+- implementado
+
 ## Slice 2. Data Flows
 
 ### Objective
@@ -81,6 +85,10 @@ Done when:
 - el feature consume `GET /v1/roles/modules`
 - el feature consume `GET /v1/roles/operations`
 - las mutaciones ya escriben con el shape correcto sin duplicar reglas del backend
+
+Status actual:
+
+- implementado
 
 ## Slice 3. Roles List
 
