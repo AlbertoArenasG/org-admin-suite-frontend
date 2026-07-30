@@ -49,3 +49,12 @@
 - Se corrigió el flujo de invitación de usuarios para consumir el catálogo de `GET /v1/users/roles` como fuente de verdad de opciones asignables, evitando un filtrado redundante en frontend que ocultaba `ADMIN_DEFAULT` a actores `ADMIN`.
 - El estado de roles disponibles en frontend ahora persiste también `systemRole` explícito por opción, y los flujos de invitación y edición dejaron de inferir el rol estructural desde `roleScope`.
 - Se corrigió también el selector de roles en edición de usuario para reflejar la regla estructural vigente de backend: `ADMIN` puede asignar `ADMIN` y `USER`, aunque siga sin poder gestionar objetivos `MASTER_ADMIN`.
+
+## 2026-07-30
+
+- Se auditó la spec activa de frontend contra el estado real del código y se corrigió la desalineación principal de `03-task-list.md`, donde varias tareas ya implementadas seguían con checkbox abierto.
+- Se confirmó por búsqueda sobre `src/` que ya no quedan consumidores funcionales del modelo legacy (`parseUserRole()`, `getComparableLegacyRole()`, `canManageRole()`, `canInviteRole()` ni `USER_ROLE_LIST`) dentro del alcance de este refactor.
+- Se confirmó que la persistencia de auth ya sigue el diseño objetivo: solo persiste `token + user`, mientras `authorization` se hidrata desde backend y no se guarda como fuente local.
+- `npm run typecheck` y `npm run lint` siguieron pasando durante esta auditoría del frontend.
+- El residuo técnico visible que sigue existiendo en `features/services/*` quedó ratificado como fuera del alcance de esta iniciativa.
+- Con esta revisión, el spec de frontend quedó reducido a un pendiente real de cierre: verificar funcionalmente rutas, auth y acciones principales después de la migración, y luego decidir el cierre formal del spec.
