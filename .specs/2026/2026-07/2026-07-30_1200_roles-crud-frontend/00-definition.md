@@ -44,11 +44,22 @@ El backend ya está suficientemente aterrizado y el dominio no gana mucho valor 
 
 ### Decision Final
 
-Pendiente.
+Se aprueba que esta iniciativa entregue el CRUD funcional completo del módulo de roles en frontend.
+
+El alcance incluye:
+
+- listado
+- detalle
+- creación
+- edición
+- cambio de status
+- delete
+
+La implementación debe hacerse por slices pequeños, pero la iniciativa no se cerrará dejando el módulo a medias.
 
 ### Status
 
-pending
+approved
 
 ---
 
@@ -78,11 +89,21 @@ Es la estructura más mantenible para un módulo administrativo. Permite reutili
 
 ### Decision Final
 
-Pendiente.
+Se aprueba que el módulo de roles siga el patrón estructural ya existente en el proyecto.
+
+La estructura aprobada es:
+
+- rutas separadas para listado, detalle, create y edit
+- formulario compartido para create/edit
+- feature dedicado del módulo en `src/features/roles/*`
+- páginas del `app/` enfocadas en composición y routing
+- componentes de UI separados, evitando archivos gigantes
+
+No se aprueba introducir una arquitectura nueva ni una pantalla única multipropósito si eso rompe el patrón actual del repo.
 
 ### Status
 
-pending
+approved
 
 ---
 
@@ -112,11 +133,19 @@ El CRUD de roles tiene listados paginados, detalle, mutaciones y catálogos auxi
 
 ### Decision Final
 
-Pendiente.
+Se aprueba que el estado del módulo de roles viva en un feature dedicado, siguiendo el patrón existente del proyecto.
+
+La estructura aprobada es:
+
+- `src/features/roles/types.ts`
+- `src/features/roles/rolesThunks.ts`
+- `src/features/roles/rolesSlice.ts`
+
+Los componentes y páginas del módulo consumirán ese feature, en lugar de repartir la lógica entre estado local improvisado o stores alternos.
 
 ### Status
 
-pending
+approved
 
 ---
 
@@ -146,11 +175,27 @@ El backend ya expone catálogos de módulos y operaciones. Lo natural en fronten
 
 ### Decision Final
 
-Pendiente.
+Se aprueba que la edición de permisos del rol se construya agrupando permisos por módulo.
+
+La UI aprobada es:
+
+- una fila o bloque por módulo
+- nombre del módulo visible
+- operaciones representadas como chips o tags togglables dentro de ese módulo
+
+El payload final hacia backend se construirá desde esa matriz visual `módulo -> operaciones`.
+
+La UI debe dejar claro:
+
+- cuándo una operación está activa
+- cuándo una operación está inactiva
+- cuándo una operación no aplica o está deshabilitada
+
+No se aprueba una lista plana caótica de permisos sin agrupación por módulo.
 
 ### Status
 
-pending
+approved
 
 ---
 
@@ -180,8 +225,26 @@ Conviene usar la metadata real del rol para que la UI no ofrezca acciones invál
 
 ### Decision Final
 
-Pendiente.
+Se aprueba que esta iniciativa cubra el CRUD de roles custom mutables y no introduzca flows especiales para roles protegidos del sistema.
+
+Reglas aprobadas:
+
+- los roles custom del módulo son mutables
+- no son `isSystem`
+- no son `isDefault`
+- no son `isImmutable`
+
+Si el backend devuelve roles protegidos en el listado o en detalle, frontend deberá:
+
+- mostrarlos en UI para visibilidad y contexto
+- permitir inspeccionar su información
+- tratarlos como bloqueados o solo lectura
+- ocultar o deshabilitar acciones de mutación como edit, change status o delete
+
+Esto aplica a cualquier rol devuelto por backend que tenga metadata de protección, incluyendo casos como `MASTER_ADMIN_DEFAULT` o `ADMIN_DEFAULT`.
+
+La creación o mutación especial de roles del sistema queda fuera del alcance de esta iniciativa.
 
 ### Status
 
-pending
+approved
