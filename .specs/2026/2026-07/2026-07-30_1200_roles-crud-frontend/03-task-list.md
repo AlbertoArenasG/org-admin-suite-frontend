@@ -30,14 +30,14 @@
 - [ ] Implementar detalle de rol
       Status: pending
 
-- [ ] Implementar formulario compartido para crear y editar roles
-      Status: pending
+- [x] Implementar formulario compartido para crear y editar roles
+      Status: done
 
 - [ ] Integrar cambio de status y delete con restricciones visuales coherentes
       Status: pending
 
-- [ ] Implementar el editor de permisos por modulo con chips togglables y dependencia automatica de `READ`
-      Status: pending
+- [x] Implementar el editor de permisos por modulo con chips togglables y dependencia automatica de `READ`
+      Status: done
 
 ## Phase 4. Navigation And Validation
 

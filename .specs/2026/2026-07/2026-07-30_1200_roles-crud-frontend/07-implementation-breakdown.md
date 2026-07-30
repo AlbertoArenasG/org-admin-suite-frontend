@@ -175,6 +175,10 @@ Done when:
 - los permisos se editan por módulo con chips
 - la dependencia automática de `READ` ya funciona
 
+Status actual:
+
+- implementado
+
 ## Slice 5. Detail And Mutations
 
 ### Objective

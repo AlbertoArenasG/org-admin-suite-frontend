@@ -28,6 +28,39 @@
     "previous": "Previous",
     "next": "Next"
   },
+  "form": {
+    "labels": {
+      "name": "Role name",
+      "permissions": "Permissions"
+    },
+    "placeholders": {
+      "name": "Ex. MX Analyst"
+    },
+    "errors": {
+      "nameRequired": "Role name is required.",
+      "permissionsRequired": "You must activate at least one permission."
+    },
+    "hints": {
+      "nameCreate": "Backend will generate the technical code internally from this creation flow.",
+      "nameImmutable": "Name is not part of the current update endpoint; this flow only updates permissions.",
+      "permissionsHelper": "Enable operations per module. If you enable an operation other than read, `READ` will be enabled automatically.",
+      "readDependency": "While another operation stays active in this module, `READ` remains enabled automatically."
+    },
+    "cancel": "Cancel",
+    "submitting": "Saving...",
+    "submit": {
+      "create": "Create role",
+      "edit": "Save changes"
+    },
+    "success": {
+      "create": "Role created successfully.",
+      "edit": "Role updated successfully."
+    },
+    "error": {
+      "create": "Unable to create the role.",
+      "edit": "Unable to update the role."
+    }
+  },
   "badges": {
     "system": "System",
     "default": "Default",
@@ -62,5 +95,13 @@
   "pending": {
     "title": "Pending view",
     "description": "This route is already enabled inside the module flow, but its functional implementation will be completed in the next slice."
+  },
+  "edit": {
+    "subtitle": "Adjust permissions and operational restrictions for the selected role.",
+    "restricted": "You do not have permission to edit this role.",
+    "immutable": "This role is protected by the system and can only be viewed in read-only mode."
+  },
+  "create": {
+    "subtitle": "Define a new user-scope custom role and choose its permissions."
   }
 }

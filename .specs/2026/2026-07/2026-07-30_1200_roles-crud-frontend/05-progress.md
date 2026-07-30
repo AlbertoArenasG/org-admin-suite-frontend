@@ -16,3 +16,9 @@
 - Se agregaron namespaces y textos base de `roles` a i18n, además de breadcrumbs y labels mínimos para soportar la nueva ruta.
 - Se dejaron cascarones mínimos para `new`, `detail` y `edit` únicamente para evitar navegación rota mientras se implementan los siguientes slices funcionales.
 - `npm run typecheck` y `npm run lint` siguieron pasando después del corte de `Slice 3`.
+- Se implementó el `Slice 4` reemplazando los cascarones de `new` y `edit` por flujos reales con `RoleForm` compartido.
+- El formulario ya consume catálogos de módulos y operaciones del backend y serializa permisos al shape `Array<{ module, operation }>` requerido por la API.
+- El editor de permisos quedó agrupado por módulo con chips togglables por operación y con dependencia automática de `READ` cuando se activan operaciones no-lectura.
+- El flujo de edición respeta el contrato actual del backend: `name` se muestra como no editable y solo se actualizan permisos.
+- Los roles protegidos en edición quedan visibles, pero en modo solo lectura cuando su metadata indica que no son mutables.
+- `npm run typecheck` y `npm run lint` siguieron pasando después del corte de `Slice 4`.

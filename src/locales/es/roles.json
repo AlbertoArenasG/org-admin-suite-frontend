@@ -28,6 +28,39 @@
     "previous": "Anterior",
     "next": "Siguiente"
   },
+  "form": {
+    "labels": {
+      "name": "Nombre del rol",
+      "permissions": "Permisos"
+    },
+    "placeholders": {
+      "name": "Ej. Analista MX"
+    },
+    "errors": {
+      "nameRequired": "El nombre del rol es obligatorio.",
+      "permissionsRequired": "Debes activar al menos un permiso."
+    },
+    "hints": {
+      "nameCreate": "El backend generará internamente el código técnico a partir de esta alta.",
+      "nameImmutable": "El nombre no forma parte del endpoint actual de edición; en este flujo solo se actualizan permisos.",
+      "permissionsHelper": "Activa operaciones por módulo. Si activas una operación distinta de leer, `READ` se activará automáticamente.",
+      "readDependency": "Mientras exista otra operación activa en este módulo, `READ` queda activo automáticamente."
+    },
+    "cancel": "Cancelar",
+    "submitting": "Guardando...",
+    "submit": {
+      "create": "Crear rol",
+      "edit": "Guardar cambios"
+    },
+    "success": {
+      "create": "Rol creado correctamente.",
+      "edit": "Rol actualizado correctamente."
+    },
+    "error": {
+      "create": "No fue posible crear el rol.",
+      "edit": "No fue posible actualizar el rol."
+    }
+  },
   "badges": {
     "system": "Sistema",
     "default": "Default",
@@ -62,5 +95,13 @@
   "pending": {
     "title": "Vista pendiente",
     "description": "Esta ruta ya quedó habilitada dentro del flujo del módulo, pero su implementación funcional se completará en el siguiente slice."
+  },
+  "edit": {
+    "subtitle": "Ajusta permisos y restricciones operativas del rol seleccionado.",
+    "restricted": "No cuentas con permiso para editar este rol.",
+    "immutable": "Este rol es protegido por el sistema y solo puede consultarse en modo lectura."
+  },
+  "create": {
+    "subtitle": "Define un nuevo rol custom de scope usuario y selecciona sus permisos."
   }
 }
