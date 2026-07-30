@@ -248,3 +248,57 @@ La creación o mutación especial de roles del sistema queda fuera del alcance d
 ### Status
 
 approved
+
+---
+
+## Decision 06. Regla base de acceso al módulo y dependencia de `READ`
+
+### Context
+
+El módulo de roles tiene dos decisiones relacionadas:
+
+- qué permiso permite siquiera ver o entrar al módulo
+- cómo evitar combinaciones incoherentes al editar permisos por módulo
+
+Si un usuario tuviera solo `ROLES/CREATE` pero no `ROLES/READ`, la experiencia del módulo quedaría inconsistente. Además, en el editor de permisos conviene evitar combinaciones como `CREATE` o `DELETE` sin `READ`.
+
+### Options
+
+1. Permitir acceso al módulo con cualquier permiso `ROLES/*` y dejar operaciones totalmente libres
+2. Exigir `ROLES/READ` para entrar al módulo y hacer `READ` dependiente de cualquier operación no-`READ` dentro del editor
+3. Exigir `ROLES/READ` para entrar al módulo, pero dejar libre la combinación interna de permisos
+
+### Recommendation
+
+Opcion 2.
+
+`ROLES/READ` debe ser el permiso base de entrada al módulo. `CREATE`, `UPDATE` y `DELETE` deben habilitar acciones dentro del módulo, pero no bastan por sí solos para mostrar navegación o listado.
+
+En el editor de permisos, `READ` debe activarse automáticamente si el usuario habilita cualquier otra operación dentro del mismo módulo, y no debe poder desactivarse mientras exista otra operación activa.
+
+### Implications
+
+- el sidebar y las rutas del módulo dependen de `ROLES/READ`
+- la UX del editor de permisos necesita una regla automática y visible
+- se evita persistir combinaciones semánticamente débiles como `DELETE` sin `READ`
+
+### Decision Final
+
+Se aprueba exigir `ROLES/READ` como permiso base para ver y entrar al módulo de roles.
+
+Reglas aprobadas:
+
+- `ROLES/CREATE` no basta por sí solo para mostrar el módulo
+- `ROLES/UPDATE` no basta por sí solo para mostrar el módulo
+- `ROLES/DELETE` no basta por sí solo para mostrar el módulo
+- el acceso visible al módulo requiere `ROLES/READ`
+
+En el editor de permisos por módulo:
+
+- si se activa cualquier operación distinta de `READ`, `READ` se activa automáticamente
+- `READ` no puede desactivarse mientras exista otra operación activa en ese mismo módulo
+- si `READ` es la única operación activa, sí puede desactivarse manualmente
+
+### Status
+
+approved

@@ -2,11 +2,11 @@
 
 ## Phase 1. Definition And Contracts
 
-- [ ] Cerrar decisiones criticas del CRUD de roles
-      Status: pending
+- [x] Cerrar decisiones criticas del CRUD de roles
+      Status: done
 
-- [ ] Aterrizar rutas, contratos HTTP y shape del estado frontend
-      Status: pending
+- [x] Aterrizar rutas, contratos HTTP y shape del estado frontend
+      Status: done
 
 ## Phase 2. Data And State Foundation
 
@@ -17,6 +17,9 @@
       Status: pending
 
 - [ ] Modelar request/response del CRUD sin duplicar reglas del backend
+      Status: pending
+
+- [ ] Registrar el slice de roles en `src/store/store.ts`
       Status: pending
 
 ## Phase 3. Core UI
@@ -33,6 +36,9 @@
 - [ ] Integrar cambio de status y delete con restricciones visuales coherentes
       Status: pending
 
+- [ ] Implementar el editor de permisos por modulo con chips togglables y dependencia automatica de `READ`
+      Status: pending
+
 ## Phase 4. Navigation And Validation
 
 - [ ] Integrar acceso al modulo en navegacion segun permisos
@@ -42,4 +48,7 @@
       Status: pending
 
 - [ ] Actualizar docs frontend relacionadas si aplica
+      Status: pending
+
+- [ ] Actualizar progreso y breakdown conforme se cierre cada slice
       Status: pending
