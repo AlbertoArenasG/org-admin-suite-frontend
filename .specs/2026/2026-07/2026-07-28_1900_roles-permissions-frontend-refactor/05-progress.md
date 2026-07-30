@@ -58,3 +58,5 @@
 - `npm run typecheck` y `npm run lint` siguieron pasando durante esta auditoría del frontend.
 - El residuo técnico visible que sigue existiendo en `features/services/*` quedó ratificado como fuera del alcance de esta iniciativa.
 - Con esta revisión, el spec de frontend quedó reducido a un pendiente real de cierre: verificar funcionalmente rutas, auth y acciones principales después de la migración, y luego decidir el cierre formal del spec.
+- Se registró como completada la validación manual final de rutas, auth y acciones principales del frontend después de la migración.
+- El spec de frontend `roles-permissions-frontend-refactor` quedó formalmente cerrado el `2026-07-30`.

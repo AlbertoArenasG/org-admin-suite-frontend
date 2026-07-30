@@ -318,4 +318,5 @@ Done when:
 
 - `Slice 1` a `Slice 6` quedaron implementados en código según la auditoría del `2026-07-30`.
 - No se detectaron consumidores funcionales activos del modelo legacy dentro del alcance directo de esta iniciativa.
-- El pendiente real restante para cerrar la iniciativa es validar funcionalmente rutas, auth y acciones principales después de la migración y registrar ese cierre en la spec.
+- La validación funcional final de rutas, auth y acciones principales quedó registrada como completada.
+- La iniciativa quedó formalmente cerrada el `2026-07-30`.
