@@ -24,12 +24,20 @@
     "createServiceEntry": {
       "title": "Create service entry",
       "description": "Open a new service entry."
+    },
+    "createRole": {
+      "title": "Create role",
+      "description": "Define a new custom role and configure its permissions."
     }
   },
   "workspaces": {
     "users": {
       "title": "Users",
       "description": "Manage users, invitations, and access assignment."
+    },
+    "roles": {
+      "title": "Roles",
+      "description": "Manage custom roles, permissions, and operational restrictions."
     },
     "customers": {
       "title": "Customers",

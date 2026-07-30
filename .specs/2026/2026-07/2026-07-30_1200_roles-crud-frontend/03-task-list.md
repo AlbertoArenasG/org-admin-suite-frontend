@@ -41,14 +41,14 @@
 
 ## Phase 4. Navigation And Validation
 
-- [ ] Integrar acceso al modulo en navegacion segun permisos
-      Status: pending
+- [x] Integrar acceso al modulo en navegacion segun permisos
+      Status: done
 
 - [ ] Verificar rutas, auth y acciones principales del modulo
-      Status: pending
+      Status: in progress
 
-- [ ] Actualizar docs frontend relacionadas si aplica
-      Status: pending
+- [x] Actualizar docs frontend relacionadas si aplica
+      Status: done
 
 - [x] Actualizar progreso y breakdown conforme se cierre cada slice
       Status: done

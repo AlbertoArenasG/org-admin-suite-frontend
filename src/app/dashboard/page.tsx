@@ -7,6 +7,7 @@ import {
   ChartColumn,
   Package,
   ShieldCheck,
+  ShieldPlus,
   Truck,
   UserRound,
   Users,
@@ -78,6 +79,17 @@ export default function DashboardPage() {
           },
         ]
       : []),
+    ...(hasPermission('ROLES', 'CREATE')
+      ? [
+          {
+            key: 'create-role',
+            title: t('quickActions.createRole.title'),
+            description: t('quickActions.createRole.description'),
+            href: '/dashboard/roles/new',
+            icon: ShieldPlus,
+          },
+        ]
+      : []),
   ];
 
   const workspaceItems: DashboardLinkItem[] = [
@@ -88,6 +100,17 @@ export default function DashboardPage() {
             title: t('workspaces.users.title'),
             description: t('workspaces.users.description'),
             href: '/dashboard/users',
+            icon: ShieldCheck,
+          },
+        ]
+      : []),
+    ...(hasPermission('ROLES', 'READ')
+      ? [
+          {
+            key: 'roles',
+            title: t('workspaces.roles.title'),
+            description: t('workspaces.roles.description'),
+            href: '/dashboard/roles',
             icon: ShieldCheck,
           },
         ]

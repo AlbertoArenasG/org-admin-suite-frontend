@@ -12,6 +12,7 @@ import {
   PlusCircle,
   Archive,
   Truck,
+  ShieldCheck,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -99,6 +100,32 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
                   url: '/dashboard/users/invite',
                   isActive: pathname === '/dashboard/users/invite',
                   icon: UserPlus2,
+                },
+              ]
+            : []),
+        ],
+      });
+    }
+
+    if (hasPermission('ROLES', 'READ')) {
+      items.push({
+        title: t('roles'),
+        url: '/dashboard/roles',
+        icon: ShieldCheck,
+        isActive: pathname.startsWith('/dashboard/roles'),
+        items: [
+          {
+            title: t('rolesList'),
+            url: '/dashboard/roles',
+            isActive: pathname === '/dashboard/roles',
+          },
+          ...(hasPermission('ROLES', 'CREATE')
+            ? [
+                {
+                  title: t('rolesCreate', { defaultValue: 'Crear rol' }),
+                  url: '/dashboard/roles/new',
+                  isActive: pathname === '/dashboard/roles/new',
+                  icon: PlusCircle,
                 },
               ]
             : []),

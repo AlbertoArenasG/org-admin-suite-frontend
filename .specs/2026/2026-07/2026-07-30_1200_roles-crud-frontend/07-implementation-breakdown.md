@@ -257,3 +257,9 @@ Done when:
 - el módulo aparece en navegación solo para quien tenga `ROLES/READ`
 - create/update/delete respetan permisos funcionales
 - la spec queda actualizada al estado real de implementación
+
+Status actual:
+
+- navegación implementada
+- validación automática completada con `typecheck` y `lint`
+- validación manual end-to-end pendiente

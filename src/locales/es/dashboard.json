@@ -24,12 +24,20 @@
     "createServiceEntry": {
       "title": "Registrar servicio",
       "description": "Crear una nueva entrada de servicio."
+    },
+    "createRole": {
+      "title": "Crear rol",
+      "description": "Definir un nuevo rol custom y configurar sus permisos."
     }
   },
   "workspaces": {
     "users": {
       "title": "Usuarios",
       "description": "Administrar usuarios, invitaciones y asignación de acceso."
+    },
+    "roles": {
+      "title": "Roles",
+      "description": "Administrar roles custom, permisos y restricciones operativas."
     },
     "customers": {
       "title": "Clientes",
