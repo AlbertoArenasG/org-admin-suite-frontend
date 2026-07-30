@@ -219,6 +219,10 @@ Done when:
 - status y delete funcionan para roles mutables
 - roles protegidos se muestran como bloqueados/solo lectura
 
+Status actual:
+
+- implementado
+
 ## Slice 6. Navigation And Final Validation
 
 ### Objective

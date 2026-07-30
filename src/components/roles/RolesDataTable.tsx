@@ -11,6 +11,14 @@ import { Button } from '@/components/ui/button';
 import type { RolesTableRow } from '@/components/roles/types';
 import { RolesTableToolbar } from '@/components/roles/RolesTableToolbar';
 import { RolesDeleteDialog } from '@/components/roles/RolesDeleteDialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 interface RolesDataTableProps {
   table: Table<RolesTableRow>;
@@ -38,6 +46,19 @@ interface RolesDataTableProps {
       confirm: string;
     };
   };
+  statusDialog: {
+    open: boolean;
+    role: RolesTableRow | null;
+    onOpenChange: (open: boolean) => void;
+    onConfirm: () => void;
+    isLoading?: boolean;
+    labels: {
+      title: string;
+      description: string;
+      cancel: string;
+      confirm: string;
+    };
+  };
   tableLabels: {
     noData: string;
     pagination: {
@@ -60,6 +81,7 @@ export function RolesDataTable({
   searchPlaceholder,
   columnLabel,
   deleteDialog,
+  statusDialog,
   tableLabels,
 }: RolesDataTableProps) {
   return (
@@ -188,6 +210,31 @@ export function RolesDataTable({
       </div>
 
       <RolesDeleteDialog {...deleteDialog} />
+      <Dialog open={statusDialog.open} onOpenChange={statusDialog.onOpenChange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{statusDialog.labels.title}</DialogTitle>
+            <DialogDescription>{statusDialog.labels.description}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => statusDialog.onOpenChange(false)}
+              disabled={statusDialog.isLoading}
+            >
+              {statusDialog.labels.cancel}
+            </Button>
+            <Button
+              type="button"
+              onClick={statusDialog.onConfirm}
+              disabled={statusDialog.isLoading}
+            >
+              {statusDialog.labels.confirm}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Paper>
   );
 }

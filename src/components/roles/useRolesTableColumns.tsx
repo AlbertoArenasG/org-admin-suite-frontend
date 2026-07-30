@@ -17,6 +17,7 @@ interface UseRolesTableColumnsParams {
   dateFormatter: Intl.DateTimeFormat;
   canUpdate: boolean;
   canDelete: boolean;
+  onChangeStatus: (role: RolesTableRow) => void;
   onDelete: (role: RolesTableRow) => void;
 }
 
@@ -47,6 +48,7 @@ export function useRolesTableColumns({
   dateFormatter,
   canUpdate,
   canDelete,
+  onChangeStatus,
   onDelete,
 }: UseRolesTableColumnsParams) {
   return useMemo<ColumnDef<RolesTableRow>[]>(
@@ -149,11 +151,14 @@ export function useRolesTableColumns({
               role={row.original}
               canUpdate={canUpdate}
               canDelete={canDelete}
+              onChangeStatus={onChangeStatus}
               onDelete={onDelete}
               labels={{
                 menu: t('actions.openMenu'),
                 view: t('actions.view'),
                 edit: t('actions.edit'),
+                activate: t('actions.activate'),
+                deactivate: t('actions.deactivate'),
                 delete: t('actions.delete'),
               }}
             />
@@ -161,6 +166,6 @@ export function useRolesTableColumns({
         ),
       },
     ],
-    [canDelete, canUpdate, dateFormatter, onDelete, t]
+    [canDelete, canUpdate, dateFormatter, onChangeStatus, onDelete, t]
   );
 }

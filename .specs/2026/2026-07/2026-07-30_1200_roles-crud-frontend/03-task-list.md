@@ -27,14 +27,14 @@
 - [x] Implementar listado de roles
       Status: done
 
-- [ ] Implementar detalle de rol
-      Status: pending
+- [x] Implementar detalle de rol
+      Status: done
 
 - [x] Implementar formulario compartido para crear y editar roles
       Status: done
 
-- [ ] Integrar cambio de status y delete con restricciones visuales coherentes
-      Status: pending
+- [x] Integrar cambio de status y delete con restricciones visuales coherentes
+      Status: done
 
 - [x] Implementar el editor de permisos por modulo con chips togglables y dependencia automatica de `READ`
       Status: done

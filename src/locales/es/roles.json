@@ -28,6 +28,30 @@
     "previous": "Anterior",
     "next": "Siguiente"
   },
+  "detail": {
+    "title": "Detalle del rol",
+    "subtitle": "Consulta metadata estructural y permisos efectivos del rol.",
+    "notFound": "No pudimos encontrar este rol.",
+    "copyId": "Copiar role id",
+    "copySuccess": "Role id copiado correctamente.",
+    "copyError": "No fue posible copiar el role id.",
+    "fields": {
+      "roleId": "Role id",
+      "code": "Código",
+      "scope": "Scope",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "isSystem": "Sistema",
+      "isDefault": "Default",
+      "isImmutable": "Inmutable"
+    },
+    "permissionsTitle": "Permisos por módulo",
+    "permissionsEmpty": "Este rol no tiene permisos activos.",
+    "back": "Volver a roles",
+    "errorTitle": "No fue posible cargar el rol",
+    "retry": "Reintentar"
+  },
   "form": {
     "labels": {
       "name": "Nombre del rol",
@@ -88,9 +112,13 @@
     "error": "No fue posible eliminar el rol."
   },
   "statusChange": {
-    "activateSuccess": "Rol activado correctamente.",
-    "deactivateSuccess": "Rol desactivado correctamente.",
-    "error": "No fue posible actualizar el estado del rol."
+    "success": "Estado del rol actualizado correctamente.",
+    "error": "No fue posible actualizar el estado del rol.",
+    "activateTitle": "Activar rol",
+    "deactivateTitle": "Desactivar rol",
+    "activateDescription": "Esta acción activará el rol {{name}}.",
+    "deactivateDescription": "Esta acción desactivará el rol {{name}}.",
+    "cancel": "Cancelar"
   },
   "pending": {
     "title": "Vista pendiente",
@@ -103,5 +131,6 @@
   },
   "create": {
     "subtitle": "Define un nuevo rol custom de scope usuario y selecciona sus permisos."
-  }
+  },
+  "protectedHint": "Este rol está protegido por el sistema o por su metadata y no admite mutaciones ordinarias."
 }

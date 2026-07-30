@@ -28,6 +28,30 @@
     "previous": "Previous",
     "next": "Next"
   },
+  "detail": {
+    "title": "Role detail",
+    "subtitle": "Inspect structural metadata and effective role permissions.",
+    "notFound": "We could not find this role.",
+    "copyId": "Copy role id",
+    "copySuccess": "Role id copied successfully.",
+    "copyError": "Unable to copy the role id.",
+    "fields": {
+      "roleId": "Role id",
+      "code": "Code",
+      "scope": "Scope",
+      "status": "Status",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "isSystem": "System",
+      "isDefault": "Default",
+      "isImmutable": "Immutable"
+    },
+    "permissionsTitle": "Permissions by module",
+    "permissionsEmpty": "This role does not have active permissions.",
+    "back": "Back to roles",
+    "errorTitle": "Unable to load the role",
+    "retry": "Retry"
+  },
   "form": {
     "labels": {
       "name": "Role name",
@@ -88,9 +112,13 @@
     "error": "Unable to delete the role."
   },
   "statusChange": {
-    "activateSuccess": "Role activated successfully.",
-    "deactivateSuccess": "Role deactivated successfully.",
-    "error": "Unable to update role status."
+    "success": "Role status updated successfully.",
+    "error": "Unable to update role status.",
+    "activateTitle": "Activate role",
+    "deactivateTitle": "Deactivate role",
+    "activateDescription": "This action will activate role {{name}}.",
+    "deactivateDescription": "This action will deactivate role {{name}}.",
+    "cancel": "Cancel"
   },
   "pending": {
     "title": "Pending view",
@@ -103,5 +131,6 @@
   },
   "create": {
     "subtitle": "Define a new user-scope custom role and choose its permissions."
-  }
+  },
+  "protectedHint": "This role is protected by the system or by its metadata and does not allow ordinary mutations."
 }

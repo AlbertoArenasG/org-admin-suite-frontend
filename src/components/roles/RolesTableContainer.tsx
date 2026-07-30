@@ -18,6 +18,7 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAuthorization } from '@/features/auth';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { fetchRoles, deleteRole } from '@/features/roles/rolesThunks';
+import { changeRoleStatus } from '@/features/roles/rolesThunks';
 import { resetRoleMutations } from '@/features/roles';
 import {
   buildRolesQuery,
@@ -53,6 +54,7 @@ export function RolesTableContainer() {
   const globalFilter = useRolesTableStore((state) => state.globalFilter);
   const debouncedFilter = useRolesTableStore((state) => state.debouncedFilter);
   const deleteTarget = useRolesTableStore((state) => state.deleteTarget);
+  const statusTarget = useRolesTableStore((state) => state.statusTarget);
   const initialized = useRolesTableStore((state) => state.initialized);
 
   const setPaginationState = useRolesTableStore((state) => state.setPagination);
@@ -61,6 +63,7 @@ export function RolesTableContainer() {
   const setGlobalFilter = useRolesTableStore((state) => state.setGlobalFilter);
   const setDebouncedFilter = useRolesTableStore((state) => state.setDebouncedFilter);
   const setDeleteTarget = useRolesTableStore((state) => state.setDeleteTarget);
+  const setStatusTarget = useRolesTableStore((state) => state.setStatusTarget);
   const syncFromUrl = useRolesTableStore((state) => state.syncFromUrl);
   const resetTableStore = useRolesTableStore((state) => state.reset);
 
@@ -175,6 +178,7 @@ export function RolesTableContainer() {
         severity: 'success',
       });
       setDeleteTarget(null);
+      setStatusTarget(null);
       dispatch(resetRoleMutations());
       void dispatch(
         fetchRoles({
@@ -196,6 +200,36 @@ export function RolesTableContainer() {
       });
       dispatch(resetRoleMutations());
     }
+
+    if (mutationsState.changeStatusStatus === 'succeeded' && mutationsState.currentRoleId) {
+      showSnackbar({
+        message:
+          mutationsState.message ??
+          t('statusChange.success', { defaultValue: 'Estado del rol actualizado correctamente.' }),
+        severity: 'success',
+      });
+      setStatusTarget(null);
+      dispatch(resetRoleMutations());
+      void dispatch(
+        fetchRoles({
+          page: paginationState.pageIndex + 1,
+          limit: paginationState.pageSize,
+          search: debouncedFilter,
+          sorts: mapRoleSortingToApi(sorting),
+        })
+      );
+      return;
+    }
+
+    if (mutationsState.changeStatusStatus === 'failed') {
+      showSnackbar({
+        message:
+          mutationsState.error ??
+          t('statusChange.error', { defaultValue: 'No fue posible actualizar el estado del rol.' }),
+        severity: 'error',
+      });
+      dispatch(resetRoleMutations());
+    }
   }, [
     debouncedFilter,
     dispatch,
@@ -203,6 +237,7 @@ export function RolesTableContainer() {
     paginationState.pageIndex,
     paginationState.pageSize,
     setDeleteTarget,
+    setStatusTarget,
     showSnackbar,
     sorting,
     t,
@@ -225,6 +260,7 @@ export function RolesTableContainer() {
     dateFormatter,
     canUpdate,
     canDelete,
+    onChangeStatus: (role) => setStatusTarget(role),
     onDelete: (role) => setDeleteTarget(role),
   });
 
@@ -305,6 +341,44 @@ export function RolesTableContainer() {
           warning: t('delete.warning'),
           cancel: t('delete.cancel'),
           confirm: t('delete.confirm'),
+        },
+      }}
+      statusDialog={{
+        open: Boolean(statusTarget),
+        role: statusTarget,
+        isLoading: mutationsState.changeStatusStatus === 'loading',
+        onOpenChange: (open) => {
+          if (!open) {
+            setStatusTarget(null);
+          }
+        },
+        onConfirm: () => {
+          if (!statusTarget) {
+            return;
+          }
+          void dispatch(
+            changeRoleStatus({
+              roleId: statusTarget.roleId,
+              statusId: statusTarget.statusId === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE',
+            })
+          );
+        },
+        labels: {
+          title:
+            statusTarget?.statusId === 'ACTIVE'
+              ? t('statusChange.deactivateTitle')
+              : t('statusChange.activateTitle'),
+          description:
+            statusTarget?.statusId === 'ACTIVE'
+              ? t('statusChange.deactivateDescription', {
+                  name: statusTarget?.name ?? '—',
+                })
+              : t('statusChange.activateDescription', {
+                  name: statusTarget?.name ?? '—',
+                }),
+          cancel: t('statusChange.cancel'),
+          confirm:
+            statusTarget?.statusId === 'ACTIVE' ? t('actions.deactivate') : t('actions.activate'),
         },
       }}
       tableLabels={{

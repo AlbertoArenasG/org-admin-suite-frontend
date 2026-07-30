@@ -22,3 +22,8 @@
 - El flujo de edición respeta el contrato actual del backend: `name` se muestra como no editable y solo se actualizan permisos.
 - Los roles protegidos en edición quedan visibles, pero en modo solo lectura cuando su metadata indica que no son mutables.
 - `npm run typecheck` y `npm run lint` siguieron pasando después del corte de `Slice 4`.
+- Se implementó el `Slice 5` reemplazando el cascarón de detalle por una vista real con metadata estructural, permisos agrupados por módulo y acciones contextuales.
+- La mutación de `status` ya quedó integrada tanto en el listado como en la vista de detalle, con confirmación previa y bloqueo automático para roles protegidos.
+- La eliminación quedó disponible desde el detalle además del listado, reutilizando las mismas restricciones de mutabilidad y propagando errores backend si el rol sigue vinculado.
+- El detalle ahora carga catálogos auxiliares para mostrar nombres funcionales de módulos y operaciones en lugar de solo códigos.
+- `npm run typecheck` y `npm run lint` siguieron pasando después del corte de `Slice 5`.

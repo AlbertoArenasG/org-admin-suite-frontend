@@ -18,6 +18,7 @@ interface RolesTableStoreState {
   globalFilter: string;
   debouncedFilter: string;
   deleteTarget: RolesTableRow | null;
+  statusTarget: RolesTableRow | null;
   initialized: boolean;
 }
 
@@ -28,6 +29,7 @@ interface RolesTableStoreActions {
   setGlobalFilter: (updater: StringUpdater) => void;
   setDebouncedFilter: (value: string) => void;
   setDeleteTarget: (role: RolesTableRow | null) => void;
+  setStatusTarget: (role: RolesTableRow | null) => void;
   syncFromUrl: (state: {
     pagination: PaginationState;
     sorting: SortingState;
@@ -55,6 +57,7 @@ function createInitialState(): RolesTableStoreState {
     globalFilter: '',
     debouncedFilter: '',
     deleteTarget: null,
+    statusTarget: null,
     initialized: false,
   };
 }
@@ -113,6 +116,13 @@ export const useRolesTableStore = create<RolesTableStore>((set) => ({
         return state;
       }
       return { deleteTarget: role };
+    }),
+  setStatusTarget: (role) =>
+    set((state) => {
+      if (state.statusTarget === role) {
+        return state;
+      }
+      return { statusTarget: role };
     }),
   syncFromUrl: (nextState) => {
     let hasChanges = false;

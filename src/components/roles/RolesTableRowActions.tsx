@@ -15,11 +15,14 @@ interface RolesTableRowActionsProps {
   role: RolesTableRow;
   canUpdate: boolean;
   canDelete: boolean;
+  onChangeStatus: (role: RolesTableRow) => void;
   onDelete: (role: RolesTableRow) => void;
   labels: {
     menu: string;
     view: string;
     edit: string;
+    activate: string;
+    deactivate: string;
     delete: string;
   };
 }
@@ -28,10 +31,12 @@ export function RolesTableRowActions({
   role,
   canUpdate,
   canDelete,
+  onChangeStatus,
   onDelete,
   labels,
 }: RolesTableRowActionsProps) {
   const canMutate = !role.isImmutable && !role.isDefault;
+  const statusActionLabel = role.statusId === 'ACTIVE' ? labels.deactivate : labels.activate;
 
   return (
     <DropdownMenu>
@@ -62,6 +67,21 @@ export function RolesTableRowActions({
             >
               {labels.edit}
             </Link>
+          </DropdownMenuItem>
+        ) : null}
+        {canUpdate ? (
+          <DropdownMenuItem
+            disabled={!canMutate}
+            onSelect={(event) => {
+              if (!canMutate) {
+                event.preventDefault();
+                return;
+              }
+              event.preventDefault();
+              onChangeStatus(role);
+            }}
+          >
+            {statusActionLabel}
           </DropdownMenuItem>
         ) : null}
         {canDelete ? (
