@@ -4,6 +4,7 @@
   "customers": "Clientes",
   "providers": "Proveedores",
   "users": "Usuarios",
+  "roles": "Roles",
   "serviceEntries": "Registro de servicios",
   "serviceEntrySurveys": "Encuestas de servicio",
   "servicePackagesRecords": "Recolección"

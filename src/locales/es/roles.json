@@ -1,0 +1,66 @@
+{
+  "title": "Roles",
+  "subtitle": "Administra roles custom, permisos y restricciones operativas.",
+  "empty": "No hay roles para mostrar.",
+  "pagination": "Página {{page}} de {{pages}} · {{total}} roles",
+  "table": {
+    "columns": {
+      "name": "Rol",
+      "code": "Código",
+      "scope": "Scope",
+      "status": "Estado",
+      "type": "Tipo",
+      "createdAt": "Creado"
+    }
+  },
+  "actions": {
+    "create": "Crear rol",
+    "createDisabled": "Sin permiso para crear",
+    "openCreate": "Abrir creación de rol",
+    "openMenu": "Abrir menú de acciones del rol",
+    "view": "Ver detalle",
+    "edit": "Editar",
+    "activate": "Activar",
+    "deactivate": "Desactivar",
+    "delete": "Eliminar",
+    "searchPlaceholder": "Buscar roles...",
+    "manageColumns": "Administrar columnas",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "badges": {
+    "system": "Sistema",
+    "default": "Default",
+    "mutable": "Custom",
+    "immutable": "Protegido"
+  },
+  "scopes": {
+    "MASTER_ADMIN": "Master admin",
+    "ADMIN": "Administrador",
+    "USER": "Usuario"
+  },
+  "status": {
+    "ACTIVE": "Activo",
+    "INACTIVE": "Inactivo",
+    "DELETED": "Eliminado"
+  },
+  "restricted": "No cuentas con permiso `ROLES/READ` para consultar este módulo.",
+  "delete": {
+    "title": "Eliminar rol",
+    "description": "Esta acción eliminará el rol seleccionado.",
+    "warning": "Esta acción no se puede deshacer.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar rol",
+    "success": "Rol eliminado correctamente.",
+    "error": "No fue posible eliminar el rol."
+  },
+  "statusChange": {
+    "activateSuccess": "Rol activado correctamente.",
+    "deactivateSuccess": "Rol desactivado correctamente.",
+    "error": "No fue posible actualizar el estado del rol."
+  },
+  "pending": {
+    "title": "Vista pendiente",
+    "description": "Esta ruta ya quedó habilitada dentro del flujo del módulo, pero su implementación funcional se completará en el siguiente slice."
+  }
+}

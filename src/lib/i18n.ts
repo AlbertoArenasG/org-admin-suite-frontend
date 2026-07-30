@@ -8,6 +8,7 @@ import dashboardEn from '@/locales/en/dashboard.json';
 import customersEn from '@/locales/en/customers.json';
 import providersEn from '@/locales/en/providers.json';
 import usersEn from '@/locales/en/users.json';
+import rolesEn from '@/locales/en/roles.json';
 import serviceEntriesEn from '@/locales/en/serviceEntries.json';
 import publicServiceEntryEn from '@/locales/en/publicServiceEntry.json';
 import serviceEntrySurveysEn from '@/locales/en/serviceEntrySurveys.json';
@@ -23,6 +24,7 @@ import dashboardEs from '@/locales/es/dashboard.json';
 import customersEs from '@/locales/es/customers.json';
 import providersEs from '@/locales/es/providers.json';
 import usersEs from '@/locales/es/users.json';
+import rolesEs from '@/locales/es/roles.json';
 import serviceEntriesEs from '@/locales/es/serviceEntries.json';
 import publicServiceEntryEs from '@/locales/es/publicServiceEntry.json';
 import serviceEntrySurveysEs from '@/locales/es/serviceEntrySurveys.json';
@@ -45,6 +47,7 @@ const resources = {
     customers: customersEn,
     providers: providersEn,
     users: usersEn,
+    roles: rolesEn,
     serviceEntries: serviceEntriesEn,
     publicServiceEntry: publicServiceEntryEn,
     serviceEntrySurveys: serviceEntrySurveysEn,
@@ -62,6 +65,7 @@ const resources = {
     customers: customersEs,
     providers: providersEs,
     users: usersEs,
+    roles: rolesEs,
     serviceEntries: serviceEntriesEs,
     publicServiceEntry: publicServiceEntryEs,
     serviceEntrySurveys: serviceEntrySurveysEs,
@@ -105,6 +109,7 @@ export function initI18n(): I18nInstance {
         'customers',
         'providers',
         'users',
+        'roles',
         'serviceEntries',
         'publicServiceEntry',
         'serviceEntrySurveys',

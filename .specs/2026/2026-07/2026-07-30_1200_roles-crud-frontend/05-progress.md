@@ -10,3 +10,9 @@
 - El store global quedó actualizado para registrar `roles` como slice propio, siguiendo el patrón ya usado por módulos administrativos existentes.
 - El feature ya consume los endpoints de listado, detalle, create, update, status, delete, módulos y operaciones del backend, con normalización a `camelCase` y sin reintroducir contratos legacy.
 - `npm run typecheck` y `npm run lint` volvieron a pasar después de este corte de `Slice 1` y `Slice 2`.
+- Se implementó el `Slice 3` del listado de roles con ruta `src/app/dashboard/roles/page.tsx`, contenedor de tabla, búsqueda, sorts, paginación remota y acciones por fila alineadas al patrón existente del repo.
+- El listado ya respeta `ROLES/READ` para visibilidad, `ROLES/CREATE` para el CTA de alta y `ROLES/UPDATE` / `ROLES/DELETE` para acciones de fila.
+- Los roles protegidos siguen visibles en la tabla y quedan bloqueados para mutación desde la UI mediante su metadata (`is_immutable`, `is_default`, `is_system`).
+- Se agregaron namespaces y textos base de `roles` a i18n, además de breadcrumbs y labels mínimos para soportar la nueva ruta.
+- Se dejaron cascarones mínimos para `new`, `detail` y `edit` únicamente para evitar navegación rota mientras se implementan los siguientes slices funcionales.
+- `npm run typecheck` y `npm run lint` siguieron pasando después del corte de `Slice 3`.

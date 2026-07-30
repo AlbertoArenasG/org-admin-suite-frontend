@@ -1,0 +1,66 @@
+{
+  "title": "Roles",
+  "subtitle": "Manage custom roles, permissions, and operational restrictions.",
+  "empty": "There are no roles to display.",
+  "pagination": "Page {{page}} of {{pages}} · {{total}} roles",
+  "table": {
+    "columns": {
+      "name": "Role",
+      "code": "Code",
+      "scope": "Scope",
+      "status": "Status",
+      "type": "Type",
+      "createdAt": "Created"
+    }
+  },
+  "actions": {
+    "create": "Create role",
+    "createDisabled": "No permission to create",
+    "openCreate": "Open role creation",
+    "openMenu": "Open role actions menu",
+    "view": "View detail",
+    "edit": "Edit",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "delete": "Delete",
+    "searchPlaceholder": "Search roles...",
+    "manageColumns": "Manage columns",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "badges": {
+    "system": "System",
+    "default": "Default",
+    "mutable": "Custom",
+    "immutable": "Protected"
+  },
+  "scopes": {
+    "MASTER_ADMIN": "Master admin",
+    "ADMIN": "Administrator",
+    "USER": "User"
+  },
+  "status": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "DELETED": "Deleted"
+  },
+  "restricted": "You do not have `ROLES/READ` permission to view this module.",
+  "delete": {
+    "title": "Delete role",
+    "description": "This action will delete the selected role.",
+    "warning": "This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete role",
+    "success": "Role deleted successfully.",
+    "error": "Unable to delete the role."
+  },
+  "statusChange": {
+    "activateSuccess": "Role activated successfully.",
+    "deactivateSuccess": "Role deactivated successfully.",
+    "error": "Unable to update role status."
+  },
+  "pending": {
+    "title": "Pending view",
+    "description": "This route is already enabled inside the module flow, but its functional implementation will be completed in the next slice."
+  }
+}

@@ -24,8 +24,8 @@
 
 ## Phase 3. Core UI
 
-- [ ] Implementar listado de roles
-      Status: pending
+- [x] Implementar listado de roles
+      Status: done
 
 - [ ] Implementar detalle de rol
       Status: pending
@@ -50,5 +50,5 @@
 - [ ] Actualizar docs frontend relacionadas si aplica
       Status: pending
 
-- [ ] Actualizar progreso y breakdown conforme se cierre cada slice
-      Status: pending
+- [x] Actualizar progreso y breakdown conforme se cierre cada slice
+      Status: done

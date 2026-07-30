@@ -128,6 +128,10 @@ Done when:
 - el usuario con `ROLES/READ` puede ver roles
 - las acciones visibles respetan permiso y metadata del rol
 
+Status actual:
+
+- implementado
+
 ## Slice 4. Role Form
 
 ### Objective
@@ -146,6 +150,7 @@ Construir el formulario compartido de creación/edición con el editor de permis
 
 - construir formulario compartido
 - integrar `name`
+- aprovechar los cascarones de ruta ya creados en `new` y `edit`
 
 #### Slice 4.2. Editor de permisos
 
@@ -187,6 +192,7 @@ Construir la vista de detalle y cerrar las mutaciones ordinarias del módulo res
 
 - construir vista de detalle
 - mostrar metadata estructural y permisos agrupados
+- reemplazar el cascarón de ruta ya creado en `[roleId]/page.tsx`
 
 #### Slice 5.2. Status mutation
 
