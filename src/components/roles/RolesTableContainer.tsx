@@ -10,6 +10,7 @@ import {
 } from '@tanstack/react-table';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { RolesDataTable } from '@/components/roles/RolesDataTable';
+import { RolesTableSkeleton } from '@/components/roles/RolesTableSkeleton';
 import { useRolesTableColumns } from '@/components/roles/useRolesTableColumns';
 import { useRolesTableData } from '@/components/roles/useRolesTableData';
 import { useRolesTableStore } from '@/components/roles/useRolesTableStore';
@@ -306,6 +307,13 @@ export function RolesTableContainer() {
           total: listState.total,
         })
       : null;
+
+  const isInitialLoading =
+    !initialized || (listState.status === 'loading' && !listState.items.length && !listState.error);
+
+  if (isInitialLoading) {
+    return <RolesTableSkeleton columns={6} rows={8} />;
+  }
 
   return (
     <RolesDataTable
