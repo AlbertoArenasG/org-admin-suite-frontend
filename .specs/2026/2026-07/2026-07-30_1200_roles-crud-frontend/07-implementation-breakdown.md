@@ -260,6 +260,6 @@ Done when:
 
 Status actual:
 
-- navegación implementada
+- implementado
 - validación automática completada con `typecheck` y `lint`
-- validación manual end-to-end pendiente
+- validación manual end-to-end completada

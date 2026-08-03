@@ -44,8 +44,8 @@
 - [x] Integrar acceso al modulo en navegacion segun permisos
       Status: done
 
-- [ ] Verificar rutas, auth y acciones principales del modulo
-      Status: in progress
+- [x] Verificar rutas, auth y acciones principales del modulo
+      Status: done
 
 - [x] Actualizar docs frontend relacionadas si aplica
       Status: done

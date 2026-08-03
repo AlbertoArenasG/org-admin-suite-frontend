@@ -13,8 +13,8 @@ Regla de trabajo:
 ## Overall Status
 
 - Initiative: `roles-crud-frontend`
-- Definition status: `in_progress`
-- Implementation ready: `no`
+- Definition status: `completed`
+- Implementation ready: `yes`
 
 ---
 

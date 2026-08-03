@@ -30,4 +30,5 @@
 - Se integró el módulo `Roles` al sidebar real y al dashboard principal respetando `ROLES/READ` para visibilidad y `ROLES/CREATE` para CTA de alta.
 - La navegación ya apunta a listado, alta, detalle y edición sin rutas rotas dentro del dashboard.
 - `npm run typecheck` y `npm run lint` siguieron pasando después del corte de navegación del `Slice 6`.
-- Sigue pendiente únicamente la validación manual end-to-end en navegador para dar por cerrado el último checklist funcional de la spec.
+- Se confirmó la validación manual end-to-end del módulo y con eso quedó cerrado el checklist funcional restante de la iniciativa.
+- La spec `roles-crud-frontend` queda cerrada como referencia autosuficiente para futuras sesiones.
