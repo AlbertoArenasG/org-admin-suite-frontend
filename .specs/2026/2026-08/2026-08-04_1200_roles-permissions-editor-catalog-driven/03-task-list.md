@@ -16,25 +16,25 @@
 
 ## Phase 2. Implementation
 
-- [ ] Refactorizar el editor de permisos para renderizar solo operaciones válidas por módulo
-      Status: pending
+- [x] Refactorizar el editor de permisos para renderizar solo operaciones válidas por módulo
+      Status: done
 
-- [ ] Ajustar la regla automática de `READ` a los módulos donde realmente aplique y ocultarla donde no exista `READ`
-      Status: pending
+- [x] Ajustar la regla automática de `READ` a los módulos donde realmente aplique y ocultarla donde no exista `READ`
+      Status: done
 
-- [ ] Asegurar que create y edit serialicen solo combinaciones válidas sin reconstrucción cuadrada local
-      Status: pending
+- [x] Asegurar que create y edit serialicen solo combinaciones válidas sin reconstrucción cuadrada local
+      Status: done
 
-- [ ] Ajustar el layout visual para módulos con 1, 2, 4 o cualquier cardinalidad válida de operaciones
-      Status: pending
+- [x] Ajustar el layout visual para módulos con 1, 2, 4 o cualquier cardinalidad válida de operaciones
+      Status: done
 
 ## Phase 3. Validation
 
-- [ ] Validar create y edit con módulos no-CRUD como `USER_REGISTRATION_INVITATIONS`, `FILES`, `SERVICE_ENTRY_SURVEYS` y `SERVICE_PACKAGES`
-      Status: pending
+- [x] Validar create y edit con módulos no-CRUD como `USER_REGISTRATION_INVITATIONS`, `FILES`, `SERVICE_ENTRY_SURVEYS` y `SERVICE_PACKAGES`
+      Status: done
 
-- [ ] Verificar que la UI ya no permita enviar combinaciones inválidas que backend rechaza
-      Status: pending
+- [x] Verificar que la UI ya no permita enviar combinaciones inválidas que backend rechaza
+      Status: done
 
-- [ ] Actualizar progreso y breakdown al cierre
-      Status: pending
+- [x] Actualizar progreso y breakdown al cierre
+      Status: done

@@ -19,8 +19,35 @@ export function permissionsToSelection(permissions: RolePermission[]): Set<RoleP
   );
 }
 
-export function selectionToPermissions(selection: Set<RolePermissionKey>): RolePermission[] {
-  return Array.from(selection)
+export function buildValidPermissionKeySet(
+  modules: RoleModuleCatalogItem[]
+): Set<RolePermissionKey> {
+  return new Set(
+    modules.flatMap((module) =>
+      module.statusId === 'ACTIVE'
+        ? module.operations
+            .filter((operation) => operation.statusId === 'ACTIVE')
+            .map((operation) => buildPermissionKey(module.moduleCode, operation.operationCode))
+        : []
+    )
+  );
+}
+
+export function sanitizeSelection(
+  selection: Set<RolePermissionKey>,
+  modules: RoleModuleCatalogItem[]
+): Set<RolePermissionKey> {
+  const validKeys = buildValidPermissionKeySet(modules);
+  return new Set(Array.from(selection).filter((key) => validKeys.has(key)));
+}
+
+export function selectionToPermissions(
+  selection: Set<RolePermissionKey>,
+  modules?: RoleModuleCatalogItem[]
+): RolePermission[] {
+  const safeSelection = modules ? sanitizeSelection(selection, modules) : selection;
+
+  return Array.from(safeSelection)
     .map(parsePermissionKey)
     .sort((a, b) =>
       a.module === b.module

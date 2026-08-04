@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import type { RoleDetail, RoleModuleCatalogItem, RolePermission } from '@/features/roles/types';
 import { RolePermissionsEditor } from '@/components/roles/RolePermissionsEditor';
 import {
+  sanitizeSelection,
   permissionsToSelection,
   selectionToPermissions,
   togglePermissionSelection,
@@ -67,14 +68,22 @@ export function RoleForm({
     setSelection(permissionsToSelection(role?.permissions ?? []));
   }, [reset, role]);
 
+  useEffect(() => {
+    setSelection((current) => sanitizeSelection(current, modules));
+  }, [modules]);
+
   const effectiveSubmitting = isSubmitting || isFormSubmitting;
-  const hasAnyPermission = selection.size > 0;
+  const normalizedSelection = useMemo(
+    () => sanitizeSelection(selection, modules),
+    [selection, modules]
+  );
+  const hasAnyPermission = normalizedSelection.size > 0;
   const effectiveDisabled = disableActions || effectiveSubmitting;
 
   const submitHandler = handleSubmit((values) => {
     onSubmit({
       name: values.name.trim(),
-      permissions: selectionToPermissions(selection),
+      permissions: selectionToPermissions(selection, modules),
     });
   });
 
@@ -114,7 +123,7 @@ export function RoleForm({
 
         <RolePermissionsEditor
           modules={modules}
-          selection={selection}
+          selection={normalizedSelection}
           disabled={disableActions}
           onToggle={(moduleCode, operationCode) => {
             if (disableActions) {

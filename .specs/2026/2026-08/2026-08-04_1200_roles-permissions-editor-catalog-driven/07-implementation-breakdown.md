@@ -39,6 +39,10 @@ Done when:
 
 ## Slice 2. Catalog-Driven Editor
 
+Status:
+
+- completed
+
 ### Objective
 
 Refactorizar el editor para renderizar y serializar permisos solo desde el catálogo real devuelto por backend.
@@ -71,6 +75,10 @@ Done when:
 - el editor ya no puede producir combinaciones inválidas por diseño
 
 ## Slice 3. Validation And Closeout
+
+Status:
+
+- completed
 
 ### Objective
 
