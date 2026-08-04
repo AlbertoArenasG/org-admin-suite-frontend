@@ -93,3 +93,42 @@ Pendiente.
 ### Status
 
 pending
+
+---
+
+## Decision 03. Futuro de `GET /v1/roles/operations`
+
+### Context
+
+Si `GET /v1/roles/modules` pasa a devolver por módulo sus operaciones válidas, entonces `GET /v1/roles/operations` deja de ser necesario para el editor de permisos.
+
+Además, el catálogo de operaciones no vive en base de datos; hoy ya existe como código backend, así que no aporta una fuente dinámica independiente que justifique mantener un endpoint separado.
+
+### Options
+
+1. Mantener `GET /v1/roles/operations` como endpoint complementario aunque frontend ya no lo necesite
+2. Marcarlo como deprecated pero conservarlo temporalmente
+3. Eliminar `GET /v1/roles/operations` y usar solo `GET /v1/roles/modules` como contrato del editor
+
+### Recommendation
+
+Opcion 3.
+
+Si el despliegue de backend y frontend ocurrirá junto al cierre de esta iniciativa, no hay valor en sostener un endpoint redundante. Conviene simplificar el contrato y dejar una sola superficie fuente de verdad.
+
+### Implications
+
+- frontend dejará de consumir `GET /v1/roles/operations`
+- el editor de permisos dependerá solo de `GET /v1/roles/modules`
+- backend reducirá una superficie HTTP redundante
+- el shape del catálogo por módulo debe ser suficientemente completo para reemplazarlo
+
+### Decision Final
+
+Se aprueba eliminar `GET /v1/roles/operations`.
+
+El único contrato que frontend usará para construir el editor de permisos será `GET /v1/roles/modules`, ya enriquecido con las operaciones válidas de cada módulo.
+
+### Status
+
+approved
