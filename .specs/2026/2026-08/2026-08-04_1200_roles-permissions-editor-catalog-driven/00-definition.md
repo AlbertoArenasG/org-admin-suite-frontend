@@ -132,3 +132,60 @@ El único contrato que frontend usará para construir el editor de permisos ser�
 ### Status
 
 approved
+
+---
+
+## Decision 04. Shape exacto del catálogo enriquecido de módulos
+
+### Context
+
+Una vez aprobado que `GET /v1/roles/modules` sea la única fuente de verdad para el editor de permisos, todavía falta cerrar el shape exacto del payload enriquecido.
+
+### Options
+
+1. Agregar solo una lista de códigos de operación por módulo
+2. Agregar `operations[]` por módulo reutilizando el shape descriptivo completo de operación
+3. Agregar `operations[]` mínimo y obligar a frontend a resolver nombres localmente
+
+### Recommendation
+
+Opcion 2.
+
+Así frontend recibe por módulo la lista completa de operaciones válidas con el mismo nivel de metadata descriptiva que ya existía en el endpoint separado.
+
+### Implications
+
+- frontend no necesita resolver nombres ni keys por su cuenta
+- backend mantiene un contrato autosuficiente por módulo
+- la migración desde el endpoint separado de operaciones es directa
+
+### Decision Final
+
+Se aprueba que cada item de `GET /v1/roles/modules` incluya `operations[]` con el mismo shape descriptivo de operación que hoy expone el endpoint separado.
+
+Shape aprobado por módulo:
+
+```json
+{
+  "module_id": "USERS",
+  "module_code": "USERS",
+  "module_name": "Usuarios",
+  "module_name_key": "AUTHORIZATION.MODULE.USERS",
+  "status_id": "ACTIVE",
+  "is_system": true,
+  "operations": [
+    {
+      "operation_id": "CREATE",
+      "operation_code": "CREATE",
+      "operation_name": "Crear",
+      "operation_name_key": "AUTHORIZATION.OPERATION.CREATE",
+      "status_id": "ACTIVE",
+      "is_system": true
+    }
+  ]
+}
+```
+
+### Status
+
+approved
