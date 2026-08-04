@@ -16,12 +16,7 @@ import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { Spinner } from '@/components/ui/spinner';
 import { RoleForm, type RoleFormValues } from '@/components/roles/RoleForm';
 import { useAuthorization } from '@/features/auth';
-import {
-  fetchRoleById,
-  fetchRoleModules,
-  fetchRoleOperations,
-  updateRole,
-} from '@/features/roles/rolesThunks';
+import { fetchRoleById, fetchRoleModules, updateRole } from '@/features/roles/rolesThunks';
 import { resetRoleMutations } from '@/features/roles';
 
 export default function EditRolePage() {
@@ -50,11 +45,7 @@ export default function EditRolePage() {
     if (!catalogsState.modules.length) {
       void dispatch(fetchRoleModules());
     }
-
-    if (!catalogsState.operations.length) {
-      void dispatch(fetchRoleOperations());
-    }
-  }, [catalogsState.modules.length, catalogsState.operations.length, dispatch, params.roleId]);
+  }, [catalogsState.modules.length, dispatch, params.roleId]);
 
   useEffect(() => {
     return () => {
@@ -204,7 +195,6 @@ export default function EditRolePage() {
               mode="edit"
               role={role}
               modules={catalogsState.modules}
-              operations={catalogsState.operations}
               onSubmit={handleSubmit}
               onCancel={() => router.back()}
               isSubmitting={mutationsState.updateStatus === 'loading'}

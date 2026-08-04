@@ -29,7 +29,6 @@ import {
   deleteRole,
   fetchRoleById,
   fetchRoleModules,
-  fetchRoleOperations,
 } from '@/features/roles/rolesThunks';
 import { resetRoleDetail, resetRoleMutations } from '@/features/roles';
 import { groupRolePermissions } from '@/components/roles/roleDetailUtils';
@@ -96,15 +95,11 @@ export default function RoleDetailPage() {
       void dispatch(fetchRoleModules());
     }
 
-    if (!catalogsState.operations.length) {
-      void dispatch(fetchRoleOperations());
-    }
-
     return () => {
       dispatch(resetRoleDetail());
       dispatch(resetRoleMutations());
     };
-  }, [canRead, catalogsState.modules.length, catalogsState.operations.length, dispatch, roleId]);
+  }, [canRead, catalogsState.modules.length, dispatch, roleId]);
 
   useEffect(() => {
     if (mutationsState.deleteStatus === 'succeeded' && mutationsState.currentRoleId === roleId) {
@@ -217,7 +212,6 @@ export default function RoleDetailPage() {
     ? groupRolePermissions({
         permissions: role.permissions,
         modules: catalogsState.modules,
-        operations: catalogsState.operations,
       })
     : [];
 
@@ -256,8 +250,7 @@ export default function RoleDetailPage() {
 
   const isLoading =
     detailState.status === 'loading' ||
-    (catalogsState.status === 'loading' &&
-      (!catalogsState.modules.length || !catalogsState.operations.length));
+    (catalogsState.status === 'loading' && !catalogsState.modules.length);
   const hasError = detailState.status === 'failed' && Boolean(detailState.error);
 
   return (

@@ -1,8 +1,4 @@
-import type {
-  RoleModuleCatalogItem,
-  RoleOperationCatalogItem,
-  RolePermission,
-} from '@/features/roles/types';
+import type { RoleModuleCatalogItem, RolePermission } from '@/features/roles/types';
 
 export interface RolePermissionGroup {
   moduleCode: string;
@@ -16,13 +12,16 @@ export interface RolePermissionGroup {
 export function groupRolePermissions(params: {
   permissions: RolePermission[];
   modules: RoleModuleCatalogItem[];
-  operations: RoleOperationCatalogItem[];
 }) {
   const moduleNameByCode = new Map(
     params.modules.map((module) => [module.moduleCode, module.moduleName])
   );
   const operationNameByCode = new Map(
-    params.operations.map((operation) => [operation.operationCode, operation.operationName])
+    params.modules.flatMap((module) =>
+      module.operations.map(
+        (operation) => [operation.operationCode, operation.operationName] as const
+      )
+    )
   );
 
   const buckets = new Map<string, RolePermissionGroup>();

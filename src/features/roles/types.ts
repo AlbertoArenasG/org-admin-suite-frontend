@@ -40,15 +40,14 @@ export interface RoleModuleCatalogItem {
   moduleNameKey: string;
   statusId: string;
   isSystem: boolean;
-}
-
-export interface RoleOperationCatalogItem {
-  operationId: string;
-  operationCode: string;
-  operationName: string;
-  operationNameKey: string;
-  statusId: string;
-  isSystem: boolean;
+  operations: Array<{
+    operationId: string;
+    operationCode: string;
+    operationName: string;
+    operationNameKey: string;
+    statusId: string;
+    isSystem: boolean;
+  }>;
 }
 
 export interface RoleListFilters {
@@ -120,7 +119,6 @@ export interface RolesState {
   };
   catalogs: {
     modules: RoleModuleCatalogItem[];
-    operations: RoleOperationCatalogItem[];
     status: RequestStatus;
     error: string | null;
   };

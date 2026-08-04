@@ -1,8 +1,4 @@
-import type {
-  RoleModuleCatalogItem,
-  RoleOperationCatalogItem,
-  RolePermission,
-} from '@/features/roles/types';
+import type { RoleModuleCatalogItem, RolePermission } from '@/features/roles/types';
 
 export const READ_OPERATION_CODE = 'READ';
 
@@ -37,10 +33,12 @@ export function togglePermissionSelection(params: {
   current: Set<RolePermissionKey>;
   moduleCode: string;
   operationCode: string;
+  hasReadOperation?: boolean;
 }) {
   const next = new Set(params.current);
   const key = buildPermissionKey(params.moduleCode, params.operationCode);
   const readKey = buildPermissionKey(params.moduleCode, READ_OPERATION_CODE);
+  const hasReadOperation = params.hasReadOperation ?? true;
   const isActive = next.has(key);
   const isRead = params.operationCode === READ_OPERATION_CODE;
 
@@ -75,7 +73,7 @@ export function togglePermissionSelection(params: {
       );
     });
 
-    if (!stillHasNonReadActive) {
+    if (hasReadOperation && !stillHasNonReadActive) {
       next.delete(readKey);
     }
 
@@ -83,36 +81,17 @@ export function togglePermissionSelection(params: {
   }
 
   next.add(key);
-  next.add(readKey);
+  if (hasReadOperation) {
+    next.add(readKey);
+  }
   return next;
 }
 
-export function buildPermissionCatalog(params: {
-  modules: RoleModuleCatalogItem[];
-  operations: RoleOperationCatalogItem[];
-}) {
-  const operations = [...params.operations].sort((a, b) => {
-    const order = ['READ', 'CREATE', 'UPDATE', 'DELETE'];
-    const aIndex = order.indexOf(a.operationCode);
-    const bIndex = order.indexOf(b.operationCode);
-
-    if (aIndex >= 0 || bIndex >= 0) {
-      if (aIndex === -1) {
-        return 1;
-      }
-      if (bIndex === -1) {
-        return -1;
-      }
-      return aIndex - bIndex;
-    }
-
-    return a.operationCode.localeCompare(b.operationCode);
-  });
-
+export function buildPermissionCatalog(params: { modules: RoleModuleCatalogItem[] }) {
   return params.modules
     .filter((module) => module.statusId === 'ACTIVE')
     .map((module) => ({
       ...module,
-      operations: operations.filter((operation) => operation.statusId === 'ACTIVE'),
+      operations: module.operations.filter((operation) => operation.statusId === 'ACTIVE'),
     }));
 }

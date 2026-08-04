@@ -8,7 +8,6 @@ import {
   deleteRole,
   fetchRoleById,
   fetchRoleModules,
-  fetchRoleOperations,
   fetchRoles,
   updateRole,
 } from './rolesThunks';
@@ -39,7 +38,6 @@ const initialState: RolesState = {
   },
   catalogs: {
     modules: [],
-    operations: [],
     status: 'idle',
     error: null,
   },
@@ -162,22 +160,6 @@ const rolesSlice = createSlice({
           (action.payload as string | undefined) ??
           action.error.message ??
           'No fue posible obtener los módulos del rol';
-      })
-      .addCase(fetchRoleOperations.pending, (state) => {
-        state.catalogs.status = 'loading';
-        state.catalogs.error = null;
-      })
-      .addCase(fetchRoleOperations.fulfilled, (state, action) => {
-        state.catalogs.status = 'succeeded';
-        state.catalogs.error = null;
-        state.catalogs.operations = action.payload;
-      })
-      .addCase(fetchRoleOperations.rejected, (state, action) => {
-        state.catalogs.status = 'failed';
-        state.catalogs.error =
-          (action.payload as string | undefined) ??
-          action.error.message ??
-          'No fue posible obtener las operaciones del rol';
       })
       .addCase(createRole.pending, (state) => {
         state.mutations.createStatus = 'loading';

@@ -15,7 +15,7 @@ import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { Spinner } from '@/components/ui/spinner';
 import { RoleForm, type RoleFormValues } from '@/components/roles/RoleForm';
 import { useAuthorization } from '@/features/auth';
-import { createRole, fetchRoleModules, fetchRoleOperations } from '@/features/roles/rolesThunks';
+import { createRole, fetchRoleModules } from '@/features/roles/rolesThunks';
 import { resetRoleMutations } from '@/features/roles';
 
 export default function CreateRolePage() {
@@ -34,11 +34,7 @@ export default function CreateRolePage() {
     if (!catalogsState.modules.length) {
       void dispatch(fetchRoleModules());
     }
-
-    if (!catalogsState.operations.length) {
-      void dispatch(fetchRoleOperations());
-    }
-  }, [catalogsState.modules.length, catalogsState.operations.length, dispatch]);
+  }, [catalogsState.modules.length, dispatch]);
 
   useEffect(() => {
     return () => {
@@ -84,9 +80,7 @@ export default function CreateRolePage() {
     );
   };
 
-  const isLoadingCatalogs =
-    catalogsState.status === 'loading' &&
-    (!catalogsState.modules.length || !catalogsState.operations.length);
+  const isLoadingCatalogs = catalogsState.status === 'loading' && !catalogsState.modules.length;
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -152,7 +146,6 @@ export default function CreateRolePage() {
           <RoleForm
             mode="create"
             modules={catalogsState.modules}
-            operations={catalogsState.operations}
             onSubmit={handleSubmit}
             onCancel={() => router.back()}
             isSubmitting={mutationsState.createStatus === 'loading'}

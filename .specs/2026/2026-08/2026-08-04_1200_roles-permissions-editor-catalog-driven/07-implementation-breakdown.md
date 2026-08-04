@@ -2,6 +2,10 @@
 
 ## Slice 1. Feature Contract Refactor
 
+Status:
+
+- completed
+
 ### Objective
 
 Adaptar el feature `roles` al contrato backend vigente de módulos enriquecidos y retirar la dependencia del endpoint separado de operaciones.

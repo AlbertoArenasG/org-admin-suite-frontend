@@ -3,7 +3,7 @@
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import { cn } from '@/lib/utils';
-import type { RoleModuleCatalogItem, RoleOperationCatalogItem } from '@/features/roles/types';
+import type { RoleModuleCatalogItem } from '@/features/roles/types';
 import {
   buildPermissionCatalog,
   buildPermissionKey,
@@ -14,7 +14,6 @@ import {
 
 interface RolePermissionsEditorProps {
   modules: RoleModuleCatalogItem[];
-  operations: RoleOperationCatalogItem[];
   selection: Set<RolePermissionKey>;
   onToggle: (moduleCode: string, operationCode: string) => void;
   disabled?: boolean;
@@ -27,13 +26,12 @@ interface RolePermissionsEditorProps {
 
 export function RolePermissionsEditor({
   modules,
-  operations,
   selection,
   onToggle,
   disabled = false,
   labels,
 }: RolePermissionsEditorProps) {
-  const catalog = buildPermissionCatalog({ modules, operations });
+  const catalog = buildPermissionCatalog({ modules });
 
   return (
     <div className="flex flex-col gap-4">
@@ -51,8 +49,11 @@ export function RolePermissionsEditor({
             className="rounded-2xl border border-border/60 bg-card/40 px-4 py-4"
           >
             {(() => {
+              const hasReadOperation = module.operations.some(
+                (operation) => operation.operationCode === READ_OPERATION_CODE
+              );
               const readKey = buildPermissionKey(module.moduleCode, READ_OPERATION_CODE);
-              const showReadHint = selection.has(readKey);
+              const showReadHint = hasReadOperation && selection.has(readKey);
 
               return (
                 <>

@@ -8,11 +8,11 @@
 - [x] Alinear la spec frontend al contrato backend ya implementado
       Status: done
 
-- [ ] Ajustar tipos y thunks del feature `roles` al nuevo shape de `GET /v1/roles/modules`
-      Status: pending
+- [x] Ajustar tipos y thunks del feature `roles` al nuevo shape de `GET /v1/roles/modules`
+      Status: done
 
-- [ ] Eliminar el consumo frontend de `GET /v1/roles/operations`
-      Status: pending
+- [x] Eliminar el consumo frontend de `GET /v1/roles/operations`
+      Status: done
 
 ## Phase 2. Implementation
 

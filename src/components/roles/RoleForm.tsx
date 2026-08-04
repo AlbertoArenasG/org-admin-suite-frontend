@@ -8,12 +8,7 @@ import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type {
-  RoleDetail,
-  RoleModuleCatalogItem,
-  RoleOperationCatalogItem,
-  RolePermission,
-} from '@/features/roles/types';
+import type { RoleDetail, RoleModuleCatalogItem, RolePermission } from '@/features/roles/types';
 import { RolePermissionsEditor } from '@/components/roles/RolePermissionsEditor';
 import {
   permissionsToSelection,
@@ -31,7 +26,6 @@ interface RoleFormProps {
   mode: 'create' | 'edit';
   role?: RoleDetail | null;
   modules: RoleModuleCatalogItem[];
-  operations: RoleOperationCatalogItem[];
   onSubmit: (values: RoleFormValues) => void;
   onCancel?: () => void;
   isSubmitting?: boolean;
@@ -49,7 +43,6 @@ export function RoleForm({
   mode,
   role,
   modules,
-  operations,
   onSubmit,
   onCancel,
   isSubmitting = false,
@@ -90,6 +83,11 @@ export function RoleForm({
     [mode, t]
   );
 
+  const moduleByCode = useMemo(
+    () => new Map(modules.map((module) => [module.moduleCode, module])),
+    [modules]
+  );
+
   return (
     <form onSubmit={submitHandler} className="flex h-full flex-col gap-6" noValidate>
       <div className="flex flex-col gap-6 p-4">
@@ -116,7 +114,6 @@ export function RoleForm({
 
         <RolePermissionsEditor
           modules={modules}
-          operations={operations}
           selection={selection}
           disabled={disableActions}
           onToggle={(moduleCode, operationCode) => {
@@ -128,6 +125,11 @@ export function RoleForm({
                 current,
                 moduleCode,
                 operationCode,
+                hasReadOperation: Boolean(
+                  moduleByCode
+                    .get(moduleCode)
+                    ?.operations.some((operation) => operation.operationCode === 'READ')
+                ),
               })
             );
           }}

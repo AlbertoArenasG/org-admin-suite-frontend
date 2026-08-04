@@ -14,7 +14,6 @@ import type {
   RoleDetail,
   RoleListItem,
   RoleModuleCatalogItem,
-  RoleOperationCatalogItem,
   RolePermission,
   UpdateRolePayload,
 } from './types';
@@ -53,15 +52,14 @@ interface ApiRoleModuleItem {
   module_name_key: string;
   status_id: string;
   is_system: boolean;
-}
-
-interface ApiRoleOperationItem {
-  operation_id: string;
-  operation_code: string;
-  operation_name: string;
-  operation_name_key: string;
-  status_id: string;
-  is_system: boolean;
+  operations: Array<{
+    operation_id: string;
+    operation_code: string;
+    operation_name: string;
+    operation_name_key: string;
+    status_id: string;
+    is_system: boolean;
+  }>;
 }
 
 interface PaginationMeta {
@@ -120,17 +118,16 @@ function mapRoleModuleItem(module: ApiRoleModuleItem): RoleModuleCatalogItem {
     moduleNameKey: module.module_name_key,
     statusId: module.status_id,
     isSystem: module.is_system,
-  };
-}
-
-function mapRoleOperationItem(operation: ApiRoleOperationItem): RoleOperationCatalogItem {
-  return {
-    operationId: operation.operation_id,
-    operationCode: operation.operation_code,
-    operationName: operation.operation_name,
-    operationNameKey: operation.operation_name_key,
-    statusId: operation.status_id,
-    isSystem: operation.is_system,
+    operations: Array.isArray(module.operations)
+      ? module.operations.map((operation) => ({
+          operationId: operation.operation_id,
+          operationCode: operation.operation_code,
+          operationName: operation.operation_name,
+          operationNameKey: operation.operation_name_key,
+          statusId: operation.status_id,
+          isSystem: operation.is_system,
+        }))
+      : [],
   };
 }
 
@@ -260,37 +257,6 @@ export const fetchRoleModules = createAsyncThunk<
       error instanceof Error && error.message
         ? error.message
         : 'No fue posible obtener los módulos de roles';
-    return thunkAPI.rejectWithValue(message);
-  }
-});
-
-export const fetchRoleOperations = createAsyncThunk<
-  RoleOperationCatalogItem[],
-  void,
-  { state: RootState }
->('roles/fetchOperations', async (_, thunkAPI) => {
-  const state = thunkAPI.getState();
-  const token = requireToken(state);
-
-  if (!token) {
-    return thunkAPI.rejectWithValue('No hay token de autenticación');
-  }
-
-  try {
-    const response = await jsonRequest<ApiRoleOperationItem[]>(`/v1/roles/operations`, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-      token,
-    });
-
-    return Array.isArray(response.data) ? response.data.map(mapRoleOperationItem) : [];
-  } catch (error) {
-    const message =
-      error instanceof Error && error.message
-        ? error.message
-        : 'No fue posible obtener las operaciones de roles';
     return thunkAPI.rejectWithValue(message);
   }
 });
