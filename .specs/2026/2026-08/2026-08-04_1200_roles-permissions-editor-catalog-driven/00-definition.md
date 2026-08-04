@@ -50,11 +50,15 @@ Frontend no debería reconstruir una verdad que ya existe en backend. La forma m
 
 ### Decision Final
 
-Pendiente.
+Se aprueba enriquecer `GET /v1/roles/modules` para que cada módulo ya devuelva sus operaciones válidas.
+
+Frontend no reconstruirá esa relación por su cuenta.
+
+El catálogo de autorización seguirá teniendo como fuente de verdad al backend, de forma que cualquier evolución futura de módulos u operaciones no obligue a mantener lógica duplicada o inferencias frágiles en frontend.
 
 ### Status
 
-pending
+approved
 
 ---
 
