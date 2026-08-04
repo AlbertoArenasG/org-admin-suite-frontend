@@ -13,8 +13,8 @@ Regla de trabajo:
 ## Overall Status
 
 - Initiative: `roles-permissions-editor-catalog-driven`
-- Definition status: `in_progress`
-- Implementation ready: `no`
+- Definition status: `completed`
+- Implementation ready: `yes`
 
 ---
 
@@ -39,7 +39,7 @@ Pero el editor de permisos terminó asumiendo una matriz fija de `READ/CREATE/UP
 
 Opcion 2.
 
-Frontend no debería reconstruir una verdad que ya existe en backend. La forma más limpia es que el catálogo de módulos ya llegue enriquecido con sus operaciones válidas, manteniendo `GET /v1/roles/operations` solo si todavía aporta valor para UI o trazabilidad.
+Frontend no debería reconstruir una verdad que ya existe en backend. La forma más limpia es que el catálogo de módulos ya llegue enriquecido con sus operaciones válidas.
 
 ### Implications
 
@@ -50,7 +50,7 @@ Frontend no debería reconstruir una verdad que ya existe en backend. La forma m
 
 ### Decision Final
 
-Se aprueba enriquecer `GET /v1/roles/modules` para que cada módulo ya devuelva sus operaciones válidas.
+Se aprueba consumir `GET /v1/roles/modules` como catálogo enriquecido por módulo, con sus operaciones válidas ya resueltas desde backend.
 
 Frontend no reconstruirá esa relación por su cuenta.
 
@@ -88,11 +88,13 @@ La regla sigue siendo útil, pero debe existir solo donde el catálogo real perm
 
 ### Decision Final
 
-Pendiente.
+Se aprueba aplicar la dependencia automática de `READ` solo en módulos cuyo catálogo válido incluya realmente esa operación.
+
+Si un módulo no declara `READ`, el editor no debe autoactivarla, insinuarla ni modelarla como requisito estructural.
 
 ### Status
 
-pending
+approved
 
 ---
 

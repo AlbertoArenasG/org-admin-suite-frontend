@@ -10,7 +10,8 @@
 - el CRUD de roles en frontend ya existe y usa un editor de permisos agrupado por módulo
 - el editor hoy renderiza una cuadrícula uniforme de operaciones tipo CRUD
 - el backend ya valida combinaciones reales `module + operation` contra el catálogo central
-- el contrato actual expone módulos y operaciones por endpoints separados
+- backend ya expone `GET /v1/roles/modules` enriquecido con `operations[]` por módulo
+- `GET /v1/roles/operations` ya fue eliminado en backend
 
 ## Findings
 
@@ -23,7 +24,7 @@
 
 - seguir editando roles con una matriz cuadrada introduce errores de validación evitables
 - si frontend reconstruye localmente el catálogo por módulo, puede volver a desalinearse con backend
-- cambiar el contrato del catálogo puede impactar `new` y `edit` del módulo de roles
+- adaptar el contrato del catálogo impacta `new` y `edit` del módulo de roles
 
 ## Constraints
 

@@ -5,6 +5,9 @@
 - [x] Cerrar la decisión del contrato catálogo por módulo
       Status: done
 
+- [x] Alinear la spec frontend al contrato backend ya implementado
+      Status: done
+
 - [ ] Ajustar tipos y thunks del feature `roles` al nuevo shape de `GET /v1/roles/modules`
       Status: pending
 

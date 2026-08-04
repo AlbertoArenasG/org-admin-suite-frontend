@@ -11,10 +11,7 @@
 
 ## Contracts
 
-- contrato actual:
-  - `GET /v1/roles/modules`
-  - `GET /v1/roles/operations`
-- contrato objetivo aprobado:
+- contrato backend vigente:
   - `GET /v1/roles/modules` enriquecido con operaciones válidas por módulo
   - `GET /v1/roles/operations` eliminado
 
@@ -66,4 +63,4 @@ type RoleModuleCatalogItem = {
 
 ## Open Questions
 
-- si conviene renderizar operaciones en el orden que backend las devuelva o imponer un orden visual estable
+- ninguna para este slice de definición; frontend debe respetar el orden entregado por backend

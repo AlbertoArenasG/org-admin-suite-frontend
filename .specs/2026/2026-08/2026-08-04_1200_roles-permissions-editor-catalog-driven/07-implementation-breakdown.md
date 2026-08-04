@@ -4,7 +4,7 @@
 
 ### Objective
 
-Adaptar el feature `roles` al nuevo contrato de módulos enriquecidos y retirar la dependencia del endpoint separado de operaciones.
+Adaptar el feature `roles` al contrato backend vigente de módulos enriquecidos y retirar la dependencia del endpoint separado de operaciones.
 
 ### Files
 

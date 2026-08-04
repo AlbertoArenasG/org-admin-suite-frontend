@@ -15,7 +15,7 @@ Corregir el editor de permisos del CRUD de roles para que renderice operaciones 
 
 ### Phase 1. Contract Alignment
 
-- cerrar decisión sobre el contrato backend fuente de verdad
+- consumir el contrato backend ya aprobado e implementado como fuente de verdad
 - aterrizar el shape final que frontend debe consumir
 
 ### Phase 2. Frontend Refactor
@@ -31,7 +31,7 @@ Corregir el editor de permisos del CRUD de roles para que renderice operaciones 
 
 ## Sequencing Notes
 
-- no conviene tocar primero la UI si el contrato backend final sigue ambiguo
+- el contrato backend ya quedó cerrado; el siguiente paso ya es adaptar frontend
 - la refactorización debe concentrarse en el editor y no reabrir el CRUD completo de roles
 
 ## Exit Criteria
