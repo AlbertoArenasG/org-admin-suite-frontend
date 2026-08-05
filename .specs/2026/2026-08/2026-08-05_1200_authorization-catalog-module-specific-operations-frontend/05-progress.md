@@ -47,3 +47,9 @@
   - los nombres funcionales del catálogo deben venir de backend
   - frontend solo conserva copies locales de interacción, estados y ayudas de UX
   - las docs frontend vivas no deben redefinir semántica del catálogo por su cuenta
+- Se aterrizó el implementation breakdown en slices ejecutables:
+  - alineación del editor de roles al catálogo vivo
+  - separación de public access en customers
+  - separación de public access en providers
+  - revisión de consumers secundarios del runtime de autorización
+  - validación y cierre documental
