@@ -169,3 +169,37 @@ Dirección recomendada:
 
 - una operación sensible como `READ_PUBLIC_ACCESS` se muestra como una operación más del módulo
 - su sensibilidad se gobierna por el catálogo backend y por el permiso efectivo, no por una categoría visual separada dentro del editor
+
+## Impacto En Copy, Hints Y Docs Frontend Vivas
+
+### Fuente de verdad de copies funcionales
+
+- los copies funcionales del catálogo deben venir de backend
+- eso incluye nombres visibles de módulos y operaciones
+- frontend debe apoyarse en:
+  - `module_name`
+  - `module_name_key`
+  - `operation_name`
+  - `operation_name_key`
+
+### Qué sí puede seguir viviendo en frontend
+
+Frontend sí puede conservar textos propios cuando no describen el dominio del catálogo sino la interacción local de la UI, por ejemplo:
+
+- títulos de página
+- textos de carga, error y éxito
+- hints de captura local
+- copy de confirmaciones y diálogos
+- ayudas de UX como la explicación de `READ` implícito
+
+### Qué no debe seguir hardcodeado en frontend como verdad del catálogo
+
+- nombres canónicos de módulos
+- nombres canónicos de operaciones
+- supuestos semánticos del tipo “este módulo siempre es CRUD”
+- etiquetas funcionales inventadas para operaciones que backend ya nombra y localiza
+
+### Docs frontend vivas
+
+- cualquier doc viva de integración frontend que describa el catálogo o sus labels debe alinearse a backend como fuente de verdad
+- la spec debe asumir que, si backend cambia el catálogo o su localización, frontend debe absorber el cambio sin redefinir semántica en archivos locales

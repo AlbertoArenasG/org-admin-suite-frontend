@@ -43,3 +43,7 @@
   - uso de labels y names del catálogo backend
   - no renderizar operaciones ausentes del catálogo vivo
   - conservación de la ayuda local de UX para `READ` implícito
+- Se definió el criterio de copies y documentación viva:
+  - los nombres funcionales del catálogo deben venir de backend
+  - frontend solo conserva copies locales de interacción, estados y ayudas de UX
+  - las docs frontend vivas no deben redefinir semántica del catálogo por su cuenta

@@ -30,8 +30,8 @@
 - [x] Definir reglas de render para operaciones no-CRUD o sensibles
       Status: completed
 
-- [ ] Definir impacto en copy, hints y docs frontend vivas
-      Status: pending
+- [x] Definir impacto en copy, hints y docs frontend vivas
+      Status: completed
 
 ## Phase 4. Implementation
 
