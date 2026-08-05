@@ -19,8 +19,8 @@
 - [x] Identificar ajustes de frontend requeridos por `READ_PUBLIC_ACCESS` y por la salida de `POST /v1/users` del scope normal
       Status: completed
 
-- [ ] Identificar en `customers` y `providers` qué vistas autenticadas deberán consultar el nuevo endpoint de public access y cómo degradarán cuando solo exista `READ`
-      Status: pending
+- [x] Identificar en `customers` y `providers` qué vistas autenticadas deberán consultar el nuevo endpoint de public access y cómo degradarán cuando solo exista `READ`
+      Status: completed
 
 ## Phase 3. Technical Design
 
@@ -34,6 +34,11 @@
       Status: completed
 
 ## Phase 4. Implementation
+
+Estado de transición:
+
+- definición, análisis y diseño técnico ya quedaron cerrados
+- la siguiente ejecución de trabajo puede arrancar directamente en implementación por slices
 
 - [ ] Adaptar el editor de permisos al catálogo final aprobado
       Status: pending

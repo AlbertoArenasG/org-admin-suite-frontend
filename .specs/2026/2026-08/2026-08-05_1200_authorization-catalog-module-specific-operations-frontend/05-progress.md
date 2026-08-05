@@ -53,3 +53,7 @@
   - separación de public access en providers
   - revisión de consumers secundarios del runtime de autorización
   - validación y cierre documental
+- Se cerró la última amarrada documental previa a implementación:
+  - `00-definition.md` quedó con `Definition status: completed`
+  - la spec quedó marcada como `Implementation ready: yes`
+  - el último pendiente analítico sobre customers/providers quedó absorbido formalmente por los slices de implementación ya definidos

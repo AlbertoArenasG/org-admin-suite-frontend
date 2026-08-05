@@ -15,8 +15,8 @@ Regla de trabajo:
 ## Overall Status
 
 - Initiative: `authorization-catalog-module-specific-operations-frontend`
-- Definition status: `in_progress`
-- Implementation ready: `no`
+- Definition status: `completed`
+- Implementation ready: `yes`
 
 ---
 
