@@ -17,3 +17,8 @@
   - separación de `READ_PUBLIC_ACCESS` para `customers` y `providers`
   - restricción de no anticipar `ROLES/ACTIVATE` mientras backend no la publique en el catálogo vivo
 - Con esto quedó cerrada la fase de definición sobre alcance y contratos backend relevantes para frontend.
+- Se auditó el editor real de permisos y se confirmó que:
+  - el consumo de `GET /v1/roles/modules` ya está alineado con el catálogo backend
+  - el render del editor ya es dinámico por módulo y operación
+  - persiste una regla local en frontend que autoactiva y bloquea `READ` cuando existe otra operación activa dentro del mismo módulo
+  - esa regla fue ratificada como decisión deliberada de UX para evitar errores humanos al capturar permisos y no como un problema de alineación con backend

@@ -66,11 +66,34 @@ Frontend todavía no tiene formalizada la iniciativa espejo para absorber ese ca
 - docs frontend de integración si existen consumers activos de contratos afectados
 - vistas autenticadas de `customers` y `providers` que en algún momento necesiten revelar o consumir acceso público sensible
 
+## Resultado Del Audit Del Editor Actual
+
+### Lo que ya está bien alineado
+
+- frontend ya consume `GET /v1/roles/modules` desde `src/features/roles/rolesThunks.ts`
+- el shape interno actual ya acepta operaciones dinámicas por módulo, sin cuadrícula CRUD hardcodeada
+- `RolePermissionsEditor` renderiza `module.operations[]` tal como llegan del backend
+- el detalle de rol también reutiliza el catálogo real para resolver nombres de módulos y operaciones
+
+### Regla local de frontend aprobada
+
+- `src/components/roles/roleFormUtils.ts` y `src/components/roles/RolePermissionsEditor.tsx` mantienen una semántica local donde:
+  - si se activa cualquier operación distinta de `READ`, frontend activa `READ` automáticamente
+  - mientras exista otra operación activa en el módulo, `READ` queda bloqueado y no puede desactivarse
+- los copies de `src/locales/es/roles.json` y `src/locales/en/roles.json` ya enseñan esa regla como si fuera una verdad del sistema
+
+### Implicación del hallazgo
+
+- el editor ya no depende de CRUD uniforme
+- frontend sí conserva una regla local deliberada de UX: cualquier operación distinta de `READ` implica `READ` para evitar errores humanos al crear o editar roles
+- esa dependencia no necesita venir del catálogo backend como metadata separada mientras se mantenga solo como ayuda de captura en UI y no como reinterpretación del catálogo fuente
+
 ## Riesgos
 
 - dejar frontend parcialmente alineado al nuevo catálogo backend
 - sostener copy o comportamiento que aún presuponga CRUD uniforme
 - reintroducir desde frontend la idea equivocada de que cualquier usuario con `READ` puede ver URLs o tokens de acceso público sensible
+- perder la salvaguarda de UX que hoy evita omitir `READ` cuando se activa otra operación del mismo módulo
 
 ## Criterio De Inicio
 

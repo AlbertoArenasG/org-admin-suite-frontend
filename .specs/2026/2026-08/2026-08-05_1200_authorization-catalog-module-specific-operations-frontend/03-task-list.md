@@ -10,8 +10,8 @@
 
 ## Phase 2. Analysis
 
-- [ ] Auditar el editor de permisos actual contra el catálogo backend vigente
-      Status: pending
+- [x] Auditar el editor de permisos actual contra el catálogo backend vigente
+      Status: completed
 
 - [ ] Identificar consumers secundarios de operaciones específicas por módulo
       Status: pending
