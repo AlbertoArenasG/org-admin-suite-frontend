@@ -36,3 +36,10 @@
   - `auth/me/permissions` permanece como DTO separado para autorización efectiva del usuario autenticado
   - el estado local de selección de permisos sigue siendo derivado de UI y no una segunda fuente de verdad
   - `customers` y `providers` deberán separar el acceso público sensible de su shape ordinario
+- Se definieron las reglas de render del editor:
+  - render exacto de las operaciones publicadas por backend
+  - semántica visual uniforme para operaciones CRUD y no CRUD
+  - respeto del orden entregado por backend
+  - uso de labels y names del catálogo backend
+  - no renderizar operaciones ausentes del catálogo vivo
+  - conservación de la ayuda local de UX para `READ` implícito

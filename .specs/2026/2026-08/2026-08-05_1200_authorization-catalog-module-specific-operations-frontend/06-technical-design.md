@@ -130,3 +130,42 @@ Dirección recomendada:
   - catálogo editable de roles
   - autorización efectiva del actor autenticado
 - y, además, con recursos sensibles desacoplados de los payloads ordinarios cuando backend ya los separó así
+
+## Reglas De Render Para Operaciones No CRUD O Sensibles
+
+### Regla 1. Render guiado por catálogo real
+
+- el editor debe renderizar exactamente las operaciones que backend entregue en `GET /v1/roles/modules`
+- frontend no debe completar operaciones faltantes ni fabricar una cuadrícula CRUD uniforme
+
+### Regla 2. Semántica visual base uniforme
+
+- toda operación válida de un módulo se muestra con la misma semántica visual base
+- operaciones como `READ`, `DELETE` o `READ_PUBLIC_ACCESS` no requieren un layout especial por sí mismas dentro del editor
+
+### Regla 3. Orden visual respetado
+
+- el orden de `operations[]` debe respetarse tal como backend lo entregue
+- frontend no debe reordenar las operaciones para imponer un orden conceptual distinto
+
+### Regla 4. Labels y nombres desde backend
+
+- los labels visibles del catálogo deben salir de `module_name`, `operation_name`, `module_name_key` y `operation_name_key`
+- frontend no debe hardcodear nombres semánticos propios para módulos u operaciones del catálogo
+
+### Regla 5. Operaciones ausentes no se renderizan
+
+- si backend no publica una operación dentro del módulo, frontend no debe mostrar control para asignarla
+- mientras `ROLES/ACTIVATE` no aparezca en el catálogo vivo de backend, el editor no debe renderizarla como opción asignable
+
+### Regla 6. Ayudas de UX permitidas
+
+- frontend sí puede aplicar ayudas locales de captura siempre que no reinterpreten el catálogo fuente
+- la ayuda aprobada para esta iniciativa es:
+  - si el usuario activa cualquier operación distinta de `READ`, frontend activa `READ` automáticamente
+  - mientras exista otra operación activa en ese módulo, `READ` no puede desactivarse
+
+### Regla 7. Sensibilidad gobernada por permiso, no por layout especial
+
+- una operación sensible como `READ_PUBLIC_ACCESS` se muestra como una operación más del módulo
+- su sensibilidad se gobierna por el catálogo backend y por el permiso efectivo, no por una categoría visual separada dentro del editor

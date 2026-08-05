@@ -27,8 +27,8 @@
 - [x] Definir el shape interno objetivo del catálogo de módulos y operaciones en frontend
       Status: completed
 
-- [ ] Definir reglas de render para operaciones no-CRUD o sensibles
-      Status: pending
+- [x] Definir reglas de render para operaciones no-CRUD o sensibles
+      Status: completed
 
 - [ ] Definir impacto en copy, hints y docs frontend vivas
       Status: pending
