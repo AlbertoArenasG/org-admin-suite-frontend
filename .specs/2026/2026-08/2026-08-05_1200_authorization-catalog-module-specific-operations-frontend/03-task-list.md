@@ -2,11 +2,11 @@
 
 ## Phase 1. Definition
 
-- [ ] Cerrar el alcance exacto de la iniciativa frontend
-      Status: pending
+- [x] Cerrar el alcance exacto de la iniciativa frontend
+      Status: completed
 
-- [ ] Aterrizar los contratos backend relevantes para frontend
-      Status: pending
+- [x] Aterrizar los contratos backend relevantes para frontend
+      Status: completed
 
 ## Phase 2. Analysis
 

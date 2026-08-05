@@ -19,8 +19,42 @@ Frontend todavía no tiene formalizada la iniciativa espejo para absorber ese ca
   - salida de `POST /v1/users` del scope normal
 - en `customers` y `providers` ya no aplica asumir que el permiso funcional `READ` incluye la visibilidad de datos de acceso público:
   - `public_access_url` y `public_access_token` salieron de los responses normales de listado y detalle
-  - esos datos ahora viven detrás de endpoints específicos
-  - esos endpoints dependen de una operación separada `READ_PUBLIC_ACCESS`
+- esos datos ahora viven detrás de endpoints específicos
+- esos endpoints dependen de una operación separada `READ_PUBLIC_ACCESS`
+
+## Snapshot Del Contrato Backend Que Frontend Debe Asumir
+
+### Catálogo de módulos y operaciones
+
+- `GET /v1/roles/modules` es la fuente contractual para construir el editor de permisos
+- el response ya devuelve cada módulo con sus `operations[]` anidadas, ordenadas y localizadas
+- frontend no debe consumir ni reconstruir un catálogo separado de operaciones
+- `GET /v1/roles/operations` debe tratarse como contrato obsoleto para esta iniciativa
+
+### Estado actual del catálogo vivo
+
+- `USERS`: `READ`, `UPDATE`, `DELETE`
+- `ROLES`: `CREATE`, `READ`, `UPDATE`, `DELETE`
+- `CUSTOMERS`: `CREATE`, `READ`, `READ_PUBLIC_ACCESS`, `UPDATE`, `DELETE`
+- `PROVIDERS`: `CREATE`, `READ`, `READ_PUBLIC_ACCESS`, `UPDATE`, `DELETE`
+- `SERVICE_ENTRIES`: `CREATE`, `READ`, `UPDATE`, `DELETE`
+- `SERVICE_ENTRY_SURVEYS`: `READ`
+- `SERVICE_PACKAGES`: `READ`, `DELETE`
+- `USER_REGISTRATION_INVITATIONS`: `CREATE`
+
+### Implicaciones inmediatas para frontend
+
+- si una operación no viene en `operations[]`, frontend no debe renderizarla ni inferirla
+- hoy backend todavía no publica `ROLES/ACTIVATE` en el catálogo vivo, por lo que frontend no debe asumir esa operación como disponible en esta spec hasta que el contrato real la exponga
+- `POST /v1/users` salió del scope normal de negocio; el flujo funcional ordinario de alta de usuarios sigue viviendo en invitaciones
+- el alta directa quedó reservada a `POST /v1/master-admin/users`, fuera del scope normal de frontend
+- `GET /v1/users/roles` sigue absorbido por `USERS/READ` y devuelve los roles asignables reales con metadata útil para selects, incluyendo `role_id`, `role_name`, `system_role`, `role_scope`, `is_system` e `is_default`
+
+### Capacidades sensibles ya separadas
+
+- `GET /v1/customers/:customerId/public-access` depende de `CUSTOMERS/READ_PUBLIC_ACCESS`
+- `GET /v1/providers/:providerId/public-access` depende de `PROVIDERS/READ_PUBLIC_ACCESS`
+- el `READ` general de `customers` y `providers` ya no debe considerarse suficiente para exponer `public_access_url` ni `public_access_token`
 
 ## Superficies Probablemente Afectadas
 
