@@ -90,6 +90,10 @@ Criterio de salida:
 
 ## Slice 5. Validation And Documentation Closure
 
+Status:
+
+- in progress
+
 Objetivo:
 
 - cerrar la iniciativa con validación funcional y memoria documental suficiente

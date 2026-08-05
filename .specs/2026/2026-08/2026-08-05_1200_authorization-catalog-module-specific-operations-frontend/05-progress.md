@@ -99,3 +99,8 @@
   - en `service entry surveys` se confirmó que no existen controles operativos de create/edit/delete dentro del alcance de este sweep
   - con esto quedó completo el barrido de controles operativos relevantes de la iniciativa
   - validación técnica local completada con `npm run typecheck` y lints dirigidos de `users` y `servicePackagesRecords`, sin errores
+- Arrancó el Slice 5 (`Validation And Documentation Closure`):
+  - se confirmó que en frontend no existe hoy un `docs/` vivo que deba actualizarse para esta iniciativa; la memoria documental vigente queda concentrada en la propia spec
+  - se actualizó la task list para reflejar que la documentación relevante ya quedó absorbida en la spec y que el barrido contra supuestos CRUD uniformes residuales ya fue completado
+  - se actualizó el breakdown para reflejar el estado real de ejecución de todos los slices
+  - el único pendiente real antes del cierre formal de la spec es la validación manual final del editor de permisos contra catálogo backend vivo por módulo

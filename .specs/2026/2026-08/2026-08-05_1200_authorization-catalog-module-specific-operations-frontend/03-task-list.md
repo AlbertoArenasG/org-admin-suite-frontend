@@ -58,16 +58,16 @@ Estado de transición:
 - [x] Auditar y alinear controles operativos de UI para crear, editar y eliminar recursos según módulos y operaciones efectivas del usuario autenticado
       Status: completed
 
-- [ ] Actualizar docs frontend relevantes
-      Status: pending
+- [x] Actualizar docs frontend relevantes
+      Status: completed
 
 ## Phase 5. Validation
 
 - [ ] Validar funcionamiento del editor con catálogo real por módulo
       Status: pending
 
-- [ ] Validar ausencia de supuestos CRUD uniformes residuales
-      Status: pending
+- [x] Validar ausencia de supuestos CRUD uniformes residuales
+      Status: completed
 
-- [ ] Registrar cierre en progreso y breakdown
-      Status: pending
+- [x] Registrar cierre en progreso y breakdown
+      Status: completed
