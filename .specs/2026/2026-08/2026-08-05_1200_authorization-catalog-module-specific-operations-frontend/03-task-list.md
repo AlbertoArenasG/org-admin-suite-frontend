@@ -40,8 +40,8 @@ Estado de transición:
 - definición, análisis y diseño técnico ya quedaron cerrados
 - la siguiente ejecución de trabajo puede arrancar directamente en implementación por slices
 
-- [ ] Adaptar el editor de permisos al catálogo final aprobado
-      Status: pending
+- [x] Adaptar el editor de permisos al catálogo final aprobado
+      Status: completed
 
 - [ ] Adaptar consumers secundarios afectados por el nuevo catálogo
       Status: pending

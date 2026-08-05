@@ -13,13 +13,23 @@ export function groupRolePermissions(params: {
   permissions: RolePermission[];
   modules: RoleModuleCatalogItem[];
 }) {
+  const moduleOrderByCode = new Map(
+    params.modules.map((module, index) => [module.moduleCode, index] as const)
+  );
   const moduleNameByCode = new Map(
     params.modules.map((module) => [module.moduleCode, module.moduleName])
   );
-  const operationNameByCode = new Map(
+  const operationNameByKey = new Map(
     params.modules.flatMap((module) =>
       module.operations.map(
-        (operation) => [operation.operationCode, operation.operationName] as const
+        (operation, index) =>
+          [
+            `${module.moduleCode}:${operation.operationCode}`,
+            {
+              name: operation.operationName,
+              order: index,
+            },
+          ] as const
       )
     )
   );
@@ -34,10 +44,13 @@ export function groupRolePermissions(params: {
         moduleName: moduleNameByCode.get(permission.module) ?? permission.module,
         operations: [],
       } satisfies RolePermissionGroup);
+    const operationMetadata = operationNameByKey.get(
+      `${permission.module}:${permission.operation}`
+    );
 
     bucket.operations.push({
       operationCode: permission.operation,
-      operationName: operationNameByCode.get(permission.operation) ?? permission.operation,
+      operationName: operationMetadata?.name ?? permission.operation,
     });
 
     buckets.set(permission.module, bucket);
@@ -46,9 +59,18 @@ export function groupRolePermissions(params: {
   return Array.from(buckets.values())
     .map((group) => ({
       ...group,
-      operations: [...group.operations].sort((a, b) =>
-        a.operationCode.localeCompare(b.operationCode)
+      operations: [...group.operations].sort(
+        (a, b) =>
+          (operationNameByKey.get(`${group.moduleCode}:${a.operationCode}`)?.order ??
+            Number.MAX_SAFE_INTEGER) -
+            (operationNameByKey.get(`${group.moduleCode}:${b.operationCode}`)?.order ??
+              Number.MAX_SAFE_INTEGER) || a.operationCode.localeCompare(b.operationCode)
       ),
     }))
-    .sort((a, b) => a.moduleName.localeCompare(b.moduleName));
+    .sort(
+      (a, b) =>
+        (moduleOrderByCode.get(a.moduleCode) ?? Number.MAX_SAFE_INTEGER) -
+          (moduleOrderByCode.get(b.moduleCode) ?? Number.MAX_SAFE_INTEGER) ||
+        a.moduleName.localeCompare(b.moduleName)
+    );
 }

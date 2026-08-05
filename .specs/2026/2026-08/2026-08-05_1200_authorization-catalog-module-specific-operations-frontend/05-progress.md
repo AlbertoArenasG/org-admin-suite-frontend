@@ -61,3 +61,7 @@
   - revisión interactiva de botones, acciones y CTAs de create/edit/delete
   - alineación de esos controles al módulo y operación efectiva del usuario autenticado
   - sin reabrir definición ni decisiones ya cerradas de la spec
+- Arrancó la implementación del Slice 1 (`Roles Catalog Editor Alignment`):
+  - se corrigió el detalle de roles para respetar el orden de módulos y operaciones entregado por `GET /v1/roles/modules`, en lugar de reordenarlos alfabéticamente en frontend
+  - con esto el módulo `roles` queda consistente entre editor y detalle respecto al catálogo backend vivo
+  - validación técnica local completada con `npm run typecheck` y lint dirigido del módulo `roles`, sin errores
