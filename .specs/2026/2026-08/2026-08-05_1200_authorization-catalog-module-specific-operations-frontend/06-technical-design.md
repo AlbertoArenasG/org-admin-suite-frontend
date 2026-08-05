@@ -36,3 +36,97 @@ Este documento deberá aterrizar:
   - introducir un request dedicado para consultar acceso público sensible solo cuando la UI realmente lo necesite
   - condicionar esa acción en UI al permiso efectivo `READ_PUBLIC_ACCESS` del módulo correspondiente
 - en `users` no hace falta migrar una vista existente fuera de `POST /v1/users`, porque el frontend ordinario ya trabaja por invitaciones; la obligación técnica es no reintroducir un alta directa normal en esta iniciativa
+
+## Shape Interno Objetivo En Frontend
+
+### Principio
+
+- frontend no debe inventar un catálogo alterno ni un modelo semántico paralelo
+- el shape interno debe ser un mapeo tipado y estable del contrato backend, con utilidades de UI encima pero sin reinterpretar el dominio
+
+### Catálogo del editor de roles
+
+El shape actual de `RoleModuleCatalogItem` va en la dirección correcta y debe conservar esta idea base:
+
+- un módulo con metadata propia
+- una lista ordenada de operaciones válidas para ese módulo
+- labels y `nameKey` ya resueltos desde backend
+
+Estructura objetivo:
+
+```ts
+interface RoleModuleCatalogItem {
+  moduleId: string;
+  moduleCode: string;
+  moduleName: string;
+  moduleNameKey: string;
+  statusId: string;
+  isSystem: boolean;
+  operations: Array<{
+    operationId: string;
+    operationCode: string;
+    operationName: string;
+    operationNameKey: string;
+    statusId: string;
+    isSystem: boolean;
+  }>;
+}
+```
+
+Reglas:
+
+- `operations[]` debe conservar exactamente el orden entregado por backend
+- frontend no debe completar operaciones faltantes
+- frontend no debe reordenar para “forzar CRUD”
+- cualquier ayuda de UX, como autoactivar `READ`, vive fuera de este DTO
+
+### Autorización efectiva del usuario autenticado
+
+El shape actual de `AuthAuthorization` también es válido como capa separada del catálogo editable:
+
+```ts
+interface AuthAuthorization {
+  role: AuthRoleMetadata | null;
+  modules: AuthModuleAccess[];
+  permissions: AuthPermissionAccess[];
+}
+```
+
+Reglas:
+
+- `auth/me/permissions` sigue siendo la fuente para navegación, guards de UI y acciones rápidas
+- `roles/modules` sigue siendo la fuente para construir el editor de permisos
+- no conviene fusionar ambos shapes en un único store ni en un único DTO “universal”
+
+### Estado local de UI permitido
+
+Sí vale la pena mantener estado local derivado para interacción, por ejemplo:
+
+- `Set<RolePermissionKey>` para selección temporal en formularios
+- helpers como `buildPermissionKey(...)`
+- sanitización contra el catálogo activo recibido
+
+Pero ese estado:
+
+- debe derivarse del catálogo backend
+- no debe convertirse en otra fuente de verdad
+
+### Customers y providers
+
+Para `customers` y `providers`, el shape objetivo debe separar:
+
+- detalle/listado ordinario del recurso
+- acceso público sensible consultado bajo demanda
+
+Dirección recomendada:
+
+- `Customer` y `Provider` dejan de asumir `publicAccessToken` y `publicAccessUrl` en su shape normal
+- si una vista necesita mostrar o copiar ese acceso, debe usar un DTO separado para public access
+- ese DTO debe vivir en el módulo correspondiente y no mezclarse con el fetch ordinario
+
+### Consecuencia de diseño
+
+- el frontend quedará con dos planos explícitos y limpios:
+  - catálogo editable de roles
+  - autorización efectiva del actor autenticado
+- y, además, con recursos sensibles desacoplados de los payloads ordinarios cuando backend ya los separó así

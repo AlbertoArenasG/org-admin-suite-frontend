@@ -24,8 +24,8 @@
 
 ## Phase 3. Technical Design
 
-- [ ] Definir el shape interno objetivo del catálogo de módulos y operaciones en frontend
-      Status: pending
+- [x] Definir el shape interno objetivo del catálogo de módulos y operaciones en frontend
+      Status: completed
 
 - [ ] Definir reglas de render para operaciones no-CRUD o sensibles
       Status: pending

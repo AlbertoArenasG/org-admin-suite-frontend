@@ -31,3 +31,8 @@
   - `customers` y `providers` todavía consumen `public_access_url` y `public_access_token` dentro del shape normal, por lo que deberán migrar al nuevo flujo protegido por `READ_PUBLIC_ACCESS`
   - el detalle autenticado de customers/providers todavía copia el enlace público desde el payload ordinario y deberá separarse
   - en `users` no existe migración funcional pendiente por la salida de `POST /v1/users`, porque el frontend ordinario ya opera por invitaciones; la regla es no reintroducir alta directa normal
+- Se definió el shape interno objetivo en frontend:
+  - `roles/modules` permanece como DTO tipado específico para el editor de permisos
+  - `auth/me/permissions` permanece como DTO separado para autorización efectiva del usuario autenticado
+  - el estado local de selección de permisos sigue siendo derivado de UI y no una segunda fuente de verdad
+  - `customers` y `providers` deberán separar el acceso público sensible de su shape ordinario
