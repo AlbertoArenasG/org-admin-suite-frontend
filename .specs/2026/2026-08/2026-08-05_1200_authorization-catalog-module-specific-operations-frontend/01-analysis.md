@@ -125,6 +125,43 @@ Frontend todavía no tiene formalizada la iniciativa espejo para absorber ese ca
   - autorización efectiva del usuario autenticado en `auth/me/permissions`
 - para esta spec no basta con revisar el editor; también hay que vigilar que ninguna superficie secundaria siga asumiendo operaciones uniformes o endpoints ya retirados del scope normal
 
+## Ajustes Requeridos Por `READ_PUBLIC_ACCESS` Y Por La Salida De `POST /v1/users`
+
+### `customers`
+
+- `src/features/customers/customersThunks.ts` todavía mapea `public_access_token` y `public_access_url` dentro de `ApiCustomer`
+- `src/features/customers/customersSlice.ts` todavía modela `publicAccessToken` y `publicAccessUrl` como parte del `Customer` normal
+- `src/app/dashboard/customers/[customerId]/page.tsx` todavía usa `customer.publicAccessUrl` para copiar el enlace público desde el detalle
+
+Implicación:
+
+- frontend sigue acoplado al contrato viejo donde el `READ` normal de customer incluía acceso público sensible
+- ese flujo debe migrar a un request explícito del nuevo endpoint protegido por `CUSTOMERS/READ_PUBLIC_ACCESS`
+
+### `providers`
+
+- `src/features/providers/providersThunks.ts` todavía mapea `public_access_token` y `public_access_url` dentro de `ApiProvider`
+- `src/features/providers/providersSlice.ts` todavía modela `publicAccessToken` y `publicAccessUrl` como parte del `Provider` normal
+- `src/app/dashboard/providers/[providerId]/page.tsx` todavía usa `provider.publicAccessUrl` para copiar el enlace público desde el detalle
+
+Implicación:
+
+- frontend sigue acoplado al contrato viejo donde el `READ` normal de provider incluía acceso público sensible
+- ese flujo debe migrar a un request explícito del nuevo endpoint protegido por `PROVIDERS/READ_PUBLIC_ACCESS`
+
+### `users`
+
+- no existe consumer normal de `POST /v1/users` dentro del frontend de negocio actual
+- el flujo ordinario de alta de usuarios ya vive en:
+  - `src/app/dashboard/users/invite/page.tsx`
+  - `src/features/users/usersThunks.ts` mediante invitación
+- el catálogo auxiliar de roles asignables sigue consumiéndose desde `GET /v1/users/roles`
+
+Implicación:
+
+- la salida de `POST /v1/users` del scope normal no exige una migración funcional de UI ya existente
+- lo que sí debe conservarse en la spec es la regla de no reintroducir en frontend ordinario un flujo de alta directa basado en ese endpoint
+
 ## Criterio De Inicio
 
 Antes de tocar código conviene cerrar:

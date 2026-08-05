@@ -16,8 +16,8 @@
 - [x] Identificar consumers secundarios de operaciones específicas por módulo
       Status: completed
 
-- [ ] Identificar ajustes de frontend requeridos por `READ_PUBLIC_ACCESS` y por la salida de `POST /v1/users` del scope normal
-      Status: pending
+- [x] Identificar ajustes de frontend requeridos por `READ_PUBLIC_ACCESS` y por la salida de `POST /v1/users` del scope normal
+      Status: completed
 
 - [ ] Identificar en `customers` y `providers` qué vistas autenticadas deberán consultar el nuevo endpoint de public access y cómo degradarán cuando solo exista `READ`
       Status: pending
@@ -42,6 +42,9 @@
       Status: pending
 
 - [ ] Adaptar consumers de `customers` y `providers` para separar `READ` de `READ_PUBLIC_ACCESS`
+      Status: pending
+
+- [ ] Conservar en `users` la frontera de negocio basada en invitaciones, sin reintroducir un flujo normal que dependa de `POST /v1/users`
       Status: pending
 
 - [ ] Actualizar docs frontend relevantes

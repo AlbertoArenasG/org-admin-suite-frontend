@@ -27,3 +27,7 @@
   - `AppSidebar` y `dashboard/page` como consumidores de `hasModule(...)` y `hasPermission(...)`
   - el detalle de rol como consumer secundario del catálogo `roles/modules` para resolver labels humanos de permisos
 - Con esto quedó cerrado el mapa inicial de consumers secundarios impactados por la iniciativa.
+- Se identificaron los ajustes concretos de frontend derivados de contratos backend ya cambiados:
+  - `customers` y `providers` todavía consumen `public_access_url` y `public_access_token` dentro del shape normal, por lo que deberán migrar al nuevo flujo protegido por `READ_PUBLIC_ACCESS`
+  - el detalle autenticado de customers/providers todavía copia el enlace público desde el payload ordinario y deberá separarse
+  - en `users` no existe migración funcional pendiente por la salida de `POST /v1/users`, porque el frontend ordinario ya opera por invitaciones; la regla es no reintroducir alta directa normal
