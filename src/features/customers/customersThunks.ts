@@ -7,6 +7,7 @@ import type {
   CustomerCfdiDetails,
   CustomerContact,
   CustomerFileMetadata,
+  CustomerPublicAccess,
   CustomersPagination,
 } from '@/features/customers/customersSlice';
 
@@ -22,11 +23,14 @@ interface ApiCustomer {
   client_code: string;
   customer_status_id: string;
   customer_status_name: string;
-  public_access_token?: string | null;
-  public_access_url?: string | null;
   created_at: string;
   updated_at: string;
   fiscal_profile?: ApiFiscalProfile | null;
+}
+
+interface ApiCustomerPublicAccess {
+  public_access_token?: string | null;
+  public_access_url?: string | null;
 }
 
 interface ApiFiscalProfile {
@@ -130,6 +134,10 @@ export interface DeleteCustomerResult {
   message: string | null;
 }
 
+export interface FetchCustomerPublicAccessResult extends CustomerPublicAccess {
+  id: string;
+}
+
 function mapContact(contact?: ApiFiscalProfileContact | null): CustomerContact | null {
   if (!contact) {
     return null;
@@ -212,11 +220,20 @@ function mapCustomer(customer: ApiCustomer): Customer {
     clientCode: customer.client_code,
     statusId: customer.customer_status_id,
     statusName: customer.customer_status_name,
-    publicAccessToken: customer.public_access_token ?? null,
-    publicAccessUrl: customer.public_access_url ?? null,
     createdAt: customer.created_at,
     updatedAt: customer.updated_at,
     fiscalProfile: mapFiscalProfile(customer.fiscal_profile),
+  };
+}
+
+function mapCustomerPublicAccess(
+  id: string,
+  publicAccess: ApiCustomerPublicAccess
+): FetchCustomerPublicAccessResult {
+  return {
+    id,
+    publicAccessToken: publicAccess.public_access_token ?? null,
+    publicAccessUrl: publicAccess.public_access_url ?? null,
   };
 }
 
@@ -309,6 +326,40 @@ export const fetchCustomerById = createAsyncThunk<Customer, { id: string }, { st
     }
   }
 );
+
+export const fetchCustomerPublicAccess = createAsyncThunk<
+  FetchCustomerPublicAccessResult,
+  { id: string },
+  { state: RootState }
+>('customers/fetchPublicAccess', async ({ id }, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const token = state.auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiCustomerPublicAccess>(
+      `/v1/customers/${id}/public-access`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+        token,
+      }
+    );
+
+    return mapCustomerPublicAccess(id, response.data);
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible obtener el acceso público del cliente';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 export const createCustomer = createAsyncThunk<
   CreateCustomerResult,

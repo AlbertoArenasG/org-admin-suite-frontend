@@ -151,7 +151,11 @@
       "empty": "No files uploaded yet."
     },
     "publicLink": {
-      "empty": "No public link available"
+      "empty": "The public link has not been requested yet.",
+      "restricted": "You do not have permission to view this public link.",
+      "loading": "Loading public link...",
+      "loadAction": "View public link",
+      "loadError": "Unable to load the public link."
     }
   },
   "delete": {

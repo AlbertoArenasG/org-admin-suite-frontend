@@ -151,7 +151,11 @@
       "empty": "No se han cargado archivos."
     },
     "publicLink": {
-      "empty": "Sin enlace público disponible"
+      "empty": "Aún no se ha consultado el enlace público.",
+      "restricted": "No cuentas con permiso para consultar este enlace público.",
+      "loading": "Consultando enlace público...",
+      "loadAction": "Ver enlace público",
+      "loadError": "No fue posible obtener el enlace público."
     }
   },
   "delete": {

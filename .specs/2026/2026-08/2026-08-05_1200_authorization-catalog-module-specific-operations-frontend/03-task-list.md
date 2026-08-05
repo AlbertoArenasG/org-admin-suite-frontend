@@ -46,7 +46,10 @@ Estado de transición:
 - [ ] Adaptar consumers secundarios afectados por el nuevo catálogo
       Status: pending
 
-- [ ] Adaptar consumers de `customers` y `providers` para separar `READ` de `READ_PUBLIC_ACCESS`
+- [x] Adaptar consumers de `customers` para separar `READ` de `READ_PUBLIC_ACCESS`
+      Status: completed
+
+- [ ] Adaptar consumers de `providers` para separar `READ` de `READ_PUBLIC_ACCESS`
       Status: pending
 
 - [ ] Conservar en `users` la frontera de negocio basada en invitaciones, sin reintroducir un flujo normal que dependa de `POST /v1/users`

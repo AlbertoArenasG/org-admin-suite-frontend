@@ -41,6 +41,10 @@ Criterio de salida:
 - el detalle de customer ya no asume que el payload normal trae acceso público sensible
 - la revelación/copia del acceso público depende del flujo explícito alineado a `CUSTOMERS/READ_PUBLIC_ACCESS`
 
+Status:
+
+- completed
+
 ## Slice 3. Providers Public Access Separation
 
 Objetivo:

@@ -11,8 +11,17 @@ import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
-import { deleteCustomer, fetchCustomerById } from '@/features/customers/customersThunks';
-import { resetCustomerDelete, resetCustomerDetail } from '@/features/customers/customersSlice';
+import { useAuthorization } from '@/features/auth';
+import {
+  deleteCustomer,
+  fetchCustomerById,
+  fetchCustomerPublicAccess,
+} from '@/features/customers/customersThunks';
+import {
+  resetCustomerDelete,
+  resetCustomerDetail,
+  resetCustomerPublicAccess,
+} from '@/features/customers/customersSlice';
 import { CustomerDetailSkeleton } from '@/components/customers/CustomerDetailSkeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -42,6 +51,7 @@ export default function CustomerDetailPage() {
   const { t, hydrated, i18n } = useTranslationHydrated(['customers', 'breadcrumbs']);
   const dispatch = useAppDispatch();
   const { showSnackbar } = useSnackbar();
+  const { hasPermission } = useAuthorization();
   const [copied, setCopied] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -49,7 +59,10 @@ export default function CustomerDetailPage() {
 
   const detailState = useAppSelector((state) => state.customers.detail);
   const deleteState = useAppSelector((state) => state.customers.delete);
+  const publicAccessState = useAppSelector((state) => state.customers.publicAccess);
   const customer = detailState.entry;
+  const publicAccess = publicAccessState.currentId === customerId ? publicAccessState.entry : null;
+  const canReadPublicAccess = hasPermission('CUSTOMERS', 'READ_PUBLIC_ACCESS');
 
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;
@@ -86,6 +99,7 @@ export default function CustomerDetailPage() {
     return () => {
       dispatch(resetCustomerDetail());
       dispatch(resetCustomerDelete());
+      dispatch(resetCustomerPublicAccess());
     };
   }, [customerId, dispatch]);
 
@@ -98,7 +112,7 @@ export default function CustomerDetailPage() {
   }, [copied]);
 
   const handleCopyLink = useCallback(() => {
-    const link = customer?.publicAccessUrl;
+    const link = publicAccess?.publicAccessUrl;
     if (!link) {
       showSnackbar({
         message: t('detail.copy.error'),
@@ -150,7 +164,27 @@ export default function CustomerDetailPage() {
           severity: 'error',
         });
       });
-  }, [customer?.publicAccessUrl, showSnackbar, t]);
+  }, [publicAccess?.publicAccessUrl, showSnackbar, t]);
+
+  const handleLoadPublicAccess = useCallback(() => {
+    if (!customerId || !canReadPublicAccess || publicAccessState.status === 'loading') {
+      return;
+    }
+
+    void dispatch(fetchCustomerPublicAccess({ id: customerId }))
+      .unwrap()
+      .catch((error: unknown) => {
+        showSnackbar({
+          message:
+            typeof error === 'string'
+              ? error
+              : t('detail.publicLink.loadError', {
+                  defaultValue: 'No fue posible obtener el enlace público.',
+                }),
+          severity: 'error',
+        });
+      });
+  }, [canReadPublicAccess, customerId, dispatch, publicAccessState.status, showSnackbar, t]);
 
   const handleRetry = useCallback(() => {
     if (!customerId) {
@@ -281,9 +315,13 @@ export default function CustomerDetailPage() {
       ) : customer ? (
         <CustomerDetailContent
           customer={customer}
+          publicAccess={publicAccess}
+          publicAccessStatus={publicAccessState.status}
+          canReadPublicAccess={canReadPublicAccess}
           formatDate={formatDate}
           copied={copied}
           onCopyLink={handleCopyLink}
+          onLoadPublicAccess={handleLoadPublicAccess}
           t={t}
         />
       ) : hasError ? null : (
@@ -329,17 +367,28 @@ export default function CustomerDetailPage() {
 
 interface CustomerDetailContentProps {
   customer: Customer;
+  publicAccess: {
+    publicAccessToken: string | null;
+    publicAccessUrl: string | null;
+  } | null;
+  publicAccessStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
+  canReadPublicAccess: boolean;
   formatDate: (value: string | null) => string;
   copied: boolean;
   onCopyLink: () => void;
+  onLoadPublicAccess: () => void;
   t: TFunction;
 }
 
 function CustomerDetailContent({
   customer,
+  publicAccess,
+  publicAccessStatus,
+  canReadPublicAccess,
   formatDate,
   copied,
   onCopyLink,
+  onLoadPublicAccess,
   t,
 }: CustomerDetailContentProps) {
   const fiscalProfile = customer.fiscalProfile;
@@ -400,10 +449,14 @@ function CustomerDetailContent({
             <DetailField
               label={t('detail.sections.publicLink')}
               value={
-                customer.publicAccessUrl ? (
+                publicAccess?.publicAccessUrl ? (
                   <span className="font-mono text-xs text-foreground">
-                    {customer.publicAccessUrl}
+                    {publicAccess.publicAccessUrl}
                   </span>
+                ) : !canReadPublicAccess ? (
+                  <span className="text-muted-foreground">{t('detail.publicLink.restricted')}</span>
+                ) : publicAccessStatus === 'loading' ? (
+                  <span className="text-muted-foreground">{t('detail.publicLink.loading')}</span>
                 ) : (
                   <span className="text-muted-foreground">{t('detail.publicLink.empty')}</span>
                 )
@@ -412,12 +465,23 @@ function CustomerDetailContent({
           </div>
         </CardContent>
         <CardFooter className="flex flex-wrap gap-3 border-t border-border/60 pt-6">
+          {canReadPublicAccess ? (
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={onLoadPublicAccess}
+              disabled={publicAccessStatus === 'loading'}
+            >
+              {t('detail.publicLink.loadAction')}
+            </Button>
+          ) : null}
           <Button
             variant="outline"
             size="sm"
             className="gap-2"
             onClick={onCopyLink}
-            disabled={!customer.publicAccessUrl}
+            disabled={!publicAccess?.publicAccessUrl}
           >
             {copied ? (
               <Check className="size-4" aria-hidden />

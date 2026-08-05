@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchCustomers,
   fetchCustomerById,
+  fetchCustomerPublicAccess,
   createCustomer,
   updateCustomer,
   deleteCustomer,
@@ -62,11 +63,14 @@ export interface Customer {
   clientCode: string;
   statusId: string;
   statusName: string;
-  publicAccessToken: string | null;
-  publicAccessUrl: string | null;
   createdAt: string;
   updatedAt: string;
   fiscalProfile: CustomerFiscalProfile | null;
+}
+
+export interface CustomerPublicAccess {
+  publicAccessToken: string | null;
+  publicAccessUrl: string | null;
 }
 
 export interface CustomersPagination {
@@ -86,6 +90,12 @@ export interface CustomersState {
     error: string | null;
     currentId: string | null;
     entry: Customer | null;
+  };
+  publicAccess: {
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+    currentId: string | null;
+    entry: CustomerPublicAccess | null;
   };
   create: {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -113,6 +123,12 @@ const initialState: CustomersState = {
   error: null,
   pagination: null,
   detail: {
+    status: 'idle',
+    error: null,
+    currentId: null,
+    entry: null,
+  },
+  publicAccess: {
     status: 'idle',
     error: null,
     currentId: null,
@@ -147,6 +163,14 @@ const customersSlice = createSlice({
     },
     resetCustomerDetail(state) {
       state.detail = {
+        status: 'idle',
+        error: null,
+        currentId: null,
+        entry: null,
+      };
+    },
+    resetCustomerPublicAccess(state) {
+      state.publicAccess = {
         status: 'idle',
         error: null,
         currentId: null,
@@ -215,6 +239,28 @@ const customersSlice = createSlice({
           action.error.message ??
           'No fue posible obtener el cliente';
         state.detail.entry = null;
+      })
+      .addCase(fetchCustomerPublicAccess.pending, (state, action) => {
+        state.publicAccess.status = 'loading';
+        state.publicAccess.error = null;
+        state.publicAccess.currentId = action.meta.arg.id;
+      })
+      .addCase(fetchCustomerPublicAccess.fulfilled, (state, action) => {
+        state.publicAccess.status = 'succeeded';
+        state.publicAccess.error = null;
+        state.publicAccess.currentId = action.payload.id;
+        state.publicAccess.entry = {
+          publicAccessToken: action.payload.publicAccessToken,
+          publicAccessUrl: action.payload.publicAccessUrl,
+        };
+      })
+      .addCase(fetchCustomerPublicAccess.rejected, (state, action) => {
+        state.publicAccess.status = 'failed';
+        state.publicAccess.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible obtener el acceso público del cliente';
+        state.publicAccess.entry = null;
       })
       .addCase(createCustomer.pending, (state) => {
         state.create.status = 'loading';
@@ -297,6 +343,7 @@ const customersSlice = createSlice({
 export const {
   resetCustomersState,
   resetCustomerDetail,
+  resetCustomerPublicAccess,
   resetCustomerCreate,
   resetCustomerUpdate,
   resetCustomerDelete,

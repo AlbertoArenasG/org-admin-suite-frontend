@@ -68,3 +68,9 @@
 - Se cerró el Slice 1:
   - no se encontraron dependencias residuales a `GET /v1/roles/operations` dentro del módulo `roles`
   - el editor y el detalle quedaron alineados al catálogo backend vivo tanto en contenido como en orden de render
+- Se cerró el Slice 2 (`Customers Public Access Separation`):
+  - `Customer` dejó de asumir `publicAccessToken` y `publicAccessUrl` dentro del shape ordinario
+  - se introdujo un fetch dedicado de public access para `customers`
+  - el detalle autenticado de customer ahora revela y copia el enlace público bajo demanda, condicionado por `CUSTOMERS/READ_PUBLIC_ACCESS`
+  - cuando el usuario no tiene ese permiso, la UI degrada mostrando el acceso como restringido
+  - validación técnica local completada con `npm run typecheck` y lint dirigido del módulo `customers`, sin errores
