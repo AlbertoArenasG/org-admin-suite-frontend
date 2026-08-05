@@ -22,3 +22,8 @@
   - el render del editor ya es dinámico por módulo y operación
   - persiste una regla local en frontend que autoactiva y bloquea `READ` cuando existe otra operación activa dentro del mismo módulo
   - esa regla fue ratificada como decisión deliberada de UX para evitar errores humanos al capturar permisos y no como un problema de alineación con backend
+- Se identificaron los consumers secundarios relevantes del rediseño:
+  - `auth/me/permissions` como fuente de autorización efectiva para runtime de UI
+  - `AppSidebar` y `dashboard/page` como consumidores de `hasModule(...)` y `hasPermission(...)`
+  - el detalle de rol como consumer secundario del catálogo `roles/modules` para resolver labels humanos de permisos
+- Con esto quedó cerrado el mapa inicial de consumers secundarios impactados por la iniciativa.

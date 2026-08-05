@@ -13,8 +13,8 @@
 - [x] Auditar el editor de permisos actual contra el catálogo backend vigente
       Status: completed
 
-- [ ] Identificar consumers secundarios de operaciones específicas por módulo
-      Status: pending
+- [x] Identificar consumers secundarios de operaciones específicas por módulo
+      Status: completed
 
 - [ ] Identificar ajustes de frontend requeridos por `READ_PUBLIC_ACCESS` y por la salida de `POST /v1/users` del scope normal
       Status: pending

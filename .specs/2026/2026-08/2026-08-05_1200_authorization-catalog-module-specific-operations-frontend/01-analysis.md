@@ -95,6 +95,36 @@ Frontend todavía no tiene formalizada la iniciativa espejo para absorber ese ca
 - reintroducir desde frontend la idea equivocada de que cualquier usuario con `READ` puede ver URLs o tokens de acceso público sensible
 - perder la salvaguarda de UX que hoy evita omitir `READ` cuando se activa otra operación del mismo módulo
 
+## Consumers Secundarios Identificados
+
+### Authorization runtime de aplicación
+
+- `src/features/auth/authThunks.ts` consume `GET /v1/auth/me/permissions`
+- ese contrato alimenta:
+  - `authorization.modules`
+  - `authorization.permissions`
+- `src/features/auth/useAuthorization.ts` expone `hasModule(...)` y `hasPermission(...)`
+- la navegación y las superficies secundarias no consumen `GET /v1/roles/modules`; consumen autorización efectiva ya resuelta para el actor autenticado
+
+### Navegación y dashboard
+
+- `src/components/sidebar/AppSidebar.tsx` usa `hasModule(...)` y `hasPermission(...)` para construir navegación visible
+- `src/app/dashboard/page.tsx` usa `hasModule(...)` y `hasPermission(...)` para quick actions y workspaces
+- estas superficies no dependen del editor de roles, pero sí dependen de que frontend respete correctamente el catálogo/permiso efectivo que backend expone al usuario autenticado
+
+### Superficies del propio módulo roles
+
+- `src/components/roles/RolesTableContainer.tsx` usa `ROLES/READ`, `ROLES/CREATE`, `ROLES/UPDATE`, `ROLES/DELETE`
+- `src/app/dashboard/roles/[roleId]/page.tsx` consume tanto `fetchRoleById(...)` como `fetchRoleModules(...)` para renderizar metadata y nombres de permisos
+- el detalle de roles sí es consumer secundario del catálogo de módulos porque usa ese catálogo para resolver labels humanos de permisos persistidos
+
+### Conclusión del mapa de consumers
+
+- el rediseño impacta dos planos distintos:
+  - catálogo editable del módulo `roles`
+  - autorización efectiva del usuario autenticado en `auth/me/permissions`
+- para esta spec no basta con revisar el editor; también hay que vigilar que ninguna superficie secundaria siga asumiendo operaciones uniformes o endpoints ya retirados del scope normal
+
 ## Criterio De Inicio
 
 Antes de tocar código conviene cerrar:
