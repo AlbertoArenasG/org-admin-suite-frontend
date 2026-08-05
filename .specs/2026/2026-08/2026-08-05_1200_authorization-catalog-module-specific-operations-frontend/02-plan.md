@@ -9,7 +9,6 @@ Adaptar frontend al catálogo backend de autorización por operaciones específi
 ### Phase 1. Definition
 
 - cerrar decisiones de alcance
-- decidir cómo convive esta iniciativa con la spec previa del editor
 - aterrizar el contrato backend realmente consumido por frontend
 
 ### Phase 2. Analysis

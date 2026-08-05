@@ -3,7 +3,6 @@
 ## Slice 1. Scope And Audit
 
 - cerrar alcance final de la iniciativa
-- decidir la relación con la spec previa del editor
 - auditar código real impactado
 
 ## Slice 2. Catalog Consumption

@@ -5,9 +5,6 @@
 - [ ] Cerrar el alcance exacto de la iniciativa frontend
       Status: pending
 
-- [ ] Decidir la relación formal con `roles-permissions-editor-catalog-driven`
-      Status: pending
-
 - [ ] Aterrizar los contratos backend relevantes para frontend
       Status: pending
 
@@ -20,6 +17,9 @@
       Status: pending
 
 - [ ] Identificar ajustes de frontend requeridos por `READ_PUBLIC_ACCESS` y por la salida de `POST /v1/users` del scope normal
+      Status: pending
+
+- [ ] Identificar en `customers` y `providers` qué vistas autenticadas deberán consultar el nuevo endpoint de public access y cómo degradarán cuando solo exista `READ`
       Status: pending
 
 ## Phase 3. Technical Design
@@ -39,6 +39,9 @@
       Status: pending
 
 - [ ] Adaptar consumers secundarios afectados por el nuevo catálogo
+      Status: pending
+
+- [ ] Adaptar consumers de `customers` y `providers` para separar `READ` de `READ_PUBLIC_ACCESS`
       Status: pending
 
 - [ ] Actualizar docs frontend relevantes

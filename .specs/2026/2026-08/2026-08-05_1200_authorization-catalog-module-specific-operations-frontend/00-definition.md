@@ -4,9 +4,7 @@
 
 Esta iniciativa existe para adaptar el frontend al rediseño backend del catálogo de autorización, de forma que la UI deje de asumir un modelo uniforme de operaciones por módulo y consuma de manera explícita las operaciones reales declaradas por backend.
 
-Esta spec es el espejo frontend de:
-
-- `org-admin-suite-api/.specs/2026/2026-08/2026-08-04_1600_authorization-catalog-module-specific-operations`
+Esta iniciativa frontend existe para absorber en la UI los cambios ya cerrados en backend sobre el catálogo de autorización por operaciones específicas por módulo.
 
 Regla de trabajo:
 
@@ -57,11 +55,17 @@ Si el backend ya redefinió la semántica del catálogo, frontend debe cerrar no
 
 ### Decision Final
 
-Pendiente.
+Se aprueba que esta iniciativa frontend cubra:
+
+- el editor de permisos de roles
+- los consumers directos del catálogo de autorización
+- y las alineaciones secundarias de frontend que sean consecuencia directa del rediseño backend del catálogo
+
+Quedan fuera cambios que no deriven directamente de esta evolución del catálogo/autorización.
 
 ### Status
 
-pending
+approved
 
 ---
 
@@ -96,11 +100,13 @@ Frontend no debería duplicar lógica de dominio del catálogo si backend ya la 
 
 ### Decision Final
 
-Pendiente.
+Se aprueba que backend sea la única fuente de verdad para las operaciones válidas por módulo.
+
+Frontend no reconstruirá esa relación por su cuenta ni mantendrá lógica paralela para inferir operaciones permitidas.
 
 ### Status
 
-pending
+approved
 
 ---
 
@@ -141,46 +147,16 @@ No conviene fragmentar la UI sin necesidad, pero sí aceptar que algunas operaci
 
 ### Decision Final
 
-Pendiente.
+Se aprueba que frontend no introduzca una categoría visual especial para operaciones sensibles o auxiliares.
+
+Toda operación válida de un módulo se mostrará en el editor con la misma semántica base que las demás.
+
+Los labels y nombres seguirán viniendo del backend como fuente de verdad del catálogo.
+
+Si en el futuro negocio pide una representación especial para alguna operación concreta, eso se trabajará en una iniciativa posterior y no dentro de esta spec.
 
 ### Status
 
-pending
+approved
 
 ---
-
-## Decision 04. Relación con la spec previa `roles-permissions-editor-catalog-driven`
-
-### Context
-
-Ya existe esta spec en frontend:
-
-- `2026-08-04_1200_roles-permissions-editor-catalog-driven`
-
-Ese trabajo toca una parte importante del problema actual, pero no necesariamente cubre toda la alineación que ahora exige el backend rediseñado.
-
-### Options
-
-1. Reutilizar la spec previa y no abrir una nueva
-2. Dejar la spec previa como antecedente acotado y abrir esta nueva como iniciativa integradora
-3. Fusionar manualmente ambos specs en uno solo
-
-### Recommendation
-
-Opción 2.
-
-La spec previa sirve como antecedente técnico útil, pero este rediseño frontend necesita una iniciativa más amplia y trazable respecto al backend ya cerrado.
-
-### Implications
-
-- se mantiene trazabilidad limpia entre iniciativas
-- no se pierde el trabajo ya pensado sobre el editor
-- esta nueva spec puede absorber integración, cleanup y docs sin reescribir la historia anterior
-
-### Decision Final
-
-Pendiente.
-
-### Status
-
-pending
