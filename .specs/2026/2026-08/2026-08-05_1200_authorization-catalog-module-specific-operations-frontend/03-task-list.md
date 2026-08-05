@@ -43,8 +43,8 @@ Estado de transición:
 - [x] Adaptar el editor de permisos al catálogo final aprobado
       Status: completed
 
-- [ ] Adaptar consumers secundarios afectados por el nuevo catálogo
-      Status: pending
+- [x] Adaptar consumers secundarios afectados por el nuevo catálogo
+      Status: completed
 
 - [x] Adaptar consumers de `customers` para separar `READ` de `READ_PUBLIC_ACCESS`
       Status: completed
@@ -52,8 +52,8 @@ Estado de transición:
 - [x] Adaptar consumers de `providers` para separar `READ` de `READ_PUBLIC_ACCESS`
       Status: completed
 
-- [ ] Conservar en `users` la frontera de negocio basada en invitaciones, sin reintroducir un flujo normal que dependa de `POST /v1/users`
-      Status: pending
+- [x] Conservar en `users` la frontera de negocio basada en invitaciones, sin reintroducir un flujo normal que dependa de `POST /v1/users`
+      Status: completed
 
 - [ ] Auditar y alinear controles operativos de UI para crear, editar y eliminar recursos según módulos y operaciones efectivas del usuario autenticado
       Status: pending

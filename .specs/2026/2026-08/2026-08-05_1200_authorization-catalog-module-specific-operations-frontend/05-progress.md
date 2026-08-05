@@ -80,3 +80,15 @@
   - el detalle autenticado de provider ahora revela y copia el enlace público bajo demanda, condicionado por `PROVIDERS/READ_PUBLIC_ACCESS`
   - cuando el usuario no tiene ese permiso, la UI degrada mostrando el acceso como restringido
   - validación técnica local completada con `npm run typecheck` y lint dirigido del módulo `providers`, sin errores
+- Se cerró el Slice 4 (`Runtime Secondary Consumers Review`):
+  - `users` dejó de depender solo de la jerarquía de `systemRole` para renderizar acciones operativas por fila
+  - las acciones de invitar, editar y eliminar en la tabla de usuarios ahora exigen permiso funcional efectivo además de la frontera estructural
+  - el botón principal de invitar en el listado de usuarios ya no se muestra cuando falta `USER_REGISTRATION_INVITATIONS/CREATE`
+  - se confirmó que `dashboard/page` y `AppSidebar` ya consumían correctamente `auth/me/permissions` para navegación y quick actions
+  - se confirmó que el frontend ordinario no reintroduce un flujo normal dependiente de `POST /v1/users`; el módulo `users` sigue operando bajo la frontera de invitaciones
+  - validación técnica local completada con `npm run typecheck` y lint dirigido del módulo `users`, sin errores
+- Arrancó el Slice 6 (`UI Operational Controls Sweep`):
+  - en `customers` se alinearon `create`, `edit` y `delete` en listado, detalle y rutas `new/edit` para que dependan de `CUSTOMERS/CREATE`, `CUSTOMERS/UPDATE` y `CUSTOMERS/DELETE`
+  - en `providers` se alinearon `create`, `edit` y `delete` en listado, detalle y rutas `new/edit` para que dependan de `PROVIDERS/CREATE`, `PROVIDERS/UPDATE` y `PROVIDERS/DELETE`
+  - en `service entries` se confirmó que la tabla y formularios ya respetaban permisos y se corrigió el botón de editar del detalle para que dependa de `SERVICE_ENTRIES/UPDATE`
+  - validación técnica local completada con `npm run typecheck` y lint dirigido de los módulos ajustados, sin errores

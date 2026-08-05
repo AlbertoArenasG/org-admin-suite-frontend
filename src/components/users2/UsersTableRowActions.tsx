@@ -17,6 +17,9 @@ interface UsersTableRowActionsProps {
   user: UsersTableUser;
   currentRole: AuthSystemRole | null;
   currentUserId: string | null;
+  canInviteUsers: boolean;
+  canUpdateUsers: boolean;
+  canDeleteUsers: boolean;
   onDelete: (user: UsersTableUser) => void;
   labels: {
     menu: string;
@@ -31,17 +34,23 @@ export function UsersTableRowActions({
   user,
   currentRole,
   currentUserId,
+  canInviteUsers,
+  canUpdateUsers,
+  canDeleteUsers,
   onDelete,
   labels,
 }: UsersTableRowActionsProps) {
   const isSelf = currentUserId === user.id;
-  const canEdit = currentRole
-    ? canManageSystemRole(currentRole, user.systemRole, { allowSameLevel: isSelf })
-    : false;
-  const canDelete = currentRole
-    ? !isSelf && canManageSystemRole(currentRole, user.systemRole)
-    : false;
-  const canInvite = currentRole ? canInviteSystemRole(currentRole, user.systemRole) : false;
+  const canEdit =
+    canUpdateUsers && currentRole
+      ? canManageSystemRole(currentRole, user.systemRole, { allowSameLevel: isSelf })
+      : false;
+  const canDelete =
+    canDeleteUsers && currentRole
+      ? !isSelf && canManageSystemRole(currentRole, user.systemRole)
+      : false;
+  const canInvite =
+    canInviteUsers && currentRole ? canInviteSystemRole(currentRole, user.systemRole) : false;
 
   return (
     <DropdownMenu>

@@ -19,6 +19,7 @@ import { useUsersTableData } from '@/components/users2/useUsersTableData';
 import { useUsersTableStore } from '@/components/users2/useUsersTableStore';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { resetDeleteState } from '@/features/users/usersSlice';
+import { useAuthorization } from '@/features/auth/useAuthorization';
 
 function getInitialPagination(params: URLSearchParams) {
   const initialPage = Number(params.get('page'));
@@ -33,6 +34,7 @@ export function UsersTableContainer() {
   const { t, hydrated, i18n } = useTranslationHydrated('users');
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { hasPermission } = useAuthorization();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchParamsString = searchParams.toString();
@@ -216,12 +218,18 @@ export function UsersTableContainer() {
   const tableData = useUsersTableData(entities);
 
   const currentRole = authUser?.systemRole ?? null;
+  const canInviteUsers = hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE');
+  const canUpdateUsers = hasPermission('USERS', 'UPDATE');
+  const canDeleteUsers = hasPermission('USERS', 'DELETE');
 
   const columns = useUsersTableColumns({
     t,
     dateFormatter,
     currentRole,
     currentUserId: authUser?.id ?? null,
+    canInviteUsers,
+    canUpdateUsers,
+    canDeleteUsers,
     onDelete: (user) => setDeleteTarget(user),
   });
 
@@ -264,6 +272,7 @@ export function UsersTableContainer() {
       table={table}
       isLoading={isLoading}
       error={error}
+      canInvite={canInviteUsers}
       onInviteClick={() => router.push('/dashboard/users/invite')}
       title={t('title')}
       inviteLabel={t('actions.inviteShort')}

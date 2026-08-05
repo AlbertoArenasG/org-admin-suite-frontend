@@ -62,6 +62,8 @@ export default function CustomerDetailPage() {
   const publicAccessState = useAppSelector((state) => state.customers.publicAccess);
   const customer = detailState.entry;
   const publicAccess = publicAccessState.currentId === customerId ? publicAccessState.entry : null;
+  const canUpdate = hasPermission('CUSTOMERS', 'UPDATE');
+  const canDelete = hasPermission('CUSTOMERS', 'DELETE');
   const canReadPublicAccess = hasPermission('CUSTOMERS', 'READ_PUBLIC_ACCESS');
 
   const dateFormatter = useMemo(() => {
@@ -260,7 +262,7 @@ export default function CustomerDetailPage() {
           <p className="text-muted-foreground">{pageSubtitle}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          {customer ? (
+          {customer && canUpdate ? (
             <Button
               variant="outline"
               size="sm"
@@ -270,16 +272,18 @@ export default function CustomerDetailPage() {
               {t('detail.actions.edit')}
             </Button>
           ) : null}
-          <Button
-            variant="destructive"
-            size="sm"
-            className="gap-2"
-            onClick={() => setDeleteDialogOpen(true)}
-            disabled={!customer}
-          >
-            <Trash2 className="size-4" aria-hidden />
-            {t('detail.actions.delete')}
-          </Button>
+          {canDelete ? (
+            <Button
+              variant="destructive"
+              size="sm"
+              className="gap-2"
+              onClick={() => setDeleteDialogOpen(true)}
+              disabled={!customer}
+            >
+              <Trash2 className="size-4" aria-hidden />
+              {t('detail.actions.delete')}
+            </Button>
+          ) : null}
           <Button
             variant="ghost"
             size="sm"

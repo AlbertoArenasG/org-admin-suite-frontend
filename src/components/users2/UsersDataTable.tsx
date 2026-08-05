@@ -17,6 +17,7 @@ interface UsersDataTableProps {
   table: Table<UsersTableUser>;
   isLoading: boolean;
   error: string | null;
+  canInvite: boolean;
   onInviteClick: () => void;
   title: string;
   inviteLabel: string;
@@ -51,6 +52,7 @@ export function UsersDataTable({
   table,
   isLoading,
   error,
+  canInvite,
   onInviteClick,
   title,
   inviteLabel,
@@ -87,9 +89,11 @@ export function UsersDataTable({
             </Typography>
           ) : null}
         </div>
-        <Button type="button" size="sm" onClick={onInviteClick} aria-label={inviteAriaLabel}>
-          {inviteLabel}
-        </Button>
+        {canInvite ? (
+          <Button type="button" size="sm" onClick={onInviteClick} aria-label={inviteAriaLabel}>
+            {inviteLabel}
+          </Button>
+        ) : null}
       </div>
 
       <UsersTableToolbar

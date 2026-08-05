@@ -17,6 +17,9 @@ interface UseUsersTableColumnsParams {
   dateFormatter: Intl.DateTimeFormat;
   currentRole: AuthSystemRole | null;
   currentUserId: string | null;
+  canInviteUsers: boolean;
+  canUpdateUsers: boolean;
+  canDeleteUsers: boolean;
   onDelete: (user: UsersTableUser) => void;
 }
 
@@ -47,6 +50,9 @@ export function useUsersTableColumns({
   dateFormatter,
   currentRole,
   currentUserId,
+  canInviteUsers,
+  canUpdateUsers,
+  canDeleteUsers,
   onDelete,
 }: UseUsersTableColumnsParams) {
   return useMemo<ColumnDef<UsersTableUser>[]>(
@@ -119,6 +125,9 @@ export function useUsersTableColumns({
             user={row.original}
             currentRole={currentRole}
             currentUserId={currentUserId}
+            canInviteUsers={canInviteUsers}
+            canUpdateUsers={canUpdateUsers}
+            canDeleteUsers={canDeleteUsers}
             onDelete={onDelete}
             labels={{
               menu: t('actions.openMenu'),
@@ -131,6 +140,15 @@ export function useUsersTableColumns({
         ),
       },
     ],
-    [currentRole, currentUserId, dateFormatter, onDelete, t]
+    [
+      canDeleteUsers,
+      canInviteUsers,
+      canUpdateUsers,
+      currentRole,
+      currentUserId,
+      dateFormatter,
+      onDelete,
+      t,
+    ]
   );
 }

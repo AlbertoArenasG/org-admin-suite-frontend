@@ -69,6 +69,10 @@ Status:
 
 ## Slice 4. Runtime Secondary Consumers Review
 
+Status:
+
+- completed
+
 Objetivo:
 
 - validar y ajustar consumers secundarios del runtime de autorización para que sigan alineados al catálogo backend
@@ -104,6 +108,10 @@ Criterio de salida:
 - spec lista para cierre formal
 
 ## Slice 6. UI Operational Controls Sweep
+
+Status:
+
+- in progress
 
 Objetivo:
 

@@ -6,9 +6,12 @@ import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useTranslation } from 'react-i18next';
 import { CustomerForm } from '@/components/customers/CustomerForm';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { useAuthorization } from '@/features/auth';
 
 export default function CustomerCreatePage() {
   const { t } = useTranslation(['customers', 'breadcrumbs']);
+  const { hasPermission } = useAuthorization();
+  const canCreate = hasPermission('CUSTOMERS', 'CREATE');
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -46,7 +49,15 @@ export default function CustomerCreatePage() {
           <CardDescription>{t('create.formSubtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <CustomerForm mode="create" />
+          {!canCreate ? (
+            <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+              {t('restricted', {
+                defaultValue: 'No cuentas con permiso para consultar este módulo.',
+              })}
+            </div>
+          ) : (
+            <CustomerForm mode="create" />
+          )}
         </CardContent>
       </Card>
     </div>

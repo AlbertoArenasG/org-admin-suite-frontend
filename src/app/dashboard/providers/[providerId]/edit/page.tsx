@@ -14,12 +14,14 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { fetchProviderById } from '@/features/providers/providersThunks';
 import { ProviderDetailSkeleton } from '@/components/providers/ProviderDetailSkeleton';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useAuthorization } from '@/features/auth';
 
 export default function ProviderEditPage() {
   const params = useParams<{ providerId: string }>();
   const providerId = params.providerId;
   const { t } = useTranslation(['providers', 'breadcrumbs']);
   const dispatch = useAppDispatch();
+  const { hasPermission } = useAuthorization();
 
   const detailState = useAppSelector((state) => state.providers.detail);
   const providers = useAppSelector((state) => state.providers.items);
@@ -30,6 +32,7 @@ export default function ProviderEditPage() {
     }
     return providers.find((item) => item.id === providerId) ?? null;
   }, [detailState.entry, providerId, providers]);
+  const canUpdate = hasPermission('PROVIDERS', 'UPDATE');
 
   useEffect(() => {
     if (!providerId) {
@@ -86,14 +89,22 @@ export default function ProviderEditPage() {
             <CardDescription>{t('edit.formSubtitle')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <ProviderForm
-              mode="edit"
-              providerId={provider.id}
-              initialValues={{
-                companyName: provider.companyName,
-                providerCode: provider.providerCode,
-              }}
-            />
+            {!canUpdate ? (
+              <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+                {t('edit.restricted', {
+                  defaultValue: 'No cuentas con permiso para editar este proveedor.',
+                })}
+              </div>
+            ) : (
+              <ProviderForm
+                mode="edit"
+                providerId={provider.id}
+                initialValues={{
+                  companyName: provider.companyName,
+                  providerCode: provider.providerCode,
+                }}
+              />
+            )}
           </CardContent>
         </Card>
       ) : null}

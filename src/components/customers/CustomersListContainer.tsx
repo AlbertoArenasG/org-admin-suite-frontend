@@ -26,6 +26,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
+import { useAuthorization } from '@/features/auth';
 
 const DEFAULT_PAGE_SIZE = 12;
 
@@ -33,6 +34,7 @@ export function CustomersListContainer() {
   const { t, hydrated, i18n } = useTranslationHydrated('customers');
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { hasPermission } = useAuthorization();
   const {
     items,
     status,
@@ -41,6 +43,9 @@ export function CustomersListContainer() {
     delete: deleteState,
   } = useAppSelector((state) => state.customers);
   const { showSnackbar } = useSnackbar();
+  const canCreate = hasPermission('CUSTOMERS', 'CREATE');
+  const canUpdate = hasPermission('CUSTOMERS', 'UPDATE');
+  const canDelete = hasPermission('CUSTOMERS', 'DELETE');
 
   const [page, setPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
@@ -207,15 +212,17 @@ export function CustomersListContainer() {
         clearLabel={t('filters.clear') ?? 'Limpiar búsqueda'}
         summary={rangeLabel}
         actions={
-          <Button
-            variant="default"
-            size="sm"
-            className="gap-2"
-            onClick={() => router.push('/dashboard/customers/new')}
-          >
-            <Plus className="size-4" aria-hidden />
-            {t('create.action')}
-          </Button>
+          canCreate ? (
+            <Button
+              variant="default"
+              size="sm"
+              className="gap-2"
+              onClick={() => router.push('/dashboard/customers/new')}
+            >
+              <Plus className="size-4" aria-hidden />
+              {t('create.action')}
+            </Button>
+          ) : null
         }
       />
 
@@ -253,11 +260,19 @@ export function CustomersListContainer() {
               customer={customer}
               labels={cardLabels}
               formatDate={formatDate}
-              onEdit={(item) => router.push(`/dashboard/customers/${item.id}/edit`)}
-              onDelete={(item) => {
-                setDeleteTarget(item);
-                setDeleteDialogOpen(true);
-              }}
+              onEdit={
+                canUpdate
+                  ? (item) => router.push(`/dashboard/customers/${item.id}/edit`)
+                  : undefined
+              }
+              onDelete={
+                canDelete
+                  ? (item) => {
+                      setDeleteTarget(item);
+                      setDeleteDialogOpen(true);
+                    }
+                  : undefined
+              }
             />
           ))}
         </div>

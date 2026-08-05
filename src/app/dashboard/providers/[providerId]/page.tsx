@@ -62,6 +62,8 @@ export default function ProviderDetailPage() {
   const publicAccessState = useAppSelector((state) => state.providers.publicAccess);
   const provider = detailState.entry;
   const publicAccess = publicAccessState.currentId === providerId ? publicAccessState.entry : null;
+  const canUpdate = hasPermission('PROVIDERS', 'UPDATE');
+  const canDelete = hasPermission('PROVIDERS', 'DELETE');
   const canReadPublicAccess = hasPermission('PROVIDERS', 'READ_PUBLIC_ACCESS');
 
   const dateFormatter = useMemo(() => {
@@ -260,7 +262,7 @@ export default function ProviderDetailPage() {
           <p className="text-muted-foreground">{pageSubtitle}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          {provider ? (
+          {provider && canUpdate ? (
             <Button
               variant="outline"
               size="sm"
@@ -270,16 +272,18 @@ export default function ProviderDetailPage() {
               {t('detail.actions.edit')}
             </Button>
           ) : null}
-          <Button
-            variant="destructive"
-            size="sm"
-            className="gap-2"
-            onClick={() => setDeleteDialogOpen(true)}
-            disabled={!provider}
-          >
-            <Trash2 className="size-4" aria-hidden />
-            {t('detail.actions.delete')}
-          </Button>
+          {canDelete ? (
+            <Button
+              variant="destructive"
+              size="sm"
+              className="gap-2"
+              onClick={() => setDeleteDialogOpen(true)}
+              disabled={!provider}
+            >
+              <Trash2 className="size-4" aria-hidden />
+              {t('detail.actions.delete')}
+            </Button>
+          ) : null}
           <Button
             variant="ghost"
             size="sm"

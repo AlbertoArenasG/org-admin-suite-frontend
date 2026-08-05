@@ -6,9 +6,12 @@ import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useTranslation } from 'react-i18next';
 import { ProviderForm } from '@/components/providers/ProviderForm';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { useAuthorization } from '@/features/auth';
 
 export default function ProviderCreatePage() {
   const { t } = useTranslation(['providers', 'breadcrumbs']);
+  const { hasPermission } = useAuthorization();
+  const canCreate = hasPermission('PROVIDERS', 'CREATE');
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -46,7 +49,15 @@ export default function ProviderCreatePage() {
           <CardDescription>{t('create.formSubtitle')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <ProviderForm mode="create" />
+          {!canCreate ? (
+            <div className="rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+              {t('restricted', {
+                defaultValue: 'No cuentas con permiso para consultar este módulo.',
+              })}
+            </div>
+          ) : (
+            <ProviderForm mode="create" />
+          )}
         </CardContent>
       </Card>
     </div>

@@ -20,6 +20,7 @@ import {
 } from '@/features/serviceEntries/serviceEntriesSlice';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useAuthorization } from '@/features/auth';
 export default function ServiceEntryDetailPage() {
   const params = useParams<{ serviceEntryId: string }>();
   const router = useRouter();
@@ -27,6 +28,8 @@ export default function ServiceEntryDetailPage() {
   const dispatch = useAppDispatch();
   const detail = useAppSelector((state) => state.serviceEntries.detail);
   const { showSnackbar } = useSnackbar();
+  const { hasPermission } = useAuthorization();
+  const canUpdate = hasPermission('SERVICE_ENTRIES', 'UPDATE');
 
   useEffect(() => {
     if (!params.serviceEntryId) {
@@ -178,11 +181,15 @@ export default function ServiceEntryDetailPage() {
           <Button variant="outline" onClick={() => router.back()}>
             {t('detail.actions.back')}
           </Button>
-          <Button
-            onClick={() => router.push(`/dashboard/service-entries/${params.serviceEntryId}/edit`)}
-          >
-            {t('detail.actions.edit')}
-          </Button>
+          {canUpdate ? (
+            <Button
+              onClick={() =>
+                router.push(`/dashboard/service-entries/${params.serviceEntryId}/edit`)
+              }
+            >
+              {t('detail.actions.edit')}
+            </Button>
+          ) : null}
         </div>
       </Paper>
     </div>
