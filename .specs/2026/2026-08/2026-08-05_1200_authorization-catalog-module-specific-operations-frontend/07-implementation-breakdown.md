@@ -90,3 +90,20 @@ Criterio de salida:
 - task list sin pendientes falsos
 - breakdown reflejando solo slices ejecutados o cerrados
 - spec lista para cierre formal
+
+## Slice 6. UI Operational Controls Sweep
+
+Objetivo:
+
+- revisar módulo por módulo los controles operativos de UI para asegurar que create, edit y delete ya dependan de los módulos y operaciones efectivas del usuario autenticado
+
+Incluye:
+
+- revisar botones, acciones de fila, accesos rápidos, CTAs y entradas de navegación operativa
+- validar que los controles visibles de crear, editar y eliminar no dependan de supuestos legacy ni de accesos demasiado amplios
+- recorrerlo de forma interactiva entre tú y yo, vista por vista o módulo por módulo, sin reabrir definición de la spec
+
+Criterio de salida:
+
+- cada control operativo revisado queda alineado al permiso o módulo correcto
+- cualquier ajuste descubierto se implementa o se registra dentro de esta misma spec antes del cierre

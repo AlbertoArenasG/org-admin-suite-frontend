@@ -52,6 +52,9 @@ Estado de transición:
 - [ ] Conservar en `users` la frontera de negocio basada en invitaciones, sin reintroducir un flujo normal que dependa de `POST /v1/users`
       Status: pending
 
+- [ ] Auditar y alinear controles operativos de UI para crear, editar y eliminar recursos según módulos y operaciones efectivas del usuario autenticado
+      Status: pending
+
 - [ ] Actualizar docs frontend relevantes
       Status: pending
 

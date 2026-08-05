@@ -57,3 +57,7 @@
   - `00-definition.md` quedó con `Definition status: completed`
   - la spec quedó marcada como `Implementation ready: yes`
   - el último pendiente analítico sobre customers/providers quedó absorbido formalmente por los slices de implementación ya definidos
+- Se amplió el breakdown de implementación con un slice final de barrido de controles operativos de UI:
+  - revisión interactiva de botones, acciones y CTAs de create/edit/delete
+  - alineación de esos controles al módulo y operación efectiva del usuario autenticado
+  - sin reabrir definición ni decisiones ya cerradas de la spec
