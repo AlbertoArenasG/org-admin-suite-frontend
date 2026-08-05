@@ -65,3 +65,6 @@
   - se corrigió el detalle de roles para respetar el orden de módulos y operaciones entregado por `GET /v1/roles/modules`, en lugar de reordenarlos alfabéticamente en frontend
   - con esto el módulo `roles` queda consistente entre editor y detalle respecto al catálogo backend vivo
   - validación técnica local completada con `npm run typecheck` y lint dirigido del módulo `roles`, sin errores
+- Se cerró el Slice 1:
+  - no se encontraron dependencias residuales a `GET /v1/roles/operations` dentro del módulo `roles`
+  - el editor y el detalle quedaron alineados al catálogo backend vivo tanto en contenido como en orden de render

@@ -2,6 +2,10 @@
 
 ## Slice 1. Roles Catalog Editor Alignment
 
+Status:
+
+- completed
+
 Objetivo:
 
 - dejar el módulo de roles completamente alineado al catálogo backend vivo, sin suposiciones CRUD uniformes ni dependencia de `roles/operations`
