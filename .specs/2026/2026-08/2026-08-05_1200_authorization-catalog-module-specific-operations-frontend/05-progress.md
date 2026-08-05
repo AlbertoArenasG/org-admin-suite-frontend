@@ -74,3 +74,9 @@
   - el detalle autenticado de customer ahora revela y copia el enlace público bajo demanda, condicionado por `CUSTOMERS/READ_PUBLIC_ACCESS`
   - cuando el usuario no tiene ese permiso, la UI degrada mostrando el acceso como restringido
   - validación técnica local completada con `npm run typecheck` y lint dirigido del módulo `customers`, sin errores
+- Se cerró el Slice 3 (`Providers Public Access Separation`):
+  - `Provider` dejó de asumir `publicAccessToken` y `publicAccessUrl` dentro del shape ordinario
+  - se introdujo un fetch dedicado de public access para `providers`
+  - el detalle autenticado de provider ahora revela y copia el enlace público bajo demanda, condicionado por `PROVIDERS/READ_PUBLIC_ACCESS`
+  - cuando el usuario no tiene ese permiso, la UI degrada mostrando el acceso como restringido
+  - validación técnica local completada con `npm run typecheck` y lint dirigido del módulo `providers`, sin errores

@@ -63,6 +63,10 @@ Criterio de salida:
 - el detalle de provider ya no asume que el payload normal trae acceso público sensible
 - la revelación/copia del acceso público depende del flujo explícito alineado a `PROVIDERS/READ_PUBLIC_ACCESS`
 
+Status:
+
+- completed
+
 ## Slice 4. Runtime Secondary Consumers Review
 
 Objetivo:

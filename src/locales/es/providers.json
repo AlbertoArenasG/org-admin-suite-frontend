@@ -101,7 +101,11 @@
       "creditGranted": "Crédito otorgado"
     },
     "publicLink": {
-      "empty": "Sin enlace público"
+      "empty": "Aún no se ha consultado el enlace público.",
+      "restricted": "No cuentas con permiso para consultar este enlace público.",
+      "loading": "Consultando enlace público...",
+      "loadAction": "Ver enlace público",
+      "loadError": "No fue posible obtener el enlace público."
     },
     "copy": {
       "action": "Copiar enlace",

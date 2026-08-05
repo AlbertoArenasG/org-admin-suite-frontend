@@ -101,7 +101,11 @@
       "creditGranted": "Credit granted"
     },
     "publicLink": {
-      "empty": "No public link"
+      "empty": "The public link has not been requested yet.",
+      "restricted": "You do not have permission to view this public link.",
+      "loading": "Loading public link...",
+      "loadAction": "View public link",
+      "loadError": "Unable to load the public link."
     },
     "copy": {
       "action": "Copy link",

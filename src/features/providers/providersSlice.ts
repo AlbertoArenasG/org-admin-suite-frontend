@@ -3,6 +3,7 @@ import {
   createProvider,
   deleteProvider,
   fetchProviderById,
+  fetchProviderPublicAccess,
   fetchProviders,
   updateProvider,
 } from '@/features/providers/providersThunks';
@@ -78,13 +79,16 @@ export interface Provider {
   providerCode: string;
   statusId: string;
   statusName: string;
-  publicAccessToken: string | null;
-  publicAccessUrl: string | null;
   contact: ProviderContact | null;
   createdAt: string;
   updatedAt: string;
   fiscalProfile: ProviderFiscalProfile | null;
   bankingInfo: ProviderBankingInfo | null;
+}
+
+export interface ProviderPublicAccess {
+  publicAccessToken: string | null;
+  publicAccessUrl: string | null;
 }
 
 export interface ProvidersPagination {
@@ -104,6 +108,12 @@ export interface ProvidersState {
     error: string | null;
     currentId: string | null;
     entry: Provider | null;
+  };
+  publicAccess: {
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+    currentId: string | null;
+    entry: ProviderPublicAccess | null;
   };
   create: {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -131,6 +141,12 @@ const initialState: ProvidersState = {
   error: null,
   pagination: null,
   detail: {
+    status: 'idle',
+    error: null,
+    currentId: null,
+    entry: null,
+  },
+  publicAccess: {
     status: 'idle',
     error: null,
     currentId: null,
@@ -165,6 +181,14 @@ const providersSlice = createSlice({
     },
     resetProviderDetail(state) {
       state.detail = {
+        status: 'idle',
+        error: null,
+        currentId: null,
+        entry: null,
+      };
+    },
+    resetProviderPublicAccess(state) {
+      state.publicAccess = {
         status: 'idle',
         error: null,
         currentId: null,
@@ -233,6 +257,28 @@ const providersSlice = createSlice({
           action.error.message ??
           'No fue posible obtener el proveedor';
         state.detail.entry = null;
+      })
+      .addCase(fetchProviderPublicAccess.pending, (state, action) => {
+        state.publicAccess.status = 'loading';
+        state.publicAccess.error = null;
+        state.publicAccess.currentId = action.meta.arg.id;
+      })
+      .addCase(fetchProviderPublicAccess.fulfilled, (state, action) => {
+        state.publicAccess.status = 'succeeded';
+        state.publicAccess.error = null;
+        state.publicAccess.currentId = action.payload.id;
+        state.publicAccess.entry = {
+          publicAccessToken: action.payload.publicAccessToken,
+          publicAccessUrl: action.payload.publicAccessUrl,
+        };
+      })
+      .addCase(fetchProviderPublicAccess.rejected, (state, action) => {
+        state.publicAccess.status = 'failed';
+        state.publicAccess.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible obtener el acceso público del proveedor';
+        state.publicAccess.entry = null;
       })
       .addCase(createProvider.pending, (state) => {
         state.create.status = 'loading';
@@ -315,6 +361,7 @@ const providersSlice = createSlice({
 export const {
   resetProvidersState,
   resetProviderDetail,
+  resetProviderPublicAccess,
   resetProviderCreate,
   resetProviderUpdate,
   resetProviderDelete,

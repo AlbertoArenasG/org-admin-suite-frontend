@@ -8,6 +8,7 @@ import type {
   ProviderContact,
   ProviderFileMetadata,
   ProviderFiscalAddress,
+  ProviderPublicAccess,
   ProvidersPagination,
 } from '@/features/providers/providersSlice';
 
@@ -23,13 +24,16 @@ interface ApiProvider {
   provider_code: string;
   provider_status_id: string;
   provider_status_name: string;
-  public_access_token?: string | null;
-  public_access_url?: string | null;
   contact?: ApiProviderContact | null;
   created_at: string;
   updated_at: string;
   fiscal_profile?: ApiProviderFiscalProfile | null;
   banking_info?: ApiProviderBankingInfo | null;
+}
+
+interface ApiProviderPublicAccess {
+  public_access_token?: string | null;
+  public_access_url?: string | null;
 }
 
 interface ApiProviderContact {
@@ -155,6 +159,10 @@ export interface DeleteProviderResult {
   message: string | null;
 }
 
+export interface FetchProviderPublicAccessResult extends ProviderPublicAccess {
+  id: string;
+}
+
 function mapContact(contact?: ApiProviderContact | null): ProviderContact | null {
   if (!contact) {
     return null;
@@ -261,13 +269,22 @@ function mapProvider(provider: ApiProvider): Provider {
     providerCode: provider.provider_code,
     statusId: provider.provider_status_id,
     statusName: provider.provider_status_name,
-    publicAccessToken: provider.public_access_token ?? null,
-    publicAccessUrl: provider.public_access_url ?? null,
     contact: mapContact(provider.contact),
     createdAt: provider.created_at,
     updatedAt: provider.updated_at,
     fiscalProfile: mapFiscalProfile(provider.fiscal_profile),
     bankingInfo: mapBankingInfo(provider.banking_info),
+  };
+}
+
+function mapProviderPublicAccess(
+  id: string,
+  publicAccess: ApiProviderPublicAccess
+): FetchProviderPublicAccessResult {
+  return {
+    id,
+    publicAccessToken: publicAccess.public_access_token ?? null,
+    publicAccessUrl: publicAccess.public_access_url ?? null,
   };
 }
 
@@ -360,6 +377,40 @@ export const fetchProviderById = createAsyncThunk<Provider, { id: string }, { st
     }
   }
 );
+
+export const fetchProviderPublicAccess = createAsyncThunk<
+  FetchProviderPublicAccessResult,
+  { id: string },
+  { state: RootState }
+>('providers/fetchPublicAccess', async ({ id }, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const token = state.auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiProviderPublicAccess>(
+      `/v1/providers/${id}/public-access`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+        token,
+      }
+    );
+
+    return mapProviderPublicAccess(id, response.data);
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible obtener el acceso público del proveedor';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 
 export const createProvider = createAsyncThunk<
   CreateProviderResult,
