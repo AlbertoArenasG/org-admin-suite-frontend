@@ -16,20 +16,23 @@ import { fetchUserRoles, inviteUser } from '@/features/users/usersThunks';
 import { Button } from '@/components/ui/button';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
+import { useAuthorization } from '@/features/auth';
 
 export default function InviteUserPage() {
   const { t } = useTranslation(['users', 'breadcrumbs']);
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const { hasPermission } = useAuthorization();
   const rolesState = useAppSelector((state) => state.users.roles);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showSnackbar } = useSnackbar();
+  const canInviteUsers = hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE');
 
   useEffect(() => {
-    if (rolesState.status === 'idle') {
+    if (canInviteUsers && rolesState.status === 'idle') {
       void dispatch(fetchUserRoles());
     }
-  }, [dispatch, rolesState.status]);
+  }, [canInviteUsers, dispatch, rolesState.status]);
 
   const roleOptions = useMemo<Array<{ value: string; label: string }>>(() => {
     return rolesState.items
@@ -40,7 +43,7 @@ export default function InviteUserPage() {
       }));
   }, [rolesState.items]);
 
-  const hasInvitePermission = roleOptions.length > 0;
+  const hasInvitePermission = canInviteUsers && roleOptions.length > 0;
 
   const safeRoleOptions = useMemo<Array<{ value: string; label: string; disabled?: boolean }>>(
     () =>

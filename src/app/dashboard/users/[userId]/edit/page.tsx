@@ -22,6 +22,7 @@ import { resetUserUpdateState } from '@/features/users/usersSlice';
 import type { UserRoleInfo } from '@/features/users/usersSlice';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitialsFromText } from '@/lib/get-initials';
+import { useAuthorization } from '@/features/auth';
 
 export default function UserEditPage() {
   const params = useParams<{ userId: string }>();
@@ -29,6 +30,7 @@ export default function UserEditPage() {
   const dispatch = useAppDispatch();
   const { t } = useTranslationHydrated(['users', 'breadcrumbs']);
   const { showSnackbar } = useSnackbar();
+  const { hasPermission } = useAuthorization();
 
   const user = useAppSelector((state) =>
     state.users.entities.find((entity) => entity.id === params.userId)
@@ -38,6 +40,7 @@ export default function UserEditPage() {
   const detailState = useAppSelector((state) => state.users.detail);
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
   const updateState = useAppSelector((state) => state.users.update);
+  const canUpdateUsers = hasPermission('USERS', 'UPDATE');
 
   const currentRole = authUser?.systemRole ?? null;
   const targetRole = user?.systemRole ?? null;
@@ -74,7 +77,7 @@ export default function UserEditPage() {
   }));
 
   const canEdit =
-    user && currentRole
+    canUpdateUsers && user && currentRole
       ? canManageSystemRole(currentRole, targetRole, { allowSameLevel: isSelf })
       : false;
 

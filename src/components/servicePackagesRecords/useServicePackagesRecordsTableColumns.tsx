@@ -21,6 +21,7 @@ type Translate = TFunction<'servicePackagesRecords', undefined>;
 interface UseServicePackagesRecordsTableColumnsParams {
   t: Translate;
   dateFormatter: Intl.DateTimeFormat;
+  canDelete: boolean;
   onView: (id: string) => void;
   onDelete: (id: string) => void;
 }
@@ -55,6 +56,7 @@ const STATUS_COLOR_MAP: Record<string, string> = {
 export function useServicePackagesRecordsTableColumns({
   t,
   dateFormatter,
+  canDelete,
   onView,
   onDelete,
 }: UseServicePackagesRecordsTableColumnsParams) {
@@ -166,6 +168,7 @@ export function useServicePackagesRecordsTableColumns({
         header: () => <span className="sr-only">{t('table.columns.actions')}</span>,
         cell: ({ row }) => (
           <RecordsRowActions
+            canDelete={canDelete}
             onView={() => onView(row.original.id)}
             onDelete={() => onDelete(row.original.id)}
             labels={{
@@ -177,6 +180,6 @@ export function useServicePackagesRecordsTableColumns({
         ),
       },
     ],
-    [dateFormatter, onDelete, onView, t]
+    [canDelete, dateFormatter, onDelete, onView, t]
   );
 }

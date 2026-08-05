@@ -18,18 +18,21 @@ import { canManageSystemRole } from '@/features/users/roles';
 import { fetchUserById } from '@/features/users/usersThunks';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitialsFromText } from '@/lib/get-initials';
+import { useAuthorization } from '@/features/auth';
 
 export default function UserDetailPage() {
   const params = useParams<{ userId: string }>();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { t, hydrated, i18n } = useTranslationHydrated(['users', 'breadcrumbs']);
+  const { hasPermission } = useAuthorization();
   const user = useAppSelector((state) =>
     state.users.entities.find((entity) => entity.id === params.userId)
   );
   const authUser = useAppSelector((state) => state.auth.user);
   const detailState = useAppSelector((state) => state.users.detail);
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
+  const canUpdateUsers = hasPermission('USERS', 'UPDATE');
 
   useEffect(() => {
     if (!params.userId || !authHydrated) {
@@ -42,7 +45,7 @@ export default function UserDetailPage() {
   const currentRole = authUser?.systemRole ?? null;
   const targetRole = user?.systemRole ?? null;
   const canEdit =
-    user && currentRole
+    canUpdateUsers && user && currentRole
       ? canManageSystemRole(currentRole, targetRole, { allowSameLevel: authUser?.id === user.id })
       : false;
 

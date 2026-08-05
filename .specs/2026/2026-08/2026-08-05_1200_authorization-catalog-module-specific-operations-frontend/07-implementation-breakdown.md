@@ -111,7 +111,7 @@ Criterio de salida:
 
 Status:
 
-- in progress
+- completed
 
 Objetivo:
 

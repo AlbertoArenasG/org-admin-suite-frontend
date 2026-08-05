@@ -92,3 +92,10 @@
   - en `providers` se alinearon `create`, `edit` y `delete` en listado, detalle y rutas `new/edit` para que dependan de `PROVIDERS/CREATE`, `PROVIDERS/UPDATE` y `PROVIDERS/DELETE`
   - en `service entries` se confirmó que la tabla y formularios ya respetaban permisos y se corrigió el botón de editar del detalle para que dependa de `SERVICE_ENTRIES/UPDATE`
   - validación técnica local completada con `npm run typecheck` y lint dirigido de los módulos ajustados, sin errores
+- Se cerró el Slice 6 (`UI Operational Controls Sweep`):
+  - en `users` quedaron alineadas las páginas de invitar, detalle y edición para exigir permiso funcional además de la jerarquía estructural de `systemRole`
+  - en `roles` se confirmó que listado, detalle y formularios ya respetaban permisos efectivos e inmutabilidad sin ajustes adicionales
+  - en `service packages records` se alineó la acción de borrado del listado a `SERVICE_PACKAGES/DELETE`
+  - en `service entry surveys` se confirmó que no existen controles operativos de create/edit/delete dentro del alcance de este sweep
+  - con esto quedó completo el barrido de controles operativos relevantes de la iniciativa
+  - validación técnica local completada con `npm run typecheck` y lints dirigidos de `users` y `servicePackagesRecords`, sin errores

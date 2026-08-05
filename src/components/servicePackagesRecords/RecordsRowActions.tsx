@@ -11,6 +11,7 @@ import {
 import { Eye, MoreHorizontal, Trash } from 'lucide-react';
 
 interface RecordsRowActionsProps {
+  canDelete: boolean;
   onView: () => void;
   onDelete: () => void;
   labels: {
@@ -20,7 +21,7 @@ interface RecordsRowActionsProps {
   };
 }
 
-export function RecordsRowActions({ onView, onDelete, labels }: RecordsRowActionsProps) {
+export function RecordsRowActions({ canDelete, onView, onDelete, labels }: RecordsRowActionsProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -43,6 +44,7 @@ export function RecordsRowActions({ onView, onDelete, labels }: RecordsRowAction
         <DropdownMenuItem
           onClick={onDelete}
           className="gap-2 text-destructive focus:text-destructive"
+          disabled={!canDelete}
         >
           <Trash className="size-4" />
           {labels.delete}

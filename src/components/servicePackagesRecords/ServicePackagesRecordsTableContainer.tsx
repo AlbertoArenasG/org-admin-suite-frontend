@@ -22,6 +22,7 @@ import { useServicePackagesRecordsTableStore } from '@/components/servicePackage
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { resetServicePackageRecordDelete } from '@/features/servicePackagesRecords/servicePackagesRecordsSlice';
 import type { ServicePackageRecord } from '@/features/servicePackagesRecords';
+import { useAuthorization } from '@/features/auth';
 
 function getPaginationFromParams(params: URLSearchParams): PaginationState {
   const page = Number(params.get('page'));
@@ -40,6 +41,7 @@ export function ServicePackagesRecordsTableContainer() {
   const searchParams = useSearchParams();
   const searchParamsString = searchParams.toString();
   const { showSnackbar } = useSnackbar();
+  const { hasPermission } = useAuthorization();
 
   const {
     entities,
@@ -188,6 +190,7 @@ export function ServicePackagesRecordsTableContainer() {
   ]);
 
   const tableData = useServicePackagesRecordsTableData(entities);
+  const canDelete = hasPermission('SERVICE_PACKAGES', 'DELETE');
   const dateFormatter = useMemo(
     () =>
       new Intl.DateTimeFormat(hydrated ? i18n.language : 'es', {
@@ -200,8 +203,14 @@ export function ServicePackagesRecordsTableContainer() {
   const columns = useServicePackagesRecordsTableColumns({
     t,
     dateFormatter,
+    canDelete,
     onView: (id: string) => router.push(`/dashboard/service-packages-records/${id}`),
-    onDelete: (id: string) => setDeleteTargetId(id),
+    onDelete: (id: string) => {
+      if (!canDelete) {
+        return;
+      }
+      setDeleteTargetId(id);
+    },
   });
 
   const table = useReactTable({
@@ -256,7 +265,7 @@ export function ServicePackagesRecordsTableContainer() {
         },
       }}
       deleteDialog={{
-        open: Boolean(deleteTargetId),
+        open: canDelete && Boolean(deleteTargetId),
         summary: deleteRecordSummary
           ? {
               serviceOrder: deleteRecordSummary.serviceOrder,
@@ -269,7 +278,7 @@ export function ServicePackagesRecordsTableContainer() {
           }
         },
         onConfirm: () => {
-          if (deleteTargetId) {
+          if (canDelete && deleteTargetId) {
             void dispatch(deleteServicePackageRecord({ id: deleteTargetId }));
           }
         },
