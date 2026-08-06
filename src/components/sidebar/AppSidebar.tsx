@@ -81,19 +81,26 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       },
     ];
 
-    if (hasModule('USERS')) {
+    const canReadUsers = hasModule('USERS');
+    const canInviteUsers = hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE');
+
+    if (canReadUsers || canInviteUsers) {
       items.push({
         title: t('users'),
-        url: '/dashboard/users',
+        url: canReadUsers ? '/dashboard/users' : '/dashboard/users/invite',
         icon: Users,
         isActive: pathname.startsWith('/dashboard/users'),
         items: [
-          {
-            title: t('usersList'),
-            url: '/dashboard/users',
-            isActive: pathname === '/dashboard/users',
-          },
-          ...(hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE')
+          ...(canReadUsers
+            ? [
+                {
+                  title: t('usersList'),
+                  url: '/dashboard/users',
+                  isActive: pathname === '/dashboard/users',
+                },
+              ]
+            : []),
+          ...(canInviteUsers
             ? [
                 {
                   title: t('usersInvite'),

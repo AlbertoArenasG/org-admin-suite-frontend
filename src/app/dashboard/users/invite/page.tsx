@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { useAuthorization } from '@/features/auth';
+import { Spinner } from '@/components/ui/spinner';
 
 export default function InviteUserPage() {
   const { t } = useTranslation(['users', 'breadcrumbs']);
@@ -128,6 +129,11 @@ export default function InviteUserPage() {
     router.back();
   };
 
+  const isLoadingRoles =
+    canInviteUsers && (rolesState.status === 'idle' || rolesState.status === 'loading');
+  const hasRolesError = canInviteUsers && rolesState.status === 'failed';
+  const hasAvailableRoles = roleOptions.length > 0;
+
   return (
     <div className="flex flex-1 flex-col gap-6">
       <header className="flex h-16 items-center gap-3 rounded-3xl border border-border/60 bg-card/80 px-4 shadow-sm backdrop-blur-sm transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -187,7 +193,33 @@ export default function InviteUserPage() {
         </Box>
 
         <div className="flex flex-1 flex-col">
-          {hasInvitePermission ? (
+          {isLoadingRoles ? (
+            <div className="flex flex-1 items-center justify-center py-10">
+              <Spinner className="size-6 text-primary" />
+            </div>
+          ) : hasRolesError ? (
+            <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center">
+              <Typography variant="body1" color="text.foreground">
+                {rolesState.error ??
+                  t('permissions.inviteRestrictedAction', {
+                    defaultValue: 'No fue posible cargar los roles disponibles.',
+                  })}
+              </Typography>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    void dispatch(fetchUserRoles());
+                  }}
+                >
+                  {t('detail.error.retry', { defaultValue: 'Reintentar' })}
+                </Button>
+                <Button variant="ghost" onClick={handleCancel}>
+                  {t('form.cancel')}
+                </Button>
+              </div>
+            </div>
+          ) : hasInvitePermission ? (
             <UserForm
               mode="create"
               defaultValues={defaultValues}
@@ -199,7 +231,11 @@ export default function InviteUserPage() {
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center gap-4 p-6 text-center">
               <Typography variant="body1" color="text.foreground">
-                {t('permissions.inviteRestricted')}
+                {canInviteUsers && !hasAvailableRoles
+                  ? t('permissions.inviteRestrictedAction', {
+                      defaultValue: 'No hay roles disponibles para enviar invitaciones.',
+                    })
+                  : t('permissions.inviteRestricted')}
               </Typography>
               <Typography variant="body2" color="text.foreground">
                 {t('permissions.inviteRestrictedAction')}

@@ -104,3 +104,8 @@
   - se actualizó la task list para reflejar que la documentación relevante ya quedó absorbida en la spec y que el barrido contra supuestos CRUD uniformes residuales ya fue completado
   - se actualizó el breakdown para reflejar el estado real de ejecución de todos los slices
   - el único pendiente real antes del cierre formal de la spec es la validación manual final del editor de permisos contra catálogo backend vivo por módulo
+- Se corrigió un bug de runtime en `users/invite` detectado durante validación manual:
+  - el sidebar ahora muestra la sección de `users` cuando el usuario solo tiene `USER_REGISTRATION_INVITATIONS/CREATE`, aunque no tenga el módulo `USERS`
+  - `fetchUserRoles` dejó de depender exclusivamente de `state.auth.token` y ahora también usa el token persistido, alineándose con otros thunks del módulo
+  - la vista de invitar usuario dejó de tratar como “sin permisos” los estados de carga o error del catálogo de roles y ahora distingue `loading`, `error`, `sin roles disponibles` y `sin permiso funcional`
+  - validación técnica local completada con `npm run typecheck` y lint dirigido de `users/invite`, `usersThunks` y `AppSidebar`, sin errores

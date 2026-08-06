@@ -357,7 +357,8 @@ export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: Ro
   'users/fetchRoles',
   async (_void, thunkAPI) => {
     const state = thunkAPI.getState();
-    const token = state.auth.token;
+    const tokenFromState = state.auth.token;
+    const token = tokenFromState ?? readPersistedAuthToken();
 
     if (!token) {
       return thunkAPI.rejectWithValue('No hay token de autenticación');
