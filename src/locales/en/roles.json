@@ -30,7 +30,7 @@
   },
   "detail": {
     "title": "Role detail",
-    "subtitle": "Inspect structural metadata and effective role permissions.",
+    "subtitle": "Review the role information and the permissions assigned to it.",
     "notFound": "We could not find this role.",
     "copyId": "Copy role id",
     "copySuccess": "Role id copied successfully.",
@@ -65,9 +65,9 @@
       "permissionsRequired": "You must activate at least one permission."
     },
     "hints": {
-      "nameCreate": "Backend will generate the technical code internally from this creation flow.",
-      "nameImmutable": "Name is not part of the current update endpoint; this flow only updates permissions.",
-      "permissionsHelper": "Enable operations per module. If you enable an operation other than read, `READ` will be enabled automatically.",
+      "nameCreate": "The role code will be generated automatically.",
+      "nameImmutable": "The role name is not available for editing.",
+      "permissionsHelper": "Enable the permissions this role will have in each module. If you enable another action, read will be selected automatically.",
       "readDependency": "While another operation stays active in this module, `READ` remains enabled automatically."
     },
     "cancel": "Cancel",
@@ -130,7 +130,7 @@
     "immutable": "This role is protected by the system and can only be viewed in read-only mode."
   },
   "create": {
-    "subtitle": "Define a new user-scope custom role and choose its permissions."
+    "subtitle": "Create a new role and choose the permissions it will have."
   },
   "protectedHint": "This role is protected by the system or by its metadata and does not allow ordinary mutations."
 }

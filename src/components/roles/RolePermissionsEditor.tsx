@@ -20,7 +20,6 @@ interface RolePermissionsEditorProps {
   labels: {
     title: string;
     helper: string;
-    readHint: string;
   };
 }
 
@@ -48,59 +47,42 @@ export function RolePermissionsEditor({
             key={module.moduleId}
             className="rounded-2xl border border-border/60 bg-card/40 px-4 py-4"
           >
-            {(() => {
-              const hasReadOperation = module.operations.some(
-                (operation) => operation.operationCode === READ_OPERATION_CODE
-              );
-              const readKey = buildPermissionKey(module.moduleCode, READ_OPERATION_CODE);
-              const showReadHint = hasReadOperation && selection.has(readKey);
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <div className="space-y-1 md:max-w-xs">
+                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                  {module.moduleName}
+                </Typography>
+              </div>
 
-              return (
-                <>
-                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                    <div className="space-y-1 md:max-w-xs">
-                      <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                        {module.moduleName}
-                      </Typography>
-                      <p className="font-mono text-xs text-muted-foreground">{module.moduleCode}</p>
-                    </div>
+              <div className="flex flex-1 flex-wrap gap-2 md:justify-end">
+                {module.operations.map((operation) => {
+                  const key = buildPermissionKey(module.moduleCode, operation.operationCode);
+                  const active = selection.has(key);
+                  const readLocked =
+                    operation.operationCode === READ_OPERATION_CODE &&
+                    Array.from(selection).some((entry) => {
+                      const permission = parsePermissionKey(entry);
+                      return (
+                        permission.module === module.moduleCode &&
+                        permission.operation !== READ_OPERATION_CODE
+                      );
+                    });
 
-                    <div className="flex flex-1 flex-wrap gap-2 md:justify-end">
-                      {module.operations.map((operation) => {
-                        const key = buildPermissionKey(module.moduleCode, operation.operationCode);
-                        const active = selection.has(key);
-                        const readLocked =
-                          operation.operationCode === READ_OPERATION_CODE &&
-                          Array.from(selection).some((entry) => {
-                            const permission = parsePermissionKey(entry);
-                            return (
-                              permission.module === module.moduleCode &&
-                              permission.operation !== READ_OPERATION_CODE
-                            );
-                          });
-
-                        return (
-                          <Chip
-                            key={operation.operationId}
-                            label={operation.operationName}
-                            clickable={!disabled && !readLocked}
-                            disabled={disabled || readLocked}
-                            color={active ? 'primary' : 'default'}
-                            variant={active ? 'filled' : 'outlined'}
-                            onClick={() => onToggle(module.moduleCode, operation.operationCode)}
-                            className={cn(active ? 'font-medium' : undefined)}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {showReadHint ? (
-                    <p className="mt-3 text-xs text-muted-foreground">{labels.readHint}</p>
-                  ) : null}
-                </>
-              );
-            })()}
+                  return (
+                    <Chip
+                      key={operation.operationId}
+                      label={operation.operationName}
+                      clickable={!disabled && !readLocked}
+                      disabled={disabled || readLocked}
+                      color={active ? 'primary' : 'default'}
+                      variant={active ? 'filled' : 'outlined'}
+                      onClick={() => onToggle(module.moduleCode, operation.operationCode)}
+                      className={cn(active ? 'font-medium' : undefined)}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </div>
         ))}
       </div>

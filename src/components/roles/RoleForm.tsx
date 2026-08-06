@@ -88,7 +88,7 @@ export function RoleForm({
   });
 
   const nameHelpText = useMemo(
-    () => (mode === 'edit' ? t('form.hints.nameImmutable') : t('form.hints.nameCreate')),
+    () => (mode === 'edit' ? t('form.hints.nameImmutable') : ''),
     [mode, t]
   );
 
@@ -117,7 +117,7 @@ export function RoleForm({
             })}
             aria-invalid={errors.name ? 'true' : 'false'}
           />
-          <p className="text-sm text-muted-foreground">{nameHelpText}</p>
+          {nameHelpText ? <p className="text-sm text-muted-foreground">{nameHelpText}</p> : null}
           {errors.name ? <p className="text-sm text-destructive">{errors.name.message}</p> : null}
         </div>
 
@@ -145,7 +145,6 @@ export function RoleForm({
           labels={{
             title: t('form.labels.permissions'),
             helper: t('form.hints.permissionsHelper'),
-            readHint: t('form.hints.readDependency'),
           }}
         />
 

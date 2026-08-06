@@ -30,7 +30,7 @@
   },
   "detail": {
     "title": "Detalle del rol",
-    "subtitle": "Consulta metadata estructural y permisos efectivos del rol.",
+    "subtitle": "Consulta la información del rol y los permisos que tiene asignados.",
     "notFound": "No pudimos encontrar este rol.",
     "copyId": "Copiar role id",
     "copySuccess": "Role id copiado correctamente.",
@@ -65,9 +65,9 @@
       "permissionsRequired": "Debes activar al menos un permiso."
     },
     "hints": {
-      "nameCreate": "El backend generará internamente el código técnico a partir de esta alta.",
-      "nameImmutable": "El nombre no forma parte del endpoint actual de edición; en este flujo solo se actualizan permisos.",
-      "permissionsHelper": "Activa operaciones por módulo. Si activas una operación distinta de leer, `READ` se activará automáticamente.",
+      "nameCreate": "El código del rol se generará automáticamente.",
+      "nameImmutable": "El nombre del rol no está disponible para edición.",
+      "permissionsHelper": "Activa los permisos que tendrá el rol en cada módulo. Si activas otra acción, leer se marcará automáticamente.",
       "readDependency": "Mientras exista otra operación activa en este módulo, `READ` queda activo automáticamente."
     },
     "cancel": "Cancelar",
@@ -130,7 +130,7 @@
     "immutable": "Este rol es protegido por el sistema y solo puede consultarse en modo lectura."
   },
   "create": {
-    "subtitle": "Define un nuevo rol custom de scope usuario y selecciona sus permisos."
+    "subtitle": "Crea un nuevo rol y selecciona los permisos que tendrá."
   },
   "protectedHint": "Este rol está protegido por el sistema o por su metadata y no admite mutaciones ordinarias."
 }

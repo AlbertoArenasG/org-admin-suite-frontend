@@ -406,7 +406,6 @@ export default function RoleDetailPage() {
                 >
                   <div className="mb-3">
                     <h3 className="font-medium text-foreground">{group.moduleName}</h3>
-                    <p className="font-mono text-xs text-muted-foreground">{group.moduleCode}</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {group.operations.map((operation) => (
