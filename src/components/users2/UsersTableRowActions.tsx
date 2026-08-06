@@ -43,11 +43,17 @@ export function UsersTableRowActions({
   const isSelf = currentUserId === user.id;
   const canEdit =
     canUpdateUsers && currentRole
-      ? canManageSystemRole(currentRole, user.systemRole, { allowSameLevel: isSelf })
+      ? canManageSystemRole(currentRole, user.systemRole, {
+          allowSelf: isSelf,
+          allowUserPeer: true,
+        })
       : false;
   const canDelete =
     canDeleteUsers && currentRole
-      ? !isSelf && canManageSystemRole(currentRole, user.systemRole)
+      ? !isSelf &&
+        canManageSystemRole(currentRole, user.systemRole, {
+          allowUserPeer: true,
+        })
       : false;
   const canInvite =
     canInviteUsers && currentRole ? canInviteSystemRole(currentRole, user.systemRole) : false;

@@ -46,7 +46,10 @@ export default function UserDetailPage() {
   const targetRole = user?.systemRole ?? null;
   const canEdit =
     canUpdateUsers && user && currentRole
-      ? canManageSystemRole(currentRole, targetRole, { allowSameLevel: authUser?.id === user.id })
+      ? canManageSystemRole(currentRole, targetRole, {
+          allowSelf: authUser?.id === user.id,
+          allowUserPeer: true,
+        })
       : false;
 
   const dateFormatter = useMemo(() => {

@@ -109,3 +109,7 @@
   - `fetchUserRoles` dejó de depender exclusivamente de `state.auth.token` y ahora también usa el token persistido, alineándose con otros thunks del módulo
   - la vista de invitar usuario dejó de tratar como “sin permisos” los estados de carga o error del catálogo de roles y ahora distingue `loading`, `error`, `sin roles disponibles` y `sin permiso funcional`
   - validación técnica local completada con `npm run typecheck` y lint dirigido de `users/invite`, `usersThunks` y `AppSidebar`, sin errores
+- Se corrigió la frontera estructural de `users` en runtime:
+  - el frontend ya no oculta `editar` o `eliminar` para el caso `USER -> USER` cuando el permiso funcional efectivo existe
+  - la UI sigue bloqueando cualquier operación de `USER` sobre `ADMIN` o `MASTER_ADMIN`
+  - el detalle, la edición y las acciones por fila quedaron alineados a esta regla

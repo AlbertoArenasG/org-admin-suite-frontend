@@ -30,7 +30,8 @@ export function canInviteSystemRole(
 }
 
 type CanManageSystemRoleOptions = {
-  allowSameLevel?: boolean;
+  allowSelf?: boolean;
+  allowUserPeer?: boolean;
 };
 
 export function canManageSystemRole(
@@ -42,8 +43,16 @@ export function canManageSystemRole(
     return false;
   }
 
-  if (options.allowSameLevel) {
-    return SYSTEM_ROLE_RANK[current] <= SYSTEM_ROLE_RANK[target];
+  if (current === target) {
+    if (options.allowSelf) {
+      return true;
+    }
+
+    if (options.allowUserPeer && current === 'USER') {
+      return true;
+    }
+
+    return false;
   }
 
   return SYSTEM_ROLE_RANK[current] < SYSTEM_ROLE_RANK[target];

@@ -78,7 +78,10 @@ export default function UserEditPage() {
 
   const canEdit =
     canUpdateUsers && user && currentRole
-      ? canManageSystemRole(currentRole, targetRole, { allowSameLevel: isSelf })
+      ? canManageSystemRole(currentRole, targetRole, {
+          allowSelf: isSelf,
+          allowUserPeer: true,
+        })
       : false;
 
   const defaultValues: UserFormValues | undefined = user
