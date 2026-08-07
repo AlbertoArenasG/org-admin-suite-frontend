@@ -256,7 +256,7 @@ export interface InviteUserPayload {
 
 interface InviteUserResponse {
   email: string;
-  role_id: string;
+  role_id: string | null;
   name: string | null;
   lastname: string | null;
   cell_phone: {
@@ -288,7 +288,7 @@ export const inviteUser = createAsyncThunk<
       body: {
         email: payload.email,
         system_role: payload.systemRole,
-        ...(payload.systemRole === 'USER' ? { role_id: payload.roleId } : {}),
+        ...(payload.roleId ? { role_id: payload.roleId } : {}),
         name: payload.name,
         lastname: payload.lastname,
         cell_phone: payload.cellPhone
