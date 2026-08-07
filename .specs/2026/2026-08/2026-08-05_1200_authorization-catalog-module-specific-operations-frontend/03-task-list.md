@@ -63,8 +63,8 @@ Estado de transición:
 
 ## Phase 5. Validation
 
-- [ ] Validar funcionamiento del editor con catálogo real por módulo
-      Status: pending
+- [x] Validar funcionamiento del editor con catálogo real por módulo
+      Status: completed
 
 - [x] Validar ausencia de supuestos CRUD uniformes residuales
       Status: completed

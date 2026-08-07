@@ -113,3 +113,8 @@
   - el frontend ya no oculta `editar` o `eliminar` para el caso `USER -> USER` cuando el permiso funcional efectivo existe
   - la UI sigue bloqueando cualquier operación de `USER` sobre `ADMIN` o `MASTER_ADMIN`
   - el detalle, la edición y las acciones por fila quedaron alineados a esta regla
+- Se completó la validación manual final del editor de permisos y del CRUD de roles contra el catálogo backend vivo:
+  - el render por módulo y operación quedó validado con datos reales
+  - no se detectaron supuestos CRUD uniformes residuales fuera de las ayudas locales deliberadas de UX
+  - se realizaron ajustes finales de copy y limpieza visual en detalle, edición y creación de roles para remover ruido técnico innecesario
+- Con esto quedó cerrado el `Slice 5` y la spec quedó lista para cierre formal.
