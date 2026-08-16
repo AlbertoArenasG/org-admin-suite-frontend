@@ -17,6 +17,8 @@ import myProfileEn from '@/locales/en/myProfile.json';
 import publicCustomerProfileEn from '@/locales/en/publicCustomerProfile.json';
 import publicProviderProfileEn from '@/locales/en/publicProviderProfile.json';
 import authEn from '@/locales/en/auth.json';
+import contactsEn from '@/locales/en/contacts.json';
+import recipientGroupsEn from '@/locales/en/recipientGroups.json';
 import commonEs from '@/locales/es/common.json';
 import navEs from '@/locales/es/nav.json';
 import breadcrumbsEs from '@/locales/es/breadcrumbs.json';
@@ -33,6 +35,8 @@ import myProfileEs from '@/locales/es/myProfile.json';
 import publicCustomerProfileEs from '@/locales/es/publicCustomerProfile.json';
 import publicProviderProfileEs from '@/locales/es/publicProviderProfile.json';
 import authEs from '@/locales/es/auth.json';
+import contactsEs from '@/locales/es/contacts.json';
+import recipientGroupsEs from '@/locales/es/recipientGroups.json';
 
 const FALLBACK_LANGUAGE = 'es';
 export const LANGUAGE_STORAGE_KEY = 'preferred-language';
@@ -55,6 +59,8 @@ const resources = {
     myProfile: myProfileEn,
     publicCustomerProfile: publicCustomerProfileEn,
     publicProviderProfile: publicProviderProfileEn,
+    contacts: contactsEn,
+    recipientGroups: recipientGroupsEn,
   },
   es: {
     common: commonEs,
@@ -73,6 +79,8 @@ const resources = {
     myProfile: myProfileEs,
     publicCustomerProfile: publicCustomerProfileEs,
     publicProviderProfile: publicProviderProfileEs,
+    contacts: contactsEs,
+    recipientGroups: recipientGroupsEs,
   },
 };
 
@@ -117,6 +125,8 @@ export function initI18n(): I18nInstance {
         'myProfile',
         'publicCustomerProfile',
         'publicProviderProfile',
+        'contacts',
+        'recipientGroups',
       ],
       defaultNS: 'common',
       interpolation: {
