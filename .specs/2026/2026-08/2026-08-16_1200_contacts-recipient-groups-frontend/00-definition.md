@@ -6,7 +6,7 @@ Este documento existe para cerrar decisiones criticas del módulo frontend de `c
 
 Regla de trabajo:
 
-- no arrancar implementacion estructural mientras existan decisiones criticas en estado `pending`
+- no arrancar implementacion estructural mientras existan decisiones criticas sin aprobacion final
 - tu tomas la decision final
 - aqui solo se registran contexto, opciones, recomendacion e impacto
 - las decisiones se aterrizan una por una
@@ -14,8 +14,8 @@ Regla de trabajo:
 ## Overall Status
 
 - Initiative: `contacts-recipient-groups-frontend`
-- Definition status: `in_progress`
-- Implementation ready: `no`
+- Definition status: `completed`
+- Implementation ready: `yes`
 
 ---
 

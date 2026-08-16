@@ -2,7 +2,7 @@
 
 ## Current State
 
-La implementación frontend todavía no inicia. Este documento existe para endurecer el diseño técnico conforme se aprueben decisiones, sin depender de memoria de la sesión.
+La implementación frontend de `contacts` y `recipient_groups` ya fue completada. Este documento queda como memoria técnica del diseño aprobado y de la estructura efectivamente implementada.
 
 ## Confirmed Base
 
@@ -28,8 +28,16 @@ La implementación frontend todavía no inicia. Este documento existe para endur
   - `modal`
   - o `drawer`
 - no se usará navegación aparte para ese subflujo
+- las superficies administrativas implementadas quedaron cubiertas para ambos módulos:
+  - listado
+  - detalle
+  - create
+  - edit
+  - delete
 
-## Pending Technical Decisions
+## Closure Notes
 
-- shape exacto de rutas por módulo
-- shape exacto del estado de cada slice
+- la administración base de `contacts` quedó integrada en frontend
+- la administración base de `recipient_groups` quedó integrada en frontend
+- la spec no arrastra pendientes técnicos internos para su cierre
+- cualquier integración consumidora en módulos futuros debe tratarse en una spec nueva

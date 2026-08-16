@@ -135,7 +135,6 @@
     - integrar búsqueda
     - mostrar información base útil para primera versión:
       - `name`
-      - `code`
       - `status`
       - `enabled_channels`
       - total de contactos
@@ -161,8 +160,6 @@
       - `enabled_channels`
       - `contact_ids`
     - integrar catálogo auxiliar de `communication_channels`
-    - reflejar la restricción actual de backend:
-      - por ahora solo existe `EMAIL`
     - alinear validaciones del formulario con el contrato backend
   - Phase 4.6. Contact Lookup And In-Context Creation
     - Estado: completed
@@ -184,6 +181,9 @@
 
 ## Slice 5. Validation And Handoff
 
-- Estado: pending
+- Estado: completed
 - Objetivo:
   - validar flujos y dejar la spec lista para futuras sesiones
+- Resultado:
+  - validación funcional manual completada
+  - documentación de la spec alineada para cierre

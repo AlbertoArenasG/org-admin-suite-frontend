@@ -18,5 +18,6 @@ Preparar la base documental de la iniciativa frontend para:
 ## Analysis Status
 
 - alcance general de la iniciativa: confirmado
-- decisiones estructurales restantes: pendientes
-- implementación: no iniciada
+- decisiones estructurales: cerradas
+- implementación: completada
+- validación funcional manual: completada

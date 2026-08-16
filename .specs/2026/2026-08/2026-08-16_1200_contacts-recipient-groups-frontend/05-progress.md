@@ -56,3 +56,5 @@
 - Se validó localmente este corte con:
   - `npx tsc --noEmit`
   - `npx eslint src/components/recipient-groups src/features/recipient-groups src/app/dashboard/recipient-groups src/store/store.ts src/components/sidebar/AppSidebar.tsx src/utils/recipientGroupsQuery.ts`
+- Se cerró la validación funcional manual de la spec para `contacts` y `recipient_groups`.
+- Se dejó la spec lista para cierre sin pendientes funcionales marcados en task list ni en implementation breakdown.
