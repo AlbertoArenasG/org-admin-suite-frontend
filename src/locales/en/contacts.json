@@ -43,18 +43,29 @@
       "companyName": "Company",
       "emails": "Emails",
       "phones": "Phones",
-      "cellPhones": "Cell phones"
+      "cellPhones": "Cell phones",
+      "phoneCode": "Code",
+      "phoneNumber": "Number"
     },
     "placeholders": {
       "name": "First name",
       "lastname": "Last name",
       "companyName": "Optional company",
-      "emails": "email1@company.com\nemail2@company.com",
-      "phones": "+52 5555555555",
-      "cellPhones": "+52 5555555555"
+      "emails": "email@company.com",
+      "phones": "Phone number",
+      "cellPhones": "Cell phone number",
+      "phoneCode": "+52",
+      "phoneNumber": "5555555555"
     },
     "hints": {
-      "multilineValues": "Add one value per line."
+      "noEmails": "No emails added yet.",
+      "noPhones": "No phones added yet.",
+      "noCellPhones": "No cell phones added yet."
+    },
+    "actions": {
+      "addEmail": "Add",
+      "addPhone": "Add",
+      "addCellPhone": "Add"
     },
     "errors": {
       "nameRequired": "First name is required",

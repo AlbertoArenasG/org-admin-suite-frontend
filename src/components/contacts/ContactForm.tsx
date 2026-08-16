@@ -1,14 +1,13 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Plus, X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import type { ContactDetail, ContactValue } from '@/features/contacts/types';
 import type { ContactFormMode, ContactFormValues } from '@/components/contacts/types';
 
@@ -28,27 +27,202 @@ interface ContactFormProps {
   disableActions?: boolean;
 }
 
-function valuesToText(values?: ContactValue[]) {
-  return values?.map((entry) => entry.value).join('\n') ?? '';
-}
-
-function textToValues(value: string) {
-  return value
-    .split('\n')
-    .map((item) => item.trim())
-    .filter(Boolean)
-    .map((item) => ({ value: item }));
-}
-
 function buildInitialValues(contact?: ContactDetail | null): ContactFormValues {
   return {
     name: contact?.name ?? '',
     lastname: contact?.lastname ?? '',
     companyName: contact?.companyName ?? '',
-    emailsText: valuesToText(contact?.emails),
-    phonesText: valuesToText(contact?.phones),
-    cellPhonesText: valuesToText(contact?.cellPhones),
+    emails: contact?.emails ?? [],
+    phones: contact?.phones ?? [],
+    cellPhones: contact?.cellPhones ?? [],
   };
+}
+
+interface ContactValuesFieldProps {
+  id: string;
+  label: string;
+  placeholder: string;
+  addLabel: string;
+  emptyLabel: string;
+  values: ContactValue[];
+  draftValue: string;
+  disabled: boolean;
+  onDraftChange: (value: string) => void;
+  onAdd: () => void;
+  onRemove: (index: number) => void;
+}
+
+function ContactValuesField({
+  id,
+  label,
+  placeholder,
+  addLabel,
+  emptyLabel,
+  values,
+  draftValue,
+  disabled,
+  onDraftChange,
+  onAdd,
+  onRemove,
+}: ContactValuesFieldProps) {
+  return (
+    <div className="grid gap-2">
+      <Label htmlFor={id}>{label}</Label>
+      <div className="flex gap-2">
+        <Input
+          id={id}
+          value={draftValue}
+          placeholder={placeholder}
+          disabled={disabled}
+          onChange={(event) => onDraftChange(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              onAdd();
+            }
+          }}
+        />
+        <Button type="button" variant="outline" disabled={disabled} onClick={onAdd}>
+          <Plus className="mr-2 size-4" />
+          {addLabel}
+        </Button>
+      </div>
+
+      {values.length ? (
+        <div className="flex flex-wrap gap-2">
+          {values.map((entry, index) => (
+            <div
+              key={`${entry.value}-${index}`}
+              className="flex items-center gap-2 rounded-full border border-border/60 bg-background px-3 py-1.5 text-sm"
+            >
+              <span>{entry.value}</span>
+              <button
+                type="button"
+                disabled={disabled}
+                onClick={() => onRemove(index)}
+                className="text-muted-foreground transition hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label={`${label}: ${entry.value}`}
+              >
+                <X className="size-3.5" />
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-xl border border-dashed border-border/60 px-3 py-4 text-sm text-muted-foreground">
+          {emptyLabel}
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface ContactPhoneValuesFieldProps {
+  idPrefix: string;
+  label: string;
+  codeLabel: string;
+  numberLabel: string;
+  codePlaceholder: string;
+  numberPlaceholder: string;
+  addLabel: string;
+  emptyLabel: string;
+  values: ContactValue[];
+  draftCountryCode: string;
+  draftNumber: string;
+  disabled: boolean;
+  onCountryCodeChange: (value: string) => void;
+  onNumberChange: (value: string) => void;
+  onAdd: () => void;
+  onRemove: (index: number) => void;
+}
+
+function ContactPhoneValuesField({
+  idPrefix,
+  label,
+  codeLabel,
+  numberLabel,
+  codePlaceholder,
+  numberPlaceholder,
+  addLabel,
+  emptyLabel,
+  values,
+  draftCountryCode,
+  draftNumber,
+  disabled,
+  onCountryCodeChange,
+  onNumberChange,
+  onAdd,
+  onRemove,
+}: ContactPhoneValuesFieldProps) {
+  return (
+    <div className="grid gap-2">
+      <Label>{label}</Label>
+      <div className="grid gap-2 md:grid-cols-[4.75rem_1fr_auto] md:items-end">
+        <div className="grid gap-2">
+          <Label htmlFor={`${idPrefix}-code`}>{codeLabel}</Label>
+          <Input
+            id={`${idPrefix}-code`}
+            value={draftCountryCode}
+            placeholder={codePlaceholder}
+            disabled={disabled}
+            onChange={(event) => onCountryCodeChange(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                onAdd();
+              }
+            }}
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor={`${idPrefix}-number`}>{numberLabel}</Label>
+          <Input
+            id={`${idPrefix}-number`}
+            value={draftNumber}
+            placeholder={numberPlaceholder}
+            disabled={disabled}
+            onChange={(event) => onNumberChange(event.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                onAdd();
+              }
+            }}
+          />
+        </div>
+        <Button type="button" variant="outline" disabled={disabled} onClick={onAdd}>
+          <Plus className="mr-2 size-4" />
+          {addLabel}
+        </Button>
+      </div>
+
+      {values.length ? (
+        <div className="flex flex-wrap gap-2">
+          {values.map((entry, index) => (
+            <div
+              key={`${entry.value}-${index}`}
+              className="flex items-center gap-2 rounded-full border border-border/60 bg-background px-3 py-1.5 text-sm"
+            >
+              <span>{entry.value}</span>
+              <button
+                type="button"
+                disabled={disabled}
+                onClick={() => onRemove(index)}
+                className="text-muted-foreground transition hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label={`${label}: ${entry.value}`}
+              >
+                <X className="size-3.5" />
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-xl border border-dashed border-border/60 px-3 py-4 text-sm text-muted-foreground">
+          {emptyLabel}
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function ContactForm({
@@ -60,10 +234,15 @@ export function ContactForm({
   disableActions = false,
 }: ContactFormProps) {
   const { t } = useTranslation('contacts');
+  const [emailDraft, setEmailDraft] = useState('');
+  const [phoneDraft, setPhoneDraft] = useState({ countryCode: '', number: '' });
+  const [cellPhoneDraft, setCellPhoneDraft] = useState({ countryCode: '', number: '' });
 
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors, isSubmitting: isFormSubmitting },
     reset,
   } = useForm<ContactFormValues>({
@@ -74,25 +253,80 @@ export function ContactForm({
     reset(buildInitialValues(contact));
   }, [contact, reset]);
 
+  useEffect(() => {
+    setEmailDraft('');
+    setPhoneDraft({ countryCode: '', number: '' });
+    setCellPhoneDraft({ countryCode: '', number: '' });
+  }, [contact]);
+
   const effectiveDisabled = disableActions || isSubmitting || isFormSubmitting;
+  const emails = watch('emails');
+  const phones = watch('phones');
+  const cellPhones = watch('cellPhones');
 
   const submitHandler = handleSubmit((values) => {
     const payload = {
       name: values.name.trim(),
       lastname: values.lastname.trim(),
       companyName: values.companyName.trim() || null,
-      emails: textToValues(values.emailsText),
-      phones: textToValues(values.phonesText),
-      cellPhones: textToValues(values.cellPhonesText),
+      emails: values.emails,
+      phones: values.phones,
+      cellPhones: values.cellPhones,
     };
 
     onSubmit(payload);
   });
 
-  const valuesHelpText = useMemo(
-    () => t('form.hints.multilineValues', { defaultValue: 'Agrega un valor por línea.' }),
-    [t]
-  );
+  const appendValue = (
+    field: 'emails' | 'phones' | 'cellPhones',
+    rawValue: string,
+    resetDraft: () => void
+  ) => {
+    const normalized = rawValue.trim();
+    if (!normalized) {
+      return;
+    }
+
+    const currentValues = watch(field);
+    setValue(field, [...currentValues, { value: normalized }], {
+      shouldDirty: true,
+      shouldTouch: true,
+    });
+    resetDraft();
+  };
+
+  const appendPhoneValue = (
+    field: 'phones' | 'cellPhones',
+    draft: { countryCode: string; number: string },
+    resetDraft: () => void
+  ) => {
+    const countryCode = draft.countryCode.trim();
+    const number = draft.number.trim();
+
+    if (!countryCode || !number) {
+      return;
+    }
+
+    const normalized = `${countryCode} ${number}`;
+    const currentValues = watch(field);
+    setValue(field, [...currentValues, { value: normalized }], {
+      shouldDirty: true,
+      shouldTouch: true,
+    });
+    resetDraft();
+  };
+
+  const removeValue = (field: 'emails' | 'phones' | 'cellPhones', index: number) => {
+    const currentValues = watch(field);
+    setValue(
+      field,
+      currentValues.filter((_, currentIndex) => currentIndex !== index),
+      {
+        shouldDirty: true,
+        shouldTouch: true,
+      }
+    );
+  };
 
   return (
     <form onSubmit={submitHandler} className="flex h-full flex-col gap-6" noValidate>
@@ -148,38 +382,71 @@ export function ContactForm({
           />
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="contact-emails">{t('form.labels.emails')}</Label>
-          <Textarea
-            id="contact-emails"
-            placeholder={t('form.placeholders.emails')}
-            disabled={disableActions}
-            {...register('emailsText')}
-          />
-          <p className="text-sm text-muted-foreground">{valuesHelpText}</p>
-        </div>
+        <ContactValuesField
+          id="contact-emails"
+          label={t('form.labels.emails')}
+          placeholder={t('form.placeholders.emails')}
+          addLabel={t('form.actions.addEmail')}
+          emptyLabel={t('form.hints.noEmails')}
+          values={emails}
+          draftValue={emailDraft}
+          disabled={disableActions}
+          onDraftChange={setEmailDraft}
+          onAdd={() => appendValue('emails', emailDraft, () => setEmailDraft(''))}
+          onRemove={(index) => removeValue('emails', index)}
+        />
 
         <div className="grid gap-2 md:grid-cols-2 md:gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="contact-phones">{t('form.labels.phones')}</Label>
-            <Textarea
-              id="contact-phones"
-              placeholder={t('form.placeholders.phones')}
-              disabled={disableActions}
-              {...register('phonesText')}
-            />
-            <p className="text-sm text-muted-foreground">{valuesHelpText}</p>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="contact-cell-phones">{t('form.labels.cellPhones')}</Label>
-            <Textarea
-              id="contact-cell-phones"
-              placeholder={t('form.placeholders.cellPhones')}
-              disabled={disableActions}
-              {...register('cellPhonesText')}
-            />
-            <p className="text-sm text-muted-foreground">{valuesHelpText}</p>
-          </div>
+          <ContactPhoneValuesField
+            idPrefix="contact-phones"
+            label={t('form.labels.phones')}
+            codeLabel={t('form.labels.phoneCode')}
+            numberLabel={t('form.labels.phoneNumber')}
+            codePlaceholder={t('form.placeholders.phoneCode')}
+            numberPlaceholder={t('form.placeholders.phoneNumber')}
+            addLabel={t('form.actions.addPhone')}
+            emptyLabel={t('form.hints.noPhones')}
+            values={phones}
+            draftCountryCode={phoneDraft.countryCode}
+            draftNumber={phoneDraft.number}
+            disabled={disableActions}
+            onCountryCodeChange={(value) =>
+              setPhoneDraft((current) => ({ ...current, countryCode: value }))
+            }
+            onNumberChange={(value) => setPhoneDraft((current) => ({ ...current, number: value }))}
+            onAdd={() =>
+              appendPhoneValue('phones', phoneDraft, () =>
+                setPhoneDraft({ countryCode: '', number: '' })
+              )
+            }
+            onRemove={(index) => removeValue('phones', index)}
+          />
+          <ContactPhoneValuesField
+            idPrefix="contact-cell-phones"
+            label={t('form.labels.cellPhones')}
+            codeLabel={t('form.labels.phoneCode')}
+            numberLabel={t('form.labels.phoneNumber')}
+            codePlaceholder={t('form.placeholders.phoneCode')}
+            numberPlaceholder={t('form.placeholders.phoneNumber')}
+            addLabel={t('form.actions.addCellPhone')}
+            emptyLabel={t('form.hints.noCellPhones')}
+            values={cellPhones}
+            draftCountryCode={cellPhoneDraft.countryCode}
+            draftNumber={cellPhoneDraft.number}
+            disabled={disableActions}
+            onCountryCodeChange={(value) =>
+              setCellPhoneDraft((current) => ({ ...current, countryCode: value }))
+            }
+            onNumberChange={(value) =>
+              setCellPhoneDraft((current) => ({ ...current, number: value }))
+            }
+            onAdd={() =>
+              appendPhoneValue('cellPhones', cellPhoneDraft, () =>
+                setCellPhoneDraft({ countryCode: '', number: '' })
+              )
+            }
+            onRemove={(index) => removeValue('cellPhones', index)}
+          />
         </div>
       </div>
 

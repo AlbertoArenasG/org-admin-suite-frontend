@@ -43,18 +43,29 @@
       "companyName": "Empresa",
       "emails": "Correos",
       "phones": "Teléfonos",
-      "cellPhones": "Celulares"
+      "cellPhones": "Celulares",
+      "phoneCode": "Código",
+      "phoneNumber": "Número"
     },
     "placeholders": {
       "name": "Nombre",
       "lastname": "Apellido",
       "companyName": "Empresa opcional",
-      "emails": "correo1@empresa.com\ncorreo2@empresa.com",
-      "phones": "+52 5555555555",
-      "cellPhones": "+52 5555555555"
+      "emails": "correo@empresa.com",
+      "phones": "Número telefónico",
+      "cellPhones": "Número celular",
+      "phoneCode": "+52",
+      "phoneNumber": "5555555555"
     },
     "hints": {
-      "multilineValues": "Agrega un valor por línea."
+      "noEmails": "Todavía no agregas correos.",
+      "noPhones": "Todavía no agregas teléfonos.",
+      "noCellPhones": "Todavía no agregas celulares."
+    },
+    "actions": {
+      "addEmail": "Agregar",
+      "addPhone": "Agregar",
+      "addCellPhone": "Agregar"
     },
     "errors": {
       "nameRequired": "El nombre es obligatorio",

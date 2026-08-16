@@ -3,6 +3,7 @@ import type {
   ContactListItem,
   ContactStatusId,
   ContactType,
+  ContactValue,
 } from '@/features/contacts/types';
 
 export interface ContactsTableRow {
@@ -27,9 +28,9 @@ export interface ContactFormValues {
   name: string;
   lastname: string;
   companyName: string;
-  emailsText: string;
-  phonesText: string;
-  cellPhonesText: string;
+  emails: ContactValue[];
+  phones: ContactValue[];
+  cellPhones: ContactValue[];
 }
 
 export interface ContactMutability {
