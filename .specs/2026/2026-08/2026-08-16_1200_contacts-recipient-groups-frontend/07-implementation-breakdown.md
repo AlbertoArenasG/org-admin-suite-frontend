@@ -103,12 +103,13 @@
 
 ## Slice 4. Recipient Groups Foundation
 
-- Estado: pending
+- Estado: completed
 - Objetivo:
   - implementar la base frontend del módulo `recipient_groups`
   - construir sobre la base ya resuelta de `contacts`
 - Microfases:
   - Phase 4.1. Contracts And Feature State
+    - Estado: completed
     - aterrizar contratos HTTP realmente usados del módulo:
       - `GET /v1/recipient-groups`
       - `GET /v1/recipient-groups/:recipientGroupId`
@@ -121,6 +122,7 @@
     - definir `src/features/recipient-groups/recipientGroupsSlice.ts`
     - registrar el slice en `src/store/store.ts`
   - Phase 4.2. Routes And Pages
+    - Estado: completed
     - crear rutas del módulo:
       - listado
       - detalle
@@ -128,6 +130,7 @@
       - edit
     - mantener páginas de `app/` enfocadas solo en composición y routing
   - Phase 4.3. Recipient Groups List
+    - Estado: completed
     - implementar tabla/listado paginado
     - integrar búsqueda
     - mostrar información base útil para primera versión:
@@ -140,6 +143,7 @@
     - integrar acciones visibles según el patrón actual del proyecto
     - resolver estados de carga, vacío y error
   - Phase 4.4. Recipient Groups Detail
+    - Estado: completed
     - implementar vista de detalle
     - mostrar:
       - identidad base del grupo
@@ -149,6 +153,7 @@
       - metadata disponible de auditoría
     - exponer navegación hacia edit cuando aplique
   - Phase 4.5. Recipient Groups Form
+    - Estado: completed
     - implementar formulario compartido para create/edit
     - soportar captura de:
       - `name`
@@ -160,16 +165,19 @@
       - por ahora solo existe `EMAIL`
     - alinear validaciones del formulario con el contrato backend
   - Phase 4.6. Contact Lookup And In-Context Creation
+    - Estado: completed
     - integrar lookup de contactos dentro del formulario del grupo
     - soportar selección múltiple
     - conservar el orden de contactos seleccionado por usuario
     - integrar alta de contacto en contexto con `modal` o `drawer`
     - refrescar estado del selector tras creación exitosa sin romper el formulario principal
   - Phase 4.7. Delete And UI Rules
+    - Estado: completed
     - integrar delete con confirmación
     - reflejar visualmente el estado del grupo
     - dejar el módulo listo para posterior reutilización como selector consumido por otros flujos
   - Phase 4.8. Navigation And Permission Wiring
+    - Estado: completed
     - integrar acceso al módulo dentro del mismo grupo compartido del sidebar
     - alinear visibilidad del módulo con permisos reales
     - verificar consistencia con el patrón de navegación existente

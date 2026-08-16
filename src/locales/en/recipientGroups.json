@@ -1,0 +1,115 @@
+{
+  "title": "Recipient groups",
+  "empty": "No recipient groups to show.",
+  "pagination": "Page {{page}} of {{pages}} · {{total}} groups",
+  "table": {
+    "columns": {
+      "name": "Group",
+      "channels": "Channels",
+      "contactsCount": "Contacts",
+      "status": "Status",
+      "createdAt": "Created"
+    }
+  },
+  "actions": {
+    "create": "Create recipient group",
+    "createShort": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View details",
+    "openMenu": "Open actions menu",
+    "searchPlaceholder": "Search recipient groups...",
+    "manageColumns": "Manage columns",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "form": {
+    "title": {
+      "create": "Create recipient group",
+      "edit": "Edit recipient group"
+    },
+    "description": {
+      "create": "Configure a reusable recipient group and its enabled channels.",
+      "edit": "Update the selected group configuration."
+    },
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "enabledChannels": "Enabled channels",
+      "contacts": "Contacts",
+      "contactSearch": "Search contact",
+      "selectedContacts": "Selected contacts"
+    },
+    "placeholders": {
+      "name": "Operational alerts",
+      "description": "Optional group description",
+      "contactSearch": "Search by name, company, email, or cell phone"
+    },
+    "hints": {
+      "contactsLookup": "Search existing contacts or create a new one without leaving this flow.",
+      "searchingContacts": "Searching contacts...",
+      "noContactsFound": "We couldn't find contacts matching that query.",
+      "noSelectedContacts": "You have not added contacts to this group yet."
+    },
+    "errors": {
+      "nameRequired": "Name is required",
+      "channelsRequired": "Select at least one channel",
+      "contactsRequired": "Select at least one contact"
+    },
+    "actions": {
+      "createContactInline": "Create contact"
+    },
+    "dialogs": {
+      "createContact": {
+        "title": "Create contact in context",
+        "description": "Register a contact without leaving the current group.",
+        "success": "Contact created successfully.",
+        "error": "We couldn't create the contact."
+      }
+    },
+    "cancel": "Cancel",
+    "submitting": "Saving...",
+    "submit": {
+      "create": "Create group",
+      "edit": "Save changes"
+    }
+  },
+  "confirmDelete": {
+    "title": "Delete recipient group",
+    "description": "This action will delete {{name}}.",
+    "confirm": "Delete group",
+    "cancel": "Cancel",
+    "warning": "This action cannot be undone."
+  },
+  "permissions": {
+    "readRestricted": "You do not have permission to view recipient groups."
+  },
+  "detail": {
+    "subtitle": "Group details and composition",
+    "missingTitle": "Group not found",
+    "notFound": "We could not find this group yet.",
+    "fields": {
+      "name": "Name",
+      "code": "Code",
+      "description": "Description",
+      "status": "Status",
+      "createdAt": "Created",
+      "channels": "Channels",
+      "contacts": "Contacts"
+    }
+  },
+  "create": {
+    "successFeedback": "Group created successfully.",
+    "errorFeedback": "We couldn't create the group."
+  },
+  "edit": {
+    "subtitle": "Update the group's channels, contacts, and description.",
+    "restricted": "You do not have permission to edit this group.",
+    "successFeedback": "Group updated successfully.",
+    "errorFeedback": "We couldn't update the group."
+  },
+  "delete": {
+    "success": "Group deleted successfully.",
+    "error": "We couldn't delete the group."
+  }
+}

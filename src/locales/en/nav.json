@@ -15,6 +15,7 @@
   "rolesCreate": "Create role",
   "recipients": "Recipients",
   "contacts": "Contacts",
+  "recipientGroups": "Recipient groups",
   "usersAll": "All users",
   "usersActive": "Active users",
   "usersInactive": "Inactive users",

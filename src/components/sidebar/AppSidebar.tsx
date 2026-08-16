@@ -152,6 +152,16 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             },
           ]
         : []),
+      ...(hasPermission('RECIPIENT_GROUPS', 'READ')
+        ? [
+            {
+              title: t('recipientGroups'),
+              url: '/dashboard/recipient-groups',
+              isActive: pathname.startsWith('/dashboard/recipient-groups'),
+              icon: BookUser,
+            },
+          ]
+        : []),
     ];
 
     if (recipientItems.length > 0) {
@@ -159,7 +169,9 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         title: t('recipients'),
         url: recipientItems[0]?.url ?? '/dashboard/contacts',
         icon: BookUser,
-        isActive: pathname.startsWith('/dashboard/contacts'),
+        isActive:
+          pathname.startsWith('/dashboard/contacts') ||
+          pathname.startsWith('/dashboard/recipient-groups'),
         items: recipientItems,
       });
     }

@@ -6,6 +6,7 @@
   "users": "Usuarios",
   "roles": "Roles",
   "contacts": "Contactos",
+  "recipientGroups": "Grupos de destinatarios",
   "serviceEntries": "Registro de servicios",
   "serviceEntrySurveys": "Encuestas de servicio",
   "servicePackagesRecords": "Recolección"

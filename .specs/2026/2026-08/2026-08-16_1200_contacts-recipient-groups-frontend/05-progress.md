@@ -44,3 +44,15 @@
 - Se validó localmente este corte con:
   - `npx tsc --noEmit`
   - `npx eslint src/components/contacts src/features/contacts src/app/dashboard/contacts src/store/store.ts src/components/sidebar/AppSidebar.tsx`
+- Se implementó la base frontend de `recipient_groups` con:
+  - feature state dedicado en `src/features/recipient-groups/*`
+  - rutas de listado, detalle, creación y edición
+  - tabla paginada con búsqueda y acciones
+  - formulario compartido para create/edit
+  - lookup de contactos dentro del flujo
+  - selección múltiple de contactos preservando orden de captura
+  - alta de contacto en contexto desde modal reutilizando `ContactForm`
+  - integración inicial en sidebar dentro del grupo compartido de destinatarios
+- Se validó localmente este corte con:
+  - `npx tsc --noEmit`
+  - `npx eslint src/components/recipient-groups src/features/recipient-groups src/app/dashboard/recipient-groups src/store/store.ts src/components/sidebar/AppSidebar.tsx src/utils/recipientGroupsQuery.ts`

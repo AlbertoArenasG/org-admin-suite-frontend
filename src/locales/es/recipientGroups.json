@@ -1,0 +1,115 @@
+{
+  "title": "Grupos de destinatarios",
+  "empty": "No hay grupos de destinatarios para mostrar.",
+  "pagination": "Página {{page}} de {{pages}} · {{total}} grupos",
+  "table": {
+    "columns": {
+      "name": "Grupo",
+      "channels": "Canales",
+      "contactsCount": "Contactos",
+      "status": "Estado",
+      "createdAt": "Creado"
+    }
+  },
+  "actions": {
+    "create": "Crear grupo de destinatarios",
+    "createShort": "Crear",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver detalles",
+    "openMenu": "Abrir menú de acciones",
+    "searchPlaceholder": "Buscar grupos de destinatarios...",
+    "manageColumns": "Administrar columnas",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "form": {
+    "title": {
+      "create": "Crear grupo de destinatarios",
+      "edit": "Editar grupo de destinatarios"
+    },
+    "description": {
+      "create": "Configura un grupo reutilizable de destinatarios y sus canales habilitados.",
+      "edit": "Actualiza la configuración del grupo seleccionado."
+    },
+    "labels": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "enabledChannels": "Canales habilitados",
+      "contacts": "Contactos",
+      "contactSearch": "Buscar contacto",
+      "selectedContacts": "Contactos seleccionados"
+    },
+    "placeholders": {
+      "name": "Alertas operativas",
+      "description": "Descripción opcional del grupo",
+      "contactSearch": "Buscar por nombre, empresa, correo o celular"
+    },
+    "hints": {
+      "contactsLookup": "Busca contactos existentes o crea uno nuevo sin salir de este flujo.",
+      "searchingContacts": "Buscando contactos...",
+      "noContactsFound": "No encontramos contactos con ese criterio.",
+      "noSelectedContacts": "Todavía no agregas contactos al grupo."
+    },
+    "errors": {
+      "nameRequired": "El nombre es obligatorio",
+      "channelsRequired": "Selecciona al menos un canal",
+      "contactsRequired": "Selecciona al menos un contacto"
+    },
+    "actions": {
+      "createContactInline": "Crear contacto"
+    },
+    "dialogs": {
+      "createContact": {
+        "title": "Crear contacto en contexto",
+        "description": "Da de alta un contacto sin salir del grupo actual.",
+        "success": "Contacto creado correctamente.",
+        "error": "No fue posible crear el contacto."
+      }
+    },
+    "cancel": "Cancelar",
+    "submitting": "Guardando...",
+    "submit": {
+      "create": "Crear grupo",
+      "edit": "Guardar cambios"
+    }
+  },
+  "confirmDelete": {
+    "title": "Eliminar grupo de destinatarios",
+    "description": "Esta acción eliminará a {{name}}.",
+    "confirm": "Eliminar grupo",
+    "cancel": "Cancelar",
+    "warning": "Esta acción no se puede deshacer."
+  },
+  "permissions": {
+    "readRestricted": "No cuentas con permisos para consultar grupos de destinatarios."
+  },
+  "detail": {
+    "subtitle": "Detalle y composición del grupo",
+    "missingTitle": "Grupo no encontrado",
+    "notFound": "Aún no pudimos encontrar este grupo.",
+    "fields": {
+      "name": "Nombre",
+      "code": "Código",
+      "description": "Descripción",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "channels": "Canales",
+      "contacts": "Contactos"
+    }
+  },
+  "create": {
+    "successFeedback": "Grupo creado correctamente.",
+    "errorFeedback": "No fue posible crear el grupo."
+  },
+  "edit": {
+    "subtitle": "Actualiza canales, contactos y descripción del grupo.",
+    "restricted": "No tienes permisos para editar este grupo.",
+    "successFeedback": "Grupo actualizado correctamente.",
+    "errorFeedback": "No fue posible actualizar el grupo."
+  },
+  "delete": {
+    "success": "Grupo eliminado correctamente.",
+    "error": "No fue posible eliminar el grupo."
+  }
+}

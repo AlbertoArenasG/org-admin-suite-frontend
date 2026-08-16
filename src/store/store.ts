@@ -10,6 +10,7 @@ import servicePackagesRecordsReducer from '@/features/servicePackagesRecords/ser
 import providersReducer from '@/features/providers/providersSlice';
 import rolesReducer from '@/features/roles/rolesSlice';
 import contactsReducer from '@/features/contacts/contactsSlice';
+import recipientGroupsReducer from '@/features/recipient-groups/recipientGroupsSlice';
 
 /**
  * Central Redux store setup. Extend the reducer map as new slices are added.
@@ -27,6 +28,7 @@ export const store = configureStore({
     providers: providersReducer,
     roles: rolesReducer,
     contacts: contactsReducer,
+    recipientGroups: recipientGroupsReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

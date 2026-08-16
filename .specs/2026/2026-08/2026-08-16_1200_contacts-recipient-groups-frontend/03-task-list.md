@@ -17,12 +17,12 @@
       Status: completed
       Subtasks: - aterrizar contratos y feature state - crear rutas y páginas - implementar listado - implementar detalle - implementar formulario compartido - integrar delete y reglas visuales - integrar navegación y permisos
 
-- [ ] Implementar base frontend de `recipient_groups`
-      Status: pending
+- [x] Implementar base frontend de `recipient_groups`
+      Status: completed
       Subtasks: - aterrizar contratos, catálogo auxiliar y feature state - crear rutas y páginas - implementar listado - implementar detalle - implementar formulario compartido - integrar lookup, selección múltiple y alta en contexto de contactos - integrar delete y reglas visuales - integrar navegación y permisos
 
-- [ ] Integrar selección de contactos dentro del flujo de grupos de destinatarios
-      Status: pending
+- [x] Integrar selección de contactos dentro del flujo de grupos de destinatarios
+      Status: completed
 
 ## Phase 3. Validation
 
