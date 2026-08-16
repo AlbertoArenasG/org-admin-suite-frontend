@@ -88,7 +88,6 @@
     "notFound": "Aún no pudimos encontrar este grupo.",
     "fields": {
       "name": "Nombre",
-      "code": "Código",
       "description": "Descripción",
       "status": "Estado",
       "createdAt": "Creado",

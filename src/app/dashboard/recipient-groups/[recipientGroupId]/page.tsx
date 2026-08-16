@@ -68,7 +68,6 @@ export default function RecipientGroupDetailPage() {
   const detailRows = recipientGroup
     ? [
         { label: t('detail.fields.name'), value: recipientGroup.name || '—' },
-        { label: t('detail.fields.code'), value: recipientGroup.code },
         { label: t('detail.fields.description'), value: recipientGroup.description || '—' },
         {
           label: t('detail.fields.status'),

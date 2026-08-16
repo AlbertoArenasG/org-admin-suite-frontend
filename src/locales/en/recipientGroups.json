@@ -88,7 +88,6 @@
     "notFound": "We could not find this group yet.",
     "fields": {
       "name": "Name",
-      "code": "Code",
       "description": "Description",
       "status": "Status",
       "createdAt": "Created",

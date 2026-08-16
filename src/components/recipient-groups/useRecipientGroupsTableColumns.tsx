@@ -57,12 +57,7 @@ export function useRecipientGroupsTableColumns({
         meta: {
           label: t('table.columns.name'),
         },
-        cell: ({ row }) => (
-          <div className="flex flex-col gap-1">
-            <span className="font-medium text-foreground">{row.original.name}</span>
-            <span className="font-mono text-xs text-muted-foreground">{row.original.code}</span>
-          </div>
-        ),
+        cell: ({ row }) => <span className="font-medium text-foreground">{row.original.name}</span>,
       },
       {
         accessorKey: 'channelsLabel',
