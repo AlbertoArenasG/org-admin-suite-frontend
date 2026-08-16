@@ -10,10 +10,26 @@ La implementación frontend todavía no inicia. Este documento existe para endur
 - el backend para `recipient_groups` ya existe
 - `communication_channels` existe como catálogo auxiliar
 - esta spec no cubre aún consumo embebido desde otros módulos
+- `contacts` y `recipient_groups` vivirán como módulos separados
+- ambos pertenecerán al mismo grupo del sidebar
+- ambos seguirán el patrón de:
+  - listado
+  - detalle
+  - create
+  - edit
+- el estado frontend vivirá separado por módulo:
+  - `src/features/contacts/*`
+  - `src/features/recipient-groups/*`
+- el formulario de `recipient_groups` deberá soportar:
+  - lookup de contactos
+  - selección múltiple
+  - creación de contacto en contexto
+- el alta en contexto aprobada debe resolverse con:
+  - `modal`
+  - o `drawer`
+- no se usará navegación aparte para ese subflujo
 
 ## Pending Technical Decisions
 
-- estructura exacta de rutas para `contacts`
-- estructura exacta de rutas para `recipient_groups`
-- shape de estado frontend por módulo
-- estrategia de búsqueda y selección de contactos dentro de grupos
+- shape exacto de rutas por módulo
+- shape exacto del estado de cada slice

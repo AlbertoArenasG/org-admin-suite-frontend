@@ -31,7 +31,21 @@ Implementar en frontend los módulos administrativos de `contacts` y `recipient_
 ### Phase 3. Core UI
 
 - implementar superficies administrativas de `contacts`
+  - contratos y slice
+  - rutas y páginas
+  - listado
+  - detalle
+  - formulario compartido
+  - delete y reglas visuales
 - implementar superficies administrativas de `recipient_groups`
+  - contratos, slice y catálogo auxiliar
+  - rutas y páginas
+  - listado
+  - detalle
+  - formulario compartido
+  - lookup y selección múltiple de contactos
+  - alta de contacto en contexto
+  - delete y reglas visuales
 - resolver vínculos entre ambos módulos en formularios
 
 ### Phase 4. Validation And Cleanup

@@ -13,21 +13,159 @@
 
 ## Slice 2. Structural Definition
 
-- Estado: pending
+- Estado: completed
 - Objetivo:
   - definir rutas, patrones de pantalla y organización del estado frontend
+- Cambios realizados:
+  - se aprobó que `contacts` y `recipient_groups` vivan como módulos separados
+  - se aprobó que ambos tengan:
+    - listado
+    - detalle
+    - create
+    - edit
+  - se aprobó formulario compartido para `create/edit`
+  - se aprobó que ambos pertenezcan al mismo grupo del sidebar
+  - se aprobó estado separado por módulo:
+    - `src/features/contacts/*`
+    - `src/features/recipient-groups/*`
 
 ## Slice 3. Contacts Foundation
 
 - Estado: pending
 - Objetivo:
   - implementar la base frontend del módulo `contacts`
+- Microfases:
+  - Phase 3.1. Contracts And Feature State
+    - aterrizar contratos HTTP realmente usados del módulo:
+      - `GET /v1/contacts`
+      - `GET /v1/contacts/search`
+      - `GET /v1/contacts/:contactId`
+      - `POST /v1/contacts`
+      - `PATCH /v1/contacts/:contactId`
+      - `DELETE /v1/contacts/:contactId`
+    - definir `src/features/contacts/types.ts`
+    - definir `src/features/contacts/contactsThunks.ts`
+    - definir `src/features/contacts/contactsSlice.ts`
+    - registrar el slice en `src/store/store.ts`
+  - Phase 3.2. Routes And Pages
+    - crear rutas del módulo:
+      - listado
+      - detalle
+      - create
+      - edit
+    - mantener páginas de `app/` enfocadas solo en composición y routing
+  - Phase 3.3. Contacts List
+    - implementar tabla/listado paginado
+    - integrar búsqueda
+    - integrar columnas relevantes para primera versión
+    - integrar acciones visibles según el patrón actual del proyecto
+    - resolver estados de carga, vacío y error
+  - Phase 3.4. Contacts Detail
+    - implementar vista de detalle
+    - mostrar metadata útil del contacto:
+      - identidad base
+      - company name
+      - emails
+      - phones
+      - cell phones
+      - status
+      - vínculo interno/externo
+      - auditoría disponible
+    - exponer navegación hacia edit cuando aplique
+  - Phase 3.5. Contacts Form
+    - implementar formulario compartido para create/edit
+    - soportar captura de:
+      - `name`
+      - `lastname`
+      - `company_name`
+      - `emails[]`
+      - `phones[]`
+      - `cell_phones[]`
+    - resolver validaciones alineadas al contrato backend
+    - dejar explícito en UI cuando un contacto ligado a usuario no sea editable
+  - Phase 3.6. Delete And UI Rules
+    - integrar delete con confirmación
+    - reflejar visualmente restricciones del backend:
+      - contactos ligados a usuario no se eliminan manualmente
+      - contactos internos se muestran pero con acciones bloqueadas cuando corresponda
+    - dejar el módulo listo para reutilización posterior en flows consumidores
+  - Phase 3.7. Navigation And Permission Wiring
+    - integrar acceso al módulo dentro del grupo compartido del sidebar
+    - alinear visibilidad del módulo con permisos reales
+    - verificar consistencia con el patrón de navegación existente
 
 ## Slice 4. Recipient Groups Foundation
 
 - Estado: pending
 - Objetivo:
   - implementar la base frontend del módulo `recipient_groups`
+  - construir sobre la base ya resuelta de `contacts`
+- Microfases:
+  - Phase 4.1. Contracts And Feature State
+    - aterrizar contratos HTTP realmente usados del módulo:
+      - `GET /v1/recipient-groups`
+      - `GET /v1/recipient-groups/:recipientGroupId`
+      - `POST /v1/recipient-groups`
+      - `PATCH /v1/recipient-groups/:recipientGroupId`
+      - `DELETE /v1/recipient-groups/:recipientGroupId`
+      - `GET /v1/communication-channels`
+    - definir `src/features/recipient-groups/types.ts`
+    - definir `src/features/recipient-groups/recipientGroupsThunks.ts`
+    - definir `src/features/recipient-groups/recipientGroupsSlice.ts`
+    - registrar el slice en `src/store/store.ts`
+  - Phase 4.2. Routes And Pages
+    - crear rutas del módulo:
+      - listado
+      - detalle
+      - create
+      - edit
+    - mantener páginas de `app/` enfocadas solo en composición y routing
+  - Phase 4.3. Recipient Groups List
+    - implementar tabla/listado paginado
+    - integrar búsqueda
+    - mostrar información base útil para primera versión:
+      - `name`
+      - `code`
+      - `status`
+      - `enabled_channels`
+      - total de contactos
+      - auditoría o timestamps disponibles
+    - integrar acciones visibles según el patrón actual del proyecto
+    - resolver estados de carga, vacío y error
+  - Phase 4.4. Recipient Groups Detail
+    - implementar vista de detalle
+    - mostrar:
+      - identidad base del grupo
+      - descripción
+      - canales habilitados
+      - contactos asociados en el orden persistido
+      - metadata disponible de auditoría
+    - exponer navegación hacia edit cuando aplique
+  - Phase 4.5. Recipient Groups Form
+    - implementar formulario compartido para create/edit
+    - soportar captura de:
+      - `name`
+      - `description`
+      - `enabled_channels`
+      - `contact_ids`
+    - integrar catálogo auxiliar de `communication_channels`
+    - reflejar la restricción actual de backend:
+      - por ahora solo existe `EMAIL`
+    - alinear validaciones del formulario con el contrato backend
+  - Phase 4.6. Contact Lookup And In-Context Creation
+    - integrar lookup de contactos dentro del formulario del grupo
+    - soportar selección múltiple
+    - conservar el orden de contactos seleccionado por usuario
+    - integrar alta de contacto en contexto con `modal` o `drawer`
+    - refrescar estado del selector tras creación exitosa sin romper el formulario principal
+  - Phase 4.7. Delete And UI Rules
+    - integrar delete con confirmación
+    - reflejar visualmente el estado del grupo
+    - dejar el módulo listo para posterior reutilización como selector consumido por otros flujos
+  - Phase 4.8. Navigation And Permission Wiring
+    - integrar acceso al módulo dentro del mismo grupo compartido del sidebar
+    - alinear visibilidad del módulo con permisos reales
+    - verificar consistencia con el patrón de navegación existente
 
 ## Slice 5. Validation And Handoff
 
