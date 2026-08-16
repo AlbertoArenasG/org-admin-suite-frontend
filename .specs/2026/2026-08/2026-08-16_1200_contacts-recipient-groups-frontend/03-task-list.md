@@ -5,16 +5,16 @@
 - [x] Cerrar el alcance funcional de la spec
       Status: completed
 
-- [ ] Definir la estructura de pantallas y navegación de ambos módulos
+- [x] Definir la estructura de pantallas y navegación de ambos módulos
       Status: completed
 
-- [ ] Definir dónde vivirá el estado frontend de `contacts` y `recipient_groups`
+- [x] Definir dónde vivirá el estado frontend de `contacts` y `recipient_groups`
       Status: completed
 
 ## Phase 2. Implementation
 
-- [ ] Implementar base frontend de `contacts`
-      Status: pending
+- [x] Implementar base frontend de `contacts`
+      Status: completed
       Subtasks: - aterrizar contratos y feature state - crear rutas y páginas - implementar listado - implementar detalle - implementar formulario compartido - integrar delete y reglas visuales - integrar navegación y permisos
 
 - [ ] Implementar base frontend de `recipient_groups`
@@ -27,4 +27,4 @@
 ## Phase 3. Validation
 
 - [ ] Validar flujos principales y actualizar documentación de progreso
-      Status: pending
+      Status: in_progress

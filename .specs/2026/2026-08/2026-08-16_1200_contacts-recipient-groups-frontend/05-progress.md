@@ -33,3 +33,14 @@
 - Se aprobó el orden de implementación:
   - primero `contacts`
   - después `recipient_groups`
+- Se implementó la base frontend de `contacts` con:
+  - feature state dedicado en `src/features/contacts/*`
+  - rutas de listado, detalle, creación y edición
+  - tabla paginada con búsqueda y acciones
+  - formulario compartido para create/edit
+  - confirmación de delete
+  - restricción visual para contactos ligados a usuario
+  - integración inicial en sidebar dentro del grupo compartido de destinatarios
+- Se validó localmente este corte con:
+  - `npx tsc --noEmit`
+  - `npx eslint src/components/contacts src/features/contacts src/app/dashboard/contacts src/store/store.ts src/components/sidebar/AppSidebar.tsx`

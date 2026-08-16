@@ -1,0 +1,110 @@
+{
+  "title": "Contactos",
+  "empty": "No hay contactos para mostrar.",
+  "pagination": "Página {{page}} de {{pages}} · {{total}} contactos",
+  "types": {
+    "INTERNAL": "Interno",
+    "EXTERNAL": "Externo"
+  },
+  "table": {
+    "columns": {
+      "fullName": "Contacto",
+      "type": "Tipo",
+      "primaryEmail": "Correo principal",
+      "primaryCellPhone": "Celular principal",
+      "status": "Estado",
+      "createdAt": "Creado"
+    }
+  },
+  "actions": {
+    "create": "Crear contacto",
+    "createShort": "Crear",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver detalles",
+    "openMenu": "Abrir menú de acciones",
+    "searchPlaceholder": "Buscar contactos...",
+    "manageColumns": "Administrar columnas",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "form": {
+    "title": {
+      "create": "Crear contacto",
+      "edit": "Editar contacto"
+    },
+    "description": {
+      "create": "Registra un nuevo contacto reutilizable para otros módulos.",
+      "edit": "Actualiza la información del contacto seleccionado."
+    },
+    "labels": {
+      "name": "Nombre",
+      "lastname": "Apellido",
+      "companyName": "Empresa",
+      "emails": "Correos",
+      "phones": "Teléfonos",
+      "cellPhones": "Celulares"
+    },
+    "placeholders": {
+      "name": "Nombre",
+      "lastname": "Apellido",
+      "companyName": "Empresa opcional",
+      "emails": "correo1@empresa.com\ncorreo2@empresa.com",
+      "phones": "+52 5555555555",
+      "cellPhones": "+52 5555555555"
+    },
+    "hints": {
+      "multilineValues": "Agrega un valor por línea."
+    },
+    "errors": {
+      "nameRequired": "El nombre es obligatorio",
+      "lastnameRequired": "El apellido es obligatorio"
+    },
+    "cancel": "Cancelar",
+    "submitting": "Guardando...",
+    "submit": {
+      "create": "Crear contacto",
+      "edit": "Guardar cambios"
+    }
+  },
+  "confirmDelete": {
+    "title": "Eliminar contacto",
+    "description": "Esta acción eliminará a {{name}}.",
+    "confirm": "Eliminar contacto",
+    "cancel": "Cancelar",
+    "warning": "Esta acción no se puede deshacer."
+  },
+  "permissions": {
+    "readRestricted": "No cuentas con permisos para consultar contactos."
+  },
+  "detail": {
+    "subtitle": "Detalle e información de contacto",
+    "missingTitle": "Contacto no encontrado",
+    "notFound": "Aún no pudimos encontrar este contacto.",
+    "linkedToUserHint": "Este contacto está ligado a un usuario interno, por lo que no se puede editar ni eliminar desde este módulo.",
+    "fields": {
+      "fullName": "Nombre completo",
+      "type": "Tipo",
+      "companyName": "Empresa",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "emails": "Correos",
+      "phones": "Teléfonos",
+      "cellPhones": "Celulares"
+    }
+  },
+  "create": {
+    "successFeedback": "Contacto creado correctamente.",
+    "errorFeedback": "No fue posible crear el contacto."
+  },
+  "edit": {
+    "subtitle": "Actualiza los datos del contacto seleccionado.",
+    "restricted": "No tienes permisos para editar este contacto.",
+    "successFeedback": "Contacto actualizado correctamente.",
+    "errorFeedback": "No fue posible actualizar el contacto."
+  },
+  "delete": {
+    "success": "Contacto eliminado correctamente.",
+    "error": "No fue posible eliminar el contacto."
+  }
+}

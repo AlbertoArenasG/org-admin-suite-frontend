@@ -1,0 +1,110 @@
+{
+  "title": "Contacts",
+  "empty": "No contacts to show.",
+  "pagination": "Page {{page}} of {{pages}} · {{total}} contacts",
+  "types": {
+    "INTERNAL": "Internal",
+    "EXTERNAL": "External"
+  },
+  "table": {
+    "columns": {
+      "fullName": "Contact",
+      "type": "Type",
+      "primaryEmail": "Primary email",
+      "primaryCellPhone": "Primary cell phone",
+      "status": "Status",
+      "createdAt": "Created"
+    }
+  },
+  "actions": {
+    "create": "Create contact",
+    "createShort": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View details",
+    "openMenu": "Open actions menu",
+    "searchPlaceholder": "Search contacts...",
+    "manageColumns": "Manage columns",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "form": {
+    "title": {
+      "create": "Create contact",
+      "edit": "Edit contact"
+    },
+    "description": {
+      "create": "Register a reusable contact for other modules.",
+      "edit": "Update the selected contact information."
+    },
+    "labels": {
+      "name": "First name",
+      "lastname": "Last name",
+      "companyName": "Company",
+      "emails": "Emails",
+      "phones": "Phones",
+      "cellPhones": "Cell phones"
+    },
+    "placeholders": {
+      "name": "First name",
+      "lastname": "Last name",
+      "companyName": "Optional company",
+      "emails": "email1@company.com\nemail2@company.com",
+      "phones": "+52 5555555555",
+      "cellPhones": "+52 5555555555"
+    },
+    "hints": {
+      "multilineValues": "Add one value per line."
+    },
+    "errors": {
+      "nameRequired": "First name is required",
+      "lastnameRequired": "Last name is required"
+    },
+    "cancel": "Cancel",
+    "submitting": "Saving...",
+    "submit": {
+      "create": "Create contact",
+      "edit": "Save changes"
+    }
+  },
+  "confirmDelete": {
+    "title": "Delete contact",
+    "description": "This action will delete {{name}}.",
+    "confirm": "Delete contact",
+    "cancel": "Cancel",
+    "warning": "This action cannot be undone."
+  },
+  "permissions": {
+    "readRestricted": "You do not have permission to view contacts."
+  },
+  "detail": {
+    "subtitle": "Contact details and information",
+    "missingTitle": "Contact not found",
+    "notFound": "We could not find this contact yet.",
+    "linkedToUserHint": "This contact is linked to an internal user, so it cannot be edited or deleted from this module.",
+    "fields": {
+      "fullName": "Full name",
+      "type": "Type",
+      "companyName": "Company",
+      "status": "Status",
+      "createdAt": "Created",
+      "emails": "Emails",
+      "phones": "Phones",
+      "cellPhones": "Cell phones"
+    }
+  },
+  "create": {
+    "successFeedback": "Contact created successfully.",
+    "errorFeedback": "We couldn't create the contact."
+  },
+  "edit": {
+    "subtitle": "Update the selected contact information.",
+    "restricted": "You do not have permission to edit this contact.",
+    "successFeedback": "Contact updated successfully.",
+    "errorFeedback": "We couldn't update the contact."
+  },
+  "delete": {
+    "success": "Contact deleted successfully.",
+    "error": "We couldn't delete the contact."
+  }
+}

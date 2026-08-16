@@ -31,11 +31,12 @@
 
 ## Slice 3. Contacts Foundation
 
-- Estado: pending
+- Estado: completed
 - Objetivo:
   - implementar la base frontend del módulo `contacts`
 - Microfases:
   - Phase 3.1. Contracts And Feature State
+    - Estado: completed
     - aterrizar contratos HTTP realmente usados del módulo:
       - `GET /v1/contacts`
       - `GET /v1/contacts/search`
@@ -48,6 +49,7 @@
     - definir `src/features/contacts/contactsSlice.ts`
     - registrar el slice en `src/store/store.ts`
   - Phase 3.2. Routes And Pages
+    - Estado: completed
     - crear rutas del módulo:
       - listado
       - detalle
@@ -55,12 +57,14 @@
       - edit
     - mantener páginas de `app/` enfocadas solo en composición y routing
   - Phase 3.3. Contacts List
+    - Estado: completed
     - implementar tabla/listado paginado
     - integrar búsqueda
     - integrar columnas relevantes para primera versión
     - integrar acciones visibles según el patrón actual del proyecto
     - resolver estados de carga, vacío y error
   - Phase 3.4. Contacts Detail
+    - Estado: completed
     - implementar vista de detalle
     - mostrar metadata útil del contacto:
       - identidad base
@@ -73,6 +77,7 @@
       - auditoría disponible
     - exponer navegación hacia edit cuando aplique
   - Phase 3.5. Contacts Form
+    - Estado: completed
     - implementar formulario compartido para create/edit
     - soportar captura de:
       - `name`
@@ -84,12 +89,14 @@
     - resolver validaciones alineadas al contrato backend
     - dejar explícito en UI cuando un contacto ligado a usuario no sea editable
   - Phase 3.6. Delete And UI Rules
+    - Estado: completed
     - integrar delete con confirmación
     - reflejar visualmente restricciones del backend:
       - contactos ligados a usuario no se eliminan manualmente
       - contactos internos se muestran pero con acciones bloqueadas cuando corresponda
     - dejar el módulo listo para reutilización posterior en flows consumidores
   - Phase 3.7. Navigation And Permission Wiring
+    - Estado: completed
     - integrar acceso al módulo dentro del grupo compartido del sidebar
     - alinear visibilidad del módulo con permisos reales
     - verificar consistencia con el patrón de navegación existente

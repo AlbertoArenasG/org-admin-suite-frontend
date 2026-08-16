@@ -5,6 +5,7 @@
   "providers": "Proveedores",
   "users": "Usuarios",
   "roles": "Roles",
+  "contacts": "Contactos",
   "serviceEntries": "Registro de servicios",
   "serviceEntrySurveys": "Encuestas de servicio",
   "servicePackagesRecords": "Recolección"

@@ -13,6 +13,7 @@ import {
   Archive,
   Truck,
   ShieldCheck,
+  BookUser,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -137,6 +138,29 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
               ]
             : []),
         ],
+      });
+    }
+
+    const recipientItems = [
+      ...(hasPermission('CONTACTS', 'READ')
+        ? [
+            {
+              title: t('contacts'),
+              url: '/dashboard/contacts',
+              isActive: pathname.startsWith('/dashboard/contacts'),
+              icon: BookUser,
+            },
+          ]
+        : []),
+    ];
+
+    if (recipientItems.length > 0) {
+      items.push({
+        title: t('recipients'),
+        url: recipientItems[0]?.url ?? '/dashboard/contacts',
+        icon: BookUser,
+        isActive: pathname.startsWith('/dashboard/contacts'),
+        items: recipientItems,
       });
     }
 

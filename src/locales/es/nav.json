@@ -13,6 +13,8 @@
   "roles": "Roles",
   "rolesList": "Lista de roles",
   "rolesCreate": "Crear rol",
+  "recipients": "Destinatarios",
+  "contacts": "Contactos",
   "usersAll": "Todos los usuarios",
   "usersActive": "Usuarios activos",
   "usersInactive": "Usuarios inactivos",
