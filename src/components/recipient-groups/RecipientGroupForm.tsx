@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Loader2, Plus, Search, X } from 'lucide-react';
@@ -73,6 +73,8 @@ export function RecipientGroupForm({
   const { t } = useTranslation('recipientGroups');
   const [lookupQuery, setLookupQuery] = useState('');
   const [isCreateContactOpen, setIsCreateContactOpen] = useState(false);
+  const searchContactsRef = useRef(onSearchContacts);
+  const lastSearchedQueryRef = useRef<string | null>(null);
 
   const {
     register,
@@ -93,15 +95,28 @@ export function RecipientGroupForm({
   const selectedChannelCodes = watch('enabledChannels');
 
   useEffect(() => {
+    searchContactsRef.current = onSearchContacts;
+  }, [onSearchContacts]);
+
+  useEffect(() => {
     const timer = window.setTimeout(() => {
       const normalized = lookupQuery.trim();
-      if (normalized.length >= 2) {
-        onSearchContacts(normalized);
+
+      if (normalized.length < 2) {
+        lastSearchedQueryRef.current = null;
+        return;
       }
+
+      if (lastSearchedQueryRef.current === normalized) {
+        return;
+      }
+
+      lastSearchedQueryRef.current = normalized;
+      searchContactsRef.current(normalized);
     }, 300);
 
     return () => window.clearTimeout(timer);
-  }, [lookupQuery, onSearchContacts]);
+  }, [lookupQuery]);
 
   const effectiveDisabled = disableActions || isSubmitting || isFormSubmitting;
 
@@ -192,25 +207,36 @@ export function RecipientGroupForm({
 
           <div className="grid gap-2">
             <Label>{t('form.labels.enabledChannels')}</Label>
-            <div className="flex flex-wrap gap-2">
+            <div className="grid gap-3">
               {communicationChannels.map((channel) => {
                 const isSelected = selectedChannelCodes.includes(channel.code);
                 return (
-                  <Button
+                  <label
                     key={channel.code}
-                    type="button"
-                    variant={isSelected ? 'default' : 'outline'}
-                    size="sm"
-                    disabled={disableActions}
-                    onClick={() => {
-                      const next = isSelected
-                        ? selectedChannelCodes.filter((code) => code !== channel.code)
-                        : [...selectedChannelCodes, channel.code];
-                      setValue('enabledChannels', next, { shouldValidate: true });
-                    }}
+                    className={`flex cursor-pointer items-start gap-3 rounded-2xl border px-4 py-3 transition ${
+                      isSelected
+                        ? 'border-primary/50 bg-primary/5'
+                        : 'border-border/60 bg-card/40 hover:bg-muted/30'
+                    } ${disableActions ? 'cursor-not-allowed opacity-70' : ''}`}
                   >
-                    {channel.name}
-                  </Button>
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      disabled={disableActions}
+                      className="mt-1 h-4 w-4 rounded border-border text-primary focus:ring-primary"
+                      onChange={(event) => {
+                        const next = event.target.checked
+                          ? [...selectedChannelCodes, channel.code]
+                          : selectedChannelCodes.filter((code) => code !== channel.code);
+                        setValue('enabledChannels', Array.from(new Set(next)), {
+                          shouldValidate: true,
+                        });
+                      }}
+                    />
+                    <div className="space-y-1">
+                      <p className="text-sm font-medium text-foreground">{channel.name}</p>
+                    </div>
+                  </label>
                 );
               })}
             </div>
@@ -223,7 +249,6 @@ export function RecipientGroupForm({
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <p className="text-sm font-medium text-foreground">{t('form.labels.contacts')}</p>
-                <p className="text-sm text-muted-foreground">{t('form.hints.contactsLookup')}</p>
               </div>
               <Button
                 type="button"
@@ -250,8 +275,19 @@ export function RecipientGroupForm({
                   disabled={disableActions}
                   onChange={(event) => setLookupQuery(event.target.value)}
                   placeholder={t('form.placeholders.contactSearch')}
-                  className="pl-9"
+                  className="pl-9 pr-9"
                 />
+                {lookupQuery ? (
+                  <button
+                    type="button"
+                    aria-label={t('actions.clearSearch', { defaultValue: 'Limpiar búsqueda' })}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition hover:text-foreground"
+                    onClick={() => setLookupQuery('')}
+                    disabled={disableActions}
+                  >
+                    <X className="size-4" />
+                  </button>
+                ) : null}
               </div>
               {searchError ? <p className="text-sm text-destructive">{searchError}</p> : null}
             </div>
@@ -327,11 +363,7 @@ export function RecipientGroupForm({
                     </div>
                   ))}
                 </div>
-              ) : (
-                <div className="rounded-xl border border-dashed border-border/60 px-3 py-4 text-sm text-muted-foreground">
-                  {t('form.hints.noSelectedContacts')}
-                </div>
-              )}
+              ) : null}
               {selectedContactIds.length === 0 ? (
                 <p className="text-sm text-destructive">{t('form.errors.contactsRequired')}</p>
               ) : null}

@@ -46,10 +46,8 @@
       "contactSearch": "Search by name, company, email, or cell phone"
     },
     "hints": {
-      "contactsLookup": "Search existing contacts or create a new one without leaving this flow.",
       "searchingContacts": "Searching contacts...",
-      "noContactsFound": "We couldn't find contacts matching that query.",
-      "noSelectedContacts": "You have not added contacts to this group yet."
+      "noContactsFound": "We couldn't find contacts matching that query."
     },
     "errors": {
       "nameRequired": "Name is required",

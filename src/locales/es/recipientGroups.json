@@ -46,10 +46,8 @@
       "contactSearch": "Buscar por nombre, empresa, correo o celular"
     },
     "hints": {
-      "contactsLookup": "Busca contactos existentes o crea uno nuevo sin salir de este flujo.",
       "searchingContacts": "Buscando contactos...",
-      "noContactsFound": "No encontramos contactos con ese criterio.",
-      "noSelectedContacts": "Todavía no agregas contactos al grupo."
+      "noContactsFound": "No encontramos contactos con ese criterio."
     },
     "errors": {
       "nameRequired": "El nombre es obligatorio",
