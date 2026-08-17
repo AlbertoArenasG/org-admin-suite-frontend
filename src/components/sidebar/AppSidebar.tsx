@@ -141,6 +141,28 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       });
     }
 
+    const expirationPolicyItems = [
+      ...(hasPermission('EXPIRATION_STATUS_POLICIES', 'READ')
+        ? [
+            {
+              title: t('expirationStatusPolicies'),
+              url: '/dashboard/expiration-status-policies',
+              isActive: pathname.startsWith('/dashboard/expiration-status-policies'),
+            },
+          ]
+        : []),
+    ];
+
+    if (expirationPolicyItems.length > 0) {
+      items.push({
+        title: t('expirationPolicies'),
+        url: expirationPolicyItems[0]?.url ?? '/dashboard/expiration-status-policies',
+        icon: ChartColumn,
+        isActive: pathname.startsWith('/dashboard/expiration-status-policies'),
+        items: expirationPolicyItems,
+      });
+    }
+
     const recipientItems = [
       ...(hasPermission('CONTACTS', 'READ')
         ? [

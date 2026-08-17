@@ -31,13 +31,12 @@ export default function ExpirationStatusPolicyCreatePage() {
   const mutationsState = useAppSelector((state) => state.expirationStatusPolicies.mutations);
 
   const canCreate = hasPermission('EXPIRATION_STATUS_POLICIES', 'CREATE');
-  const canRead = hasPermission('EXPIRATION_STATUS_POLICIES', 'READ');
 
   useEffect(() => {
-    if (canRead && catalogsState.status === 'idle') {
+    if (canCreate && catalogsState.status === 'idle') {
       void dispatch(fetchExpirationStatusPolicyCatalog());
     }
-  }, [canRead, catalogsState.status, dispatch]);
+  }, [canCreate, catalogsState.status, dispatch]);
 
   useEffect(() => {
     return () => {

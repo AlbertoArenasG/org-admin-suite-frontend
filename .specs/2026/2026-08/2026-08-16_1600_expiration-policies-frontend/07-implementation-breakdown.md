@@ -128,7 +128,7 @@
     - integrar delete con confirmación
     - reflejar visualmente restricciones del backend cuando existan
   - Phase 3.7. Navigation And Permission Wiring
-    - Estado: pending
+    - Estado: completed
     - integrar acceso al módulo dentro del grupo compartido del sidebar
     - alinear visibilidad del módulo con permisos reales
     - verificar consistencia con el patrón de navegación existente

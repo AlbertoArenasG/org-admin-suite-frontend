@@ -65,6 +65,10 @@
   - feedback de éxito y error al eliminar
   - redirect al listado después de eliminar
   - copy específico para restricción de create
+- Se completó el wiring de navegación de `expiration_status_policies` con:
+  - integración del módulo dentro del grupo compartido de vencimientos en el sidebar
+  - visibilidad condicionada a permisos reales de lectura
+  - carga de catálogos de create basada en permiso `CREATE` para no depender artificialmente de `READ`
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`
