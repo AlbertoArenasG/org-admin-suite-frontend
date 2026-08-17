@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -7,14 +8,20 @@ import Typography from '@mui/material/Typography';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
+import { ExpirationStatusPoliciesDeleteDialog } from '@/components/expiration-status-policies/ExpirationStatusPoliciesDeleteDialog';
 import { formatExpirationStatusPolicyOffset } from '@/components/expiration-status-policies/formatExpirationStatusPolicyOffset';
+import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuthorization } from '@/features/auth';
-import { fetchExpirationStatusPolicyById } from '@/features/expiration-status-policies/expirationStatusPoliciesThunks';
+import { resetExpirationStatusPolicyMutations } from '@/features/expiration-status-policies/expirationStatusPoliciesSlice';
+import {
+  deleteExpirationStatusPolicy,
+  fetchExpirationStatusPolicyById,
+} from '@/features/expiration-status-policies/expirationStatusPoliciesThunks';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
@@ -24,9 +31,12 @@ export default function ExpirationStatusPolicyDetailPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { t, hydrated, i18n } = useTranslationHydrated(['expirationStatusPolicies', 'breadcrumbs']);
+  const { showSnackbar } = useSnackbar();
   const { hasPermission } = useAuthorization();
   const detailState = useAppSelector((state) => state.expirationStatusPolicies.detail);
+  const mutationsState = useAppSelector((state) => state.expirationStatusPolicies.mutations);
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const policy = useMemo(() => {
     if (detailState.item?.expirationStatusPolicyId === params.expirationStatusPolicyId) {
@@ -49,6 +59,45 @@ export default function ExpirationStatusPolicyDetailPage() {
   }, [authHydrated, dispatch, params.expirationStatusPolicyId]);
 
   const canUpdate = hasPermission('EXPIRATION_STATUS_POLICIES', 'UPDATE');
+  const canDelete = hasPermission('EXPIRATION_STATUS_POLICIES', 'DELETE');
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetExpirationStatusPolicyMutations());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (mutationsState.currentExpirationStatusPolicyId !== params.expirationStatusPolicyId) {
+      return;
+    }
+
+    if (mutationsState.deleteStatus === 'succeeded') {
+      showSnackbar({
+        message:
+          mutationsState.message ??
+          t('delete.success', {
+            defaultValue: 'Política de estatus por vencimiento eliminada correctamente.',
+          }),
+        severity: 'success',
+      });
+      dispatch(resetExpirationStatusPolicyMutations());
+      router.push('/dashboard/expiration-status-policies');
+      return;
+    }
+
+    if (mutationsState.deleteStatus === 'failed') {
+      showSnackbar({
+        message:
+          mutationsState.error ??
+          t('delete.error', {
+            defaultValue: 'No fue posible eliminar la política de estatus por vencimiento.',
+          }),
+        severity: 'error',
+      });
+      dispatch(resetExpirationStatusPolicyMutations());
+    }
+  }, [dispatch, mutationsState, params.expirationStatusPolicyId, router, showSnackbar, t]);
 
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;
@@ -186,6 +235,16 @@ export default function ExpirationStatusPolicyDetailPage() {
             >
               {t('detail.actions.back')}
             </Button>
+            {canDelete ? (
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={() => setDeleteDialogOpen(true)}
+                disabled={mutationsState.deleteStatus === 'loading'}
+              >
+                {t('actions.delete')}
+              </Button>
+            ) : null}
             {canUpdate ? (
               <Button
                 size="sm"
@@ -276,6 +335,47 @@ export default function ExpirationStatusPolicyDetailPage() {
           )}
         </div>
       </Paper>
+
+      <ExpirationStatusPoliciesDeleteDialog
+        open={deleteDialogOpen}
+        policy={
+          policy
+            ? {
+                expirationStatusPolicyId: policy.expirationStatusPolicyId,
+                name: policy.name,
+                description: policy.description,
+                statusId: policy.statusId,
+                statusLabel: policy.statusName,
+                rulesCount: policy.rules.length,
+                createdAt: policy.createdAt,
+                updatedAt: policy.updatedAt,
+                source: policy,
+              }
+            : null
+        }
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={() => {
+          if (!policy || mutationsState.deleteStatus === 'loading') {
+            return;
+          }
+
+          void dispatch(
+            deleteExpirationStatusPolicy({
+              expirationStatusPolicyId: policy.expirationStatusPolicyId,
+            })
+          );
+        }}
+        isLoading={mutationsState.deleteStatus === 'loading'}
+        labels={{
+          title: t('confirmDelete.title'),
+          description: t('confirmDelete.description', {
+            name: policy?.name ?? t('detail.missingTitle'),
+          }),
+          warning: t('confirmDelete.warning'),
+          cancel: t('confirmDelete.cancel'),
+          confirm: t('confirmDelete.confirm'),
+        }}
+      />
     </div>
   );
 }

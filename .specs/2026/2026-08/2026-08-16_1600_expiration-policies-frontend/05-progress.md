@@ -60,6 +60,11 @@
   - color picker
   - normalización del orden de reglas al guardar
   - wiring completo de create y edit
+- Se completó el cierre de UX base de `expiration_status_policies` con:
+  - delete con confirmación también desde la vista de detalle
+  - feedback de éxito y error al eliminar
+  - redirect al listado después de eliminar
+  - copy específico para restricción de create
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`

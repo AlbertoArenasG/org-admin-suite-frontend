@@ -124,6 +124,7 @@
     "statuses": "The status catalog could not be loaded."
   },
   "create": {
+    "restricted": "You do not have permission to create expiration status policies.",
     "successFeedback": "Expiration status policy created successfully.",
     "errorFeedback": "The expiration status policy could not be created."
   },

@@ -124,7 +124,7 @@
       - ordenamiento normalizado al guardar según offset
     - resolver validaciones alineadas al contrato backend
   - Phase 3.6. Delete And UI Rules
-    - Estado: pending
+    - Estado: completed
     - integrar delete con confirmación
     - reflejar visualmente restricciones del backend cuando existan
   - Phase 3.7. Navigation And Permission Wiring

@@ -131,7 +131,7 @@ export default function ExpirationStatusPolicyCreatePage() {
 
         {!canCreate ? (
           <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
-            {t('permissions.readRestricted')}
+            {t('create.restricted')}
           </div>
         ) : catalogsState.status === 'failed' ? (
           <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">

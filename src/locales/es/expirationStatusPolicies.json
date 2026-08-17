@@ -124,6 +124,7 @@
     "statuses": "No fue posible obtener el catálogo de estados."
   },
   "create": {
+    "restricted": "No tienes permisos para crear políticas de estatus por vencimiento.",
     "successFeedback": "Política de estatus por vencimiento creada correctamente.",
     "errorFeedback": "No fue posible crear la política de estatus por vencimiento."
   },
