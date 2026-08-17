@@ -239,6 +239,17 @@
 
 ## Slice 5. Validation And Handoff
 
-- Estado: pending
+- Estado: completed
 - Objetivo:
   - validar los flujos principales y dejar la spec lista para cierre
+- Cambios realizados:
+  - se validaron manualmente los flujos principales de:
+    - `expiration_status_policies`
+    - `expiration_notification_policies`
+  - se corrigieron ajustes de UX y consistencia detectados durante validación:
+    - integración de copys/i18n faltantes
+    - simplificación del picker de color para `expiration_status_policies`
+    - normalización de reglas de estado en create/edit
+    - limpieza del filtro de estado en listados
+    - afinación visual de toolbars y formularios
+  - la spec queda lista para cierre sin pendientes funcionales abiertos

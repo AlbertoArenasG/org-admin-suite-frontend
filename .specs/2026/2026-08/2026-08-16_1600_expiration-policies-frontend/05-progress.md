@@ -126,3 +126,17 @@
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`
+
+## 2026-08-17
+
+- Se completó la validación manual de flujos principales de:
+  - `expiration_status_policies`
+  - `expiration_notification_policies`
+- Durante la validación se corrigieron ajustes de cierre, incluyendo:
+  - copys/i18n faltantes en listados, forms y detalles
+  - compactación del color picker de `expiration_status_policies` con apertura bajo demanda y confirmación explícita
+  - creación forzada en `ACTIVE` para ambas políticas
+  - exclusión de `DELETED` en edición y filtros de estado donde no aporta valor operativo
+  - afinación visual de toolbars, filtros y formularios
+- No quedan pendientes funcionales abiertos dentro del alcance de esta spec.
+- La spec queda lista para cierre formal.
