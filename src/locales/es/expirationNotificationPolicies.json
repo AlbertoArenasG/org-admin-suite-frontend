@@ -1,0 +1,18 @@
+{
+  "title": "Políticas de notificación por vencimiento",
+  "form": {
+    "title": {
+      "create": "Crear política de notificación por vencimiento",
+      "edit": "Editar política de notificación por vencimiento"
+    }
+  },
+  "detail": {
+    "missingTitle": "Política de notificación por vencimiento"
+  },
+  "routeShells": {
+    "list": "La tabla de políticas de notificación se integrará en el siguiente slice.",
+    "create": "El formulario de creación se integrará en el siguiente slice.",
+    "detail": "La vista de detalle se integrará en el siguiente slice.",
+    "edit": "El formulario de edición se integrará en el siguiente slice."
+  }
+}

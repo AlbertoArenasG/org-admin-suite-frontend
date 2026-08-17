@@ -1,0 +1,18 @@
+{
+  "title": "Expiration notification policies",
+  "form": {
+    "title": {
+      "create": "Create expiration notification policy",
+      "edit": "Edit expiration notification policy"
+    }
+  },
+  "detail": {
+    "missingTitle": "Expiration notification policy"
+  },
+  "routeShells": {
+    "list": "The notification policies table will be integrated in the next slice.",
+    "create": "The create form will be integrated in the next slice.",
+    "detail": "The detail view will be integrated in the next slice.",
+    "edit": "The edit form will be integrated in the next slice."
+  }
+}

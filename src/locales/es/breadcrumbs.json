@@ -7,6 +7,7 @@
   "roles": "Roles",
   "contacts": "Contactos",
   "expirationStatusPolicies": "Políticas de estatus por vencimiento",
+  "expirationNotificationPolicies": "Políticas de notificación por vencimiento",
   "recipientGroups": "Grupos de destinatarios",
   "serviceEntries": "Registro de servicios",
   "serviceEntrySurveys": "Encuestas de servicio",
