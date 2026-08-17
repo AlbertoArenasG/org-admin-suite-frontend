@@ -19,6 +19,8 @@ import publicProviderProfileEn from '@/locales/en/publicProviderProfile.json';
 import authEn from '@/locales/en/auth.json';
 import contactsEn from '@/locales/en/contacts.json';
 import recipientGroupsEn from '@/locales/en/recipientGroups.json';
+import expirationStatusPoliciesEn from '@/locales/en/expirationStatusPolicies.json';
+import expirationNotificationPoliciesEn from '@/locales/en/expirationNotificationPolicies.json';
 import commonEs from '@/locales/es/common.json';
 import navEs from '@/locales/es/nav.json';
 import breadcrumbsEs from '@/locales/es/breadcrumbs.json';
@@ -37,6 +39,8 @@ import publicProviderProfileEs from '@/locales/es/publicProviderProfile.json';
 import authEs from '@/locales/es/auth.json';
 import contactsEs from '@/locales/es/contacts.json';
 import recipientGroupsEs from '@/locales/es/recipientGroups.json';
+import expirationStatusPoliciesEs from '@/locales/es/expirationStatusPolicies.json';
+import expirationNotificationPoliciesEs from '@/locales/es/expirationNotificationPolicies.json';
 
 const FALLBACK_LANGUAGE = 'es';
 export const LANGUAGE_STORAGE_KEY = 'preferred-language';
@@ -61,6 +65,8 @@ const resources = {
     publicProviderProfile: publicProviderProfileEn,
     contacts: contactsEn,
     recipientGroups: recipientGroupsEn,
+    expirationStatusPolicies: expirationStatusPoliciesEn,
+    expirationNotificationPolicies: expirationNotificationPoliciesEn,
   },
   es: {
     common: commonEs,
@@ -81,6 +87,8 @@ const resources = {
     publicProviderProfile: publicProviderProfileEs,
     contacts: contactsEs,
     recipientGroups: recipientGroupsEs,
+    expirationStatusPolicies: expirationStatusPoliciesEs,
+    expirationNotificationPolicies: expirationNotificationPoliciesEs,
   },
 };
 
@@ -127,6 +135,8 @@ export function initI18n(): I18nInstance {
         'publicProviderProfile',
         'contacts',
         'recipientGroups',
+        'expirationStatusPolicies',
+        'expirationNotificationPolicies',
       ],
       defaultNS: 'common',
       interpolation: {
