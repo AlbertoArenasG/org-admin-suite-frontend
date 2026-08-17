@@ -140,7 +140,7 @@
   - implementar la base frontend del módulo `expiration_notification_policies`
 - Microfases:
   - Phase 4.1. Contracts And Feature State
-    - Estado: pending
+    - Estado: completed
     - aterrizar contratos HTTP realmente usados del módulo:
       - `GET /v1/expiration-notification-policies`
       - `GET /v1/expiration-notification-policies/catalog`

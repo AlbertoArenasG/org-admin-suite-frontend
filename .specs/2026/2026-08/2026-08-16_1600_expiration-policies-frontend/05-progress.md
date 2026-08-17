@@ -69,6 +69,24 @@
   - integración del módulo dentro del grupo compartido de vencimientos en el sidebar
   - visibilidad condicionada a permisos reales de lectura
   - carga de catálogos de create basada en permiso `CREATE` para no depender artificialmente de `READ`
+- Se implementó la base del feature state de `expiration_notification_policies` con:
+  - `types.ts`
+  - `expirationNotificationPoliciesThunks.ts`
+  - `expirationNotificationPoliciesSlice.ts`
+  - `index.ts`
+  - registro del reducer en `src/store/store.ts`
+- Se aterrizó el contrato real del backend para `expiration_notification_policies`, incluyendo:
+  - listado paginado
+  - detalle
+  - create
+  - update
+  - delete
+  - catálogo auxiliar con:
+    - statuses
+    - anchors
+    - triggerModes
+    - repeatUntilValues
+  - options para selects administrativos
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`
