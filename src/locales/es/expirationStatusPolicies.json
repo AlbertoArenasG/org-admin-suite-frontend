@@ -34,7 +34,38 @@
     }
   },
   "detail": {
-    "missingTitle": "Política de estatus por vencimiento"
+    "subtitle": "Detalle de la política y reglas configuradas.",
+    "missingTitle": "Política de estatus por vencimiento",
+    "notFound": "Aún no pudimos encontrar esta política.",
+    "actions": {
+      "back": "Volver al listado"
+    },
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "createdBy": "Creado por",
+      "updatedBy": "Actualizado por"
+    },
+    "rules": {
+      "title": "Reglas configuradas",
+      "subtitle": "Resumen visual de los umbrales definidos para esta política.",
+      "ruleLabel": "Regla {{index}}",
+      "empty": "Esta política todavía no tiene reglas configuradas."
+    }
+  },
+  "offset": {
+    "sameDay": "Mismo día",
+    "years_one": "{{count}} año",
+    "years_other": "{{count}} años",
+    "months_one": "{{count}} mes",
+    "months_other": "{{count}} meses",
+    "weeks_one": "{{count}} semana",
+    "weeks_other": "{{count}} semanas",
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días"
   },
   "confirmDelete": {
     "title": "Eliminar política de estatus por vencimiento",

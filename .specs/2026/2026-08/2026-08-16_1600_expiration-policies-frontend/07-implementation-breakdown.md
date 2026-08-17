@@ -84,7 +84,7 @@
     - integrar acciones visibles según el patrón actual del proyecto
     - resolver estados de carga, vacío y error
   - Phase 3.4. Status Policies Detail
-    - Estado: pending
+    - Estado: completed
     - implementar vista de detalle
     - mostrar metadata útil de la policy:
       - nombre

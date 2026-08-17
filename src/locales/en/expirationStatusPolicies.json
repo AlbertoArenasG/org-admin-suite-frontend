@@ -34,7 +34,38 @@
     }
   },
   "detail": {
-    "missingTitle": "Expiration status policy"
+    "subtitle": "Policy detail and configured rules.",
+    "missingTitle": "Expiration status policy",
+    "notFound": "We could not find this policy yet.",
+    "actions": {
+      "back": "Back to list"
+    },
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "createdBy": "Created by",
+      "updatedBy": "Updated by"
+    },
+    "rules": {
+      "title": "Configured rules",
+      "subtitle": "Visual summary of the thresholds defined for this policy.",
+      "ruleLabel": "Rule {{index}}",
+      "empty": "This policy does not have configured rules yet."
+    }
+  },
+  "offset": {
+    "sameDay": "Same day",
+    "years_one": "{{count}} year",
+    "years_other": "{{count}} years",
+    "months_one": "{{count}} month",
+    "months_other": "{{count}} months",
+    "weeks_one": "{{count}} week",
+    "weeks_other": "{{count}} weeks",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days"
   },
   "confirmDelete": {
     "title": "Delete expiration status policy",

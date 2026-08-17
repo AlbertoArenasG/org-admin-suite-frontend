@@ -47,6 +47,12 @@
   - sorting por nombre, estado y creado
   - acciones de navegación y delete
   - consumo del catálogo de estados desde backend
+- Se implementó el detalle de `expiration_status_policies` con:
+  - fetch real por id
+  - metadata útil para usuario final
+  - exclusión de `code`
+  - cards de reglas con label, color y resumen humano del offset
+  - navegación hacia edit y regreso al listado
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`
