@@ -64,7 +64,7 @@
       - edit
     - mantener páginas de `app/` enfocadas solo en composición y routing
   - Phase 3.3. Status Policies List
-    - Estado: pending
+    - Estado: completed
     - implementar tabla/listado paginado
     - integrar búsqueda por nombre
     - integrar filtro por estado

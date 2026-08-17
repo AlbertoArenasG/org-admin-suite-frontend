@@ -1,7 +1,31 @@
 {
   "title": "Políticas de estatus por vencimiento",
+  "empty": "No hay políticas de estatus por vencimiento para mostrar.",
+  "pagination": "Página {{page}} de {{pages}} · {{total}} políticas",
+  "table": {
+    "columns": {
+      "name": "Política",
+      "status": "Estado",
+      "rulesCount": "Reglas",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado"
+    }
+  },
   "actions": {
-    "edit": "Editar"
+    "create": "Crear política de estatus por vencimiento",
+    "createShort": "Crear",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "view": "Ver detalles",
+    "openMenu": "Abrir menú de acciones",
+    "searchPlaceholder": "Buscar políticas de estatus por vencimiento...",
+    "manageColumns": "Administrar columnas",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "filters": {
+    "status": "Estado",
+    "statusPlaceholder": "Todos los estados"
   },
   "form": {
     "title": {
@@ -11,6 +35,20 @@
   },
   "detail": {
     "missingTitle": "Política de estatus por vencimiento"
+  },
+  "confirmDelete": {
+    "title": "Eliminar política de estatus por vencimiento",
+    "description": "Esta acción eliminará a {{name}}.",
+    "confirm": "Eliminar política",
+    "cancel": "Cancelar",
+    "warning": "Esta acción no se puede deshacer."
+  },
+  "permissions": {
+    "readRestricted": "No cuentas con permisos para consultar políticas de estatus por vencimiento."
+  },
+  "delete": {
+    "success": "Política de estatus por vencimiento eliminada correctamente.",
+    "error": "No fue posible eliminar la política de estatus por vencimiento."
   },
   "routeShells": {
     "list": "La tabla de políticas se integrará en el siguiente slice.",

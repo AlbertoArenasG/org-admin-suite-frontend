@@ -1,7 +1,31 @@
 {
   "title": "Expiration status policies",
+  "empty": "No expiration status policies available to display.",
+  "pagination": "Page {{page}} of {{pages}} · {{total}} policies",
+  "table": {
+    "columns": {
+      "name": "Policy",
+      "status": "Status",
+      "rulesCount": "Rules",
+      "createdAt": "Created",
+      "updatedAt": "Updated"
+    }
+  },
   "actions": {
-    "edit": "Edit"
+    "create": "Create expiration status policy",
+    "createShort": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View details",
+    "openMenu": "Open actions menu",
+    "searchPlaceholder": "Search expiration status policies...",
+    "manageColumns": "Manage columns",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "filters": {
+    "status": "Status",
+    "statusPlaceholder": "All statuses"
   },
   "form": {
     "title": {
@@ -11,6 +35,20 @@
   },
   "detail": {
     "missingTitle": "Expiration status policy"
+  },
+  "confirmDelete": {
+    "title": "Delete expiration status policy",
+    "description": "This action will delete {{name}}.",
+    "confirm": "Delete policy",
+    "cancel": "Cancel",
+    "warning": "This action cannot be undone."
+  },
+  "permissions": {
+    "readRestricted": "You do not have permission to view expiration status policies."
+  },
+  "delete": {
+    "success": "Expiration status policy deleted successfully.",
+    "error": "The expiration status policy could not be deleted."
   },
   "routeShells": {
     "list": "The policies table will be integrated in the next slice.",

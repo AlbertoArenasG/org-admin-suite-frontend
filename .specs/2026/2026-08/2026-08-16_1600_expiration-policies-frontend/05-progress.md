@@ -40,6 +40,13 @@
   - detalle
   - edit
 - Se agregaron los locales mínimos y breadcrumbs necesarios para que esas rutas sean navegables sin hardcodear copys.
+- Se implementó el listado de `expiration_status_policies` con:
+  - contenedor de tabla
+  - toolbar con búsqueda, filtro por estado y visibilidad de columnas
+  - tabla paginada
+  - sorting por nombre, estado y creado
+  - acciones de navegación y delete
+  - consumo del catálogo de estados desde backend
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`
