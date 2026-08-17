@@ -43,6 +43,7 @@
       "rules": "Reglas",
       "ruleLabel": "Etiqueta",
       "ruleColor": "Color",
+      "ruleColorShade": "Tono",
       "years": "Años",
       "months": "Meses",
       "weeks": "Semanas",
@@ -55,6 +56,12 @@
     },
     "hints": {
       "rules": "Define los umbrales visuales que usará esta política."
+    },
+    "colorPicker": {
+      "title": "Seleccionar color",
+      "description": "Elige la familia de color y ajusta su tono antes de confirmar.",
+      "confirm": "Confirmar color",
+      "cancel": "Cancelar"
     },
     "actions": {
       "addRule": "Agregar regla",

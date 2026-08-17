@@ -43,6 +43,7 @@
       "rules": "Rules",
       "ruleLabel": "Label",
       "ruleColor": "Color",
+      "ruleColorShade": "Shade",
       "years": "Years",
       "months": "Months",
       "weeks": "Weeks",
@@ -55,6 +56,12 @@
     },
     "hints": {
       "rules": "Define the visual thresholds this policy will use."
+    },
+    "colorPicker": {
+      "title": "Select color",
+      "description": "Choose the color family and adjust its shade before confirming.",
+      "confirm": "Confirm color",
+      "cancel": "Cancel"
     },
     "actions": {
       "addRule": "Add rule",

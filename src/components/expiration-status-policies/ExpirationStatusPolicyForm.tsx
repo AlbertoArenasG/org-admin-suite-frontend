@@ -12,6 +12,7 @@ import {
 } from '@/components/expiration-status-policies/formTypes';
 import { formatExpirationStatusPolicyOffset } from '@/components/expiration-status-policies/formatExpirationStatusPolicyOffset';
 import { Button } from '@/components/ui/button';
+import { ColorShadePicker } from '@/components/ui/color-shade-picker';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import type {
@@ -265,13 +266,16 @@ export function ExpirationStatusPolicyForm({
                               required: t('form.errors.ruleColorRequired'),
                             }}
                             render={({ field: colorField }) => (
-                              <input
+                              <ColorShadePicker
                                 id={`rule-color-${field.id}`}
-                                type="color"
                                 value={colorField.value}
                                 disabled={disableActions}
                                 onChange={colorField.onChange}
-                                className="h-10 w-16 rounded-lg border border-border/60 bg-background p-1"
+                                title={t('form.colorPicker.title')}
+                                description={t('form.colorPicker.description')}
+                                shadeLabel={t('form.labels.ruleColorShade')}
+                                confirmLabel={t('form.colorPicker.confirm')}
+                                cancelLabel={t('form.colorPicker.cancel')}
                               />
                             )}
                           />
