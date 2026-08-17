@@ -6,6 +6,7 @@
   "users": "Users",
   "roles": "Roles",
   "contacts": "Contacts",
+  "expirationStatusPolicies": "Expiration status policies",
   "recipientGroups": "Recipient groups",
   "serviceEntries": "Service entries",
   "serviceEntrySurveys": "Service surveys",

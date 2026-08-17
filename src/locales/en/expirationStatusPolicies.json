@@ -1,0 +1,21 @@
+{
+  "title": "Expiration status policies",
+  "actions": {
+    "edit": "Edit"
+  },
+  "form": {
+    "title": {
+      "create": "Create expiration status policy",
+      "edit": "Edit expiration status policy"
+    }
+  },
+  "detail": {
+    "missingTitle": "Expiration status policy"
+  },
+  "routeShells": {
+    "list": "The policies table will be integrated in the next slice.",
+    "create": "The create form will be integrated in the next slice.",
+    "detail": "The detail view will be integrated in the next slice.",
+    "edit": "The edit form will be integrated in the next slice."
+  }
+}

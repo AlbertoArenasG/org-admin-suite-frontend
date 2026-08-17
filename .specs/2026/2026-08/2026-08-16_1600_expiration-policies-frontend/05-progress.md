@@ -34,6 +34,12 @@
   - `expirationStatusPoliciesSlice.ts`
   - `index.ts`
   - registro del reducer en `src/store/store.ts`
+- Se implementaron las rutas base de `expiration_status_policies`:
+  - listado
+  - create
+  - detalle
+  - edit
+- Se agregaron los locales mínimos y breadcrumbs necesarios para que esas rutas sean navegables sin hardcodear copys.
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`

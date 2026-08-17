@@ -56,7 +56,7 @@
     - registrar el slice en `src/store/store.ts`
     - dejar explícito que frontend consumirá catálogos auxiliares expuestos por backend y no hardcodeará opciones locales equivalentes
   - Phase 3.2. Routes And Pages
-    - Estado: pending
+    - Estado: completed
     - crear rutas del módulo:
       - listado
       - detalle

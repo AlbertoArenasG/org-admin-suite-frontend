@@ -1,0 +1,21 @@
+{
+  "title": "Políticas de estatus por vencimiento",
+  "actions": {
+    "edit": "Editar"
+  },
+  "form": {
+    "title": {
+      "create": "Crear política de estatus por vencimiento",
+      "edit": "Editar política de estatus por vencimiento"
+    }
+  },
+  "detail": {
+    "missingTitle": "Política de estatus por vencimiento"
+  },
+  "routeShells": {
+    "list": "La tabla de políticas se integrará en el siguiente slice.",
+    "create": "El formulario de creación se integrará en el siguiente slice.",
+    "detail": "La vista de detalle se integrará en el siguiente slice.",
+    "edit": "El formulario de edición se integrará en el siguiente slice."
+  }
+}
