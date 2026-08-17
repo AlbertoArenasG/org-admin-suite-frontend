@@ -1,0 +1,172 @@
+# Decisions
+
+## Decision Log
+
+- Decision 01:
+  - tema: alcance funcional de la spec
+  - estado: approved
+  - resultado:
+    - esta spec cubrirá `internal-asset-maintenance-record`
+    - incluirá:
+      - `list`
+      - `detail`
+      - `create`
+      - `edit`
+      - `delete`
+      - follow-up manual al provider
+    - consumirá módulos reutilizables ya existentes:
+      - `recipient_groups`
+      - `expiration_status_policies`
+      - `expiration_notification_policies`
+    - no cubrirá:
+      - automatización de notificaciones
+      - scheduler
+      - cron
+      - procesamiento batch
+      - catálogo maestro de activos internos
+      - rediseño de módulos ya cerrados
+
+- Decision 02:
+  - tema: estructura de pantallas y navegación del módulo
+  - estado: approved
+  - resultado:
+    - existirán rutas explícitas de:
+      - `list`
+      - `create`
+      - `detail`
+      - `edit`
+    - el detalle será una superficie importante del módulo
+    - desde el listado se navegará al detalle
+    - desde el detalle se podrá editar
+    - la acción manual de follow-up al provider vivirá en la vista de detalle
+    - no se usarán modales como superficie principal del módulo
+
+- Decision 03:
+  - tema: ubicación del estado frontend del módulo
+  - estado: approved
+  - resultado:
+    - existirá una sola frontera de feature state:
+      - `src/features/internal-asset-control/*`
+    - el estado se segmentará internamente para:
+      - listado
+      - detalle
+      - create/edit
+      - follow-up manual al provider
+      - catálogos auxiliares consumidos
+    - no se duplicará el estado administrativo de:
+      - `recipient_groups`
+      - `expiration_status_policies`
+      - `expiration_notification_policies`
+
+- Decision 04:
+  - tema: nivel operativo del listado principal
+  - estado: approved
+  - resultado:
+    - el listado será operativo y no solo navegacional
+    - columnas base:
+      - activo
+      - identificador
+      - tipo de mantenimiento
+      - status persistido
+      - estado derivado por vencimiento
+      - fecha de vencimiento
+      - provider
+      - actualizado
+    - filtros base:
+      - búsqueda por activo o identificador
+      - status persistido
+      - tipo de mantenimiento
+      - estado derivado por vencimiento
+      - `sentToProvider` si backend lo soporta bien
+    - sorting base:
+      - activo
+      - tipo
+      - status
+      - fecha de vencimiento
+      - actualizado
+    - acciones por fila:
+      - ver detalle
+      - editar
+      - eliminar
+    - el follow-up manual seguirá viviendo en detalle
+
+- Decision 05:
+  - tema: estructura de la vista de detalle
+  - estado: approved
+  - resultado:
+    - la vista de detalle se organizará por bloques funcionales
+    - bloques base:
+      - resumen principal
+      - datos del registro
+      - policies asociadas
+      - provider
+      - follow-up manual
+    - el follow-up manual vivirá como bloque propio dentro del detalle cuando aplique
+    - el usuario no tendrá que entrar a edit para entender el estado completo del registro
+
+- Decision 06:
+  - tema: estructura y alcance del formulario create/edit
+  - estado: approved
+  - resultado:
+    - el formulario se organizará por bloques
+    - bloques base:
+      - principal
+      - policies
+      - provider
+    - `expiration_date` se autocalculará en frontend pero seguirá siendo editable
+    - las policies se seleccionarán como recursos ya existentes
+    - el follow-up manual no formará parte de create/edit
+
+- Decision 07:
+  - tema: representación frontend de `status` persistido y estado derivado por vencimiento
+  - estado: approved
+  - resultado:
+    - ambas lecturas se mostrarán como señales distintas y explícitas
+    - `status` persistido será editable y representará el estado operativo
+    - el estado derivado será calculado, no editable y representará urgencia
+    - ambos convivirán en listado y detalle
+    - el derivado solo se mostrará cuando el registro esté en:
+      - `PENDING`
+      - `IN_PROGRESS`
+    - no se mezclarán ambas lecturas en un solo badge
+
+- Decision 08:
+  - tema: UX de selección de policies dentro de create/edit
+  - estado: approved
+  - resultado:
+    - se usarán selectores simples para:
+      - `expiration_status_policy`
+      - `expiration_notification_policy`
+    - al existir selección se mostrará un resumen corto útil
+    - resumen mínimo:
+      - nombre
+      - estado
+      - número de reglas
+    - no se administrarán policies dentro del formulario
+    - no se implementará detalle embebido complejo en `v1`
+
+- Decision 09:
+  - tema: comportamiento visual del bloque de provider en create/edit
+  - estado: approved
+  - resultado:
+    - el bloque provider usará disclosure progresivo
+    - con `sentToProvider = false`:
+      - quedará colapsado o visualmente secundario
+      - no será obligatorio
+      - conservará datos previos si existen
+    - con `sentToProvider = true`:
+      - se expandirá
+      - validará lo exigido por backend
+    - frontend no limpiará automáticamente los valores del bloque al apagarlo
+
+- Decision 10:
+  - tema: UX de `expiration_date` frente al intervalo autocalculado
+  - estado: approved
+  - resultado:
+    - `expiration_date` se autocalculará por defecto
+    - mientras no exista edición manual, seguirá recalculándose al cambiar:
+      - `last_maintenance_at`
+      - `interval`
+    - si el usuario edita manualmente `expiration_date`, frontend dejará de recalcularla automáticamente
+    - existirá una acción explícita para volver a la fecha sugerida
+    - se mostrará una señal breve cuando la fecha haya sido ajustada manualmente

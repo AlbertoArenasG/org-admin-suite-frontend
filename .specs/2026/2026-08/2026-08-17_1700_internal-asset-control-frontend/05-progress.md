@@ -1,0 +1,87 @@
+# Progress
+
+## 2026-08-17
+
+- Se creó la spec `internal-asset-control-frontend`.
+- Se registró el contexto base:
+  - backend del módulo ya existe
+  - frontend ya cuenta con los módulos reutilizables que este flujo consumirá
+- Se dejó pendiente la primera decisión crítica:
+  - alcance funcional exacto de esta spec frontend
+- Se aprobó que esta spec frontend cubra el recurso principal `internal-asset-maintenance-record` con:
+  - `list`
+  - `detail`
+  - `create`
+  - `edit`
+  - `delete`
+  - follow-up manual al provider
+- Se aprobó que la spec consuma módulos reutilizables ya existentes:
+  - `recipient_groups`
+  - `expiration_status_policies`
+  - `expiration_notification_policies`
+- Se dejó explícitamente fuera:
+  - automatización de notificaciones
+  - scheduler
+  - cron
+  - procesamiento batch
+  - catálogo maestro de activos internos
+- Se aprobó la estructura de pantallas y navegación del módulo:
+  - listado principal
+  - detalle completo
+  - create
+  - edit
+- Se aprobó que el follow-up manual al provider viva en la vista de detalle.
+- Se descartó usar modales como superficie principal del módulo.
+- Se aprobó que el estado frontend viva en una sola frontera de feature state:
+  - `src/features/internal-asset-control/*`
+- Se aprobó que ese feature state se segmente internamente para:
+  - listado
+  - detalle
+  - create/edit
+  - follow-up manual
+  - catálogos auxiliares consumidos
+- Se aprobó no duplicar el estado administrativo de módulos reutilizables ya cerrados.
+- Se aprobó que el listado principal tenga naturaleza operativa y permita leer rápidamente el grado de atención requerido por cada registro.
+- Se aprobaron como columnas base del listado:
+  - activo
+  - identificador
+  - tipo de mantenimiento
+  - status persistido
+  - estado derivado por vencimiento
+  - fecha de vencimiento
+  - provider
+  - actualizado
+- Se aprobó que el follow-up manual no viva como acción principal dentro de la tabla, sino en detalle.
+- Se aprobó que la vista de detalle se estructure por bloques funcionales:
+  - resumen principal
+  - datos del registro
+  - policies asociadas
+  - provider
+  - follow-up manual
+- Se aprobó que la lectura rica del registro viva en detalle y no obligue al usuario a entrar a edit para entender el contexto completo.
+- Se aprobó que el formulario `create/edit` se organice por bloques:
+  - principal
+  - policies
+  - provider
+- Se aprobó que `expiration_date` se autocalcule en frontend, pero siga siendo editable.
+- Se aprobó que las policies se seleccionen como recursos ya existentes y no se administren dentro del formulario.
+- Se aprobó que el follow-up manual quede fuera de `create/edit` y viva únicamente en detalle.
+- Se aprobó que frontend represente `status` persistido y estado derivado por vencimiento como lecturas distintas y explícitas.
+- Se aprobó que el estado derivado:
+  - sea solo lectura
+  - represente urgencia
+  - se muestre solo en registros `PENDING` o `IN_PROGRESS`
+- Se descartó mezclar ambas lecturas en un solo badge.
+- Se aprobó que la selección de policies dentro de `create/edit` use selectores simples con contexto corto visible.
+- Se aprobó que, al existir una policy seleccionada, se muestre un resumen mínimo de:
+  - nombre
+  - estado
+  - número de reglas
+- Se descartó administrar policies o mostrar detalle embebido complejo dentro del formulario.
+- Se aprobó que el bloque provider en `create/edit` use disclosure progresivo.
+- Se aprobó que, al apagar `sentToProvider`, frontend:
+  - no limpie los datos del bloque
+  - lo deje colapsado o visualmente secundario
+- Se aprobó que, al reactivarlo, el usuario pueda recuperar los datos previos sin recapturarlos.
+- Se aprobó la UX de `expiration_date` con cálculo automático por defecto y override manual explícito.
+- Se aprobó que, tras una edición manual de `expiration_date`, frontend deje de recalcularla automáticamente hasta que el usuario solicite volver a la fecha sugerida.
