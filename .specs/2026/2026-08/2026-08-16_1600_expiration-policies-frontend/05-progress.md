@@ -100,6 +100,18 @@
   - sorting por nombre, estado y creado
   - acciones de navegación y delete
   - consumo del catálogo de estados desde backend
+- Se implementó el detalle de `expiration_notification_policies` con:
+  - fetch real por id
+  - metadata útil para usuario final
+  - exclusión de `code`
+  - cards de reglas con anchor, trigger mode, offsets, recurrencia y grupos destinatarios
+  - navegación hacia edit y regreso al listado
+- Se implementó el formulario `create/edit` de `expiration_notification_policies` con:
+  - formulario compartido
+  - catálogos de estado, anclas, modos de disparo y recurrencia consumidos desde backend
+  - selección de grupos destinatarios activos consumidos desde backend
+  - reglas `one-time` y `recurring` con limpieza automática de campos no aplicables
+  - wiring completo de create y edit
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`

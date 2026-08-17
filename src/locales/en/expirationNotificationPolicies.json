@@ -31,10 +31,98 @@
     "title": {
       "create": "Create expiration notification policy",
       "edit": "Edit expiration notification policy"
+    },
+    "description": {
+      "create": "Configure a reusable policy to schedule notifications around expiration.",
+      "edit": "Update the selected policy data and rules."
+    },
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "rules": "Rules",
+      "anchor": "Anchor",
+      "triggerMode": "Trigger mode",
+      "recipientGroups": "Recipient groups",
+      "repeatEvery": "Repeat every",
+      "repeatUntil": "Repeat until",
+      "repeatFor": "Repeat for",
+      "years": "Years",
+      "months": "Months",
+      "weeks": "Weeks",
+      "days": "Days"
+    },
+    "placeholders": {
+      "name": "Weekly alerts",
+      "description": "Optional policy description",
+      "repeatUntil": "Select a condition"
+    },
+    "hints": {
+      "rules": "Define one-time or recurring rules and assign recipient groups.",
+      "noRecipientGroups": "There are no active recipient groups available yet."
+    },
+    "actions": {
+      "addRule": "Add rule",
+      "removeRule": "Remove rule"
+    },
+    "rules": {
+      "ruleLabel": "Rule {{index}}"
+    },
+    "errors": {
+      "nameRequired": "Name is required",
+      "rulesRequired": "Add at least one rule",
+      "recipientGroupsRequired": "Select at least one recipient group",
+      "repeatEveryRequired": "Set how often this rule will repeat",
+      "repeatUntilRequired": "Select how long this rule will repeat",
+      "repeatForRequired": "Set the recurrence duration"
+    },
+    "cancel": "Cancel",
+    "submitting": "Saving...",
+    "submit": {
+      "create": "Create policy",
+      "edit": "Save changes"
     }
   },
   "detail": {
-    "missingTitle": "Expiration notification policy"
+    "subtitle": "Policy detail and configured notification rules.",
+    "missingTitle": "Expiration notification policy",
+    "notFound": "We could not find this policy yet.",
+    "actions": {
+      "back": "Back to list"
+    },
+    "fields": {
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "createdBy": "Created by",
+      "updatedBy": "Updated by"
+    },
+    "rules": {
+      "title": "Configured rules",
+      "subtitle": "Operational summary of anchors, recurrence and recipient groups per rule.",
+      "ruleLabel": "Rule {{index}}",
+      "empty": "This policy does not have configured rules yet.",
+      "fields": {
+        "startOffset": "Start moment",
+        "repeatEvery": "Repeat every",
+        "repeatUntil": "Repeat until",
+        "repeatFor": "Repeat for",
+        "recipientGroups": "Recipient groups"
+      }
+    }
+  },
+  "offset": {
+    "sameDay": "Same day",
+    "years_one": "{{count}} year",
+    "years_other": "{{count}} years",
+    "months_one": "{{count}} month",
+    "months_other": "{{count}} months",
+    "weeks_one": "{{count}} week",
+    "weeks_other": "{{count}} weeks",
+    "days_one": "{{count}} day",
+    "days_other": "{{count}} days"
   },
   "confirmDelete": {
     "title": "Delete expiration notification policy",
@@ -45,6 +133,20 @@
   },
   "permissions": {
     "readRestricted": "You do not have permission to view expiration notification policies."
+  },
+  "catalogErrors": {
+    "notificationCatalog": "The notification policy catalogs could not be loaded.",
+    "recipientGroups": "The recipient groups could not be loaded."
+  },
+  "create": {
+    "restricted": "You do not have permission to create expiration notification policies.",
+    "successFeedback": "Expiration notification policy created successfully.",
+    "errorFeedback": "The expiration notification policy could not be created."
+  },
+  "edit": {
+    "restricted": "You do not have permission to edit this policy.",
+    "successFeedback": "Expiration notification policy updated successfully.",
+    "errorFeedback": "The expiration notification policy could not be updated."
   },
   "delete": {
     "success": "Expiration notification policy deleted successfully.",

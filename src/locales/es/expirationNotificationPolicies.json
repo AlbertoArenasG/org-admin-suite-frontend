@@ -31,10 +31,98 @@
     "title": {
       "create": "Crear política de notificación por vencimiento",
       "edit": "Editar política de notificación por vencimiento"
+    },
+    "description": {
+      "create": "Configura una política reutilizable para programar notificaciones según el vencimiento.",
+      "edit": "Actualiza los datos y reglas de la política seleccionada."
+    },
+    "labels": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "status": "Estado",
+      "rules": "Reglas",
+      "anchor": "Ancla",
+      "triggerMode": "Modo de disparo",
+      "recipientGroups": "Grupos de destinatarios",
+      "repeatEvery": "Repetir cada",
+      "repeatUntil": "Repetir hasta",
+      "repeatFor": "Repetir durante",
+      "years": "Años",
+      "months": "Meses",
+      "weeks": "Semanas",
+      "days": "Días"
+    },
+    "placeholders": {
+      "name": "Alertas semanales",
+      "description": "Descripción opcional de la política",
+      "repeatUntil": "Selecciona una condición"
+    },
+    "hints": {
+      "rules": "Define reglas one-time o recurrentes y asígnales grupos destinatarios.",
+      "noRecipientGroups": "Todavía no hay grupos de destinatarios activos disponibles."
+    },
+    "actions": {
+      "addRule": "Agregar regla",
+      "removeRule": "Eliminar regla"
+    },
+    "rules": {
+      "ruleLabel": "Regla {{index}}"
+    },
+    "errors": {
+      "nameRequired": "El nombre es obligatorio",
+      "rulesRequired": "Agrega al menos una regla",
+      "recipientGroupsRequired": "Selecciona al menos un grupo de destinatarios",
+      "repeatEveryRequired": "Configura cada cuánto se repetirá la regla",
+      "repeatUntilRequired": "Selecciona hasta cuándo se repetirá la regla",
+      "repeatForRequired": "Configura la duración de la recurrencia"
+    },
+    "cancel": "Cancelar",
+    "submitting": "Guardando...",
+    "submit": {
+      "create": "Crear política",
+      "edit": "Guardar cambios"
     }
   },
   "detail": {
-    "missingTitle": "Política de notificación por vencimiento"
+    "subtitle": "Detalle de la política y reglas de notificación configuradas.",
+    "missingTitle": "Política de notificación por vencimiento",
+    "notFound": "Aún no pudimos encontrar esta política.",
+    "actions": {
+      "back": "Volver al listado"
+    },
+    "fields": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "status": "Estado",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "createdBy": "Creado por",
+      "updatedBy": "Actualizado por"
+    },
+    "rules": {
+      "title": "Reglas configuradas",
+      "subtitle": "Resumen operativo de anclas, recurrencia y grupos destinatarios por regla.",
+      "ruleLabel": "Regla {{index}}",
+      "empty": "Esta política todavía no tiene reglas configuradas.",
+      "fields": {
+        "startOffset": "Momento de inicio",
+        "repeatEvery": "Repetir cada",
+        "repeatUntil": "Repetir hasta",
+        "repeatFor": "Repetir durante",
+        "recipientGroups": "Grupos de destinatarios"
+      }
+    }
+  },
+  "offset": {
+    "sameDay": "Mismo día",
+    "years_one": "{{count}} año",
+    "years_other": "{{count}} años",
+    "months_one": "{{count}} mes",
+    "months_other": "{{count}} meses",
+    "weeks_one": "{{count}} semana",
+    "weeks_other": "{{count}} semanas",
+    "days_one": "{{count}} día",
+    "days_other": "{{count}} días"
   },
   "confirmDelete": {
     "title": "Eliminar política de notificación por vencimiento",
@@ -45,6 +133,20 @@
   },
   "permissions": {
     "readRestricted": "No cuentas con permisos para consultar políticas de notificación por vencimiento."
+  },
+  "catalogErrors": {
+    "notificationCatalog": "No fue posible obtener los catálogos de políticas de notificación.",
+    "recipientGroups": "No fue posible obtener los grupos de destinatarios."
+  },
+  "create": {
+    "restricted": "No tienes permisos para crear políticas de notificación por vencimiento.",
+    "successFeedback": "Política de notificación por vencimiento creada correctamente.",
+    "errorFeedback": "No fue posible crear la política de notificación por vencimiento."
+  },
+  "edit": {
+    "restricted": "No tienes permisos para editar esta política.",
+    "successFeedback": "Política de notificación por vencimiento actualizada correctamente.",
+    "errorFeedback": "No fue posible actualizar la política de notificación por vencimiento."
   },
   "delete": {
     "success": "Política de notificación por vencimiento eliminada correctamente.",

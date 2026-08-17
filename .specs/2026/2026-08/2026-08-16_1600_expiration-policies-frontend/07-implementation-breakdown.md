@@ -183,7 +183,7 @@
     - integrar acciones visibles según el patrón actual del proyecto
     - resolver estados de carga, vacío y error
   - Phase 4.4. Notification Policies Detail
-    - Estado: pending
+    - Estado: completed
     - implementar vista de detalle
     - mostrar metadata útil de la policy:
       - nombre
@@ -205,7 +205,7 @@
     - presentar reglas como cards, no como tabla
     - exponer navegación hacia edit cuando aplique
   - Phase 4.5. Notification Policies Form
-    - Estado: pending
+    - Estado: completed
     - implementar formulario compartido para create/edit
     - soportar captura de:
       - `name`
@@ -218,6 +218,7 @@
     - implementar reglas condicionales por `trigger_mode`
     - implementar limpieza de datos no aplicables al cambiar:
       - `trigger_mode`
+      - `repeat_until`
       - `repeat_until`
     - resolver selección de `recipient_groups` por regla con:
       - multiselect
