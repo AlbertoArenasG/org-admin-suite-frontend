@@ -163,7 +163,7 @@
       - edit
     - mantener páginas de `app/` enfocadas solo en composición y routing
   - Phase 4.3. Notification Policies List
-    - Estado: pending
+    - Estado: completed
     - implementar tabla/listado paginado
     - integrar búsqueda por nombre
     - integrar filtro por estado

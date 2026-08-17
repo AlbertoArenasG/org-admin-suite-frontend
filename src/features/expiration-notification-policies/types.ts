@@ -88,6 +88,9 @@ export interface ExpirationNotificationPolicyCatalog {
   repeatUntilValues: ExpirationNotificationPolicyCatalogItem<ExpirationNotificationPolicyRepeatUntilCode>[];
 }
 
+export type ExpirationNotificationPolicyStatusCatalogItem =
+  ExpirationNotificationPolicyCatalog['statuses'][number];
+
 export interface ExpirationNotificationPolicyListFilters {
   status: ExpirationNotificationPolicyStatusId | null;
 }

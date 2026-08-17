@@ -1,5 +1,32 @@
 {
   "title": "Expiration notification policies",
+  "empty": "No expiration notification policies available to display.",
+  "pagination": "Page {{page}} of {{pages}} · {{total}} policies",
+  "table": {
+    "columns": {
+      "name": "Policy",
+      "status": "Status",
+      "rulesCount": "Rules",
+      "createdAt": "Created",
+      "updatedAt": "Updated"
+    }
+  },
+  "actions": {
+    "create": "Create expiration notification policy",
+    "createShort": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "view": "View details",
+    "openMenu": "Open actions menu",
+    "searchPlaceholder": "Search expiration notification policies...",
+    "manageColumns": "Manage columns",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "filters": {
+    "status": "Status",
+    "statusPlaceholder": "All statuses"
+  },
   "form": {
     "title": {
       "create": "Create expiration notification policy",
@@ -8,6 +35,20 @@
   },
   "detail": {
     "missingTitle": "Expiration notification policy"
+  },
+  "confirmDelete": {
+    "title": "Delete expiration notification policy",
+    "description": "This action will delete {{name}}.",
+    "confirm": "Delete policy",
+    "cancel": "Cancel",
+    "warning": "This action cannot be undone."
+  },
+  "permissions": {
+    "readRestricted": "You do not have permission to view expiration notification policies."
+  },
+  "delete": {
+    "success": "Expiration notification policy deleted successfully.",
+    "error": "The expiration notification policy could not be deleted."
   },
   "routeShells": {
     "list": "The notification policies table will be integrated in the next slice.",

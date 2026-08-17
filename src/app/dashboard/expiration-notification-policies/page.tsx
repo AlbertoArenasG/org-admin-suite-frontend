@@ -1,9 +1,6 @@
 'use client';
 
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-
+import { ExpirationNotificationPoliciesTableContainer } from '@/components/expiration-notification-policies/ExpirationNotificationPoliciesTableContainer';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -32,39 +29,7 @@ export default function ExpirationNotificationPoliciesPage() {
           />
         </div>
       </header>
-
-      <Paper
-        elevation={0}
-        sx={{
-          borderRadius: '24px',
-          border: '1px solid var(--surface-border)',
-          bgcolor: 'var(--surface-bg)',
-          color: 'var(--foreground)',
-          boxShadow: 'var(--surface-shadow)',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '60vh',
-        }}
-      >
-        <Box
-          sx={{
-            px: { xs: 2.5, md: 4 },
-            py: 3,
-            borderBottom: '1px solid var(--surface-border)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 0.5,
-          }}
-        >
-          <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-            {t('title')}
-          </Typography>
-          <Typography variant="body2" color="text.foreground">
-            {t('routeShells.list')}
-          </Typography>
-        </Box>
-      </Paper>
+      <ExpirationNotificationPoliciesTableContainer />
     </div>
   );
 }
