@@ -10,7 +10,9 @@
   "create": {
     "title": "Crear registro",
     "description": "Registra una nueva atención o mantenimiento para un activo interno.",
-    "restricted": "No cuentas con permisos para crear registros de control de activos internos."
+    "restricted": "No cuentas con permisos para crear registros de control de activos internos.",
+    "successFeedback": "Registro creado correctamente.",
+    "errorFeedback": "No fue posible crear el registro."
   },
   "detail": {
     "title": "Detalle del registro",
@@ -52,7 +54,9 @@
   "edit": {
     "title": "Editar registro",
     "description": "Actualiza la información operativa, policies y datos del proveedor.",
-    "restricted": "No cuentas con permisos para editar este registro."
+    "restricted": "No cuentas con permisos para editar este registro.",
+    "successFeedback": "Registro actualizado correctamente.",
+    "errorFeedback": "No fue posible actualizar el registro."
   },
   "table": {
     "columns": {
@@ -95,5 +99,78 @@
     "yes": "Sí",
     "no": "No",
     "notConfigured": "No configurado"
+  },
+  "form": {
+    "sections": {
+      "schedule": "Vencimiento e intervalo",
+      "policies": "Policies asociadas",
+      "provider": "Proveedor",
+      "providerFollowUp": "Follow-up al proveedor"
+    },
+    "labels": {
+      "assetName": "Activo",
+      "assetIdentifier": "Identificador",
+      "assetMaintenanceType": "Tipo",
+      "status": "Estado",
+      "lastMaintenanceAt": "Última atención",
+      "interval": "Intervalo",
+      "expirationDate": "Vencimiento",
+      "observations": "Observaciones",
+      "expirationStatusPolicy": "Policy de estatus",
+      "expirationNotificationPolicy": "Policy de notificación",
+      "sentToProvider": "Enviado al proveedor",
+      "providerName": "Proveedor",
+      "sentToProviderAt": "Fecha de envío al proveedor",
+      "providerLeadTime": "Tiempo estimado del proveedor",
+      "providerNotes": "Notas del proveedor",
+      "providerFollowUpEnabled": "Habilitar follow-up",
+      "followUpOffset": "Offset del follow-up",
+      "recipientGroups": "Grupos destinatarios",
+      "ccRecipientGroups": "Grupos en copia",
+      "years": "Años",
+      "months": "Meses",
+      "weeks": "Semanas",
+      "days": "Días"
+    },
+    "placeholders": {
+      "assetName": "Ej. Marco de pesas",
+      "assetIdentifier": "Ej. ICWP00E2",
+      "observations": "Observaciones opcionales del registro",
+      "providerName": "Nombre del proveedor",
+      "providerNotes": "Notas opcionales del proveedor",
+      "expirationStatusPolicy": "Sin policy de estatus",
+      "expirationNotificationPolicy": "Sin policy de notificación"
+    },
+    "hints": {
+      "schedule": "El vencimiento se calcula automáticamente mientras no lo edites manualmente.",
+      "expirationDate": "Puedes ajustarlo manualmente si la siguiente atención no corresponde exactamente al intervalo.",
+      "manualExpirationOverride": "Estás usando una fecha de vencimiento editada manualmente.",
+      "suggestedExpirationDate": "Fecha sugerida: {{date}}",
+      "policies": "Asocia policies reutilizables para estatus visual y notificaciones.",
+      "provider": "Registra el contexto del proveedor aunque el envío todavía no ocurra.",
+      "providerCollapsed": "Activa el envío al proveedor para capturar sus datos.",
+      "providerFollowUp": "Configura grupos destinatarios para seguimientos posteriores al proveedor."
+    },
+    "errors": {
+      "assetNameRequired": "Captura el nombre del activo.",
+      "assetIdentifierRequired": "Captura el identificador del activo.",
+      "lastMaintenanceAtRequired": "Captura la fecha de la última atención."
+    },
+    "actions": {
+      "addFollowUpRule": "Agregar regla de follow-up",
+      "removeRule": "Eliminar regla",
+      "useSuggestedExpirationDate": "Usar fecha sugerida"
+    },
+    "followUp": {
+      "ruleLabel": "Regla {{index}}"
+    },
+    "empty": {
+      "followUpRules": "Todavía no agregas reglas de follow-up."
+    },
+    "cancel": "Cancelar",
+    "submit": {
+      "create": "Crear registro",
+      "edit": "Guardar cambios"
+    }
   }
 }

@@ -73,7 +73,7 @@
       - estado derivado por vencimiento
     - dejar preparado el espacio visual para follow-up manual de `slice 4`
   - 3.5 Formulario create/edit
-    - Estado: in_progress
+    - Estado: completed
     - construir formulario por bloques:
       - principal
       - policies
@@ -81,12 +81,13 @@
     - integrar selectores reutilizables de:
       - `expiration_status_policy`
       - `expiration_notification_policy`
-    - mostrar resumen corto de policy seleccionada:
-      - nombre
-      - estado
-      - número de reglas
+      - `recipient_groups`
+    - conectar `create/edit` con:
+      - catálogo del módulo
+      - detalle del registro
+      - submit real a `POST/PATCH`
   - 3.6 UX de `expiration_date`
-    - Estado: pending
+    - Estado: completed
     - implementar cálculo automático a partir de:
       - `last_maintenance_at`
       - `interval`
@@ -94,7 +95,7 @@
     - mostrar señal de override manual
     - agregar acción para volver a la fecha sugerida
   - 3.7 Bloque provider
-    - Estado: pending
+    - Estado: completed
     - implementar disclosure progresivo
     - validar campos solo cuando:
       - `sentToProvider = true`

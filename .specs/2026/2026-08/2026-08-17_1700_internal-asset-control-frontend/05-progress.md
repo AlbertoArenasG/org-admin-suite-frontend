@@ -150,3 +150,28 @@
 - Se sustituyó el placeholder del detalle por una lectura real del recurso consumiendo:
   - `GET /v1/internal-asset-maintenance-records/:recordId`
 - La vista de detalle compiló correctamente con `npm run typecheck`.
+- Se cerró el formulario `create/edit` del recurso principal con bloques de:
+  - datos base
+  - vencimiento e intervalo
+  - policies asociadas
+  - provider
+  - reglas de follow-up configurables
+- Se conectaron las pantallas `create/edit` con catálogos y opciones reales de:
+  - control de activos internos
+  - expiration status policies
+  - expiration notification policies
+  - recipient groups
+- Se sustituyeron los placeholders de `create/edit` por flujos reales conectados a:
+  - `POST /v1/internal-asset-maintenance-records`
+  - `PATCH /v1/internal-asset-maintenance-records/:recordId`
+- Se corrigió el contrato frontend del detalle para consumir `interval`, ya disponible desde backend.
+- El formulario `create/edit` compiló correctamente con `npm run typecheck`.
+- Se cerró la UX de `expiration_date` con:
+  - cálculo automático a partir de `last_maintenance_at` + `interval`
+  - override manual explícito
+  - indicador visual de override
+  - acción para volver a la fecha sugerida
+- Se cerró el bloque provider con disclosure progresivo:
+  - el bloque conserva datos al apagarse
+  - el detalle capturable se despliega solo cuando `sentToProvider = true`
+- La UX adicional del formulario volvió a compilar correctamente con `npm run typecheck`.

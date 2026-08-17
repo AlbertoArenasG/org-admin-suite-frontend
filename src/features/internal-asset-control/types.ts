@@ -116,6 +116,7 @@ export interface InternalAssetMaintenanceRecordListItem {
 
 export interface InternalAssetMaintenanceRecordDetail
   extends InternalAssetMaintenanceRecordListItem {
+  interval: InternalAssetMaintenanceInterval;
   observations: string | null;
   provider: InternalAssetMaintenanceProvider | null;
   providerFollowUp: InternalAssetMaintenanceProviderFollowUpConfig | null;

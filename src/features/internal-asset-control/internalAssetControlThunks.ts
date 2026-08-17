@@ -123,6 +123,7 @@ interface ApiListItem {
 
 interface ApiDetail
   extends Omit<ApiListItem, 'sent_to_provider' | 'provider_name' | 'provider_lead_time'> {
+  interval: ApiInterval;
   observations: string | null;
   provider: ApiProvider | null;
   provider_follow_up: ApiProviderFollowUp | null;
@@ -312,6 +313,12 @@ function mapDetail(item: ApiDetail): InternalAssetMaintenanceRecordDetail {
       provider_follow_up_rules_count: item.provider_follow_up?.rules?.length ?? 0,
       provider_follow_up_last_sent_at: item.provider_follow_up?.last_sent_at ?? null,
     }),
+    interval: {
+      years: item.interval.years,
+      months: item.interval.months,
+      weeks: item.interval.weeks,
+      days: item.interval.days,
+    },
     observations: item.observations,
     provider: mapProvider(item.provider),
     providerFollowUp: mapProviderFollowUp(item.provider_follow_up),

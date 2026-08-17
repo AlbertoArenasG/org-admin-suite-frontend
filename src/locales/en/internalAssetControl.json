@@ -10,7 +10,9 @@
   "create": {
     "title": "Create record",
     "description": "Register a new maintenance or attention event for an internal asset.",
-    "restricted": "You do not have permission to create internal asset control records."
+    "restricted": "You do not have permission to create internal asset control records.",
+    "successFeedback": "Record created successfully.",
+    "errorFeedback": "The record could not be created."
   },
   "detail": {
     "title": "Record detail",
@@ -52,7 +54,9 @@
   "edit": {
     "title": "Edit record",
     "description": "Update operational data, policies, and provider information.",
-    "restricted": "You do not have permission to edit this record."
+    "restricted": "You do not have permission to edit this record.",
+    "successFeedback": "Record updated successfully.",
+    "errorFeedback": "The record could not be updated."
   },
   "table": {
     "columns": {
@@ -95,5 +99,78 @@
     "yes": "Yes",
     "no": "No",
     "notConfigured": "Not configured"
+  },
+  "form": {
+    "sections": {
+      "schedule": "Interval and due date",
+      "policies": "Associated policies",
+      "provider": "Provider",
+      "providerFollowUp": "Provider follow-up"
+    },
+    "labels": {
+      "assetName": "Asset",
+      "assetIdentifier": "Identifier",
+      "assetMaintenanceType": "Type",
+      "status": "Status",
+      "lastMaintenanceAt": "Last service",
+      "interval": "Interval",
+      "expirationDate": "Due date",
+      "observations": "Observations",
+      "expirationStatusPolicy": "Status policy",
+      "expirationNotificationPolicy": "Notification policy",
+      "sentToProvider": "Sent to provider",
+      "providerName": "Provider",
+      "sentToProviderAt": "Sent to provider at",
+      "providerLeadTime": "Provider lead time",
+      "providerNotes": "Provider notes",
+      "providerFollowUpEnabled": "Enable follow-up",
+      "followUpOffset": "Follow-up offset",
+      "recipientGroups": "Recipient groups",
+      "ccRecipientGroups": "CC recipient groups",
+      "years": "Years",
+      "months": "Months",
+      "weeks": "Weeks",
+      "days": "Days"
+    },
+    "placeholders": {
+      "assetName": "Ex. Weight set",
+      "assetIdentifier": "Ex. ICWP00E2",
+      "observations": "Optional record observations",
+      "providerName": "Provider name",
+      "providerNotes": "Optional provider notes",
+      "expirationStatusPolicy": "No status policy",
+      "expirationNotificationPolicy": "No notification policy"
+    },
+    "hints": {
+      "schedule": "The due date is calculated automatically until you edit it manually.",
+      "expirationDate": "You can adjust it manually if the next service does not match the interval exactly.",
+      "manualExpirationOverride": "You are using a manually edited due date.",
+      "suggestedExpirationDate": "Suggested date: {{date}}",
+      "policies": "Attach reusable policies for visual status and notifications.",
+      "provider": "Capture provider context even if the send has not happened yet.",
+      "providerCollapsed": "Enable sent to provider to capture provider details.",
+      "providerFollowUp": "Configure recipient groups for later provider follow-up."
+    },
+    "errors": {
+      "assetNameRequired": "Enter the asset name.",
+      "assetIdentifierRequired": "Enter the asset identifier.",
+      "lastMaintenanceAtRequired": "Enter the last service date."
+    },
+    "actions": {
+      "addFollowUpRule": "Add follow-up rule",
+      "removeRule": "Remove rule",
+      "useSuggestedExpirationDate": "Use suggested date"
+    },
+    "followUp": {
+      "ruleLabel": "Rule {{index}}"
+    },
+    "empty": {
+      "followUpRules": "You have not added follow-up rules yet."
+    },
+    "cancel": "Cancel",
+    "submit": {
+      "create": "Create record",
+      "edit": "Save changes"
+    }
   }
 }
