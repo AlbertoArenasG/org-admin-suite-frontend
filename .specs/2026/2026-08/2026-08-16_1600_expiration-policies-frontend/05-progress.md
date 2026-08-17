@@ -53,6 +53,13 @@
   - exclusión de `code`
   - cards de reglas con label, color y resumen humano del offset
   - navegación hacia edit y regreso al listado
+- Se implementó el formulario `create/edit` de `expiration_status_policies` con:
+  - formulario compartido
+  - catálogo de estados consumido desde backend
+  - editor de reglas con cards repetibles
+  - color picker
+  - normalización del orden de reglas al guardar
+  - wiring completo de create y edit
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`

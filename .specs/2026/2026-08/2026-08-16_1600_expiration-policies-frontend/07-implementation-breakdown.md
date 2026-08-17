@@ -102,7 +102,7 @@
     - presentar reglas como cards, no como tabla
     - exponer navegación hacia edit cuando aplique
   - Phase 3.5. Status Policies Form
-    - Estado: pending
+    - Estado: completed
     - implementar formulario compartido para create/edit
     - soportar captura de:
       - `name`

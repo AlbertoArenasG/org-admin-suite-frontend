@@ -1,16 +1,81 @@
 'use client';
 
+import { useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { useRouter } from 'next/navigation';
 
+import { ExpirationStatusPolicyForm } from '@/components/expiration-status-policies/ExpirationStatusPolicyForm';
+import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { useAuthorization } from '@/features/auth';
+import {
+  createExpirationStatusPolicy,
+  fetchExpirationStatusPolicyCatalog,
+} from '@/features/expiration-status-policies/expirationStatusPoliciesThunks';
+import { resetExpirationStatusPolicyMutations } from '@/features/expiration-status-policies/expirationStatusPoliciesSlice';
+import { useAppDispatch } from '@/hooks/useAppDispatch';
+import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 
 export default function ExpirationStatusPolicyCreatePage() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const { t } = useTranslationHydrated(['expirationStatusPolicies', 'breadcrumbs']);
+  const { showSnackbar } = useSnackbar();
+  const { hasPermission } = useAuthorization();
+  const catalogsState = useAppSelector((state) => state.expirationStatusPolicies.catalogs);
+  const mutationsState = useAppSelector((state) => state.expirationStatusPolicies.mutations);
+
+  const canCreate = hasPermission('EXPIRATION_STATUS_POLICIES', 'CREATE');
+  const canRead = hasPermission('EXPIRATION_STATUS_POLICIES', 'READ');
+
+  useEffect(() => {
+    if (canRead && catalogsState.status === 'idle') {
+      void dispatch(fetchExpirationStatusPolicyCatalog());
+    }
+  }, [canRead, catalogsState.status, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetExpirationStatusPolicyMutations());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      mutationsState.createStatus === 'succeeded' &&
+      mutationsState.lastCreatedExpirationStatusPolicyId
+    ) {
+      showSnackbar({
+        message:
+          mutationsState.message ??
+          t('create.successFeedback', {
+            defaultValue: 'Política de estatus por vencimiento creada correctamente.',
+          }),
+        severity: 'success',
+      });
+      const targetId = mutationsState.lastCreatedExpirationStatusPolicyId;
+      dispatch(resetExpirationStatusPolicyMutations());
+      router.push(`/dashboard/expiration-status-policies/${targetId}`);
+      return;
+    }
+
+    if (mutationsState.createStatus === 'failed') {
+      showSnackbar({
+        message:
+          mutationsState.error ??
+          t('create.errorFeedback', {
+            defaultValue: 'No fue posible crear la política de estatus por vencimiento.',
+          }),
+        severity: 'error',
+      });
+      dispatch(resetExpirationStatusPolicyMutations());
+    }
+  }, [dispatch, mutationsState, router, showSnackbar, t]);
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -60,9 +125,37 @@ export default function ExpirationStatusPolicyCreatePage() {
             {t('form.title.create')}
           </Typography>
           <Typography variant="body2" color="text.foreground">
-            {t('routeShells.create')}
+            {t('form.description.create')}
           </Typography>
         </Box>
+
+        {!canCreate ? (
+          <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+            {t('permissions.readRestricted')}
+          </div>
+        ) : catalogsState.status === 'failed' ? (
+          <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
+            {catalogsState.error ??
+              t('catalogErrors.statuses', {
+                defaultValue: 'No fue posible obtener el catálogo de estados.',
+              })}
+          </div>
+        ) : (
+          <ExpirationStatusPolicyForm
+            mode="create"
+            statuses={catalogsState.statuses}
+            onCancel={() => router.back()}
+            isSubmitting={mutationsState.createStatus === 'loading'}
+            disableActions={!canCreate}
+            onSubmit={(values) => {
+              if (!canCreate || mutationsState.createStatus === 'loading') {
+                return;
+              }
+
+              void dispatch(createExpirationStatusPolicy(values));
+            }}
+          />
+        )}
       </Paper>
     </div>
   );

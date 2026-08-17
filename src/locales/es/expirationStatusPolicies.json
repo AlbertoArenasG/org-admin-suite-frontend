@@ -31,6 +31,49 @@
     "title": {
       "create": "Crear política de estatus por vencimiento",
       "edit": "Editar política de estatus por vencimiento"
+    },
+    "description": {
+      "create": "Configura una política reutilizable para representar estatus visuales según el vencimiento.",
+      "edit": "Actualiza los datos y reglas de la política seleccionada."
+    },
+    "labels": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "status": "Estado",
+      "rules": "Reglas",
+      "ruleLabel": "Etiqueta",
+      "ruleColor": "Color",
+      "years": "Años",
+      "months": "Meses",
+      "weeks": "Semanas",
+      "days": "Días"
+    },
+    "placeholders": {
+      "name": "Alerta preventiva",
+      "description": "Descripción opcional de la política",
+      "ruleLabel": "Próximo a vencer"
+    },
+    "hints": {
+      "rules": "Define los umbrales visuales que usará esta política."
+    },
+    "actions": {
+      "addRule": "Agregar regla",
+      "removeRule": "Eliminar regla"
+    },
+    "rules": {
+      "ruleLabel": "Regla {{index}}"
+    },
+    "errors": {
+      "nameRequired": "El nombre es obligatorio",
+      "rulesRequired": "Agrega al menos una regla",
+      "ruleLabelRequired": "La etiqueta de la regla es obligatoria",
+      "ruleColorRequired": "El color de la regla es obligatorio"
+    },
+    "cancel": "Cancelar",
+    "submitting": "Guardando...",
+    "submit": {
+      "create": "Crear política",
+      "edit": "Guardar cambios"
     }
   },
   "detail": {
@@ -76,6 +119,18 @@
   },
   "permissions": {
     "readRestricted": "No cuentas con permisos para consultar políticas de estatus por vencimiento."
+  },
+  "catalogErrors": {
+    "statuses": "No fue posible obtener el catálogo de estados."
+  },
+  "create": {
+    "successFeedback": "Política de estatus por vencimiento creada correctamente.",
+    "errorFeedback": "No fue posible crear la política de estatus por vencimiento."
+  },
+  "edit": {
+    "restricted": "No tienes permisos para editar esta política.",
+    "successFeedback": "Política de estatus por vencimiento actualizada correctamente.",
+    "errorFeedback": "No fue posible actualizar la política de estatus por vencimiento."
   },
   "delete": {
     "success": "Política de estatus por vencimiento eliminada correctamente.",

@@ -31,6 +31,49 @@
     "title": {
       "create": "Create expiration status policy",
       "edit": "Edit expiration status policy"
+    },
+    "description": {
+      "create": "Configure a reusable policy to represent visual statuses based on expiration.",
+      "edit": "Update the selected policy data and rules."
+    },
+    "labels": {
+      "name": "Name",
+      "description": "Description",
+      "status": "Status",
+      "rules": "Rules",
+      "ruleLabel": "Label",
+      "ruleColor": "Color",
+      "years": "Years",
+      "months": "Months",
+      "weeks": "Weeks",
+      "days": "Days"
+    },
+    "placeholders": {
+      "name": "Preventive alert",
+      "description": "Optional policy description",
+      "ruleLabel": "About to expire"
+    },
+    "hints": {
+      "rules": "Define the visual thresholds this policy will use."
+    },
+    "actions": {
+      "addRule": "Add rule",
+      "removeRule": "Remove rule"
+    },
+    "rules": {
+      "ruleLabel": "Rule {{index}}"
+    },
+    "errors": {
+      "nameRequired": "Name is required",
+      "rulesRequired": "Add at least one rule",
+      "ruleLabelRequired": "Rule label is required",
+      "ruleColorRequired": "Rule color is required"
+    },
+    "cancel": "Cancel",
+    "submitting": "Saving...",
+    "submit": {
+      "create": "Create policy",
+      "edit": "Save changes"
     }
   },
   "detail": {
@@ -76,6 +119,18 @@
   },
   "permissions": {
     "readRestricted": "You do not have permission to view expiration status policies."
+  },
+  "catalogErrors": {
+    "statuses": "The status catalog could not be loaded."
+  },
+  "create": {
+    "successFeedback": "Expiration status policy created successfully.",
+    "errorFeedback": "The expiration status policy could not be created."
+  },
+  "edit": {
+    "restricted": "You do not have permission to edit this policy.",
+    "successFeedback": "Expiration status policy updated successfully.",
+    "errorFeedback": "The expiration status policy could not be updated."
   },
   "delete": {
     "success": "Expiration status policy deleted successfully.",
