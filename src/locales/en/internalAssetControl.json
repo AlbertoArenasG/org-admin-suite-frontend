@@ -2,7 +2,10 @@
   "list": {
     "title": "Internal asset control",
     "description": "Review and track maintenance, verification, and calibration records.",
-    "readRestricted": "You do not have permission to view internal asset control."
+    "readRestricted": "You do not have permission to view internal asset control.",
+    "createShort": "Create",
+    "searchPlaceholder": "Search by asset, identifier, or provider...",
+    "empty": "No records available."
   },
   "create": {
     "title": "Create record",
@@ -12,11 +15,85 @@
   "detail": {
     "title": "Record detail",
     "description": "Review the full operational context of the selected record.",
-    "restricted": "You do not have permission to view this record."
+    "restricted": "You do not have permission to view this record.",
+    "notFound": "The requested record could not be loaded.",
+    "edit": "Edit",
+    "back": "Back to list",
+    "sections": {
+      "summary": "Main summary",
+      "record": "Record data",
+      "policies": "Associated policies",
+      "provider": "Provider",
+      "followUp": "Manual follow-up"
+    },
+    "fields": {
+      "assetName": "Asset",
+      "assetIdentifier": "Identifier",
+      "assetMaintenanceType": "Type",
+      "status": "Status",
+      "derivedStatus": "Follow-up",
+      "lastMaintenanceAt": "Last service",
+      "expirationDate": "Due date",
+      "observations": "Observations",
+      "expirationStatusPolicy": "Status policy",
+      "expirationNotificationPolicy": "Notification policy",
+      "providerName": "Provider",
+      "sentToProvider": "Sent to provider",
+      "sentToProviderAt": "Sent at",
+      "providerLeadTime": "Lead time",
+      "providerNotes": "Provider notes",
+      "providerFollowUpEnabled": "Follow-up enabled",
+      "providerFollowUpRulesCount": "Follow-up rules",
+      "providerFollowUpLastSentAt": "Last manual send",
+      "createdBy": "Created by",
+      "updatedBy": "Updated by"
+    }
   },
   "edit": {
     "title": "Edit record",
     "description": "Update operational data, policies, and provider information.",
     "restricted": "You do not have permission to edit this record."
+  },
+  "table": {
+    "columns": {
+      "assetName": "Asset",
+      "assetIdentifier": "Identifier",
+      "assetMaintenanceType": "Type",
+      "status": "Status",
+      "derivedStatus": "Follow-up",
+      "expirationDate": "Due date",
+      "provider": "Provider",
+      "updatedAt": "Updated"
+    }
+  },
+  "filters": {
+    "assetMaintenanceTypePlaceholder": "All types",
+    "statusPlaceholder": "All statuses",
+    "sentToProviderPlaceholder": "All",
+    "sentToProviderYes": "Sent to provider",
+    "sentToProviderNo": "Not sent to provider"
+  },
+  "actions": {
+    "openMenu": "Open menu",
+    "view": "View detail",
+    "edit": "Edit",
+    "delete": "Delete",
+    "manageColumns": "Manage columns"
+  },
+  "delete": {
+    "title": "Delete record",
+    "description": "This action removes the record from internal asset control.",
+    "warning": "The following record will be deleted:",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "success": "Record deleted successfully.",
+    "error": "The record could not be deleted."
+  },
+  "labels": {
+    "providerNotSent": "Not sent",
+    "notApplicable": "Not applicable",
+    "yes": "Yes",
+    "no": "No",
+    "notConfigured": "Not configured"
   }
 }

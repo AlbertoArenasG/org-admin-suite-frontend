@@ -43,7 +43,7 @@
       - catálogos auxiliares consumidos
     - implementar thunks/servicios/selectores mínimos del recurso principal
   - 3.3 Listado operativo
-    - Estado: pending
+    - Estado: completed
     - construir tabla base con columnas aprobadas:
       - activo
       - identificador
@@ -62,7 +62,7 @@
         - editar
         - eliminar
   - 3.4 Detalle por bloques
-    - Estado: pending
+    - Estado: completed
     - construir vista de detalle con bloques de:
       - resumen principal
       - datos del registro
@@ -73,7 +73,7 @@
       - estado derivado por vencimiento
     - dejar preparado el espacio visual para follow-up manual de `slice 4`
   - 3.5 Formulario create/edit
-    - Estado: pending
+    - Estado: in_progress
     - construir formulario por bloques:
       - principal
       - policies

@@ -2,7 +2,10 @@
   "list": {
     "title": "Control de activos internos",
     "description": "Consulta y da seguimiento a registros de mantenimiento, verificación y calibración.",
-    "readRestricted": "No cuentas con permisos para consultar el control de activos internos."
+    "readRestricted": "No cuentas con permisos para consultar el control de activos internos.",
+    "createShort": "Crear",
+    "searchPlaceholder": "Buscar por activo, identificador o proveedor...",
+    "empty": "No hay registros para mostrar."
   },
   "create": {
     "title": "Crear registro",
@@ -12,11 +15,85 @@
   "detail": {
     "title": "Detalle del registro",
     "description": "Consulta el contexto operativo completo del registro seleccionado.",
-    "restricted": "No cuentas con permisos para consultar este registro."
+    "restricted": "No cuentas con permisos para consultar este registro.",
+    "notFound": "No fue posible cargar el registro solicitado.",
+    "edit": "Editar",
+    "back": "Volver al listado",
+    "sections": {
+      "summary": "Resumen principal",
+      "record": "Datos del registro",
+      "policies": "Policies asociadas",
+      "provider": "Proveedor",
+      "followUp": "Follow-up manual"
+    },
+    "fields": {
+      "assetName": "Activo",
+      "assetIdentifier": "Identificador",
+      "assetMaintenanceType": "Tipo",
+      "status": "Estado",
+      "derivedStatus": "Seguimiento",
+      "lastMaintenanceAt": "Última atención",
+      "expirationDate": "Vencimiento",
+      "observations": "Observaciones",
+      "expirationStatusPolicy": "Policy de estatus",
+      "expirationNotificationPolicy": "Policy de notificación",
+      "providerName": "Proveedor",
+      "sentToProvider": "Enviado al proveedor",
+      "sentToProviderAt": "Enviado el",
+      "providerLeadTime": "Tiempo estimado",
+      "providerNotes": "Notas del proveedor",
+      "providerFollowUpEnabled": "Follow-up habilitado",
+      "providerFollowUpRulesCount": "Reglas de follow-up",
+      "providerFollowUpLastSentAt": "Último envío manual",
+      "createdBy": "Creado por",
+      "updatedBy": "Actualizado por"
+    }
   },
   "edit": {
     "title": "Editar registro",
     "description": "Actualiza la información operativa, policies y datos del proveedor.",
     "restricted": "No cuentas con permisos para editar este registro."
+  },
+  "table": {
+    "columns": {
+      "assetName": "Activo",
+      "assetIdentifier": "Identificador",
+      "assetMaintenanceType": "Tipo",
+      "status": "Estado",
+      "derivedStatus": "Seguimiento",
+      "expirationDate": "Vencimiento",
+      "provider": "Proveedor",
+      "updatedAt": "Actualizado"
+    }
+  },
+  "filters": {
+    "assetMaintenanceTypePlaceholder": "Todos los tipos",
+    "statusPlaceholder": "Todos los estados",
+    "sentToProviderPlaceholder": "Todos",
+    "sentToProviderYes": "Enviado al proveedor",
+    "sentToProviderNo": "Sin envío al proveedor"
+  },
+  "actions": {
+    "openMenu": "Abrir menú",
+    "view": "Ver detalle",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "manageColumns": "Administrar columnas"
+  },
+  "delete": {
+    "title": "Eliminar registro",
+    "description": "Esta acción elimina el registro del control de activos internos.",
+    "warning": "Se eliminará el siguiente registro:",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar",
+    "success": "Registro eliminado correctamente.",
+    "error": "No fue posible eliminar el registro."
+  },
+  "labels": {
+    "providerNotSent": "No enviado",
+    "notApplicable": "No aplica",
+    "yes": "Sí",
+    "no": "No",
+    "notConfigured": "No configurado"
   }
 }

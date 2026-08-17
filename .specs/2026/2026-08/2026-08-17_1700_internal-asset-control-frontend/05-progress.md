@@ -113,3 +113,40 @@
   - `POST /v1/internal-asset-maintenance-records/:recordId/provider-follow-up/send`
 - Se registraron namespaces de traducción base y breadcrumbs del módulo.
 - La base estructural compiló correctamente con `npm run typecheck`.
+- Se cerró el listado operativo del recurso principal con:
+  - tabla paginada
+  - búsqueda
+  - filtros por:
+    - tipo
+    - estado
+    - envío al proveedor
+  - sorting base
+  - acciones por fila:
+    - ver detalle
+    - editar
+    - eliminar
+- Se implementó el sync del listado con query params siguiendo el patrón ya usado en:
+  - `contacts`
+  - `recipient-groups`
+  - `expiration-status-policies`
+- Se integró el catálogo backend de:
+  - tipos de mantenimiento
+  - estados persistidos
+- Se dejó explícito en UI que el estado derivado por vencimiento:
+  - solo se muestra como lectura operativa
+  - se degrada a `No aplica` fuera de registros `PENDING` o `IN_PROGRESS`
+- El listado operativo compiló correctamente con `npm run typecheck`.
+- Se cerró la vista de detalle por bloques con secciones de:
+  - resumen principal
+  - datos del registro
+  - policies asociadas
+  - provider
+  - follow-up manual
+- El detalle ya representa de forma explícita:
+  - status persistido
+  - estado derivado por vencimiento
+  - policies asociadas
+  - contexto operativo del proveedor
+- Se sustituyó el placeholder del detalle por una lectura real del recurso consumiendo:
+  - `GET /v1/internal-asset-maintenance-records/:recordId`
+- La vista de detalle compiló correctamente con `npm run typecheck`.

@@ -1,16 +1,21 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'next/navigation';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuthorization } from '@/features/auth';
 import { InternalAssetControlPlaceholder } from '@/components/internal-asset-control/InternalAssetControlPlaceholder';
+import { InternalAssetControlDetailView } from '@/components/internal-asset-control/InternalAssetControlDetailView';
 
 export default function InternalAssetControlDetailPage() {
   const { t } = useTranslation(['internalAssetControl', 'breadcrumbs']);
+  const params = useParams<{ recordId: string }>();
   const { hasPermission } = useAuthorization();
   const canRead = hasPermission('INTERNAL_ASSET_MAINTENANCE_RECORDS', 'READ');
+  const canUpdate = hasPermission('INTERNAL_ASSET_MAINTENANCE_RECORDS', 'UPDATE');
+  const recordId = typeof params.recordId === 'string' ? params.recordId : '';
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -32,12 +37,16 @@ export default function InternalAssetControlDetailPage() {
         </div>
       </header>
 
-      <InternalAssetControlPlaceholder
-        title={t('detail.title')}
-        description={t('detail.description')}
-        restrictedMessage={t('detail.restricted')}
-        allowed={canRead}
-      />
+      {canRead ? (
+        <InternalAssetControlDetailView recordId={recordId} canUpdate={canUpdate} />
+      ) : (
+        <InternalAssetControlPlaceholder
+          title={t('detail.title')}
+          description={t('detail.description')}
+          restrictedMessage={t('detail.restricted')}
+          allowed={canRead}
+        />
+      )}
     </div>
   );
 }

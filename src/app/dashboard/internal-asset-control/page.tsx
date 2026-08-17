@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuthorization } from '@/features/auth';
 import { InternalAssetControlPlaceholder } from '@/components/internal-asset-control/InternalAssetControlPlaceholder';
+import { InternalAssetControlTableContainer } from '@/components/internal-asset-control/InternalAssetControlTableContainer';
 
 export default function InternalAssetControlPage() {
   const { t } = useTranslation(['internalAssetControl', 'breadcrumbs']);
@@ -27,12 +28,16 @@ export default function InternalAssetControlPage() {
         </div>
       </header>
 
-      <InternalAssetControlPlaceholder
-        title={t('list.title')}
-        description={t('list.description')}
-        restrictedMessage={t('list.readRestricted')}
-        allowed={canRead}
-      />
+      {canRead ? (
+        <InternalAssetControlTableContainer />
+      ) : (
+        <InternalAssetControlPlaceholder
+          title={t('list.title')}
+          description={t('list.description')}
+          restrictedMessage={t('list.readRestricted')}
+          allowed={canRead}
+        />
+      )}
     </div>
   );
 }
