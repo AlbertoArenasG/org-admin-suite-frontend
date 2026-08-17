@@ -36,7 +36,7 @@
 
 ## Slice 3. Expiration Status Policies Foundation
 
-- Estado: pending
+- Estado: completed
 - Objetivo:
   - implementar la base frontend del módulo `expiration_status_policies`
 - Microfases:
@@ -135,7 +135,7 @@
 
 ## Slice 4. Expiration Notification Policies Foundation
 
-- Estado: pending
+- Estado: completed
 - Objetivo:
   - implementar la base frontend del módulo `expiration_notification_policies`
 - Microfases:
@@ -232,7 +232,7 @@
     - integrar delete con confirmación
     - reflejar visualmente restricciones del backend cuando existan
   - Phase 4.7. Navigation And Permission Wiring
-    - Estado: pending
+    - Estado: completed
     - integrar acceso al módulo dentro del grupo compartido del sidebar
     - alinear visibilidad del módulo con permisos reales
     - verificar consistencia con el patrón de navegación existente

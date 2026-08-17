@@ -117,6 +117,12 @@
   - feedback de éxito y error al eliminar
   - redirect al listado después de eliminar
   - mantenimiento de reglas de UI alineadas a permisos reales
+- Se completó el wiring de navegación de `expiration_notification_policies` con:
+  - integración del módulo dentro del grupo compartido de vencimientos en el sidebar
+  - visibilidad condicionada a permisos reales de lectura
+  - consistencia de estado activo del grupo para ambas familias:
+    - `expiration_status_policies`
+    - `expiration_notification_policies`
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`

@@ -13,11 +13,11 @@
 
 ## Phase 2. Implementation
 
-- [ ] Implementar base frontend de `expiration_status_policies`
-      Status: pending
+- [x] Implementar base frontend de `expiration_status_policies`
+      Status: completed
 
-- [ ] Implementar base frontend de `expiration_notification_policies`
-      Status: pending
+- [x] Implementar base frontend de `expiration_notification_policies`
+      Status: completed
 
 ## Phase 3. Validation
 

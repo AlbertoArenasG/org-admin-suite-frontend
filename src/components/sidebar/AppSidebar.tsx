@@ -151,6 +151,15 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
             },
           ]
         : []),
+      ...(hasPermission('EXPIRATION_NOTIFICATION_POLICIES', 'READ')
+        ? [
+            {
+              title: t('expirationNotificationPolicies'),
+              url: '/dashboard/expiration-notification-policies',
+              isActive: pathname.startsWith('/dashboard/expiration-notification-policies'),
+            },
+          ]
+        : []),
     ];
 
     if (expirationPolicyItems.length > 0) {
@@ -158,7 +167,9 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         title: t('expirationPolicies'),
         url: expirationPolicyItems[0]?.url ?? '/dashboard/expiration-status-policies',
         icon: ChartColumn,
-        isActive: pathname.startsWith('/dashboard/expiration-status-policies'),
+        isActive:
+          pathname.startsWith('/dashboard/expiration-status-policies') ||
+          pathname.startsWith('/dashboard/expiration-notification-policies'),
         items: expirationPolicyItems,
       });
     }
