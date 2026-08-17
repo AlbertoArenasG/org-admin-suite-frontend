@@ -88,6 +88,8 @@ export function ExpirationNotificationPolicyForm({
   disableActions = false,
 }: ExpirationNotificationPolicyFormProps) {
   const { t } = useTranslation('expirationNotificationPolicies');
+  const activeStatus = statuses.find((status) => status.code === 'ACTIVE');
+  const editableStatuses = statuses.filter((status) => status.code !== 'DELETED');
 
   const {
     control,
@@ -166,29 +168,38 @@ export function ExpirationNotificationPolicyForm({
 
           <div className="grid gap-2">
             <Label htmlFor="expiration-notification-policy-status">{t('form.labels.status')}</Label>
-            <Controller
-              control={control}
-              name="statusId"
-              render={({ field }) => (
-                <select
-                  id="expiration-notification-policy-status"
-                  value={field.value}
-                  disabled={disableActions}
-                  onChange={(event) =>
-                    field.onChange(
-                      event.target.value as ExpirationNotificationPolicyStatusCatalogItem['code']
-                    )
-                  }
-                  className="h-10 rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
-                >
-                  {statuses.map((status) => (
-                    <option key={status.code} value={status.code}>
-                      {status.name}
-                    </option>
-                  ))}
-                </select>
-              )}
-            />
+            {mode === 'create' ? (
+              <Input
+                id="expiration-notification-policy-status"
+                value={activeStatus?.name ?? 'ACTIVE'}
+                disabled
+                readOnly
+              />
+            ) : (
+              <Controller
+                control={control}
+                name="statusId"
+                render={({ field }) => (
+                  <select
+                    id="expiration-notification-policy-status"
+                    value={field.value}
+                    disabled={disableActions}
+                    onChange={(event) =>
+                      field.onChange(
+                        event.target.value as ExpirationNotificationPolicyStatusCatalogItem['code']
+                      )
+                    }
+                    className="h-10 rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+                  >
+                    {editableStatuses.map((status) => (
+                      <option key={status.code} value={status.code}>
+                        {status.name}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              />
+            )}
           </div>
         </div>
 
