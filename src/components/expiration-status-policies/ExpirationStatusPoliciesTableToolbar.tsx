@@ -20,7 +20,6 @@ interface ExpirationStatusPoliciesTableToolbarProps {
   table: Table<ExpirationStatusPoliciesTableRow>;
   searchPlaceholder: string;
   columnLabel: string;
-  statusLabel: string;
   statusPlaceholder: string;
   statuses: ExpirationStatusPolicyStatusCatalogItem[];
 }
@@ -29,7 +28,6 @@ export function ExpirationStatusPoliciesTableToolbar({
   table,
   searchPlaceholder,
   columnLabel,
-  statusLabel,
   statusPlaceholder,
   statuses,
 }: ExpirationStatusPoliciesTableToolbarProps) {
@@ -37,6 +35,7 @@ export function ExpirationStatusPoliciesTableToolbar({
   const setGlobalFilter = useExpirationStatusPoliciesTableStore((state) => state.setGlobalFilter);
   const filters = useExpirationStatusPoliciesTableStore((state) => state.filters);
   const setFilters = useExpirationStatusPoliciesTableStore((state) => state.setFilters);
+  const visibleStatuses = statuses.filter((status) => status.code !== 'DELETED');
 
   return (
     <div className="flex flex-col gap-3 border-b border-border/60 px-4 pb-3 pt-2">
@@ -48,8 +47,7 @@ export function ExpirationStatusPoliciesTableToolbar({
           className="max-w-md"
         />
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <label className="flex flex-col gap-1 text-sm text-muted-foreground">
-            <span>{statusLabel}</span>
+          <div className="min-w-[14rem]">
             <select
               value={filters.status ?? ''}
               onChange={(event) =>
@@ -63,13 +61,13 @@ export function ExpirationStatusPoliciesTableToolbar({
               className="h-9 min-w-[14rem] rounded-lg border border-border/60 bg-background px-3 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
             >
               <option value="">{statusPlaceholder}</option>
-              {statuses.map((status) => (
+              {visibleStatuses.map((status) => (
                 <option key={status.code} value={status.code}>
                   {status.name}
                 </option>
               ))}
             </select>
-          </label>
+          </div>
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

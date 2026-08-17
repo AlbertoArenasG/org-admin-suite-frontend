@@ -311,7 +311,6 @@ export function ExpirationStatusPoliciesTableContainer() {
       }
       searchPlaceholder={t('actions.searchPlaceholder')}
       columnLabel={t('actions.manageColumns')}
-      statusLabel={t('filters.status')}
       statusPlaceholder={t('filters.statusPlaceholder')}
       statuses={catalogsState.statuses}
       deleteDialog={{

@@ -26,7 +26,6 @@ interface ExpirationNotificationPoliciesDataTableProps {
   paginationSummary: string | null;
   searchPlaceholder: string;
   columnLabel: string;
-  statusLabel: string;
   statusPlaceholder: string;
   statuses: ExpirationNotificationPolicyStatusCatalogItem[];
   deleteDialog: {
@@ -64,7 +63,6 @@ export function ExpirationNotificationPoliciesDataTable({
   paginationSummary,
   searchPlaceholder,
   columnLabel,
-  statusLabel,
   statusPlaceholder,
   statuses,
   deleteDialog,
@@ -111,7 +109,6 @@ export function ExpirationNotificationPoliciesDataTable({
         table={table}
         searchPlaceholder={searchPlaceholder}
         columnLabel={columnLabel}
-        statusLabel={statusLabel}
         statusPlaceholder={statusPlaceholder}
         statuses={statuses}
       />
