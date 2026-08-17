@@ -1,0 +1,243 @@
+# Implementation Breakdown
+
+## Slice 1. Scope Closure
+
+- Estado: completed
+- Objetivo:
+  - cerrar si esta spec cubre uno o ambos módulos base reutilizables
+- Cambios realizados:
+  - se aprobó cubrir `expiration_status_policies`
+  - se aprobó cubrir `expiration_notification_policies`
+  - se aprobó incluir `list + detail + create + edit + delete`
+  - se dejó fuera la integración consumidora en `internal-asset-control`
+
+## Slice 2. Structural Definition
+
+- Estado: completed
+- Objetivo:
+  - definir rutas, patrones de pantalla y organización del estado frontend
+- Cambios realizados:
+  - se aprobó que `expiration_status_policies` y `expiration_notification_policies` vivan como módulos separados
+  - se aprobó que ambos tengan:
+    - listado
+    - detalle
+    - create
+    - edit
+  - se aprobó formulario compartido para `create/edit`
+  - se aprobó que ambos pertenezcan al mismo grupo del sidebar
+  - se aprobó estado separado por módulo:
+    - `src/features/expiration-status-policies/*`
+    - `src/features/expiration-notification-policies/*`
+  - se aprobó el orden de implementación:
+    - primero `expiration_status_policies`
+    - después `expiration_notification_policies`
+  - se aprobó que cada módulo conserve formularios y pantallas propias
+  - se aprobó extraer solo componentes y utilidades pequeñas cuando la coincidencia sea real
+
+## Slice 3. Expiration Status Policies Foundation
+
+- Estado: pending
+- Objetivo:
+  - implementar la base frontend del módulo `expiration_status_policies`
+- Microfases:
+  - Phase 3.1. Contracts And Feature State
+    - Estado: pending
+    - aterrizar contratos HTTP realmente usados del módulo:
+      - `GET /v1/expiration-status-policies`
+      - `GET /v1/expiration-status-policies/catalog`
+      - `GET /v1/expiration-status-policies/options`
+      - `GET /v1/expiration-status-policies/:expirationStatusPolicyId`
+      - `POST /v1/expiration-status-policies`
+      - `PATCH /v1/expiration-status-policies/:expirationStatusPolicyId`
+      - `DELETE /v1/expiration-status-policies/:expirationStatusPolicyId`
+    - definir `src/features/expiration-status-policies/types.ts`
+    - definir `src/features/expiration-status-policies/thunks.ts`
+    - definir `src/features/expiration-status-policies/slice.ts`
+    - registrar el slice en `src/store/store.ts`
+    - dejar explícito que frontend consumirá catálogos auxiliares expuestos por backend y no hardcodeará opciones locales equivalentes
+  - Phase 3.2. Routes And Pages
+    - Estado: pending
+    - crear rutas del módulo:
+      - listado
+      - detalle
+      - create
+      - edit
+    - mantener páginas de `app/` enfocadas solo en composición y routing
+  - Phase 3.3. Status Policies List
+    - Estado: pending
+    - implementar tabla/listado paginado
+    - integrar búsqueda por nombre
+    - integrar filtro por estado
+    - integrar sorting por:
+      - nombre
+      - estado
+      - creado
+    - mostrar columnas:
+      - nombre
+      - estado
+      - reglas
+      - creado
+      - actualizado
+    - dejar fuera de tabla base:
+      - code
+      - description
+    - integrar acciones visibles según el patrón actual del proyecto
+    - resolver estados de carga, vacío y error
+  - Phase 3.4. Status Policies Detail
+    - Estado: pending
+    - implementar vista de detalle
+    - mostrar metadata útil de la policy:
+      - nombre
+      - descripción
+      - estado
+      - creado
+      - actualizado
+      - creado por
+      - actualizado por
+    - dejar fuera `code` para usuario final
+    - exponer sus reglas configuradas con:
+      - label
+      - color
+      - resumen humano del offset
+    - presentar reglas como cards, no como tabla
+    - exponer navegación hacia edit cuando aplique
+  - Phase 3.5. Status Policies Form
+    - Estado: pending
+    - implementar formulario compartido para create/edit
+    - soportar captura de:
+      - `name`
+      - `description`
+      - `status`
+      - `rules[]`
+    - poblar `status` desde catálogo backend
+    - iniciar `status` con default `ACTIVE` en create
+    - resolver edición de reglas con:
+      - label
+      - color
+      - start offset estructurado
+    - implementar editor de reglas con:
+      - bloques repetibles en lista vertical
+      - preview visual por regla
+      - color picker
+      - eliminación de regla
+      - alta de nueva regla
+      - ordenamiento normalizado al guardar según offset
+    - resolver validaciones alineadas al contrato backend
+  - Phase 3.6. Delete And UI Rules
+    - Estado: pending
+    - integrar delete con confirmación
+    - reflejar visualmente restricciones del backend cuando existan
+  - Phase 3.7. Navigation And Permission Wiring
+    - Estado: pending
+    - integrar acceso al módulo dentro del grupo compartido del sidebar
+    - alinear visibilidad del módulo con permisos reales
+    - verificar consistencia con el patrón de navegación existente
+
+## Slice 4. Expiration Notification Policies Foundation
+
+- Estado: pending
+- Objetivo:
+  - implementar la base frontend del módulo `expiration_notification_policies`
+- Microfases:
+  - Phase 4.1. Contracts And Feature State
+    - Estado: pending
+    - aterrizar contratos HTTP realmente usados del módulo:
+      - `GET /v1/expiration-notification-policies`
+      - `GET /v1/expiration-notification-policies/catalog`
+      - `GET /v1/expiration-notification-policies/options`
+      - `GET /v1/expiration-notification-policies/:expirationNotificationPolicyId`
+      - `POST /v1/expiration-notification-policies`
+      - `PATCH /v1/expiration-notification-policies/:expirationNotificationPolicyId`
+      - `DELETE /v1/expiration-notification-policies/:expirationNotificationPolicyId`
+    - definir `src/features/expiration-notification-policies/types.ts`
+    - definir `src/features/expiration-notification-policies/thunks.ts`
+    - definir `src/features/expiration-notification-policies/slice.ts`
+    - registrar el slice en `src/store/store.ts`
+    - dejar explícito que frontend consumirá catálogos auxiliares expuestos por backend y no hardcodeará opciones locales equivalentes
+  - Phase 4.2. Routes And Pages
+    - Estado: pending
+    - crear rutas del módulo:
+      - listado
+      - detalle
+      - create
+      - edit
+    - mantener páginas de `app/` enfocadas solo en composición y routing
+  - Phase 4.3. Notification Policies List
+    - Estado: pending
+    - implementar tabla/listado paginado
+    - integrar búsqueda por nombre
+    - integrar filtro por estado
+    - integrar sorting por:
+      - nombre
+      - estado
+      - creado
+    - mostrar columnas:
+      - nombre
+      - estado
+      - reglas
+      - creado
+      - actualizado
+    - dejar fuera de tabla base:
+      - code
+      - description
+    - integrar acciones visibles según el patrón actual del proyecto
+    - resolver estados de carga, vacío y error
+  - Phase 4.4. Notification Policies Detail
+    - Estado: pending
+    - implementar vista de detalle
+    - mostrar metadata útil de la policy:
+      - nombre
+      - descripción
+      - estado
+      - creado
+      - actualizado
+      - creado por
+      - actualizado por
+    - dejar fuera `code` para usuario final
+    - exponer sus reglas configuradas con lectura humana de:
+      - anchor
+      - start offset
+      - trigger mode
+      - repeat every
+      - repeat until
+      - repeat for
+    - exponer grupos de destinatarios asociados por nombre
+    - presentar reglas como cards, no como tabla
+    - exponer navegación hacia edit cuando aplique
+  - Phase 4.5. Notification Policies Form
+    - Estado: pending
+    - implementar formulario compartido para create/edit
+    - soportar captura de:
+      - `name`
+      - `description`
+      - `status`
+      - `rules[]`
+    - poblar catálogos auxiliares desde backend
+    - iniciar `status` con default `ACTIVE` en create
+    - resolver edición de reglas con anchors, trigger modes, recurrencia y recipient groups
+    - implementar reglas condicionales por `trigger_mode`
+    - implementar limpieza de datos no aplicables al cambiar:
+      - `trigger_mode`
+      - `repeat_until`
+    - resolver selección de `recipient_groups` por regla con:
+      - multiselect
+      - búsqueda por nombre
+      - chips de seleccionados
+      - sin creación en contexto
+      - validación de al menos un grupo por regla
+    - resolver validaciones alineadas al contrato backend
+  - Phase 4.6. Delete And UI Rules
+    - Estado: pending
+    - integrar delete con confirmación
+    - reflejar visualmente restricciones del backend cuando existan
+  - Phase 4.7. Navigation And Permission Wiring
+    - Estado: pending
+    - integrar acceso al módulo dentro del grupo compartido del sidebar
+    - alinear visibilidad del módulo con permisos reales
+    - verificar consistencia con el patrón de navegación existente
+
+## Slice 5. Validation And Handoff
+
+- Estado: pending
+- Objetivo:
+  - validar los flujos principales y dejar la spec lista para cierre
