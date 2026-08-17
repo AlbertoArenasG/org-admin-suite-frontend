@@ -200,4 +200,9 @@
     - offset
     - grupos destinatarios
     - grupos en copia
+- Se ejecutó validación automática puntual del módulo con:
+  - `npx eslint src/components/internal-asset-control src/features/internal-asset-control 'src/app/dashboard/internal-asset-control'`
+  - `npm run typecheck`
+- Se corrigió un warning real en:
+  - `src/features/internal-asset-control/internalAssetControlThunks.ts`
 - El módulo volvió a compilar correctamente con `npm run typecheck`.

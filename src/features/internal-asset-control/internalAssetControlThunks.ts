@@ -7,7 +7,6 @@ import type {
   DeleteInternalAssetMaintenanceRecordPayload,
   FetchInternalAssetMaintenanceRecordsParams,
   FetchInternalAssetMaintenanceRecordsResult,
-  InternalAssetControlState,
   InternalAssetMaintenanceActorSummary,
   InternalAssetMaintenanceCatalog,
   InternalAssetMaintenanceDerivedStatus,

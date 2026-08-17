@@ -119,6 +119,6 @@
 
 ## Slice 5. Validation And Handoff
 
-- Estado: pending
+- Estado: in_progress
 - Objetivo:
   - validar flujos principales y dejar la spec lista para cierre
