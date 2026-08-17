@@ -112,6 +112,11 @@
   - selección de grupos destinatarios activos consumidos desde backend
   - reglas `one-time` y `recurring` con limpieza automática de campos no aplicables
   - wiring completo de create y edit
+- Se completó el cierre de UX base de `expiration_notification_policies` con:
+  - delete con confirmación también desde la vista de detalle
+  - feedback de éxito y error al eliminar
+  - redirect al listado después de eliminar
+  - mantenimiento de reglas de UI alineadas a permisos reales
 - Se validó localmente este corte con:
   - `npx eslint src/features/expiration-status-policies src/store/store.ts`
   - `npx tsc --noEmit`

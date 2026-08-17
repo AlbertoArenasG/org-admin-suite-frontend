@@ -228,7 +228,7 @@
       - validación de al menos un grupo por regla
     - resolver validaciones alineadas al contrato backend
   - Phase 4.6. Delete And UI Rules
-    - Estado: pending
+    - Estado: completed
     - integrar delete con confirmación
     - reflejar visualmente restricciones del backend cuando existan
   - Phase 4.7. Navigation And Permission Wiring

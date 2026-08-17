@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
@@ -7,14 +8,20 @@ import Typography from '@mui/material/Typography';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
+import { ExpirationNotificationPoliciesDeleteDialog } from '@/components/expiration-notification-policies/ExpirationNotificationPoliciesDeleteDialog';
 import { formatExpirationNotificationPolicyOffset } from '@/components/expiration-notification-policies/formatExpirationNotificationPolicyOffset';
+import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuthorization } from '@/features/auth';
-import { fetchExpirationNotificationPolicyById } from '@/features/expiration-notification-policies/expirationNotificationPoliciesThunks';
+import { resetExpirationNotificationPolicyMutations } from '@/features/expiration-notification-policies/expirationNotificationPoliciesSlice';
+import {
+  deleteExpirationNotificationPolicy,
+  fetchExpirationNotificationPolicyById,
+} from '@/features/expiration-notification-policies/expirationNotificationPoliciesThunks';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
@@ -27,9 +34,12 @@ export default function ExpirationNotificationPolicyDetailPage() {
     'expirationNotificationPolicies',
     'breadcrumbs',
   ]);
+  const { showSnackbar } = useSnackbar();
   const { hasPermission } = useAuthorization();
   const detailState = useAppSelector((state) => state.expirationNotificationPolicies.detail);
+  const mutationsState = useAppSelector((state) => state.expirationNotificationPolicies.mutations);
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const policy = useMemo(() => {
     if (
@@ -54,6 +64,47 @@ export default function ExpirationNotificationPolicyDetailPage() {
   }, [authHydrated, dispatch, params.expirationNotificationPolicyId]);
 
   const canUpdate = hasPermission('EXPIRATION_NOTIFICATION_POLICIES', 'UPDATE');
+  const canDelete = hasPermission('EXPIRATION_NOTIFICATION_POLICIES', 'DELETE');
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetExpirationNotificationPolicyMutations());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (
+      mutationsState.currentExpirationNotificationPolicyId !== params.expirationNotificationPolicyId
+    ) {
+      return;
+    }
+
+    if (mutationsState.deleteStatus === 'succeeded') {
+      showSnackbar({
+        message:
+          mutationsState.message ??
+          t('delete.success', {
+            defaultValue: 'Política de notificación por vencimiento eliminada correctamente.',
+          }),
+        severity: 'success',
+      });
+      dispatch(resetExpirationNotificationPolicyMutations());
+      router.push('/dashboard/expiration-notification-policies');
+      return;
+    }
+
+    if (mutationsState.deleteStatus === 'failed') {
+      showSnackbar({
+        message:
+          mutationsState.error ??
+          t('delete.error', {
+            defaultValue: 'No fue posible eliminar la política de notificación por vencimiento.',
+          }),
+        severity: 'error',
+      });
+      dispatch(resetExpirationNotificationPolicyMutations());
+    }
+  }, [dispatch, mutationsState, params.expirationNotificationPolicyId, router, showSnackbar, t]);
 
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;
@@ -195,6 +246,16 @@ export default function ExpirationNotificationPolicyDetailPage() {
             >
               {t('detail.actions.back')}
             </Button>
+            {canDelete ? (
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={() => setDeleteDialogOpen(true)}
+                disabled={mutationsState.deleteStatus === 'loading'}
+              >
+                {t('actions.delete')}
+              </Button>
+            ) : null}
             {canUpdate ? (
               <Button
                 size="sm"
@@ -343,6 +404,46 @@ export default function ExpirationNotificationPolicyDetailPage() {
           )}
         </div>
       </Paper>
+
+      <ExpirationNotificationPoliciesDeleteDialog
+        open={deleteDialogOpen}
+        policy={
+          policy
+            ? {
+                expirationNotificationPolicyId: policy.expirationNotificationPolicyId,
+                name: policy.name,
+                statusId: policy.statusId,
+                statusLabel: policy.statusName,
+                rulesCount: policy.rules.length,
+                createdAt: policy.createdAt,
+                updatedAt: policy.updatedAt,
+                source: policy,
+              }
+            : null
+        }
+        onOpenChange={setDeleteDialogOpen}
+        onConfirm={() => {
+          if (!policy || mutationsState.deleteStatus === 'loading') {
+            return;
+          }
+
+          void dispatch(
+            deleteExpirationNotificationPolicy({
+              expirationNotificationPolicyId: policy.expirationNotificationPolicyId,
+            })
+          );
+        }}
+        isLoading={mutationsState.deleteStatus === 'loading'}
+        labels={{
+          title: t('confirmDelete.title'),
+          description: policy
+            ? t('confirmDelete.description', { name: policy.name })
+            : t('confirmDelete.description', { name: '—' }),
+          warning: t('confirmDelete.warning'),
+          cancel: t('confirmDelete.cancel'),
+          confirm: t('confirmDelete.confirm'),
+        }}
+      />
     </div>
   );
 }
