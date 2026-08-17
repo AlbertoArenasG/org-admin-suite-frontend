@@ -85,3 +85,31 @@
 - Se aprobó que, al reactivarlo, el usuario pueda recuperar los datos previos sin recapturarlos.
 - Se aprobó la UX de `expiration_date` con cálculo automático por defecto y override manual explícito.
 - Se aprobó que, tras una edición manual de `expiration_date`, frontend deje de recalcularla automáticamente hasta que el usuario solicite volver a la fecha sugerida.
+- Se arrancó la implementación del `slice 3` con la base estructural del módulo.
+- Se implementó el wiring inicial de rutas frontend para:
+  - `list`
+  - `create`
+  - `detail`
+  - `edit`
+- Se integró la entrada del módulo en sidebar bajo:
+  - `Control de activos internos`
+- Se creó la frontera inicial de feature state en:
+  - `src/features/internal-asset-control/*`
+- Se modelaron los contratos frontend del recurso principal para:
+  - listado
+  - detalle
+  - catálogo
+  - create
+  - update
+  - delete
+  - follow-up manual al provider
+- Se implementaron thunks base para consumir:
+  - `GET /v1/internal-asset-maintenance-records`
+  - `GET /v1/internal-asset-maintenance-records/catalog`
+  - `GET /v1/internal-asset-maintenance-records/:recordId`
+  - `POST /v1/internal-asset-maintenance-records`
+  - `PATCH /v1/internal-asset-maintenance-records/:recordId`
+  - `DELETE /v1/internal-asset-maintenance-records/:recordId`
+  - `POST /v1/internal-asset-maintenance-records/:recordId/provider-follow-up/send`
+- Se registraron namespaces de traducción base y breadcrumbs del módulo.
+- La base estructural compiló correctamente con `npm run typecheck`.

@@ -1,0 +1,22 @@
+{
+  "list": {
+    "title": "Internal asset control",
+    "description": "Review and track maintenance, verification, and calibration records.",
+    "readRestricted": "You do not have permission to view internal asset control."
+  },
+  "create": {
+    "title": "Create record",
+    "description": "Register a new maintenance or attention event for an internal asset.",
+    "restricted": "You do not have permission to create internal asset control records."
+  },
+  "detail": {
+    "title": "Record detail",
+    "description": "Review the full operational context of the selected record.",
+    "restricted": "You do not have permission to view this record."
+  },
+  "edit": {
+    "title": "Edit record",
+    "description": "Update operational data, policies, and provider information.",
+    "restricted": "You do not have permission to edit this record."
+  }
+}

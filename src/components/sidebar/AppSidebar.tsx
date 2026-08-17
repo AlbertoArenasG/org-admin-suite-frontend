@@ -174,6 +174,44 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       });
     }
 
+    const canReadInternalAssetControl = hasPermission('INTERNAL_ASSET_MAINTENANCE_RECORDS', 'READ');
+    const canCreateInternalAssetControl = hasPermission(
+      'INTERNAL_ASSET_MAINTENANCE_RECORDS',
+      'CREATE'
+    );
+
+    if (canReadInternalAssetControl || canCreateInternalAssetControl) {
+      items.push({
+        title: t('internalAssetControl'),
+        url: canReadInternalAssetControl
+          ? '/dashboard/internal-asset-control'
+          : '/dashboard/internal-asset-control/new',
+        icon: Archive,
+        isActive: pathname.startsWith('/dashboard/internal-asset-control'),
+        items: [
+          ...(canReadInternalAssetControl
+            ? [
+                {
+                  title: t('internalAssetControlList'),
+                  url: '/dashboard/internal-asset-control',
+                  isActive: pathname === '/dashboard/internal-asset-control',
+                },
+              ]
+            : []),
+          ...(canCreateInternalAssetControl
+            ? [
+                {
+                  title: t('internalAssetControlCreate'),
+                  url: '/dashboard/internal-asset-control/new',
+                  isActive: pathname === '/dashboard/internal-asset-control/new',
+                  icon: PlusCircle,
+                },
+              ]
+            : []),
+        ],
+      });
+    }
+
     const recipientItems = [
       ...(hasPermission('CONTACTS', 'READ')
         ? [

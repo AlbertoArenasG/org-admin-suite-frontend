@@ -14,11 +14,12 @@
 
 ## Slice 3. Internal Asset Maintenance Records Foundation
 
-- Estado: pending
+- Estado: in_progress
 - Objetivo:
   - implementar la base frontend del recurso principal `internal-asset-maintenance-record`
 - Subfases:
   - 3.1 Wiring de rutas y navegación
+    - Estado: completed
     - crear rutas de:
       - `list`
       - `create`
@@ -30,6 +31,7 @@
       - detalle -> editar
       - create/edit -> volver al flujo correcto
   - 3.2 Feature state y contratos consumidos
+    - Estado: completed
     - crear frontera base en:
       - `src/features/internal-asset-control/*`
     - modelar contratos frontend para:
@@ -41,6 +43,7 @@
       - catálogos auxiliares consumidos
     - implementar thunks/servicios/selectores mínimos del recurso principal
   - 3.3 Listado operativo
+    - Estado: pending
     - construir tabla base con columnas aprobadas:
       - activo
       - identificador
@@ -59,6 +62,7 @@
         - editar
         - eliminar
   - 3.4 Detalle por bloques
+    - Estado: pending
     - construir vista de detalle con bloques de:
       - resumen principal
       - datos del registro
@@ -69,6 +73,7 @@
       - estado derivado por vencimiento
     - dejar preparado el espacio visual para follow-up manual de `slice 4`
   - 3.5 Formulario create/edit
+    - Estado: pending
     - construir formulario por bloques:
       - principal
       - policies
@@ -81,6 +86,7 @@
       - estado
       - número de reglas
   - 3.6 UX de `expiration_date`
+    - Estado: pending
     - implementar cálculo automático a partir de:
       - `last_maintenance_at`
       - `interval`
@@ -88,12 +94,14 @@
     - mostrar señal de override manual
     - agregar acción para volver a la fecha sugerida
   - 3.7 Bloque provider
+    - Estado: pending
     - implementar disclosure progresivo
     - validar campos solo cuando:
       - `sentToProvider = true`
     - conservar datos al apagar el bloque
     - reflejar correctamente provider en listado/detalle cuando aplique
   - 3.8 Delete y estados vacíos/errores
+    - Estado: pending
     - integrar acción de delete dentro del flujo del módulo
     - contemplar estados de:
       - loading

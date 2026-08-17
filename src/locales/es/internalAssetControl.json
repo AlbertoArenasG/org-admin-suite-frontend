@@ -1,0 +1,22 @@
+{
+  "list": {
+    "title": "Control de activos internos",
+    "description": "Consulta y da seguimiento a registros de mantenimiento, verificación y calibración.",
+    "readRestricted": "No cuentas con permisos para consultar el control de activos internos."
+  },
+  "create": {
+    "title": "Crear registro",
+    "description": "Registra una nueva atención o mantenimiento para un activo interno.",
+    "restricted": "No cuentas con permisos para crear registros de control de activos internos."
+  },
+  "detail": {
+    "title": "Detalle del registro",
+    "description": "Consulta el contexto operativo completo del registro seleccionado.",
+    "restricted": "No cuentas con permisos para consultar este registro."
+  },
+  "edit": {
+    "title": "Editar registro",
+    "description": "Actualiza la información operativa, policies y datos del proveedor.",
+    "restricted": "No cuentas con permisos para editar este registro."
+  }
+}

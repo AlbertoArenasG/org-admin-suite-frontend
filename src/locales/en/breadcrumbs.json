@@ -6,6 +6,7 @@
   "users": "Users",
   "roles": "Roles",
   "contacts": "Contacts",
+  "internalAssetControl": "Internal asset control",
   "expirationStatusPolicies": "Expiration status policies",
   "expirationNotificationPolicies": "Expiration notification policies",
   "recipientGroups": "Recipient groups",

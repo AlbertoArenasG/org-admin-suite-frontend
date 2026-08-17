@@ -13,6 +13,7 @@ import contactsReducer from '@/features/contacts/contactsSlice';
 import recipientGroupsReducer from '@/features/recipient-groups/recipientGroupsSlice';
 import expirationStatusPoliciesReducer from '@/features/expiration-status-policies/expirationStatusPoliciesSlice';
 import expirationNotificationPoliciesReducer from '@/features/expiration-notification-policies/expirationNotificationPoliciesSlice';
+import internalAssetControlReducer from '@/features/internal-asset-control/internalAssetControlSlice';
 
 /**
  * Central Redux store setup. Extend the reducer map as new slices are added.
@@ -33,6 +34,7 @@ export const store = configureStore({
     recipientGroups: recipientGroupsReducer,
     expirationStatusPolicies: expirationStatusPoliciesReducer,
     expirationNotificationPolicies: expirationNotificationPoliciesReducer,
+    internalAssetControl: internalAssetControlReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
