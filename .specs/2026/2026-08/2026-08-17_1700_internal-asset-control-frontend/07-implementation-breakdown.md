@@ -102,7 +102,7 @@
     - conservar datos al apagar el bloque
     - reflejar correctamente provider en listado/detalle cuando aplique
   - 3.8 Delete y estados vacíos/errores
-    - Estado: pending
+    - Estado: completed
     - integrar acción de delete dentro del flujo del módulo
     - contemplar estados de:
       - loading
@@ -113,7 +113,7 @@
 
 ## Slice 4. Provider Follow-Up
 
-- Estado: pending
+- Estado: completed
 - Objetivo:
   - integrar el follow-up manual al provider cuando aplique
 

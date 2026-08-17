@@ -15,6 +15,7 @@ export default function InternalAssetControlDetailPage() {
   const { hasPermission } = useAuthorization();
   const canRead = hasPermission('INTERNAL_ASSET_MAINTENANCE_RECORDS', 'READ');
   const canUpdate = hasPermission('INTERNAL_ASSET_MAINTENANCE_RECORDS', 'UPDATE');
+  const canDelete = hasPermission('INTERNAL_ASSET_MAINTENANCE_RECORDS', 'DELETE');
   const recordId = typeof params.recordId === 'string' ? params.recordId : '';
 
   return (
@@ -38,7 +39,11 @@ export default function InternalAssetControlDetailPage() {
       </header>
 
       {canRead ? (
-        <InternalAssetControlDetailView recordId={recordId} canUpdate={canUpdate} />
+        <InternalAssetControlDetailView
+          recordId={recordId}
+          canUpdate={canUpdate}
+          canDelete={canDelete}
+        />
       ) : (
         <InternalAssetControlPlaceholder
           title={t('detail.title')}

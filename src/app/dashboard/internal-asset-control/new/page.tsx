@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { InternalAssetControlForm } from '@/components/internal-asset-control/InternalAssetControlForm';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuthorization } from '@/features/auth';
@@ -41,6 +42,25 @@ export default function InternalAssetControlCreatePage() {
     (state) => state.expirationNotificationPolicies.catalogs
   );
   const recipientGroupsListState = useAppSelector((state) => state.recipientGroups.list);
+
+  const loadDependencies = () => {
+    if (!canCreate) {
+      return;
+    }
+
+    void dispatch(fetchInternalAssetMaintenanceCatalog());
+    void dispatch(fetchExpirationStatusPolicyOptions({ status: 'ACTIVE' }));
+    void dispatch(fetchExpirationNotificationPolicyOptions({ status: 'ACTIVE' }));
+    void dispatch(
+      fetchRecipientGroups({
+        page: 1,
+        limit: 100,
+        itemsPerPage: 100,
+        filters: { status: 'ACTIVE' },
+        sorts: [{ field: 'name', direction: 'asc' }],
+      })
+    );
+  };
 
   useEffect(() => {
     if (!canCreate) {
@@ -178,7 +198,12 @@ export default function InternalAssetControlCreatePage() {
           </div>
         ) : loadError ? (
           <div className="m-6 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-destructive">
-            {loadError}
+            <div>{loadError}</div>
+            <div className="mt-3">
+              <Button type="button" variant="outline" size="sm" onClick={loadDependencies}>
+                {t('actions.retry')}
+              </Button>
+            </div>
           </div>
         ) : (
           <InternalAssetControlForm

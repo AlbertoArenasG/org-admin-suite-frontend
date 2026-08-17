@@ -47,8 +47,25 @@
       "providerFollowUpEnabled": "Follow-up enabled",
       "providerFollowUpRulesCount": "Follow-up rules",
       "providerFollowUpLastSentAt": "Last manual send",
+      "providerFollowUpStatus": "Follow-up status",
+      "providerFollowUpRecipients": "Primary recipients",
+      "followUpOffset": "Offset",
+      "recipientGroups": "Recipient groups",
+      "ccRecipientGroups": "CC recipient groups",
       "createdBy": "Created by",
       "updatedBy": "Updated by"
+    },
+    "followUp": {
+      "send": "Send follow-up",
+      "sending": "Sending...",
+      "sendSuccess": "Follow-up sent successfully.",
+      "sendError": "The follow-up could not be sent.",
+      "ready": "Ready for manual send",
+      "disabled": "Follow-up disabled",
+      "notSentToProvider": "Not yet sent to provider",
+      "noRules": "No rules configured",
+      "rulesTitle": "Configured rules",
+      "ruleLabel": "Rule {{index}}"
     }
   },
   "edit": {
@@ -82,7 +99,13 @@
     "view": "View detail",
     "edit": "Edit",
     "delete": "Delete",
-    "manageColumns": "Manage columns"
+    "manageColumns": "Manage columns",
+    "retry": "Retry",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "errors": {
+    "title": "Error"
   },
   "delete": {
     "title": "Delete record",

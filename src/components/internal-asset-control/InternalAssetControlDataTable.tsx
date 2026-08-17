@@ -21,6 +21,9 @@ interface InternalAssetControlDataTableProps {
   catalogs: InternalAssetMaintenanceCatalog | null;
   isLoading: boolean;
   error: string | null;
+  errorTitle?: string;
+  onRetry?: () => void;
+  retryLabel?: string;
   onCreateClick: () => void;
   canCreate: boolean;
   title: string;
@@ -64,6 +67,9 @@ export function InternalAssetControlDataTable({
   catalogs,
   isLoading,
   error,
+  errorTitle = 'Error',
+  onRetry,
+  retryLabel = 'Retry',
   onCreateClick,
   canCreate,
   title,
@@ -127,8 +133,15 @@ export function InternalAssetControlDataTable({
       {error ? (
         <Box sx={{ px: 3, pt: 3 }}>
           <Alert severity="error">
-            <AlertTitle>Error</AlertTitle>
+            <AlertTitle>{errorTitle}</AlertTitle>
             {error}
+            {onRetry ? (
+              <div className="mt-3">
+                <Button type="button" variant="outline" size="sm" onClick={onRetry}>
+                  {retryLabel}
+                </Button>
+              </div>
+            ) : null}
           </Alert>
         </Box>
       ) : null}

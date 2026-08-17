@@ -34,11 +34,11 @@
 
 ## Phase 2. Implementation
 
-- [ ] Implementar base frontend de `internal-asset-maintenance-record`
-      Status: pending
+- [x] Implementar base frontend de `internal-asset-maintenance-record`
+      Status: completed
 
-- [ ] Integrar follow-up manual al provider
-      Status: pending
+- [x] Integrar follow-up manual al provider
+      Status: completed
 
 ## Phase 3. Validation
 

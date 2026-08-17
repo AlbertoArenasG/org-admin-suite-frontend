@@ -24,7 +24,7 @@
     "sections": {
       "summary": "Resumen principal",
       "record": "Datos del registro",
-      "policies": "Policies asociadas",
+      "policies": "Políticas asociadas",
       "provider": "Proveedor",
       "followUp": "Follow-up manual"
     },
@@ -47,8 +47,25 @@
       "providerFollowUpEnabled": "Follow-up habilitado",
       "providerFollowUpRulesCount": "Reglas de follow-up",
       "providerFollowUpLastSentAt": "Último envío manual",
+      "providerFollowUpStatus": "Estado del follow-up",
+      "providerFollowUpRecipients": "Destinatarios principales",
+      "followUpOffset": "Offset",
+      "recipientGroups": "Grupos destinatarios",
+      "ccRecipientGroups": "Grupos en copia",
       "createdBy": "Creado por",
       "updatedBy": "Actualizado por"
+    },
+    "followUp": {
+      "send": "Enviar seguimiento",
+      "sending": "Enviando...",
+      "sendSuccess": "Seguimiento enviado correctamente.",
+      "sendError": "No fue posible enviar el seguimiento.",
+      "ready": "Listo para envío manual",
+      "disabled": "Follow-up deshabilitado",
+      "notSentToProvider": "Aún no se envía al proveedor",
+      "noRules": "Sin reglas configuradas",
+      "rulesTitle": "Reglas configuradas",
+      "ruleLabel": "Regla {{index}}"
     }
   },
   "edit": {
@@ -82,7 +99,13 @@
     "view": "Ver detalle",
     "edit": "Editar",
     "delete": "Eliminar",
-    "manageColumns": "Administrar columnas"
+    "manageColumns": "Administrar columnas",
+    "retry": "Reintentar",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "errors": {
+    "title": "Error"
   },
   "delete": {
     "title": "Eliminar registro",
@@ -146,7 +169,7 @@
       "expirationDate": "Puedes ajustarlo manualmente si la siguiente atención no corresponde exactamente al intervalo.",
       "manualExpirationOverride": "Estás usando una fecha de vencimiento editada manualmente.",
       "suggestedExpirationDate": "Fecha sugerida: {{date}}",
-      "policies": "Asocia policies reutilizables para estatus visual y notificaciones.",
+      "policies": "Asocia políticas reutilizables para estatus visual y notificaciones.",
       "provider": "Registra el contexto del proveedor aunque el envío todavía no ocurra.",
       "providerCollapsed": "Activa el envío al proveedor para capturar sus datos.",
       "providerFollowUp": "Configura grupos destinatarios para seguimientos posteriores al proveedor."

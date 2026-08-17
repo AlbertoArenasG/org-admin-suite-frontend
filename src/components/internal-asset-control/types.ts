@@ -32,7 +32,10 @@ export interface InternalAssetControlDeleteTarget {
 }
 
 export function buildInternalAssetControlDeleteTarget(
-  row: InternalAssetControlTableRow
+  row: Pick<
+    InternalAssetControlTableRow,
+    'internalAssetMaintenanceRecordId' | 'assetName' | 'assetIdentifier'
+  >
 ): InternalAssetControlDeleteTarget {
   return {
     internalAssetMaintenanceRecordId: row.internalAssetMaintenanceRecordId,

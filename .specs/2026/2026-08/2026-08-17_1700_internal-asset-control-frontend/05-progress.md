@@ -175,3 +175,29 @@
   - el bloque conserva datos al apagarse
   - el detalle capturable se despliega solo cuando `sentToProvider = true`
 - La UX adicional del formulario volvió a compilar correctamente con `npm run typecheck`.
+- Se cerró el cierre operativo del `slice 3.8` con:
+  - retry explícito en listado
+  - retry explícito en detalle
+  - retry explícito en `create`
+  - retry explícito en `edit`
+  - delete disponible también desde detalle
+  - retorno consistente al listado tras delete exitoso
+- El recurso principal quedó operativo de punta a punta para:
+  - list
+  - detail
+  - create
+  - edit
+  - delete
+- Se cerró la integración del `slice 4` para follow-up manual al provider con:
+  - acción manual de envío desde la vista de detalle
+  - feedback explícito de éxito y error
+  - lectura de estado operativo del follow-up:
+    - listo para envío manual
+    - deshabilitado
+    - sin reglas configuradas
+    - todavía no enviado al proveedor
+  - visualización por regla de:
+    - offset
+    - grupos destinatarios
+    - grupos en copia
+- El módulo volvió a compilar correctamente con `npm run typecheck`.

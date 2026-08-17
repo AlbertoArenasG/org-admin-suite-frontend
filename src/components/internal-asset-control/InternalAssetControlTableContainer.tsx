@@ -295,12 +295,32 @@ export function InternalAssetControlTableContainer() {
     getSortedRowModel: getSortedRowModel(),
   });
 
+  const retryListFetch = () => {
+    if (!canRead) {
+      return;
+    }
+
+    void dispatch(
+      fetchInternalAssetMaintenanceRecords({
+        page: paginationState.pageIndex + 1,
+        limit: paginationState.pageSize,
+        itemsPerPage: paginationState.pageSize,
+        search: debouncedFilter,
+        filters,
+        sorts: mapInternalAssetControlSortingToApi(sorting),
+      })
+    );
+  };
+
   return (
     <InternalAssetControlDataTable
       table={table}
       catalogs={catalogsState.item}
       isLoading={listState.status === 'loading'}
       error={listState.error}
+      errorTitle={t('errors.title')}
+      onRetry={listState.error ? retryListFetch : undefined}
+      retryLabel={t('actions.retry')}
       onCreateClick={() => router.push('/dashboard/internal-asset-control/new')}
       canCreate={canCreate}
       title={t('list.title')}
@@ -346,8 +366,8 @@ export function InternalAssetControlTableContainer() {
       tableLabels={{
         noData: t('list.empty'),
         pagination: {
-          previous: 'Anterior',
-          next: 'Siguiente',
+          previous: t('actions.previous'),
+          next: t('actions.next'),
         },
       }}
     />
