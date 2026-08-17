@@ -28,3 +28,12 @@
   - cada módulo conserve formularios y pantallas propias
   - la reutilización ocurra solo en componentes y utilidades pequeñas cuando realmente aplique
   - no se fuerce una abstracción grande compartida desde definición
+- Se implementó la base del feature state de `expiration_status_policies` con:
+  - `types.ts`
+  - `expirationStatusPoliciesThunks.ts`
+  - `expirationStatusPoliciesSlice.ts`
+  - `index.ts`
+  - registro del reducer en `src/store/store.ts`
+- Se validó localmente este corte con:
+  - `npx eslint src/features/expiration-status-policies src/store/store.ts`
+  - `npx tsc --noEmit`

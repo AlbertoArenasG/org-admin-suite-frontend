@@ -41,7 +41,7 @@
   - implementar la base frontend del módulo `expiration_status_policies`
 - Microfases:
   - Phase 3.1. Contracts And Feature State
-    - Estado: pending
+    - Estado: completed
     - aterrizar contratos HTTP realmente usados del módulo:
       - `GET /v1/expiration-status-policies`
       - `GET /v1/expiration-status-policies/catalog`

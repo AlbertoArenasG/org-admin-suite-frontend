@@ -11,6 +11,7 @@ import providersReducer from '@/features/providers/providersSlice';
 import rolesReducer from '@/features/roles/rolesSlice';
 import contactsReducer from '@/features/contacts/contactsSlice';
 import recipientGroupsReducer from '@/features/recipient-groups/recipientGroupsSlice';
+import expirationStatusPoliciesReducer from '@/features/expiration-status-policies/expirationStatusPoliciesSlice';
 
 /**
  * Central Redux store setup. Extend the reducer map as new slices are added.
@@ -29,6 +30,7 @@ export const store = configureStore({
     roles: rolesReducer,
     contacts: contactsReducer,
     recipientGroups: recipientGroupsReducer,
+    expirationStatusPolicies: expirationStatusPoliciesReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
