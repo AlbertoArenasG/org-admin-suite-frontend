@@ -122,3 +122,28 @@
 - Estado: in_progress
 - Objetivo:
   - validar flujos principales y dejar la spec lista para cierre
+- Checklist sugerida:
+  - validar listado:
+    - carga inicial
+    - búsqueda
+    - filtros
+    - sorting
+    - navegación a detalle
+  - validar `create`:
+    - cálculo automático de `expiration_date`
+    - override manual
+    - restaurar fecha sugerida
+    - bloque provider apagado/encendido
+    - alta exitosa
+  - validar `edit`:
+    - carga correcta del detalle
+    - conservación de datos del bloque provider
+    - actualización exitosa
+  - validar `detail`:
+    - render por bloques
+    - delete
+    - follow-up manual al provider
+  - validar retry explícito en:
+    - listado
+    - detail
+    - create/edit

@@ -43,4 +43,5 @@
 ## Phase 3. Validation
 
 - [ ] Validar flujos principales y actualizar documentación de progreso
-      Status: pending
+      Status: in_progress
+      Checklist sugerida: - listado: - carga inicial - búsqueda - filtros - sorting - navegación a detalle - create: - cálculo automático de `expiration_date` - override manual - restore de fecha sugerida - bloque provider apagado/encendido - submit exitoso - edit: - carga de detalle - conservación de datos del bloque provider - actualización exitosa - detail: - render por bloques - delete - follow-up manual al provider - estados de error: - retry en listado - retry en detail - retry en create/edit
