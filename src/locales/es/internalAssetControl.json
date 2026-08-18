@@ -1,6 +1,6 @@
 {
   "list": {
-    "title": "Control de equipos",
+    "title": "Control de activos",
     "description": "Consulta y da seguimiento a registros de mantenimiento, verificación y calibración.",
     "readRestricted": "No cuentas con permisos para consultar el control de equipos.",
     "createShort": "Crear",
@@ -9,7 +9,7 @@
   },
   "create": {
     "title": "Crear registro",
-    "description": "Registra una nueva atención o mantenimiento para un equipo.",
+    "description": "Registra una nueva atención o mantenimiento para un activo.",
     "restricted": "No cuentas con permisos para crear registros de control de equipos.",
     "successFeedback": "Registro creado correctamente.",
     "errorFeedback": "No fue posible crear el registro."
@@ -29,7 +29,7 @@
       "followUp": "Seguimiento manual"
     },
     "fields": {
-      "assetName": "Equipo",
+      "assetName": "Activo",
       "assetIdentifier": "Identificador",
       "assetMaintenanceType": "Tipo",
       "status": "Estado",
@@ -131,7 +131,7 @@
       "providerFollowUp": "Seguimiento al proveedor"
     },
     "labels": {
-      "assetName": "Equipo",
+      "assetName": "Activo",
       "assetIdentifier": "Identificador",
       "assetMaintenanceType": "Tipo",
       "status": "Estado",
