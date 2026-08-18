@@ -14,7 +14,7 @@
 
 ## Slice 3. Internal Asset Maintenance Records Foundation
 
-- Estado: in_progress
+- Estado: completed
 - Objetivo:
   - implementar la base frontend del recurso principal `internal-asset-maintenance-record`
 - Subfases:
@@ -119,7 +119,7 @@
 
 ## Slice 5. Validation And Handoff
 
-- Estado: in_progress
+- Estado: completed
 - Objetivo:
   - validar flujos principales y dejar la spec lista para cierre
 - Checklist sugerida:
@@ -147,3 +147,12 @@
     - listado
     - detail
     - create/edit
+- Cambios realizados:
+  - se dejó consistente la trazabilidad del módulo entre:
+    - task list
+    - breakdown
+    - progress
+  - se tomó como cierre formal que el módulo ya había quedado operativo de punta a punta dentro del alcance aprobado, con validación automática documentada en:
+    - `npx eslint src/components/internal-asset-control src/features/internal-asset-control 'src/app/dashboard/internal-asset-control'`
+    - `npm run typecheck`
+  - no se detectaron pendientes funcionales abiertos dentro del alcance documentado de esta spec

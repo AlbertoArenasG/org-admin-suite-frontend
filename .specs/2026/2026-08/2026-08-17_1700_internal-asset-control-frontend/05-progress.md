@@ -206,3 +206,14 @@
 - Se corrigió un warning real en:
   - `src/features/internal-asset-control/internalAssetControlThunks.ts`
 - El módulo volvió a compilar correctamente con `npm run typecheck`.
+
+## 2026-08-18
+
+- Se auditó la spec `internal-asset-control-frontend` para cierre formal.
+- Se confirmó que el faltante remanente era documental y no de alcance funcional:
+  - la implementación ya estaba registrada como operativa de punta a punta
+  - la validación automática ya estaba documentada con `eslint` y `typecheck`
+- Se corrigieron los estados rezagados en:
+  - `03-task-list.md`
+  - `07-implementation-breakdown.md`
+- La spec queda cerrada formalmente sin pendientes abiertos dentro del alcance aprobado.
