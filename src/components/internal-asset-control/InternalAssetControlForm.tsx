@@ -162,6 +162,7 @@ export function InternalAssetControlForm({
     reset,
     setValue,
     watch,
+    getValues,
     formState: { errors, isSubmitting: isFormSubmitting },
   } = useForm<InternalAssetControlFormValues>({
     defaultValues: buildInternalAssetControlInitialValues(record),
@@ -223,6 +224,11 @@ export function InternalAssetControlForm({
     () => recipientGroups.filter((group) => group.statusId === 'ACTIVE'),
     [recipientGroups]
   );
+  const intervalErrorMessage =
+    errors.interval?.years?.message ||
+    errors.interval?.months?.message ||
+    errors.interval?.weeks?.message ||
+    errors.interval?.days?.message;
 
   const submitHandler = handleSubmit((values) => {
     const normalizedInterval = normalizeInterval(values.interval);
@@ -400,7 +406,12 @@ export function InternalAssetControlForm({
                   type="number"
                   min={0}
                   disabled={effectiveDisabled}
-                  {...register('interval.years', { valueAsNumber: true })}
+                  {...register('interval.years', {
+                    valueAsNumber: true,
+                    validate: () =>
+                      hasAnyIntervalValue(normalizeInterval(getValues('interval'))) ||
+                      t('form.errors.intervalRequired'),
+                  })}
                 />
               </div>
               <div className="grid gap-2">
@@ -410,7 +421,12 @@ export function InternalAssetControlForm({
                   type="number"
                   min={0}
                   disabled={effectiveDisabled}
-                  {...register('interval.months', { valueAsNumber: true })}
+                  {...register('interval.months', {
+                    valueAsNumber: true,
+                    validate: () =>
+                      hasAnyIntervalValue(normalizeInterval(getValues('interval'))) ||
+                      t('form.errors.intervalRequired'),
+                  })}
                 />
               </div>
               <div className="grid gap-2">
@@ -420,7 +436,12 @@ export function InternalAssetControlForm({
                   type="number"
                   min={0}
                   disabled={effectiveDisabled}
-                  {...register('interval.weeks', { valueAsNumber: true })}
+                  {...register('interval.weeks', {
+                    valueAsNumber: true,
+                    validate: () =>
+                      hasAnyIntervalValue(normalizeInterval(getValues('interval'))) ||
+                      t('form.errors.intervalRequired'),
+                  })}
                 />
               </div>
               <div className="grid gap-2">
@@ -430,10 +451,18 @@ export function InternalAssetControlForm({
                   type="number"
                   min={0}
                   disabled={effectiveDisabled}
-                  {...register('interval.days', { valueAsNumber: true })}
+                  {...register('interval.days', {
+                    valueAsNumber: true,
+                    validate: () =>
+                      hasAnyIntervalValue(normalizeInterval(getValues('interval'))) ||
+                      t('form.errors.intervalRequired'),
+                  })}
                 />
               </div>
             </div>
+            {intervalErrorMessage ? (
+              <p className="text-sm text-destructive">{String(intervalErrorMessage)}</p>
+            ) : null}
           </div>
 
           <div className="grid gap-2 md:max-w-xs">

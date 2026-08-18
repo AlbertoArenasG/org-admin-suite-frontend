@@ -177,7 +177,8 @@
     "errors": {
       "assetNameRequired": "Captura el nombre del equipo.",
       "assetIdentifierRequired": "Captura el identificador del equipo.",
-      "lastMaintenanceAtRequired": "Captura la fecha de la última atención."
+      "lastMaintenanceAtRequired": "Captura la fecha de la última atención.",
+      "intervalRequired": "Captura al menos una unidad de intervalo mayor a cero."
     },
     "actions": {
       "addFollowUpRule": "Agregar regla de seguimiento",

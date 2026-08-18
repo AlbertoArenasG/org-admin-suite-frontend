@@ -177,7 +177,8 @@
     "errors": {
       "assetNameRequired": "Enter the asset name.",
       "assetIdentifierRequired": "Enter the asset identifier.",
-      "lastMaintenanceAtRequired": "Enter the last service date."
+      "lastMaintenanceAtRequired": "Enter the last service date.",
+      "intervalRequired": "Enter at least one interval unit greater than zero."
     },
     "actions": {
       "addFollowUpRule": "Add follow-up rule",
