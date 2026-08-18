@@ -241,11 +241,16 @@ export function InternalAssetControlForm({
       hasAnyIntervalValue(normalizedProviderLeadTime) ||
       values.providerNotes.trim().length > 0;
 
-    const normalizedRules = values.providerFollowUpRules.map((rule) => ({
-      offset: normalizeInterval(rule.offset),
-      recipientGroupIds: Array.from(new Set(rule.recipientGroupIds)),
-      ccRecipientGroupIds: Array.from(new Set(rule.ccRecipientGroupIds)),
-    }));
+    const normalizedRules = values.providerFollowUpRules
+      .map((rule) => ({
+        offset: normalizeInterval(rule.offset),
+        recipientGroupIds: Array.from(new Set(rule.recipientGroupIds)),
+        ccRecipientGroupIds: Array.from(new Set(rule.ccRecipientGroupIds)),
+      }))
+      .filter((rule) => hasAnyIntervalValue(rule.offset) && rule.recipientGroupIds.length > 0);
+
+    const hasValidProviderFollowUpConfig =
+      values.providerFollowUpEnabled && normalizedRules.length > 0;
 
     onSubmit({
       assetName: values.assetName.trim(),
@@ -269,13 +274,12 @@ export function InternalAssetControlForm({
             providerNotes: values.providerNotes.trim() || null,
           }
         : null,
-      providerFollowUp:
-        values.providerFollowUpEnabled || normalizedRules.length > 0
-          ? {
-              enabled: values.providerFollowUpEnabled,
-              rules: normalizedRules,
-            }
-          : null,
+      providerFollowUp: hasValidProviderFollowUpConfig
+        ? {
+            enabled: true,
+            rules: normalizedRules,
+          }
+        : null,
     });
   });
 
