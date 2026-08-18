@@ -567,7 +567,7 @@ export const createInternalAssetMaintenanceRecord = createAsyncThunk<
         'Content-Type': 'application/json',
       },
       token,
-      body: JSON.stringify(buildMutationBody(payload)),
+      body: buildMutationBody(payload),
     });
 
     return {
@@ -606,7 +606,7 @@ export const updateInternalAssetMaintenanceRecord = createAsyncThunk<
             'Content-Type': 'application/json',
           },
           token,
-          body: JSON.stringify(buildMutationBody(payload)),
+          body: buildMutationBody(payload),
         }
       );
 

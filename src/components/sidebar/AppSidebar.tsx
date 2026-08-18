@@ -8,12 +8,14 @@ import {
   UserPlus2,
   List,
   ChartColumn,
+  ClockAlert,
   Building2,
   PlusCircle,
   Archive,
+  CalendarClock,
   Truck,
   ShieldCheck,
-  BookUser,
+  ContactRound,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -166,7 +168,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       items.push({
         title: t('expirationPolicies'),
         url: expirationPolicyItems[0]?.url ?? '/dashboard/expiration-status-policies',
-        icon: ChartColumn,
+        icon: ClockAlert,
         isActive:
           pathname.startsWith('/dashboard/expiration-status-policies') ||
           pathname.startsWith('/dashboard/expiration-notification-policies'),
@@ -186,7 +188,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         url: canReadInternalAssetControl
           ? '/dashboard/internal-asset-control'
           : '/dashboard/internal-asset-control/new',
-        icon: Archive,
+        icon: CalendarClock,
         isActive: pathname.startsWith('/dashboard/internal-asset-control'),
         items: [
           ...(canReadInternalAssetControl
@@ -219,7 +221,6 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
               title: t('contacts'),
               url: '/dashboard/contacts',
               isActive: pathname.startsWith('/dashboard/contacts'),
-              icon: BookUser,
             },
           ]
         : []),
@@ -229,7 +230,6 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
               title: t('recipientGroups'),
               url: '/dashboard/recipient-groups',
               isActive: pathname.startsWith('/dashboard/recipient-groups'),
-              icon: BookUser,
             },
           ]
         : []),
@@ -239,7 +239,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       items.push({
         title: t('recipients'),
         url: recipientItems[0]?.url ?? '/dashboard/contacts',
-        icon: BookUser,
+        icon: ContactRound,
         isActive:
           pathname.startsWith('/dashboard/contacts') ||
           pathname.startsWith('/dashboard/recipient-groups'),

@@ -1,13 +1,14 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Loader2, Plus, Trash2 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { LocalizedDateInput } from '@/components/ui/localized-date-input';
 import { Textarea } from '@/components/ui/textarea';
 import {
   buildInternalAssetControlInitialValues,
@@ -72,6 +73,24 @@ function toDateInputValue(date: Date) {
   return `${year}-${month}-${day}`;
 }
 
+function formatDateValue(value: string, locale: string) {
+  const [year, month, day] = value.split('-').map(Number);
+  if (!year || !month || !day) {
+    return value;
+  }
+
+  const parsed = new Date(year, month - 1, day, 12, 0, 0);
+  if (Number.isNaN(parsed.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat(locale.startsWith('es') ? 'es-MX' : 'en-US', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(parsed);
+}
+
 function calculateExpirationDate(
   lastMaintenanceAt: string,
   interval: InternalAssetMaintenanceInterval
@@ -129,9 +148,12 @@ export function InternalAssetControlForm({
   isSubmitting = false,
   disableActions = false,
 }: InternalAssetControlFormProps) {
-  const { t } = useTranslation('internalAssetControl');
+  const { t, i18n } = useTranslation('internalAssetControl');
   const [expirationDateTouched, setExpirationDateTouched] = useState(Boolean(record));
+  const [expirationAnimationToken, setExpirationAnimationToken] = useState(0);
+  const lastAnimatedExpirationRef = useRef('');
   const editableStatuses = statuses.filter((status) => status.code !== 'DELETED');
+  const dateLocale = i18n.language?.startsWith('es') ? 'es-MX' : 'en-US';
 
   const {
     control,
@@ -153,15 +175,28 @@ export function InternalAssetControlForm({
   useEffect(() => {
     reset(buildInternalAssetControlInitialValues(record));
     setExpirationDateTouched(Boolean(record));
+    lastAnimatedExpirationRef.current = '';
   }, [record, reset]);
 
   const effectiveDisabled = disableActions || isSubmitting || isFormSubmitting;
-  const lastMaintenanceAt = watch('lastMaintenanceAt');
-  const interval = watch('interval');
+  const lastMaintenanceAt = useWatch({ control, name: 'lastMaintenanceAt' });
+  const intervalYears = useWatch({ control, name: 'interval.years' });
+  const intervalMonths = useWatch({ control, name: 'interval.months' });
+  const intervalWeeks = useWatch({ control, name: 'interval.weeks' });
+  const intervalDays = useWatch({ control, name: 'interval.days' });
   const expirationDate = watch('expirationDate');
   const sentToProvider = watch('sentToProvider');
   const providerFollowUpEnabled = watch('providerFollowUpEnabled');
   const watchedRules = watch('providerFollowUpRules');
+  const interval = useMemo(
+    () => ({
+      years: Number(intervalYears) || 0,
+      months: Number(intervalMonths) || 0,
+      weeks: Number(intervalWeeks) || 0,
+      days: Number(intervalDays) || 0,
+    }),
+    [intervalDays, intervalMonths, intervalWeeks, intervalYears]
+  );
   const suggestedExpirationDate = useMemo(
     () => calculateExpirationDate(lastMaintenanceAt, normalizeInterval(interval)),
     [interval, lastMaintenanceAt]
@@ -173,7 +208,16 @@ export function InternalAssetControlForm({
     }
 
     setValue('expirationDate', suggestedExpirationDate, { shouldDirty: false });
-  }, [expirationDateTouched, setValue, suggestedExpirationDate]);
+
+    if (
+      suggestedExpirationDate &&
+      suggestedExpirationDate !== expirationDate &&
+      suggestedExpirationDate !== lastAnimatedExpirationRef.current
+    ) {
+      lastAnimatedExpirationRef.current = suggestedExpirationDate;
+      setExpirationAnimationToken((current) => current + 1);
+    }
+  }, [expirationDate, expirationDateTouched, setValue, suggestedExpirationDate]);
 
   const groupedRecipientGroups = useMemo(
     () => recipientGroups.filter((group) => group.statusId === 'ACTIVE'),
@@ -318,13 +362,20 @@ export function InternalAssetControlForm({
               <Label htmlFor="internal-asset-last-maintenance">
                 {t('form.labels.lastMaintenanceAt')}
               </Label>
-              <Input
-                id="internal-asset-last-maintenance"
-                type="date"
-                disabled={effectiveDisabled}
-                {...register('lastMaintenanceAt', {
-                  required: t('form.errors.lastMaintenanceAtRequired'),
-                })}
+              <Controller
+                control={control}
+                name="lastMaintenanceAt"
+                rules={{ required: t('form.errors.lastMaintenanceAtRequired') }}
+                render={({ field }) => (
+                  <LocalizedDateInput
+                    id="internal-asset-last-maintenance"
+                    value={field.value}
+                    onChange={field.onChange}
+                    disabled={effectiveDisabled}
+                    locale={dateLocale}
+                    allowClear={false}
+                  />
+                )}
               />
               {errors.lastMaintenanceAt ? (
                 <p className="text-sm text-destructive">{errors.lastMaintenanceAt.message}</p>
@@ -389,15 +440,23 @@ export function InternalAssetControlForm({
             <Label htmlFor="internal-asset-expiration-date">
               {t('form.labels.expirationDate')}
             </Label>
-            <Input
-              id="internal-asset-expiration-date"
-              type="date"
-              disabled={effectiveDisabled}
-              {...register('expirationDate')}
-              onChange={(event) => {
-                setExpirationDateTouched(true);
-                setValue('expirationDate', event.target.value, { shouldDirty: true });
-              }}
+            <Controller
+              control={control}
+              name="expirationDate"
+              render={({ field }) => (
+                <LocalizedDateInput
+                  id="internal-asset-expiration-date"
+                  value={field.value}
+                  animateToken={expirationAnimationToken}
+                  onChange={(nextValue) => {
+                    setExpirationDateTouched(true);
+                    field.onChange(nextValue);
+                    setValue('expirationDate', nextValue, { shouldDirty: true });
+                  }}
+                  disabled={effectiveDisabled}
+                  locale={dateLocale}
+                />
+              )}
             />
             <div className="flex flex-wrap items-center justify-between gap-2">
               <p className="text-sm text-muted-foreground">{t('form.hints.expirationDate')}</p>
@@ -426,7 +485,7 @@ export function InternalAssetControlForm({
               <p className="text-sm text-muted-foreground">
                 {t('form.hints.suggestedExpirationDate', {
                   defaultValue: 'Fecha sugerida: {{date}}',
-                  date: suggestedExpirationDate,
+                  date: formatDateValue(suggestedExpirationDate, dateLocale),
                 })}
               </p>
             ) : null}
@@ -557,11 +616,18 @@ export function InternalAssetControlForm({
                   <Label htmlFor="internal-asset-sent-to-provider-at">
                     {t('form.labels.sentToProviderAt')}
                   </Label>
-                  <Input
-                    id="internal-asset-sent-to-provider-at"
-                    type="date"
-                    disabled={effectiveDisabled}
-                    {...register('sentToProviderAt')}
+                  <Controller
+                    control={control}
+                    name="sentToProviderAt"
+                    render={({ field }) => (
+                      <LocalizedDateInput
+                        id="internal-asset-sent-to-provider-at"
+                        value={field.value}
+                        onChange={field.onChange}
+                        disabled={effectiveDisabled}
+                        locale={dateLocale}
+                      />
+                    )}
                   />
                 </div>
               </div>

@@ -1,16 +1,16 @@
 {
   "list": {
-    "title": "Control de activos internos",
+    "title": "Control de equipos",
     "description": "Consulta y da seguimiento a registros de mantenimiento, verificación y calibración.",
-    "readRestricted": "No cuentas con permisos para consultar el control de activos internos.",
+    "readRestricted": "No cuentas con permisos para consultar el control de equipos.",
     "createShort": "Crear",
-    "searchPlaceholder": "Buscar por activo, identificador o proveedor...",
+    "searchPlaceholder": "Buscar por equipo, identificador o proveedor...",
     "empty": "No hay registros para mostrar."
   },
   "create": {
     "title": "Crear registro",
-    "description": "Registra una nueva atención o mantenimiento para un activo interno.",
-    "restricted": "No cuentas con permisos para crear registros de control de activos internos.",
+    "description": "Registra una nueva atención o mantenimiento para un equipo.",
+    "restricted": "No cuentas con permisos para crear registros de control de equipos.",
     "successFeedback": "Registro creado correctamente.",
     "errorFeedback": "No fue posible crear el registro."
   },
@@ -26,10 +26,10 @@
       "record": "Datos del registro",
       "policies": "Políticas asociadas",
       "provider": "Proveedor",
-      "followUp": "Follow-up manual"
+      "followUp": "Seguimiento manual"
     },
     "fields": {
-      "assetName": "Activo",
+      "assetName": "Equipo",
       "assetIdentifier": "Identificador",
       "assetMaintenanceType": "Tipo",
       "status": "Estado",
@@ -37,17 +37,17 @@
       "lastMaintenanceAt": "Última atención",
       "expirationDate": "Vencimiento",
       "observations": "Observaciones",
-      "expirationStatusPolicy": "Policy de estatus",
-      "expirationNotificationPolicy": "Policy de notificación",
+      "expirationStatusPolicy": "Política de estatus",
+      "expirationNotificationPolicy": "Política de notificación",
       "providerName": "Proveedor",
       "sentToProvider": "Enviado al proveedor",
       "sentToProviderAt": "Enviado el",
       "providerLeadTime": "Tiempo estimado",
       "providerNotes": "Notas del proveedor",
-      "providerFollowUpEnabled": "Follow-up habilitado",
-      "providerFollowUpRulesCount": "Reglas de follow-up",
+      "providerFollowUpEnabled": "Seguimiento habilitado",
+      "providerFollowUpRulesCount": "Reglas de seguimiento",
       "providerFollowUpLastSentAt": "Último envío manual",
-      "providerFollowUpStatus": "Estado del follow-up",
+      "providerFollowUpStatus": "Estado del seguimiento",
       "providerFollowUpRecipients": "Destinatarios principales",
       "followUpOffset": "Offset",
       "recipientGroups": "Grupos destinatarios",
@@ -61,7 +61,7 @@
       "sendSuccess": "Seguimiento enviado correctamente.",
       "sendError": "No fue posible enviar el seguimiento.",
       "ready": "Listo para envío manual",
-      "disabled": "Follow-up deshabilitado",
+      "disabled": "Seguimiento deshabilitado",
       "notSentToProvider": "Aún no se envía al proveedor",
       "noRules": "Sin reglas configuradas",
       "rulesTitle": "Reglas configuradas",
@@ -70,14 +70,14 @@
   },
   "edit": {
     "title": "Editar registro",
-    "description": "Actualiza la información operativa, policies y datos del proveedor.",
+    "description": "Actualiza la información operativa, políticas y datos del proveedor.",
     "restricted": "No cuentas con permisos para editar este registro.",
     "successFeedback": "Registro actualizado correctamente.",
     "errorFeedback": "No fue posible actualizar el registro."
   },
   "table": {
     "columns": {
-      "assetName": "Activo",
+      "assetName": "Equipo",
       "assetIdentifier": "Identificador",
       "assetMaintenanceType": "Tipo",
       "status": "Estado",
@@ -109,7 +109,7 @@
   },
   "delete": {
     "title": "Eliminar registro",
-    "description": "Esta acción elimina el registro del control de activos internos.",
+    "description": "Esta acción elimina el registro del control de equipos.",
     "warning": "Se eliminará el siguiente registro:",
     "cancel": "Cancelar",
     "confirm": "Eliminar",
@@ -126,12 +126,12 @@
   "form": {
     "sections": {
       "schedule": "Vencimiento e intervalo",
-      "policies": "Policies asociadas",
+      "policies": "Políticas asociadas",
       "provider": "Proveedor",
-      "providerFollowUp": "Follow-up al proveedor"
+      "providerFollowUp": "Seguimiento al proveedor"
     },
     "labels": {
-      "assetName": "Activo",
+      "assetName": "Equipo",
       "assetIdentifier": "Identificador",
       "assetMaintenanceType": "Tipo",
       "status": "Estado",
@@ -139,15 +139,15 @@
       "interval": "Intervalo",
       "expirationDate": "Vencimiento",
       "observations": "Observaciones",
-      "expirationStatusPolicy": "Policy de estatus",
-      "expirationNotificationPolicy": "Policy de notificación",
+      "expirationStatusPolicy": "Política de estatus",
+      "expirationNotificationPolicy": "Política de notificación",
       "sentToProvider": "Enviado al proveedor",
       "providerName": "Proveedor",
       "sentToProviderAt": "Fecha de envío al proveedor",
       "providerLeadTime": "Tiempo estimado del proveedor",
       "providerNotes": "Notas del proveedor",
-      "providerFollowUpEnabled": "Habilitar follow-up",
-      "followUpOffset": "Offset del follow-up",
+      "providerFollowUpEnabled": "Habilitar seguimiento",
+      "followUpOffset": "Intervalo del seguimiento",
       "recipientGroups": "Grupos destinatarios",
       "ccRecipientGroups": "Grupos en copia",
       "years": "Años",
@@ -161,8 +161,8 @@
       "observations": "Observaciones opcionales del registro",
       "providerName": "Nombre del proveedor",
       "providerNotes": "Notas opcionales del proveedor",
-      "expirationStatusPolicy": "Sin policy de estatus",
-      "expirationNotificationPolicy": "Sin policy de notificación"
+      "expirationStatusPolicy": "Sin política de estatus",
+      "expirationNotificationPolicy": "Sin política de notificación"
     },
     "hints": {
       "schedule": "El vencimiento se calcula automáticamente mientras no lo edites manualmente.",
@@ -175,12 +175,12 @@
       "providerFollowUp": "Configura grupos destinatarios para seguimientos posteriores al proveedor."
     },
     "errors": {
-      "assetNameRequired": "Captura el nombre del activo.",
-      "assetIdentifierRequired": "Captura el identificador del activo.",
+      "assetNameRequired": "Captura el nombre del equipo.",
+      "assetIdentifierRequired": "Captura el identificador del equipo.",
       "lastMaintenanceAtRequired": "Captura la fecha de la última atención."
     },
     "actions": {
-      "addFollowUpRule": "Agregar regla de follow-up",
+      "addFollowUpRule": "Agregar regla de seguimiento",
       "removeRule": "Eliminar regla",
       "useSuggestedExpirationDate": "Usar fecha sugerida"
     },
@@ -188,7 +188,7 @@
       "ruleLabel": "Regla {{index}}"
     },
     "empty": {
-      "followUpRules": "Todavía no agregas reglas de follow-up."
+      "followUpRules": "Todavía no agregas reglas de seguimiento."
     },
     "cancel": "Cancelar",
     "submit": {

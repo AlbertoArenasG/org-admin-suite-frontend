@@ -16,7 +16,7 @@
   "expirationPolicies": "Expirations",
   "expirationStatusPolicies": "Status policies",
   "expirationNotificationPolicies": "Notification policies",
-  "internalAssetControl": "Internal asset control",
+  "internalAssetControl": "Equipment control",
   "internalAssetControlList": "Records list",
   "internalAssetControlCreate": "Create record",
   "recipients": "Recipients",
