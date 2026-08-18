@@ -26,7 +26,8 @@ const initialFilters: InternalAssetMaintenanceRecordsListFilters = {
 };
 
 const initialSorts: InternalAssetMaintenanceRecordsListSort[] = [
-  { field: 'created_at', direction: 'desc' },
+  { field: 'status', direction: 'asc' },
+  { field: 'expiration_date', direction: 'asc' },
 ];
 
 const initialState: InternalAssetControlState = {

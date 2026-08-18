@@ -19,6 +19,33 @@ interface UseInternalAssetControlTableColumnsParams {
   onDelete: (record: InternalAssetControlTableRow) => void;
 }
 
+function getStatusChipProps(statusId: InternalAssetControlTableRow['statusId']) {
+  switch (statusId) {
+    case 'IN_PROGRESS':
+      return {
+        variant: 'filled' as const,
+        color: 'info' as const,
+        sx: { fontWeight: 600 },
+      };
+    case 'COMPLETED':
+      return {
+        variant: 'filled' as const,
+        color: 'success' as const,
+        sx: {
+          fontWeight: 600,
+          bgcolor: '#dff6e7',
+          color: '#166534',
+        },
+      };
+    default:
+      return {
+        variant: 'outlined' as const,
+        color: 'default' as const,
+        sx: undefined,
+      };
+  }
+}
+
 function SortingHeader<TData>({
   title,
   column,
@@ -76,9 +103,11 @@ export function useInternalAssetControlTableColumns({
         accessorKey: 'status',
         header: ({ column }) => <SortingHeader title={t('table.columns.status')} column={column} />,
         meta: { label: t('table.columns.status') },
-        cell: ({ row }) => (
-          <Chip size="small" variant="outlined" color="default" label={row.original.statusLabel} />
-        ),
+        cell: ({ row }) => {
+          const chipProps = getStatusChipProps(row.original.statusId);
+
+          return <Chip size="small" label={row.original.statusLabel} {...chipProps} />;
+        },
       },
       {
         accessorKey: 'derivedStatusLabel',

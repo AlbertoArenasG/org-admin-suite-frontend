@@ -29,6 +29,16 @@ import {
   mapInternalAssetControlSortingToApi,
   parseInternalAssetControlSortingFromParams,
 } from '@/utils/internalAssetControlQuery';
+import type { SortingState } from '@tanstack/react-table';
+
+const DEFAULT_INTERNAL_ASSET_CONTROL_SORTING: SortingState = [
+  { id: 'status', desc: false },
+  { id: 'expirationDate', desc: false },
+];
+
+function isLegacyDefaultSorting(sorting: SortingState) {
+  return sorting.length === 1 && sorting[0]?.id === 'createdAt' && sorting[0]?.desc === true;
+}
 
 function getInitialPagination(params: URLSearchParams) {
   const initialPage = Number(params.get('page'));
@@ -89,9 +99,14 @@ export function InternalAssetControlTableContainer() {
     const nextType = params.get('asset_maintenance_type');
     const nextSentToProvider = params.get('sent_to_provider');
 
+    const normalizedSorting =
+      nextSorting.length === 0 || isLegacyDefaultSorting(nextSorting)
+        ? DEFAULT_INTERNAL_ASSET_CONTROL_SORTING
+        : nextSorting;
+
     syncFromUrl({
       pagination: nextPagination,
-      sorting: nextSorting.length ? nextSorting : [{ id: 'createdAt', desc: true }],
+      sorting: normalizedSorting,
       globalFilter: nextFilter,
       debouncedFilter: nextFilter.trim(),
       filters: {
