@@ -43,6 +43,7 @@ type SidebarNavItem = {
   icon?: LucideIcon;
   isActive?: boolean;
   items?: SidebarNavItem[];
+  section?: 'operation' | 'configuration' | 'administration';
 };
 
 // This is sample data.
@@ -81,6 +82,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         url: '/dashboard',
         icon: LayoutDashboard,
         isActive: pathname === '/dashboard',
+        section: 'operation',
       },
     ];
 
@@ -93,6 +95,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         url: canReadUsers ? '/dashboard/users' : '/dashboard/users/invite',
         icon: Users,
         isActive: pathname.startsWith('/dashboard/users'),
+        section: 'administration',
         items: [
           ...(canReadUsers
             ? [
@@ -123,6 +126,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         url: '/dashboard/roles',
         icon: ShieldCheck,
         isActive: pathname.startsWith('/dashboard/roles'),
+        section: 'administration',
         items: [
           {
             title: t('rolesList'),
@@ -172,6 +176,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         isActive:
           pathname.startsWith('/dashboard/expiration-status-policies') ||
           pathname.startsWith('/dashboard/expiration-notification-policies'),
+        section: 'configuration',
         items: expirationPolicyItems,
       });
     }
@@ -190,6 +195,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
           : '/dashboard/internal-asset-control/new',
         icon: CalendarClock,
         isActive: pathname.startsWith('/dashboard/internal-asset-control'),
+        section: 'operation',
         items: [
           ...(canReadInternalAssetControl
             ? [
@@ -243,6 +249,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         isActive:
           pathname.startsWith('/dashboard/contacts') ||
           pathname.startsWith('/dashboard/recipient-groups'),
+        section: 'configuration',
         items: recipientItems,
       });
     }
@@ -253,6 +260,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         url: '/dashboard/customers',
         icon: Building2,
         isActive: pathname.startsWith('/dashboard/customers'),
+        section: 'operation',
         items: [
           {
             title: t('customersList'),
@@ -279,6 +287,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         url: '/dashboard/providers',
         icon: Truck,
         isActive: pathname.startsWith('/dashboard/providers'),
+        section: 'operation',
         items: [
           {
             title: t('providersList'),
@@ -343,12 +352,28 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         isActive:
           pathname.startsWith('/dashboard/service-entries') ||
           pathname.startsWith('/dashboard/service-packages-records'),
+        section: 'operation',
         items: serviceItems,
       });
     }
 
     return items;
   }, [hasModule, hasPermission, pathname, t]);
+
+  const activeNavItemTitle = navItems.find((item) => item.isActive && item.items?.length)?.title;
+  const [openNavItemTitle, setOpenNavItemTitle] = React.useState<string | undefined>(
+    activeNavItemTitle
+  );
+
+  React.useEffect(() => {
+    setOpenNavItemTitle(activeNavItemTitle);
+  }, [activeNavItemTitle]);
+
+  const navigationSections = [
+    { key: 'operation', label: t('operation') },
+    { key: 'configuration', label: t('configuration') },
+    { key: 'administration', label: t('administration') },
+  ] as const;
 
   return (
     <Sidebar
@@ -374,7 +399,23 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
         {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navItems} label={t('platform')} />
+        {navigationSections.map((section) => {
+          const items = navItems.filter((item) => item.section === section.key);
+
+          if (items.length === 0) {
+            return null;
+          }
+
+          return (
+            <NavMain
+              key={section.key}
+              items={items}
+              label={section.label}
+              openItemTitle={openNavItemTitle}
+              onOpenItemTitleChange={setOpenNavItemTitle}
+            />
+          );
+        })}
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter className="gap-3">

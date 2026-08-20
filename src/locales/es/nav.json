@@ -1,5 +1,8 @@
 {
   "platform": "Plataforma",
+  "operation": "Operación",
+  "configuration": "Configuración",
+  "administration": "Administración",
   "dashboard": "Panel",
   "customers": "Clientes",
   "customersList": "Lista de clientes",
