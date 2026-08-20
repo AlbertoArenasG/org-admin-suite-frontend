@@ -56,7 +56,7 @@
       "description": "Consultar satisfacción y resultados de encuestas."
     },
     "servicePackages": {
-      "title": "Recolección",
+      "title": "Recepción, Recolección y Entrega",
       "description": "Gestionar archivos recolectados y paquetes asociados."
     }
   },

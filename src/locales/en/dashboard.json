@@ -56,7 +56,7 @@
       "description": "Review satisfaction and survey results."
     },
     "servicePackages": {
-      "title": "Collection",
+      "title": "Reception, collection and delivery",
       "description": "Manage collected files and related packages."
     }
   },
