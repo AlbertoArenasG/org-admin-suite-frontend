@@ -1,6 +1,6 @@
 {
   "list": {
-    "title": "Control de activos",
+    "title": "Control de activos y pagos",
     "description": "Consulta y da seguimiento a registros de mantenimiento, verificación y calibración.",
     "readRestricted": "No cuentas con permisos para consultar el control de equipos.",
     "createShort": "Crear",

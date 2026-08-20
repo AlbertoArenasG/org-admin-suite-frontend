@@ -16,7 +16,7 @@
   "expirationPolicies": "Vencimientos",
   "expirationStatusPolicies": "Políticas de estatus",
   "expirationNotificationPolicies": "Políticas de notificación",
-  "internalAssetControl": "Control de activos",
+  "internalAssetControl": "Control de activos y pagos",
   "internalAssetControlList": "Lista de registros",
   "internalAssetControlCreate": "Crear registro",
   "recipients": "Destinatarios",
