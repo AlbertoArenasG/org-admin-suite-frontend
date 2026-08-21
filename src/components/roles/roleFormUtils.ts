@@ -114,6 +114,28 @@ export function togglePermissionSelection(params: {
   return next;
 }
 
+export function toggleModulePermissionSelection(params: {
+  current: Set<RolePermissionKey>;
+  moduleCode: string;
+  operationCodes: string[];
+}) {
+  const next = new Set(params.current);
+  const moduleKeys = params.operationCodes.map((operationCode) =>
+    buildPermissionKey(params.moduleCode, operationCode)
+  );
+  const allSelected = moduleKeys.every((key) => next.has(key));
+
+  for (const key of moduleKeys) {
+    if (allSelected) {
+      next.delete(key);
+    } else {
+      next.add(key);
+    }
+  }
+
+  return next;
+}
+
 export function buildPermissionCatalog(params: { modules: RoleModuleCatalogItem[] }) {
   return params.modules
     .filter((module) => module.statusId === 'ACTIVE')

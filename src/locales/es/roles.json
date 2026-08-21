@@ -70,6 +70,10 @@
       "permissionsHelper": "Activa los permisos que tendrá el rol en cada módulo. Si activas otra acción, leer se marcará automáticamente.",
       "readDependency": "Mientras exista otra operación activa en este módulo, `READ` queda activo automáticamente."
     },
+    "actions": {
+      "selectAll": "Seleccionar todas",
+      "deselectAll": "Quitar todas"
+    },
     "cancel": "Cancelar",
     "submitting": "Guardando...",
     "submit": {

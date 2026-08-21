@@ -70,6 +70,10 @@
       "permissionsHelper": "Enable the permissions this role will have in each module. If you enable another action, read will be selected automatically.",
       "readDependency": "While another operation stays active in this module, `READ` remains enabled automatically."
     },
+    "actions": {
+      "selectAll": "Select all",
+      "deselectAll": "Clear all"
+    },
     "cancel": "Cancel",
     "submitting": "Saving...",
     "submit": {

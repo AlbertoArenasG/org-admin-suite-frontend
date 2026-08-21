@@ -14,6 +14,7 @@ import {
   sanitizeSelection,
   permissionsToSelection,
   selectionToPermissions,
+  toggleModulePermissionSelection,
   togglePermissionSelection,
   type RolePermissionKey,
 } from '@/components/roles/roleFormUtils';
@@ -142,9 +143,24 @@ export function RoleForm({
               })
             );
           }}
+          onToggleModule={(moduleCode, operationCodes) => {
+            if (disableActions) {
+              return;
+            }
+
+            setSelection((current) =>
+              toggleModulePermissionSelection({
+                current,
+                moduleCode,
+                operationCodes,
+              })
+            );
+          }}
           labels={{
             title: t('form.labels.permissions'),
             helper: t('form.hints.permissionsHelper'),
+            selectAll: t('form.actions.selectAll'),
+            deselectAll: t('form.actions.deselectAll'),
           }}
         />
 
