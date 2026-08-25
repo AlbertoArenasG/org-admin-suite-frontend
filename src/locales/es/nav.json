@@ -1,6 +1,12 @@
 {
   "platform": "Plataforma",
+  "navigationGroups": "Grupos de navegación",
+  "expandNavigation": "Expandir navegación",
+  "collapseNavigation": "Contraer navegación",
+  "closeNavigation": "Cerrar navegación",
   "operation": "Operación",
+  "directory": "Directorio",
+  "communication": "Comunicación",
   "configuration": "Configuración",
   "administration": "Administración",
   "dashboard": "Panel",

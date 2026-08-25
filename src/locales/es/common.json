@@ -1,9 +1,17 @@
 {
   "language": "Idioma",
+  "settings": "Ajustes",
+  "theme": "Tema",
   "selectLanguage": "Selecciona idioma",
   "english": "Inglés",
   "spanish": "Español",
   "changeLanguage": "Cambiar idioma",
+  "changeTheme": "Cambiar tema",
+  "themeLight": "Claro",
+  "themeDark": "Oscuro",
+  "themeSystem": "Sistema",
+  "dashboardComingSoonTitle": "Panel en construcción",
+  "dashboardComingSoonDescription": "Próximamente encontrarás aquí un resumen personalizado de tu actividad.",
   "done": "Listo",
   "errorTitle": "Ocurrió un problema",
   "loading": "Cargando..."

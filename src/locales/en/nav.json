@@ -1,6 +1,12 @@
 {
   "platform": "Platform",
+  "navigationGroups": "Navigation groups",
+  "expandNavigation": "Expand navigation",
+  "collapseNavigation": "Collapse navigation",
+  "closeNavigation": "Close navigation",
   "operation": "Operations",
+  "directory": "Directory",
+  "communication": "Communication",
   "configuration": "Configuration",
   "administration": "Administration",
   "dashboard": "Dashboard",

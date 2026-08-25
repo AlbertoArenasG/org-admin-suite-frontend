@@ -1,70 +1,43 @@
 'use client';
 
 import * as React from 'react';
-import {
-  LayoutDashboard,
-  Users,
-  Wrench,
-  UserPlus2,
-  List,
-  ChartColumn,
-  ClockAlert,
-  Building2,
-  PlusCircle,
-  Archive,
-  CalendarClock,
-  Truck,
-  ShieldCheck,
-  ContactRound,
-  Mail,
-  type LucideIcon,
-} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { usePathname } from 'next/navigation';
 
-import { useAuthorization } from '@/features/auth';
-import { NavMain } from '@/components/sidebar/NavMain';
-import { NavUser } from '@/components/sidebar/NavUser';
-import { SidebarLogo } from '@/components/sidebar/SidebarLogo';
-import SelectLang from '@/components/shared/LangToggle';
-import { ModeToggle } from '@/components/shared/ModeToggle';
+import { SidebarAccountMenu } from '@/components/sidebar/SidebarAccountMenu';
+import { SidebarBrand } from '@/components/sidebar/SidebarBrand';
+import { SidebarGroupRail } from '@/components/sidebar/SidebarGroupRail';
+import { SidebarNavigationPane } from '@/components/sidebar/SidebarNavigationPane';
+import { useSidebarNavigation } from '@/components/sidebar/useSidebarNavigation';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarRail,
+  useSidebar,
 } from '@/components/ui/sidebar';
-import { cn } from '@/lib/utils';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { cn } from '@/lib/utils';
 
-type SidebarNavItem = {
-  title: string;
-  url: string;
-  icon?: LucideIcon;
-  isActive?: boolean;
-  items?: SidebarNavItem[];
-  section?: 'operation' | 'configuration' | 'administration';
-};
-
-// This is sample data.
-const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
-  },
+const fallbackUser = {
+  name: 'ICSA',
+  email: '',
+  avatar: '',
 };
 
 export function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { t } = useTranslation(['nav', 'publicCustomerProfile']);
-  const pathname = usePathname();
+  const { t } = useTranslation('publicCustomerProfile');
   const authUser = useAppSelector((state) => state.auth.user);
-  const { hasModule, hasPermission } = useAuthorization();
+  const { isMobile, setOpenMobile, state, toggleSidebar } = useSidebar();
+  const { dashboard, groups, selectedEntries, selectedGroupId, setSelectedGroupId } =
+    useSidebarNavigation();
+  const collapsed = !isMobile && state === 'collapsed';
+  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
+  const navigationTitle =
+    selectedGroupId === 'dashboard' ? dashboard.title : (selectedGroup?.title ?? dashboard.title);
 
   const sidebarUser = React.useMemo(() => {
     if (!authUser) {
-      return data.user;
+      return fallbackUser;
     }
 
     const fullName = [authUser.name, authUser.lastname].filter(Boolean).join(' ').trim();
@@ -76,323 +49,19 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
     };
   }, [authUser]);
 
-  const navItems = React.useMemo<SidebarNavItem[]>(() => {
-    const items: SidebarNavItem[] = [
-      {
-        title: t('dashboard'),
-        url: '/dashboard',
-        icon: LayoutDashboard,
-        isActive: pathname === '/dashboard',
-        section: 'operation',
-      },
-    ];
-
-    const canReadUsers = hasModule('USERS');
-    const canInviteUsers = hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE');
-    const canReadUserRegistrationInvitations = hasPermission(
-      'USER_REGISTRATION_INVITATIONS',
-      'READ'
-    );
-
-    if (canReadUsers || canInviteUsers || canReadUserRegistrationInvitations) {
-      items.push({
-        title: t('users'),
-        url: canReadUsers
-          ? '/dashboard/users'
-          : canReadUserRegistrationInvitations
-            ? '/dashboard/users/invitations'
-            : '/dashboard/users/invite',
-        icon: Users,
-        isActive: pathname.startsWith('/dashboard/users'),
-        section: 'administration',
-        items: [
-          ...(canReadUsers
-            ? [
-                {
-                  title: t('usersList'),
-                  url: '/dashboard/users',
-                  isActive: pathname === '/dashboard/users',
-                },
-              ]
-            : []),
-          ...(canInviteUsers
-            ? [
-                {
-                  title: t('usersInvite'),
-                  url: '/dashboard/users/invite',
-                  isActive: pathname === '/dashboard/users/invite',
-                  icon: UserPlus2,
-                },
-              ]
-            : []),
-          ...(canReadUserRegistrationInvitations
-            ? [
-                {
-                  title: t('userRegistrationInvitations'),
-                  url: '/dashboard/users/invitations',
-                  isActive: pathname === '/dashboard/users/invitations',
-                  icon: Mail,
-                },
-              ]
-            : []),
-        ],
-      });
+  const closeMobileNavigation = () => {
+    if (isMobile) {
+      setOpenMobile(false);
     }
+  };
 
-    if (hasPermission('ROLES', 'READ')) {
-      items.push({
-        title: t('roles'),
-        url: '/dashboard/roles',
-        icon: ShieldCheck,
-        isActive: pathname.startsWith('/dashboard/roles'),
-        section: 'administration',
-        items: [
-          {
-            title: t('rolesList'),
-            url: '/dashboard/roles',
-            isActive: pathname === '/dashboard/roles',
-          },
-          ...(hasPermission('ROLES', 'CREATE')
-            ? [
-                {
-                  title: t('rolesCreate', { defaultValue: 'Crear rol' }),
-                  url: '/dashboard/roles/new',
-                  isActive: pathname === '/dashboard/roles/new',
-                  icon: PlusCircle,
-                },
-              ]
-            : []),
-        ],
-      });
+  const handleSelectGroup = (groupId: typeof selectedGroupId) => {
+    setSelectedGroupId(groupId);
+
+    if (!isMobile && collapsed) {
+      toggleSidebar();
     }
-
-    const expirationPolicyItems = [
-      ...(hasPermission('EXPIRATION_STATUS_POLICIES', 'READ')
-        ? [
-            {
-              title: t('expirationStatusPolicies'),
-              url: '/dashboard/expiration-status-policies',
-              isActive: pathname.startsWith('/dashboard/expiration-status-policies'),
-            },
-          ]
-        : []),
-      ...(hasPermission('EXPIRATION_NOTIFICATION_POLICIES', 'READ')
-        ? [
-            {
-              title: t('expirationNotificationPolicies'),
-              url: '/dashboard/expiration-notification-policies',
-              isActive: pathname.startsWith('/dashboard/expiration-notification-policies'),
-            },
-          ]
-        : []),
-    ];
-
-    if (expirationPolicyItems.length > 0) {
-      items.push({
-        title: t('expirationPolicies'),
-        url: expirationPolicyItems[0]?.url ?? '/dashboard/expiration-status-policies',
-        icon: ClockAlert,
-        isActive:
-          pathname.startsWith('/dashboard/expiration-status-policies') ||
-          pathname.startsWith('/dashboard/expiration-notification-policies'),
-        section: 'configuration',
-        items: expirationPolicyItems,
-      });
-    }
-
-    const canReadInternalAssetControl = hasPermission('INTERNAL_ASSET_MAINTENANCE_RECORDS', 'READ');
-    const canCreateInternalAssetControl = hasPermission(
-      'INTERNAL_ASSET_MAINTENANCE_RECORDS',
-      'CREATE'
-    );
-
-    if (canReadInternalAssetControl || canCreateInternalAssetControl) {
-      items.push({
-        title: t('internalAssetControl'),
-        url: canReadInternalAssetControl
-          ? '/dashboard/internal-asset-control'
-          : '/dashboard/internal-asset-control/new',
-        icon: CalendarClock,
-        isActive: pathname.startsWith('/dashboard/internal-asset-control'),
-        section: 'operation',
-        items: [
-          ...(canReadInternalAssetControl
-            ? [
-                {
-                  title: t('internalAssetControlList'),
-                  url: '/dashboard/internal-asset-control',
-                  isActive: pathname === '/dashboard/internal-asset-control',
-                },
-              ]
-            : []),
-          ...(canCreateInternalAssetControl
-            ? [
-                {
-                  title: t('internalAssetControlCreate'),
-                  url: '/dashboard/internal-asset-control/new',
-                  isActive: pathname === '/dashboard/internal-asset-control/new',
-                  icon: PlusCircle,
-                },
-              ]
-            : []),
-        ],
-      });
-    }
-
-    const recipientItems = [
-      ...(hasPermission('CONTACTS', 'READ')
-        ? [
-            {
-              title: t('contacts'),
-              url: '/dashboard/contacts',
-              isActive: pathname.startsWith('/dashboard/contacts'),
-            },
-          ]
-        : []),
-      ...(hasPermission('RECIPIENT_GROUPS', 'READ')
-        ? [
-            {
-              title: t('recipientGroups'),
-              url: '/dashboard/recipient-groups',
-              isActive: pathname.startsWith('/dashboard/recipient-groups'),
-            },
-          ]
-        : []),
-    ];
-
-    if (recipientItems.length > 0) {
-      items.push({
-        title: t('recipients'),
-        url: recipientItems[0]?.url ?? '/dashboard/contacts',
-        icon: ContactRound,
-        isActive:
-          pathname.startsWith('/dashboard/contacts') ||
-          pathname.startsWith('/dashboard/recipient-groups'),
-        section: 'configuration',
-        items: recipientItems,
-      });
-    }
-
-    if (hasModule('CUSTOMERS')) {
-      items.push({
-        title: t('customers'),
-        url: '/dashboard/customers',
-        icon: Building2,
-        isActive: pathname.startsWith('/dashboard/customers'),
-        section: 'operation',
-        items: [
-          {
-            title: t('customersList'),
-            url: '/dashboard/customers',
-            isActive: pathname === '/dashboard/customers',
-          },
-          ...(hasPermission('CUSTOMERS', 'CREATE')
-            ? [
-                {
-                  title: t('customersCreate'),
-                  url: '/dashboard/customers/new',
-                  isActive: pathname === '/dashboard/customers/new',
-                  icon: PlusCircle,
-                },
-              ]
-            : []),
-        ],
-      });
-    }
-
-    if (hasModule('PROVIDERS')) {
-      items.push({
-        title: t('providers'),
-        url: '/dashboard/providers',
-        icon: Truck,
-        isActive: pathname.startsWith('/dashboard/providers'),
-        section: 'operation',
-        items: [
-          {
-            title: t('providersList'),
-            url: '/dashboard/providers',
-            isActive: pathname === '/dashboard/providers',
-          },
-          ...(hasPermission('PROVIDERS', 'CREATE')
-            ? [
-                {
-                  title: t('providersCreate'),
-                  url: '/dashboard/providers/new',
-                  isActive: pathname === '/dashboard/providers/new',
-                  icon: PlusCircle,
-                },
-              ]
-            : []),
-        ],
-      });
-    }
-
-    const serviceItems = [
-      ...(hasModule('SERVICE_ENTRIES')
-        ? [
-            {
-              title: t('serviceEntries'),
-              url: '/dashboard/service-entries',
-              isActive:
-                pathname === '/dashboard/service-entries' ||
-                (pathname.startsWith('/dashboard/service-entries') &&
-                  !pathname.includes('/surveys')),
-              icon: List,
-            },
-          ]
-        : []),
-      ...(hasModule('SERVICE_ENTRY_SURVEYS')
-        ? [
-            {
-              title: t('serviceEntrySurveys'),
-              url: '/dashboard/service-entries/surveys',
-              isActive: pathname.startsWith('/dashboard/service-entries/surveys'),
-              icon: ChartColumn,
-            },
-          ]
-        : []),
-      ...(hasModule('SERVICE_PACKAGES')
-        ? [
-            {
-              title: t('servicePackagesRecords'),
-              url: '/dashboard/service-packages-records',
-              isActive: pathname.startsWith('/dashboard/service-packages-records'),
-              icon: Archive,
-            },
-          ]
-        : []),
-    ];
-
-    if (serviceItems.length > 0) {
-      items.push({
-        title: t('services'),
-        url: '/dashboard/service-entries',
-        icon: Wrench,
-        isActive:
-          pathname.startsWith('/dashboard/service-entries') ||
-          pathname.startsWith('/dashboard/service-packages-records'),
-        section: 'operation',
-        items: serviceItems,
-      });
-    }
-
-    return items;
-  }, [hasModule, hasPermission, pathname, t]);
-
-  const activeNavItemTitle = navItems.find((item) => item.isActive && item.items?.length)?.title;
-  const [openNavItemTitle, setOpenNavItemTitle] = React.useState<string | undefined>(
-    activeNavItemTitle
-  );
-
-  React.useEffect(() => {
-    setOpenNavItemTitle(activeNavItemTitle);
-  }, [activeNavItemTitle]);
-
-  const navigationSections = [
-    { key: 'operation', label: t('operation') },
-    { key: 'configuration', label: t('configuration') },
-    { key: 'administration', label: t('administration') },
-  ] as const;
+  };
 
   return (
     <Sidebar
@@ -400,58 +69,62 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       className={cn(
         'border-none [&_[data-slot=sidebar-gap]]:bg-transparent',
         '[&_[data-slot=sidebar-inner]]:border [&_[data-slot=sidebar-inner]]:border-sidebar-border [&_[data-slot=sidebar-inner]]:bg-gradient-to-b [&_[data-slot=sidebar-inner]]:from-[var(--sidebar-gradient-from)] [&_[data-slot=sidebar-inner]]:via-[var(--sidebar-gradient-via)] [&_[data-slot=sidebar-inner]]:to-[var(--sidebar-gradient-to)] [&_[data-slot=sidebar-inner]]:text-sidebar-foreground [&_[data-slot=sidebar-inner]]:shadow-[0_20px_45px_rgba(14,4,46,0.45)]',
-        // '[&_[data-slot=sidebar-inner]]:border [&_[data-slot=sidebar-inner]]:border-sidebar-border [&_[data-slot=sidebar-inner]]:bg-[color:var(--sidebar)] [&_[data-slot=sidebar-inner]]:text-sidebar-foreground [&_[data-slot=sidebar-inner]]:shadow-[0_20px_45px_rgba(14,4,46,0.45)]',
-        '[&_[data-slot=sidebar-header]]:px-4 [&_[data-slot=sidebar-header]]:pt-6 [&_[data-slot=sidebar-header]]:pb-4',
-        '[&_[data-slot=sidebar-content]]:px-2',
-        '[&_[data-slot=sidebar-footer]]:px-4 [&_[data-slot=sidebar-footer]]:pb-6',
         className
       )}
       {...props}
     >
-      <SidebarHeader className="flex flex-col gap-3">
-        <SidebarLogo
-          name="ICSA"
-          logoSrc="/logo.jpeg"
-          logoAlt={t('publicCustomerProfile:logoAlt') ?? 'Company logo'}
+      <SidebarHeader className="p-2">
+        <SidebarBrand
+          collapsed={collapsed}
+          mobile={isMobile}
+          logoAlt={t('logoAlt', { defaultValue: 'Company logo' })}
+          onToggle={isMobile ? closeMobileNavigation : toggleSidebar}
+          onNavigate={closeMobileNavigation}
         />
-        <NavUser user={sidebarUser} />
-        {/* <TeamSwitcher teams={data.teams} /> */}
       </SidebarHeader>
-      <SidebarContent>
-        {navigationSections.map((section) => {
-          const items = navItems.filter((item) => item.section === section.key);
-
-          if (items.length === 0) {
-            return null;
-          }
-
-          return (
-            <NavMain
-              key={section.key}
-              items={items}
-              label={section.label}
-              openItemTitle={openNavItemTitle}
-              onOpenItemTitleChange={setOpenNavItemTitle}
+      <div className="flex min-h-0 flex-1">
+        {!isMobile ? (
+          <aside className="flex w-14 shrink-0 flex-col items-center border-r border-white/10 px-1 pt-1">
+            <SidebarGroupRail
+              dashboard={dashboard}
+              groups={groups}
+              selectedGroupId={selectedGroupId}
+              onSelectGroup={handleSelectGroup}
             />
-          );
-        })}
-        {/* <NavProjects projects={data.projects} /> */}
-      </SidebarContent>
-      <SidebarFooter className="gap-3">
-        <div className="flex flex-col items-stretch gap-3 rounded-xl p-2 backdrop-blur-sm group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:gap-2 group-data-[collapsible=icon]:rounded-lg group-data-[collapsible=icon]:p-2">
-          <ModeToggle
-            buttonVariant="ghost"
-            buttonSize="icon"
-            buttonClassName="size-10 rounded-xl border-none bg-white/15 text-sidebar-foreground hover:bg-white/40 group-data-[collapsible=icon]:size-9"
+          </aside>
+        ) : null}
+        <SidebarContent
+          className={cn(
+            'min-w-0 flex-1 overflow-x-hidden px-2 pb-4 transition-[width,opacity,transform] duration-200 ease-out motion-reduce:transition-none',
+            collapsed && 'w-0 flex-none translate-x-2 px-0 opacity-0 pointer-events-none'
+          )}
+        >
+          {isMobile ? (
+            <div className="mb-4 border-b border-white/10 px-2 pb-3">
+              <SidebarGroupRail
+                dashboard={dashboard}
+                groups={groups}
+                selectedGroupId={selectedGroupId}
+                onSelectGroup={handleSelectGroup}
+                orientation="horizontal"
+              />
+            </div>
+          ) : null}
+          <SidebarNavigationPane
+            title={navigationTitle}
+            entries={selectedEntries}
+            onNavigate={closeMobileNavigation}
+            className="px-1"
           />
-          <SelectLang
-            buttonVariant="ghost"
-            buttonSize="icon"
-            buttonClassName="size-10 rounded-xl border-none bg-white/15 text-sidebar-foreground hover:bg-white/40 group-data-[collapsible=icon]:size-9"
-          />
-        </div>
+        </SidebarContent>
+      </div>
+      <SidebarFooter className="p-2">
+        <SidebarAccountMenu
+          user={sidebarUser}
+          collapsed={collapsed}
+          onNavigate={closeMobileNavigation}
+        />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>
   );
 }
