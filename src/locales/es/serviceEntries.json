@@ -36,7 +36,8 @@
     "download": {
       "unavailable": "No disponible",
       "never": "Sin descargas registradas",
-      "count": "{{count, plural, one {# descarga} other {# descargas}}}"
+      "count_one": "{{count}} descarga",
+      "count_other": "{{count}} descargas"
     }
   },
   "delete": {
@@ -114,7 +115,8 @@
     "loading": "Cargando servicio...",
     "notFound": "No fue posible encontrar este servicio.",
     "downloadStatus": "Descargas",
-    "downloadAvailable": "Descargado {{count, plural, one {# vez} other {# veces}}} · Última: {{last}}",
+    "downloadAvailable_one": "Descargado {{count}} vez · Última: {{last}}",
+    "downloadAvailable_other": "Descargado {{count}} veces · Última: {{last}}",
     "downloadNever": "Sin registros de descarga",
     "downloadUnavailable": "Descarga no disponible",
     "notDownloaded": "Nunca",

@@ -36,7 +36,8 @@
     "download": {
       "unavailable": "Not available",
       "never": "No downloads recorded",
-      "count": "{{count, plural, one {# download} other {# downloads}}}"
+      "count_one": "{{count}} download",
+      "count_other": "{{count}} downloads"
     }
   },
   "delete": {
@@ -114,7 +115,8 @@
     "loading": "Loading service...",
     "notFound": "We couldn't find this service entry.",
     "downloadStatus": "Downloads",
-    "downloadAvailable": "Downloaded {{count, plural, one {# time} other {# times}}} · Last: {{last}}",
+    "downloadAvailable_one": "Downloaded {{count}} time · Last: {{last}}",
+    "downloadAvailable_other": "Downloaded {{count}} times · Last: {{last}}",
     "downloadNever": "No download history",
     "downloadUnavailable": "Downloads not available",
     "notDownloaded": "Never",
