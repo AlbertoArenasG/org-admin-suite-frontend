@@ -29,9 +29,9 @@
 
 - [x] Agregar y validar copies localizados necesarios.
 - [x] Ejecutar lint dirigido, typecheck y `git diff --check`.
-- [ ] Validar manualmente visibilidad de módulos, subrutas y grupos vacíos.
-- [ ] Validar rutas directas, selección de grupo y navegación desde logo/Dashboard.
-- [ ] Validar escritorio expandido/colapsado, teclado, reducción de movimiento y móvil.
-- [ ] Validar jerarquía visual, estados activos y transiciones contra el lenguaje visual existente.
-- [ ] Validar cuenta, Mi perfil, tema, idioma y cierre de sesión.
-- [ ] Actualizar documentos de la spec e índice al cierre.
+- [x] Validar manualmente visibilidad de módulos, subrutas y grupos vacíos.
+- [x] Validar rutas directas, selección de grupo y navegación desde logo/Dashboard.
+- [x] Validar escritorio expandido/colapsado, teclado, reducción de movimiento y móvil.
+- [x] Validar jerarquía visual, estados activos y transiciones contra el lenguaje visual existente.
+- [x] Validar cuenta, Mi perfil, tema, idioma y cierre de sesión.
+- [x] Actualizar documentos de la spec e índice al cierre.

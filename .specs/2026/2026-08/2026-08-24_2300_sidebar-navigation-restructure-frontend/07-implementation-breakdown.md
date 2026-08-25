@@ -47,7 +47,7 @@
 
 ## Phase 4. Localisation, Verification And Closure
 
-- Status: `planned`
+- Status: `complete`
 - Objective: validar regresiones de acceso y cerrar documentación.
 - Files:
   - `src/locales/es/*`

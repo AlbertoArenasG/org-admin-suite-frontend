@@ -16,8 +16,8 @@ Reglas de trabajo:
 
 - Initiative: `sidebar-navigation-restructure-frontend`
 - Definition status: `complete`
-- Implementation status: `not_started`
-- Validation status: `not_started`
+- Implementation status: `completed`
+- Validation status: `completed`
 
 ## Approved Scope
 
@@ -43,4 +43,5 @@ Reglas de trabajo:
 ## Definition Closure
 
 - Las decisiones de alcance, experiencia, permisos, responsive y arquitectura están cerradas.
-- Sigue el diseño técnico y el breakdown por fases antes de iniciar cambios de aplicación.
+- La implementación, verificación automática y validación manual finalizaron correctamente.
+- Spec cerrada.

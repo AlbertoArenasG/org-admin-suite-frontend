@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [sidebar-navigation-restructure-frontend](./2026/2026-08/2026-08-24_2300_sidebar-navigation-restructure-frontend/00-definition.md) - in progress
+- [sidebar-navigation-restructure-frontend](./2026/2026-08/2026-08-24_2300_sidebar-navigation-restructure-frontend/00-definition.md) - completed
 - [user-registration-invitations-management-frontend](./2026/2026-08/2026-08-24_2200_user-registration-invitations-management-frontend/00-definition.md) - completed
 - [internal-asset-control-frontend](./2026/2026-08/2026-08-17_1700_internal-asset-control-frontend/00-definition.md) - completed
 - [contacts-recipient-groups-frontend](./2026/2026-08/2026-08-16_1200_contacts-recipient-groups-frontend/00-definition.md) - completed

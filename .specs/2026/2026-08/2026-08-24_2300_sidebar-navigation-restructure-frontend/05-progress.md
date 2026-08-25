@@ -4,8 +4,8 @@
 
 - Definition: `complete`
 - Technical design: `approved`
-- Implementation: `in_progress`
-- Validation: `in_progress`
+- Implementation: `complete`
+- Validation: `complete`
 
 ## Completed
 
@@ -25,8 +25,11 @@
 - Se completó la Fase 2: componentes de marca, rail, pane de navegación y cuenta separados del shell actual.
 - Se completó la Fase 3: `AppSidebar` compone el nuevo shell, el drawer móvil permite cambiar de grupo y el Dashboard quedó libre de widgets y consultas de negocio.
 - Se completaron `typecheck`, `lint`, build de producción y revisión de whitespace.
-- Se documentó el checklist de validación manual de permisos, rutas, responsive, cuenta y preferencias.
+- Se documentó y completó el checklist de validación manual de permisos, rutas, responsive, cuenta y preferencias.
+- Se validaron los estados activos, textos largos, transiciones, rail, Dashboard y comportamiento de expansión desde el rail colapsado.
+- Se completó la Fase 4: localización, verificaciones automáticas, validación manual y documentación de cierre.
+- Se actualizaron los estados de la spec y el índice general.
 
 ## Next
 
-- Ejecutar la validación manual documentada y cerrar la Fase 4.
+- Spec cerrada.
