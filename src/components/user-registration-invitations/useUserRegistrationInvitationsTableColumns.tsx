@@ -6,9 +6,8 @@ import {
   ArrowDown,
   ArrowUp,
   ArrowUpDown,
-  Clock3,
-  Mail,
   MailCheck,
+  MailClock,
   MailWarning,
   MailX,
 } from 'lucide-react';
@@ -56,15 +55,6 @@ function formatDate(value: string | null, formatter: Intl.DateTimeFormat) {
   return Number.isNaN(date.getTime()) ? value : formatter.format(date);
 }
 
-function PendingMailIcon({ className }: { className?: string }) {
-  return (
-    <span className={`relative inline-flex size-4 shrink-0 ${className ?? ''}`} aria-hidden="true">
-      <Mail className="size-4" />
-      <Clock3 className="absolute -bottom-0.5 -right-0.5 size-2.5 rounded-full bg-background" />
-    </span>
-  );
-}
-
 function getLifecycleIcon(status: UserRegistrationInvitationsTableRow['status']) {
   switch (status) {
     case 'CONSUMED':
@@ -72,7 +62,7 @@ function getLifecycleIcon(status: UserRegistrationInvitationsTableRow['status'])
     case 'REVOKED':
       return MailX;
     default:
-      return PendingMailIcon;
+      return MailClock;
   }
 }
 

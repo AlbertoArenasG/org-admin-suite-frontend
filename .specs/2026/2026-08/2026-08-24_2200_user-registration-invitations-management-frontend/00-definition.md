@@ -206,11 +206,11 @@ Tambien hace falta distinguir visualmente el resultado tecnico del ultimo intent
 
 La columna `Ultimo envio` mostrara la metadata del proveedor mediante texto y tono. El indicador Lucide de la fila representara el ciclo de vida de la invitacion, no el resultado de ese proveedor:
 
-| Condicion            | Indicador                                                                   |
-| -------------------- | --------------------------------------------------------------------------- |
-| Invitacion pendiente | composicion `Mail` + `Clock3` para comunicar que el enlace sigue disponible |
-| Invitacion consumida | `MailCheck` para comunicar que el registro fue completado                   |
-| Invitacion revocada  | `MailX` para comunicar que fue cancelada de forma terminal                  |
+| Condicion            | Indicador                                                  |
+| -------------------- | ---------------------------------------------------------- |
+| Invitacion pendiente | `MailClock` para comunicar que el enlace sigue disponible  |
+| Invitacion consumida | `MailCheck` para comunicar que el registro fue completado  |
+| Invitacion revocada  | `MailX` para comunicar que fue cancelada de forma terminal |
 
 Si el proveedor fallo, la metadata de `Ultimo envio` usara `MailWarning` y una senal visual reforzada en la fila.
 

@@ -39,7 +39,7 @@
 - Reenvio y revocacion solo para `PENDING`, con confirmacion explicita.
 - Reenvio advierte rotacion de token; revocacion es destructiva y terminal.
 - La fila se reemplaza con la respuesta de la mutacion; un fallo de proveedor conserva la invitacion reenviable.
-- Iconos de ciclo de vida: composicion `Mail` + `Clock3` para pendiente, `MailCheck` para consumida y `MailX` para revocada; el fallo de proveedor usa `MailWarning` en la metadata de envio.
+- Iconos de ciclo de vida: `MailClock` para pendiente, `MailCheck` para consumida y `MailX` para revocada; el fallo de proveedor usa `MailWarning` en la metadata de envio.
 - El fallo de proveedor tiene una senal discreta adicional sin colorear toda la fila.
 
 ## Decision 06. Frontera de estado
