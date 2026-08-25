@@ -55,6 +55,14 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
     }
   };
 
+  const handleSelectGroup = (groupId: typeof selectedGroupId) => {
+    setSelectedGroupId(groupId);
+
+    if (!isMobile && collapsed) {
+      toggleSidebar();
+    }
+  };
+
   return (
     <Sidebar
       collapsible="icon"
@@ -81,7 +89,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
               dashboard={dashboard}
               groups={groups}
               selectedGroupId={selectedGroupId}
-              onSelectGroup={setSelectedGroupId}
+              onSelectGroup={handleSelectGroup}
             />
           </aside>
         ) : null}
@@ -97,7 +105,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
                 dashboard={dashboard}
                 groups={groups}
                 selectedGroupId={selectedGroupId}
-                onSelectGroup={setSelectedGroupId}
+                onSelectGroup={handleSelectGroup}
                 orientation="horizontal"
               />
             </div>
