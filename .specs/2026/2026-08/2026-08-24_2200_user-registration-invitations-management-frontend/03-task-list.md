@@ -11,13 +11,13 @@
 
 ## Phase 2. Navigation And Localisation
 
-- [ ] Crear ruta `/dashboard/users/invitations`.
-- [ ] Agregar el subitem de sidebar condicionado por `USER_REGISTRATION_INVITATIONS/READ`.
-- [ ] Mantener visibilidad independiente de lista, crear, reenviar y revocar.
-- [ ] Redirigir el flujo exitoso de creacion a `/dashboard/users/invitations`.
-- [ ] Crear namespaces `userRegistrationInvitations` en espanol e ingles.
-- [ ] Registrar namespaces en `src/lib/i18n.ts`.
-- [ ] Agregar etiquetas necesarias a `nav.json` y `breadcrumbs.json`.
+- [x] Crear ruta `/dashboard/users/invitations`.
+- [x] Agregar el subitem de sidebar condicionado por `USER_REGISTRATION_INVITATIONS/READ`.
+- [x] Mantener visibilidad independiente de lista, crear, reenviar y revocar.
+- [x] Redirigir el flujo exitoso de creacion a `/dashboard/users/invitations`.
+- [x] Crear namespaces `userRegistrationInvitations` en espanol e ingles.
+- [x] Registrar namespaces en `src/lib/i18n.ts`.
+- [x] Agregar etiquetas necesarias a `nav.json` y `breadcrumbs.json`.
 
 ## Phase 3. Invitation List
 

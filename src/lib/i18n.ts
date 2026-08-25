@@ -22,6 +22,7 @@ import recipientGroupsEn from '@/locales/en/recipientGroups.json';
 import expirationStatusPoliciesEn from '@/locales/en/expirationStatusPolicies.json';
 import expirationNotificationPoliciesEn from '@/locales/en/expirationNotificationPolicies.json';
 import internalAssetControlEn from '@/locales/en/internalAssetControl.json';
+import userRegistrationInvitationsEn from '@/locales/en/userRegistrationInvitations.json';
 import commonEs from '@/locales/es/common.json';
 import navEs from '@/locales/es/nav.json';
 import breadcrumbsEs from '@/locales/es/breadcrumbs.json';
@@ -43,6 +44,7 @@ import recipientGroupsEs from '@/locales/es/recipientGroups.json';
 import expirationStatusPoliciesEs from '@/locales/es/expirationStatusPolicies.json';
 import expirationNotificationPoliciesEs from '@/locales/es/expirationNotificationPolicies.json';
 import internalAssetControlEs from '@/locales/es/internalAssetControl.json';
+import userRegistrationInvitationsEs from '@/locales/es/userRegistrationInvitations.json';
 
 const FALLBACK_LANGUAGE = 'es';
 export const LANGUAGE_STORAGE_KEY = 'preferred-language';
@@ -70,6 +72,7 @@ const resources = {
     expirationStatusPolicies: expirationStatusPoliciesEn,
     expirationNotificationPolicies: expirationNotificationPoliciesEn,
     internalAssetControl: internalAssetControlEn,
+    userRegistrationInvitations: userRegistrationInvitationsEn,
   },
   es: {
     common: commonEs,
@@ -93,6 +96,7 @@ const resources = {
     expirationStatusPolicies: expirationStatusPoliciesEs,
     expirationNotificationPolicies: expirationNotificationPoliciesEs,
     internalAssetControl: internalAssetControlEs,
+    userRegistrationInvitations: userRegistrationInvitationsEs,
   },
 };
 
@@ -142,6 +146,7 @@ export function initI18n(): I18nInstance {
         'expirationStatusPolicies',
         'expirationNotificationPolicies',
         'internalAssetControl',
+        'userRegistrationInvitations',
       ],
       defaultNS: 'common',
       interpolation: {

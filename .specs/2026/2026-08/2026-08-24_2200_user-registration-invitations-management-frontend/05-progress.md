@@ -21,7 +21,13 @@
   - flujo de creacion existente migrado a la nueva feature
   - redireccion de creacion a `/dashboard/users/invitations`
   - `npm run typecheck` y lint dirigido exitosos
+- Se implemento Phase 2:
+  - ruta `/dashboard/users/invitations` y breadcrumbs
+  - subitem de sidebar condicionado por `USER_REGISTRATION_INVITATIONS/READ`
+  - namespace localizado de invitaciones en espanol e ingles
+  - redireccion de creacion al listado de invitaciones
+  - `npm run typecheck` y lint dirigido exitosos
 
 ## Next
 
-- Iniciar Phase 2: navegacion, ruta y localizacion.
+- Iniciar Phase 3: listado de invitaciones.

@@ -17,7 +17,7 @@
 
 ## Phase 2. Navigation And Localisation
 
-- Status: `pending`
+- Status: `completed`
 - Objective: exponer la nueva superficie solo a quien tenga la operacion correspondiente.
 - Files:
   - `src/app/dashboard/users/invitations/page.tsx`
@@ -30,6 +30,7 @@
   - sidebar respeta la matriz de permisos aprobada
   - crear invitacion redirige al listado de invitaciones
   - todos los copies nuevos estan localizados
+  - typecheck y lint dirigido exitosos
 
 ## Phase 3. Invitation List
 

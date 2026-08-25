@@ -16,6 +16,7 @@ import {
   Truck,
   ShieldCheck,
   ContactRound,
+  Mail,
   type LucideIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -88,11 +89,19 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
 
     const canReadUsers = hasModule('USERS');
     const canInviteUsers = hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE');
+    const canReadUserRegistrationInvitations = hasPermission(
+      'USER_REGISTRATION_INVITATIONS',
+      'READ'
+    );
 
-    if (canReadUsers || canInviteUsers) {
+    if (canReadUsers || canInviteUsers || canReadUserRegistrationInvitations) {
       items.push({
         title: t('users'),
-        url: canReadUsers ? '/dashboard/users' : '/dashboard/users/invite',
+        url: canReadUsers
+          ? '/dashboard/users'
+          : canReadUserRegistrationInvitations
+            ? '/dashboard/users/invitations'
+            : '/dashboard/users/invite',
         icon: Users,
         isActive: pathname.startsWith('/dashboard/users'),
         section: 'administration',
@@ -113,6 +122,16 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
                   url: '/dashboard/users/invite',
                   isActive: pathname === '/dashboard/users/invite',
                   icon: UserPlus2,
+                },
+              ]
+            : []),
+          ...(canReadUserRegistrationInvitations
+            ? [
+                {
+                  title: t('userRegistrationInvitations'),
+                  url: '/dashboard/users/invitations',
+                  isActive: pathname === '/dashboard/users/invitations',
+                  icon: Mail,
                 },
               ]
             : []),

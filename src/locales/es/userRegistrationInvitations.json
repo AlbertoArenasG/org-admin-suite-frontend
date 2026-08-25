@@ -1,0 +1,67 @@
+{
+  "title": "Invitaciones de registro",
+  "description": "Consulta y administra las invitaciones enviadas a nuevos usuarios.",
+  "loading": "Cargando invitaciones...",
+  "empty": {
+    "title": "No hay invitaciones para mostrar.",
+    "description": "Las invitaciones enviadas a nuevos usuarios aparecerán aquí.",
+    "filtered": "No hay invitaciones que coincidan con la búsqueda o los filtros actuales."
+  },
+  "table": {
+    "columns": {
+      "email": "Correo electrónico",
+      "role": "Rol",
+      "status": "Estado",
+      "lastDelivery": "Último envío",
+      "resendCount": "Reenvíos",
+      "createdAt": "Creada"
+    }
+  },
+  "filters": {
+    "allStatuses": "Todos los estados",
+    "PENDING": "Pendiente",
+    "CONSUMED": "Consumida",
+    "REVOKED": "Revocada",
+    "clear": "Limpiar filtros"
+  },
+  "delivery": {
+    "accepted": "Solicitud aceptada",
+    "failed": "No fue posible enviar el correo",
+    "notRecorded": "Sin intentos registrados"
+  },
+  "actions": {
+    "create": "Invitar usuario",
+    "createShort": "Invitar",
+    "resend": "Reenviar invitación",
+    "revoke": "Revocar invitación",
+    "openMenu": "Abrir menú de acciones",
+    "searchPlaceholder": "Buscar por correo...",
+    "manageColumns": "Administrar columnas",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "retry": "Reintentar"
+  },
+  "pagination": "Página {{page}} de {{pages}} · {{total}} invitaciones",
+  "dialogs": {
+    "resend": {
+      "title": "Reenviar invitación",
+      "description": "Se enviará un enlace nuevo a {{email}}. El enlace anterior dejará de funcionar.",
+      "confirm": "Reenviar invitación"
+    },
+    "revoke": {
+      "title": "Revocar invitación",
+      "description": "La invitación de {{email}} dejará de ser válida. Para invitar nuevamente a esta persona deberás crear una nueva invitación.",
+      "warning": "Esta acción no se puede deshacer.",
+      "confirm": "Revocar invitación"
+    },
+    "cancel": "Cancelar"
+  },
+  "feedback": {
+    "resendSuccess": "La invitación se reenvió correctamente.",
+    "resendError": "No fue posible reenviar la invitación.",
+    "revokeSuccess": "La invitación fue revocada correctamente.",
+    "revokeError": "No fue posible revocar la invitación.",
+    "listError": "No fue posible obtener las invitaciones.",
+    "readRestricted": "No cuentas con permisos para consultar invitaciones de registro."
+  }
+}

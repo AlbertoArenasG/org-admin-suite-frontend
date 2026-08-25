@@ -1,0 +1,67 @@
+{
+  "title": "Registration invitations",
+  "description": "Review and manage invitations sent to new users.",
+  "loading": "Loading invitations...",
+  "empty": {
+    "title": "There are no invitations to show.",
+    "description": "Invitations sent to new users will appear here.",
+    "filtered": "No invitations match the current search or filters."
+  },
+  "table": {
+    "columns": {
+      "email": "Email",
+      "role": "Role",
+      "status": "Status",
+      "lastDelivery": "Last delivery",
+      "resendCount": "Resends",
+      "createdAt": "Created"
+    }
+  },
+  "filters": {
+    "allStatuses": "All statuses",
+    "PENDING": "Pending",
+    "CONSUMED": "Consumed",
+    "REVOKED": "Revoked",
+    "clear": "Clear filters"
+  },
+  "delivery": {
+    "accepted": "Request accepted",
+    "failed": "The email could not be sent",
+    "notRecorded": "No attempts recorded"
+  },
+  "actions": {
+    "create": "Invite user",
+    "createShort": "Invite",
+    "resend": "Resend invitation",
+    "revoke": "Revoke invitation",
+    "openMenu": "Open actions menu",
+    "searchPlaceholder": "Search by email...",
+    "manageColumns": "Manage columns",
+    "previous": "Previous",
+    "next": "Next",
+    "retry": "Retry"
+  },
+  "pagination": "Page {{page}} of {{pages}} · {{total}} invitations",
+  "dialogs": {
+    "resend": {
+      "title": "Resend invitation",
+      "description": "A new link will be sent to {{email}}. The previous link will no longer work.",
+      "confirm": "Resend invitation"
+    },
+    "revoke": {
+      "title": "Revoke invitation",
+      "description": "{{email}}'s invitation will no longer be valid. To invite this person again, create a new invitation.",
+      "warning": "This action cannot be undone.",
+      "confirm": "Revoke invitation"
+    },
+    "cancel": "Cancel"
+  },
+  "feedback": {
+    "resendSuccess": "The invitation was resent successfully.",
+    "resendError": "The invitation could not be resent.",
+    "revokeSuccess": "The invitation was revoked successfully.",
+    "revokeError": "The invitation could not be revoked.",
+    "listError": "The invitations could not be loaded.",
+    "readRestricted": "You do not have permission to view registration invitations."
+  }
+}
