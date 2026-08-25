@@ -3,18 +3,10 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { SidebarAccountMenu } from '@/components/sidebar/SidebarAccountMenu';
-import { SidebarBrand } from '@/components/sidebar/SidebarBrand';
-import { SidebarGroupRail } from '@/components/sidebar/SidebarGroupRail';
-import { SidebarNavigationPane } from '@/components/sidebar/SidebarNavigationPane';
+import { SidebarDesktopShell } from '@/components/sidebar/SidebarDesktopShell';
+import { SidebarMobileShell } from '@/components/sidebar/SidebarMobileShell';
 import { useSidebarNavigation } from '@/components/sidebar/useSidebarNavigation';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  useSidebar,
-} from '@/components/ui/sidebar';
+import { Sidebar, useSidebar } from '@/components/ui/sidebar';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { cn } from '@/lib/utils';
 
@@ -73,58 +65,32 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       )}
       {...props}
     >
-      <SidebarHeader className="p-2">
-        <SidebarBrand
-          collapsed={collapsed}
-          mobile={isMobile}
-          logoAlt={t('logoAlt', { defaultValue: 'Company logo' })}
-          onToggle={isMobile ? closeMobileNavigation : toggleSidebar}
-          onNavigate={closeMobileNavigation}
-        />
-      </SidebarHeader>
-      <div className="flex min-h-0 flex-1">
-        {!isMobile ? (
-          <aside className="flex w-14 shrink-0 flex-col items-center border-r border-white/10 px-1 pt-1">
-            <SidebarGroupRail
-              dashboard={dashboard}
-              groups={groups}
-              selectedGroupId={selectedGroupId}
-              onSelectGroup={handleSelectGroup}
-            />
-          </aside>
-        ) : null}
-        <SidebarContent
-          className={cn(
-            'min-w-0 flex-1 overflow-x-hidden px-2 pb-4 transition-[width,opacity,transform] duration-200 ease-out motion-reduce:transition-none',
-            collapsed && 'w-0 flex-none translate-x-2 px-0 opacity-0 pointer-events-none'
-          )}
-        >
-          {isMobile ? (
-            <div className="mb-4 border-b border-white/10 px-2 pb-3">
-              <SidebarGroupRail
-                dashboard={dashboard}
-                groups={groups}
-                selectedGroupId={selectedGroupId}
-                onSelectGroup={handleSelectGroup}
-                orientation="horizontal"
-              />
-            </div>
-          ) : null}
-          <SidebarNavigationPane
-            title={navigationTitle}
-            entries={selectedEntries}
-            onNavigate={closeMobileNavigation}
-            className="px-1"
-          />
-        </SidebarContent>
-      </div>
-      <SidebarFooter className="p-2">
-        <SidebarAccountMenu
+      {isMobile ? (
+        <SidebarMobileShell
+          dashboard={dashboard}
+          groups={groups}
+          selectedGroupId={selectedGroupId}
+          selectedEntries={selectedEntries}
+          navigationTitle={navigationTitle}
+          onSelectGroup={handleSelectGroup}
           user={sidebarUser}
-          collapsed={collapsed}
-          onNavigate={closeMobileNavigation}
+          logoAlt={t('logoAlt', { defaultValue: 'Company logo' })}
+          onClose={closeMobileNavigation}
         />
-      </SidebarFooter>
+      ) : (
+        <SidebarDesktopShell
+          dashboard={dashboard}
+          groups={groups}
+          selectedGroupId={selectedGroupId}
+          selectedEntries={selectedEntries}
+          navigationTitle={navigationTitle}
+          onSelectGroup={handleSelectGroup}
+          user={sidebarUser}
+          logoAlt={t('logoAlt', { defaultValue: 'Company logo' })}
+          collapsed={collapsed}
+          onToggle={toggleSidebar}
+        />
+      )}
     </Sidebar>
   );
 }
