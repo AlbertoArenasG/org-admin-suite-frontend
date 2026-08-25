@@ -30,7 +30,7 @@ export function SidebarNavigationPane({
 
   return (
     <nav aria-label={title} className={cn('min-w-0', className)}>
-      <p className="px-3 pb-2 text-xs font-medium tracking-wide text-sidebar-foreground/60 uppercase">
+      <p className="px-3 pt-3 pb-2 text-xs font-medium tracking-wide text-sidebar-foreground/60 uppercase">
         {title}
       </p>
       <ul className="flex min-w-0 flex-col gap-1">
@@ -58,7 +58,7 @@ export function SidebarNavigationPane({
                   </button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="sidebar-nav-collapsible-content">
-                  <ul className="border-sidebar-border/80 mt-1 ml-3 flex min-w-0 flex-col gap-1 border-l py-0.5 pl-1">
+                  <ul className="border-sidebar-border/80 mt-1 ml-2.5 flex min-w-0 flex-col gap-1 border-l py-0.5 pl-1">
                     {entry.children.map((child) => (
                       <li key={child.id} className="min-w-0">
                         <SidebarNavigationLink entry={child} onNavigate={onNavigate} />
@@ -91,7 +91,7 @@ function SidebarNavigationLink({ entry, onNavigate, root = false }: SidebarNavig
       href={entry.href}
       onClick={onNavigate}
       className={cn(
-        'flex h-auto min-h-9 min-w-0 items-start gap-2 rounded-lg px-1 py-2 text-sm text-sidebar-foreground/75 outline-hidden transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+        'flex h-auto min-h-9 min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/75 outline-hidden transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
         root && 'min-h-10 px-3 text-sidebar-foreground/85',
         entry.isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
       )}
