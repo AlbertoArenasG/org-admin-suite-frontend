@@ -46,7 +46,10 @@ export function SidebarBrand({
         href="/dashboard"
         aria-label={t('dashboard')}
         onClick={onNavigate}
-        className="flex shrink-0 rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+        className={cn(
+          'flex shrink-0 rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+          collapsed && 'transition-opacity duration-150 group-hover/brand:opacity-0'
+        )}
       >
         <span className="flex size-10 items-center justify-center rounded-xl bg-white p-1">
           <Image
@@ -73,7 +76,7 @@ export function SidebarBrand({
             className={cn(
               'size-8 shrink-0 text-sidebar-foreground hover:bg-white/10 hover:text-sidebar-foreground',
               collapsed &&
-                'absolute inset-0 size-10 bg-[var(--sidebar-primary)] opacity-0 transition-[opacity,background-color] group-hover/brand:opacity-100 focus-visible:opacity-100 hover:bg-[var(--secondary-500)]'
+                'absolute inset-0 size-10 rounded-xl bg-[var(--sidebar-primary)] opacity-0 transition-[opacity,background-color] group-hover/brand:opacity-100 focus-visible:opacity-100 hover:bg-[var(--secondary-500)]'
             )}
           >
             {mobile ? (
