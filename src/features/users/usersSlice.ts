@@ -1,13 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import {
-  fetchUsers,
-  fetchUserRoles,
-  fetchUserById,
-  updateUser,
-  inviteUser,
-  deleteUser,
-} from './usersThunks';
+import { fetchUsers, fetchUserRoles, fetchUserById, updateUser, deleteUser } from './usersThunks';
 import type { AuthSystemRole } from '@/features/auth/types';
 
 export interface User {
@@ -239,24 +232,6 @@ const usersSlice = createSlice({
           action.error.message ??
           'No fue posible actualizar el usuario';
         state.update.currentId = action.meta.arg.id;
-        state.update.message = null;
-      })
-      .addCase(inviteUser.pending, (state) => {
-        state.update.status = 'loading';
-        state.update.error = null;
-        state.update.message = null;
-      })
-      .addCase(inviteUser.fulfilled, (state) => {
-        state.update.status = 'succeeded';
-        state.update.error = null;
-        state.update.message = null;
-      })
-      .addCase(inviteUser.rejected, (state, action) => {
-        state.update.status = 'failed';
-        state.update.error =
-          (action.payload as string | undefined) ??
-          action.error.message ??
-          'No fue posible enviar la invitación';
         state.update.message = null;
       })
       .addCase(deleteUser.pending, (state, action) => {

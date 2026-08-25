@@ -2,7 +2,7 @@
 
 ## Phase 1. Feature Foundation
 
-- Status: `pending`
+- Status: `completed`
 - Objective: aislar el recurso de invitaciones del estado de usuarios registrados.
 - Files:
   - `src/features/user-registration-invitations/*`
@@ -13,6 +13,7 @@
   - la creacion existente usa la nueva feature
   - `users` no conserva thunks de invitaciones
   - el estado de listado y mutaciones se registra correctamente
+  - typecheck y lint dirigido exitosos
 
 ## Phase 2. Navigation And Localisation
 

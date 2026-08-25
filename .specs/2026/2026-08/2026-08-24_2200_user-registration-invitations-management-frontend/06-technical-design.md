@@ -84,15 +84,14 @@ interface UserRegistrationInvitationsState {
     totalPages: number;
   };
   mutations: {
-    createStatus: RequestStatus;
-    resendStatus: RequestStatus;
-    revokeStatus: RequestStatus;
-    currentInvitationId: string | null;
-    error: string | null;
-    message: string | null;
+    create: MutationState;
+    resend: MutationState & { targetId: string | null };
+    revoke: MutationState & { targetId: string | null };
   };
 }
 ```
+
+`resend` y `revoke` conservan un `targetId` independiente para que una accion en una fila no bloquee o desincronice otra fila.
 
 Reglas:
 

@@ -2,12 +2,12 @@
 
 ## Phase 1. Feature Foundation
 
-- [ ] Crear `features/user-registration-invitations/types.ts`.
-- [ ] Mover el contrato y thunk de creacion de invitacion desde `features/users`.
-- [ ] Crear thunks para listado, reenvio y revocacion.
-- [ ] Crear slice con estado de listado y mutaciones aisladas.
-- [ ] Registrar el reducer en `src/store/store.ts`.
-- [ ] Actualizar imports del flujo existente de invitar usuario.
+- [x] Crear `features/user-registration-invitations/types.ts`.
+- [x] Mover el contrato y thunk de creacion de invitacion desde `features/users`.
+- [x] Crear thunks para listado, reenvio y revocacion.
+- [x] Crear slice con estado de listado y mutaciones aisladas.
+- [x] Registrar el reducer en `src/store/store.ts`.
+- [x] Actualizar imports del flujo existente de invitar usuario.
 
 ## Phase 2. Navigation And Localisation
 

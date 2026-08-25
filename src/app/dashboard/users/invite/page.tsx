@@ -12,7 +12,8 @@ import { useRouter } from 'next/navigation';
 import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { fetchUserRoles, inviteUser } from '@/features/users/usersThunks';
+import { fetchUserRoles } from '@/features/users/usersThunks';
+import { createUserRegistrationInvitation } from '@/features/user-registration-invitations';
 import { Button } from '@/components/ui/button';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
@@ -92,7 +93,7 @@ export default function InviteUserPage() {
     const systemRole = selectedRole?.systemRole === 'ADMIN' ? 'ADMIN' : 'USER';
 
     dispatch(
-      inviteUser({
+      createUserRegistrationInvitation({
         email: values.email,
         systemRole,
         roleId: values.roleId,
@@ -109,7 +110,7 @@ export default function InviteUserPage() {
           }),
           severity: 'success',
         });
-        router.push('/dashboard/users');
+        router.push('/dashboard/users/invitations');
       })
       .catch((error: unknown) => {
         const message =
