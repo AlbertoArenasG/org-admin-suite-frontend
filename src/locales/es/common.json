@@ -10,6 +10,8 @@
   "themeLight": "Claro",
   "themeDark": "Oscuro",
   "themeSystem": "Sistema",
+  "dashboardComingSoonTitle": "Panel en construcción",
+  "dashboardComingSoonDescription": "Próximamente encontrarás aquí un resumen personalizado de tu actividad.",
   "done": "Listo",
   "errorTitle": "Ocurrió un problema",
   "loading": "Cargando..."

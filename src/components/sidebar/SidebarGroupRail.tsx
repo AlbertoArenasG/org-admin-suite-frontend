@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutDashboard } from 'lucide-react';
+import { House } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -37,7 +37,7 @@ export function SidebarGroupRail({
       )}
     >
       <RailButton
-        icon={LayoutDashboard}
+        icon={House}
         label={dashboard.title}
         active={selectedGroupId === 'dashboard'}
         onClick={() => onSelectGroup('dashboard')}
@@ -79,7 +79,7 @@ function RailButton({ icon: Icon, label, active, onClick }: RailButtonProps) {
             active && 'bg-white/15 text-sidebar-foreground shadow-sm'
           )}
         >
-          <Icon className="size-5.5" aria-hidden="true" />
+          <Icon className="size-6" aria-hidden="true" />
         </button>
       </TooltipTrigger>
       <TooltipContent side="right" align="center">
