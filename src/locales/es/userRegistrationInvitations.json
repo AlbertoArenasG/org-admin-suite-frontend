@@ -25,7 +25,7 @@
     "clear": "Limpiar filtros"
   },
   "delivery": {
-    "accepted": "Solicitud aceptada",
+    "accepted": "Invitación enviada",
     "failed": "No fue posible enviar el correo",
     "notRecorded": "Sin intentos registrados"
   },

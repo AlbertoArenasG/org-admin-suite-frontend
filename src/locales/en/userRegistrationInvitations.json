@@ -25,7 +25,7 @@
     "clear": "Clear filters"
   },
   "delivery": {
-    "accepted": "Request accepted",
+    "accepted": "Invitation sent",
     "failed": "The email could not be sent",
     "notRecorded": "No attempts recorded"
   },

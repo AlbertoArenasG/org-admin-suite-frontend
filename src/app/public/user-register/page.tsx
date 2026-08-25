@@ -375,7 +375,7 @@ function UserRegisterContent() {
         <div className="grid gap-2 md:grid-cols-[0.9fr_1fr] md:gap-4">
           <div className="grid gap-2">
             <Label htmlFor="register-phone-code">{t('register.fields.phoneCode')}</Label>
-            <Input id="register-phone-code" {...form.register('cellPhoneCode')} />
+            <Input id="register-phone-code" placeholder="+52" {...form.register('cellPhoneCode')} />
           </div>
           <div className="grid gap-2">
             <Label htmlFor="register-phone-number">{t('register.fields.phoneNumber')}</Label>
