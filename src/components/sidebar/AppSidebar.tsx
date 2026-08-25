@@ -110,7 +110,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
           />
         </SidebarContent>
       </div>
-      <SidebarFooter className={cn('p-3 pt-2', collapsed && 'p-2')}>
+      <SidebarFooter className="p-2">
         <SidebarAccountMenu
           user={sidebarUser}
           collapsed={collapsed}
