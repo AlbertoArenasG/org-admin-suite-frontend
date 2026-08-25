@@ -34,7 +34,13 @@
   - metadata de rol, ciclo de vida, ultimo envio y reenvios
   - indicador discreto para fallos del proveedor de correo
   - `npm run typecheck`, lint dirigido y `git diff --check` exitosos
+- Se implemento Phase 4:
+  - menu de acciones visible solo para invitaciones pendientes y operaciones autorizadas
+  - confirmacion de reenvio y revocacion con advertencia de enlace invalidado o accion terminal
+  - carga aislada por fila, reemplazo local de la respuesta y snackbar localizado
+  - reconciliacion de la consulta ante respuestas `404` y `409`
+  - `npm run typecheck`, lint dirigido y `git diff --check` exitosos
 
 ## Next
 
-- Iniciar Phase 4: acciones de reenvio y revocacion por fila.
+- Ejecutar la validacion manual de Phase 5 y cerrar la spec.

@@ -14,6 +14,7 @@ import {
 import type { Column, ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 
+import { UserRegistrationInvitationTableRowActions } from './UserRegistrationInvitationTableRowActions';
 import type { UserRegistrationInvitationsTableRow } from './types';
 
 type Translate = TFunction<'userRegistrationInvitations', undefined>;
@@ -22,6 +23,11 @@ interface UseUserRegistrationInvitationsTableColumnsParams {
   t: Translate;
   dateFormatter: Intl.DateTimeFormat;
   dateTimeFormatter: Intl.DateTimeFormat;
+  canResend: boolean;
+  canRevoke: boolean;
+  isRowActionLoading: (invitationId: string) => boolean;
+  onResend: (invitation: UserRegistrationInvitationsTableRow) => void;
+  onRevoke: (invitation: UserRegistrationInvitationsTableRow) => void;
 }
 
 function SortingHeader<TData>({
@@ -81,6 +87,11 @@ export function useUserRegistrationInvitationsTableColumns({
   t,
   dateFormatter,
   dateTimeFormatter,
+  canResend,
+  canRevoke,
+  isRowActionLoading,
+  onResend,
+  onRevoke,
 }: UseUserRegistrationInvitationsTableColumnsParams) {
   return useMemo<ColumnDef<UserRegistrationInvitationsTableRow>[]>(
     () => [
@@ -174,7 +185,42 @@ export function useUserRegistrationInvitationsTableColumns({
         meta: { label: t('table.columns.createdAt') },
         cell: ({ row }) => formatDate(row.original.createdAt, dateFormatter) ?? '—',
       },
+      ...(canResend || canRevoke
+        ? [
+            {
+              id: 'actions',
+              enableHiding: false,
+              header: () => <span className="sr-only">{t('actions.openMenu')}</span>,
+              cell: ({ row }) => (
+                <div className="flex justify-end">
+                  <UserRegistrationInvitationTableRowActions
+                    invitation={row.original}
+                    canResend={canResend}
+                    canRevoke={canRevoke}
+                    isLoading={isRowActionLoading(row.original.invitationId)}
+                    onResend={onResend}
+                    onRevoke={onRevoke}
+                    labels={{
+                      menu: t('actions.openMenu'),
+                      resend: t('actions.resend'),
+                      revoke: t('actions.revoke'),
+                    }}
+                  />
+                </div>
+              ),
+            } satisfies ColumnDef<UserRegistrationInvitationsTableRow>,
+          ]
+        : []),
     ],
-    [dateFormatter, dateTimeFormatter, t]
+    [
+      canResend,
+      canRevoke,
+      dateFormatter,
+      dateTimeFormatter,
+      isRowActionLoading,
+      onResend,
+      onRevoke,
+      t,
+    ]
   );
 }

@@ -30,12 +30,12 @@
 
 ## Phase 4. Row Actions
 
-- [ ] Crear menu de acciones condicionado por estado y permisos.
-- [ ] Crear dialog de confirmacion para reenvio.
-- [ ] Crear dialog destructivo de confirmacion para revocacion.
-- [ ] Deshabilitar solo la accion en curso de la fila afectada.
-- [ ] Reemplazar la fila al exito y mostrar snackbar localizado.
-- [ ] Refrescar la consulta ante `404`, `409` o incompatibilidad con el filtro activo.
+- [x] Crear menu de acciones condicionado por estado y permisos.
+- [x] Crear dialog de confirmacion para reenvio.
+- [x] Crear dialog destructivo de confirmacion para revocacion.
+- [x] Deshabilitar solo la accion en curso de la fila afectada.
+- [x] Reemplazar la fila al exito y mostrar snackbar localizado.
+- [x] Refrescar la consulta ante `404`, `409` o incompatibilidad con el filtro activo.
 
 ## Phase 5. Verification And Closure
 

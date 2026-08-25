@@ -47,7 +47,7 @@
 
 ## Phase 4. Row Actions
 
-- Status: `pending`
+- Status: `completed`
 - Objective: operar reenvio y revocacion de forma segura y visible.
 - Files:
   - `src/components/user-registration-invitations/*`
@@ -57,6 +57,7 @@
   - permisos y estado `PENDING` controlan acciones
   - fila se reconcilia con respuesta backend
   - `404`, `409` y fallo de proveedor se comunican correctamente
+  - typecheck, lint dirigido y `git diff --check` exitosos
 
 ## Phase 5. Verification And Closure
 

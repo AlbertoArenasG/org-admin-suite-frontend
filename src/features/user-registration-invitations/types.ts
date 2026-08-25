@@ -53,6 +53,11 @@ export interface FetchUserRegistrationInvitationsResult {
   };
 }
 
+export interface UserRegistrationInvitationMutationError {
+  message: string;
+  status: number | null;
+}
+
 export interface CreateUserRegistrationInvitationPayload {
   email: string;
   systemRole: Exclude<AuthSystemRole, 'MASTER_ADMIN'>;

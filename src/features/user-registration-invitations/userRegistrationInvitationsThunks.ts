@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import type { AuthSystemRole } from '@/features/auth/types';
 import { readPersistedAuthToken } from '@/features/auth/persistence';
-import { jsonRequest } from '@/lib/api-client';
+import { ApiError, jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 
 import type {
@@ -11,6 +11,7 @@ import type {
   FetchUserRegistrationInvitationsResult,
   InvitationDeliveryStatus,
   UserRegistrationInvitation,
+  UserRegistrationInvitationMutationError,
   UserRegistrationInvitationStatus,
 } from './types';
 
@@ -76,6 +77,23 @@ function mapInvitation(item: ApiUserRegistrationInvitation): UserRegistrationInv
       lastAttemptStatus: item.email_delivery?.last_attempt_status ?? null,
     },
     resendCount: item.resend_count ?? 0,
+  };
+}
+
+function mapMutationError(
+  error: unknown,
+  fallbackMessage: string
+): UserRegistrationInvitationMutationError {
+  if (error instanceof ApiError) {
+    return {
+      message: error.message || fallbackMessage,
+      status: error.status,
+    };
+  }
+
+  return {
+    message: error instanceof Error && error.message ? error.message : fallbackMessage,
+    status: null,
   };
 }
 
@@ -197,12 +215,15 @@ export const createUserRegistrationInvitation = createAsyncThunk<
 export const resendUserRegistrationInvitation = createAsyncThunk<
   { invitation: UserRegistrationInvitation; message: string | null },
   { invitationId: string },
-  { state: RootState }
+  { state: RootState; rejectValue: UserRegistrationInvitationMutationError }
 >('userRegistrationInvitations/resend', async ({ invitationId }, thunkAPI) => {
   const token = getAuthToken(thunkAPI.getState());
 
   if (!token) {
-    return thunkAPI.rejectWithValue('No hay token de autenticación');
+    return thunkAPI.rejectWithValue({
+      message: 'No hay token de autenticación',
+      status: null,
+    });
   }
 
   try {
@@ -222,23 +243,24 @@ export const resendUserRegistrationInvitation = createAsyncThunk<
       message: response.successMessage,
     };
   } catch (error) {
-    const message =
-      error instanceof Error && error.message
-        ? error.message
-        : 'No fue posible reenviar la invitación';
-    return thunkAPI.rejectWithValue(message);
+    return thunkAPI.rejectWithValue(
+      mapMutationError(error, 'No fue posible reenviar la invitación')
+    );
   }
 });
 
 export const revokeUserRegistrationInvitation = createAsyncThunk<
   { invitation: UserRegistrationInvitation; message: string | null },
   { invitationId: string },
-  { state: RootState }
+  { state: RootState; rejectValue: UserRegistrationInvitationMutationError }
 >('userRegistrationInvitations/revoke', async ({ invitationId }, thunkAPI) => {
   const token = getAuthToken(thunkAPI.getState());
 
   if (!token) {
-    return thunkAPI.rejectWithValue('No hay token de autenticación');
+    return thunkAPI.rejectWithValue({
+      message: 'No hay token de autenticación',
+      status: null,
+    });
   }
 
   try {
@@ -258,10 +280,8 @@ export const revokeUserRegistrationInvitation = createAsyncThunk<
       message: response.successMessage,
     };
   } catch (error) {
-    const message =
-      error instanceof Error && error.message
-        ? error.message
-        : 'No fue posible revocar la invitación';
-    return thunkAPI.rejectWithValue(message);
+    return thunkAPI.rejectWithValue(
+      mapMutationError(error, 'No fue posible revocar la invitación')
+    );
   }
 });

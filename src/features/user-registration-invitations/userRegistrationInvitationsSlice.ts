@@ -124,7 +124,7 @@ const userRegistrationInvitationsSlice = createSlice({
           status: 'failed',
           targetId: action.meta.arg.invitationId,
           error:
-            (action.payload as string | undefined) ??
+            action.payload?.message ??
             action.error.message ??
             'No fue posible reenviar la invitación',
           message: null,
@@ -152,7 +152,7 @@ const userRegistrationInvitationsSlice = createSlice({
           status: 'failed',
           targetId: action.meta.arg.invitationId,
           error:
-            (action.payload as string | undefined) ??
+            action.payload?.message ??
             action.error.message ??
             'No fue posible revocar la invitación',
           message: null,
