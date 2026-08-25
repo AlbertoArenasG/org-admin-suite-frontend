@@ -15,7 +15,7 @@
 
 ## Phase 2. Isolated Navigation Components
 
-- Status: `planned`
+- Status: `complete`
 - Objective: construir las piezas visuales sin lógica de autorización embebida.
 - Files:
   - `src/components/sidebar/SidebarBrand.tsx`

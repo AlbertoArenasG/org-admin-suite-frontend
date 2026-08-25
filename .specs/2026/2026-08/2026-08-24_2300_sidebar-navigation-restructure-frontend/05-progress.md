@@ -22,7 +22,8 @@
 - Se elaboraron el plan, la lista de tareas, el diseño técnico y el breakdown para revisión.
 - Se completó la Fase 1: dominio de navegación con definiciones, visibilidad, resolución de grupos y selección temporal aisladas de `AppSidebar`.
 - Se preservó la matriz actual de permisos, incluida la prioridad de ruta de Usuarios cuando solo existen operaciones de invitación.
+- Se completó la Fase 2: componentes de marca, rail, pane de navegación y cuenta separados del shell actual.
 
 ## Next
 
-- Iniciar la Fase 2: componentes aislados de navegación.
+- Iniciar la Fase 3: sustitución del shell y limpieza de Dashboard.

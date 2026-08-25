@@ -10,11 +10,11 @@
 
 ## Phase 2. Navigation Components
 
-- [ ] Crear `SidebarBrand` con navegación a Dashboard y controles de expansión aprobados.
-- [ ] Crear `SidebarGroupRail` con iconos, tooltips, foco y estado activo.
-- [ ] Crear `SidebarNavigationPane` con las entradas del grupo seleccionado.
-- [ ] Crear `SidebarAccountMenu` con perfil, preferencias y cierre de sesión.
-- [ ] Extraer piezas reutilizables de tema e idioma necesarias para los submenús de cuenta sin romper las vistas públicas.
+- [x] Crear `SidebarBrand` con navegación a Dashboard y controles de expansión aprobados.
+- [x] Crear `SidebarGroupRail` con iconos, tooltips, foco y estado activo.
+- [x] Crear `SidebarNavigationPane` con las entradas del grupo seleccionado.
+- [x] Crear `SidebarAccountMenu` con perfil, preferencias y cierre de sesión.
+- [x] Reutilizar los controles existentes de tema e idioma dentro de la superficie de cuenta sin romper las vistas públicas.
 
 ## Phase 3. Shell Migration And Dashboard
 
