@@ -1,7 +1,17 @@
 'use client';
 
-import { ChevronsUpDown, LogOut, UserCircle } from 'lucide-react';
+import {
+  ChevronsUpDown,
+  Globe,
+  LogOut,
+  Monitor,
+  Moon,
+  Settings,
+  Sun,
+  UserCircle,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { useTranslation } from 'react-i18next';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -11,11 +21,14 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import SelectLang from '@/components/shared/LangToggle';
-import { ModeToggle } from '@/components/shared/ModeToggle';
 import { logout } from '@/features/auth';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { getInitialsFromText } from '@/lib/get-initials';
@@ -40,7 +53,8 @@ export function SidebarAccountMenu({
 }: SidebarAccountMenuProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { t } = useTranslation(['myProfile', 'auth']);
+  const { setTheme, theme } = useTheme();
+  const { t, i18n } = useTranslation(['myProfile', 'auth', 'common']);
   const initials = getInitialsFromText(user.name || user.email, '??');
   const avatarSrc = user.avatar ?? undefined;
 
@@ -94,6 +108,47 @@ export function SidebarAccountMenu({
             <UserCircle />
             {t('myProfile:actions.view')}
           </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Settings />
+              {t('common:settings')}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent className="w-52">
+              <DropdownMenuLabel>{t('common:theme')}</DropdownMenuLabel>
+              <DropdownMenuRadioGroup
+                value={theme ?? 'system'}
+                onValueChange={(value) => setTheme(value)}
+              >
+                <DropdownMenuRadioItem value="light">
+                  <Sun />
+                  {t('common:themeLight')}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="dark">
+                  <Moon />
+                  {t('common:themeDark')}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="system">
+                  <Monitor />
+                  {t('common:themeSystem')}
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>{t('common:language')}</DropdownMenuLabel>
+              <DropdownMenuRadioGroup
+                value={i18n.language.startsWith('en') ? 'en' : 'es'}
+                onValueChange={(language) => void i18n.changeLanguage(language)}
+              >
+                <DropdownMenuRadioItem value="es">
+                  <Globe />
+                  {t('common:spanish')}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="en">
+                  <Globe />
+                  {t('common:english')}
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             variant="destructive"
@@ -107,20 +162,6 @@ export function SidebarAccountMenu({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {!collapsed ? (
-        <div className="mt-1 flex items-center gap-1 border-t border-white/10 pt-1">
-          <ModeToggle
-            buttonVariant="ghost"
-            buttonSize="icon"
-            buttonClassName="size-8 text-sidebar-foreground hover:bg-white/10 hover:text-sidebar-foreground"
-          />
-          <SelectLang
-            buttonVariant="ghost"
-            buttonSize="icon"
-            buttonClassName="size-8 text-sidebar-foreground hover:bg-white/10 hover:text-sidebar-foreground"
-          />
-        </div>
-      ) : null}
     </div>
   );
 }

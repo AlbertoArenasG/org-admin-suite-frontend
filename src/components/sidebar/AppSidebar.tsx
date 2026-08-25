@@ -65,7 +65,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       )}
       {...props}
     >
-      <SidebarHeader className={cn('p-4 pb-3', collapsed && 'p-2')}>
+      <SidebarHeader className="p-2">
         <SidebarBrand
           collapsed={collapsed}
           mobile={isMobile}

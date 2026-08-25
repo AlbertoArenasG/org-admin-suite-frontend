@@ -1,5 +1,7 @@
 {
   "language": "Idioma",
+  "settings": "Ajustes",
+  "theme": "Tema",
   "selectLanguage": "Selecciona idioma",
   "english": "Inglés",
   "spanish": "Español",
