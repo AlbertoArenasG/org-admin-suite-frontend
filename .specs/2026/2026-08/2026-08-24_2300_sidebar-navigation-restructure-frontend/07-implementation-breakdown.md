@@ -30,7 +30,7 @@
 
 ## Phase 3. Shell Replacement And Dashboard Cleanup
 
-- Status: `planned`
+- Status: `complete`
 - Objective: reemplazar la implementación actual en una sola superficie de navegación.
 - Files:
   - `src/components/sidebar/AppSidebar.tsx`

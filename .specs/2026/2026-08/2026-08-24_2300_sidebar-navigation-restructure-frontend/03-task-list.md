@@ -18,12 +18,12 @@
 
 ## Phase 3. Shell Migration And Dashboard
 
-- [ ] Sustituir el árbol de navegación de `AppSidebar` por el nuevo shell.
-- [ ] Integrar escritorio expandido, escritorio colapsado y drawer móvil.
-- [ ] Mantener el botón hamburguesa móvil como control explícito del drawer.
-- [ ] Reubicar cuenta y retirar los controles sueltos de tema e idioma.
-- [ ] Simplificar Dashboard y retirar sus cards, widgets y consultas de negocio.
-- [ ] Eliminar `NavMain`, `NavUser` y `SidebarLogo` si quedan sin referencias.
+- [x] Sustituir el árbol de navegación de `AppSidebar` por el nuevo shell.
+- [x] Integrar escritorio expandido, escritorio colapsado y drawer móvil.
+- [x] Mantener el botón hamburguesa móvil como control explícito del drawer.
+- [x] Reubicar cuenta y retirar los controles sueltos de tema e idioma.
+- [x] Simplificar Dashboard y retirar sus cards, widgets y consultas de negocio.
+- [x] Eliminar `NavMain`, `NavUser` y `SidebarLogo` si quedan sin referencias.
 
 ## Phase 4. Localisation, Verification And Closure
 

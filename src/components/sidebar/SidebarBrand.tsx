@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { PanelLeftClose, PanelLeftOpen, X } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -10,18 +10,31 @@ import { cn } from '@/lib/utils';
 
 type SidebarBrandProps = {
   collapsed: boolean;
+  mobile?: boolean;
   logoAlt: string;
   onToggle: () => void;
+  onNavigate?: () => void;
   className?: string;
 };
 
-export function SidebarBrand({ collapsed, logoAlt, onToggle, className }: SidebarBrandProps) {
-  const toggleLabel = collapsed ? 'Expandir navegación' : 'Contraer navegación';
+export function SidebarBrand({
+  collapsed,
+  mobile = false,
+  logoAlt,
+  onToggle,
+  onNavigate,
+  className,
+}: SidebarBrandProps) {
+  const toggleLabel = mobile
+    ? 'Cerrar navegación'
+    : collapsed
+      ? 'Expandir navegación'
+      : 'Contraer navegación';
 
   return (
     <div
       className={cn(
-        'group/brand flex min-h-16 items-center gap-3 rounded-2xl bg-white/10 p-3 text-sidebar-foreground',
+        'group/brand relative flex min-h-16 items-center gap-3 rounded-2xl bg-white/10 p-3 text-sidebar-foreground',
         collapsed && 'justify-center rounded-full bg-transparent p-0',
         className
       )}
@@ -29,6 +42,7 @@ export function SidebarBrand({ collapsed, logoAlt, onToggle, className }: Sideba
       <Link
         href="/dashboard"
         aria-label="Panel"
+        onClick={onNavigate}
         className="flex shrink-0 rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-sidebar-ring"
       >
         <span className="flex size-10 items-center justify-center rounded-xl bg-white p-1">
@@ -59,7 +73,9 @@ export function SidebarBrand({ collapsed, logoAlt, onToggle, className }: Sideba
                 'absolute opacity-0 transition-opacity group-hover/brand:opacity-100 group-focus-within/brand:opacity-100'
             )}
           >
-            {collapsed ? (
+            {mobile ? (
+              <X className="size-4" />
+            ) : collapsed ? (
               <PanelLeftOpen className="size-4" />
             ) : (
               <PanelLeftClose className="size-4" />

@@ -28,12 +28,14 @@ type SidebarAccountMenuProps = {
     avatar?: string | null;
   };
   collapsed?: boolean;
+  onNavigate?: () => void;
   className?: string;
 };
 
 export function SidebarAccountMenu({
   user,
   collapsed = false,
+  onNavigate,
   className,
 }: SidebarAccountMenuProps) {
   const dispatch = useAppDispatch();
@@ -83,12 +85,23 @@ export function SidebarAccountMenu({
             </span>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onSelect={() => router.push('/dashboard/me')}>
+          <DropdownMenuItem
+            onSelect={() => {
+              router.push('/dashboard/me');
+              onNavigate?.();
+            }}
+          >
             <UserCircle />
             {t('myProfile:actions.view')}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive" onSelect={handleLogout}>
+          <DropdownMenuItem
+            variant="destructive"
+            onSelect={() => {
+              handleLogout();
+              onNavigate?.();
+            }}
+          >
             <LogOut />
             {t('auth:logout')}
           </DropdownMenuItem>

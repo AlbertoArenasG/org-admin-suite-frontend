@@ -14,6 +14,7 @@ type SidebarGroupRailProps = {
   groups: ResolvedSidebarNavigation['groups'];
   selectedGroupId: SidebarGroupId;
   onSelectGroup: (groupId: SidebarGroupId) => void;
+  orientation?: 'vertical' | 'horizontal';
 };
 
 export function SidebarGroupRail({
@@ -21,16 +22,27 @@ export function SidebarGroupRail({
   groups,
   selectedGroupId,
   onSelectGroup,
+  orientation = 'vertical',
 }: SidebarGroupRailProps) {
+  const horizontal = orientation === 'horizontal';
+
   return (
-    <nav aria-label="Grupos de navegación" className="flex flex-col items-center gap-2">
+    <nav
+      aria-label="Grupos de navegación"
+      className={cn(
+        'flex items-center gap-2',
+        horizontal ? 'overflow-x-auto px-1 pb-1' : 'flex-col'
+      )}
+    >
       <RailButton
         icon={LayoutDashboard}
         label={dashboard.title}
         active={selectedGroupId === 'dashboard'}
         onClick={() => onSelectGroup('dashboard')}
       />
-      {groups.length > 0 ? <span className="h-px w-7 bg-sidebar-border/80" /> : null}
+      {groups.length > 0 ? (
+        <span className={cn('bg-sidebar-border/80', horizontal ? 'h-7 w-px' : 'h-px w-7')} />
+      ) : null}
       {groups.map((group) => (
         <RailButton
           key={group.id}

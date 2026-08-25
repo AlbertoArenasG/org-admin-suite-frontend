@@ -23,7 +23,8 @@
 - Se completó la Fase 1: dominio de navegación con definiciones, visibilidad, resolución de grupos y selección temporal aisladas de `AppSidebar`.
 - Se preservó la matriz actual de permisos, incluida la prioridad de ruta de Usuarios cuando solo existen operaciones de invitación.
 - Se completó la Fase 2: componentes de marca, rail, pane de navegación y cuenta separados del shell actual.
+- Se completó la Fase 3: `AppSidebar` compone el nuevo shell, el drawer móvil permite cambiar de grupo y el Dashboard quedó libre de widgets y consultas de negocio.
 
 ## Next
 
-- Iniciar la Fase 3: sustitución del shell y limpieza de Dashboard.
+- Iniciar la Fase 4: localización, validación manual y cierre.
