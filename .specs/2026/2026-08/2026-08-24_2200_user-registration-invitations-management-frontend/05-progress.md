@@ -27,7 +27,14 @@
   - namespace localizado de invitaciones en espanol e ingles
   - redireccion de creacion al listado de invitaciones
   - `npm run typecheck` y lint dirigido exitosos
+- Se implemento Phase 3:
+  - listado administrativo paginado, sincronizado con query params de URL
+  - busqueda por correo, filtro de estado, sorting remoto y administracion de columnas
+  - estados de carga, vacio, sin resultados y error con reintento
+  - metadata de rol, ciclo de vida, ultimo envio y reenvios
+  - indicador discreto para fallos del proveedor de correo
+  - `npm run typecheck`, lint dirigido y `git diff --check` exitosos
 
 ## Next
 
-- Iniciar Phase 3: listado de invitaciones.
+- Iniciar Phase 4: acciones de reenvio y revocacion por fila.

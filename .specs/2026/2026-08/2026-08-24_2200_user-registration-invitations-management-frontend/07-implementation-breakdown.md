@@ -34,7 +34,7 @@
 
 ## Phase 3. Invitation List
 
-- Status: `pending`
+- Status: `completed`
 - Objective: entregar el listado administrativo consultable y compartible por URL.
 - Files:
   - `src/components/user-registration-invitations/*`
@@ -43,6 +43,7 @@
   - datos, query params y paginacion sincronizados
   - columnas y estados visuales aprobados presentes
   - estados de carga, vacio, sin resultados y error resueltos
+  - typecheck, lint dirigido y `git diff --check` exitosos
 
 ## Phase 4. Row Actions
 

@@ -160,7 +160,7 @@ La tabla sigue el patron de tablas administrativas existentes:
 
 La columna visual de ciclo de vida usa:
 
-- `MailClock` para `PENDING`
+- composicion `Mail` + `Clock3` para `PENDING`
 - `MailCheck` para `CONSUMED`
 - `MailX` para `REVOKED`
 

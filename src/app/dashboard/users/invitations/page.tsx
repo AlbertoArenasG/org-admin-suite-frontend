@@ -1,6 +1,7 @@
 'use client';
 
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
+import { UserRegistrationInvitationsTableContainer } from '@/components/user-registration-invitations/UserRegistrationInvitationsTableContainer';
 import { Separator } from '@/components/ui/separator';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useTranslation } from 'react-i18next';
@@ -33,6 +34,8 @@ export default function UserRegistrationInvitationsPage() {
           />
         </div>
       </header>
+
+      <UserRegistrationInvitationsTableContainer />
     </div>
   );
 }

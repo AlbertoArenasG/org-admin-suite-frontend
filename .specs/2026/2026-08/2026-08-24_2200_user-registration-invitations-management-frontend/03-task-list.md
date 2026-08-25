@@ -21,12 +21,12 @@
 
 ## Phase 3. Invitation List
 
-- [ ] Crear modelo de fila, mapeo visual y store Zustand de la tabla.
-- [ ] Crear serializacion y parsing de query params.
-- [ ] Construir toolbar con busqueda, filtro de estado y administracion de columnas.
-- [ ] Construir tabla, skeleton, estado vacio, sin resultados y error con reintento.
-- [ ] Agregar columnas aprobadas y sus iconos de ciclo de vida.
-- [ ] Integrar paginacion y sorting remoto.
+- [x] Crear modelo de fila, mapeo visual y store Zustand de la tabla.
+- [x] Crear serializacion y parsing de query params.
+- [x] Construir toolbar con busqueda, filtro de estado y administracion de columnas.
+- [x] Construir tabla, skeleton, estado vacio, sin resultados y error con reintento.
+- [x] Agregar columnas aprobadas y sus iconos de ciclo de vida.
+- [x] Integrar paginacion y sorting remoto.
 
 ## Phase 4. Row Actions
 
