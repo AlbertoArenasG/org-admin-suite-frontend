@@ -61,7 +61,7 @@
 
 ## Phase 5. Verification And Closure
 
-- Status: `pending`
+- Status: `completed`
 - Objective: verificar el flujo completo y cerrar la spec.
 - Exit criteria:
   - lint y typecheck exitosos

@@ -15,7 +15,8 @@ Regla de trabajo:
 
 - Initiative: `user-registration-invitations-management-frontend`
 - Definition status: `completed`
-- Implementation ready: `no`; pending technical design and implementation breakdown
+- Implementation status: `completed`
+- Validation status: `completed`
 
 ## Confirmed Backend Contract
 

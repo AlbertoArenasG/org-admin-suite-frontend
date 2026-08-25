@@ -5,8 +5,8 @@
 - Definicion funcional: `completed`
 - Diseno tecnico: `approved`
 - Plan y breakdown: `approved`
-- Implementacion: `in_progress`
-- Validacion: `not_started`
+- Implementacion: `completed`
+- Validacion: `completed`
 
 ## Completed
 
@@ -40,7 +40,11 @@
   - carga aislada por fila, reemplazo local de la respuesta y snackbar localizado
   - reconciliacion de la consulta ante respuestas `404` y `409`
   - `npm run typecheck`, lint dirigido y `git diff --check` exitosos
+- Se completo Phase 5:
+  - validacion manual confirmada para listado, filtros, permisos, acciones y redireccion
+  - lint dirigido, typecheck y `git diff --check` exitosos
+  - documentos de la spec e indice actualizados para cierre formal
 
 ## Next
 
-- Ejecutar la validacion manual de Phase 5 y cerrar la spec.
+- Spec cerrada.

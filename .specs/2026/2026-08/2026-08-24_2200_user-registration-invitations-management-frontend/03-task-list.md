@@ -39,11 +39,11 @@
 
 ## Phase 5. Verification And Closure
 
-- [ ] Ejecutar lint dirigido.
-- [ ] Ejecutar typecheck.
-- [ ] Validar manualmente permisos y navegacion.
-- [ ] Validar busqueda, filtro, sorting, paginacion y columnas.
-- [ ] Validar reenvio aceptado, fallo de proveedor, revocacion y estados terminales.
-- [ ] Validar invitaciones heredadas sin metadata de envio.
-- [ ] Validar la redireccion posterior a crear invitacion.
-- [ ] Actualizar progreso, breakdown, definicion e indice de specs al cierre.
+- [x] Ejecutar lint dirigido.
+- [x] Ejecutar typecheck.
+- [x] Validar manualmente permisos y navegacion.
+- [x] Validar busqueda, filtro, sorting, paginacion y columnas.
+- [x] Validar reenvio aceptado, fallo de proveedor, revocacion y estados terminales.
+- [x] Validar invitaciones heredadas sin metadata de envio.
+- [x] Validar la redireccion posterior a crear invitacion.
+- [x] Actualizar progreso, breakdown, definicion e indice de specs al cierre.
