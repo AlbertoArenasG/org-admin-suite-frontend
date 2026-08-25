@@ -31,6 +31,7 @@ Reglas de trabajo:
 - Preservar rutas directas, estado activo y visibilidad por permisos actuales.
 - Organizar los modulos con los grupos iniciales Operación, Directorio, Comunicación, Configuración y Administración.
 - Mantener la pertenencia de cada entrada a un grupo como configuración de presentación fácilmente reasignable.
+- Elevar la calidad percibida con jerarquía espacial, estados activos y transiciones fluidas inspiradas en Slack y Discord, sin copiar su estética ni alterar el lenguaje visual vigente.
 
 ## Explicitly Out Of Scope
 

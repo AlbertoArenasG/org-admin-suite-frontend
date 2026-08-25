@@ -3,7 +3,7 @@
 ## Current Status
 
 - Definition: `complete`
-- Technical design: `not_started`
+- Technical design: `approved`
 - Implementation: `not_started`
 - Validation: `not_started`
 
@@ -19,7 +19,8 @@
 - Se aprobó la experiencia aislada de cuenta y preferencias.
 - Se aprobó la frontera técnica de navegación y componentes.
 - Se aprobó la sustitución completa sin compatibilidad temporal.
+- Se elaboraron el plan, la lista de tareas, el diseño técnico y el breakdown para revisión.
 
 ## Next
 
-- Elaborar el diseño técnico y el breakdown por fases antes de iniciar implementación.
+- Iniciar la Fase 1: dominio de navegación.
