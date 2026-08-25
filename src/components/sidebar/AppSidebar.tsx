@@ -65,7 +65,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       )}
       {...props}
     >
-      <SidebarHeader className="p-4 pb-3">
+      <SidebarHeader className={cn('p-4 pb-3', collapsed && 'p-2')}>
         <SidebarBrand
           collapsed={collapsed}
           mobile={isMobile}
@@ -76,7 +76,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
       </SidebarHeader>
       <div className="flex min-h-0 flex-1">
         {!isMobile ? (
-          <aside className="flex w-16 shrink-0 flex-col items-center border-r border-white/10 px-2 pt-1">
+          <aside className="flex w-14 shrink-0 flex-col items-center border-r border-white/10 px-1 pt-1">
             <SidebarGroupRail
               dashboard={dashboard}
               groups={groups}
@@ -110,7 +110,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
           />
         </SidebarContent>
       </div>
-      <SidebarFooter className="p-3 pt-2">
+      <SidebarFooter className={cn('p-3 pt-2', collapsed && 'p-2')}>
         <SidebarAccountMenu
           user={sidebarUser}
           collapsed={collapsed}

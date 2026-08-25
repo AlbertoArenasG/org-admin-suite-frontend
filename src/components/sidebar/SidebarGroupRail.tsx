@@ -32,7 +32,7 @@ export function SidebarGroupRail({
     <nav
       aria-label={t('navigationGroups')}
       className={cn(
-        'flex items-center gap-2',
+        'flex items-center gap-2.5',
         horizontal ? 'overflow-x-auto px-1 pb-1' : 'flex-col'
       )}
     >
@@ -43,7 +43,7 @@ export function SidebarGroupRail({
         onClick={() => onSelectGroup('dashboard')}
       />
       {groups.length > 0 ? (
-        <span className={cn('bg-sidebar-border/80', horizontal ? 'h-7 w-px' : 'h-px w-7')} />
+        <span className={cn('bg-sidebar-border/80', horizontal ? 'h-8 w-px' : 'h-px w-8')} />
       ) : null}
       {groups.map((group) => (
         <RailButton
@@ -75,11 +75,11 @@ function RailButton({ icon: Icon, label, active, onClick }: RailButtonProps) {
           aria-pressed={active}
           onClick={onClick}
           className={cn(
-            'flex size-10 items-center justify-center rounded-xl text-sidebar-foreground/70 outline-hidden transition-[background-color,color,transform] duration-200 ease-out hover:-translate-y-px hover:bg-white/10 hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+            'flex size-11 items-center justify-center rounded-xl text-sidebar-foreground/70 outline-hidden transition-[background-color,color,transform] duration-200 ease-out hover:-translate-y-px hover:bg-white/10 hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
             active && 'bg-white/15 text-sidebar-foreground shadow-sm'
           )}
         >
-          <Icon className="size-4.5" aria-hidden="true" />
+          <Icon className="size-5.5" aria-hidden="true" />
         </button>
       </TooltipTrigger>
       <TooltipContent side="right" align="center">
