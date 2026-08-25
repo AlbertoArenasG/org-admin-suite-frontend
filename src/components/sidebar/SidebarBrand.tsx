@@ -36,8 +36,9 @@ export function SidebarBrand({
   return (
     <div
       className={cn(
-        'group/brand relative flex min-h-16 items-center gap-3 rounded-2xl bg-white/10 p-3 text-sidebar-foreground',
-        collapsed && 'size-10 min-h-10 justify-center rounded-xl bg-transparent p-0',
+        'group/brand relative flex min-h-16 items-center gap-3 rounded-2xl border border-white/10 bg-[var(--sidebar-overlay)] p-3 text-sidebar-foreground shadow-[0_8px_20px_rgba(14,4,46,0.18)]',
+        collapsed &&
+          'size-10 min-h-10 justify-center rounded-xl border-transparent bg-transparent p-0 shadow-none',
         className
       )}
     >

@@ -98,6 +98,8 @@
   --sidebar-gradient-from: var(--secondary-900);
   --sidebar-gradient-via: var(--secondary-800);
   --sidebar-gradient-to: var(--secondary-700);
+  --sidebar-rail: var(--sidebar);
+  --sidebar-overlay: color-mix(in srgb, var(--sidebar) 92%, var(--sidebar-foreground));
 
   --surface-bg: #ffffff;
   --surface-border: #dfe7ec;
@@ -364,6 +366,7 @@
   --sidebar-gradient-from: var(--sidebar);
   --sidebar-gradient-via: var(--sidebar);
   --sidebar-gradient-to: var(--sidebar);
+  --sidebar-rail: color-mix(in srgb, var(--sidebar) 78%, var(--sidebar-accent));
 }
 
 @keyframes route-progress {

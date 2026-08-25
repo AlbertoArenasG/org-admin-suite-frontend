@@ -66,8 +66,8 @@ export function SidebarAccountMenu({
   return (
     <div
       className={cn(
-        'rounded-xl border border-white/10 bg-black/10 p-1.5 text-sidebar-foreground',
-        collapsed && 'border-transparent bg-transparent p-0',
+        'rounded-xl border border-white/10 bg-[var(--sidebar-overlay)] p-1.5 text-sidebar-foreground shadow-[0_8px_20px_rgba(14,4,46,0.18)]',
+        collapsed && 'border-transparent bg-transparent p-0 shadow-none',
         className
       )}
     >

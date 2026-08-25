@@ -29,7 +29,7 @@ export function SidebarDesktopShell({
     <div className="relative isolate flex h-full min-h-0 flex-col overflow-hidden">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 left-0 z-0 w-14 border-r border-white/10 bg-gradient-to-b from-[var(--sidebar-gradient-from)] via-[var(--sidebar-gradient-via)] to-[var(--sidebar-gradient-to)]"
+        className="pointer-events-none absolute inset-y-0 left-0 z-0 w-14 border-r border-white/10 bg-[var(--sidebar-rail)]"
       />
       <SidebarHeader className="relative z-10 p-2">
         <SidebarBrand collapsed={collapsed} logoAlt={logoAlt} onToggle={onToggle} />
