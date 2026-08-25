@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { Fragment } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -37,22 +38,22 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
           const itemClass = segment.hideOnDesktop ? 'hidden md:block' : undefined;
 
           return (
-            <BreadcrumbItem key={`${segment.label}-${index}`} className={itemClass}>
-              {segment.href && !isLast ? (
-                <Link href={segment.href} className="hover:text-foreground transition-colors">
-                  {segment.label}
-                </Link>
-              ) : (
-                <BreadcrumbPage>{segment.label}</BreadcrumbPage>
-              )}
+            <Fragment key={`${segment.label}-${index}`}>
+              <BreadcrumbItem className={itemClass}>
+                {segment.href && !isLast ? (
+                  <Link href={segment.href} className="hover:text-foreground transition-colors">
+                    {segment.label}
+                  </Link>
+                ) : (
+                  <BreadcrumbPage>{segment.label}</BreadcrumbPage>
+                )}
+              </BreadcrumbItem>
               {!isLast ? (
-                <span className="inline-flex">
-                  <BreadcrumbSeparator
-                    className={segment.hideOnDesktop ? 'hidden md:block' : undefined}
-                  />
-                </span>
+                <BreadcrumbSeparator
+                  className={segment.hideOnDesktop ? 'hidden md:flex' : undefined}
+                />
               ) : null}
-            </BreadcrumbItem>
+            </Fragment>
           );
         })}
       </BreadcrumbList>
