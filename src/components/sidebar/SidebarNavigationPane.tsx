@@ -46,8 +46,8 @@ export function SidebarNavigationPane({
                   <button
                     type="button"
                     className={cn(
-                      'flex h-auto min-h-10 w-full min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-left text-sm text-sidebar-foreground/85 outline-hidden transition-colors hover:bg-white/10 hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
-                      entry.isActive && 'bg-white/10 text-sidebar-foreground'
+                      'flex h-auto min-h-10 w-full min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-left text-sm text-sidebar-foreground/85 outline-hidden transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+                      entry.isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
                     )}
                   >
                     {entry.icon ? <entry.icon className="mt-0.5 size-4 shrink-0" /> : null}
@@ -91,9 +91,9 @@ function SidebarNavigationLink({ entry, onNavigate, root = false }: SidebarNavig
       href={entry.href}
       onClick={onNavigate}
       className={cn(
-        'flex h-auto min-h-9 min-w-0 items-start gap-2 rounded-lg px-1 py-2 text-sm text-sidebar-foreground/75 outline-hidden transition-colors hover:bg-white/10 hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+        'flex h-auto min-h-9 min-w-0 items-start gap-2 rounded-lg px-1 py-2 text-sm text-sidebar-foreground/75 outline-hidden transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
         root && 'min-h-10 px-3 text-sidebar-foreground/85',
-        entry.isActive && 'bg-white/15 text-sidebar-foreground'
+        entry.isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
       )}
     >
       {Icon ? <Icon className="mt-0.5 size-4 shrink-0" /> : null}

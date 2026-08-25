@@ -75,8 +75,8 @@ function RailButton({ icon: Icon, label, active, onClick }: RailButtonProps) {
           aria-pressed={active}
           onClick={onClick}
           className={cn(
-            'flex size-11 items-center justify-center rounded-xl text-sidebar-foreground/70 outline-hidden transition-[background-color,color,transform] duration-200 ease-out hover:-translate-y-px hover:bg-white/10 hover:text-sidebar-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
-            active && 'bg-white/15 text-sidebar-foreground shadow-sm'
+            'flex size-11 items-center justify-center rounded-xl text-sidebar-foreground/70 outline-hidden transition-[background-color,color,transform] duration-200 ease-out hover:-translate-y-px hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+            active && 'bg-sidebar-accent text-sidebar-accent-foreground shadow-sm'
           )}
         >
           <Icon className="size-6" aria-hidden="true" />
