@@ -1,6 +1,7 @@
 'use client';
 
 import { LayoutDashboard } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type {
@@ -24,11 +25,12 @@ export function SidebarGroupRail({
   onSelectGroup,
   orientation = 'vertical',
 }: SidebarGroupRailProps) {
+  const { t } = useTranslation('nav');
   const horizontal = orientation === 'horizontal';
 
   return (
     <nav
-      aria-label="Grupos de navegación"
+      aria-label={t('navigationGroups')}
       className={cn(
         'flex items-center gap-2',
         horizontal ? 'overflow-x-auto px-1 pb-1' : 'flex-col'

@@ -27,8 +27,8 @@
 
 ## Phase 4. Localisation, Verification And Closure
 
-- [ ] Agregar y validar copies localizados necesarios.
-- [ ] Ejecutar lint dirigido, typecheck y `git diff --check`.
+- [x] Agregar y validar copies localizados necesarios.
+- [x] Ejecutar lint dirigido, typecheck y `git diff --check`.
 - [ ] Validar manualmente visibilidad de módulos, subrutas y grupos vacíos.
 - [ ] Validar rutas directas, selección de grupo y navegación desde logo/Dashboard.
 - [ ] Validar escritorio expandido/colapsado, teclado, reducción de movimiento y móvil.

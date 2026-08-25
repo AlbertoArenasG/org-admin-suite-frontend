@@ -4,6 +4,10 @@
   "english": "English",
   "spanish": "Spanish",
   "changeLanguage": "Change language",
+  "changeTheme": "Change theme",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "themeSystem": "System",
   "done": "All set",
   "errorTitle": "Something went wrong",
   "loading": "Loading..."

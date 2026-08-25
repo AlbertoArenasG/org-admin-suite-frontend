@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { PanelLeftClose, PanelLeftOpen, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -25,11 +26,12 @@ export function SidebarBrand({
   onNavigate,
   className,
 }: SidebarBrandProps) {
+  const { t } = useTranslation('nav');
   const toggleLabel = mobile
-    ? 'Cerrar navegación'
+    ? t('closeNavigation')
     : collapsed
-      ? 'Expandir navegación'
-      : 'Contraer navegación';
+      ? t('expandNavigation')
+      : t('collapseNavigation');
 
   return (
     <div
@@ -41,7 +43,7 @@ export function SidebarBrand({
     >
       <Link
         href="/dashboard"
-        aria-label="Panel"
+        aria-label={t('dashboard')}
         onClick={onNavigate}
         className="flex shrink-0 rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-sidebar-ring"
       >

@@ -5,7 +5,7 @@
 - Definition: `complete`
 - Technical design: `approved`
 - Implementation: `in_progress`
-- Validation: `not_started`
+- Validation: `in_progress`
 
 ## Completed
 
@@ -24,7 +24,9 @@
 - Se preservó la matriz actual de permisos, incluida la prioridad de ruta de Usuarios cuando solo existen operaciones de invitación.
 - Se completó la Fase 2: componentes de marca, rail, pane de navegación y cuenta separados del shell actual.
 - Se completó la Fase 3: `AppSidebar` compone el nuevo shell, el drawer móvil permite cambiar de grupo y el Dashboard quedó libre de widgets y consultas de negocio.
+- Se completaron `typecheck`, `lint`, build de producción y revisión de whitespace.
+- Se documentó el checklist de validación manual de permisos, rutas, responsive, cuenta y preferencias.
 
 ## Next
 
-- Iniciar la Fase 4: localización, validación manual y cierre.
+- Ejecutar la validación manual documentada y cerrar la Fase 4.
