@@ -19,7 +19,7 @@
   --card: #ffffff;
   --card-foreground: #111827;
   --radius: 0.625rem;
-  --font-sans:
+  --font-sans-stack:
     var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* ===== Turquesa (principal del logo) ===== */
@@ -333,25 +333,22 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: var(--font-sans);
+    font-family: var(--font-sans-stack);
   }
 
-  :is(
+  :where(
     .MuiTypography-root,
     .MuiButtonBase-root,
     .MuiInputBase-input,
     .MuiDataGrid-root,
-    .MuiDataGrid-root *,
     .MuiTablePagination-root,
-    .MuiTablePagination-root *,
-    .MuiTableCell-root,
     .MuiChip-label,
     .MuiAlert-root,
     .MuiFormLabel-root,
     .MuiListItemText-root,
     .MuiBreadcrumbs-root
   ) {
-    font-family: var(--font-sans) !important;
+    font-family: var(--font-sans-stack);
   }
 }
 
