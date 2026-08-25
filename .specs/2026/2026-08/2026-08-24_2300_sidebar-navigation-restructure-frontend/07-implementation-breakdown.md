@@ -2,7 +2,7 @@
 
 ## Phase 1. Navigation Domain
 
-- Status: `planned`
+- Status: `complete`
 - Objective: concentrar estructura y reglas de presentación fuera de `AppSidebar`.
 - Files:
   - `src/components/sidebar/navigation/*`

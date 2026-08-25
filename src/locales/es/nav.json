@@ -1,6 +1,8 @@
 {
   "platform": "Plataforma",
   "operation": "Operación",
+  "directory": "Directorio",
+  "communication": "Comunicación",
   "configuration": "Configuración",
   "administration": "Administración",
   "dashboard": "Panel",

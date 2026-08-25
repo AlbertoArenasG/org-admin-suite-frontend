@@ -1,6 +1,8 @@
 {
   "platform": "Platform",
   "operation": "Operations",
+  "directory": "Directory",
+  "communication": "Communication",
   "configuration": "Configuration",
   "administration": "Administration",
   "dashboard": "Dashboard",

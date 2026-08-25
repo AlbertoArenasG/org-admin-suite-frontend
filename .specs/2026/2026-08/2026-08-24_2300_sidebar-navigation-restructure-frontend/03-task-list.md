@@ -2,11 +2,11 @@
 
 ## Phase 1. Navigation Domain
 
-- [ ] Crear tipos de navegación, grupos y entradas.
-- [ ] Crear las definiciones centralizadas de grupos, rutas, labels e iconos.
-- [ ] Extraer las reglas actuales de visibilidad a un adaptador que invoque `hasModule` y `hasPermission`.
-- [ ] Crear el resolvedor de entradas visibles, grupos vacíos y ruta activa.
-- [ ] Crear `useSidebarNavigation` para coordinar ruta, autorización y selección temporal de grupo.
+- [x] Crear tipos de navegación, grupos y entradas.
+- [x] Crear las definiciones centralizadas de grupos, rutas, labels e iconos.
+- [x] Extraer las reglas actuales de visibilidad a un adaptador que invoque `hasModule` y `hasPermission`.
+- [x] Crear el resolvedor de entradas visibles, grupos vacíos y ruta activa.
+- [x] Crear `useSidebarNavigation` para coordinar ruta, autorización y selección temporal de grupo.
 
 ## Phase 2. Navigation Components
 

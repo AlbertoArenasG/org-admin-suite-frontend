@@ -4,7 +4,7 @@
 
 - Definition: `complete`
 - Technical design: `approved`
-- Implementation: `not_started`
+- Implementation: `in_progress`
 - Validation: `not_started`
 
 ## Completed
@@ -20,7 +20,9 @@
 - Se aprobó la frontera técnica de navegación y componentes.
 - Se aprobó la sustitución completa sin compatibilidad temporal.
 - Se elaboraron el plan, la lista de tareas, el diseño técnico y el breakdown para revisión.
+- Se completó la Fase 1: dominio de navegación con definiciones, visibilidad, resolución de grupos y selección temporal aisladas de `AppSidebar`.
+- Se preservó la matriz actual de permisos, incluida la prioridad de ruta de Usuarios cuando solo existen operaciones de invitación.
 
 ## Next
 
-- Iniciar la Fase 1: dominio de navegación.
+- Iniciar la Fase 2: componentes aislados de navegación.
