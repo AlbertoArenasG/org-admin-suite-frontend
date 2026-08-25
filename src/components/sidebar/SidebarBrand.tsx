@@ -37,7 +37,7 @@ export function SidebarBrand({
     <div
       className={cn(
         'group/brand relative flex min-h-16 items-center gap-3 rounded-2xl bg-white/10 p-3 text-sidebar-foreground',
-        collapsed && 'justify-center rounded-full bg-transparent p-0',
+        collapsed && 'size-10 min-h-10 justify-center rounded-xl bg-transparent p-0',
         className
       )}
     >
@@ -72,7 +72,7 @@ export function SidebarBrand({
             className={cn(
               'size-8 shrink-0 text-sidebar-foreground hover:bg-white/10 hover:text-sidebar-foreground',
               collapsed &&
-                'absolute opacity-0 transition-opacity group-hover/brand:opacity-100 group-focus-within/brand:opacity-100'
+                'absolute inset-0 size-10 bg-[var(--sidebar-primary)] opacity-0 transition-[opacity,background-color] group-hover/brand:opacity-100 focus-visible:opacity-100 hover:bg-[var(--secondary-500)]'
             )}
           >
             {mobile ? (
