@@ -20,7 +20,7 @@
   --card-foreground: #111827;
   --radius: 0.625rem;
   --font-sans:
-    var(--font-lato), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* ===== Turquesa (principal del logo) ===== */
   --primary-50: #f1fcfb;

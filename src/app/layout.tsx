@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
-import { Geist_Mono, Lato } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { AppProviders } from '@/components/providers/AppProviders';
 
-const lato = Lato({
-  variable: '--font-lato',
+const geistSans = Geist({
+  variable: '--font-geist-sans',
   subsets: ['latin'],
-  weight: ['400', '700', '900'],
 });
 
 const geistMono = Geist_Mono({
@@ -25,7 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${lato.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="es"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
       <body className="antialiased" suppressHydrationWarning>
         <AppProviders>{children}</AppProviders>
       </body>
