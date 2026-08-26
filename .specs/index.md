@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [user-customer-relationship-frontend](./2026/2026-08/2026-08-26_1309_user-customer-relationship-frontend/00-definition.md) - in progress
+- [user-customer-relationship-frontend](./2026/2026-08/2026-08-26_1309_user-customer-relationship-frontend/00-definition.md) - completed
 - [sidebar-navigation-restructure-frontend](./2026/2026-08/2026-08-24_2300_sidebar-navigation-restructure-frontend/00-definition.md) - completed
 - [user-registration-invitations-management-frontend](./2026/2026-08/2026-08-24_2200_user-registration-invitations-management-frontend/00-definition.md) - completed
 - [internal-asset-control-frontend](./2026/2026-08/2026-08-17_1700_internal-asset-control-frontend/00-definition.md) - completed

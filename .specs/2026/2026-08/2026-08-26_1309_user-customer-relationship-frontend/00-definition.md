@@ -17,6 +17,8 @@ Reglas de trabajo:
 - Definition status: `completed`
 - Technical design status: `completed`
 - Implementation ready: `yes`
+- Implementation status: `completed`
+- Validation status: `completed`
 
 ## Confirmed Backend Contract
 

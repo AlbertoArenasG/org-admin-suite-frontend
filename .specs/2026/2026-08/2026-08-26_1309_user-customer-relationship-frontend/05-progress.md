@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Validation.
+Completed.
 
 ## Completed
 
@@ -37,7 +37,7 @@ Validation.
 
 ## Next
 
-- Ejecutar y confirmar la validacion manual; despues actualizar el cierre formal e indice de specs.
+- Spec cerrada formalmente.
 
 ## Manual Validation Checklist
 
@@ -50,3 +50,9 @@ Validation.
 - En un Cliente `ACTIVE`, probar agregar y remover usuario; comprobar que la lista y candidatos se actualizan.
 - En un Cliente `INACTIVE`, confirmar que el listado se puede consultar y las acciones de mutacion no se muestran.
 - Verificar un rol con solo `CUSTOMERS/READ` y otro con `CUSTOMERS/UPDATE`, sin permisos `USERS/*`, para confirmar la frontera contextual.
+
+## Validation Result
+
+- Validacion manual: completed.
+- Verificacion estatica: completed.
+- Resultado: la integracion de relaciones usuario-cliente queda validada para cierre.

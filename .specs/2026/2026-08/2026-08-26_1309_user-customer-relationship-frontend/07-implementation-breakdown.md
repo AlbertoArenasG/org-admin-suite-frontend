@@ -75,7 +75,7 @@ Implementado en una feature Redux aislada de Usuarios y Clientes. La seccion con
 
 Objetivo: comprobar contratos, permisos, localizacion y regresiones visibles.
 
-Estado: in progress.
+Estado: completed.
 
 - Ejecutar typecheck y lint del frontend.
 - Validar manualmente invitacion, edicion, detalles, filtro global y administracion contextual con permisos de lectura y actualizacion.
@@ -84,4 +84,4 @@ Estado: in progress.
 
 No se agregan pruebas automatizadas en esta entrega.
 
-La verificacion estatica paso con `typecheck`, `lint` y `git diff --check`. La validacion manual queda pendiente de confirmacion del usuario antes del cierre formal.
+La verificacion estatica paso con `typecheck`, `lint` y `git diff --check`. La validacion manual fue confirmada por el usuario y la spec queda cerrada formalmente.
