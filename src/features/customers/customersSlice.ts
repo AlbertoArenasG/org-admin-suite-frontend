@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
   fetchCustomers,
+  fetchCustomerOptions,
   fetchCustomerById,
   fetchCustomerPublicAccess,
   createCustomer,
@@ -73,6 +74,18 @@ export interface CustomerPublicAccess {
   publicAccessUrl: string | null;
 }
 
+export interface CustomerOption {
+  id: string;
+  companyName: string;
+}
+
+export interface CustomerRelationshipSummary {
+  id: string;
+  companyName: string;
+  status: string;
+  statusName: string;
+}
+
 export interface CustomersPagination {
   page: number;
   perPage: number;
@@ -85,6 +98,11 @@ export interface CustomersState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
   pagination: CustomersPagination | null;
+  options: {
+    items: CustomerOption[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+  };
   detail: {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
@@ -122,6 +140,11 @@ const initialState: CustomersState = {
   status: 'idle',
   error: null,
   pagination: null,
+  options: {
+    items: [],
+    status: 'idle',
+    error: null,
+  },
   detail: {
     status: 'idle',
     error: null,
@@ -220,6 +243,22 @@ const customersSlice = createSlice({
           (action.payload as string | undefined) ??
           action.error.message ??
           'No fue posible obtener la lista de clientes';
+      })
+      .addCase(fetchCustomerOptions.pending, (state) => {
+        state.options.status = 'loading';
+        state.options.error = null;
+      })
+      .addCase(fetchCustomerOptions.fulfilled, (state, action) => {
+        state.options.status = 'succeeded';
+        state.options.items = action.payload.options;
+        state.options.error = null;
+      })
+      .addCase(fetchCustomerOptions.rejected, (state, action) => {
+        state.options.status = 'failed';
+        state.options.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible obtener las opciones de clientes';
       })
       .addCase(fetchCustomerById.pending, (state, action) => {
         state.detail.status = 'loading';

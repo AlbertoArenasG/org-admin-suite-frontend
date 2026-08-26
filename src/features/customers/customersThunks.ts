@@ -7,6 +7,7 @@ import type {
   CustomerCfdiDetails,
   CustomerContact,
   CustomerFileMetadata,
+  CustomerOption,
   CustomerPublicAccess,
   CustomersPagination,
 } from '@/features/customers/customersSlice';
@@ -31,6 +32,11 @@ interface ApiCustomer {
 interface ApiCustomerPublicAccess {
   public_access_token?: string | null;
   public_access_url?: string | null;
+}
+
+interface ApiCustomerOption {
+  customer_id: string;
+  company_name: string;
 }
 
 interface ApiFiscalProfile {
@@ -102,6 +108,10 @@ interface FetchCustomersResponseMeta {
 export interface FetchCustomersResult {
   customers: Customer[];
   pagination: CustomersPagination;
+}
+
+export interface FetchCustomerOptionsResult {
+  options: CustomerOption[];
 }
 
 export interface CreateCustomerPayload {
@@ -293,6 +303,43 @@ export const fetchCustomers = createAsyncThunk<
       error instanceof Error && error.message
         ? error.message
         : 'No fue posible obtener la lista de clientes';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const fetchCustomerOptions = createAsyncThunk<
+  FetchCustomerOptionsResult,
+  void,
+  { state: RootState }
+>('customers/fetchOptions', async (_, thunkAPI) => {
+  const token = thunkAPI.getState().auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiCustomerOption[]>(`/v1/customers/options`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+      token,
+    });
+
+    return {
+      options: Array.isArray(response.data)
+        ? response.data.map((customer) => ({
+            id: customer.customer_id,
+            companyName: customer.company_name,
+          }))
+        : [],
+    };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible obtener las opciones de clientes';
     return thunkAPI.rejectWithValue(message);
   }
 });

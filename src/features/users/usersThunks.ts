@@ -3,6 +3,7 @@ import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type { User, UserRoleInfo } from './usersSlice';
 import type { AuthSystemRole } from '@/features/auth/types';
+import type { CustomerRelationshipSummary } from '@/features/customers';
 import { readPersistedAuthToken } from '@/features/auth/persistence';
 
 export interface FetchUsersParams {
@@ -44,6 +45,7 @@ interface ApiUser {
   lastname: string;
   email: string;
   system_role: AuthSystemRole;
+  system_role_name?: string | null;
   role_id: string | null;
   role_name?: string | null;
   status: string;
@@ -53,6 +55,12 @@ interface ApiUser {
     number: string;
   };
   created_at: string;
+  customers?: Array<{
+    customer_id: string;
+    company_name: string;
+    status: string;
+    status_name: string;
+  }>;
 }
 
 interface FetchUsersApiResponse {
@@ -82,6 +90,7 @@ const mapUser = (user: ApiUser): User => ({
   lastname: user.lastname,
   fullName: [user.name, user.lastname].filter(Boolean).join(' ').trim() || user.email,
   systemRole: user.system_role,
+  systemRoleName: user.system_role_name ?? user.system_role,
   roleId: user.role_id,
   roleName: user.role_name ?? null,
   status: user.status,
@@ -93,6 +102,16 @@ const mapUser = (user: ApiUser): User => ({
       }
     : null,
   createdAt: user.created_at,
+  ...(user.customers === undefined
+    ? {}
+    : {
+        customers: user.customers.map<CustomerRelationshipSummary>((customer) => ({
+          id: customer.customer_id,
+          companyName: customer.company_name,
+          status: customer.status,
+          statusName: customer.status_name,
+        })),
+      }),
 });
 
 export const fetchUsers = createAsyncThunk<

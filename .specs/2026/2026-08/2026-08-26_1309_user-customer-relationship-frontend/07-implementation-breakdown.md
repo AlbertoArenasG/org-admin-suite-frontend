@@ -4,11 +4,15 @@
 
 Objetivo: incorporar los tipos y la consulta reutilizable de opciones activas sin tocar aun formularios o pantallas.
 
+Estado: completed.
+
 - Agregar `CustomerOption` y `CustomerRelationshipSummary` a `features/customers`.
 - Agregar el estado `options` y el thunk para `GET /v1/customers/options` en la feature de Clientes.
 - Extender el mapeo y tipos de `User` con `systemRoleName` y `customers` solo para detalle.
 - Extender los tipos de detalle de invitacion con `customers`.
 - Verificar que todos los IDs del resumen usan `customer_id` en API y `id` internamente en frontend.
+
+Implementado con el contrato de backend corregido para que el detalle de Usuario emita `customers[].customer_id`.
 
 ## Slice 2. Selector Reutilizable Y Formularios
 

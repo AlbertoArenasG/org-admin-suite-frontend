@@ -4,6 +4,7 @@ import type { AuthSystemRole } from '@/features/auth/types';
 import { readPersistedAuthToken } from '@/features/auth/persistence';
 import { ApiError, jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
+import type { CustomerRelationshipSummary } from '@/features/customers';
 
 import type {
   CreateUserRegistrationInvitationPayload,
@@ -34,6 +35,12 @@ interface ApiUserRegistrationInvitation {
   revoked_at: string | null;
   email_delivery?: ApiInvitationDelivery | null;
   resend_count?: number | null;
+  customers?: Array<{
+    customer_id: string;
+    company_name: string;
+    status: string;
+    status_name: string;
+  }>;
 }
 
 interface ApiInvitationCreateResponse {
@@ -77,6 +84,16 @@ function mapInvitation(item: ApiUserRegistrationInvitation): UserRegistrationInv
       lastAttemptStatus: item.email_delivery?.last_attempt_status ?? null,
     },
     resendCount: item.resend_count ?? 0,
+    ...(item.customers === undefined
+      ? {}
+      : {
+          customers: item.customers.map<CustomerRelationshipSummary>((customer) => ({
+            id: customer.customer_id,
+            companyName: customer.company_name,
+            status: customer.status,
+            statusName: customer.status_name,
+          })),
+        }),
   };
 }
 

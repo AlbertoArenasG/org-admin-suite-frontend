@@ -27,7 +27,8 @@ Implementation.
 - Se aprobo la separacion entre filtro global persistido en URL y tabla contextual con estado local.
 - Se documento el breakdown de implementacion en seis slices para revision antes de iniciar codigo.
 - Se cerro formalmente la fase de Technical Design.
+- Se completo el Slice 1: lookup cacheado de Clientes, tipos compartidos y mapeo de detalles de Usuario e Invitacion.
 
 ## Next
 
-- Iniciar el Slice 1: contratos compartidos y lookup de Clientes.
+- Iniciar el Slice 2: selector reutilizable e integracion en formularios.

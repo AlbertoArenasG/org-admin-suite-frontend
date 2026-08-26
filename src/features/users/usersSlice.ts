@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { fetchUsers, fetchUserRoles, fetchUserById, updateUser, deleteUser } from './usersThunks';
 import type { AuthSystemRole } from '@/features/auth/types';
+import type { CustomerRelationshipSummary } from '@/features/customers';
 
 export interface User {
   id: string;
@@ -10,6 +11,7 @@ export interface User {
   lastname: string;
   fullName: string;
   systemRole: AuthSystemRole;
+  systemRoleName: string;
   roleId: string | null;
   roleName: string | null;
   status: string;
@@ -19,6 +21,7 @@ export interface User {
     number: string;
   } | null;
   createdAt: string;
+  customers?: CustomerRelationshipSummary[];
 }
 
 export interface UsersState {

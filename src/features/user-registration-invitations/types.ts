@@ -1,4 +1,5 @@
 import type { AuthSystemRole } from '@/features/auth/types';
+import type { CustomerRelationshipSummary } from '@/features/customers';
 
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
 export type UserRegistrationInvitationStatus = 'PENDING' | 'CONSUMED' | 'REVOKED';
@@ -23,6 +24,7 @@ export interface UserRegistrationInvitation {
     lastAttemptStatus: InvitationDeliveryStatus;
   };
   resendCount: number;
+  customers?: CustomerRelationshipSummary[];
 }
 
 export interface UserRegistrationInvitationsFilters {
