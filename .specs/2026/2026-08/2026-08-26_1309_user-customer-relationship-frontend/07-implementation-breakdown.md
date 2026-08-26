@@ -32,11 +32,15 @@ Implementado con `customerIds` como campo canonico de React Hook Form. El lookup
 
 Objetivo: mostrar resumentes de Clientes sin cargar datos extra ni agregar enlaces no autorizados.
 
+Estado: completed.
+
 - Crear `RelatedCustomersSection` reutilizable.
 - Integrarlo en el detalle de Usuario a partir de `GET /v1/users/:userId`.
 - Crear el detalle administrativo de Invitacion en `/dashboard/users/invitations/[invitationId]`.
 - Integrar la misma seccion con el detalle de invitacion y enlazarlo desde las acciones de su tabla.
 - Implementar estados de carga, error y vacio localizados.
+
+Implementado con `RelatedCustomersSection` como componente presentacional comun. El detalle de Invitacion usa su propio thunk y estado Redux contra `GET /v1/user-registration-invitations/:invitationId`; el detalle de Usuario reutiliza los datos ya obtenidos en su endpoint. Ninguna relacion agrega enlaces o requiere permisos de Clientes.
 
 ## Slice 4. Filtro De Cliente En Usuarios
 

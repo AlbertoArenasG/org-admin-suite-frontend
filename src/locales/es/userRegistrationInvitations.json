@@ -34,6 +34,7 @@
     "createShort": "Invitar",
     "resend": "Reenviar invitación",
     "revoke": "Revocar invitación",
+    "view": "Ver detalles",
     "openMenu": "Abrir menú de acciones",
     "searchPlaceholder": "Buscar por correo...",
     "manageColumns": "Administrar columnas",
@@ -42,6 +43,12 @@
     "retry": "Reintentar"
   },
   "pagination": "Página {{page}} de {{pages}} · {{total}} invitaciones",
+  "detail": {
+    "title": "Detalle de la invitación",
+    "subtitle": "Consulta el estado y los clientes relacionados.",
+    "back": "Volver al listado",
+    "notFound": "No fue posible encontrar esta invitación."
+  },
   "dialogs": {
     "resend": {
       "title": "Reenviar invitación",

@@ -276,6 +276,7 @@ export function UserRegistrationInvitationsTableContainer() {
     isRowActionLoading,
     onResend: (invitation) => setActionTarget({ action: 'resend', invitation }),
     onRevoke: (invitation) => setActionTarget({ action: 'revoke', invitation }),
+    onView: (invitation) => router.push(`/dashboard/users/invitations/${invitation.invitationId}`),
   });
   const table = useReactTable({
     data: tableData,

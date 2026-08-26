@@ -29,7 +29,8 @@ Implementation.
 - Se cerro formalmente la fase de Technical Design.
 - Se completo el Slice 1: lookup cacheado de Clientes, tipos compartidos y mapeo de detalles de Usuario e Invitacion.
 - Se completo el Slice 2: selector multiple reutilizable, carga diferida de opciones y payloads de invitacion y edicion con `customer_ids` para usuarios `USER`.
+- Se completo el Slice 3: detalle administrativo de Invitacion, navegacion desde la tabla y seccion reutilizable de Clientes relacionados en detalles de Invitacion y Usuario.
 
 ## Next
 
-- Iniciar el Slice 3: detalles administrativos de Clientes relacionados.
+- Iniciar el Slice 4: filtro global de Usuarios por Cliente.

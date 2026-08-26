@@ -19,6 +19,7 @@ import { fetchUserById } from '@/features/users/usersThunks';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitialsFromText } from '@/lib/get-initials';
 import { useAuthorization } from '@/features/auth';
+import { RelatedCustomersSection } from '@/components/user-customer-relationships/RelatedCustomersSection';
 
 export default function UserDetailPage() {
   const params = useParams<{ userId: string }>();
@@ -187,15 +188,18 @@ export default function UserDetailPage() {
               {loadError}
             </div>
           ) : user ? (
-            detailRows.map((row) => (
-              <div
-                key={row.label}
-                className="flex flex-col gap-1 rounded-xl border border-border/60 bg-card/60 px-4 py-3 md:flex-row md:items-center md:justify-between"
-              >
-                <span className="text-sm text-muted-foreground">{row.label}</span>
-                <span className="text-sm font-medium text-foreground">{row.value}</span>
-              </div>
-            ))
+            <>
+              {detailRows.map((row) => (
+                <div
+                  key={row.label}
+                  className="flex flex-col gap-1 rounded-xl border border-border/60 bg-card/60 px-4 py-3 md:flex-row md:items-center md:justify-between"
+                >
+                  <span className="text-sm text-muted-foreground">{row.label}</span>
+                  <span className="text-sm font-medium text-foreground">{row.value}</span>
+                </div>
+              ))}
+              <RelatedCustomersSection customers={user.customers} />
+            </>
           ) : (
             <div className="rounded-xl border border-border/60 bg-card/60 px-4 py-12 text-center text-sm text-muted-foreground">
               {t('detail.notFound', { defaultValue: 'We could not find this user yet.' })}

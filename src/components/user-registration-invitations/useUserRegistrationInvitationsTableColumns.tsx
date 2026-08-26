@@ -28,6 +28,7 @@ interface UseUserRegistrationInvitationsTableColumnsParams {
   isRowActionLoading: (invitationId: string) => boolean;
   onResend: (invitation: UserRegistrationInvitationsTableRow) => void;
   onRevoke: (invitation: UserRegistrationInvitationsTableRow) => void;
+  onView: (invitation: UserRegistrationInvitationsTableRow) => void;
 }
 
 function SortingHeader<TData>({
@@ -92,6 +93,7 @@ export function useUserRegistrationInvitationsTableColumns({
   isRowActionLoading,
   onResend,
   onRevoke,
+  onView,
 }: UseUserRegistrationInvitationsTableColumnsParams) {
   return useMemo<ColumnDef<UserRegistrationInvitationsTableRow>[]>(
     () => [
@@ -185,32 +187,30 @@ export function useUserRegistrationInvitationsTableColumns({
         meta: { label: t('table.columns.createdAt') },
         cell: ({ row }) => formatDate(row.original.createdAt, dateFormatter) ?? '—',
       },
-      ...(canResend || canRevoke
-        ? [
-            {
-              id: 'actions',
-              enableHiding: false,
-              header: () => <span className="sr-only">{t('actions.openMenu')}</span>,
-              cell: ({ row }) => (
-                <div className="flex justify-end">
-                  <UserRegistrationInvitationTableRowActions
-                    invitation={row.original}
-                    canResend={canResend}
-                    canRevoke={canRevoke}
-                    isLoading={isRowActionLoading(row.original.invitationId)}
-                    onResend={onResend}
-                    onRevoke={onRevoke}
-                    labels={{
-                      menu: t('actions.openMenu'),
-                      resend: t('actions.resend'),
-                      revoke: t('actions.revoke'),
-                    }}
-                  />
-                </div>
-              ),
-            } satisfies ColumnDef<UserRegistrationInvitationsTableRow>,
-          ]
-        : []),
+      {
+        id: 'actions',
+        enableHiding: false,
+        header: () => <span className="sr-only">{t('actions.openMenu')}</span>,
+        cell: ({ row }) => (
+          <div className="flex justify-end">
+            <UserRegistrationInvitationTableRowActions
+              invitation={row.original}
+              canResend={canResend}
+              canRevoke={canRevoke}
+              isLoading={isRowActionLoading(row.original.invitationId)}
+              onResend={onResend}
+              onRevoke={onRevoke}
+              onView={onView}
+              labels={{
+                menu: t('actions.openMenu'),
+                resend: t('actions.resend'),
+                revoke: t('actions.revoke'),
+                view: t('actions.view'),
+              }}
+            />
+          </div>
+        ),
+      } satisfies ColumnDef<UserRegistrationInvitationsTableRow>,
     ],
     [
       canResend,
@@ -220,6 +220,7 @@ export function useUserRegistrationInvitationsTableColumns({
       isRowActionLoading,
       onResend,
       onRevoke,
+      onView,
       t,
     ]
   );

@@ -98,6 +98,10 @@
     "missingTitle": "Usuario no encontrado",
     "notFound": "Aún no pudimos encontrar este usuario."
   },
+  "relatedCustomers": {
+    "title": "Clientes relacionados",
+    "empty": "Sin clientes relacionados"
+  },
   "edit": {
     "subtitle": "Actualiza roles y datos de contacto.",
     "restricted": "No tienes permisos para editar a este usuario.",

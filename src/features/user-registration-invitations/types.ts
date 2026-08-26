@@ -83,6 +83,12 @@ export interface UserRegistrationInvitationsState {
     total: number;
     totalPages: number;
   };
+  detail: {
+    status: RequestStatus;
+    error: string | null;
+    currentId: string | null;
+    entry: UserRegistrationInvitation | null;
+  };
   mutations: {
     create: {
       status: RequestStatus;

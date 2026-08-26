@@ -183,6 +183,39 @@ export const fetchUserRegistrationInvitations = createAsyncThunk<
   }
 });
 
+export const fetchUserRegistrationInvitationById = createAsyncThunk<
+  { invitation: UserRegistrationInvitation },
+  { invitationId: string },
+  { state: RootState }
+>('userRegistrationInvitations/fetchById', async ({ invitationId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<ApiUserRegistrationInvitation>(
+      `/v1/user-registration-invitations/${invitationId}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+        token,
+      }
+    );
+
+    return { invitation: mapInvitation(response.data) };
+  } catch (error) {
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : 'No fue posible obtener la invitación';
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
 export const createUserRegistrationInvitation = createAsyncThunk<
   ApiInvitationCreateResponse,
   CreateUserRegistrationInvitationPayload,

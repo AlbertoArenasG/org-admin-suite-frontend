@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import {
   createUserRegistrationInvitation,
+  fetchUserRegistrationInvitationById,
   fetchUserRegistrationInvitations,
   resendUserRegistrationInvitation,
   revokeUserRegistrationInvitation,
@@ -17,6 +18,12 @@ const initialState: UserRegistrationInvitationsState = {
     perPage: 10,
     total: 0,
     totalPages: 0,
+  },
+  detail: {
+    status: 'idle',
+    error: null,
+    currentId: null,
+    entry: null,
   },
   mutations: {
     create: {
@@ -77,6 +84,27 @@ const userRegistrationInvitationsSlice = createSlice({
           (action.payload as string | undefined) ??
           action.error.message ??
           'No fue posible obtener las invitaciones';
+      })
+      .addCase(fetchUserRegistrationInvitationById.pending, (state, action) => {
+        state.detail.status = 'loading';
+        state.detail.error = null;
+        state.detail.currentId = action.meta.arg.invitationId;
+        state.detail.entry = null;
+      })
+      .addCase(fetchUserRegistrationInvitationById.fulfilled, (state, action) => {
+        state.detail.status = 'succeeded';
+        state.detail.error = null;
+        state.detail.currentId = action.payload.invitation.invitationId;
+        state.detail.entry = action.payload.invitation;
+      })
+      .addCase(fetchUserRegistrationInvitationById.rejected, (state, action) => {
+        state.detail.status = 'failed';
+        state.detail.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible obtener la invitación';
+        state.detail.currentId = action.meta.arg.invitationId;
+        state.detail.entry = null;
       })
       .addCase(createUserRegistrationInvitation.pending, (state) => {
         state.mutations.create = {

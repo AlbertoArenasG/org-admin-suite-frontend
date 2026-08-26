@@ -34,6 +34,7 @@
     "createShort": "Invite",
     "resend": "Resend invitation",
     "revoke": "Revoke invitation",
+    "view": "View details",
     "openMenu": "Open actions menu",
     "searchPlaceholder": "Search by email...",
     "manageColumns": "Manage columns",
@@ -42,6 +43,12 @@
     "retry": "Retry"
   },
   "pagination": "Page {{page}} of {{pages}} · {{total}} invitations",
+  "detail": {
+    "title": "Invitation details",
+    "subtitle": "Review the status and related customers.",
+    "back": "Back to list",
+    "notFound": "We could not find this invitation."
+  },
   "dialogs": {
     "resend": {
       "title": "Resend invitation",
