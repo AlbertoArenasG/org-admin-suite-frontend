@@ -9,6 +9,7 @@ const MIN_VISIBLE_TIME_MS = 360;
 const COMPLETION_TIME_MS = 180;
 const FAILSAFE_TIME_MS = 10_000;
 const OVERLAY_DELAY_MS = 220;
+const MIN_OVERLAY_VISIBLE_TIME_MS = 250;
 
 export function RouteChangeLoader() {
   const pathname = usePathname();
@@ -21,6 +22,7 @@ export function RouteChangeLoader() {
   const isInitialRender = useRef(true);
   const isNavigating = useRef(false);
   const startedAt = useRef(0);
+  const overlayShownAt = useRef(0);
   const timers = useRef<number[]>([]);
 
   const clearTimers = useCallback(() => {
@@ -34,15 +36,22 @@ export function RouteChangeLoader() {
     clearTimers();
     isNavigating.current = true;
     startedAt.current = Date.now();
+    overlayShownAt.current = 0;
     setVisible(true);
     setProgress(12);
 
     timers.current.push(window.setTimeout(() => setProgress(58), 120));
-    timers.current.push(window.setTimeout(() => setOverlayVisible(true), OVERLAY_DELAY_MS));
+    timers.current.push(
+      window.setTimeout(() => {
+        overlayShownAt.current = Date.now();
+        setOverlayVisible(true);
+      }, OVERLAY_DELAY_MS)
+    );
     timers.current.push(window.setTimeout(() => setProgress(82), 520));
     timers.current.push(
       window.setTimeout(() => {
         isNavigating.current = false;
+        overlayShownAt.current = 0;
         setOverlayVisible(false);
         setVisible(false);
       }, FAILSAFE_TIME_MS)
@@ -57,14 +66,21 @@ export function RouteChangeLoader() {
       0,
       MIN_VISIBLE_TIME_MS - (Date.now() - startedAt.current)
     );
+    const remainingOverlayTime = overlayShownAt.current
+      ? Math.max(0, MIN_OVERLAY_VISIBLE_TIME_MS - (Date.now() - overlayShownAt.current))
+      : 0;
     setProgress(100);
 
     timers.current.push(
-      window.setTimeout(() => {
-        isNavigating.current = false;
-        setOverlayVisible(false);
-        setVisible(false);
-      }, remainingVisibleTime + COMPLETION_TIME_MS)
+      window.setTimeout(
+        () => {
+          isNavigating.current = false;
+          overlayShownAt.current = 0;
+          setOverlayVisible(false);
+          setVisible(false);
+        },
+        Math.max(remainingVisibleTime + COMPLETION_TIME_MS, remainingOverlayTime)
+      )
     );
   }, [clearTimers]);
 
