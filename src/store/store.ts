@@ -15,6 +15,7 @@ import expirationStatusPoliciesReducer from '@/features/expiration-status-polici
 import expirationNotificationPoliciesReducer from '@/features/expiration-notification-policies/expirationNotificationPoliciesSlice';
 import internalAssetControlReducer from '@/features/internal-asset-control/internalAssetControlSlice';
 import userRegistrationInvitationsReducer from '@/features/user-registration-invitations/userRegistrationInvitationsSlice';
+import userCustomerRelationshipsReducer from '@/features/user-customer-relationships/userCustomerRelationshipsSlice';
 
 /**
  * Central Redux store setup. Extend the reducer map as new slices are added.
@@ -37,6 +38,7 @@ export const store = configureStore({
     expirationNotificationPolicies: expirationNotificationPoliciesReducer,
     internalAssetControl: internalAssetControlReducer,
     userRegistrationInvitations: userRegistrationInvitationsReducer,
+    userCustomerRelationships: userCustomerRelationshipsReducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

@@ -156,6 +156,42 @@
       "loading": "Loading public link...",
       "loadAction": "View public link",
       "loadError": "Unable to load the public link."
+    },
+    "relatedUsers": {
+      "title": "Related users",
+      "subtitle": "Users who are part of this customer's team.",
+      "searchPlaceholder": "Search related users...",
+      "empty": "No related users.",
+      "inactiveNotice": "This customer is inactive; relationships can only be reviewed.",
+      "sort": {
+        "name": "Sort by name",
+        "createdAt": "Sort by most recent"
+      },
+      "actions": {
+        "add": "Add user",
+        "remove": "Remove user",
+        "cancel": "Cancel",
+        "processing": "Processing...",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "addDialog": {
+        "title": "Add user to customer",
+        "description": "Select an available user to add to this customer's team.",
+        "field": "User",
+        "placeholder": "Search user..."
+      },
+      "removeDialog": {
+        "title": "Remove user",
+        "description": "Are you sure you want to remove {{name}} from this customer?",
+        "note": "Their account and any other customer relationships will remain unchanged."
+      },
+      "feedback": {
+        "addSuccess": "User added successfully.",
+        "addError": "The user could not be added.",
+        "removeSuccess": "User removed successfully.",
+        "removeError": "The user could not be removed."
+      }
     }
   },
   "delete": {

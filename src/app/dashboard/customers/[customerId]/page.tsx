@@ -44,6 +44,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { CustomerUsersSection } from '@/components/user-customer-relationships/CustomerUsersSection';
 
 export default function CustomerDetailPage() {
   const params = useParams<{ customerId?: string }>();
@@ -63,6 +64,7 @@ export default function CustomerDetailPage() {
   const customer = detailState.entry;
   const publicAccess = publicAccessState.currentId === customerId ? publicAccessState.entry : null;
   const canUpdate = hasPermission('CUSTOMERS', 'UPDATE');
+  const canRead = hasPermission('CUSTOMERS', 'READ');
   const canDelete = hasPermission('CUSTOMERS', 'DELETE');
   const canReadPublicAccess = hasPermission('CUSTOMERS', 'READ_PUBLIC_ACCESS');
 
@@ -326,6 +328,8 @@ export default function CustomerDetailPage() {
           copied={copied}
           onCopyLink={handleCopyLink}
           onLoadPublicAccess={handleLoadPublicAccess}
+          canReadCustomers={canRead}
+          canUpdateCustomers={canUpdate}
           t={t}
         />
       ) : hasError ? null : (
@@ -381,6 +385,8 @@ interface CustomerDetailContentProps {
   copied: boolean;
   onCopyLink: () => void;
   onLoadPublicAccess: () => void;
+  canReadCustomers: boolean;
+  canUpdateCustomers: boolean;
   t: TFunction;
 }
 
@@ -393,6 +399,8 @@ function CustomerDetailContent({
   copied,
   onCopyLink,
   onLoadPublicAccess,
+  canReadCustomers,
+  canUpdateCustomers,
   t,
 }: CustomerDetailContentProps) {
   const fiscalProfile = customer.fiscalProfile;
@@ -616,6 +624,13 @@ function CustomerDetailContent({
           )}
         </CardContent>
       </Card>
+
+      <CustomerUsersSection
+        customerId={customer.id}
+        customerStatus={customer.statusId}
+        canRead={canReadCustomers}
+        canUpdate={canUpdateCustomers}
+      />
     </div>
   );
 }

@@ -156,6 +156,42 @@
       "loading": "Consultando enlace público...",
       "loadAction": "Ver enlace público",
       "loadError": "No fue posible obtener el enlace público."
+    },
+    "relatedUsers": {
+      "title": "Usuarios relacionados",
+      "subtitle": "Usuarios que forman parte del equipo de este cliente.",
+      "searchPlaceholder": "Buscar usuarios relacionados...",
+      "empty": "Sin usuarios relacionados.",
+      "inactiveNotice": "Este cliente está inactivo; las relaciones solo pueden consultarse.",
+      "sort": {
+        "name": "Ordenar por nombre",
+        "createdAt": "Ordenar por registro reciente"
+      },
+      "actions": {
+        "add": "Agregar usuario",
+        "remove": "Remover usuario",
+        "cancel": "Cancelar",
+        "processing": "Procesando...",
+        "previous": "Anterior",
+        "next": "Siguiente"
+      },
+      "addDialog": {
+        "title": "Agregar usuario al cliente",
+        "description": "Selecciona un usuario disponible para integrarlo al equipo de este cliente.",
+        "field": "Usuario",
+        "placeholder": "Buscar usuario..."
+      },
+      "removeDialog": {
+        "title": "Remover usuario",
+        "description": "¿Seguro que quieres remover a {{name}} de este cliente?",
+        "note": "Su cuenta y cualquier otra relación con clientes permanecerán sin cambios."
+      },
+      "feedback": {
+        "addSuccess": "Usuario agregado correctamente.",
+        "addError": "No fue posible agregar al usuario.",
+        "removeSuccess": "Usuario removido correctamente.",
+        "removeError": "No fue posible remover al usuario."
+      }
     }
   },
   "delete": {

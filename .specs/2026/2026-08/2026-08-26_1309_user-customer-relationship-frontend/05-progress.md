@@ -31,7 +31,8 @@ Implementation.
 - Se completo el Slice 2: selector multiple reutilizable, carga diferida de opciones y payloads de invitacion y edicion con `customer_ids` para usuarios `USER`.
 - Se completo el Slice 3: detalle administrativo de Invitacion, navegacion desde la tabla y seccion reutilizable de Clientes relacionados en detalles de Invitacion y Usuario.
 - Se completo el Slice 4: filtro global de Usuarios por Cliente, persistido mediante `customer_id` en URL.
+- Se completo el Slice 5: administracion contextual de usuarios desde el detalle de Cliente mediante una feature Redux aislada y permisos `CUSTOMERS/*`.
 
 ## Next
 
-- Iniciar el Slice 5: administracion contextual de usuarios desde Clientes.
+- Iniciar el Slice 6: verificacion manual y cierre formal de la spec.

@@ -60,12 +60,16 @@ Implementado con el parametro `customer_id` leido directamente desde la URL, sin
 
 Objetivo: administrar usuarios desde el detalle de un Cliente mediante endpoints contextuales y permisos de Clientes.
 
+Estado: completed.
+
 - Crear `features/user-customer-relationships` con thunks, slice y tipos para listado, candidatos y mutaciones.
 - Crear `CustomerUsersSection`, `CustomerUserLookupDialog` y `RemoveCustomerUserDialog`.
 - Integrar la seccion al detalle de Cliente.
 - Condicionar lectura y mutaciones a `CUSTOMERS/READ`, `CUSTOMERS/UPDATE` y Cliente activo.
 - Refrescar listado tras mutacion; ante `409`, refrescar listado y candidatos.
 - Mantener pagina, busqueda y orden como estado local de la seccion.
+
+Implementado en una feature Redux aislada de Usuarios y Clientes. La seccion contextual usa los endpoints anidados, conserva pagina, busqueda y orden localmente, y solo habilita mutaciones con `CUSTOMERS/UPDATE` sobre Clientes `ACTIVE`. Las respuestas `409` fuerzan la reconciliacion de lista y candidatos.
 
 ## Slice 6. Verificacion Y Cierre
 
