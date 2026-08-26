@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import 'sileo/styles.css';
+import 'ldrs/react/Tailspin.css';
 import { AppProviders } from '@/components/providers/AppProviders';
 
 const geistSans = Geist({

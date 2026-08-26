@@ -3,7 +3,6 @@
 import { useMemo } from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { BarChart } from '@mui/x-charts/BarChart';
 import type {
   ServiceEntrySurveyStats,
   SurveyRatingValue,
@@ -11,6 +10,10 @@ import type {
 import { SURVEY_RATING_VALUES } from '@/features/publicServiceEntry/constants';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { SERVICE_ENTRY_SURVEY_RATING_COLORS } from '@/components/serviceEntrySurveys/constants';
+import {
+  SurveyRatingStackedBarChart,
+  type SurveyRatingChartDatum,
+} from '@/components/serviceEntrySurveys/SurveyRatingStackedBarChart';
 
 interface ServiceEntrySurveyChartsProps {
   stats: ServiceEntrySurveyStats | null;
@@ -33,29 +36,26 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
   //   [template]
   // );
 
-  const dataset = useMemo(() => {
+  const chartData = useMemo<SurveyRatingChartDatum[]>(() => {
     return ratingQuestions.map((question) => {
       const distribution =
         question.rating_distribution ?? ({} as Partial<Record<SurveyRatingValue, number>>);
-      const entry: Record<string, string | number> = {
-        question:
+      return {
+        id: question.question_id,
+        label:
           t(`chart.labels.${question.question_id}`, {
             defaultValue: question.question_id,
           }) ?? question.question_id,
+        distribution,
       };
-      SURVEY_RATING_VALUES.forEach((rating) => {
-        entry[rating] = distribution[rating] ?? 0;
-      });
-      return entry;
     });
   }, [ratingQuestions, t]);
 
-  const series = useMemo(
+  const legend = useMemo(
     () =>
       SURVEY_RATING_VALUES.map((rating) => ({
-        dataKey: rating,
+        value: rating,
         label: t(`publicServiceEntry:survey.answers.${rating}`),
-        stack: 'ratings',
         color: SERVICE_ENTRY_SURVEY_RATING_COLORS[rating],
       })),
     [t]
@@ -106,46 +106,7 @@ export function ServiceEntrySurveyCharts({ stats, loading, error }: ServiceEntry
         </div>
       ) : (
         <div className="flex w-full flex-col gap-6">
-          <div className="-mx-4 overflow-x-auto px-4">
-            <div className="min-w-[520px]">
-              <BarChart
-                dataset={dataset}
-                xAxis={[{ scaleType: 'band', dataKey: 'question' }]}
-                series={series}
-                height={300}
-                margin={{ left: 32, right: 16, top: 16, bottom: 48 }}
-                sx={{
-                  '& .MuiChartsAxis-tickLabel': {
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsAxis-label': {
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsAxis-line': {
-                    stroke: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsAxis-tick line': {
-                    stroke: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsAxis-tick': {
-                    stroke: 'var(--foreground) !important',
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsLegend-root text': {
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsLegend-root .MuiChartsLegend-label': {
-                    color: 'var(--foreground) !important',
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsLegend-root .MuiTypography-root': {
-                    color: 'var(--foreground) !important',
-                    fill: 'var(--foreground) !important',
-                  },
-                }}
-              />
-            </div>
-          </div>
+          <SurveyRatingStackedBarChart data={chartData} legend={legend} />
 
           <div className="overflow-x-auto">
             <table className="min-w-full border-collapse text-sm">

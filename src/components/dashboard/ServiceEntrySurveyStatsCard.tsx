@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { BarChart } from '@mui/x-charts/BarChart';
 import { Button } from '@/components/ui/button';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
@@ -16,6 +15,10 @@ import {
 import { SURVEY_RATING_VALUES } from '@/features/publicServiceEntry/constants';
 import Link from 'next/link';
 import { SERVICE_ENTRY_SURVEY_RATING_COLORS } from '@/components/serviceEntrySurveys/constants';
+import {
+  SurveyRatingStackedBarChart,
+  type SurveyRatingChartDatum,
+} from '@/components/serviceEntrySurveys/SurveyRatingStackedBarChart';
 
 const currentYear = new Date().getFullYear();
 const startOfYear = `${currentYear}-01-01`;
@@ -53,28 +56,25 @@ export function ServiceEntrySurveyStatsCard() {
     [template]
   );
 
-  const dataset = useMemo(() => {
+  const chartData = useMemo<SurveyRatingChartDatum[]>(() => {
     return questionStats.map((question) => {
       const distribution =
         question.rating_distribution ?? ({} as Partial<Record<SurveyRatingValue, number>>);
-      const item: Record<string, string | number> = {
-        question: t(`chart.labels.${question.question_id}`, {
+      return {
+        id: question.question_id,
+        label: t(`chart.labels.${question.question_id}`, {
           defaultValue: question.question_id,
         }),
+        distribution,
       };
-      SURVEY_RATING_VALUES.forEach((rating) => {
-        item[rating] = distribution[rating] ?? 0;
-      });
-      return item;
     });
   }, [questionStats, t]);
 
-  const series = useMemo(
+  const legend = useMemo(
     () =>
       SURVEY_RATING_VALUES.map((rating) => ({
-        dataKey: rating,
+        value: rating,
         label: t(`publicServiceEntry:survey.answers.${rating}`),
-        stack: 'ratings',
         color: SERVICE_ENTRY_SURVEY_RATING_COLORS[rating],
       })),
     [t]
@@ -116,47 +116,8 @@ export function ServiceEntrySurveyStatsCard() {
           <Typography variant="body2" color="text.foreground">
             {t('stats.loading')}
           </Typography>
-        ) : dataset.length ? (
-          <div className="-mx-2 h-full overflow-x-auto px-2">
-            <div className="min-w-[360px]">
-              <BarChart
-                dataset={dataset}
-                xAxis={[{ scaleType: 'band', dataKey: 'question' }]}
-                series={series}
-                height={260}
-                margin={{ left: 40, right: 16, top: 20, bottom: 60 }}
-                sx={{
-                  '& .MuiChartsAxis-tickLabel': {
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsAxis-label': {
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsAxis-line': {
-                    stroke: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsAxis-tick line': {
-                    stroke: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsAxis-tick': {
-                    stroke: 'var(--foreground) !important',
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsLegend-root text': {
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsLegend-root .MuiChartsLegend-label': {
-                    color: 'var(--foreground) !important',
-                    fill: 'var(--foreground) !important',
-                  },
-                  '& .MuiChartsLegend-root .MuiTypography-root': {
-                    color: 'var(--foreground) !important',
-                    fill: 'var(--foreground) !important',
-                  },
-                }}
-              />
-            </div>
-          </div>
+        ) : chartData.length ? (
+          <SurveyRatingStackedBarChart data={chartData} height={260} legend={legend} />
         ) : (
           <Typography variant="body2" color="text.foreground">
             {statsState.error ?? t('stats.noData')}

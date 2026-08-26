@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, type ReactNode } from 'react';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import { useTheme } from 'next-themes';
+import { sileo, Toaster } from 'sileo';
 import { useSnackbarStore } from '@/components/providers/useSnackbarStore';
+
 export function SnackbarProvider({ children }: { children: ReactNode }) {
+  const { resolvedTheme } = useTheme();
   const open = useSnackbarStore((state) => state.open);
   const message = useSnackbarStore((state) => state.message);
   const severity = useSnackbarStore((state) => state.severity);
@@ -12,24 +14,30 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
   const hideSnackbar = useSnackbarStore((state) => state.hideSnackbar);
 
   useEffect(() => {
-    return () => {
-      hideSnackbar();
-    };
-  }, [hideSnackbar]);
+    if (!open || !message) return;
+
+    sileo[severity]({
+      autopilot: {
+        collapse: Math.max(120, autoHideDuration - 650),
+        expand: 120,
+      },
+      description: message,
+      duration: autoHideDuration,
+    });
+    hideSnackbar();
+  }, [autoHideDuration, hideSnackbar, message, open, severity]);
+
+  useEffect(() => () => sileo.clear(), []);
 
   return (
     <>
       {children}
-      <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={open}
-        autoHideDuration={autoHideDuration}
-        onClose={hideSnackbar}
-      >
-        <Alert elevation={6} variant="filled" onClose={hideSnackbar} severity={severity}>
-          {message}
-        </Alert>
-      </Snackbar>
+      <Toaster
+        offset={{ top: 28 }}
+        options={{ fill: 'var(--card-foreground)', roundness: 24 }}
+        position="top-center"
+        theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
+      />
     </>
   );
 }

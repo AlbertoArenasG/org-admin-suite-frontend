@@ -428,3 +428,9 @@
     animation: none;
   }
 }
+
+/* Keep Sileo's exit inside its 600 ms unmount window, but make it feel deliberate. */
+[data-sileo-toast][data-ready='true'][data-exiting='true'] {
+  transition-duration: 520ms, 520ms, 520ms, 520ms, 520ms;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
