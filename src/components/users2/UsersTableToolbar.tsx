@@ -10,32 +10,62 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SlidersHorizontal } from 'lucide-react';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import type { Table } from '@tanstack/react-table';
 import type { UsersTableUser } from '@/components/users2/types';
 import { useUsersTableStore } from '@/components/users2/useUsersTableStore';
+import type { CustomerOption } from '@/features/customers';
 
 interface UsersTableToolbarProps {
   table: Table<UsersTableUser>;
   searchPlaceholder: string;
   columnLabel: string;
+  customerOptions: CustomerOption[];
+  customerId: string | null;
+  customerLabel: string;
+  customerPlaceholder: string;
+  customersLoading: boolean;
+  onCustomerChange: (customerId: string | null) => void;
 }
 
 export function UsersTableToolbar({
   table,
   searchPlaceholder,
   columnLabel,
+  customerOptions,
+  customerId,
+  customerLabel,
+  customerPlaceholder,
+  customersLoading,
+  onCustomerChange,
 }: UsersTableToolbarProps) {
   const globalFilter = useUsersTableStore((state) => state.globalFilter);
   const setGlobalFilter = useUsersTableStore((state) => state.setGlobalFilter);
 
   return (
     <div className="flex flex-col gap-3 border-b border-border/60 px-4 pb-3 pt-2 sm:flex-row sm:items-center sm:justify-between">
-      <Input
-        value={globalFilter}
-        onChange={(event) => setGlobalFilter(event.target.value)}
-        placeholder={searchPlaceholder}
-        className="max-w-md"
-      />
+      <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center">
+        <Input
+          value={globalFilter}
+          onChange={(event) => setGlobalFilter(event.target.value)}
+          placeholder={searchPlaceholder}
+          className="max-w-md"
+        />
+        <Autocomplete
+          size="small"
+          options={customerOptions}
+          value={customerOptions.find((customer) => customer.id === customerId) ?? null}
+          loading={customersLoading}
+          isOptionEqualToValue={(option, selected) => option.id === selected.id}
+          getOptionLabel={(option) => option.companyName}
+          onChange={(_, customer) => onCustomerChange(customer?.id ?? null)}
+          className="w-full sm:max-w-xs"
+          renderInput={(params) => (
+            <TextField {...params} label={customerLabel} placeholder={customerPlaceholder} />
+          )}
+        />
+      </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm" className="gap-2">

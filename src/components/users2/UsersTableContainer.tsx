@@ -13,6 +13,7 @@ import { UsersDataTable } from '@/components/users2/UsersDataTable';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { fetchUsers, deleteUser } from '@/features/users/usersThunks';
+import { fetchCustomerOptions } from '@/features/customers';
 import { buildUserQuery, mapSortingToApi, parseSortingFromParams } from '@/utils/usersQuery';
 import { useUsersTableColumns } from '@/components/users2/useUsersTableColumns';
 import { useUsersTableData } from '@/components/users2/useUsersTableData';
@@ -47,6 +48,8 @@ export function UsersTableContainer() {
     delete: deleteState,
   } = useAppSelector((state) => state.users);
   const authUser = useAppSelector((state) => state.auth.user);
+  const customerOptions = useAppSelector((state) => state.customers.options);
+  const customerId = searchParams.get('customer_id');
 
   const paginationState = useUsersTableStore((state) => state.pagination);
   const sorting = useUsersTableStore((state) => state.sorting);
@@ -84,6 +87,7 @@ export function UsersTableContainer() {
           limit: paginationState.pageSize,
           itemsPerPage: paginationState.pageSize,
           search: debouncedFilter,
+          customerId,
           sorts: mapSortingToApi(sorting),
         })
       );
@@ -97,6 +101,7 @@ export function UsersTableContainer() {
       dispatch(resetDeleteState());
     }
   }, [
+    customerId,
     debouncedFilter,
     deleteState,
     dispatch,
@@ -141,6 +146,12 @@ export function UsersTableContainer() {
   }, [searchParamsString, syncFromUrl]);
 
   useEffect(() => {
+    if (customerOptions.status === 'idle') {
+      void dispatch(fetchCustomerOptions());
+    }
+  }, [customerOptions.status, dispatch]);
+
+  useEffect(() => {
     if (!initialized) {
       return;
     }
@@ -151,11 +162,13 @@ export function UsersTableContainer() {
         limit: paginationState.pageSize,
         itemsPerPage: paginationState.pageSize,
         search: debouncedFilter,
+        customerId,
         sorts: mapSortingToApi(sorting),
       })
     );
   }, [
     debouncedFilter,
+    customerId,
     dispatch,
     paginationState.pageIndex,
     paginationState.pageSize,
@@ -173,6 +186,7 @@ export function UsersTableContainer() {
       pageIndex: paginationState.pageIndex,
       pageSize: paginationState.pageSize,
       search: globalFilter,
+      customerId,
       sorting,
       baseParams,
     });
@@ -185,6 +199,7 @@ export function UsersTableContainer() {
     router.replace(`${pathname}?${nextQuery}`, { scroll: false });
   }, [
     globalFilter,
+    customerId,
     paginationState.pageIndex,
     paginationState.pageSize,
     pathname,
@@ -280,6 +295,23 @@ export function UsersTableContainer() {
       paginationSummary={paginationSummary}
       searchPlaceholder={t('actions.searchPlaceholder') ?? 'Buscar usuarios'}
       columnLabel={t('actions.manageColumns') ?? 'Columnas'}
+      customerFilter={{
+        options: customerOptions.items,
+        customerId,
+        label: t('filters.customer'),
+        placeholder: t('filters.customerPlaceholder'),
+        loading: customerOptions.status === 'loading',
+        onChange: (nextCustomerId) => {
+          const nextParams = new URLSearchParams(searchParamsString);
+          if (nextCustomerId) {
+            nextParams.set('customer_id', nextCustomerId);
+          } else {
+            nextParams.delete('customer_id');
+          }
+          nextParams.set('page', '1');
+          router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+        },
+      }}
       deleteDialog={{
         open: Boolean(deleteTarget),
         user: deleteTarget,
@@ -306,7 +338,7 @@ export function UsersTableContainer() {
         },
       }}
       tableLabels={{
-        noData: t('empty'),
+        noData: customerId ? t('empty.customerFiltered') : t('empty.default'),
         pagination: {
           previous: t('actions.previous') ?? 'Anterior',
           next: t('actions.next') ?? 'Siguiente',

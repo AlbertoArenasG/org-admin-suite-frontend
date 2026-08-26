@@ -11,6 +11,7 @@ export interface FetchUsersParams {
   limit?: number;
   itemsPerPage?: number;
   search?: string;
+  customerId?: string | null;
   sorts?: Array<{ field: string; direction: 'asc' | 'desc' }>;
 }
 
@@ -120,7 +121,7 @@ export const fetchUsers = createAsyncThunk<
   FetchUsersParams | undefined,
   { state: RootState }
 >('users/fetchAll', async (params = {}, thunkAPI) => {
-  const { page = 1, limit = 10, itemsPerPage, search, sorts = [] } = params;
+  const { page = 1, limit = 10, itemsPerPage, search, customerId, sorts = [] } = params;
   const state = thunkAPI.getState();
   const token = state.auth.token;
 
@@ -136,6 +137,10 @@ export const fetchUsers = createAsyncThunk<
 
   if (search && search.trim().length > 0) {
     query.set('search', search.trim());
+  }
+
+  if (customerId) {
+    query.set('customer_id', customerId);
   }
 
   sorts

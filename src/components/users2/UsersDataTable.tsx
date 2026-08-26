@@ -12,6 +12,7 @@ import type { UsersTableUser } from '@/components/users2/types';
 import { UsersTableToolbar } from '@/components/users2/UsersTableToolbar';
 import { UsersDeleteDialog } from '@/components/users2/UsersDeleteDialog';
 import { UsersTableSkeleton } from '@/components/users2/UsersTableSkeleton';
+import type { CustomerOption } from '@/features/customers';
 
 interface UsersDataTableProps {
   table: Table<UsersTableUser>;
@@ -25,6 +26,14 @@ interface UsersDataTableProps {
   paginationSummary: string | null;
   searchPlaceholder: string;
   columnLabel: string;
+  customerFilter: {
+    options: CustomerOption[];
+    customerId: string | null;
+    label: string;
+    placeholder: string;
+    loading: boolean;
+    onChange: (customerId: string | null) => void;
+  };
   deleteDialog: {
     open: boolean;
     user: UsersTableUser | null;
@@ -60,6 +69,7 @@ export function UsersDataTable({
   paginationSummary,
   searchPlaceholder,
   columnLabel,
+  customerFilter,
   deleteDialog,
   tableLabels,
 }: UsersDataTableProps) {
@@ -100,6 +110,12 @@ export function UsersDataTable({
         table={table}
         searchPlaceholder={searchPlaceholder}
         columnLabel={columnLabel}
+        customerOptions={customerFilter.options}
+        customerId={customerFilter.customerId}
+        customerLabel={customerFilter.label}
+        customerPlaceholder={customerFilter.placeholder}
+        customersLoading={customerFilter.loading}
+        onCustomerChange={customerFilter.onChange}
       />
 
       {isLoading ? (

@@ -10,7 +10,10 @@
     }
   },
   "loading": "Procesando tu registro...",
-  "empty": "No hay usuarios para mostrar.",
+  "empty": {
+    "default": "No hay usuarios para mostrar.",
+    "customerFiltered": "No hay usuarios relacionados con este cliente."
+  },
   "pagination": "Página {{page}} de {{pages}} · {{total}} usuarios",
   "actions": {
     "invite": "Invitar usuario",
@@ -25,6 +28,10 @@
     "manageColumns": "Administrar columnas",
     "previous": "Anterior",
     "next": "Siguiente"
+  },
+  "filters": {
+    "customer": "Cliente",
+    "customerPlaceholder": "Filtrar por cliente"
   },
   "form": {
     "title": {

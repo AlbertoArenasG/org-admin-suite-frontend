@@ -66,6 +66,7 @@ export function buildUserQuery(params: {
   pageIndex: number;
   pageSize: number;
   search: string;
+  customerId: string | null;
   sorting: SortingState;
   baseParams: URLSearchParams;
 }) {
@@ -79,6 +80,12 @@ export function buildUserQuery(params: {
     currentParams.set('search', params.search.trim());
   } else {
     currentParams.delete('search');
+  }
+
+  if (params.customerId) {
+    currentParams.set('customer_id', params.customerId);
+  } else {
+    currentParams.delete('customer_id');
   }
 
   Array.from(currentParams.keys())

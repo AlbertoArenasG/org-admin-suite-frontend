@@ -30,7 +30,8 @@ Implementation.
 - Se completo el Slice 1: lookup cacheado de Clientes, tipos compartidos y mapeo de detalles de Usuario e Invitacion.
 - Se completo el Slice 2: selector multiple reutilizable, carga diferida de opciones y payloads de invitacion y edicion con `customer_ids` para usuarios `USER`.
 - Se completo el Slice 3: detalle administrativo de Invitacion, navegacion desde la tabla y seccion reutilizable de Clientes relacionados en detalles de Invitacion y Usuario.
+- Se completo el Slice 4: filtro global de Usuarios por Cliente, persistido mediante `customer_id` en URL.
 
 ## Next
 
-- Iniciar el Slice 4: filtro global de Usuarios por Cliente.
+- Iniciar el Slice 5: administracion contextual de usuarios desde Clientes.

@@ -46,11 +46,15 @@ Implementado con `RelatedCustomersSection` como componente presentacional comun.
 
 Objetivo: filtrar el listado general por Cliente manteniendo la URL como fuente de verdad.
 
+Estado: completed.
+
 - Extender `FetchUsersParams` y el thunk con `customerId`.
 - Adaptar `UsersTableContainer`, `UsersTableToolbar` y `usersQuery` para leer, escribir y eliminar `customer_id`.
 - Agregar el selector simple `Cliente` con placeholder `Filtrar por cliente`.
 - Reiniciar pagina al cambiar el filtro y conservar busqueda, orden y demas parametros.
 - Presentar el estado vacio especifico cuando el filtro esta activo.
+
+Implementado con el parametro `customer_id` leido directamente desde la URL, sin estado adicional en Zustand. El selector carga el lookup de Clientes activo y al cambiar o limpiar el filtro reinicia la pagina, preservando busqueda, ordenamiento y demas parametros.
 
 ## Slice 5. Administracion Contextual Desde Clientes
 
