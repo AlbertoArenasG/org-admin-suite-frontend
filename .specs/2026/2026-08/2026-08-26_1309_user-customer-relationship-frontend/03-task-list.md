@@ -12,8 +12,8 @@
 
 ## Phase 3. Implementation And Validation
 
-- [ ] Implementar los slices aprobados y actualizar localizacion.
-      Status: pending
+- [x] Implementar los slices aprobados y actualizar localizacion.
+      Status: completed
 
 - [ ] Ejecutar verificaciones y documentar validacion manual.
-      Status: pending
+      Status: in progress

@@ -75,9 +75,13 @@ Implementado en una feature Redux aislada de Usuarios y Clientes. La seccion con
 
 Objetivo: comprobar contratos, permisos, localizacion y regresiones visibles.
 
+Estado: in progress.
+
 - Ejecutar typecheck y lint del frontend.
 - Validar manualmente invitacion, edicion, detalles, filtro global y administracion contextual con permisos de lectura y actualizacion.
 - Confirmar manejo de Clientes inactivos, estados vacios y errores `409`.
 - Actualizar progreso, task list, indice y documentos de cierre.
 
 No se agregan pruebas automatizadas en esta entrega.
+
+La verificacion estatica paso con `typecheck`, `lint` y `git diff --check`. La validacion manual queda pendiente de confirmacion del usuario antes del cierre formal.

@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Implementation.
+Validation.
 
 ## Completed
 
@@ -32,7 +32,21 @@ Implementation.
 - Se completo el Slice 3: detalle administrativo de Invitacion, navegacion desde la tabla y seccion reutilizable de Clientes relacionados en detalles de Invitacion y Usuario.
 - Se completo el Slice 4: filtro global de Usuarios por Cliente, persistido mediante `customer_id` en URL.
 - Se completo el Slice 5: administracion contextual de usuarios desde el detalle de Cliente mediante una feature Redux aislada y permisos `CUSTOMERS/*`.
+- Se completo la verificacion estatica final con `npm run typecheck`, `npm run lint -- --quiet` y `git diff --check`.
+- Se documentaron los escenarios de validacion manual pendientes para cerrar la spec.
 
 ## Next
 
-- Iniciar el Slice 6: verificacion manual y cierre formal de la spec.
+- Ejecutar y confirmar la validacion manual; despues actualizar el cierre formal e indice de specs.
+
+## Manual Validation Checklist
+
+- Invitar un usuario `USER` sin Clientes y confirmar que el request envia `customer_ids: []`.
+- Invitar un usuario `USER` con varios Clientes, revisar el detalle administrativo de la invitacion y consumirla para comprobar sus relaciones efectivas.
+- Cambiar el rol seleccionado de `USER` a `ADMIN` y confirmar que el selector se oculta, limpia y el request omite `customer_ids`.
+- Editar un usuario `USER`: agregar, remover y conservar Clientes; comprobar que un Cliente inactivo relacionado se muestra solo lectura y no se pierde al guardar.
+- Revisar el detalle de Usuario y de Invitacion con y sin Clientes relacionados, incluido el estado localizado de cada Cliente.
+- Filtrar `/dashboard/users` por Cliente, verificar `customer_id` en URL, pagina reiniciada, preservacion de busqueda/orden y estado vacio especifico.
+- En un Cliente `ACTIVE`, probar agregar y remover usuario; comprobar que la lista y candidatos se actualizan.
+- En un Cliente `INACTIVE`, confirmar que el listado se puede consultar y las acciones de mutacion no se muestran.
+- Verificar un rol con solo `CUSTOMERS/READ` y otro con `CUSTOMERS/UPDATE`, sin permisos `USERS/*`, para confirmar la frontera contextual.
