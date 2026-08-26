@@ -2,7 +2,7 @@
 
 ## Current Phase
 
-Technical Design.
+Implementation.
 
 ## Completed
 
@@ -21,7 +21,13 @@ Technical Design.
 - Se aprobo el componente reutilizable `Clientes relacionados` para detalles de Invitacion y Usuario.
 - Se aprobo el filtro de Cliente en Usuarios, incluido su copy, persistencia en URL y estado vacio.
 - Se cerro formalmente la fase de Definition.
+- Se aprobo la separacion tecnica entre lookup de Clientes, feature relacional contextual y extensiones puntuales de Usuarios e Invitaciones.
+- Se aprobaron tipos compartidos y estados Redux aislados para opciones, relaciones contextuales y mutaciones.
+- Se aprobaron flujos de carga, mutacion y sincronizacion de estado para formularios, detalles y contexto de Clientes.
+- Se aprobo la separacion entre filtro global persistido en URL y tabla contextual con estado local.
+- Se documento el breakdown de implementacion en seis slices para revision antes de iniciar codigo.
+- Se cerro formalmente la fase de Technical Design.
 
 ## Next
 
-- Definir la estructura tecnica, tipos, componentes y slices de implementacion.
+- Iniciar el Slice 1: contratos compartidos y lookup de Clientes.

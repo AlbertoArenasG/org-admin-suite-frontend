@@ -15,7 +15,8 @@ Reglas de trabajo:
 
 - Initiative: `user-customer-relationship-frontend`
 - Definition status: `completed`
-- Implementation ready: `no`
+- Technical design status: `completed`
+- Implementation ready: `yes`
 
 ## Confirmed Backend Contract
 

@@ -1,3 +1,63 @@
 # Implementation Breakdown
 
-Pendiente de completar despues de aprobar el diseno tecnico.
+## Slice 1. Contratos Compartidos Y Lookup De Clientes
+
+Objetivo: incorporar los tipos y la consulta reutilizable de opciones activas sin tocar aun formularios o pantallas.
+
+- Agregar `CustomerOption` y `CustomerRelationshipSummary` a `features/customers`.
+- Agregar el estado `options` y el thunk para `GET /v1/customers/options` en la feature de Clientes.
+- Extender el mapeo y tipos de `User` con `systemRoleName` y `customers` solo para detalle.
+- Extender los tipos de detalle de invitacion con `customers`.
+- Verificar que todos los IDs del resumen usan `customer_id` en API y `id` internamente en frontend.
+
+## Slice 2. Selector Reutilizable Y Formularios
+
+Objetivo: permitir seleccionar Clientes en invitaciones y edicion de usuarios sin duplicar estado.
+
+- Crear `CustomerMultiSelect` bajo `components/user-customer-relationships`.
+- Extender `UserForm` con `customerIds` y relaciones inactivas de solo lectura.
+- Integrar el selector en creacion de invitacion y enviar `customer_ids` solo para `USER`.
+- Integrar el selector en edicion de Usuario y preservar relaciones inactivas existentes en el payload.
+- Centralizar copies ES/EN para etiqueta, ayuda, busqueda, chips y estados de carga/error.
+
+## Slice 3. Detalles Administrativos
+
+Objetivo: mostrar resumentes de Clientes sin cargar datos extra ni agregar enlaces no autorizados.
+
+- Crear `RelatedCustomersSection` reutilizable.
+- Integrarlo en el detalle de Usuario a partir de `GET /v1/users/:userId`.
+- Crear el detalle administrativo de Invitacion en `/dashboard/users/invitations/[invitationId]`.
+- Integrar la misma seccion con el detalle de invitacion y enlazarlo desde las acciones de su tabla.
+- Implementar estados de carga, error y vacio localizados.
+
+## Slice 4. Filtro De Cliente En Usuarios
+
+Objetivo: filtrar el listado general por Cliente manteniendo la URL como fuente de verdad.
+
+- Extender `FetchUsersParams` y el thunk con `customerId`.
+- Adaptar `UsersTableContainer`, `UsersTableToolbar` y `usersQuery` para leer, escribir y eliminar `customer_id`.
+- Agregar el selector simple `Cliente` con placeholder `Filtrar por cliente`.
+- Reiniciar pagina al cambiar el filtro y conservar busqueda, orden y demas parametros.
+- Presentar el estado vacio especifico cuando el filtro esta activo.
+
+## Slice 5. Administracion Contextual Desde Clientes
+
+Objetivo: administrar usuarios desde el detalle de un Cliente mediante endpoints contextuales y permisos de Clientes.
+
+- Crear `features/user-customer-relationships` con thunks, slice y tipos para listado, candidatos y mutaciones.
+- Crear `CustomerUsersSection`, `CustomerUserLookupDialog` y `RemoveCustomerUserDialog`.
+- Integrar la seccion al detalle de Cliente.
+- Condicionar lectura y mutaciones a `CUSTOMERS/READ`, `CUSTOMERS/UPDATE` y Cliente activo.
+- Refrescar listado tras mutacion; ante `409`, refrescar listado y candidatos.
+- Mantener pagina, busqueda y orden como estado local de la seccion.
+
+## Slice 6. Verificacion Y Cierre
+
+Objetivo: comprobar contratos, permisos, localizacion y regresiones visibles.
+
+- Ejecutar typecheck y lint del frontend.
+- Validar manualmente invitacion, edicion, detalles, filtro global y administracion contextual con permisos de lectura y actualizacion.
+- Confirmar manejo de Clientes inactivos, estados vacios y errores `409`.
+- Actualizar progreso, task list, indice y documentos de cierre.
+
+No se agregan pruebas automatizadas en esta entrega.

@@ -7,8 +7,8 @@
 
 ## Phase 2. Technical Design
 
-- [ ] Documentar diseno tecnico y breakdown de implementacion.
-      Status: pending
+- [x] Documentar diseno tecnico y breakdown de implementacion.
+      Status: completed
 
 ## Phase 3. Implementation And Validation
 

@@ -17,8 +17,9 @@ Integrar visualmente la seleccion y administracion de relaciones usuario-cliente
 
 ### Phase 2. Technical Design
 
-- Documentar componentes, tipos, slices y contratos HTTP.
-- Desglosar implementacion en slices pequenos.
+- Estado: completed.
+- Se documentaron componentes, tipos, estado, contratos HTTP y fronteras de autorizacion.
+- Se aprobo el breakdown en seis slices pequenos.
 
 ### Phase 3. Implementation And Validation
 
