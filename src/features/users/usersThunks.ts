@@ -31,6 +31,7 @@ export interface UpdateUserPayload {
       countryCode: string;
       number: string;
     } | null;
+    customerIds?: string[];
   };
 }
 
@@ -245,6 +246,7 @@ export const updateUser = createAsyncThunk<
               number: data.cellPhone.number,
             }
           : null,
+        ...(data.systemRole === 'USER' ? { customer_ids: data.customerIds ?? [] } : {}),
       },
       token,
     });

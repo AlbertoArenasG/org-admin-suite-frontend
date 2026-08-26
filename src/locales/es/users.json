@@ -41,14 +41,21 @@
       "name": "Nombre",
       "lastname": "Apellido",
       "phoneCode": "Código de país",
-      "phoneNumber": "Número telefónico"
+      "phoneNumber": "Número telefónico",
+      "customers": "Clientes relacionados"
     },
     "placeholders": {
       "email": "nombre@ejemplo.com",
       "name": "Nombre opcional",
       "lastname": "Apellido opcional",
       "phoneCode": "+52",
-      "phoneNumber": "0000000000"
+      "phoneNumber": "0000000000",
+      "customers": "Buscar y agregar clientes..."
+    },
+    "customers": {
+      "helper": "Opcional. Agrega los clientes relacionados con este usuario.",
+      "loading": "Cargando clientes...",
+      "noOptions": "No hay clientes disponibles"
     },
     "errors": {
       "emailRequired": "El correo es obligatorio",

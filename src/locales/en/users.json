@@ -41,14 +41,21 @@
       "name": "First name",
       "lastname": "Last name",
       "phoneCode": "Country code",
-      "phoneNumber": "Phone number"
+      "phoneNumber": "Phone number",
+      "customers": "Related customers"
     },
     "placeholders": {
       "email": "name@example.com",
       "name": "Optional first name",
       "lastname": "Optional last name",
       "phoneCode": "+52",
-      "phoneNumber": "0000000000"
+      "phoneNumber": "0000000000",
+      "customers": "Search and add customers..."
+    },
+    "customers": {
+      "helper": "Optional. Add the customers related to this user.",
+      "loading": "Loading customers...",
+      "noOptions": "No customers available"
     },
     "errors": {
       "emailRequired": "Email is required",

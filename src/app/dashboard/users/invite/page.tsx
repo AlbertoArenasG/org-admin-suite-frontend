@@ -13,11 +13,13 @@ import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { fetchUserRoles } from '@/features/users/usersThunks';
+import { fetchCustomerOptions } from '@/features/customers';
 import { createUserRegistrationInvitation } from '@/features/user-registration-invitations';
 import { Button } from '@/components/ui/button';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { useAuthorization } from '@/features/auth';
+import type { AuthSystemRole } from '@/features/auth/types';
 import { Spinner } from '@/components/ui/spinner';
 
 export default function InviteUserPage() {
@@ -26,6 +28,7 @@ export default function InviteUserPage() {
   const dispatch = useAppDispatch();
   const { hasPermission } = useAuthorization();
   const rolesState = useAppSelector((state) => state.users.roles);
+  const customerOptions = useAppSelector((state) => state.customers.options);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showSnackbar } = useSnackbar();
   const canInviteUsers = hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE');
@@ -36,18 +39,28 @@ export default function InviteUserPage() {
     }
   }, [canInviteUsers, dispatch, rolesState.status]);
 
-  const roleOptions = useMemo<Array<{ value: string; label: string }>>(() => {
+  const roleOptions = useMemo<
+    Array<{ value: string; label: string; systemRole: 'ADMIN' | 'USER' }>
+  >(() => {
     return rolesState.items
       .filter((role) => role.systemRole !== 'MASTER_ADMIN')
       .map((role) => ({
         value: role.roleId,
         label: role.roleName,
+        systemRole: role.systemRole === 'ADMIN' ? 'ADMIN' : 'USER',
       }));
   }, [rolesState.items]);
 
   const hasInvitePermission = canInviteUsers && roleOptions.length > 0;
 
-  const safeRoleOptions = useMemo<Array<{ value: string; label: string; disabled?: boolean }>>(
+  const safeRoleOptions = useMemo<
+    Array<{
+      value: string;
+      label: string;
+      systemRole?: AuthSystemRole;
+      disabled?: boolean;
+    }>
+  >(
     () =>
       hasInvitePermission
         ? roleOptions
@@ -72,6 +85,7 @@ export default function InviteUserPage() {
         countryCode: '',
         number: '',
       },
+      customerIds: [],
     };
   }, [safeRoleOptions]);
 
@@ -100,6 +114,7 @@ export default function InviteUserPage() {
         name: values.name,
         lastname: values.lastname,
         cellPhone: normalizedCellPhone,
+        customerIds: values.customerIds,
       })
     )
       .unwrap()
@@ -227,6 +242,14 @@ export default function InviteUserPage() {
               onSubmit={handleSubmit}
               onCancel={handleCancel}
               roleOptions={safeRoleOptions}
+              customerOptions={customerOptions.items}
+              customerOptionsStatus={customerOptions.status}
+              customerOptionsError={customerOptions.error}
+              onCustomerOptionsRequired={() => {
+                if (customerOptions.status === 'idle') {
+                  void dispatch(fetchCustomerOptions());
+                }
+              }}
               isSubmitting={isSubmitting}
             />
           ) : (

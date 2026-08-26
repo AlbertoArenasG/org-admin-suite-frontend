@@ -214,6 +214,7 @@ export const createUserRegistrationInvitation = createAsyncThunk<
                 number: payload.cellPhone.number,
               }
             : null,
+          ...(payload.systemRole === 'USER' ? { customer_ids: payload.customerIds ?? [] } : {}),
         },
         token,
       }

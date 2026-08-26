@@ -1,13 +1,16 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
+import type { AuthSystemRole } from '@/features/auth/types';
+import type { CustomerOption, CustomerRelationshipSummary } from '@/features/customers';
+import { CustomerMultiSelect } from '@/components/user-customer-relationships/CustomerMultiSelect';
 
 export interface UserFormValues {
   email: string;
@@ -18,12 +21,23 @@ export interface UserFormValues {
     countryCode: string;
     number: string;
   };
+  customerIds: string[];
 }
 
 export interface UserFormProps {
   defaultValues?: Partial<UserFormValues>;
   mode: 'create' | 'edit';
-  roleOptions: Array<{ value: string; label: string; disabled?: boolean }>;
+  roleOptions: Array<{
+    value: string;
+    label: string;
+    systemRole?: AuthSystemRole;
+    disabled?: boolean;
+  }>;
+  customerOptions?: CustomerOption[];
+  customerOptionsStatus?: 'idle' | 'loading' | 'succeeded' | 'failed';
+  customerOptionsError?: string | null;
+  inactiveCustomers?: CustomerRelationshipSummary[];
+  onCustomerOptionsRequired?: () => void;
   onSubmit: (values: UserFormValues) => void;
   onCancel?: () => void;
   isSubmitting?: boolean;
@@ -39,6 +53,7 @@ function buildInitialValues(defaultValues?: Partial<UserFormValues>): UserFormVa
       countryCode: defaultValues?.cellPhone?.countryCode ?? '',
       number: defaultValues?.cellPhone?.number ?? '',
     },
+    customerIds: defaultValues?.customerIds ?? [],
   };
 }
 
@@ -48,6 +63,11 @@ export function UserForm({
   onSubmit,
   onCancel,
   roleOptions,
+  customerOptions = [],
+  customerOptionsStatus = 'idle',
+  customerOptionsError = null,
+  inactiveCustomers = [],
+  onCustomerOptionsRequired,
   isSubmitting = false,
 }: UserFormProps) {
   const { t } = useTranslation('users');
@@ -57,6 +77,8 @@ export function UserForm({
     handleSubmit,
     formState: { errors, isSubmitting: isFormSubmitting },
     reset,
+    control,
+    setValue,
   } = useForm<UserFormValues>({
     defaultValues: buildInitialValues(defaultValues),
   });
@@ -64,6 +86,19 @@ export function UserForm({
   useEffect(() => {
     reset(buildInitialValues(defaultValues));
   }, [defaultValues, reset]);
+
+  const roleId = useWatch({ control, name: 'roleId' });
+  const selectedSystemRole = roleOptions.find((role) => role.value === roleId)?.systemRole;
+  const isUserRole = selectedSystemRole === 'USER';
+
+  useEffect(() => {
+    if (isUserRole) {
+      onCustomerOptionsRequired?.();
+      return;
+    }
+
+    setValue('customerIds', []);
+  }, [isUserRole, onCustomerOptionsRequired, setValue]);
 
   const submitHandler = handleSubmit((values) => {
     const trimmed: UserFormValues = {
@@ -103,6 +138,28 @@ export function UserForm({
           />
           {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
         </div>
+
+        {isUserRole ? (
+          <div className="grid gap-2">
+            <Label>{t('form.labels.customers')}</Label>
+            <p className="text-sm text-muted-foreground">{t('form.customers.helper')}</p>
+            <Controller
+              control={control}
+              name="customerIds"
+              render={({ field }) => (
+                <CustomerMultiSelect
+                  value={field.value}
+                  onChange={field.onChange}
+                  options={customerOptions}
+                  inactiveCustomers={inactiveCustomers}
+                  loading={customerOptionsStatus === 'loading'}
+                  error={customerOptionsError}
+                  disabled={effectiveSubmitting}
+                />
+              )}
+            />
+          </div>
+        ) : null}
 
         <div className="grid gap-2">
           <Label htmlFor="user-role">{t('form.labels.role')}</Label>

@@ -18,6 +18,7 @@ import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { canManageSystemRole } from '@/features/users/roles';
 import Chip from '@mui/material/Chip';
 import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';
+import { fetchCustomerOptions } from '@/features/customers';
 import { resetUserUpdateState } from '@/features/users/usersSlice';
 import type { UserRoleInfo } from '@/features/users/usersSlice';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -37,6 +38,7 @@ export default function UserEditPage() {
   );
   const authUser = useAppSelector((state) => state.auth.user);
   const rolesState = useAppSelector((state) => state.users.roles);
+  const customerOptions = useAppSelector((state) => state.customers.options);
   const detailState = useAppSelector((state) => state.users.detail);
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
   const updateState = useAppSelector((state) => state.users.update);
@@ -74,6 +76,7 @@ export default function UserEditPage() {
   const roleOptionsWithLabels = availableRoles.map((role) => ({
     value: role.roleId,
     label: role.roleName,
+    systemRole: role.systemRole,
   }));
 
   const canEdit =
@@ -94,6 +97,7 @@ export default function UserEditPage() {
           countryCode: user.cellPhone?.countryCode ?? '',
           number: user.cellPhone?.number ?? '',
         },
+        customerIds: user.customers?.map((customer) => customer.id) ?? [],
       }
     : undefined;
 
@@ -271,12 +275,24 @@ export default function UserEditPage() {
                       roleId: values.roleId,
                       statusId: user.status,
                       cellPhone: normalizedCellPhone,
+                      customerIds: values.customerIds,
                     },
                   })
                 );
               }}
               onCancel={() => router.back()}
               roleOptions={roleOptionsWithLabels}
+              customerOptions={customerOptions.items}
+              customerOptionsStatus={customerOptions.status}
+              customerOptionsError={customerOptions.error}
+              inactiveCustomers={
+                user.customers?.filter((customer) => customer.status !== 'ACTIVE') ?? []
+              }
+              onCustomerOptionsRequired={() => {
+                if (customerOptions.status === 'idle') {
+                  void dispatch(fetchCustomerOptions());
+                }
+              }}
               isSubmitting={!canEdit || isUpdating}
             />
           ) : (

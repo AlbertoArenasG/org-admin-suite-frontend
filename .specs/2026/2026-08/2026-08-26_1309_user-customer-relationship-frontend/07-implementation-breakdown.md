@@ -18,11 +18,15 @@ Implementado con el contrato de backend corregido para que el detalle de Usuario
 
 Objetivo: permitir seleccionar Clientes en invitaciones y edicion de usuarios sin duplicar estado.
 
+Estado: completed.
+
 - Crear `CustomerMultiSelect` bajo `components/user-customer-relationships`.
 - Extender `UserForm` con `customerIds` y relaciones inactivas de solo lectura.
 - Integrar el selector en creacion de invitacion y enviar `customer_ids` solo para `USER`.
 - Integrar el selector en edicion de Usuario y preservar relaciones inactivas existentes en el payload.
 - Centralizar copies ES/EN para etiqueta, ayuda, busqueda, chips y estados de carga/error.
+
+Implementado con `customerIds` como campo canonico de React Hook Form. El lookup se solicita solo al seleccionar un rol `USER`; al cambiar a otro rol se limpian las relaciones y el payload omite `customer_ids`. Las relaciones historicas de Clientes inactivos se mantienen como chips de solo lectura y se preservan al guardar.
 
 ## Slice 3. Detalles Administrativos
 

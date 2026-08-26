@@ -28,7 +28,8 @@ Implementation.
 - Se documento el breakdown de implementacion en seis slices para revision antes de iniciar codigo.
 - Se cerro formalmente la fase de Technical Design.
 - Se completo el Slice 1: lookup cacheado de Clientes, tipos compartidos y mapeo de detalles de Usuario e Invitacion.
+- Se completo el Slice 2: selector multiple reutilizable, carga diferida de opciones y payloads de invitacion y edicion con `customer_ids` para usuarios `USER`.
 
 ## Next
 
-- Iniciar el Slice 2: selector reutilizable e integracion en formularios.
+- Iniciar el Slice 3: detalles administrativos de Clientes relacionados.

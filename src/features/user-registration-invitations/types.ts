@@ -70,6 +70,7 @@ export interface CreateUserRegistrationInvitationPayload {
     countryCode: string;
     number: string;
   } | null;
+  customerIds?: string[];
 }
 
 export interface UserRegistrationInvitationsState {
