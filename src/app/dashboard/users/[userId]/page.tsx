@@ -20,6 +20,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitialsFromText } from '@/lib/get-initials';
 import { useAuthorization } from '@/features/auth';
 import { RelatedCustomersSection } from '@/components/user-customer-relationships/RelatedCustomersSection';
+import { ClassificationBadges } from '@/components/classification/ClassificationBadges';
 
 export default function UserDetailPage() {
   const params = useParams<{ userId: string }>();
@@ -157,11 +158,24 @@ export default function UserDetailPage() {
                 </>
               ) : (
                 <>
-                  <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                    {user
-                      ? user.fullName || user.email
-                      : t('detail.missingTitle', { defaultValue: 'User not found' })}
-                  </Typography>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
+                      {user
+                        ? user.fullName || user.email
+                        : t('detail.missingTitle', { defaultValue: 'User not found' })}
+                    </Typography>
+                    {user ? (
+                      <ClassificationBadges
+                        isInternalStaff={user.isInternalStaff}
+                        systemRole={user.systemRole}
+                        labels={{
+                          group: t('classification.group'),
+                          internalStaff: t('classification.internalStaff'),
+                          administrator: t('classification.administrator'),
+                        }}
+                      />
+                    ) : null}
+                  </div>
                   <Typography variant="body2" color="text.foreground">
                     {t('detail.subtitle', { defaultValue: 'User details and activity' })}
                   </Typography>

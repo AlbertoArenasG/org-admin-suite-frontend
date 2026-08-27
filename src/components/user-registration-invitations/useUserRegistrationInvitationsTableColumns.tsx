@@ -15,6 +15,7 @@ import type { Column, ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 
 import { UserRegistrationInvitationTableRowActions } from './UserRegistrationInvitationTableRowActions';
+import { ClassificationBadges } from '@/components/classification/ClassificationBadges';
 import type { UserRegistrationInvitationsTableRow } from './types';
 
 type Translate = TFunction<'userRegistrationInvitations', undefined>;
@@ -103,6 +104,22 @@ export function useUserRegistrationInvitationsTableColumns({
         meta: { label: t('table.columns.email') },
         cell: ({ row }) => (
           <span className="font-medium text-foreground">{row.original.email}</span>
+        ),
+      },
+      {
+        id: 'classification',
+        enableHiding: false,
+        header: () => <span className="sr-only">{t('classification.group')}</span>,
+        cell: ({ row }) => (
+          <ClassificationBadges
+            isInternalStaff={row.original.isInternalStaff}
+            systemRole={row.original.source.systemRole}
+            labels={{
+              group: t('classification.group'),
+              internalStaff: t('classification.internalStaff'),
+              administrator: t('classification.administrator'),
+            }}
+          />
         ),
       },
       {

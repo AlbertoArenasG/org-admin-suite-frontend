@@ -17,6 +17,7 @@ import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { fetchContactById } from '@/features/contacts/contactsThunks';
 import { useAuthorization } from '@/features/auth';
 import { isContactLinkedToUser } from '@/components/contacts/types';
+import { ClassificationBadges } from '@/components/classification/ClassificationBadges';
 
 export default function ContactDetailPage() {
   const params = useParams<{ contactId: string }>();
@@ -136,9 +137,21 @@ export default function ContactDetailPage() {
               </>
             ) : (
               <>
-                <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                  {contact?.fullName ?? t('detail.missingTitle')}
-                </Typography>
+                <div className="flex flex-wrap items-center gap-2">
+                  <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
+                    {contact?.fullName ?? t('detail.missingTitle')}
+                  </Typography>
+                  {contact ? (
+                    <ClassificationBadges
+                      isInternalStaff={contact.isInternalStaff}
+                      labels={{
+                        group: t('classification.group'),
+                        internalStaff: t('classification.internalStaff'),
+                        administrator: t('classification.administrator'),
+                      }}
+                    />
+                  ) : null}
+                </div>
                 <Typography variant="body2" color="text.foreground">
                   {t('detail.subtitle')}
                 </Typography>

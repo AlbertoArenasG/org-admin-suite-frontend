@@ -8,6 +8,7 @@ import type { Column, ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 
 import type { ContactsTableRow } from '@/components/contacts/types';
+import { ClassificationBadges } from '@/components/classification/ClassificationBadges';
 import { ContactsTableRowActions } from '@/components/contacts/ContactsTableRowActions';
 
 type Translate = TFunction<'contacts', undefined>;
@@ -66,6 +67,21 @@ export function useContactsTableColumns({
               <span className="text-xs text-muted-foreground">{row.original.companyName}</span>
             ) : null}
           </div>
+        ),
+      },
+      {
+        id: 'classification',
+        enableHiding: false,
+        header: () => <span className="sr-only">{t('classification.group')}</span>,
+        cell: ({ row }) => (
+          <ClassificationBadges
+            isInternalStaff={row.original.isInternalStaff}
+            labels={{
+              group: t('classification.group'),
+              internalStaff: t('classification.internalStaff'),
+              administrator: t('classification.administrator'),
+            }}
+          />
         ),
       },
       {

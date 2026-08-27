@@ -17,6 +17,7 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { fetchUserRegistrationInvitationById } from '@/features/user-registration-invitations';
+import { ClassificationBadges } from '@/components/classification/ClassificationBadges';
 
 export default function UserRegistrationInvitationDetailPage() {
   const params = useParams<{ invitationId: string }>();
@@ -92,9 +93,22 @@ export default function UserRegistrationInvitationDetailPage() {
         <Box sx={{ px: 4, py: 4, borderBottom: '1px solid var(--surface-border)' }}>
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
-                {t('detail.title')}
-              </Typography>
+              <div className="flex flex-wrap items-center gap-2">
+                <Typography variant="h6" sx={{ fontWeight: 600, fontSize: '1.1rem' }}>
+                  {t('detail.title')}
+                </Typography>
+                {invitation ? (
+                  <ClassificationBadges
+                    isInternalStaff={invitation.isInternalStaff}
+                    systemRole={invitation.systemRole}
+                    labels={{
+                      group: t('classification.group'),
+                      internalStaff: t('classification.internalStaff'),
+                      administrator: t('classification.administrator'),
+                    }}
+                  />
+                ) : null}
+              </div>
               <Typography variant="body2" color="text.foreground">
                 {invitation?.email ?? t('detail.subtitle')}
               </Typography>

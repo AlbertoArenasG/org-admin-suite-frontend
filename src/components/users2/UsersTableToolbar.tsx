@@ -25,6 +25,9 @@ interface UsersTableToolbarProps {
   customerPlaceholder: string;
   customersLoading: boolean;
   onCustomerChange: (customerId: string | null) => void;
+  isInternalStaff: boolean | null;
+  staffOptions: Array<{ value: '' | 'true' | 'false'; label: string }>;
+  onInternalStaffChange: (value: boolean | null) => void;
 }
 
 export function UsersTableToolbar({
@@ -36,6 +39,9 @@ export function UsersTableToolbar({
   customerPlaceholder,
   customersLoading,
   onCustomerChange,
+  isInternalStaff,
+  staffOptions,
+  onInternalStaffChange,
 }: UsersTableToolbarProps) {
   const globalFilter = useUsersTableStore((state) => state.globalFilter);
   const setGlobalFilter = useUsersTableStore((state) => state.setGlobalFilter);
@@ -64,6 +70,20 @@ export function UsersTableToolbar({
             clearable
           />
         </div>
+        <select
+          value={isInternalStaff === null ? '' : String(isInternalStaff)}
+          onChange={(event) => {
+            const value = event.target.value;
+            onInternalStaffChange(value === '' ? null : value === 'true');
+          }}
+          className="border-input focus-visible:ring-ring/50 h-10 w-full rounded-md border bg-background px-3 text-sm shadow-xs focus-visible:outline-none sm:max-w-xs"
+        >
+          {staffOptions.map((option) => (
+            <option key={option.value || 'all'} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

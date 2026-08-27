@@ -33,6 +33,11 @@ interface UsersDataTableProps {
     loading: boolean;
     onChange: (customerId: string | null) => void;
   };
+  staffFilter: {
+    value: boolean | null;
+    options: Array<{ value: '' | 'true' | 'false'; label: string }>;
+    onChange: (value: boolean | null) => void;
+  };
   deleteDialog: {
     open: boolean;
     user: UsersTableUser | null;
@@ -69,6 +74,7 @@ export function UsersDataTable({
   searchPlaceholder,
   columnLabel,
   customerFilter,
+  staffFilter,
   deleteDialog,
   tableLabels,
 }: UsersDataTableProps) {
@@ -114,6 +120,9 @@ export function UsersDataTable({
         customerPlaceholder={customerFilter.placeholder}
         customersLoading={customerFilter.loading}
         onCustomerChange={customerFilter.onChange}
+        isInternalStaff={staffFilter.value}
+        staffOptions={staffFilter.options}
+        onInternalStaffChange={staffFilter.onChange}
       />
 
       {isLoading ? (

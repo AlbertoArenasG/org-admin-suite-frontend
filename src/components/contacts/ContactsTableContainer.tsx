@@ -289,6 +289,24 @@ export function ContactsTableContainer() {
       }
       searchPlaceholder={t('actions.searchPlaceholder')}
       columnLabel={t('actions.manageColumns')}
+      staffFilter={{
+        value: filters.isInternalStaff,
+        options: [
+          { value: '', label: t('filters.allStaff') },
+          { value: 'true', label: t('filters.internalStaff') },
+          { value: 'false', label: t('filters.externalStaff') },
+        ],
+        onChange: (nextIsInternalStaff) => {
+          const nextParams = new URLSearchParams(searchParamsString);
+          if (nextIsInternalStaff === null) {
+            nextParams.delete('is_internal_staff');
+          } else {
+            nextParams.set('is_internal_staff', String(nextIsInternalStaff));
+          }
+          nextParams.set('page', '1');
+          router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+        },
+      }}
       deleteDialog={{
         open: Boolean(deleteTarget),
         contact: deleteTarget,

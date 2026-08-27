@@ -16,8 +16,8 @@
 
 - [x] Integrar el `RadioGroup` en invitación, edición de Usuario y formularios de Contacto manual.
 - [x] Implementar reglas visuales para `ADMIN` y `MASTER_ADMIN`.
-- [ ] Agregar filtros de personal a los toolbars de Usuarios y Contactos.
-- [ ] Agregar insignias a listados y detalles pertinentes.
+- [x] Agregar filtros de personal a los toolbars de Usuarios y Contactos.
+- [x] Agregar insignias a listados y detalles pertinentes.
 
 ## Validation
 

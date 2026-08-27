@@ -7,6 +7,7 @@ import type { Column, ColumnDef } from '@tanstack/react-table';
 import type { TFunction } from 'i18next';
 
 import type { UsersTableUser } from '@/components/users2/types';
+import { ClassificationBadges } from '@/components/classification/ClassificationBadges';
 import type { AuthSystemRole } from '@/features/auth/types';
 import { UsersTableRowActions } from '@/components/users2/UsersTableRowActions';
 
@@ -67,6 +68,22 @@ export function useUsersTableColumns({
         },
         cell: ({ getValue }) => (
           <span className="font-medium text-foreground">{getValue<string>()}</span>
+        ),
+      },
+      {
+        id: 'classification',
+        enableHiding: false,
+        header: () => <span className="sr-only">{t('classification.group')}</span>,
+        cell: ({ row }) => (
+          <ClassificationBadges
+            isInternalStaff={row.original.isInternalStaff}
+            systemRole={row.original.systemRole}
+            labels={{
+              group: t('classification.group'),
+              internalStaff: t('classification.internalStaff'),
+              administrator: t('classification.administrator'),
+            }}
+          />
         ),
       },
       {

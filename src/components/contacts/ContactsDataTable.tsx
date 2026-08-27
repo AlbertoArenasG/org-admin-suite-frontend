@@ -24,6 +24,11 @@ interface ContactsDataTableProps {
   paginationSummary: string | null;
   searchPlaceholder: string;
   columnLabel: string;
+  staffFilter: {
+    value: boolean | null;
+    options: Array<{ value: '' | 'true' | 'false'; label: string }>;
+    onChange: (value: boolean | null) => void;
+  };
   deleteDialog: {
     open: boolean;
     contact: ContactsTableRow | null;
@@ -59,6 +64,7 @@ export function ContactsDataTable({
   paginationSummary,
   searchPlaceholder,
   columnLabel,
+  staffFilter,
   deleteDialog,
   tableLabels,
 }: ContactsDataTableProps) {
@@ -103,6 +109,9 @@ export function ContactsDataTable({
         table={table}
         searchPlaceholder={searchPlaceholder}
         columnLabel={columnLabel}
+        isInternalStaff={staffFilter.value}
+        staffOptions={staffFilter.options}
+        onInternalStaffChange={staffFilter.onChange}
       />
 
       {isLoading ? (
