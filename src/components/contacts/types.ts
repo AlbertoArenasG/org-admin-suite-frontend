@@ -26,6 +26,7 @@ export interface ContactFormValues {
   name: string;
   lastname: string;
   companyName: string;
+  isInternalStaff: boolean | null;
   emails: ContactValue[];
   phones: ContactValue[];
   cellPhones: ContactValue[];

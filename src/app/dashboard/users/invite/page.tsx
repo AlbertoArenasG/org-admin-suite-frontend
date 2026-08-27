@@ -86,6 +86,7 @@ export default function InviteUserPage() {
         number: '',
       },
       customerIds: [],
+      isInternalStaff: null,
     };
   }, [safeRoleOptions]);
 
@@ -115,6 +116,7 @@ export default function InviteUserPage() {
         lastname: values.lastname,
         cellPhone: normalizedCellPhone,
         customerIds: values.customerIds,
+        isInternalStaff: values.isInternalStaff as boolean,
       })
     )
       .unwrap()

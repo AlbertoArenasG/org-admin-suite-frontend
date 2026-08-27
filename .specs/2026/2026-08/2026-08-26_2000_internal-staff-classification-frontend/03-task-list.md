@@ -14,12 +14,12 @@
 
 ## Surfaces
 
-- [ ] Integrar el `RadioGroup` en invitación, edición de Usuario y formularios de Contacto manual.
-- [ ] Implementar reglas visuales para `ADMIN` y `MASTER_ADMIN`.
+- [x] Integrar el `RadioGroup` en invitación, edición de Usuario y formularios de Contacto manual.
+- [x] Implementar reglas visuales para `ADMIN` y `MASTER_ADMIN`.
 - [ ] Agregar filtros de personal a los toolbars de Usuarios y Contactos.
 - [ ] Agregar insignias a listados y detalles pertinentes.
 
 ## Validation
 
-- [ ] Ejecutar `npm run build` y `git diff --check`.
+- [x] Ejecutar `npm run build` y `git diff --check`.
 - [ ] Realizar validación manual de formularios, filtros, insignias, tema claro y oscuro.

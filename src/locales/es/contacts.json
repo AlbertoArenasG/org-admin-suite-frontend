@@ -49,7 +49,8 @@
       "phones": "Teléfonos",
       "cellPhones": "Celulares",
       "phoneCode": "Código",
-      "phoneNumber": "Número"
+      "phoneNumber": "Número",
+      "internalStaff": "Pertenece a Implementos Científicos"
     },
     "placeholders": {
       "name": "Nombre",
@@ -66,6 +67,9 @@
       "noPhones": "Todavía no agregas teléfonos.",
       "noCellPhones": "Todavía no agregas celulares."
     },
+    "helpers": {
+      "internalStaff": "Indica si forma parte del personal de Implementos Científicos."
+    },
     "actions": {
       "addEmail": "Agregar",
       "addPhone": "Agregar",
@@ -73,7 +77,8 @@
     },
     "errors": {
       "nameRequired": "El nombre es obligatorio",
-      "lastnameRequired": "El apellido es obligatorio"
+      "lastnameRequired": "El apellido es obligatorio",
+      "internalStaffRequired": "Selecciona si pertenece al personal de Implementos Científicos"
     },
     "cancel": "Cancelar",
     "submitting": "Guardando...",

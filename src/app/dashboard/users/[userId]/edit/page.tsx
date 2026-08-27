@@ -98,6 +98,7 @@ export default function UserEditPage() {
           number: user.cellPhone?.number ?? '',
         },
         customerIds: user.customers?.map((customer) => customer.id) ?? [],
+        isInternalStaff: user.isInternalStaff,
       }
     : undefined;
 
@@ -276,6 +277,7 @@ export default function UserEditPage() {
                       statusId: user.status,
                       cellPhone: normalizedCellPhone,
                       customerIds: values.customerIds,
+                      isInternalStaff: values.isInternalStaff ?? user.isInternalStaff,
                     },
                   })
                 );

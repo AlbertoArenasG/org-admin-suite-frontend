@@ -8,6 +8,7 @@ import { Loader2, Plus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { RadioGroup } from '@/components/ui/radio-group';
 import type { ContactDetail, ContactValue } from '@/features/contacts/types';
 import type { ContactFormMode, ContactFormValues } from '@/components/contacts/types';
 
@@ -18,6 +19,7 @@ interface ContactFormProps {
     name: string;
     lastname: string;
     companyName: string | null;
+    isInternalStaff: boolean;
     emails: ContactValue[];
     phones: ContactValue[];
     cellPhones: ContactValue[];
@@ -32,6 +34,7 @@ function buildInitialValues(contact?: ContactDetail | null): ContactFormValues {
     name: contact?.name ?? '',
     lastname: contact?.lastname ?? '',
     companyName: contact?.companyName ?? '',
+    isInternalStaff: contact?.isInternalStaff ?? null,
     emails: contact?.emails ?? [],
     phones: contact?.phones ?? [],
     cellPhones: contact?.cellPhones ?? [],
@@ -243,6 +246,8 @@ export function ContactForm({
     handleSubmit,
     watch,
     setValue,
+    setError,
+    clearErrors,
     formState: { errors, isSubmitting: isFormSubmitting },
     reset,
   } = useForm<ContactFormValues>({
@@ -265,10 +270,19 @@ export function ContactForm({
   const cellPhones = watch('cellPhones');
 
   const submitHandler = handleSubmit((values) => {
+    if (values.isInternalStaff === null) {
+      setError('isInternalStaff', {
+        type: 'required',
+        message: t('form.errors.internalStaffRequired'),
+      });
+      return;
+    }
+
     const payload = {
       name: values.name.trim(),
       lastname: values.lastname.trim(),
       companyName: values.companyName.trim() || null,
+      isInternalStaff: values.isInternalStaff as boolean,
       emails: values.emails,
       phones: values.phones,
       cellPhones: values.cellPhones,
@@ -381,6 +395,34 @@ export function ContactForm({
             {...register('companyName')}
           />
         </div>
+
+        {!contact?.userId ? (
+          <div className="grid gap-2">
+            <Label>{t('form.labels.internalStaff')}</Label>
+            <p className="text-sm text-muted-foreground">{t('form.helpers.internalStaff')}</p>
+            <RadioGroup
+              name="contact-is-internal-staff"
+              value={watch('isInternalStaff') === null ? null : String(watch('isInternalStaff'))}
+              onValueChange={(value) => {
+                setValue('isInternalStaff', value === 'true', {
+                  shouldDirty: true,
+                  shouldTouch: true,
+                  shouldValidate: true,
+                });
+                clearErrors('isInternalStaff');
+              }}
+              disabled={effectiveDisabled}
+              aria-label={t('form.labels.internalStaff')}
+              options={[
+                { value: 'true', label: t('classification.yes') },
+                { value: 'false', label: t('classification.no') },
+              ]}
+            />
+            {errors.isInternalStaff ? (
+              <p className="text-sm text-destructive">{errors.isInternalStaff.message}</p>
+            ) : null}
+          </div>
+        ) : null}
 
         <ContactValuesField
           id="contact-emails"

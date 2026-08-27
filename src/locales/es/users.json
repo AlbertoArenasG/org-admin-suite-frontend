@@ -60,7 +60,8 @@
       "lastname": "Apellido",
       "phoneCode": "Código de país",
       "phoneNumber": "Número telefónico",
-      "customers": "Clientes relacionados"
+      "customers": "Clientes relacionados",
+      "internalStaff": "Pertenece a Implementos Científicos"
     },
     "placeholders": {
       "email": "nombre@ejemplo.com",
@@ -77,10 +78,14 @@
       "addAnother": "Agregar otro cliente",
       "remove": "Quitar {{customer}}"
     },
+    "helpers": {
+      "internalStaff": "Indica si forma parte del personal de Implementos Científicos."
+    },
     "errors": {
       "emailRequired": "El correo es obligatorio",
       "emailInvalid": "Ingresa un correo válido",
-      "roleRequired": "Selecciona un rol"
+      "roleRequired": "Selecciona un rol",
+      "internalStaffRequired": "Selecciona si pertenece al personal de Implementos Científicos"
     },
     "cancel": "Cancelar",
     "submitting": "Guardando...",

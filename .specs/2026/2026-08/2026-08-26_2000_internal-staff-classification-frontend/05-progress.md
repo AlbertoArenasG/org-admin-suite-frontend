@@ -13,7 +13,7 @@
 
 - [x] Slice 1: primitivas compartidas y copies.
 - [x] Slice 2: contratos y estado.
-- [ ] Slice 3: formularios.
+- [x] Slice 3: formularios.
 
 ## Validation
 

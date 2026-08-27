@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { RadioGroup } from '@/components/ui/radio-group';
 import { Loader2 } from 'lucide-react';
 import type { AuthSystemRole } from '@/features/auth/types';
 import type { CustomerOption, CustomerRelationshipSummary } from '@/features/customers';
@@ -22,6 +23,7 @@ export interface UserFormValues {
     number: string;
   };
   customerIds: string[];
+  isInternalStaff: boolean | null;
 }
 
 export interface UserFormProps {
@@ -54,6 +56,7 @@ function buildInitialValues(defaultValues?: Partial<UserFormValues>): UserFormVa
       number: defaultValues?.cellPhone?.number ?? '',
     },
     customerIds: defaultValues?.customerIds ?? [],
+    isInternalStaff: defaultValues?.isInternalStaff ?? null,
   };
 }
 
@@ -90,6 +93,22 @@ export function UserForm({
   const roleId = useWatch({ control, name: 'roleId' });
   const selectedSystemRole = roleOptions.find((role) => role.value === roleId)?.systemRole;
   const isUserRole = selectedSystemRole === 'USER';
+  const isAdministrativeRole =
+    selectedSystemRole === 'ADMIN' || selectedSystemRole === 'MASTER_ADMIN';
+  const previousSystemRoleRef = useRef<AuthSystemRole | undefined>(undefined);
+
+  useEffect(() => {
+    const wasAdministrativeRole =
+      previousSystemRoleRef.current === 'ADMIN' || previousSystemRoleRef.current === 'MASTER_ADMIN';
+
+    if (isAdministrativeRole) {
+      setValue('isInternalStaff', true, { shouldDirty: true });
+    } else if (mode === 'create' && wasAdministrativeRole) {
+      setValue('isInternalStaff', null, { shouldDirty: true });
+    }
+
+    previousSystemRoleRef.current = selectedSystemRole;
+  }, [isAdministrativeRole, mode, selectedSystemRole, setValue]);
 
   useEffect(() => {
     if (isUserRole) {
@@ -162,6 +181,34 @@ export function UserForm({
             <p className="text-sm text-destructive">{errors.roleId.message}</p>
           ) : null}
         </div>
+
+        <Controller
+          control={control}
+          name="isInternalStaff"
+          rules={{
+            validate: (value) => value !== null || t('form.errors.internalStaffRequired'),
+          }}
+          render={({ field }) => (
+            <div className="grid gap-2">
+              <Label>{t('form.labels.internalStaff')}</Label>
+              <p className="text-sm text-muted-foreground">{t('form.helpers.internalStaff')}</p>
+              <RadioGroup
+                name="user-is-internal-staff"
+                value={field.value === null ? null : String(field.value)}
+                onValueChange={(value) => field.onChange(value === 'true')}
+                disabled={isAdministrativeRole || effectiveSubmitting}
+                aria-label={t('form.labels.internalStaff')}
+                options={[
+                  { value: 'true', label: t('classification.yes') },
+                  { value: 'false', label: t('classification.no') },
+                ]}
+              />
+              {errors.isInternalStaff ? (
+                <p className="text-sm text-destructive">{errors.isInternalStaff.message}</p>
+              ) : null}
+            </div>
+          )}
+        />
 
         <div className="grid gap-2 md:grid-cols-2 md:gap-4">
           <div className="grid gap-2">

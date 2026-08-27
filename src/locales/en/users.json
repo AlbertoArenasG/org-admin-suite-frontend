@@ -60,7 +60,8 @@
       "lastname": "Last name",
       "phoneCode": "Country code",
       "phoneNumber": "Phone number",
-      "customers": "Related customers"
+      "customers": "Related customers",
+      "internalStaff": "Belongs to Implementos Científicos"
     },
     "placeholders": {
       "email": "name@example.com",
@@ -77,10 +78,14 @@
       "addAnother": "Add another customer",
       "remove": "Remove {{customer}}"
     },
+    "helpers": {
+      "internalStaff": "Indicates whether this person is part of Implementos Científicos personnel."
+    },
     "errors": {
       "emailRequired": "Email is required",
       "emailInvalid": "Enter a valid email",
-      "roleRequired": "Select a role"
+      "roleRequired": "Select a role",
+      "internalStaffRequired": "Select whether this person belongs to Implementos Científicos personnel"
     },
     "cancel": "Cancel",
     "submitting": "Saving...",
