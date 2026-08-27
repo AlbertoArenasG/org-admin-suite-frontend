@@ -3,9 +3,9 @@
   "empty": "No contacts to show.",
   "pagination": "Page {{page}} of {{pages}} · {{total}} contacts",
   "filters": {
-    "allStaff": "All personnel",
+    "allStaff": "All contacts",
     "internalStaff": "Implementos Científicos personnel",
-    "externalStaff": "External personnel"
+    "externalStaff": "External contacts"
   },
   "classification": {
     "label": "Belongs to Implementos Científicos",

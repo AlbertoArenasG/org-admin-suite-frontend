@@ -31,9 +31,9 @@
   },
   "filters": {
     "customerPlaceholder": "Filter by customer",
-    "allStaff": "All personnel",
+    "allStaff": "All users",
     "internalStaff": "Implementos Científicos personnel",
-    "externalStaff": "External personnel"
+    "externalStaff": "External users"
   },
   "classification": {
     "label": "Belongs to Implementos Científicos",
