@@ -30,6 +30,7 @@ interface ApiUserRegistrationInvitation {
   system_role_name: string;
   role_id: string | null;
   role_name: string | null;
+  is_internal_staff: boolean;
   created_at: string | null;
   consumed_at: string | null;
   revoked_at: string | null;
@@ -76,6 +77,7 @@ function mapInvitation(item: ApiUserRegistrationInvitation): UserRegistrationInv
     systemRoleName: item.system_role_name,
     roleId: item.role_id,
     roleName: item.role_name,
+    isInternalStaff: item.is_internal_staff,
     createdAt: item.created_at,
     consumedAt: item.consumed_at,
     revokedAt: item.revoked_at,
@@ -241,6 +243,9 @@ export const createUserRegistrationInvitation = createAsyncThunk<
           ...(payload.roleId ? { role_id: payload.roleId } : {}),
           name: payload.name,
           lastname: payload.lastname,
+          ...(payload.isInternalStaff === undefined
+            ? {}
+            : { is_internal_staff: payload.isInternalStaff }),
           cell_phone: payload.cellPhone
             ? {
                 country_code: payload.cellPhone.countryCode,

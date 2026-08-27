@@ -78,7 +78,7 @@ export function ContactsTableContainer() {
     const nextFilter = params.get('search') ?? '';
     const nextSorting = parseContactSortingFromParams(params);
     const nextStatus = params.get('status');
-    const nextType = params.get('type');
+    const nextIsInternalStaff = params.get('is_internal_staff');
 
     syncFromUrl({
       pagination: nextPagination,
@@ -87,7 +87,8 @@ export function ContactsTableContainer() {
       debouncedFilter: nextFilter.trim(),
       filters: {
         status: nextStatus === 'ACTIVE' || nextStatus === 'DELETED' ? nextStatus : null,
-        type: nextType === 'INTERNAL' || nextType === 'EXTERNAL' ? nextType : null,
+        isInternalStaff:
+          nextIsInternalStaff === 'true' ? true : nextIsInternalStaff === 'false' ? false : null,
       },
     });
   }, [searchParamsString, syncFromUrl]);
@@ -234,7 +235,7 @@ export function ContactsTableContainer() {
     return new Intl.DateTimeFormat(locale, { dateStyle: 'medium' });
   }, [hydrated, i18n.language, i18n.options.fallbackLng]);
 
-  const tableData = useContactsTableData(listState.items, t);
+  const tableData = useContactsTableData(listState.items);
   const columns = useContactsTableColumns({
     t,
     dateFormatter,

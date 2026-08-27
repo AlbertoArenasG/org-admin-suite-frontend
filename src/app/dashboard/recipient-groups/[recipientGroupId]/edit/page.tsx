@@ -82,7 +82,7 @@ export default function RecipientGroupEditPage() {
     recipientGroup?.contacts.forEach((contact) => {
       map.set(contact.contactId, {
         contactId: contact.contactId,
-        type: contact.type,
+        isInternalStaff: contact.isInternalStaff,
         userId: contact.userId,
         fullName: contact.fullName,
         companyName: contact.companyName,

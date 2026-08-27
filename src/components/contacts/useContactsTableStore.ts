@@ -68,7 +68,7 @@ function createInitialState(): ContactsTableStoreState {
     debouncedFilter: '',
     filters: {
       status: null,
-      type: null,
+      isInternalStaff: null,
     },
     deleteTarget: null,
     initialized: false,
@@ -80,7 +80,7 @@ function arePaginationEqual(a: PaginationState, b: PaginationState) {
 }
 
 function areFiltersEqual(a: ContactListFilters, b: ContactListFilters) {
-  return a.status === b.status && a.type === b.type;
+  return a.status === b.status && a.isInternalStaff === b.isInternalStaff;
 }
 
 export const useContactsTableStore = create<ContactsTableStore>((set) => ({

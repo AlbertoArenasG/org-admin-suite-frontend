@@ -147,7 +147,7 @@ export function RecipientGroupForm({
 
         const normalized: ContactSearchItem = {
           contactId: contactFromDetail.contactId,
-          type: contactFromDetail.type,
+          isInternalStaff: contactFromDetail.isInternalStaff,
           userId: contactFromDetail.userId,
           fullName: contactFromDetail.fullName,
           companyName: contactFromDetail.companyName,

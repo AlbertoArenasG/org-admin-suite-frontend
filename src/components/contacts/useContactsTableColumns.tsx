@@ -69,14 +69,6 @@ export function useContactsTableColumns({
         ),
       },
       {
-        accessorKey: 'type',
-        header: ({ column }) => <SortingHeader title={t('table.columns.type')} column={column} />,
-        meta: {
-          label: t('table.columns.type'),
-        },
-        cell: ({ row }) => <Chip size="small" variant="outlined" label={row.original.typeLabel} />,
-      },
-      {
         accessorKey: 'primaryEmail',
         header: t('table.columns.primaryEmail'),
         meta: {

@@ -16,6 +16,7 @@ export interface UserRegistrationInvitation {
   systemRoleName: string;
   roleId: string | null;
   roleName: string | null;
+  isInternalStaff: boolean;
   createdAt: string | null;
   consumedAt: string | null;
   revokedAt: string | null;
@@ -70,6 +71,7 @@ export interface CreateUserRegistrationInvitationPayload {
     countryCode: string;
     number: string;
   } | null;
+  isInternalStaff?: boolean;
   customerIds?: string[];
 }
 

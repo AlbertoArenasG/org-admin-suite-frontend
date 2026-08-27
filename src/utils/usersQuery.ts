@@ -67,6 +67,7 @@ export function buildUserQuery(params: {
   pageSize: number;
   search: string;
   customerId: string | null;
+  isInternalStaff: boolean | null;
   sorting: SortingState;
   baseParams: URLSearchParams;
 }) {
@@ -86,6 +87,12 @@ export function buildUserQuery(params: {
     currentParams.set('customer_id', params.customerId);
   } else {
     currentParams.delete('customer_id');
+  }
+
+  if (params.isInternalStaff !== null) {
+    currentParams.set('is_internal_staff', String(params.isInternalStaff));
+  } else {
+    currentParams.delete('is_internal_staff');
   }
 
   Array.from(currentParams.keys())

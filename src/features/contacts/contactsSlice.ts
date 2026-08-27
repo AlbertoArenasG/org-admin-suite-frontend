@@ -18,7 +18,7 @@ import type {
 
 const initialFilters: ContactListFilters = {
   status: null,
-  type: null,
+  isInternalStaff: null,
 };
 
 const initialSorts: ContactListSort[] = [{ field: 'created_at', direction: 'desc' }];
@@ -71,7 +71,7 @@ function upsertListItem(items: ContactListItem[], item: ContactListItem) {
 function toListItem(detail: ContactDetail): ContactListItem {
   return {
     contactId: detail.contactId,
-    type: detail.type,
+    isInternalStaff: detail.isInternalStaff,
     userId: detail.userId,
     name: detail.name,
     lastname: detail.lastname,

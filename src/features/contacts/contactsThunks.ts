@@ -27,7 +27,7 @@ interface ApiContactActorSummary {
 
 interface ApiContactListItem {
   contact_id: string;
-  type: ContactListItem['type'];
+  is_internal_staff: boolean;
   user_id: string | null;
   name: string;
   lastname: string;
@@ -51,7 +51,7 @@ interface ApiContactDetail extends ApiContactListItem {
 
 interface ApiContactSearchItem {
   contact_id: string;
-  type: ContactSearchItem['type'];
+  is_internal_staff: boolean;
   user_id: string | null;
   full_name: string;
   company_name: string | null;
@@ -79,7 +79,7 @@ const mapActorSummary = (
 
 const mapContactListItem = (item: ApiContactListItem): ContactListItem => ({
   contactId: item.contact_id,
-  type: item.type,
+  isInternalStaff: item.is_internal_staff,
   userId: item.user_id,
   name: item.name,
   lastname: item.lastname,
@@ -104,7 +104,7 @@ const mapContactDetail = (item: ApiContactDetail): ContactDetail => ({
 
 const mapSearchItem = (item: ApiContactSearchItem): ContactSearchItem => ({
   contactId: item.contact_id,
-  type: item.type,
+  isInternalStaff: item.is_internal_staff,
   userId: item.user_id,
   fullName: item.full_name,
   companyName: item.company_name,
@@ -120,6 +120,9 @@ function buildMutationBody(payload: ContactMutationPayload) {
     emails: payload.emails,
     phones: payload.phones,
     cell_phones: payload.cellPhones,
+    ...(payload.isInternalStaff === undefined
+      ? {}
+      : { is_internal_staff: payload.isInternalStaff }),
   };
 }
 
@@ -153,8 +156,8 @@ export const fetchContacts = createAsyncThunk<
     query.set('status', filters.status);
   }
 
-  if (filters.type) {
-    query.set('type', filters.type);
+  if (filters.isInternalStaff !== undefined && filters.isInternalStaff !== null) {
+    query.set('is_internal_staff', String(filters.isInternalStaff));
   }
 
   sorts.forEach((sort, index) => {

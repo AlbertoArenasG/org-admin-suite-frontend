@@ -12,6 +12,7 @@ export interface FetchUsersParams {
   itemsPerPage?: number;
   search?: string;
   customerId?: string | null;
+  isInternalStaff?: boolean | null;
   sorts?: Array<{ field: string; direction: 'asc' | 'desc' }>;
 }
 
@@ -32,6 +33,7 @@ export interface UpdateUserPayload {
       countryCode: string;
       number: string;
     } | null;
+    isInternalStaff?: boolean;
     customerIds?: string[];
   };
 }
@@ -50,6 +52,7 @@ interface ApiUser {
   system_role_name?: string | null;
   role_id: string | null;
   role_name?: string | null;
+  is_internal_staff: boolean;
   status: string;
   status_name: string;
   cell_phone: null | {
@@ -95,6 +98,7 @@ const mapUser = (user: ApiUser): User => ({
   systemRoleName: user.system_role_name ?? user.system_role,
   roleId: user.role_id,
   roleName: user.role_name ?? null,
+  isInternalStaff: user.is_internal_staff,
   status: user.status,
   statusName: user.status_name,
   cellPhone: user.cell_phone
@@ -121,7 +125,15 @@ export const fetchUsers = createAsyncThunk<
   FetchUsersParams | undefined,
   { state: RootState }
 >('users/fetchAll', async (params = {}, thunkAPI) => {
-  const { page = 1, limit = 10, itemsPerPage, search, customerId, sorts = [] } = params;
+  const {
+    page = 1,
+    limit = 10,
+    itemsPerPage,
+    search,
+    customerId,
+    isInternalStaff,
+    sorts = [],
+  } = params;
   const state = thunkAPI.getState();
   const token = state.auth.token;
 
@@ -141,6 +153,10 @@ export const fetchUsers = createAsyncThunk<
 
   if (customerId) {
     query.set('customer_id', customerId);
+  }
+
+  if (isInternalStaff !== undefined && isInternalStaff !== null) {
+    query.set('is_internal_staff', String(isInternalStaff));
   }
 
   sorts
@@ -245,6 +261,7 @@ export const updateUser = createAsyncThunk<
         system_role: data.systemRole,
         ...(data.roleId ? { role_id: data.roleId } : {}),
         status_id: data.statusId,
+        ...(data.isInternalStaff === undefined ? {} : { is_internal_staff: data.isInternalStaff }),
         cell_phone: data.cellPhone
           ? {
               country_code: data.cellPhone.countryCode,

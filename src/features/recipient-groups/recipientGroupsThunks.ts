@@ -37,7 +37,7 @@ interface ApiRecipientGroupActorSummary {
 
 interface ApiRecipientGroupContactSummary {
   contact_id: string;
-  type: RecipientGroupContactSummary['type'];
+  is_internal_staff: boolean;
   user_id: string | null;
   full_name: string;
   company_name: string | null;
@@ -91,7 +91,7 @@ const mapContactSummary = (
   contact: ApiRecipientGroupContactSummary
 ): RecipientGroupContactSummary => ({
   contactId: contact.contact_id,
-  type: contact.type,
+  isInternalStaff: contact.is_internal_staff,
   userId: contact.user_id,
   fullName: contact.full_name,
   companyName: contact.company_name,

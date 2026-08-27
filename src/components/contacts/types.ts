@@ -2,7 +2,6 @@ import type {
   ContactDetail,
   ContactListItem,
   ContactStatusId,
-  ContactType,
   ContactValue,
 } from '@/features/contacts/types';
 
@@ -12,8 +11,7 @@ export interface ContactsTableRow {
   companyName: string | null;
   primaryEmail: string | null;
   primaryCellPhone: string | null;
-  type: ContactType;
-  typeLabel: string;
+  isInternalStaff: boolean;
   statusId: ContactStatusId;
   statusLabel: string;
   userId: string | null;

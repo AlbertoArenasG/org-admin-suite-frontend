@@ -14,6 +14,7 @@ export interface User {
   systemRoleName: string;
   roleId: string | null;
   roleName: string | null;
+  isInternalStaff: boolean;
   status: string;
   statusName: string;
   cellPhone?: {

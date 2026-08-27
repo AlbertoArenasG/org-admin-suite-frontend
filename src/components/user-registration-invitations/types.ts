@@ -9,6 +9,7 @@ export interface UserRegistrationInvitationsTableRow {
   email: string;
   roleLabel: string;
   systemRoleLabel: string;
+  isInternalStaff: boolean;
   status: UserRegistrationInvitationStatus;
   statusLabel: string;
   statusDate: string | null;

@@ -8,9 +8,9 @@
 
 ## Contracts And State
 
-- [ ] Añadir `isInternalStaff` a los tipos, mapeos y payloads de Usuarios e Invitaciones.
-- [ ] Reemplazar `ContactType`, `type` y `typeLabel` por `isInternalStaff` en Contactos y Grupos de destinatarios.
-- [ ] Incluir `is_internal_staff` en los query params y estado de filtro de Usuarios y Contactos.
+- [x] Añadir `isInternalStaff` a los tipos, mapeos y payloads de Usuarios e Invitaciones.
+- [x] Reemplazar `ContactType`, `type` y `typeLabel` por `isInternalStaff` en Contactos y Grupos de destinatarios.
+- [x] Incluir `is_internal_staff` en los query params y estado de filtro de Usuarios y Contactos.
 
 ## Surfaces
 

@@ -1,4 +1,3 @@
-export type ContactType = 'INTERNAL' | 'EXTERNAL';
 export type ContactStatusId = 'ACTIVE' | 'DELETED';
 export type RequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
 export type SortDirection = 'asc' | 'desc';
@@ -16,7 +15,7 @@ export interface ContactActorSummary {
 
 export interface ContactListItem {
   contactId: string;
-  type: ContactType;
+  isInternalStaff: boolean;
   userId: string | null;
   name: string;
   lastname: string;
@@ -32,7 +31,7 @@ export interface ContactListItem {
 
 export interface ContactSearchItem {
   contactId: string;
-  type: ContactType;
+  isInternalStaff: boolean;
   userId: string | null;
   fullName: string;
   companyName: string | null;
@@ -50,7 +49,7 @@ export interface ContactDetail extends ContactListItem {
 
 export interface ContactListFilters {
   status: ContactStatusId | null;
-  type: ContactType | null;
+  isInternalStaff: boolean | null;
 }
 
 export interface ContactListSort {
@@ -89,6 +88,7 @@ export interface ContactMutationPayload {
   emails: ContactValue[];
   phones: ContactValue[];
   cellPhones: ContactValue[];
+  isInternalStaff?: boolean;
 }
 
 export type CreateContactPayload = ContactMutationPayload;

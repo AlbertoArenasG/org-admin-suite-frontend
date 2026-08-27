@@ -7,6 +7,7 @@ export interface UsersTableUser {
   roleName: string;
   roleId: string | null;
   systemRole: AuthSystemRole;
+  isInternalStaff: boolean;
   status: string;
   statusName: string;
   createdAt: string;

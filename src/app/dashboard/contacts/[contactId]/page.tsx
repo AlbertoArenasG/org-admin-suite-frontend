@@ -68,7 +68,6 @@ export default function ContactDetailPage() {
   const detailRows = contact
     ? [
         { label: t('detail.fields.fullName'), value: contact.fullName || '—' },
-        { label: t('detail.fields.type'), value: t(`types.${contact.type}`) },
         { label: t('detail.fields.companyName'), value: contact.companyName || '—' },
         {
           label: t('detail.fields.status'),

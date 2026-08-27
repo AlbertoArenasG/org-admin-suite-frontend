@@ -13,6 +13,7 @@ export function useUserRegistrationInvitationsTableData(items: UserRegistrationI
         email: item.email,
         roleLabel: item.roleName ?? '—',
         systemRoleLabel: item.systemRoleName,
+        isInternalStaff: item.isInternalStaff,
         status: item.status,
         statusLabel: item.statusName,
         statusDate: item.status === 'CONSUMED' ? item.consumedAt : item.revokedAt,

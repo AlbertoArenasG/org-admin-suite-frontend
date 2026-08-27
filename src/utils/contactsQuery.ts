@@ -91,10 +91,10 @@ export function buildContactsQuery(params: {
     currentParams.delete('status');
   }
 
-  if (params.filters.type) {
-    currentParams.set('type', params.filters.type);
+  if (params.filters.isInternalStaff !== null) {
+    currentParams.set('is_internal_staff', String(params.filters.isInternalStaff));
   } else {
-    currentParams.delete('type');
+    currentParams.delete('is_internal_staff');
   }
 
   Array.from(currentParams.keys())

@@ -17,7 +17,7 @@ export interface RecipientGroupActorSummary {
 
 export interface RecipientGroupContactSummary {
   contactId: string;
-  type: 'INTERNAL' | 'EXTERNAL';
+  isInternalStaff: boolean;
   userId: string | null;
   fullName: string;
   companyName: string | null;

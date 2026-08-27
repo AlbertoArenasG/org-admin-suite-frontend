@@ -14,6 +14,7 @@ export function useUsersTableData(users: User[]): UsersTableUser[] {
         roleName: user.roleName ?? user.roleId ?? user.systemRole,
         roleId: user.roleId,
         systemRole: user.systemRole,
+        isInternalStaff: user.isInternalStaff,
         status: user.status,
         statusName: user.statusName,
         createdAt: user.createdAt,

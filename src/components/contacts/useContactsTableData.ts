@@ -1,13 +1,10 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { TFunction } from 'i18next';
 import type { ContactListItem } from '@/features/contacts/types';
 import type { ContactsTableRow } from '@/components/contacts/types';
 
-type Translate = TFunction<'contacts', undefined>;
-
-export function useContactsTableData(items: ContactListItem[], t: Translate) {
+export function useContactsTableData(items: ContactListItem[]) {
   return useMemo<ContactsTableRow[]>(
     () =>
       items.map((item) => ({
@@ -16,8 +13,7 @@ export function useContactsTableData(items: ContactListItem[], t: Translate) {
         companyName: item.companyName,
         primaryEmail: item.primaryEmail,
         primaryCellPhone: item.primaryCellPhone,
-        type: item.type,
-        typeLabel: t(`types.${item.type}`, { defaultValue: item.type }),
+        isInternalStaff: item.isInternalStaff,
         statusId: item.statusId,
         statusLabel: item.statusName,
         userId: item.userId,
@@ -25,6 +21,6 @@ export function useContactsTableData(items: ContactListItem[], t: Translate) {
         createdAt: item.createdAt,
         source: item,
       })),
-    [items, t]
+    [items]
   );
 }

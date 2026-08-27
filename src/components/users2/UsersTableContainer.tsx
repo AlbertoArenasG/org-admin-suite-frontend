@@ -50,6 +50,9 @@ export function UsersTableContainer() {
   const authUser = useAppSelector((state) => state.auth.user);
   const customerOptions = useAppSelector((state) => state.customers.options);
   const customerId = searchParams.get('customer_id');
+  const isInternalStaffParam = searchParams.get('is_internal_staff');
+  const isInternalStaff =
+    isInternalStaffParam === 'true' ? true : isInternalStaffParam === 'false' ? false : null;
 
   const paginationState = useUsersTableStore((state) => state.pagination);
   const sorting = useUsersTableStore((state) => state.sorting);
@@ -88,6 +91,7 @@ export function UsersTableContainer() {
           itemsPerPage: paginationState.pageSize,
           search: debouncedFilter,
           customerId,
+          isInternalStaff,
           sorts: mapSortingToApi(sorting),
         })
       );
@@ -111,6 +115,7 @@ export function UsersTableContainer() {
     showSnackbar,
     sorting,
     t,
+    isInternalStaff,
   ]);
 
   const dateFormatter = useMemo(() => {
@@ -163,6 +168,7 @@ export function UsersTableContainer() {
         itemsPerPage: paginationState.pageSize,
         search: debouncedFilter,
         customerId,
+        isInternalStaff,
         sorts: mapSortingToApi(sorting),
       })
     );
@@ -174,6 +180,7 @@ export function UsersTableContainer() {
     paginationState.pageSize,
     sorting,
     initialized,
+    isInternalStaff,
   ]);
 
   useEffect(() => {
@@ -187,6 +194,7 @@ export function UsersTableContainer() {
       pageSize: paginationState.pageSize,
       search: globalFilter,
       customerId,
+      isInternalStaff,
       sorting,
       baseParams,
     });
@@ -207,6 +215,7 @@ export function UsersTableContainer() {
     searchParamsString,
     sorting,
     initialized,
+    isInternalStaff,
   ]);
 
   useEffect(() => {
