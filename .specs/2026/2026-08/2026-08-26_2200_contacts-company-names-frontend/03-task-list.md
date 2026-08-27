@@ -7,11 +7,12 @@
 - [x] Confirmar reglas para contactos manuales y vinculados a Usuario.
 - [x] Confirmar contrato API de `company_names`.
 - [x] Definir normalización del campo repetible de empresas.
+- [x] Definir adaptación compatible para grupos de destinatarios.
 
 ## Design
 
-- [ ] Definir tipos, mapeos, payloads y estrategia de presentación.
-- [ ] Desglosar slices de implementación.
+- [x] Definir tipos, mapeos, payloads y estrategia de presentación.
+- [x] Desglosar slices de implementación.
 
 ## Implementation
 

@@ -1,11 +1,9 @@
 # Plan
 
-La implementación iniciará después de cerrar las decisiones de definición y diseño.
+Fases aprobadas:
 
-Fases previstas:
-
-1. Confirmar alcance de consumidores y contrato API.
-2. Definir representación de lista, formulario y detalle.
-3. Diseñar tipos, mapeos y payloads.
-4. Implementar por slices.
-5. Ejecutar validación manual y cerrar documentación.
+1. Cerrar definición del contrato y todos sus consumidores frontend.
+2. Diseñar tipos, adaptadores y componentes acotados del feature.
+3. Implementar los slices de contrato, formulario, presentaciones y compatibilidad.
+4. Ejecutar validación manual, `npm run build` y `git diff --check`.
+5. Cerrar la spec y actualizar su índice.

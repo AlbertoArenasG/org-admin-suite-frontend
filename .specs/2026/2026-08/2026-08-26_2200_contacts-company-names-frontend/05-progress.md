@@ -2,11 +2,11 @@
 
 ## Definition
 
-- [x] Decisiones de alcance, representación y normalización aprobadas.
+- [x] Decisiones de alcance, representación, normalización y consumidores aprobadas.
 
 ## Design
 
-- [ ] Pendiente.
+- [x] Contrato, componentes y slices de implementación aprobados.
 
 ## Implementation
 

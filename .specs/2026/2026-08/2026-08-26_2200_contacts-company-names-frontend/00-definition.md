@@ -23,8 +23,8 @@ Fuera de alcance inicial:
 ## Overall Status
 
 - Initiative: `contacts-company-names-frontend`
-- Definition status: `in progress`
-- Implementation ready: `no`
+- Definition status: `complete`
+- Implementation ready: `yes`
 
 ---
 
@@ -58,6 +58,37 @@ La implementación actualizará todos los mapeos frontend que consumen contratos
 
 approved
 
+## Decision 02. Representación de múltiples empresas
+
+### Context
+
+`company_names` puede contener más de un nombre. La interfaz debe evitar que el listado se sature, pero permitir lectura completa y edición clara en las superficies que corresponden.
+
+### Options
+
+1. Mostrar todos los nombres como texto separado por comas en todas las superficies.
+2. Resumen compacto en el listado, lista completa en detalle y campo repetible para contactos manuales.
+3. Sustituir el campo por una selección desde el catálogo de Clientes.
+
+### Recommendation
+
+Opción 2.
+
+Mantiene la densidad de la tabla, permite lectura completa donde hay espacio y reutiliza el patrón ya existente de valores repetibles. No confunde nombres de empresa con relaciones a entidades `Customer`.
+
+### Decision Final
+
+Se aprueba la opción 2.
+
+- Listado: primera empresa y contador `+N` cuando aplique, con tooltip de lista completa.
+- Detalle: todas las empresas como chips de solo lectura.
+- Crear y editar contacto manual: campo repetible de nombres de empresa.
+- Contacto vinculado a Usuario: empresas visibles, sin edición manual.
+
+### Status
+
+approved
+
 ---
 
 ## Decision 03. Reglas del campo repetible de empresas
@@ -86,32 +117,17 @@ approved
 
 ---
 
-## Decision 02. Representación de múltiples empresas
+## Decision 04. Adaptación compatible de grupos de destinatarios
 
 ### Context
 
-`company_names` puede contener más de un nombre. La interfaz debe evitar que el listado se sature, pero permitir lectura completa y edición clara en las superficies que corresponden.
-
-### Options
-
-1. Mostrar todos los nombres como texto separado por comas en todas las superficies.
-2. Resumen compacto en el listado, lista completa en detalle y campo repetible para contactos manuales.
-3. Sustituir el campo por una selección desde el catálogo de Clientes.
-
-### Recommendation
-
-Opción 2.
-
-Mantiene la densidad de la tabla, permite lectura completa donde hay espacio y reutiliza el patrón ya existente de valores repetibles. No confunde nombres de empresa con relaciones a entidades `Customer`.
+El módulo de grupos de destinatarios consume Contactos en su contrato, formulario y detalle. No basta con corregir el mapeo de API: sus tipos y su presentación actual leen `companyName` directamente.
 
 ### Decision Final
 
-Se aprueba la opción 2.
+Se aprueba actualizar ese consumidor para usar `companyNames: string[]` y presentar un resumen compatible de empresas en las vistas existentes. Esta spec no rediseñará el módulo ni agregará nuevos controles de grupos de destinatarios.
 
-- Listado: primera empresa y contador `+N` cuando aplique, con tooltip de lista completa.
-- Detalle: todas las empresas como chips de solo lectura.
-- Crear y editar contacto manual: campo repetible de nombres de empresa.
-- Contacto vinculado a Usuario: empresas visibles, sin edición manual.
+No se conservará un campo singular derivado del primer elemento, porque ocultaría información y prolongaría el modelo obsoleto dentro de frontend.
 
 ### Status
 
