@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [internal-staff-classification-frontend](./2026/2026-08/2026-08-26_2000_internal-staff-classification-frontend/00-definition.md) - in progress
+- [internal-staff-classification-frontend](./2026/2026-08/2026-08-26_2000_internal-staff-classification-frontend/00-definition.md) - completed
 - [user-customer-relationship-frontend](./2026/2026-08/2026-08-26_1309_user-customer-relationship-frontend/00-definition.md) - completed
 - [sidebar-navigation-restructure-frontend](./2026/2026-08/2026-08-24_2300_sidebar-navigation-restructure-frontend/00-definition.md) - completed
 - [user-registration-invitations-management-frontend](./2026/2026-08/2026-08-24_2200_user-registration-invitations-management-frontend/00-definition.md) - completed

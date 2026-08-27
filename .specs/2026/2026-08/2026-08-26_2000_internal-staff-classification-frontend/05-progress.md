@@ -18,4 +18,4 @@
 
 ## Validation
 
-- [ ] Pendiente.
+- [x] Validación manual completada.

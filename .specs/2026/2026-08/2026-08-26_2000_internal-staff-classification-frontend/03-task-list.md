@@ -22,4 +22,4 @@
 ## Validation
 
 - [x] Ejecutar `npm run build` y `git diff --check`.
-- [ ] Realizar validación manual de formularios, filtros, insignias, tema claro y oscuro.
+- [x] Realizar validación manual de formularios, filtros, insignias, tema claro y oscuro.
