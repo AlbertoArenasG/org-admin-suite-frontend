@@ -70,6 +70,10 @@
   --warning-500: #d97706;
   --warning-700: #b45309;
 
+  --privilege-50: #fff8e6;
+  --privilege-200: #f7d67a;
+  --privilege-700: #8a5a00;
+
   --error-50: #fde8e8;
   --error-500: #dc2626;
   --error-700: #b91c1c;
@@ -131,6 +135,10 @@
   --primary-800: #aae8d8;
   --primary-900: #e6f8f4;
   --primary-foreground: #062d29;
+
+  --privilege-50: #332607;
+  --privilege-200: #805f10;
+  --privilege-700: #f3d27b;
 
   --accent-50: #0d3a34;
   --accent-100: #14544c;
@@ -210,6 +218,10 @@
   --primary-800: #0d5150;
   --primary-900: #083a38;
   --primary-foreground: #ffffff;
+
+  --privilege-50: #fff8e6;
+  --privilege-200: #f7d67a;
+  --privilege-700: #8a5a00;
 
   --accent-50: #f0fbf8;
   --accent-100: #d5f4ea;

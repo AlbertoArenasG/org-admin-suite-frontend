@@ -17,13 +17,21 @@ interface ClassificationBadgesProps {
   className?: string;
 }
 
-function ClassificationBadge({ label, children }: { label: string; children: React.ReactNode }) {
+function ClassificationBadge({
+  label,
+  className,
+  children,
+}: {
+  label: string;
+  className: string;
+  children: React.ReactNode;
+}) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
         <span
           aria-label={label}
-          className="inline-flex size-7 items-center justify-center rounded-md border border-border/70 bg-muted/60 text-foreground shadow-xs"
+          className={`inline-flex size-7 items-center justify-center rounded-full border shadow-xs transition-transform duration-150 hover:scale-105 ${className}`}
         >
           {children}
         </span>
@@ -53,13 +61,19 @@ export function ClassificationBadges({
       className={`inline-flex items-center gap-1.5 ${className ?? ''}`}
     >
       {isInternalStaff ? (
-        <ClassificationBadge label={labels.internalStaff}>
-          <Microscope className="size-4 text-primary" aria-hidden="true" />
+        <ClassificationBadge
+          label={labels.internalStaff}
+          className="border-primary-200 bg-primary-50 text-primary-700"
+        >
+          <Microscope className="size-3.5" aria-hidden="true" />
         </ClassificationBadge>
       ) : null}
       {isAdministrator ? (
-        <ClassificationBadge label={labels.administrator}>
-          <UserStar className="size-4" aria-hidden="true" />
+        <ClassificationBadge
+          label={labels.administrator}
+          className="border-[var(--privilege-200)] bg-[var(--privilege-50)] text-[var(--privilege-700)]"
+        >
+          <UserStar className="size-3.5" aria-hidden="true" />
         </ClassificationBadge>
       ) : null}
     </span>
