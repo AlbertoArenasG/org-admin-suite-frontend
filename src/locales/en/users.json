@@ -30,7 +30,6 @@
     "next": "Next"
   },
   "filters": {
-    "customer": "Customer",
     "customerPlaceholder": "Filter by customer"
   },
   "form": {
@@ -62,7 +61,9 @@
     "customers": {
       "helper": "Optional. Add the customers related to this user.",
       "loading": "Loading customers...",
-      "noOptions": "No customers available"
+      "noOptions": "No customers available",
+      "addAnother": "Add another customer",
+      "remove": "Remove {{customer}}"
     },
     "errors": {
       "emailRequired": "Email is required",

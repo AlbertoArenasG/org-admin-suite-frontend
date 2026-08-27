@@ -198,7 +198,9 @@ export default function UserDetailPage() {
                   <span className="text-sm font-medium text-foreground">{row.value}</span>
                 </div>
               ))}
-              <RelatedCustomersSection customers={user.customers} />
+              {user.customers?.length ? (
+                <RelatedCustomersSection customers={user.customers} />
+              ) : null}
             </>
           ) : (
             <div className="rounded-xl border border-border/60 bg-card/60 px-4 py-12 text-center text-sm text-muted-foreground">

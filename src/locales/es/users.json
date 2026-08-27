@@ -30,7 +30,6 @@
     "next": "Siguiente"
   },
   "filters": {
-    "customer": "Cliente",
     "customerPlaceholder": "Filtrar por cliente"
   },
   "form": {
@@ -62,7 +61,9 @@
     "customers": {
       "helper": "Opcional. Agrega los clientes relacionados con este usuario.",
       "loading": "Cargando clientes...",
-      "noOptions": "No hay clientes disponibles"
+      "noOptions": "No hay clientes disponibles",
+      "addAnother": "Agregar otro cliente",
+      "remove": "Quitar {{customer}}"
     },
     "errors": {
       "emailRequired": "El correo es obligatorio",

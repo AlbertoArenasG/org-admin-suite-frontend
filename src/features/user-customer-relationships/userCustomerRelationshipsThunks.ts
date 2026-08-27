@@ -13,7 +13,7 @@ interface ApiUser {
   id: string;
   name: string;
   lastname: string;
-  full_name: string;
+  full_name?: string;
   email: string;
   system_role_name?: string;
   status: string;
@@ -29,11 +29,13 @@ function getToken(state: AuthenticatedState) {
 }
 
 function mapRelatedUser(user: ApiUser): CustomerRelatedUser {
+  const fullName = user.full_name ?? [user.name, user.lastname].filter(Boolean).join(' ');
+
   return {
     id: user.id,
     name: user.name,
     lastname: user.lastname,
-    fullName: user.full_name,
+    fullName,
     email: user.email,
     systemRoleName: user.system_role_name ?? 'USER',
     status: user.status,
@@ -113,7 +115,7 @@ export const fetchCustomerAvailableUsers = createAsyncThunk<
       id: user.id,
       name: user.name,
       lastname: user.lastname,
-      fullName: user.full_name,
+      fullName: user.full_name ?? [user.name, user.lastname].filter(Boolean).join(' '),
       email: user.email,
     })),
   };

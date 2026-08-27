@@ -2,6 +2,7 @@
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Combobox } from '@/components/ui/combobox';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -10,8 +11,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SlidersHorizontal } from 'lucide-react';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 import type { Table } from '@tanstack/react-table';
 import type { UsersTableUser } from '@/components/users2/types';
 import { useUsersTableStore } from '@/components/users2/useUsersTableStore';
@@ -23,7 +22,6 @@ interface UsersTableToolbarProps {
   columnLabel: string;
   customerOptions: CustomerOption[];
   customerId: string | null;
-  customerLabel: string;
   customerPlaceholder: string;
   customersLoading: boolean;
   onCustomerChange: (customerId: string | null) => void;
@@ -35,7 +33,6 @@ export function UsersTableToolbar({
   columnLabel,
   customerOptions,
   customerId,
-  customerLabel,
   customerPlaceholder,
   customersLoading,
   onCustomerChange,
@@ -52,19 +49,21 @@ export function UsersTableToolbar({
           placeholder={searchPlaceholder}
           className="max-w-md"
         />
-        <Autocomplete
-          size="small"
-          options={customerOptions}
-          value={customerOptions.find((customer) => customer.id === customerId) ?? null}
-          loading={customersLoading}
-          isOptionEqualToValue={(option, selected) => option.id === selected.id}
-          getOptionLabel={(option) => option.companyName}
-          onChange={(_, customer) => onCustomerChange(customer?.id ?? null)}
-          className="w-full sm:max-w-xs"
-          renderInput={(params) => (
-            <TextField {...params} label={customerLabel} placeholder={customerPlaceholder} />
-          )}
-        />
+        <div className="w-full sm:max-w-xs">
+          <Combobox
+            options={customerOptions.map((customer) => ({
+              value: customer.id,
+              label: customer.companyName,
+            }))}
+            value={customerId}
+            onValueChange={onCustomerChange}
+            loading={customersLoading}
+            placeholder={customerPlaceholder}
+            searchPlaceholder={customerPlaceholder}
+            emptyMessage={customerPlaceholder}
+            clearable
+          />
+        </div>
       </div>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

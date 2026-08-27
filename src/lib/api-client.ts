@@ -139,6 +139,21 @@ export async function jsonRequest<TResponse, TMeta = unknown>(
     };
   }
 
+  if (response.ok && !parsedBody) {
+    const raw: ApiSuccessResponse<TResponse> = {
+      success: true,
+      success_message: null,
+      status_code: response.status,
+      data: null as TResponse,
+    };
+    return {
+      data: raw.data,
+      successMessage: raw.success_message,
+      statusCode: raw.status_code,
+      raw,
+    };
+  }
+
   const status = parsedBody?.status_code ?? response.status;
 
   if (status === 401 && token && !skipAuthRedirect) {

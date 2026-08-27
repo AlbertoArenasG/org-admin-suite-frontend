@@ -139,28 +139,6 @@ export function UserForm({
           {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
         </div>
 
-        {isUserRole ? (
-          <div className="grid gap-2">
-            <Label>{t('form.labels.customers')}</Label>
-            <p className="text-sm text-muted-foreground">{t('form.customers.helper')}</p>
-            <Controller
-              control={control}
-              name="customerIds"
-              render={({ field }) => (
-                <CustomerMultiSelect
-                  value={field.value}
-                  onChange={field.onChange}
-                  options={customerOptions}
-                  inactiveCustomers={inactiveCustomers}
-                  loading={customerOptionsStatus === 'loading'}
-                  error={customerOptionsError}
-                  disabled={effectiveSubmitting}
-                />
-              )}
-            />
-          </div>
-        ) : null}
-
         <div className="grid gap-2">
           <Label htmlFor="user-role">{t('form.labels.role')}</Label>
           <select
@@ -224,6 +202,28 @@ export function UserForm({
             />
           </div>
         </div>
+
+        {isUserRole ? (
+          <div className="grid gap-2">
+            <Label>{t('form.labels.customers')}</Label>
+            <p className="text-sm text-muted-foreground">{t('form.customers.helper')}</p>
+            <Controller
+              control={control}
+              name="customerIds"
+              render={({ field }) => (
+                <CustomerMultiSelect
+                  value={field.value}
+                  onChange={field.onChange}
+                  options={customerOptions}
+                  inactiveCustomers={inactiveCustomers}
+                  loading={customerOptionsStatus === 'loading'}
+                  error={customerOptionsError}
+                  disabled={effectiveSubmitting}
+                />
+              )}
+            />
+          </div>
+        ) : null}
       </div>
 
       <div className="mt-auto flex flex-col gap-2 border-t border-border/50 bg-muted/10 p-4 sm:flex-row sm:justify-end sm:gap-3">

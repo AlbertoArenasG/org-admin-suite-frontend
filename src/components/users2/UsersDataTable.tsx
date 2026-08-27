@@ -29,7 +29,6 @@ interface UsersDataTableProps {
   customerFilter: {
     options: CustomerOption[];
     customerId: string | null;
-    label: string;
     placeholder: string;
     loading: boolean;
     onChange: (customerId: string | null) => void;
@@ -112,7 +111,6 @@ export function UsersDataTable({
         columnLabel={columnLabel}
         customerOptions={customerFilter.options}
         customerId={customerFilter.customerId}
-        customerLabel={customerFilter.label}
         customerPlaceholder={customerFilter.placeholder}
         customersLoading={customerFilter.loading}
         onCustomerChange={customerFilter.onChange}

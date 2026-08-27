@@ -298,7 +298,6 @@ export function UsersTableContainer() {
       customerFilter={{
         options: customerOptions.items,
         customerId,
-        label: t('filters.customer'),
         placeholder: t('filters.customerPlaceholder'),
         loading: customerOptions.status === 'loading',
         onChange: (nextCustomerId) => {

@@ -1,12 +1,11 @@
 'use client';
 
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import type { CustomerAvailableUser } from '@/features/user-customer-relationships';
 import { Button } from '@/components/ui/button';
+import { Combobox, type ComboboxOption } from '@/components/ui/combobox';
 import {
   Dialog,
   DialogContent,
@@ -37,6 +36,15 @@ export function CustomerUserLookupDialog({
 }: CustomerUserLookupDialogProps) {
   const { t } = useTranslation('customers');
   const [selected, setSelected] = useState<CustomerAvailableUser | null>(null);
+  const options: ComboboxOption[] = users.map((user) => ({
+    value: user.id,
+    label: user.fullName || user.email,
+    description: user.email,
+  }));
+
+  useEffect(() => {
+    if (!open) setSelected(null);
+  }, [open]);
 
   return (
     <Dialog
@@ -51,32 +59,23 @@ export function CustomerUserLookupDialog({
           <DialogTitle>{t('detail.relatedUsers.addDialog.title')}</DialogTitle>
           <DialogDescription>{t('detail.relatedUsers.addDialog.description')}</DialogDescription>
         </DialogHeader>
-        <Autocomplete
-          options={users}
-          value={selected}
-          loading={loading}
-          onChange={(_, value) => setSelected(value)}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
-          getOptionLabel={(user) => user.fullName || user.email}
-          renderOption={(props, user) => (
-            <li {...props} key={user.id}>
-              <div className="flex flex-col">
-                <span>{user.fullName || user.email}</span>
-                <span className="text-xs text-muted-foreground">{user.email}</span>
-              </div>
-            </li>
-          )}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={t('detail.relatedUsers.addDialog.field')}
-              placeholder={t('detail.relatedUsers.addDialog.placeholder')}
-              error={Boolean(error)}
-              helperText={error}
-            />
-          )}
-        />
-        <DialogFooter className="gap-2">
+        <div className="space-y-2">
+          <p className="text-sm font-medium">{t('detail.relatedUsers.addDialog.field')}</p>
+          <Combobox
+            options={options}
+            value={selected?.id ?? null}
+            onValueChange={(userId) =>
+              setSelected(users.find((user) => user.id === userId) ?? null)
+            }
+            loading={loading}
+            placeholder={t('detail.relatedUsers.addDialog.placeholder')}
+            searchPlaceholder={t('detail.relatedUsers.addDialog.placeholder')}
+            emptyMessage={t('detail.relatedUsers.empty')}
+            portalled={false}
+          />
+          {error ? <p className="text-sm text-destructive">{error}</p> : null}
+        </div>
+        <DialogFooter className="mt-4 gap-2">
           <Button variant="ghost" onClick={() => onOpenChange(false)} disabled={submitting}>
             {t('detail.relatedUsers.actions.cancel')}
           </Button>
