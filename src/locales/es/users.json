@@ -30,7 +30,19 @@
     "next": "Siguiente"
   },
   "filters": {
-    "customerPlaceholder": "Filtrar por cliente"
+    "customerPlaceholder": "Filtrar por cliente",
+    "allStaff": "Todo el personal",
+    "internalStaff": "Personal de Implementos Científicos",
+    "externalStaff": "Personal externo"
+  },
+  "classification": {
+    "label": "Pertenece a Implementos Científicos",
+    "helper": "Indica si forma parte del personal de Implementos Científicos.",
+    "yes": "Sí",
+    "no": "No",
+    "group": "Clasificación",
+    "internalStaff": "Personal de Implementos Científicos",
+    "administrator": "Administrador"
   },
   "form": {
     "title": {

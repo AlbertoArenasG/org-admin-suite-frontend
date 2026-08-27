@@ -2,14 +2,18 @@
   "title": "Contactos",
   "empty": "No hay contactos para mostrar.",
   "pagination": "Página {{page}} de {{pages}} · {{total}} contactos",
-  "types": {
-    "INTERNAL": "Interno",
-    "EXTERNAL": "Externo"
+  "classification": {
+    "label": "Pertenece a Implementos Científicos",
+    "helper": "Indica si forma parte del personal de Implementos Científicos.",
+    "yes": "Sí",
+    "no": "No",
+    "group": "Clasificación",
+    "internalStaff": "Personal de Implementos Científicos",
+    "administrator": "Administrador"
   },
   "table": {
     "columns": {
       "fullName": "Contacto",
-      "type": "Tipo",
       "primaryEmail": "Correo principal",
       "primaryCellPhone": "Celular principal",
       "status": "Estado",
@@ -95,7 +99,6 @@
     "linkedToUserHint": "Este contacto está ligado a un usuario interno, por lo que no se puede editar ni eliminar desde este módulo.",
     "fields": {
       "fullName": "Nombre completo",
-      "type": "Tipo",
       "companyName": "Empresa",
       "status": "Estado",
       "createdAt": "Creado",

@@ -2,9 +2,9 @@
 
 ## Shared UI
 
-- [ ] Crear `RadioGroup` reutilizable, accesible y adaptado al tema.
-- [ ] Crear helper de insignias y tooltip para clasificación de Usuario, Invitación y Contacto.
-- [ ] Agregar copies localizados en español e inglés.
+- [x] Crear `RadioGroup` reutilizable, accesible y adaptado al tema.
+- [x] Crear helper de insignias y tooltip para clasificación de Usuario, Invitación y Contacto.
+- [x] Agregar copies localizados en español e inglés.
 
 ## Contracts And State
 

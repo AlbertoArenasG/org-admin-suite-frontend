@@ -11,7 +11,8 @@
 
 ## Implementation
 
-- [ ] Pendiente de iniciar Slice 1.
+- [x] Slice 1: primitivas compartidas y copies.
+- [ ] Slice 2: contratos y estado.
 
 ## Validation
 

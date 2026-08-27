@@ -2,14 +2,18 @@
   "title": "Contacts",
   "empty": "No contacts to show.",
   "pagination": "Page {{page}} of {{pages}} · {{total}} contacts",
-  "types": {
-    "INTERNAL": "Internal",
-    "EXTERNAL": "External"
+  "classification": {
+    "label": "Belongs to Implementos Científicos",
+    "helper": "Indicates whether this person is part of Implementos Científicos personnel.",
+    "yes": "Yes",
+    "no": "No",
+    "group": "Classification",
+    "internalStaff": "Implementos Científicos personnel",
+    "administrator": "Administrator"
   },
   "table": {
     "columns": {
       "fullName": "Contact",
-      "type": "Type",
       "primaryEmail": "Primary email",
       "primaryCellPhone": "Primary cell phone",
       "status": "Status",
@@ -95,7 +99,6 @@
     "linkedToUserHint": "This contact is linked to an internal user, so it cannot be edited or deleted from this module.",
     "fields": {
       "fullName": "Full name",
-      "type": "Type",
       "companyName": "Company",
       "status": "Status",
       "createdAt": "Created",

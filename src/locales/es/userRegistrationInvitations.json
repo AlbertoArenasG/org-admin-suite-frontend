@@ -24,6 +24,11 @@
     "REVOKED": "Revocada",
     "clear": "Limpiar filtros"
   },
+  "classification": {
+    "group": "Clasificación",
+    "internalStaff": "Personal de Implementos Científicos",
+    "administrator": "Administrador"
+  },
   "delivery": {
     "accepted": "Invitación enviada",
     "failed": "No fue posible enviar el correo",
