@@ -32,7 +32,7 @@ interface ApiContactListItem {
   name: string;
   lastname: string;
   full_name: string;
-  company_name: string | null;
+  company_names: string[];
   primary_email: string | null;
   primary_cell_phone: string | null;
   status_id: ContactListItem['statusId'];
@@ -54,7 +54,7 @@ interface ApiContactSearchItem {
   is_internal_staff: boolean;
   user_id: string | null;
   full_name: string;
-  company_name: string | null;
+  company_names: string[];
   primary_email: string | null;
   primary_cell_phone: string | null;
 }
@@ -84,7 +84,7 @@ const mapContactListItem = (item: ApiContactListItem): ContactListItem => ({
   name: item.name,
   lastname: item.lastname,
   fullName: item.full_name,
-  companyName: item.company_name,
+  companyNames: item.company_names ?? [],
   primaryEmail: item.primary_email,
   primaryCellPhone: item.primary_cell_phone,
   statusId: item.status_id,
@@ -107,7 +107,7 @@ const mapSearchItem = (item: ApiContactSearchItem): ContactSearchItem => ({
   isInternalStaff: item.is_internal_staff,
   userId: item.user_id,
   fullName: item.full_name,
-  companyName: item.company_name,
+  companyNames: item.company_names ?? [],
   primaryEmail: item.primary_email,
   primaryCellPhone: item.primary_cell_phone,
 });
@@ -116,7 +116,7 @@ function buildMutationBody(payload: ContactMutationPayload) {
   return {
     name: payload.name,
     lastname: payload.lastname,
-    ...(payload.companyName ? { company_name: payload.companyName } : {}),
+    company_names: payload.companyNames,
     emails: payload.emails,
     phones: payload.phones,
     cell_phones: payload.cellPhones,

@@ -10,6 +10,7 @@ import type { TFunction } from 'i18next';
 import type { ContactsTableRow } from '@/components/contacts/types';
 import { ClassificationBadges } from '@/components/classification/ClassificationBadges';
 import { ContactsTableRowActions } from '@/components/contacts/ContactsTableRowActions';
+import { CompanyNamesSummary } from '@/components/contacts/CompanyNamesSummary';
 
 type Translate = TFunction<'contacts', undefined>;
 
@@ -63,9 +64,7 @@ export function useContactsTableColumns({
         cell: ({ row }) => (
           <div className="flex flex-col gap-1">
             <span className="font-medium text-foreground">{row.original.fullName}</span>
-            {row.original.companyName ? (
-              <span className="text-xs text-muted-foreground">{row.original.companyName}</span>
-            ) : null}
+            <CompanyNamesSummary companyNames={row.original.companyNames} />
           </div>
         ),
       },

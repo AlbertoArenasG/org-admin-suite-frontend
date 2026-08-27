@@ -40,7 +40,7 @@ interface ApiRecipientGroupContactSummary {
   is_internal_staff: boolean;
   user_id: string | null;
   full_name: string;
-  company_name: string | null;
+  company_names: string[];
   primary_email: string | null;
   primary_cell_phone: string | null;
   status_id: RecipientGroupContactSummary['statusId'];
@@ -94,7 +94,7 @@ const mapContactSummary = (
   isInternalStaff: contact.is_internal_staff,
   userId: contact.user_id,
   fullName: contact.full_name,
-  companyName: contact.company_name,
+  companyNames: contact.company_names ?? [],
   primaryEmail: contact.primary_email,
   primaryCellPhone: contact.primary_cell_phone,
   statusId: contact.status_id,

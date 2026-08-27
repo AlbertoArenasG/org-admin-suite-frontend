@@ -8,7 +8,7 @@ import type {
 export interface ContactsTableRow {
   contactId: string;
   fullName: string;
-  companyName: string | null;
+  companyNames: string[];
   primaryEmail: string | null;
   primaryCellPhone: string | null;
   isInternalStaff: boolean;
@@ -25,7 +25,7 @@ export type ContactFormMode = 'create' | 'edit';
 export interface ContactFormValues {
   name: string;
   lastname: string;
-  companyName: string;
+  companyNames: string[];
   isInternalStaff: boolean | null;
   emails: ContactValue[];
   phones: ContactValue[];

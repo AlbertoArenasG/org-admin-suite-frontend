@@ -20,7 +20,7 @@ export interface RecipientGroupContactSummary {
   isInternalStaff: boolean;
   userId: string | null;
   fullName: string;
-  companyName: string | null;
+  companyNames: string[];
   primaryEmail: string | null;
   primaryCellPhone: string | null;
   statusId: 'ACTIVE' | 'DELETED';

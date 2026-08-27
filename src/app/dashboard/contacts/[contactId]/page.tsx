@@ -18,6 +18,7 @@ import { fetchContactById } from '@/features/contacts/contactsThunks';
 import { useAuthorization } from '@/features/auth';
 import { isContactLinkedToUser } from '@/components/contacts/types';
 import { ClassificationBadges } from '@/components/classification/ClassificationBadges';
+import { CompanyNamesChips } from '@/components/contacts/CompanyNamesChips';
 
 export default function ContactDetailPage() {
   const params = useParams<{ contactId: string }>();
@@ -69,7 +70,10 @@ export default function ContactDetailPage() {
   const detailRows = contact
     ? [
         { label: t('detail.fields.fullName'), value: contact.fullName || '—' },
-        { label: t('detail.fields.companyName'), value: contact.companyName || '—' },
+        {
+          label: t('detail.fields.companyNames'),
+          value: <CompanyNamesChips companyNames={contact.companyNames} />,
+        },
         {
           label: t('detail.fields.status'),
           value: (

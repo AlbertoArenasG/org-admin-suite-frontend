@@ -16,6 +16,7 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { fetchRecipientGroupById } from '@/features/recipient-groups/recipientGroupsThunks';
 import { useAuthorization } from '@/features/auth';
+import { CompanyNamesSummary } from '@/components/contacts/CompanyNamesSummary';
 
 export default function RecipientGroupDetailPage() {
   const params = useParams<{ recipientGroupId: string }>();
@@ -209,11 +210,18 @@ export default function RecipientGroupDetailPage() {
                         className="rounded-xl border border-border/60 bg-background/80 px-3 py-3"
                       >
                         <p className="text-sm font-medium text-foreground">{contact.fullName}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {[contact.companyName, contact.primaryEmail, contact.primaryCellPhone]
-                            .filter(Boolean)
-                            .join(' · ') || '—'}
-                        </p>
+                        <div className="flex flex-wrap items-center gap-x-1.5 text-xs text-muted-foreground">
+                          <CompanyNamesSummary companyNames={contact.companyNames} />
+                          {contact.companyNames.length > 0 &&
+                          (contact.primaryEmail || contact.primaryCellPhone) ? (
+                            <span>·</span>
+                          ) : null}
+                          <span>
+                            {[contact.primaryEmail, contact.primaryCellPhone]
+                              .filter(Boolean)
+                              .join(' · ') || (!contact.companyNames.length ? '—' : '')}
+                          </span>
+                        </div>
                       </div>
                     ))}
                   </div>

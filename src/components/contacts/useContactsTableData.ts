@@ -10,7 +10,7 @@ export function useContactsTableData(items: ContactListItem[]) {
       items.map((item) => ({
         contactId: item.contactId,
         fullName: item.fullName,
-        companyName: item.companyName,
+        companyNames: item.companyNames,
         primaryEmail: item.primaryEmail,
         primaryCellPhone: item.primaryCellPhone,
         isInternalStaff: item.isInternalStaff,

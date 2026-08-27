@@ -37,11 +37,15 @@ export function buildRecipientGroupInitialValues(
 }
 
 export function buildContactLookupLabel(contact: {
-  companyName: string | null;
+  companyNames: string[];
   primaryEmail: string | null;
   primaryCellPhone: string | null;
 }) {
-  return [contact.companyName, contact.primaryEmail, contact.primaryCellPhone]
+  const companiesLabel = contact.companyNames.length
+    ? `${contact.companyNames[0]}${contact.companyNames.length > 1 ? ` +${contact.companyNames.length - 1}` : ''}`
+    : null;
+
+  return [companiesLabel, contact.primaryEmail, contact.primaryCellPhone]
     .filter(Boolean)
     .join(' · ');
 }

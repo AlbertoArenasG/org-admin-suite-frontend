@@ -20,7 +20,7 @@ export interface ContactListItem {
   name: string;
   lastname: string;
   fullName: string;
-  companyName: string | null;
+  companyNames: string[];
   primaryEmail: string | null;
   primaryCellPhone: string | null;
   statusId: ContactStatusId;
@@ -34,7 +34,7 @@ export interface ContactSearchItem {
   isInternalStaff: boolean;
   userId: string | null;
   fullName: string;
-  companyName: string | null;
+  companyNames: string[];
   primaryEmail: string | null;
   primaryCellPhone: string | null;
 }
@@ -84,7 +84,7 @@ export interface SearchContactsParams {
 export interface ContactMutationPayload {
   name: string;
   lastname: string;
-  companyName: string | null;
+  companyNames: string[];
   emails: ContactValue[];
   phones: ContactValue[];
   cellPhones: ContactValue[];

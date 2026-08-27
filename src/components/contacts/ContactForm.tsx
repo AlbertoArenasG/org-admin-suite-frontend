@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup } from '@/components/ui/radio-group';
+import { CompanyNamesField } from '@/components/contacts/CompanyNamesField';
 import type { ContactDetail, ContactValue } from '@/features/contacts/types';
 import type { ContactFormMode, ContactFormValues } from '@/components/contacts/types';
 
@@ -18,7 +19,7 @@ interface ContactFormProps {
   onSubmit: (values: {
     name: string;
     lastname: string;
-    companyName: string | null;
+    companyNames: string[];
     isInternalStaff: boolean;
     emails: ContactValue[];
     phones: ContactValue[];
@@ -33,7 +34,7 @@ function buildInitialValues(contact?: ContactDetail | null): ContactFormValues {
   return {
     name: contact?.name ?? '',
     lastname: contact?.lastname ?? '',
-    companyName: contact?.companyName ?? '',
+    companyNames: contact?.companyNames ?? [],
     isInternalStaff: contact?.isInternalStaff ?? null,
     emails: contact?.emails ?? [],
     phones: contact?.phones ?? [],
@@ -266,6 +267,7 @@ export function ContactForm({
 
   const effectiveDisabled = disableActions || isSubmitting || isFormSubmitting;
   const emails = watch('emails');
+  const companyNames = watch('companyNames');
   const phones = watch('phones');
   const cellPhones = watch('cellPhones');
 
@@ -281,7 +283,7 @@ export function ContactForm({
     const payload = {
       name: values.name.trim(),
       lastname: values.lastname.trim(),
-      companyName: values.companyName.trim() || null,
+      companyNames: values.companyNames,
       isInternalStaff: values.isInternalStaff as boolean,
       emails: values.emails,
       phones: values.phones,
@@ -386,15 +388,21 @@ export function ContactForm({
           </div>
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="contact-company-name">{t('form.labels.companyName')}</Label>
-          <Input
-            id="contact-company-name"
-            placeholder={t('form.placeholders.companyName')}
-            disabled={disableActions}
-            {...register('companyName')}
-          />
-        </div>
+        <CompanyNamesField
+          id="contact-company-names"
+          label={t('form.labels.companyNames')}
+          placeholder={t('form.placeholders.companyName')}
+          addLabel={t('form.actions.addCompanyName')}
+          emptyLabel={t('form.hints.noCompanyNames')}
+          companyNames={companyNames}
+          disabled={effectiveDisabled}
+          onChange={(nextCompanyNames) =>
+            setValue('companyNames', nextCompanyNames, {
+              shouldDirty: true,
+              shouldTouch: true,
+            })
+          }
+        />
 
         {!contact?.userId ? (
           <div className="grid gap-2">

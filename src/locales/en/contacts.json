@@ -50,6 +50,7 @@
       "name": "First name",
       "lastname": "Last name",
       "companyName": "Company",
+      "companyNames": "Companies",
       "emails": "Emails",
       "phones": "Phones",
       "cellPhones": "Cell phones",
@@ -70,7 +71,8 @@
     "hints": {
       "noEmails": "No emails added yet.",
       "noPhones": "No phones added yet.",
-      "noCellPhones": "No cell phones added yet."
+      "noCellPhones": "No cell phones added yet.",
+      "noCompanyNames": "No companies added yet."
     },
     "helpers": {
       "internalStaff": "Indicates whether this person is part of Implementos Científicos personnel."
@@ -78,7 +80,8 @@
     "actions": {
       "addEmail": "Add",
       "addPhone": "Add",
-      "addCellPhone": "Add"
+      "addCellPhone": "Add",
+      "addCompanyName": "Add company"
     },
     "errors": {
       "nameRequired": "First name is required",
@@ -110,6 +113,7 @@
     "fields": {
       "fullName": "Full name",
       "companyName": "Company",
+      "companyNames": "Companies",
       "status": "Status",
       "createdAt": "Created",
       "emails": "Emails",

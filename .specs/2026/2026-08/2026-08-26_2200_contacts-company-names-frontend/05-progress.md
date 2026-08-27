@@ -10,8 +10,9 @@
 
 ## Implementation
 
-- [ ] Pendiente.
+- [x] Contratos, adaptadores, formulario y presentaciones actualizados.
 
 ## Validation
 
-- [ ] Pendiente.
+- [x] `npm run build` y `git diff --check` completados.
+- [ ] Pendiente validación manual de las superficies afectadas.

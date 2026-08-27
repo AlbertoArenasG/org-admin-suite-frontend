@@ -37,7 +37,7 @@ interface RecipientGroupFormProps {
   onCreateContactInContext: (values: {
     name: string;
     lastname: string;
-    companyName: string | null;
+    companyNames: string[];
     emails: ContactValue[];
     phones: ContactValue[];
     cellPhones: ContactValue[];
@@ -150,7 +150,7 @@ export function RecipientGroupForm({
           isInternalStaff: contactFromDetail.isInternalStaff,
           userId: contactFromDetail.userId,
           fullName: contactFromDetail.fullName,
-          companyName: contactFromDetail.companyName,
+          companyNames: contactFromDetail.companyNames,
           primaryEmail: contactFromDetail.primaryEmail,
           primaryCellPhone: contactFromDetail.primaryCellPhone,
         };

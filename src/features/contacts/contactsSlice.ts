@@ -76,7 +76,7 @@ function toListItem(detail: ContactDetail): ContactListItem {
     name: detail.name,
     lastname: detail.lastname,
     fullName: detail.fullName,
-    companyName: detail.companyName,
+    companyNames: detail.companyNames,
     primaryEmail: detail.emails[0]?.value ?? null,
     primaryCellPhone: detail.cellPhones[0]?.value ?? null,
     statusId: detail.statusId,

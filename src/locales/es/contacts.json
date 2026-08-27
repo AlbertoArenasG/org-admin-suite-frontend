@@ -50,6 +50,7 @@
       "name": "Nombre",
       "lastname": "Apellido",
       "companyName": "Empresa",
+      "companyNames": "Empresas",
       "emails": "Correos",
       "phones": "Teléfonos",
       "cellPhones": "Celulares",
@@ -70,7 +71,8 @@
     "hints": {
       "noEmails": "Todavía no agregas correos.",
       "noPhones": "Todavía no agregas teléfonos.",
-      "noCellPhones": "Todavía no agregas celulares."
+      "noCellPhones": "Todavía no agregas celulares.",
+      "noCompanyNames": "Todavía no agregas empresas."
     },
     "helpers": {
       "internalStaff": "Indica si forma parte del personal de Implementos Científicos."
@@ -78,7 +80,8 @@
     "actions": {
       "addEmail": "Agregar",
       "addPhone": "Agregar",
-      "addCellPhone": "Agregar"
+      "addCellPhone": "Agregar",
+      "addCompanyName": "Agregar empresa"
     },
     "errors": {
       "nameRequired": "El nombre es obligatorio",
@@ -110,6 +113,7 @@
     "fields": {
       "fullName": "Nombre completo",
       "companyName": "Empresa",
+      "companyNames": "Empresas",
       "status": "Estado",
       "createdAt": "Creado",
       "emails": "Correos",

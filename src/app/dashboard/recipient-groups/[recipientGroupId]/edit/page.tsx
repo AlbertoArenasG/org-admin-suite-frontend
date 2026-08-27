@@ -85,7 +85,7 @@ export default function RecipientGroupEditPage() {
         isInternalStaff: contact.isInternalStaff,
         userId: contact.userId,
         fullName: contact.fullName,
-        companyName: contact.companyName,
+        companyNames: contact.companyNames,
         primaryEmail: contact.primaryEmail,
         primaryCellPhone: contact.primaryCellPhone,
       });

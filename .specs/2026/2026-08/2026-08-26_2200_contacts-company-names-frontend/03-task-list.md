@@ -16,9 +16,11 @@
 
 ## Implementation
 
-- [ ] Pendiente de diseño aprobado.
+- [x] Slice 1: contratos y adaptadores de Contactos y Grupos de destinatarios.
+- [x] Slice 2: campo repetible y componentes de presentación de empresas.
+- [x] Slice 3: tabla, detalle y consumidor de Grupos de destinatarios.
 
 ## Validation
 
 - [ ] Ejecutar validación manual de las superficies afectadas.
-- [ ] Ejecutar `npm run build` y `git diff --check`.
+- [x] Ejecutar `npm run build` y `git diff --check`.
