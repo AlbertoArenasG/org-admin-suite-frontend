@@ -1,17 +1,17 @@
 {
-  "title": "Service entries",
-  "breadcrumb": "Service entries",
-  "empty": "No service entries to display.",
-  "pagination": "Page {{page}} of {{pages}} · {{total}} services",
+  "title": "Certificate delivery",
+  "breadcrumb": "Certificate delivery",
+  "empty": "No certificate deliveries to display.",
+  "pagination": "Page {{page}} of {{pages}} · {{total}} deliveries",
   "actions": {
-    "create": "Register service",
+    "create": "Register delivery",
     "createDisabled": "No permission",
-    "openCreate": "Open new service form",
+    "openCreate": "Open new certificate delivery form",
     "view": "View details",
     "edit": "Edit",
     "delete": "Delete",
     "openMenu": "Open actions menu",
-    "searchPlaceholder": "Search service entries...",
+    "searchPlaceholder": "Search certificate deliveries...",
     "manageColumns": "Manage columns",
     "previous": "Previous",
     "next": "Next"
@@ -41,13 +41,13 @@
     }
   },
   "delete": {
-    "title": "Delete service entry",
+    "title": "Delete certificate delivery",
     "description": "This action will delete {{name}}.",
     "warning": "This action cannot be undone.",
     "cancel": "Cancel",
     "confirm": "Delete",
-    "success": "Service entry deleted successfully.",
-    "error": "We couldn't delete the service entry."
+    "success": "Certificate delivery deleted successfully.",
+    "error": "We couldn't delete the certificate delivery."
   },
   "form": {
     "fields": {
@@ -75,7 +75,7 @@
     "actions": {
       "cancel": "Cancel",
       "processing": "Saving...",
-      "create": "Register service",
+      "create": "Register delivery",
       "update": "Save changes",
       "selectFile": "Select file",
       "selectFiles": "Select files"
@@ -86,19 +86,19 @@
     "categoriesError": "We couldn't load the categories."
   },
   "create": {
-    "title": "Register service entry",
-    "subtitle": "Fill out the service information.",
-    "success": "Service registered successfully.",
-    "error": "We couldn't register the service."
+    "title": "Register certificate delivery",
+    "subtitle": "Fill out the certificate delivery information.",
+    "success": "Certificate delivery registered successfully.",
+    "error": "We couldn't register the certificate delivery."
   },
   "edit": {
-    "title": "Edit service entry",
-    "subtitle": "Update the service information.",
-    "success": "Service updated successfully.",
-    "error": "We couldn't update the service."
+    "title": "Edit certificate delivery",
+    "subtitle": "Update the certificate delivery information.",
+    "success": "Certificate delivery updated successfully.",
+    "error": "We couldn't update the certificate delivery."
   },
   "detail": {
-    "placeholder": "Service detail",
+    "placeholder": "Certificate delivery details",
     "contactName": "Contact name",
     "contactEmail": "Contact email",
     "category": "Category",
@@ -112,8 +112,8 @@
     "files": "Files",
     "calibrationCertificate": "Calibration certificate",
     "attachments": "Attachments",
-    "loading": "Loading service...",
-    "notFound": "We couldn't find this service entry.",
+    "loading": "Loading certificate delivery...",
+    "notFound": "We couldn't find this certificate delivery.",
     "downloadStatus": "Downloads",
     "downloadAvailable_one": "Downloaded {{count}} time · Last: {{last}}",
     "downloadAvailable_other": "Downloaded {{count}} times · Last: {{last}}",
@@ -125,5 +125,5 @@
       "edit": "Edit"
     }
   },
-  "restricted": "You do not have permissions to manage service entries."
+  "restricted": "You do not have permissions to manage certificate deliveries."
 }

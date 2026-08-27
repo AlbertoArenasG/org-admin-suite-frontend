@@ -1,17 +1,17 @@
 {
-  "title": "Registro de servicios",
-  "breadcrumb": "Registro de servicios",
-  "empty": "No hay entradas de servicio para mostrar.",
-  "pagination": "Página {{page}} de {{pages}} · {{total}} servicios",
+  "title": "Entrega de certificados",
+  "breadcrumb": "Entrega de certificados",
+  "empty": "No hay entregas de certificados para mostrar.",
+  "pagination": "Página {{page}} de {{pages}} · {{total}} entregas",
   "actions": {
-    "create": "Registrar servicio",
+    "create": "Registrar entrega",
     "createDisabled": "Sin permisos",
-    "openCreate": "Abrir formulario de nuevo servicio",
+    "openCreate": "Abrir formulario de nueva entrega",
     "view": "Ver detalles",
     "edit": "Editar",
     "delete": "Eliminar",
     "openMenu": "Abrir menú de acciones",
-    "searchPlaceholder": "Buscar entradas de servicio...",
+    "searchPlaceholder": "Buscar entregas de certificados...",
     "manageColumns": "Administrar columnas",
     "previous": "Anterior",
     "next": "Siguiente"
@@ -41,13 +41,13 @@
     }
   },
   "delete": {
-    "title": "Eliminar entrada de servicio",
+    "title": "Eliminar entrega de certificados",
     "description": "Esta acción eliminará a {{name}}.",
     "warning": "Esta acción no se puede deshacer.",
     "cancel": "Cancelar",
     "confirm": "Eliminar",
-    "success": "Servicio eliminado correctamente.",
-    "error": "No fue posible eliminar la entrada de servicio."
+    "success": "Entrega de certificados eliminada correctamente.",
+    "error": "No fue posible eliminar la entrega de certificados."
   },
   "form": {
     "fields": {
@@ -75,7 +75,7 @@
     "actions": {
       "cancel": "Cancelar",
       "processing": "Guardando...",
-      "create": "Registrar servicio",
+      "create": "Registrar entrega",
       "update": "Guardar cambios",
       "selectFile": "Seleccionar archivo",
       "selectFiles": "Seleccionar archivos"
@@ -86,19 +86,19 @@
     "categoriesError": "No fue posible obtener las categorías."
   },
   "create": {
-    "title": "Registrar entrada de servicio",
-    "subtitle": "Completa la información del servicio.",
-    "success": "Servicio registrado correctamente.",
-    "error": "No fue posible registrar el servicio."
+    "title": "Registrar entrega de certificados",
+    "subtitle": "Completa la información de la entrega de certificados.",
+    "success": "Entrega de certificados registrada correctamente.",
+    "error": "No fue posible registrar la entrega de certificados."
   },
   "edit": {
-    "title": "Editar entrada de servicio",
-    "subtitle": "Actualiza la información del servicio.",
-    "success": "Servicio actualizado correctamente.",
-    "error": "No fue posible actualizar el servicio."
+    "title": "Editar entrega de certificados",
+    "subtitle": "Actualiza la información de la entrega de certificados.",
+    "success": "Entrega de certificados actualizada correctamente.",
+    "error": "No fue posible actualizar la entrega de certificados."
   },
   "detail": {
-    "placeholder": "Detalle del servicio",
+    "placeholder": "Detalle de entrega de certificados",
     "contactName": "Nombre de contacto",
     "contactEmail": "Correo de contacto",
     "category": "Categoría",
@@ -112,8 +112,8 @@
     "files": "Archivos",
     "calibrationCertificate": "Certificado de calibración",
     "attachments": "Adjuntos",
-    "loading": "Cargando servicio...",
-    "notFound": "No fue posible encontrar este servicio.",
+    "loading": "Cargando entrega de certificados...",
+    "notFound": "No fue posible encontrar esta entrega de certificados.",
     "downloadStatus": "Descargas",
     "downloadAvailable_one": "Descargado {{count}} vez · Última: {{last}}",
     "downloadAvailable_other": "Descargado {{count}} veces · Última: {{last}}",
@@ -125,5 +125,5 @@
       "edit": "Editar"
     }
   },
-  "restricted": "No cuentas con permisos para gestionar entradas de servicio."
+  "restricted": "No cuentas con permisos para gestionar entregas de certificados."
 }

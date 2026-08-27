@@ -22,8 +22,8 @@
       "description": "Capture a new provider."
     },
     "createServiceEntry": {
-      "title": "Create service entry",
-      "description": "Open a new service entry."
+      "title": "Register delivery",
+      "description": "Register a new certificate delivery."
     },
     "createRole": {
       "title": "Create role",
@@ -48,8 +48,8 @@
       "description": "Review and update provider information."
     },
     "serviceEntries": {
-      "title": "Service entries",
-      "description": "Track orders and service entries."
+      "title": "Certificate delivery",
+      "description": "Manage certificate deliveries and their associated files."
     },
     "serviceEntrySurveys": {
       "title": "Service surveys",

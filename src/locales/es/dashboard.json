@@ -22,8 +22,8 @@
       "description": "Capturar un nuevo proveedor."
     },
     "createServiceEntry": {
-      "title": "Registrar servicio",
-      "description": "Crear una nueva entrada de servicio."
+      "title": "Registrar entrega",
+      "description": "Registrar una nueva entrega de certificados."
     },
     "createRole": {
       "title": "Crear rol",
@@ -48,8 +48,8 @@
       "description": "Revisar y actualizar información de proveedores."
     },
     "serviceEntries": {
-      "title": "Registro de servicios",
-      "description": "Dar seguimiento a órdenes y entradas de servicio."
+      "title": "Entrega de certificados",
+      "description": "Gestionar entregas de certificados y sus archivos asociados."
     },
     "serviceEntrySurveys": {
       "title": "Encuestas de servicio",

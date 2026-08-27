@@ -11,7 +11,7 @@
   "expirationStatusPolicies": "Políticas de estatus por vencimiento",
   "expirationNotificationPolicies": "Políticas de notificación por vencimiento",
   "recipientGroups": "Grupos de destinatarios",
-  "serviceEntries": "Registro de servicios",
+  "serviceEntries": "Entrega de certificados",
   "serviceEntrySurveys": "Encuestas de servicio",
   "servicePackagesRecords": "Recepción, Recolección y Entrega"
 }

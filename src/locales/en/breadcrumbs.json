@@ -11,7 +11,7 @@
   "expirationStatusPolicies": "Expiration status policies",
   "expirationNotificationPolicies": "Expiration notification policies",
   "recipientGroups": "Recipient groups",
-  "serviceEntries": "Service entries",
+  "serviceEntries": "Certificate delivery",
   "serviceEntrySurveys": "Service surveys",
   "servicePackagesRecords": "Reception, collection and delivery"
 }

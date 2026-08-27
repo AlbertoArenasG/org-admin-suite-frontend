@@ -5,11 +5,11 @@ import {
   ChartColumn,
   ClockAlert,
   LayoutDashboard,
-  List,
   Mail,
   PlusCircle,
   Send,
   Settings2,
+  Scroll,
   ShieldCheck,
   Truck,
   Users,
@@ -71,7 +71,7 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
             id: 'serviceEntries',
             labelKey: 'serviceEntries',
             href: '/dashboard/service-entries',
-            icon: List,
+            icon: Scroll,
             matchesPathname: (pathname) =>
               pathname === '/dashboard/service-entries' ||
               (pathname.startsWith('/dashboard/service-entries') && !pathname.includes('/surveys')),
