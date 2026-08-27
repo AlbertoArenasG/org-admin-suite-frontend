@@ -15,4 +15,4 @@
 ## Validation
 
 - [x] `npm run build` y `git diff --check` completados.
-- [ ] Pendiente validación manual de las superficies afectadas.
+- [x] Validación manual de las superficies afectadas completada.

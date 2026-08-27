@@ -22,5 +22,5 @@
 
 ## Validation
 
-- [ ] Ejecutar validación manual de las superficies afectadas.
+- [x] Ejecutar validación manual de las superficies afectadas.
 - [x] Ejecutar `npm run build` y `git diff --check`.
