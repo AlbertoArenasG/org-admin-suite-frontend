@@ -96,6 +96,40 @@ export const fetchCustomerRelatedUsers = createAsyncThunk<
   }
 );
 
+export const fetchCustomerRelatedUserOptions = createAsyncThunk<
+  { customerId: string; users: CustomerAvailableUser[] },
+  { customerId: string; search?: string },
+  { state: AuthenticatedState }
+>('userCustomerRelationships/fetchRelatedOptions', async ({ customerId, search }, thunkAPI) => {
+  const token = getToken(thunkAPI.getState());
+  if (!token) {
+    return thunkAPI.rejectWithValue({ message: 'No hay token de autenticación', status: null });
+  }
+
+  const query = new URLSearchParams();
+  if (search?.trim()) query.set('search', search.trim());
+  const suffix = query.size ? `?${query.toString()}` : '';
+  const response = await jsonRequest<ApiUser[]>(
+    `/v1/customers/${customerId}/users/options${suffix}`,
+    {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+      token,
+    }
+  );
+
+  return {
+    customerId,
+    users: response.data.map((user) => ({
+      id: user.id,
+      name: user.name,
+      lastname: user.lastname,
+      fullName: user.full_name ?? [user.name, user.lastname].filter(Boolean).join(' '),
+      email: user.email,
+    })),
+  };
+});
+
 export const fetchCustomerAvailableUsers = createAsyncThunk<
   { customerId: string; users: CustomerAvailableUser[] },
   { customerId: string },

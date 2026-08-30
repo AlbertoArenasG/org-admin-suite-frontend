@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   addCustomerUser,
   fetchCustomerAvailableUsers,
+  fetchCustomerRelatedUserOptions,
   fetchCustomerRelatedUsers,
   removeCustomerUser,
 } from './userCustomerRelationshipsThunks';
@@ -9,6 +10,7 @@ import type { UserCustomerRelationshipsState } from './types';
 
 const initialState: UserCustomerRelationshipsState = {
   related: { status: 'idle', error: null, customerId: null, users: [], pagination: null },
+  relatedOptions: { status: 'idle', error: null, customerId: null, users: [] },
   available: { status: 'idle', error: null, customerId: null, users: [] },
   mutation: { status: 'idle', error: null, customerId: null },
 };
@@ -38,6 +40,20 @@ const userCustomerRelationshipsSlice = createSlice({
       .addCase(fetchCustomerRelatedUsers.rejected, (state, action) => {
         state.related.status = 'failed';
         state.related.error = getError(action);
+      })
+      .addCase(fetchCustomerRelatedUserOptions.pending, (state, action) => {
+        state.relatedOptions.status = 'loading';
+        state.relatedOptions.error = null;
+        state.relatedOptions.customerId = action.meta.arg.customerId;
+      })
+      .addCase(fetchCustomerRelatedUserOptions.fulfilled, (state, action) => {
+        state.relatedOptions.status = 'succeeded';
+        state.relatedOptions.customerId = action.payload.customerId;
+        state.relatedOptions.users = action.payload.users;
+      })
+      .addCase(fetchCustomerRelatedUserOptions.rejected, (state, action) => {
+        state.relatedOptions.status = 'failed';
+        state.relatedOptions.error = getError(action);
       })
       .addCase(fetchCustomerAvailableUsers.pending, (state, action) => {
         state.available.status = 'loading';

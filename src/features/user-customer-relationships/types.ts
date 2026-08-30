@@ -37,6 +37,12 @@ export interface UserCustomerRelationshipsState {
     users: CustomerRelatedUser[];
     pagination: CustomerRelatedUsersResult['pagination'] | null;
   };
+  relatedOptions: {
+    status: RelationshipRequestStatus;
+    error: string | null;
+    customerId: string | null;
+    users: CustomerAvailableUser[];
+  };
   available: {
     status: RelationshipRequestStatus;
     error: string | null;

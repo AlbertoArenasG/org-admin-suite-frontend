@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { CustomerServiceRecordForm } from '@/components/customer-service-records/CustomerServiceRecordForm';
@@ -20,7 +20,7 @@ import type { CustomerServiceRecordDetail } from '@/features/customer-service-re
 import { fetchExpirationNotificationPolicyOptions } from '@/features/expiration-notification-policies';
 import { fetchExpirationStatusPolicyOptions } from '@/features/expiration-status-policies';
 import { fetchRecipientGroups } from '@/features/recipient-groups';
-import { fetchCustomerRelatedUsers } from '@/features/user-customer-relationships/userCustomerRelationshipsThunks';
+import { fetchCustomerRelatedUserOptions } from '@/features/user-customer-relationships/userCustomerRelationshipsThunks';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
@@ -99,8 +99,11 @@ export function CustomerServiceRecordFormPageContainer({
   const notificationPolicies = useAppSelector(
     (state) => state.expirationNotificationPolicies.catalogs.options
   );
-  const relatedUsers = useAppSelector((state) => state.userCustomerRelationships.related);
+  const relatedUserOptions = useAppSelector(
+    (state) => state.userCustomerRelationships.relatedOptions
+  );
   const record = feature.detail.item;
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
 
   useEffect(() => {
     if (feature.options.status === 'idle') void dispatch(fetchCustomerServiceRecordOptions());
@@ -122,14 +125,11 @@ export function CustomerServiceRecordFormPageContainer({
 
   const loadCustomerUsers = useCallback(
     (customerId: string | null) => {
+      setSelectedCustomerId(customerId);
       if (!customerId) return;
       void dispatch(
-        fetchCustomerRelatedUsers({
+        fetchCustomerRelatedUserOptions({
           customerId,
-          page: 1,
-          limit: 1000,
-          search: '',
-          sorts: [{ field: 'name', direction: 'asc' }],
         })
       );
     },
@@ -137,10 +137,13 @@ export function CustomerServiceRecordFormPageContainer({
   );
 
   useEffect(() => {
-    if (record?.customer.customerId && relatedUsers.customerId !== record.customer.customerId) {
+    if (
+      record?.customer.customerId &&
+      relatedUserOptions.customerId !== record.customer.customerId
+    ) {
       loadCustomerUsers(record.customer.customerId);
     }
-  }, [loadCustomerUsers, record?.customer.customerId, relatedUsers.customerId]);
+  }, [loadCustomerUsers, record?.customer.customerId, relatedUserOptions.customerId]);
 
   const submit = async (payload: CustomerServiceRecordMutationPayload) => {
     try {
@@ -204,8 +207,8 @@ export function CustomerServiceRecordFormPageContainer({
             value: item.id,
             label: item.companyName,
           }))}
-          customerUsers={(relatedUsers.customerId === (record?.customer.customerId ?? undefined)
-            ? relatedUsers.users
+          customerUsers={(relatedUserOptions.customerId === selectedCustomerId
+            ? relatedUserOptions.users
             : []
           ).map((user) => ({ value: user.id, label: user.fullName, description: user.email }))}
           providers={feature.options.providers}
