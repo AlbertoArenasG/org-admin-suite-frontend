@@ -13,8 +13,8 @@
       Status: completed
 - [x] Slice 2. Listado, filtros, columnas y semáforos.
       Status: completed
-- [ ] Slice 3. Formulario create/edit y lookups dependientes.
-      Status: pending
+- [x] Slice 3. Formulario create/edit y lookups dependientes.
+      Status: completed
 - [ ] Slice 4. Detalle, baja lógica y estados de carga/error.
       Status: pending
 

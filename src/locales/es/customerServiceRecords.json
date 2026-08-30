@@ -69,5 +69,63 @@
   },
   "errors": {
     "title": "Error al cargar registros"
+  },
+  "feedback": {
+    "created": "Registro de servicio creado correctamente.",
+    "updated": "Registro de servicio actualizado correctamente.",
+    "error": "No fue posible guardar el registro de servicio."
+  },
+  "form": {
+    "loading": "Cargando registro de servicio...",
+    "noOptions": "No hay opciones disponibles.",
+    "sections": {
+      "general": "Datos generales",
+      "asset": "Equipo",
+      "customerCommitment": "Compromiso con cliente",
+      "provider": "Proveedor y seguimiento"
+    },
+    "labels": {
+      "serviceType": "Tipo de servicio",
+      "requestedAt": "Fecha de solicitud o registro",
+      "operationalStatus": "Estado operativo",
+      "observations": "Observaciones",
+      "customer": "Cliente",
+      "customerUsers": "Usuarios del cliente",
+      "assetName": "Equipo",
+      "identifier": "Identificación",
+      "brand": "Marca",
+      "model": "Modelo",
+      "serialNumber": "Serie",
+      "assetObservations": "Observaciones del equipo",
+      "receivedAt": "Fecha de recepción o recolección",
+      "estimatedDeliveryAt": "Fecha estimada de entrega al cliente",
+      "deliveredToCustomerAt": "Fecha de entrega real al cliente",
+      "statusPolicy": "Política de estatus",
+      "notificationPolicy": "Política de notificación",
+      "useProvider": "El servicio requiere proveedor",
+      "deliveredToProviderAt": "Fecha de entrega al proveedor",
+      "estimatedReturnAt": "Fecha estimada de retorno",
+      "returnedFromProviderAt": "Fecha real de retorno",
+      "followUp": "Habilitar seguimiento al proveedor",
+      "recipients": "Grupos destinatarios",
+      "copyRecipients": "Grupos en copia",
+      "years": "Años",
+      "months": "Meses",
+      "weeks": "Semanas",
+      "days": "Días"
+    },
+    "placeholders": {
+      "observations": "Observaciones opcionales del registro"
+    },
+    "hints": {
+      "providerDisabled": "Activa este bloque solo si el servicio será atendido por un proveedor."
+    },
+    "actions": {
+      "addRule": "Agregar regla de seguimiento",
+      "removeRule": "Eliminar regla",
+      "cancel": "Cancelar",
+      "create": "Crear registro",
+      "save": "Guardar cambios"
+    }
   }
 }

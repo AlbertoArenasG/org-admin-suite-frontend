@@ -85,6 +85,83 @@ export interface CustomerServiceRecordListItem {
   } | null;
   updatedAt: string | null;
 }
+
+export interface CustomerServiceRecordDetail extends CustomerServiceRecordListItem {
+  observations: string | null;
+  customer: CustomerServiceRecordListItem['customer'] & {
+    users: Array<{ userId: string; name: string | null; email: string | null }>;
+  };
+  assets: Array<
+    CustomerServiceRecordListItem['assets'][number] & {
+      brand: string;
+      model: string;
+      serialNumber: string;
+      observations: string | null;
+    }
+  >;
+  customerDelivery: CustomerServiceRecordListItem['customerDelivery'] & {
+    receivedAt: string | null;
+    estimatedDeliveryInterval: CustomerServiceRecordInterval;
+    deliveredToCustomerAt: string | null;
+    statusPolicyId: string | null;
+    notificationPolicyId: string | null;
+  };
+  provider:
+    | (NonNullable<CustomerServiceRecordListItem['provider']> & {
+        providerId: string;
+        name: string;
+        deliveredToProviderAt: string | null;
+        estimatedReturnInterval: CustomerServiceRecordInterval;
+        returnedFromProviderAt: string | null;
+        statusPolicyId: string | null;
+        notificationPolicyId: string | null;
+        followUp: CustomerServiceRecordProviderFollowUp;
+      })
+    | null;
+}
+
+export interface CustomerServiceRecordProviderFollowUp {
+  enabled: boolean;
+  rules: Array<{
+    interval: CustomerServiceRecordInterval;
+    recipientGroupIds: string[];
+    ccRecipientGroupIds: string[];
+  }>;
+}
+
+export interface CustomerServiceRecordMutationPayload {
+  serviceTypeCode: string;
+  requestedAt: string;
+  observations: string | null;
+  customer: { customerId: string; customerUserIds: string[] };
+  assets: Array<{
+    name: string;
+    identifier: string;
+    brand: string;
+    model: string;
+    serialNumber: string;
+    observations: string | null;
+  }>;
+  customerDelivery: {
+    receivedAt: string | null;
+    estimatedDeliveryInterval: CustomerServiceRecordInterval;
+    estimatedDeliveryAt: string | null;
+    deliveredToCustomerAt: string | null;
+    statusPolicyId: string | null;
+    notificationPolicyId: string | null;
+  };
+  provider: {
+    providerId: string;
+    deliveredToProviderAt: string | null;
+    estimatedReturnInterval: CustomerServiceRecordInterval;
+    estimatedReturnAt: string | null;
+    returnedFromProviderAt: string | null;
+    statusPolicyId: string | null;
+    notificationPolicyId: string | null;
+    followUp: CustomerServiceRecordProviderFollowUp;
+  } | null;
+  operationalStatus: CustomerServiceRecordOperationalStatus;
+}
 export interface CustomerServiceRecordsState {
   list: {
     items: CustomerServiceRecordListItem[];
@@ -100,5 +177,19 @@ export interface CustomerServiceRecordsState {
     providers: CustomerServiceRecordOption[];
     status: CustomerServiceRecordRequestStatus;
     error: string | null;
+  };
+  detail: {
+    item: CustomerServiceRecordDetail | null;
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
+    currentRecordId: string | null;
+  };
+  mutations: {
+    createStatus: CustomerServiceRecordRequestStatus;
+    updateStatus: CustomerServiceRecordRequestStatus;
+    error: string | null;
+    message: string | null;
+    lastCreatedRecordId: string | null;
+    currentRecordId: string | null;
   };
 }

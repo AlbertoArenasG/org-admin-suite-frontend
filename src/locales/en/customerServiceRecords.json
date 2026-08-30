@@ -69,5 +69,63 @@
   },
   "errors": {
     "title": "Unable to load records"
+  },
+  "feedback": {
+    "created": "Service record created successfully.",
+    "updated": "Service record updated successfully.",
+    "error": "Unable to save the service record."
+  },
+  "form": {
+    "loading": "Loading service record...",
+    "noOptions": "No options available.",
+    "sections": {
+      "general": "General information",
+      "asset": "Asset",
+      "customerCommitment": "Customer commitment",
+      "provider": "Provider and follow-up"
+    },
+    "labels": {
+      "serviceType": "Service type",
+      "requestedAt": "Request or record date",
+      "operationalStatus": "Operational status",
+      "observations": "Notes",
+      "customer": "Customer",
+      "customerUsers": "Customer users",
+      "assetName": "Asset",
+      "identifier": "Identifier",
+      "brand": "Brand",
+      "model": "Model",
+      "serialNumber": "Serial number",
+      "assetObservations": "Asset notes",
+      "receivedAt": "Reception or collection date",
+      "estimatedDeliveryAt": "Estimated customer delivery date",
+      "deliveredToCustomerAt": "Actual customer delivery date",
+      "statusPolicy": "Status policy",
+      "notificationPolicy": "Notification policy",
+      "useProvider": "This service requires a provider",
+      "deliveredToProviderAt": "Delivered to provider date",
+      "estimatedReturnAt": "Estimated return date",
+      "returnedFromProviderAt": "Actual return date",
+      "followUp": "Enable provider follow-up",
+      "recipients": "Recipient groups",
+      "copyRecipients": "Copy groups",
+      "years": "Years",
+      "months": "Months",
+      "weeks": "Weeks",
+      "days": "Days"
+    },
+    "placeholders": {
+      "observations": "Optional record notes"
+    },
+    "hints": {
+      "providerDisabled": "Enable this block only when a provider will handle the service."
+    },
+    "actions": {
+      "addRule": "Add follow-up rule",
+      "removeRule": "Remove rule",
+      "cancel": "Cancel",
+      "create": "Create record",
+      "save": "Save changes"
+    }
   }
 }

@@ -1,8 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { CustomerServiceRecordsState } from './types';
 import {
+  createCustomerServiceRecord,
+  fetchCustomerServiceRecordById,
   fetchCustomerServiceRecordOptions,
   fetchCustomerServiceRecords,
+  updateCustomerServiceRecord,
 } from './customerServiceRecordsThunks';
 
 const initialState: CustomerServiceRecordsState = {
@@ -20,6 +23,15 @@ const initialState: CustomerServiceRecordsState = {
     providers: [],
     status: 'idle',
     error: null,
+  },
+  detail: { item: null, status: 'idle', error: null, currentRecordId: null },
+  mutations: {
+    createStatus: 'idle',
+    updateStatus: 'idle',
+    error: null,
+    message: null,
+    lastCreatedRecordId: null,
+    currentRecordId: null,
   },
 };
 const customerServiceRecordsSlice = createSlice({
@@ -62,6 +74,56 @@ const customerServiceRecordsSlice = createSlice({
           action.payload ??
           action.error.message ??
           'No fue posible obtener las opciones del listado';
+      })
+      .addCase(fetchCustomerServiceRecordById.pending, (state, action) => {
+        state.detail = {
+          item: null,
+          status: 'loading',
+          error: null,
+          currentRecordId: action.meta.arg.recordId,
+        };
+      })
+      .addCase(fetchCustomerServiceRecordById.fulfilled, (state, action) => {
+        state.detail = {
+          item: action.payload.record,
+          status: 'succeeded',
+          error: null,
+          currentRecordId: action.meta.arg.recordId,
+        };
+      })
+      .addCase(fetchCustomerServiceRecordById.rejected, (state, action) => {
+        state.detail.status = 'failed';
+        state.detail.error =
+          action.payload ?? action.error.message ?? 'No fue posible obtener el registro';
+      })
+      .addCase(createCustomerServiceRecord.pending, (state) => {
+        state.mutations.createStatus = 'loading';
+        state.mutations.error = null;
+      })
+      .addCase(createCustomerServiceRecord.fulfilled, (state, action) => {
+        state.mutations.createStatus = 'succeeded';
+        state.mutations.message = action.payload.message;
+        state.mutations.lastCreatedRecordId = action.payload.record.customerServiceRecordId;
+      })
+      .addCase(createCustomerServiceRecord.rejected, (state, action) => {
+        state.mutations.createStatus = 'failed';
+        state.mutations.error =
+          action.payload ?? action.error.message ?? 'No fue posible crear el registro';
+      })
+      .addCase(updateCustomerServiceRecord.pending, (state, action) => {
+        state.mutations.updateStatus = 'loading';
+        state.mutations.error = null;
+        state.mutations.currentRecordId = action.meta.arg.recordId;
+      })
+      .addCase(updateCustomerServiceRecord.fulfilled, (state, action) => {
+        state.mutations.updateStatus = 'succeeded';
+        state.mutations.message = action.payload.message;
+        state.detail.item = action.payload.record;
+      })
+      .addCase(updateCustomerServiceRecord.rejected, (state, action) => {
+        state.mutations.updateStatus = 'failed';
+        state.mutations.error =
+          action.payload ?? action.error.message ?? 'No fue posible actualizar el registro';
       });
   },
 });
