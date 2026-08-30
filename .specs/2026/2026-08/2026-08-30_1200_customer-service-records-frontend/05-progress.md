@@ -1,4 +1,4 @@
 # Progress
 
 - Se cerraron definición y diseño del MVP frontend.
-- No se han iniciado slices de implementación.
+- Se completó la Slice 1: contratos tipados, estado Redux, carga base, rutas, navegación y copies.

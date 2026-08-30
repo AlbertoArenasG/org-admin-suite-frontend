@@ -59,6 +59,28 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
         ],
       },
       {
+        id: 'customerServiceRecords',
+        labelKey: 'customerServiceRecords',
+        href: '/dashboard/customer-service-records',
+        icon: Scroll,
+        matchesPathname: startsWith('/dashboard/customer-service-records'),
+        children: [
+          {
+            id: 'customerServiceRecordsList',
+            labelKey: 'customerServiceRecordsList',
+            href: '/dashboard/customer-service-records',
+            matchesPathname: isExactPath('/dashboard/customer-service-records'),
+          },
+          {
+            id: 'customerServiceRecordsCreate',
+            labelKey: 'customerServiceRecordsCreate',
+            href: '/dashboard/customer-service-records/new',
+            icon: PlusCircle,
+            matchesPathname: isExactPath('/dashboard/customer-service-records/new'),
+          },
+        ],
+      },
+      {
         id: 'services',
         labelKey: 'services',
         href: '/dashboard/service-entries',

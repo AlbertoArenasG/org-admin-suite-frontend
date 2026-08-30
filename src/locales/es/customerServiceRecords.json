@@ -1,0 +1,19 @@
+{
+  "list": {
+    "title": "Registros de servicio",
+    "description": "Administra los servicios realizados para tus clientes.",
+    "readRestricted": "No tienes permiso para consultar registros de servicio."
+  },
+  "create": {
+    "title": "Nuevo registro de servicio",
+    "restricted": "No tienes permiso para crear registros de servicio."
+  },
+  "detail": {
+    "title": "Registro de servicio",
+    "restricted": "No tienes permiso para consultar este registro."
+  },
+  "edit": {
+    "title": "Editar registro de servicio",
+    "restricted": "No tienes permiso para editar este registro."
+  }
+}

@@ -20,6 +20,14 @@ export function resolveSidebarNavigationVisibility(
     'INTERNAL_ASSET_MAINTENANCE_RECORDS',
     'CREATE'
   );
+  const canReadCustomerServiceRecords = authorization.hasPermission(
+    'CUSTOMER_SERVICE_RECORDS',
+    'READ'
+  );
+  const canCreateCustomerServiceRecords = authorization.hasPermission(
+    'CUSTOMER_SERVICE_RECORDS',
+    'CREATE'
+  );
 
   return {
     dashboard: true,
@@ -39,6 +47,9 @@ export function resolveSidebarNavigationVisibility(
     internalAssetControl: canReadInternalAssetControl || canCreateInternalAssetControl,
     internalAssetControlList: canReadInternalAssetControl,
     internalAssetControlCreate: canCreateInternalAssetControl,
+    customerServiceRecords: canReadCustomerServiceRecords || canCreateCustomerServiceRecords,
+    customerServiceRecordsList: canReadCustomerServiceRecords,
+    customerServiceRecordsCreate: canCreateCustomerServiceRecords,
     contacts: authorization.hasPermission('CONTACTS', 'READ'),
     recipientGroups: authorization.hasPermission('RECIPIENT_GROUPS', 'READ'),
     customers: authorization.hasModule('CUSTOMERS'),

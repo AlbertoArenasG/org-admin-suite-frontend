@@ -1,0 +1,19 @@
+{
+  "list": {
+    "title": "Service records",
+    "description": "Manage services performed for your customers.",
+    "readRestricted": "You do not have permission to view service records."
+  },
+  "create": {
+    "title": "New service record",
+    "restricted": "You do not have permission to create service records."
+  },
+  "detail": {
+    "title": "Service record",
+    "restricted": "You do not have permission to view this record."
+  },
+  "edit": {
+    "title": "Edit service record",
+    "restricted": "You do not have permission to edit this record."
+  }
+}

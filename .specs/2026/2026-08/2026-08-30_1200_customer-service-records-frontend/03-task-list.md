@@ -9,8 +9,8 @@
 
 ## Phase 2. Implementation
 
-- [ ] Slice 1. Contratos, feature state, rutas y navegación.
-      Status: pending
+- [x] Slice 1. Contratos, feature state, rutas y navegación.
+      Status: completed
 - [ ] Slice 2. Listado, filtros, columnas y semáforos.
       Status: pending
 - [ ] Slice 3. Formulario create/edit y lookups dependientes.
