@@ -252,6 +252,7 @@ export function CustomerServiceRecordFormPageContainer({
             receivedAt: t('form.labels.receivedAt'),
             estimatedDeliveryAt: t('form.labels.estimatedDeliveryAt'),
             deliveredToCustomerAt: t('form.labels.deliveredToCustomerAt'),
+            estimatedInterval: t('form.labels.estimatedInterval'),
             statusPolicy: t('form.labels.statusPolicy'),
             notificationPolicy: t('form.labels.notificationPolicy'),
             provider: t('form.sections.provider'),

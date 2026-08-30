@@ -40,6 +40,7 @@
       "estimatedDeliveryAt": "Fecha estimada de entrega al cliente",
       "deliveryInterval": "Plazo estimado de entrega",
       "deliveredToCustomerAt": "Fecha de entrega real al cliente",
+      "estimatedInterval": "Plazo estimado",
       "customerSemaphore": "Seguimiento con cliente",
       "provider": "Proveedor",
       "deliveredToProviderAt": "Fecha de entrega al proveedor",

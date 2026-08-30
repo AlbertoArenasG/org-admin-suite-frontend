@@ -40,6 +40,7 @@
       "estimatedDeliveryAt": "Estimated customer delivery date",
       "deliveryInterval": "Estimated delivery lead time",
       "deliveredToCustomerAt": "Actual customer delivery date",
+      "estimatedInterval": "Estimated lead time",
       "customerSemaphore": "Customer tracking",
       "provider": "Provider",
       "deliveredToProviderAt": "Delivered to provider date",

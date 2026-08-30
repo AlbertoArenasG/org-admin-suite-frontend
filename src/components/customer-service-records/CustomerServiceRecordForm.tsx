@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import {
   Controller,
   useFieldArray,
@@ -55,11 +56,40 @@ function toDate(value?: string | null) {
   return value?.slice(0, 10) ?? '';
 }
 
+function todayInMexicoCity() {
+  return new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'America/Mexico_City',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(new Date());
+}
+
+function calculateDateFromInterval(
+  baseDate: string | null | undefined,
+  interval: CustomerServiceRecordInterval
+) {
+  if (!baseDate) return '';
+
+  const [year, month, day] = baseDate.split('-').map(Number);
+  if (!year || !month || !day) return '';
+
+  const date = new Date(Date.UTC(year, month - 1, day));
+  date.setUTCFullYear(date.getUTCFullYear() + interval.years);
+  date.setUTCMonth(date.getUTCMonth() + interval.months);
+  date.setUTCDate(date.getUTCDate() + interval.weeks * 7 + interval.days);
+  return date.toISOString().slice(0, 10);
+}
+
+function safeIntervalValue(value: number | undefined): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : 0;
+}
+
 function initialValues(record?: CustomerServiceRecordDetail | null): FormValues {
   const asset = record?.assets[0];
   return {
     serviceTypeCode: record?.serviceType.serviceTypeCode ?? '',
-    requestedAt: toDate(record?.requestedAt),
+    requestedAt: toDate(record?.requestedAt) || todayInMexicoCity(),
     observations: record?.observations ?? '',
     customer: {
       customerId: record?.customer.customerId ?? '',
@@ -119,9 +149,9 @@ function IntervalFields({
   labels: Record<string, string>;
 }) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+    <div className="flex flex-wrap gap-3">
       {(['years', 'months', 'weeks', 'days'] as const).map((unit) => (
-        <div key={unit} className="grid gap-1.5">
+        <div key={unit} className="grid w-20 gap-1.5 sm:w-24">
           <Label>{labels[unit]}</Label>
           <Input
             type="number"
@@ -155,7 +185,61 @@ export function CustomerServiceRecordForm({
   });
   const providerEnabled = watch('useProvider');
   const followUpEnabled = watch('provider.followUp.enabled');
+  const customerReceivedAt = watch('customerDelivery.receivedAt');
+  const customerDeliveryYears = watch('customerDelivery.estimatedDeliveryInterval.years');
+  const customerDeliveryMonths = watch('customerDelivery.estimatedDeliveryInterval.months');
+  const customerDeliveryWeeks = watch('customerDelivery.estimatedDeliveryInterval.weeks');
+  const customerDeliveryDays = watch('customerDelivery.estimatedDeliveryInterval.days');
+  const customerEstimatedDeliveryAt = watch('customerDelivery.estimatedDeliveryAt');
+  const providerDeliveredAt = watch('provider.deliveredToProviderAt');
+  const providerReturnYears = watch('provider.estimatedReturnInterval.years');
+  const providerReturnMonths = watch('provider.estimatedReturnInterval.months');
+  const providerReturnWeeks = watch('provider.estimatedReturnInterval.weeks');
+  const providerReturnDays = watch('provider.estimatedReturnInterval.days');
+  const providerEstimatedReturnAt = watch('provider.estimatedReturnAt');
   const { fields, append, remove } = useFieldArray({ control, name: 'provider.followUp.rules' });
+
+  useEffect(() => {
+    const estimatedDeliveryAt = calculateDateFromInterval(customerReceivedAt, {
+      years: safeIntervalValue(customerDeliveryYears),
+      months: safeIntervalValue(customerDeliveryMonths),
+      weeks: safeIntervalValue(customerDeliveryWeeks),
+      days: safeIntervalValue(customerDeliveryDays),
+    });
+    if (estimatedDeliveryAt && estimatedDeliveryAt !== customerEstimatedDeliveryAt) {
+      setValue('customerDelivery.estimatedDeliveryAt', estimatedDeliveryAt, { shouldDirty: true });
+    }
+  }, [
+    customerDeliveryDays,
+    customerDeliveryMonths,
+    customerDeliveryWeeks,
+    customerDeliveryYears,
+    customerEstimatedDeliveryAt,
+    customerReceivedAt,
+    setValue,
+  ]);
+
+  useEffect(() => {
+    if (!providerEnabled) return;
+    const estimatedReturnAt = calculateDateFromInterval(providerDeliveredAt, {
+      years: safeIntervalValue(providerReturnYears),
+      months: safeIntervalValue(providerReturnMonths),
+      weeks: safeIntervalValue(providerReturnWeeks),
+      days: safeIntervalValue(providerReturnDays),
+    });
+    if (estimatedReturnAt && estimatedReturnAt !== providerEstimatedReturnAt) {
+      setValue('provider.estimatedReturnAt', estimatedReturnAt, { shouldDirty: true });
+    }
+  }, [
+    providerDeliveredAt,
+    providerEnabled,
+    providerEstimatedReturnAt,
+    providerReturnDays,
+    providerReturnMonths,
+    providerReturnWeeks,
+    providerReturnYears,
+    setValue,
+  ]);
 
   const submit = handleSubmit((values) => {
     const providerValues = values.provider!;
@@ -189,10 +273,10 @@ export function CustomerServiceRecordForm({
   });
 
   return (
-    <form onSubmit={submit} className="grid gap-6">
-      <section className="rounded-2xl border border-border/60 bg-card p-5">
-        <h2 className="mb-4 text-lg font-semibold">{labels.general}</h2>
-        <div className="grid gap-4 md:grid-cols-2">
+    <form onSubmit={submit} className="mx-auto grid w-full max-w-6xl gap-6 pb-8">
+      <section className="rounded-3xl border border-border/60 bg-card p-5 shadow-sm sm:p-6">
+        <h2 className="mb-5 text-lg font-semibold">{labels.general}</h2>
+        <div className="grid gap-4 md:grid-cols-3">
           <div className="grid gap-1.5">
             <Label>{labels.serviceType}</Label>
             <Controller
@@ -215,7 +299,7 @@ export function CustomerServiceRecordForm({
             <Label>{labels.requestedAt}</Label>
             <Input type="date" required {...register('requestedAt')} />
           </div>
-          <div className="grid gap-1.5 md:col-span-2">
+          <div className="grid gap-1.5">
             <Label>{labels.operationalStatus}</Label>
             <select
               className="border-input h-10 rounded-md border bg-background px-3 text-sm"
@@ -227,81 +311,87 @@ export function CustomerServiceRecordForm({
               <option value="CANCELLED">{labels.cancelled}</option>
             </select>
           </div>
-          <div className="grid gap-1.5 md:col-span-2">
-            <Label>{labels.observations}</Label>
-            <Textarea {...register('observations')} placeholder={labels.observationsPlaceholder} />
-          </div>
         </div>
       </section>
 
-      <section className="rounded-2xl border border-border/60 bg-card p-5">
-        <h2 className="mb-4 text-lg font-semibold">{labels.customer}</h2>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="grid gap-1.5">
-            <Label>{labels.customer}</Label>
-            <Controller
-              control={control}
-              name="customer.customerId"
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Combobox
-                  options={customers}
-                  value={field.value || null}
-                  onValueChange={(value) => {
-                    field.onChange(value ?? '');
-                    setValue('customer.customerUserIds', []);
-                    onCustomerChange(value);
-                  }}
-                  placeholder={labels.customer}
-                  searchPlaceholder={labels.customer}
-                  emptyMessage={labels.noOptions}
-                />
-              )}
-            />
-          </div>
-          <div className="grid gap-1.5">
-            <Label>{labels.customerUsers}</Label>
-            <Controller
-              control={control}
-              name="customer.customerUserIds"
-              render={({ field }) => (
-                <MultiSelect
-                  options={customerUsers}
-                  values={field.value}
-                  onValuesChange={field.onChange}
-                  placeholder={labels.customerUsers}
-                  searchPlaceholder={labels.customerUsers}
-                  emptyMessage={labels.noOptions}
-                />
-              )}
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="rounded-2xl border border-border/60 bg-card p-5">
-        <h2 className="mb-4 text-lg font-semibold">{labels.asset}</h2>
-        <div className="grid gap-4 md:grid-cols-2">
-          {(['name', 'identifier', 'brand', 'model', 'serialNumber'] as const).map((field) => (
-            <div key={field} className="grid gap-1.5">
-              <Label>{labels[field]}</Label>
-              <Input required {...register(`assets.0.${field}`)} />
+      <div className="grid gap-6 xl:grid-cols-2">
+        <section className="rounded-3xl border border-border/60 bg-card p-5 shadow-sm sm:p-6">
+          <h2 className="mb-5 text-lg font-semibold">{labels.customer}</h2>
+          <div className="grid gap-4">
+            <div className="grid gap-1.5">
+              <Label>{labels.customer}</Label>
+              <Controller
+                control={control}
+                name="customer.customerId"
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Combobox
+                    options={customers}
+                    value={field.value || null}
+                    onValueChange={(value) => {
+                      field.onChange(value ?? '');
+                      setValue('customer.customerUserIds', []);
+                      onCustomerChange(value);
+                    }}
+                    placeholder={labels.customer}
+                    searchPlaceholder={labels.customer}
+                    emptyMessage={labels.noOptions}
+                  />
+                )}
+              />
             </div>
-          ))}
-          <div className="grid gap-1.5 md:col-span-2">
-            <Label>{labels.assetObservations}</Label>
-            <Textarea {...register('assets.0.observations')} />
+            <div className="grid gap-1.5">
+              <Label>{labels.customerUsers}</Label>
+              <Controller
+                control={control}
+                name="customer.customerUserIds"
+                render={({ field }) => (
+                  <MultiSelect
+                    options={customerUsers}
+                    values={field.value}
+                    onValuesChange={field.onChange}
+                    placeholder={labels.customerUsers}
+                    searchPlaceholder={labels.customerUsers}
+                    emptyMessage={labels.noOptions}
+                  />
+                )}
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="rounded-2xl border border-border/60 bg-card p-5">
-        <h2 className="mb-4 text-lg font-semibold">{labels.customerCommitment}</h2>
+        <section className="rounded-3xl border border-border/60 bg-card p-5 shadow-sm sm:p-6">
+          <h2 className="mb-5 text-lg font-semibold">{labels.asset}</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            {(['name', 'identifier', 'brand', 'model', 'serialNumber'] as const).map((field) => (
+              <div key={field} className="grid gap-1.5">
+                <Label>{labels[field]}</Label>
+                <Input required {...register(`assets.0.${field}`)} />
+              </div>
+            ))}
+            <div className="grid gap-1.5 md:col-span-2">
+              <Label>{labels.assetObservations}</Label>
+              <Textarea {...register('assets.0.observations')} />
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section className="rounded-3xl border border-border/60 bg-card p-5 shadow-sm sm:p-6">
+        <h2 className="mb-5 text-lg font-semibold">{labels.customerCommitment}</h2>
         <div className="grid gap-4">
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 rounded-2xl border border-border/60 bg-muted/20 p-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
             <div className="grid gap-1.5">
               <Label>{labels.receivedAt}</Label>
               <Input type="date" {...register('customerDelivery.receivedAt')} />
+            </div>
+            <div className="grid gap-1.5">
+              <Label>{labels.estimatedInterval}</Label>
+              <IntervalFields
+                prefix="customerDelivery.estimatedDeliveryInterval"
+                register={register}
+                labels={labels}
+              />
             </div>
             <div className="grid gap-1.5">
               <Label>{labels.estimatedDeliveryAt}</Label>
@@ -312,11 +402,6 @@ export function CustomerServiceRecordForm({
               <Input type="date" {...register('customerDelivery.deliveredToCustomerAt')} />
             </div>
           </div>
-          <IntervalFields
-            prefix="customerDelivery.estimatedDeliveryInterval"
-            register={register}
-            labels={labels}
-          />
           <div className="grid gap-4 md:grid-cols-2">
             <Controller
               control={control}
@@ -352,7 +437,7 @@ export function CustomerServiceRecordForm({
         </div>
       </section>
 
-      <section className="rounded-2xl border border-border/60 bg-card p-5">
+      <section className="rounded-3xl border border-border/60 bg-card p-5 shadow-sm sm:p-6">
         <div className="mb-4 flex items-center justify-between gap-4">
           <h2 className="text-lg font-semibold">{labels.provider}</h2>
           <label className="flex items-center gap-2 text-sm">
@@ -368,7 +453,7 @@ export function CustomerServiceRecordForm({
           </label>
         </div>
         {providerEnabled ? (
-          <div className="grid gap-4">
+          <div className="grid gap-5 border-t border-border/60 pt-5">
             <Controller
               control={control}
               name="provider.providerId"
@@ -384,10 +469,18 @@ export function CustomerServiceRecordForm({
                 />
               )}
             />
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 rounded-2xl border border-border/60 bg-muted/20 p-4 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)_minmax(0,1fr)] lg:items-end">
               <div className="grid gap-1.5">
                 <Label>{labels.deliveredToProviderAt}</Label>
                 <Input type="date" {...register('provider.deliveredToProviderAt')} />
+              </div>
+              <div className="grid gap-1.5">
+                <Label>{labels.estimatedInterval}</Label>
+                <IntervalFields
+                  prefix="provider.estimatedReturnInterval"
+                  register={register}
+                  labels={labels}
+                />
               </div>
               <div className="grid gap-1.5">
                 <Label>{labels.estimatedReturnAt}</Label>
@@ -398,11 +491,6 @@ export function CustomerServiceRecordForm({
                 <Input type="date" {...register('provider.returnedFromProviderAt')} />
               </div>
             </div>
-            <IntervalFields
-              prefix="provider.estimatedReturnInterval"
-              register={register}
-              labels={labels}
-            />
             <div className="grid gap-4 md:grid-cols-2">
               <Controller
                 control={control}
@@ -510,7 +598,15 @@ export function CustomerServiceRecordForm({
           <p className="text-sm text-muted-foreground">{labels.providerDisabled}</p>
         )}
       </section>
-      <div className="flex justify-end gap-3">
+      <section className="rounded-3xl border border-border/60 bg-card p-5 shadow-sm sm:p-6">
+        <h2 className="mb-4 text-lg font-semibold">{labels.observations}</h2>
+        <Textarea
+          className="min-h-28"
+          {...register('observations')}
+          placeholder={labels.observationsPlaceholder}
+        />
+      </section>
+      <div className="sticky bottom-3 z-10 flex justify-end gap-3 rounded-2xl border border-border/60 bg-card/95 p-3 shadow-lg backdrop-blur">
         <Button type="button" variant="outline" onClick={onCancel} disabled={isSubmitting}>
           {labels.cancel}
         </Button>
