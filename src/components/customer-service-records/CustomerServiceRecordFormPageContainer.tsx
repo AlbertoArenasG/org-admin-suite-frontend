@@ -102,7 +102,8 @@ export function CustomerServiceRecordFormPageContainer({
   const relatedUserOptions = useAppSelector(
     (state) => state.userCustomerRelationships.relatedOptions
   );
-  const record = feature.detail.item;
+  // Creation must never inherit the last record viewed from the shared detail state.
+  const record = mode === 'edit' ? feature.detail.item : null;
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -137,12 +138,11 @@ export function CustomerServiceRecordFormPageContainer({
   );
 
   useEffect(() => {
-    if (
-      record?.customer.customerId &&
-      relatedUserOptions.customerId !== record.customer.customerId
-    ) {
-      loadCustomerUsers(record.customer.customerId);
-    }
+    const customerId = record?.customer.customerId;
+    if (!customerId) return;
+
+    setSelectedCustomerId(customerId);
+    if (relatedUserOptions.customerId !== customerId) loadCustomerUsers(customerId);
   }, [loadCustomerUsers, record?.customer.customerId, relatedUserOptions.customerId]);
 
   const submit = async (payload: CustomerServiceRecordMutationPayload) => {
@@ -157,8 +157,13 @@ export function CustomerServiceRecordFormPageContainer({
       }
       if (!recordId) return;
       if (!record) return;
+      const updatePayload = buildUpdatePayload(record, payload);
+      if (Object.keys(updatePayload).length === 0) {
+        router.replace(`/dashboard/customer-service-records/${recordId}`);
+        return;
+      }
       const result = await dispatch(
-        updateCustomerServiceRecord({ recordId, payload: buildUpdatePayload(record, payload) })
+        updateCustomerServiceRecord({ recordId, payload: updatePayload })
       ).unwrap();
       showSnackbar({ message: result.message ?? t('feedback.updated'), severity: 'success' });
       router.replace(
