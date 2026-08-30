@@ -14,6 +14,7 @@ import recipientGroupsReducer from '@/features/recipient-groups/recipientGroupsS
 import expirationStatusPoliciesReducer from '@/features/expiration-status-policies/expirationStatusPoliciesSlice';
 import expirationNotificationPoliciesReducer from '@/features/expiration-notification-policies/expirationNotificationPoliciesSlice';
 import internalAssetControlReducer from '@/features/internal-asset-control/internalAssetControlSlice';
+import customerServiceRecordsReducer from '@/features/customer-service-records/customerServiceRecordsSlice';
 import userRegistrationInvitationsReducer from '@/features/user-registration-invitations/userRegistrationInvitationsSlice';
 import userCustomerRelationshipsReducer from '@/features/user-customer-relationships/userCustomerRelationshipsSlice';
 
@@ -37,6 +38,7 @@ export const store = configureStore({
     expirationStatusPolicies: expirationStatusPoliciesReducer,
     expirationNotificationPolicies: expirationNotificationPoliciesReducer,
     internalAssetControl: internalAssetControlReducer,
+    customerServiceRecords: customerServiceRecordsReducer,
     userRegistrationInvitations: userRegistrationInvitationsReducer,
     userCustomerRelationships: userCustomerRelationshipsReducer,
   },

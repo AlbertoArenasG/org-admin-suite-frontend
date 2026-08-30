@@ -8,6 +8,7 @@
   "roles": "Roles",
   "contacts": "Contacts",
   "internalAssetControl": "Asset control and payments",
+  "customerServiceRecords": "Service records",
   "expirationStatusPolicies": "Expiration status policies",
   "expirationNotificationPolicies": "Expiration notification policies",
   "recipientGroups": "Recipient groups",
