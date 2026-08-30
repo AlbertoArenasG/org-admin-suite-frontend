@@ -13,7 +13,47 @@
   },
   "detail": {
     "title": "Service record",
-    "restricted": "You do not have permission to view this record."
+    "restricted": "You do not have permission to view this record.",
+    "notFound": "The service record could not be found.",
+    "sections": {
+      "general": "General information",
+      "customer": "Customer and related users",
+      "asset": "Asset",
+      "customerCommitment": "Customer commitment",
+      "provider": "Provider",
+      "followUp": "Provider follow-up"
+    },
+    "fields": {
+      "serviceType": "Service type",
+      "operationalStatus": "Operational status",
+      "requestedAt": "Request or record date",
+      "observations": "Notes",
+      "customer": "Customer",
+      "customerUsers": "Customer users",
+      "assetName": "Asset",
+      "identifier": "Identifier",
+      "brand": "Brand",
+      "model": "Model",
+      "serialNumber": "Serial number",
+      "assetObservations": "Asset notes",
+      "receivedAt": "Reception or collection date",
+      "estimatedDeliveryAt": "Estimated customer delivery date",
+      "deliveryInterval": "Estimated delivery lead time",
+      "deliveredToCustomerAt": "Actual customer delivery date",
+      "customerSemaphore": "Customer tracking",
+      "provider": "Provider",
+      "deliveredToProviderAt": "Delivered to provider date",
+      "estimatedReturnAt": "Estimated return date",
+      "returnInterval": "Estimated return lead time",
+      "returnedFromProviderAt": "Actual return date",
+      "providerSemaphore": "Provider tracking",
+      "followUp": "Follow-up enabled",
+      "followUpRules": "Configured rules",
+      "followUpInterval": "Interval",
+      "recipients": "Recipient groups",
+      "copyRecipients": "Copy groups"
+    },
+    "rule": "Rule {{index}}"
   },
   "edit": {
     "title": "Edit service record",
@@ -61,11 +101,16 @@
     "manageColumns": "Manage columns",
     "retry": "Retry",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back to list"
   },
   "labels": {
     "neutral": "No date or tracking",
-    "noDate": "No date"
+    "noDate": "No date",
+    "notConfigured": "Not configured",
+    "yes": "Yes"
   },
   "errors": {
     "title": "Unable to load records"
@@ -74,6 +119,15 @@
     "created": "Service record created successfully.",
     "updated": "Service record updated successfully.",
     "error": "Unable to save the service record."
+  },
+  "delete": {
+    "title": "Delete service record",
+    "description": "This will remove the record and it cannot be undone from the application.",
+    "warning": "Confirm that you want to delete this record.",
+    "cancel": "Cancel",
+    "confirm": "Delete record",
+    "success": "Service record deleted successfully.",
+    "error": "Unable to delete the service record."
   },
   "form": {
     "loading": "Loading service record...",

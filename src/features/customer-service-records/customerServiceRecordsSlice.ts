@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { CustomerServiceRecordsState } from './types';
 import {
   createCustomerServiceRecord,
+  deleteCustomerServiceRecord,
   fetchCustomerServiceRecordById,
   fetchCustomerServiceRecordOptions,
   fetchCustomerServiceRecords,
@@ -28,6 +29,7 @@ const initialState: CustomerServiceRecordsState = {
   mutations: {
     createStatus: 'idle',
     updateStatus: 'idle',
+    deleteStatus: 'idle',
     error: null,
     message: null,
     lastCreatedRecordId: null,
@@ -124,6 +126,26 @@ const customerServiceRecordsSlice = createSlice({
         state.mutations.updateStatus = 'failed';
         state.mutations.error =
           action.payload ?? action.error.message ?? 'No fue posible actualizar el registro';
+      })
+      .addCase(deleteCustomerServiceRecord.pending, (state, action) => {
+        state.mutations.deleteStatus = 'loading';
+        state.mutations.error = null;
+        state.mutations.currentRecordId = action.meta.arg.recordId;
+      })
+      .addCase(deleteCustomerServiceRecord.fulfilled, (state, action) => {
+        state.mutations.deleteStatus = 'succeeded';
+        state.mutations.message = action.payload.message;
+        state.list.items = state.list.items.filter(
+          (record) => record.customerServiceRecordId !== action.payload.recordId
+        );
+        if (state.detail.currentRecordId === action.payload.recordId) {
+          state.detail.item = null;
+        }
+      })
+      .addCase(deleteCustomerServiceRecord.rejected, (state, action) => {
+        state.mutations.deleteStatus = 'failed';
+        state.mutations.error =
+          action.payload ?? action.error.message ?? 'No fue posible eliminar el registro';
       });
   },
 });

@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
+import { CustomerServiceRecordDetailView } from '@/components/customer-service-records/CustomerServiceRecordDetailView';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
 import { useAuthorization } from '@/features/auth';
 
@@ -23,10 +24,18 @@ export default function CustomerServiceRecordDetailPage() {
           { label: recordId },
         ]}
       />
-      <section className="rounded-3xl border border-border/60 bg-card p-6">
-        <h1 className="text-xl font-semibold">{t('detail.title')}</h1>
-        {!allowed ? <p className="mt-2 text-muted-foreground">{t('detail.restricted')}</p> : null}
-      </section>
+      {allowed ? (
+        <CustomerServiceRecordDetailView
+          recordId={recordId}
+          canUpdate={hasPermission('CUSTOMER_SERVICE_RECORDS', 'UPDATE')}
+          canDelete={hasPermission('CUSTOMER_SERVICE_RECORDS', 'DELETE')}
+        />
+      ) : (
+        <section className="rounded-3xl border border-border/60 bg-card p-6">
+          <h1 className="text-xl font-semibold">{t('detail.title')}</h1>
+          <p className="mt-2 text-muted-foreground">{t('detail.restricted')}</p>
+        </section>
+      )}
     </div>
   );
 }

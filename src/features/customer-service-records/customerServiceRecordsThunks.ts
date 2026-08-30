@@ -502,3 +502,25 @@ export const updateCustomerServiceRecord = createAsyncThunk<
     );
   }
 });
+
+export const deleteCustomerServiceRecord = createAsyncThunk<
+  { recordId: string; message: string | null },
+  { recordId: string },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/delete', async ({ recordId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<null>(`/v1/customer-service-records/${recordId}`, {
+      method: 'DELETE',
+      headers: { Accept: 'application/json' },
+      token,
+    });
+    return { recordId, message: response.successMessage };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible eliminar el registro de servicio'
+    );
+  }
+});

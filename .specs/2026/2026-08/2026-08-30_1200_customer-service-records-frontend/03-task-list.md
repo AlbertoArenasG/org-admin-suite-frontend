@@ -15,8 +15,8 @@
       Status: completed
 - [x] Slice 3. Formulario create/edit y lookups dependientes.
       Status: completed
-- [ ] Slice 4. Detalle, baja lógica y estados de carga/error.
-      Status: pending
+- [x] Slice 4. Detalle, baja lógica y estados de carga/error.
+      Status: completed
 
 ## Phase 3. Validation And Closure
 

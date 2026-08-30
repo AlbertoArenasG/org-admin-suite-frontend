@@ -13,7 +13,47 @@
   },
   "detail": {
     "title": "Registro de servicio",
-    "restricted": "No tienes permiso para consultar este registro."
+    "restricted": "No tienes permiso para consultar este registro.",
+    "notFound": "No fue posible encontrar el registro de servicio.",
+    "sections": {
+      "general": "Datos generales",
+      "customer": "Cliente y usuarios relacionados",
+      "asset": "Equipo",
+      "customerCommitment": "Compromiso con cliente",
+      "provider": "Proveedor",
+      "followUp": "Seguimiento al proveedor"
+    },
+    "fields": {
+      "serviceType": "Tipo de servicio",
+      "operationalStatus": "Estado operativo",
+      "requestedAt": "Fecha de solicitud o registro",
+      "observations": "Observaciones",
+      "customer": "Cliente",
+      "customerUsers": "Usuarios del cliente",
+      "assetName": "Equipo",
+      "identifier": "Identificación",
+      "brand": "Marca",
+      "model": "Modelo",
+      "serialNumber": "Serie",
+      "assetObservations": "Observaciones del equipo",
+      "receivedAt": "Fecha de recepción o recolección",
+      "estimatedDeliveryAt": "Fecha estimada de entrega al cliente",
+      "deliveryInterval": "Plazo estimado de entrega",
+      "deliveredToCustomerAt": "Fecha de entrega real al cliente",
+      "customerSemaphore": "Seguimiento con cliente",
+      "provider": "Proveedor",
+      "deliveredToProviderAt": "Fecha de entrega al proveedor",
+      "estimatedReturnAt": "Fecha estimada de retorno",
+      "returnInterval": "Plazo estimado de retorno",
+      "returnedFromProviderAt": "Fecha real de retorno",
+      "providerSemaphore": "Seguimiento con proveedor",
+      "followUp": "Seguimiento habilitado",
+      "followUpRules": "Reglas configuradas",
+      "followUpInterval": "Intervalo",
+      "recipients": "Grupos destinatarios",
+      "copyRecipients": "Grupos en copia"
+    },
+    "rule": "Regla {{index}}"
   },
   "edit": {
     "title": "Editar registro de servicio",
@@ -61,11 +101,16 @@
     "manageColumns": "Administrar columnas",
     "retry": "Reintentar",
     "previous": "Anterior",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "back": "Volver al listado"
   },
   "labels": {
     "neutral": "Sin fecha o seguimiento",
-    "noDate": "Sin fecha"
+    "noDate": "Sin fecha",
+    "notConfigured": "No configurado",
+    "yes": "Sí"
   },
   "errors": {
     "title": "Error al cargar registros"
@@ -74,6 +119,15 @@
     "created": "Registro de servicio creado correctamente.",
     "updated": "Registro de servicio actualizado correctamente.",
     "error": "No fue posible guardar el registro de servicio."
+  },
+  "delete": {
+    "title": "Eliminar registro de servicio",
+    "description": "Esta acción dará de baja el registro y no se podrá deshacer desde la aplicación.",
+    "warning": "Confirma que deseas eliminar este registro.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar registro",
+    "success": "Registro de servicio eliminado correctamente.",
+    "error": "No fue posible eliminar el registro de servicio."
   },
   "form": {
     "loading": "Cargando registro de servicio...",
