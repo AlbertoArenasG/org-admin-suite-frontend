@@ -2,7 +2,10 @@
   "list": {
     "title": "Service records",
     "description": "Manage services performed for your customers.",
-    "readRestricted": "You do not have permission to view service records."
+    "readRestricted": "You do not have permission to view service records.",
+    "summary": "{{total}} records",
+    "loading": "Loading service records...",
+    "empty": "No records match the current filters."
   },
   "create": {
     "title": "New service record",
@@ -15,5 +18,56 @@
   "edit": {
     "title": "Edit service record",
     "restricted": "You do not have permission to edit this record."
+  },
+  "table": {
+    "columns": {
+      "serviceNumber": "Record",
+      "serviceType": "Service type",
+      "customer": "Customer",
+      "asset": "Asset",
+      "status": "Status",
+      "customerDelivery": "Customer commitment",
+      "providerReturn": "Provider return",
+      "requestedAt": "Request",
+      "updatedAt": "Updated"
+    }
+  },
+  "filters": {
+    "searchPlaceholder": "Search by record, customer, asset, or provider...",
+    "serviceTypePlaceholder": "All service types",
+    "customerPlaceholder": "All customers",
+    "providerPlaceholder": "All providers",
+    "statusPlaceholder": "All statuses",
+    "providerStatePlaceholder": "With or without provider",
+    "providerStateYes": "With provider",
+    "providerStateNo": "Without provider",
+    "dateFilters": "Date ranges",
+    "requestedAt": "Request or record",
+    "receivedAt": "Reception or collection",
+    "customerDeliveryAt": "Customer commitment",
+    "providerReturnAt": "Provider return",
+    "from": "From",
+    "to": "To"
+  },
+  "statuses": {
+    "pending": "Pending",
+    "inProgress": "In progress",
+    "completed": "Completed",
+    "cancelled": "Cancelled"
+  },
+  "actions": {
+    "create": "New record",
+    "view": "View details",
+    "manageColumns": "Manage columns",
+    "retry": "Retry",
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "labels": {
+    "neutral": "No date or tracking",
+    "noDate": "No date"
+  },
+  "errors": {
+    "title": "Unable to load records"
   }
 }

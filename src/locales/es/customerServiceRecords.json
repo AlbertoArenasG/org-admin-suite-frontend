@@ -2,7 +2,10 @@
   "list": {
     "title": "Registros de servicio",
     "description": "Administra los servicios realizados para tus clientes.",
-    "readRestricted": "No tienes permiso para consultar registros de servicio."
+    "readRestricted": "No tienes permiso para consultar registros de servicio.",
+    "summary": "{{total}} registros",
+    "loading": "Cargando registros de servicio...",
+    "empty": "No hay registros que coincidan con los filtros."
   },
   "create": {
     "title": "Nuevo registro de servicio",
@@ -15,5 +18,56 @@
   "edit": {
     "title": "Editar registro de servicio",
     "restricted": "No tienes permiso para editar este registro."
+  },
+  "table": {
+    "columns": {
+      "serviceNumber": "Folio",
+      "serviceType": "Tipo de servicio",
+      "customer": "Cliente",
+      "asset": "Equipo",
+      "status": "Estado",
+      "customerDelivery": "Compromiso con cliente",
+      "providerReturn": "Retorno de proveedor",
+      "requestedAt": "Solicitud",
+      "updatedAt": "Actualizado"
+    }
+  },
+  "filters": {
+    "searchPlaceholder": "Buscar por folio, cliente, equipo o proveedor...",
+    "serviceTypePlaceholder": "Todos los tipos de servicio",
+    "customerPlaceholder": "Todos los clientes",
+    "providerPlaceholder": "Todos los proveedores",
+    "statusPlaceholder": "Todos los estados",
+    "providerStatePlaceholder": "Con o sin proveedor",
+    "providerStateYes": "Con proveedor",
+    "providerStateNo": "Sin proveedor",
+    "dateFilters": "Rangos de fechas",
+    "requestedAt": "Solicitud o registro",
+    "receivedAt": "Recepción o recolección",
+    "customerDeliveryAt": "Compromiso con cliente",
+    "providerReturnAt": "Retorno de proveedor",
+    "from": "Desde",
+    "to": "Hasta"
+  },
+  "statuses": {
+    "pending": "Pendiente",
+    "inProgress": "En proceso",
+    "completed": "Completado",
+    "cancelled": "Cancelado"
+  },
+  "actions": {
+    "create": "Nuevo registro",
+    "view": "Ver detalle",
+    "manageColumns": "Administrar columnas",
+    "retry": "Reintentar",
+    "previous": "Anterior",
+    "next": "Siguiente"
+  },
+  "labels": {
+    "neutral": "Sin fecha o seguimiento",
+    "noDate": "Sin fecha"
+  },
+  "errors": {
+    "title": "Error al cargar registros"
   }
 }

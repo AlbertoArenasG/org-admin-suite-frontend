@@ -11,6 +11,9 @@ export type CustomerServiceRecordSortField =
   | 'provider_estimated_return_at'
   | 'operational_status'
   | 'created_at';
+
+export type CustomerServiceRecordRequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
+export type CustomerServiceRecordSortDirection = 'asc' | 'desc';
 export interface CustomerServiceRecordInterval {
   years: number;
   months: number;
@@ -24,6 +27,41 @@ export interface CustomerServiceRecordDerivedStatus {
   colorHex: string;
   source: { code: string; name: string; nameKey: string };
   effectiveStartDate: string | null;
+}
+
+export interface CustomerServiceRecordOption {
+  value: string;
+  label: string;
+}
+
+export interface CustomerServiceRecordsListFilters {
+  operationalStatus: CustomerServiceRecordOperationalStatus | null;
+  serviceTypeCode: string | null;
+  customerId: string | null;
+  providerId: string | null;
+  hasProvider: boolean | null;
+  requestedAtFrom: string | null;
+  requestedAtTo: string | null;
+  receivedAtFrom: string | null;
+  receivedAtTo: string | null;
+  estimatedCustomerDeliveryAtFrom: string | null;
+  estimatedCustomerDeliveryAtTo: string | null;
+  providerEstimatedReturnAtFrom: string | null;
+  providerEstimatedReturnAtTo: string | null;
+}
+
+export interface CustomerServiceRecordsListSort {
+  field: CustomerServiceRecordSortField;
+  direction: CustomerServiceRecordSortDirection;
+}
+
+export interface FetchCustomerServiceRecordsParams {
+  page?: number;
+  limit?: number;
+  itemsPerPage?: number;
+  search?: string | null;
+  filters?: Partial<CustomerServiceRecordsListFilters>;
+  sorts?: CustomerServiceRecordsListSort[];
 }
 export interface CustomerServiceRecordListItem {
   customerServiceRecordId: string;
@@ -50,10 +88,17 @@ export interface CustomerServiceRecordListItem {
 export interface CustomerServiceRecordsState {
   list: {
     items: CustomerServiceRecordListItem[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    status: CustomerServiceRecordRequestStatus;
     error: string | null;
     page: number;
     perPage: number;
     total: number;
+    totalPages: number;
+  };
+  options: {
+    serviceTypes: CustomerServiceRecordOption[];
+    providers: CustomerServiceRecordOption[];
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
   };
 }

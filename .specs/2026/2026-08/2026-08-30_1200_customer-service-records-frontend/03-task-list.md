@@ -11,8 +11,8 @@
 
 - [x] Slice 1. Contratos, feature state, rutas y navegación.
       Status: completed
-- [ ] Slice 2. Listado, filtros, columnas y semáforos.
-      Status: pending
+- [x] Slice 2. Listado, filtros, columnas y semáforos.
+      Status: completed
 - [ ] Slice 3. Formulario create/edit y lookups dependientes.
       Status: pending
 - [ ] Slice 4. Detalle, baja lógica y estados de carga/error.
