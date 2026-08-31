@@ -6,7 +6,7 @@ La fuente sans base de la aplicación es `Geist`, cargada con `next/font/google`
 
 - Fuente sans base: `Geist`
 - Fuente monoespaciada: `Geist Mono`
-- Las variables CSS de ambas fuentes se aplican a `<body>` en `src/app/layout.tsx`.
+- Las variables CSS de ambas fuentes se aplican a `<html>` y la clase sans directa a `<body>` en `src/app/layout.tsx`.
 - La pila base se declara como `--font-sans-stack` en `src/app/globals.css`.
 
 La aplicación usa una fuente única en tres fronteras: `body` y Tailwind, Material UI y el SVG propio de encuestas.
@@ -17,7 +17,7 @@ Una sustitución tipográfica no se considera terminada al cambiar la importaci�
 
 | Ubicación                                       | Cambio obligatorio                                                                                     | Qué cubre                                                                 |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| `src/app/layout.tsx`                            | Importación, instancia de la fuente, `variable` CSS y `className` de `<body>`                          | Carga optimizada de la fuente y herencia directa del documento.           |
+| `src/app/layout.tsx`                            | Importación, instancia, variables CSS en `<html>` y `className` sans en `<body>`                       | Carga optimizada y resolución para preflight, herencia y contenido.       |
 | `src/app/globals.css`                           | `--font-sans-stack` y `--font-sans`                                                                    | `body`, override CSS heredado y preflight/utilidades de Tailwind v4.      |
 | `tailwind.config.ts`                            | `theme.extend.fontFamily.sans`                                                                         | Configuración explícita para utilidades y extensiones que lean el config. |
 | `src/components/providers/MuiThemeProvider.tsx` | Mantener la fuente como `var(--font-sans-stack)` y añadir nuevos componentes MUI si requieren override | Componentes Material UI y encabezados/celdas/paginación de Data Grid.     |
@@ -34,8 +34,9 @@ Archivo: `src/app/layout.tsx`
 1. Sustituir la importación de `Geist` por la fuente deseada desde `next/font/google`.
 2. Crear la constante con una variable CSS descriptiva, por ejemplo `--font-nueva-sans`.
 3. Configurar el peso variable cuando la fuente lo soporte.
-4. Mantener al menos `nuevaFuente.variable` en `className` de `<body>`; añadir `nuevaFuente.className` si se quiere que `body` fuerce directamente la familia como respaldo.
-5. Mantener `geistMono.variable` mientras no se cambie la tipografía monoespaciada.
+4. Aplicar `nuevaFuente.variable` y la variable monoespaciada en `<html>`. Tailwind v4 define su preflight en ese elemento, por lo que no deben quedar solo en `<body>`.
+5. Aplicar `nuevaFuente.className` en `<body>` para establecer la familia sans directamente como respaldo.
+6. Mantener `geistMono.variable` mientras no se cambie la tipografía monoespaciada.
 
 Ejemplo actual:
 
@@ -47,7 +48,8 @@ const geistSans = Geist({
   subsets: ['latin'],
 });
 
-<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+<html className={`${geistSans.variable} ${geistMono.variable}`} lang="es">
+  <body className={`${geistSans.className} antialiased`}>
 ```
 
 ### 2. Pila Global
@@ -73,8 +75,8 @@ El bloque `:where(...)` dentro de `@layer base` cubre parcialmente `MuiTypograph
 
 Si el inspector del navegador muestra `Helvetica`, `system-ui` u otra familia tras el cambio:
 
-1. Confirmar que `<body>` tiene la clase `__className_*` y la clase `__variable_*` de la nueva fuente.
-2. Confirmar en estilos calculados que `--font-sans-stack`, y `--font-sans` si se agregó, resuelven a la nueva familia.
+1. Confirmar que `<html>` tiene la clase `__variable_*` de la nueva fuente y que `<body>` tiene su clase `__className_*`.
+2. Confirmar en estilos calculados que `--font-sans-stack` y `--font-sans` resuelven a la nueva familia.
 3. Revisar si el componente tiene una declaración propia de `font-family`; esa declaración debe actualizarse solo si la excepción no es intencional.
 4. No corregirlo con una regla global `!important`.
 
@@ -88,7 +90,7 @@ Actualizar `theme.extend.fontFamily.sans` con la misma variable de la fuente san
 sans: ['var(--font-nueva-sans)', 'system-ui', 'sans-serif'],
 ```
 
-Esta configuración no sustituye `--font-sans` en Tailwind v4. Por eso, si hay utilidades `font-sans`, el paso anterior en `globals.css` sigue siendo indispensable.
+Esta configuración no sustituye `--font-sans` en Tailwind v4. Por eso el paso anterior en `globals.css` sigue siendo indispensable.
 
 ### 4. Material UI, Data Grid Y Tablas
 
