@@ -111,6 +111,38 @@ Archivo actual: `src/components/serviceEntrySurveys/SurveyRatingStackedBarChart.
 
 El texto dentro de SVG no debe depender de herencia implícita. Cada SVG que genere texto debe declarar `fontFamily="var(--font-sans-stack)"` en su elemento raíz. Si se añade una biblioteca de gráficos, configurar su familia desde la opción de tema de esa biblioteca o verificarla en DevTools.
 
+## Excepciones Tipográficas Locales
+
+La fuente global se aplica intencionalmente desde tres niveles:
+
+1. `body` usa `--font-sans-stack` en `src/app/globals.css`.
+2. Tailwind v4 usa `--font-sans`, que apunta a la misma familia.
+3. `MuiThemeProvider` asigna esa familia a los componentes Material UI y Data Grid.
+
+Esto define el valor por defecto, no impide una excepción local. Una regla directa del componente tiene prioridad sobre la herencia global; para Material UI, `sx={{ fontFamily: ... }}` tiene prioridad sobre los `styleOverrides` del tema.
+
+No repetir una familia literal por componente. Primero declarar un token semántico en `src/app/globals.css`:
+
+```css
+:root {
+  --font-contextual: 'Familia alternativa', sans-serif;
+}
+```
+
+La pila de respaldo es obligatoria si la familia alternativa no se distribuye como fuente web. Si todos los usuarios deben ver exactamente la misma fuente, cargarla mediante `next/font` o desde un archivo local con licencia compatible.
+
+Aplicar el token solo al elemento que lo necesita:
+
+```tsx
+// Componente HTML.
+<span className="[font-family:var(--font-contextual)]">Contenido</span>
+
+// Componente Material UI.
+<Typography sx={{ fontFamily: 'var(--font-contextual)' }}>Contenido</Typography>
+```
+
+No modificar `MuiThemeProvider`, `--font-sans-stack` ni `--font-sans` para una excepción local: esas son las fronteras de la tipografía global. Si una excepción debe aplicarse a un conjunto reutilizable de componentes, crear una clase o componente compartido que consuma el mismo token.
+
 ## Validación
 
 Después de cambiar la fuente:
