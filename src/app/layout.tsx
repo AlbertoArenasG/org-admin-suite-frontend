@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Geist_Mono, Mona_Sans } from 'next/font/google';
 import './globals.css';
 import 'sileo/styles.css';
 import 'ldrs/react/Tailspin.css';
 import { AppProviders } from '@/components/providers/AppProviders';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const monaSans = Mona_Sans({
+  variable: '--font-mona-sans',
   subsets: ['latin'],
+  weight: 'variable',
 });
 
 const geistMono = Geist_Mono({
@@ -27,11 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      className={`${geistSans.variable} ${geistMono.variable}`}
+      className={`${monaSans.variable} ${geistMono.variable}`}
       lang="es"
       suppressHydrationWarning
     >
-      <body className={`${geistSans.className} antialiased`} suppressHydrationWarning>
+      <body className={`${monaSans.className} antialiased`} suppressHydrationWarning>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>
