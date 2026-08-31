@@ -18,3 +18,11 @@ dependiente del Cliente. Los campos omitidos en edición no se envían.
 Los comboboxes usan componentes Radix/shadcn adaptados al multitema. Solo se
 extraerán componentes compartidos con reutilización real: intervalo date-only,
 selector dependiente Cliente/usuarios y semáforo.
+
+## Decision 04. Lookups Y Fechas Estimadas
+
+El selector de usuarios relacionados consume el lookup auxiliar no paginado
+`GET /v1/customers/:customerId/users/options`; el listado paginado queda para
+la administración de relaciones. Las fechas estimadas se recalculan en frontend
+al modificar la fecha base o años, meses, semanas y días del intervalo. El
+usuario puede ajustar el resultado antes de guardar.

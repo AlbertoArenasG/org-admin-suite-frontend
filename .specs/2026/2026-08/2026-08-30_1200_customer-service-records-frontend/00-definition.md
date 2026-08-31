@@ -4,7 +4,8 @@
 
 - Initiative: `customer-service-records-frontend`
 - Definition status: `completed`
-- Implementation ready: `yes`
+- Implementation status: `completed`
+- Spec status: `closed`
 
 ## Approved Scope
 
@@ -26,3 +27,4 @@ duplicación masiva, múltiples activos en UI y la futura visualización Heijunk
 - Formulario en una página por secciones, sin tabs.
 - Proveedor es opcional y se controla con un interruptor que limpia el bloque antes de enviar `provider: null`.
 - Los semáforos no se calculan en frontend; se presentan con el estado neutral o derivado recibido.
+- Las fechas estimadas sí se calculan durante la captura a partir de su fecha base e intervalo, y permanecen editables.

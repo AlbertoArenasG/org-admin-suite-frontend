@@ -20,7 +20,7 @@
 
 ## Phase 3. Validation And Closure
 
-- [ ] Ejecutar y registrar validación manual.
-      Status: pending
-- [ ] Actualizar documentación permanente y cerrar la spec.
-      Status: pending
+- [x] Ejecutar y registrar validación manual.
+      Status: completed
+- [x] Revisar documentación permanente y cerrar la spec.
+      Status: completed
