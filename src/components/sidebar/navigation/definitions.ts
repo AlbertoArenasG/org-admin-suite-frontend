@@ -3,6 +3,7 @@ import {
   BookUser,
   CalendarClock,
   ChartColumn,
+  ClipboardList,
   ClockAlert,
   LayoutDashboard,
   Mail,
@@ -62,7 +63,7 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
         id: 'customerServiceRecords',
         labelKey: 'customerServiceRecords',
         href: '/dashboard/customer-service-records',
-        icon: Scroll,
+        icon: ClipboardList,
         matchesPathname: startsWith('/dashboard/customer-service-records'),
         children: [
           {
