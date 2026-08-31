@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { Geist_Mono, Mona_Sans } from 'next/font/google';
+import { Geist_Mono, Manrope } from 'next/font/google';
 import './globals.css';
 import 'sileo/styles.css';
 import 'ldrs/react/Tailspin.css';
 import { AppProviders } from '@/components/providers/AppProviders';
 
-const monaSans = Mona_Sans({
-  variable: '--font-mona-sans',
+const manrope = Manrope({
+  variable: '--font-manrope',
   subsets: ['latin'],
   weight: 'variable',
 });
@@ -28,11 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      className={`${monaSans.variable} ${geistMono.variable}`}
+      className={`${manrope.variable} ${geistMono.variable}`}
       lang="es"
       suppressHydrationWarning
     >
-      <body className={`${monaSans.className} antialiased`} suppressHydrationWarning>
+      <body className={`${manrope.className} antialiased`} suppressHydrationWarning>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

@@ -2,9 +2,9 @@
 
 ## Configuración Actual
 
-La fuente sans base de la aplicación es `Mona Sans`, cargada con `next/font/google`.
+La fuente sans base de la aplicación es `Manrope`, cargada con `next/font/google`.
 
-- Fuente sans base: `Mona Sans`
+- Fuente sans base: `Manrope`
 - Fuente monoespaciada: `Geist Mono`
 - Las variables CSS de ambas fuentes se aplican a `<html>` y la clase sans directa a `<body>` en `src/app/layout.tsx`.
 - La pila base se declara como `--font-sans-stack` en `src/app/globals.css`.
@@ -16,10 +16,10 @@ La aplicación usa una fuente única en tres fronteras: `body` y Tailwind, Mater
 | Fecha               | Fuente            | Estado   | Nota                       |
 | ------------------- | ----------------- | -------- | -------------------------- |
 | Antes de 2026-08-30 | Geist             | Anterior | Fuente sans base original. |
-| 2026-08-30          | Mona Sans         | Activa   | Fuente sans base adoptada. |
+| 2026-08-30          | Mona Sans         | Evaluada | No adoptada.               |
 | 2026-08-30          | Plus Jakarta Sans | Evaluada | No adoptada.               |
 | 2026-08-30          | Inter             | Evaluada | No adoptada.               |
-| 2026-08-30          | Manrope           | Evaluada | No adoptada.               |
+| 2026-08-30          | Manrope           | Activa   | Fuente sans base adoptada. |
 | 2026-08-30          | DM Sans           | Evaluada | No adoptada.               |
 
 ## Procedimiento Obligatorio Para Cambiar La Fuente Sans
@@ -42,7 +42,7 @@ No modificar la fuente monoespaciada salvo que ese también sea el objetivo del 
 
 Archivo: `src/app/layout.tsx`
 
-1. Sustituir la importación de `Mona_Sans` por la fuente deseada desde `next/font/google`.
+1. Sustituir la importación de `Manrope` por la fuente deseada desde `next/font/google`.
 2. Crear la constante con una variable CSS descriptiva, por ejemplo `--font-nueva-sans`.
 3. Configurar el peso variable cuando la fuente lo soporte.
 4. Aplicar `nuevaFuente.variable` y la variable monoespaciada en `<html>`. Tailwind v4 define su preflight en ese elemento, por lo que no deben quedar solo en `<body>`.
@@ -52,28 +52,28 @@ Archivo: `src/app/layout.tsx`
 Ejemplo actual:
 
 ```tsx
-import { Geist_Mono, Mona_Sans } from 'next/font/google';
+import { Geist_Mono, Manrope } from 'next/font/google';
 
-const monaSans = Mona_Sans({
-  variable: '--font-mona-sans',
+const manrope = Manrope({
+  variable: '--font-manrope',
   subsets: ['latin'],
   weight: 'variable',
 });
 
-<html className={`${monaSans.variable} ${geistMono.variable}`} lang="es">
-  <body className={`${monaSans.className} antialiased`}>
+<html className={`${manrope.variable} ${geistMono.variable}`} lang="es">
+  <body className={`${manrope.className} antialiased`}>
 ```
 
 ### 2. Pila Global
 
 Archivo: `src/app/globals.css`
 
-Sustituir la referencia de `Mona Sans` por la nueva variable:
+Sustituir la referencia de `Manrope` por la nueva variable:
 
 ```css
 :root {
   --font-sans-stack:
-    var(--font-mona-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    var(--font-manrope), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 ```
 
