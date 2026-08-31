@@ -9,6 +9,7 @@ import { initI18n, LANGUAGE_STORAGE_KEY } from '@/lib/i18n';
 import { hydrateAuthFromStorage } from '@/features/auth/persistence';
 import { SnackbarProvider } from '@/components/providers/SnackbarProvider';
 import { RouteChangeLoader } from '@/components/providers/RouteChangeLoader';
+import { MuiThemeProvider } from '@/components/providers/MuiThemeProvider';
 
 const i18n = initI18n();
 
@@ -51,14 +52,16 @@ export function AppProviders({ children }: PropsWithChildren) {
   return (
     <I18nextProvider i18n={i18n}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-        <Provider store={store}>
-          <SnackbarProvider>
-            <Suspense fallback={null}>
-              <RouteChangeLoader />
-            </Suspense>
-            {children}
-          </SnackbarProvider>
-        </Provider>
+        <MuiThemeProvider>
+          <Provider store={store}>
+            <SnackbarProvider>
+              <Suspense fallback={null}>
+                <RouteChangeLoader />
+              </Suspense>
+              {children}
+            </SnackbarProvider>
+          </Provider>
+        </MuiThemeProvider>
       </ThemeProvider>
     </I18nextProvider>
   );

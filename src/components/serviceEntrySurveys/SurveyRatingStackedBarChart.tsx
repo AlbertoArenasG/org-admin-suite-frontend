@@ -99,6 +99,7 @@ export function SurveyRatingStackedBarChart({
         <svg
           aria-label="Distribucion de calificaciones"
           className="block w-full overflow-visible"
+          fontFamily="var(--font-sans-stack)"
           height={height}
           role="img"
           viewBox={`0 0 ${width} ${height}`}
