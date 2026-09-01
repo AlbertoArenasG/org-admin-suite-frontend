@@ -6,10 +6,10 @@ import type { ServicePackageRecord } from '@/features/servicePackagesRecords';
 export interface ServicePackagesRecordsTableRow {
   id: string;
   serviceOrder: string;
+  serviceType: string;
   company: string;
   collectorName: string;
   visitDate: string;
-  status: string;
   createdAt: string;
 }
 
@@ -18,10 +18,10 @@ export function useServicePackagesRecordsTableData(records: ServicePackageRecord
     return records.map((record) => ({
       id: record.id,
       serviceOrder: record.serviceOrder,
+      serviceType: record.serviceType,
       company: record.company,
       collectorName: record.collectorName,
       visitDate: record.visitDate,
-      status: record.status,
       createdAt: record.createdAt,
     }));
   }, [records]);

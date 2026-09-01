@@ -12,6 +12,7 @@ import type { ServicePackagesRecordsTableRow } from '@/components/servicePackage
 import { RecordsTableToolbar } from '@/components/servicePackagesRecords/RecordsTableToolbar';
 import { RecordsDeleteDialog } from '@/components/servicePackagesRecords/RecordsDeleteDialog';
 import { RecordsTableSkeleton } from '@/components/servicePackagesRecords/RecordsTableSkeleton';
+import type { ServicePackageRecordServiceTypeOption } from '@/features/servicePackagesRecords';
 
 interface ServicePackagesRecordsDataTableProps {
   table: Table<ServicePackagesRecordsTableRow>;
@@ -21,6 +22,9 @@ interface ServicePackagesRecordsDataTableProps {
   subtitle?: string | null;
   searchPlaceholder: string;
   columnLabel: string;
+  serviceTypeOptions: ServicePackageRecordServiceTypeOption[];
+  serviceTypePlaceholder: string;
+  loadingServiceTypeOptions: boolean;
   tableLabels: {
     noData: string;
     pagination: {
@@ -55,6 +59,9 @@ export function ServicePackagesRecordsDataTable({
   subtitle,
   searchPlaceholder,
   columnLabel,
+  serviceTypeOptions,
+  serviceTypePlaceholder,
+  loadingServiceTypeOptions,
   tableLabels,
   deleteDialog,
 }: ServicePackagesRecordsDataTableProps) {
@@ -90,6 +97,9 @@ export function ServicePackagesRecordsDataTable({
         table={table}
         searchPlaceholder={searchPlaceholder}
         columnLabel={columnLabel}
+        serviceTypeOptions={serviceTypeOptions}
+        serviceTypePlaceholder={serviceTypePlaceholder}
+        loadingServiceTypeOptions={loadingServiceTypeOptions}
       />
 
       {isLoading ? (

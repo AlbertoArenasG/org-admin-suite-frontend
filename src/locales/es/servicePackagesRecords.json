@@ -2,9 +2,11 @@
   "title": "Recepción, Recolección y Entrega",
   "table": {
     "searchPlaceholder": "Buscar por servicio, empresa o recolector...",
+    "serviceTypePlaceholder": "Todos los tipos de servicio",
     "columnLabel": "Columnas",
     "columns": {
       "serviceOrder": "Orden de servicio",
+      "serviceType": "Tipo de servicio",
       "company": "Empresa",
       "collector": "Recolector",
       "visitDate": "Fecha de visita",

@@ -48,11 +48,6 @@ function SortingHeader<TData>({
   );
 }
 
-const STATUS_COLOR_MAP: Record<string, string> = {
-  ACTIVE: 'text-success-700 bg-success-50',
-  DELETED: 'text-error-700 bg-error-50',
-};
-
 export function useServicePackagesRecordsTableColumns({
   t,
   dateFormatter,
@@ -76,6 +71,16 @@ export function useServicePackagesRecordsTableColumns({
             {getValue<string>()}
           </span>
         ),
+      },
+      {
+        accessorKey: 'serviceType',
+        header: ({ column }) => (
+          <SortingHeader title={t('table.columns.serviceType')} column={column} />
+        ),
+        meta: {
+          label: t('table.columns.serviceType'),
+        },
+        cell: ({ getValue }) => getValue<string>() || '—',
       },
       {
         accessorKey: 'company',
@@ -122,28 +127,6 @@ export function useServicePackagesRecordsTableColumns({
             <span className="inline-flex items-center gap-2 text-sm text-muted-foreground">
               <CalendarClock className="size-4" />
               {date && !Number.isNaN(date.getTime()) ? dateFormatter.format(date) : raw || '—'}
-            </span>
-          );
-        },
-      },
-      {
-        accessorKey: 'status',
-        enableSorting: false,
-        header: () => t('table.columns.status'),
-        meta: {
-          label: t('table.columns.status'),
-        },
-        cell: ({ getValue }) => {
-          const status = getValue<string>();
-          const normalized = status?.toUpperCase?.() ?? '';
-          return (
-            <span
-              className={cn(
-                'inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide',
-                STATUS_COLOR_MAP[normalized] ?? 'bg-primary/10 text-primary'
-              )}
-            >
-              {status || '—'}
             </span>
           );
         },

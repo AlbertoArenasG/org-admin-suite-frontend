@@ -5,11 +5,13 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type {
   ServicePackageRecord,
   ServicePackagesRecordsPagination,
+  ServicePackageRecordServiceTypeOption,
 } from '@/features/servicePackagesRecords/types';
 import {
   deleteServicePackageRecord,
   fetchServicePackageRecordById,
   fetchServicePackagesRecords,
+  fetchServicePackageRecordServiceTypeOptions,
 } from '@/features/servicePackagesRecords/servicePackagesRecordsThunks';
 
 export interface ServicePackagesRecordsState {
@@ -17,6 +19,11 @@ export interface ServicePackagesRecordsState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
   pagination: ServicePackagesRecordsPagination | null;
+  serviceTypeOptions: {
+    items: ServicePackageRecordServiceTypeOption[];
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+  };
   detail: {
     record: ServicePackageRecord | null;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -35,6 +42,11 @@ const initialState: ServicePackagesRecordsState = {
   status: 'idle',
   error: null,
   pagination: null,
+  serviceTypeOptions: {
+    items: [],
+    status: 'idle',
+    error: null,
+  },
   detail: {
     record: null,
     status: 'idle',
@@ -92,6 +104,22 @@ const servicePackagesRecordsSlice = createSlice({
           (action.payload as string | undefined) ??
           action.error.message ??
           'No fue posible obtener los registros de servicio.';
+      })
+      .addCase(fetchServicePackageRecordServiceTypeOptions.pending, (state) => {
+        state.serviceTypeOptions.status = 'loading';
+        state.serviceTypeOptions.error = null;
+      })
+      .addCase(fetchServicePackageRecordServiceTypeOptions.fulfilled, (state, action) => {
+        state.serviceTypeOptions.status = 'succeeded';
+        state.serviceTypeOptions.items = action.payload;
+        state.serviceTypeOptions.error = null;
+      })
+      .addCase(fetchServicePackageRecordServiceTypeOptions.rejected, (state, action) => {
+        state.serviceTypeOptions.status = 'failed';
+        state.serviceTypeOptions.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible obtener los tipos de servicio.';
       })
       .addCase(fetchServicePackageRecordById.pending, (state) => {
         state.detail.status = 'loading';

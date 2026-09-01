@@ -13,6 +13,7 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import {
   deleteServicePackageRecord,
+  fetchServicePackageRecordServiceTypeOptions,
   fetchServicePackagesRecords,
 } from '@/features/servicePackagesRecords';
 import { ServicePackagesRecordsDataTable } from '@/components/servicePackagesRecords/ServicePackagesRecordsDataTable';
@@ -48,6 +49,7 @@ export function ServicePackagesRecordsTableContainer() {
     status,
     error,
     pagination,
+    serviceTypeOptions,
     delete: deleteState,
   } = useAppSelector((state) => state.servicePackagesRecords);
 
@@ -56,6 +58,7 @@ export function ServicePackagesRecordsTableContainer() {
   const columnVisibility = useServicePackagesRecordsTableStore((state) => state.columnVisibility);
   const globalFilter = useServicePackagesRecordsTableStore((state) => state.globalFilter);
   const debouncedFilter = useServicePackagesRecordsTableStore((state) => state.debouncedFilter);
+  const serviceType = useServicePackagesRecordsTableStore((state) => state.serviceType);
   const deleteTargetId = useServicePackagesRecordsTableStore((state) => state.deleteTargetId);
   const initialized = useServicePackagesRecordsTableStore((state) => state.initialized);
 
@@ -78,14 +81,20 @@ export function ServicePackagesRecordsTableContainer() {
     const params = new URLSearchParams(searchParamsString);
     const paginationFromParams = getPaginationFromParams(params);
     const search = params.get('search') ?? '';
+    const serviceTypeFromParams = params.get('service_type');
     syncFromUrl({
       pagination: paginationFromParams,
       sorting: [],
       globalFilter: search,
       debouncedFilter: search.trim(),
+      serviceType: serviceTypeFromParams,
     });
     setInitialized(true);
   }, [searchParamsString, setInitialized, syncFromUrl]);
+
+  useEffect(() => {
+    void dispatch(fetchServicePackageRecordServiceTypeOptions());
+  }, [dispatch]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -103,9 +112,17 @@ export function ServicePackagesRecordsTableContainer() {
         page: paginationState.pageIndex + 1,
         limit: paginationState.pageSize,
         search: debouncedFilter,
+        serviceType,
       })
     );
-  }, [debouncedFilter, dispatch, initialized, paginationState.pageIndex, paginationState.pageSize]);
+  }, [
+    debouncedFilter,
+    dispatch,
+    initialized,
+    paginationState.pageIndex,
+    paginationState.pageSize,
+    serviceType,
+  ]);
 
   useEffect(() => {
     if (!pagination || !initialized) {
@@ -133,6 +150,9 @@ export function ServicePackagesRecordsTableContainer() {
     if (globalFilter.trim()) {
       params.set('search', globalFilter.trim());
     }
+    if (serviceType) {
+      params.set('service_type', serviceType);
+    }
     const next = params.toString();
     if (next === searchParamsString) {
       return;
@@ -146,6 +166,7 @@ export function ServicePackagesRecordsTableContainer() {
     pathname,
     router,
     searchParamsString,
+    serviceType,
   ]);
 
   useEffect(() => {
@@ -165,6 +186,7 @@ export function ServicePackagesRecordsTableContainer() {
           page: paginationState.pageIndex + 1,
           limit: paginationState.pageSize,
           search: debouncedFilter,
+          serviceType,
         })
       );
     } else if (deleteState.status === 'failed') {
@@ -186,6 +208,7 @@ export function ServicePackagesRecordsTableContainer() {
     paginationState.pageSize,
     setDeleteTargetId,
     showSnackbar,
+    serviceType,
     t,
   ]);
 
@@ -257,6 +280,9 @@ export function ServicePackagesRecordsTableContainer() {
       subtitle={paginationSummary}
       searchPlaceholder={t('table.searchPlaceholder')}
       columnLabel={t('table.columnLabel')}
+      serviceTypeOptions={serviceTypeOptions.items}
+      serviceTypePlaceholder={t('table.serviceTypePlaceholder')}
+      loadingServiceTypeOptions={serviceTypeOptions.status === 'loading'}
       tableLabels={{
         noData: t('table.noData'),
         pagination: {

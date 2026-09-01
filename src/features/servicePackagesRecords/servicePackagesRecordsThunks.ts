@@ -9,6 +9,7 @@ import type {
   ServicePackageRecordEquipment,
   ServicePackageRecordFile,
   ServicePackagesRecordsPagination,
+  ServicePackageRecordServiceTypeOption,
 } from '@/features/servicePackagesRecords/types';
 
 interface ApiFile {
@@ -99,6 +100,7 @@ export interface FetchServicePackagesRecordsParams {
   page?: number;
   limit?: number;
   search?: string;
+  serviceType?: string | null;
 }
 
 export const fetchServicePackagesRecords = createAsyncThunk<
@@ -123,6 +125,9 @@ export const fetchServicePackagesRecords = createAsyncThunk<
   if (params.search && params.search.trim()) {
     query.set('search', params.search.trim());
   }
+  if (params.serviceType && params.serviceType.trim()) {
+    query.set('service_type', params.serviceType.trim());
+  }
 
   const response = await jsonRequest<ApiRecord[], { pagination?: ApiPagination }>(
     `/v1/service-packages/records${query.toString() ? `?${query.toString()}` : ''}`,
@@ -144,6 +149,28 @@ export const fetchServicePackagesRecords = createAsyncThunk<
       totalPages: pagination?.total_pages ?? 1,
     },
   };
+});
+
+export const fetchServicePackageRecordServiceTypeOptions = createAsyncThunk<
+  ServicePackageRecordServiceTypeOption[],
+  void,
+  { state: RootState }
+>('servicePackagesRecords/fetchServiceTypeOptions', async (_, thunkAPI) => {
+  const token = thunkAPI.getState().auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  const response = await jsonRequest<{
+    service_types?: ServicePackageRecordServiceTypeOption[];
+  }>('/v1/service-packages/records/options', {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+    token,
+  });
+
+  return response.data.service_types ?? [];
 });
 
 export const fetchServicePackageRecordById = createAsyncThunk<

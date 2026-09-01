@@ -67,3 +67,8 @@ export interface ServicePackagesRecordsPagination {
   total: number;
   totalPages: number;
 }
+
+export interface ServicePackageRecordServiceTypeOption {
+  value: string;
+  label: string;
+}

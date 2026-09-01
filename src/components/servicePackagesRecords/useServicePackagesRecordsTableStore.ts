@@ -16,6 +16,7 @@ interface ServicePackagesRecordsTableStoreState {
   columnVisibility: VisibilityState;
   globalFilter: string;
   debouncedFilter: string;
+  serviceType: string | null;
   deleteTargetId: string | null;
   initialized: boolean;
 }
@@ -26,6 +27,7 @@ interface ServicePackagesRecordsTableStoreActions {
   setColumnVisibility: (updater: Updater<VisibilityState>) => void;
   setGlobalFilter: (updater: StringUpdater) => void;
   setDebouncedFilter: (value: string) => void;
+  setServiceType: (value: string | null) => void;
   setDeleteTargetId: (id: string | null) => void;
   setInitialized: (value: boolean) => void;
   syncFromUrl: (state: {
@@ -33,6 +35,7 @@ interface ServicePackagesRecordsTableStoreActions {
     sorting: SortingState;
     globalFilter: string;
     debouncedFilter: string;
+    serviceType: string | null;
   }) => void;
   reset: () => void;
 }
@@ -54,6 +57,7 @@ const createInitialState = (): ServicePackagesRecordsTableStoreState => ({
   columnVisibility: {},
   globalFilter: '',
   debouncedFilter: '',
+  serviceType: null,
   deleteTargetId: null,
   initialized: false,
 });
@@ -103,6 +107,16 @@ export const useServicePackagesRecordsTableStore = create<ServicePackagesRecords
         }
         return { debouncedFilter: value };
       }),
+    setServiceType: (value) =>
+      set((state) => {
+        if (state.serviceType === value) {
+          return state;
+        }
+        return {
+          serviceType: value,
+          pagination: { ...state.pagination, pageIndex: 0 },
+        };
+      }),
     setDeleteTargetId: (id) =>
       set((state) => {
         if (state.deleteTargetId === id) {
@@ -145,6 +159,10 @@ export const useServicePackagesRecordsTableStore = create<ServicePackagesRecords
 
         if (state.debouncedFilter !== nextState.debouncedFilter) {
           updates.debouncedFilter = nextState.debouncedFilter;
+        }
+
+        if (state.serviceType !== nextState.serviceType) {
+          updates.serviceType = nextState.serviceType;
         }
 
         if (!state.initialized) {

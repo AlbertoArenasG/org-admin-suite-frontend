@@ -94,6 +94,17 @@ export default function DashboardPage() {
           },
         ]
       : []),
+    ...(hasPermission('SERVICE_PACKAGES', 'READ')
+      ? [
+          {
+            key: 'service-packages-records',
+            title: t('workspaces.servicePackages.title'),
+            description: t('workspaces.servicePackages.description'),
+            href: '/dashboard/service-packages-records',
+            icon: Package,
+          },
+        ]
+      : []),
     ...(hasPermission('ROLES', 'CREATE')
       ? [
           {

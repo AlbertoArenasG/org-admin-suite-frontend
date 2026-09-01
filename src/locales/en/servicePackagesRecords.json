@@ -2,9 +2,11 @@
   "title": "Reception, collection and delivery",
   "table": {
     "searchPlaceholder": "Search by order, company or collector...",
+    "serviceTypePlaceholder": "All service types",
     "columnLabel": "Columns",
     "columns": {
       "serviceOrder": "Service order",
+      "serviceType": "Service type",
       "company": "Company",
       "collector": "Collector",
       "visitDate": "Visit date",
