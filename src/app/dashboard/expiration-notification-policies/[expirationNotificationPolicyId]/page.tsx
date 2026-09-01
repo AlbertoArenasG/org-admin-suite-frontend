@@ -11,11 +11,9 @@ import { useEffect, useMemo } from 'react';
 import { ExpirationNotificationPoliciesDeleteDialog } from '@/components/expiration-notification-policies/ExpirationNotificationPoliciesDeleteDialog';
 import { formatExpirationNotificationPolicyOffset } from '@/components/expiration-notification-policies/formatExpirationNotificationPolicyOffset';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
-import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
+import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
-import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useAuthorization } from '@/features/auth';
 import { resetExpirationNotificationPolicyMutations } from '@/features/expiration-notification-policies/expirationNotificationPoliciesSlice';
 import {
@@ -172,27 +170,21 @@ export default function ExpirationNotificationPolicyDetailPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <header className="flex h-16 items-center gap-3 rounded-3xl border border-border/60 bg-card/80 px-4 shadow-sm backdrop-blur-sm transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-        <div className="flex items-center gap-2">
-          <SidebarTrigger className="-ml-1" />
-          <Separator orientation="vertical" className="mr-2 h-4" />
-          <PageBreadcrumbs
-            segments={[
-              {
-                label: t('breadcrumbs:dashboard'),
-                href: '/dashboard',
-                hideOnDesktop: true,
-              },
-              {
-                label: t('breadcrumbs:expirationNotificationPolicies'),
-                href: '/dashboard/expiration-notification-policies',
-                hideOnDesktop: true,
-              },
-              { label: policy?.name ?? t('detail.missingTitle') },
-            ]}
-          />
-        </div>
-      </header>
+      <DashboardPageHeader
+        segments={[
+          {
+            label: t('breadcrumbs:dashboard'),
+            href: '/dashboard',
+            hideOnDesktop: true,
+          },
+          {
+            label: t('breadcrumbs:expirationNotificationPolicies'),
+            href: '/dashboard/expiration-notification-policies',
+            hideOnDesktop: true,
+          },
+          { label: policy?.name ?? t('detail.missingTitle') },
+        ]}
+      />
 
       <Paper
         elevation={0}

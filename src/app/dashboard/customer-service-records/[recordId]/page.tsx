@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { CustomerServiceRecordDetailView } from '@/components/customer-service-records/CustomerServiceRecordDetailView';
-import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
+import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { useAuthorization } from '@/features/auth';
 
 export default function CustomerServiceRecordDetailPage() {
@@ -14,9 +14,9 @@ export default function CustomerServiceRecordDetailPage() {
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <PageBreadcrumbs
+      <DashboardPageHeader
         segments={[
-          { label: t('breadcrumbs:dashboard'), href: '/dashboard' },
+          { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
           {
             label: t('breadcrumbs:customerServiceRecords'),
             href: '/dashboard/customer-service-records',

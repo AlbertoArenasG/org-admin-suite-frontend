@@ -18,9 +18,7 @@ import { MotionConfig, motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
 import { ServiceEntrySurveyStatsCard } from '@/components/dashboard/ServiceEntrySurveyStatsCard';
-import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
-import { Separator } from '@/components/ui/separator';
-import { SidebarTrigger } from '@/components/ui/sidebar';
+import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { useAuthorization } from '@/features/auth';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
@@ -197,18 +195,9 @@ export default function DashboardPage() {
   return (
     <MotionConfig reducedMotion="user">
       <div className="flex flex-1 flex-col gap-5">
-        <motion.header
-          animate="visible"
-          className="flex h-16 items-center gap-3 rounded-3xl border border-border/60 bg-card/80 px-4 shadow-sm backdrop-blur-sm"
-          initial="hidden"
-          variants={sectionAnimation}
-        >
-          <div className="flex items-center gap-2">
-            <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <PageBreadcrumbs segments={[{ label: t('title'), hideOnDesktop: true }]} />
-          </div>
-        </motion.header>
+        <motion.div animate="visible" initial="hidden" variants={sectionAnimation}>
+          <DashboardPageHeader segments={[{ label: t('title'), hideOnDesktop: true }]} />
+        </motion.div>
 
         <motion.section
           animate="visible"

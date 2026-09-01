@@ -4,9 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { CustomerServiceRecordForm } from '@/components/customer-service-records/CustomerServiceRecordForm';
-import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
-import { Separator } from '@/components/ui/separator';
-import { SidebarTrigger } from '@/components/ui/sidebar';
+import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { fetchCustomerOptions } from '@/features/customers';
 import {
@@ -182,20 +180,16 @@ export function CustomerServiceRecordFormPageContainer({
 
   return (
     <div className="flex flex-1 flex-col gap-6">
-      <header className="flex h-16 items-center gap-3 rounded-3xl border border-border/60 bg-card/80 px-4 shadow-sm backdrop-blur-sm">
-        <SidebarTrigger className="-ml-1" />
-        <Separator orientation="vertical" className="mr-2 h-4" />
-        <PageBreadcrumbs
-          segments={[
-            { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
-            {
-              label: t('breadcrumbs:customerServiceRecords'),
-              href: '/dashboard/customer-service-records',
-            },
-            { label: mode === 'create' ? t('create.title') : t('edit.title') },
-          ]}
-        />
-      </header>
+      <DashboardPageHeader
+        segments={[
+          { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
+          {
+            label: t('breadcrumbs:customerServiceRecords'),
+            href: '/dashboard/customer-service-records',
+          },
+          { label: mode === 'create' ? t('create.title') : t('edit.title') },
+        ]}
+      />
       {isLoadingRecord ? (
         <p className="text-sm text-muted-foreground">{t('form.loading')}</p>
       ) : null}
