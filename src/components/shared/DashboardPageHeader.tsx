@@ -23,13 +23,13 @@ export function DashboardPageHeader({
   return (
     <header
       className={cn(
-        'flex h-16 items-center justify-between gap-3 rounded-3xl border border-border/60 bg-card/80 px-4 shadow-sm backdrop-blur-sm transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12',
+        'flex min-h-12 items-center justify-between gap-3 px-1 py-1 transition-[width,height] ease-linear',
         className
       )}
     >
       <div className="flex min-w-0 items-center gap-2">
         <SidebarTrigger className="-ml-1" />
-        <span aria-hidden="true" className="mr-2 h-4 w-px shrink-0" />
+        <span aria-hidden="true" className="mr-2 h-4 w-px shrink-0 md:hidden" />
         <PageBreadcrumbs
           segments={segments}
           className={breadcrumbsClassName}

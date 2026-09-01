@@ -46,6 +46,12 @@ El shell debe definir una variante móvil a nivel del layout de dashboard:
 
 El componente `DashboardPageHeader` ya centraliza trigger, alineación y breadcrumbs en escritorio. Cuando se implemente esta iniciativa, deberá convertirse en el punto de extensión para la variante móvil, evitando reescribir cada encabezado.
 
+### Canvas de Contenido Móvil
+
+Como dirección de implementación, en móvil el canvas del dashboard puede dejar de usar el fondo morado y la card exterior redondeada que envuelven el content area en escritorio. El layout debe ocupar el ancho disponible del viewport con padding compacto y conservar únicamente las superficies que representen secciones funcionales de cada módulo.
+
+Este cambio libera espacio horizontal y evita apilar dos niveles de contenedores visuales. Debe resolverse en el layout compartido del dashboard, manteniendo intacta la variante de escritorio; no mediante ajustes aislados en las páginas.
+
 ### Patrones por Módulo
 
 Cada módulo debe decidir su representación móvil según el tipo de tarea:

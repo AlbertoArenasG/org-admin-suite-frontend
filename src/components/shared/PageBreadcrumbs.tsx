@@ -105,10 +105,8 @@ function MobileBreadcrumbs({ segments, className, listClassName }: PageBreadcrum
 
         {!isRootRoute ? (
           <BreadcrumbItem className="min-w-0">
-            <BreadcrumbPage
-              className={cn(currentPageClassName, 'block truncate whitespace-nowrap')}
-            >
-              {currentSegment.label}
+            <BreadcrumbPage className={cn(currentPageClassName, 'block min-w-0')}>
+              <span className="block truncate whitespace-nowrap">{currentSegment.label}</span>
             </BreadcrumbPage>
           </BreadcrumbItem>
         ) : null}
@@ -203,10 +201,8 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
             ) : null}
             {segments.length > 1 ? (
               <BreadcrumbItem className="min-w-0">
-                <BreadcrumbPage
-                  className={cn(currentPageClassName, 'block truncate whitespace-nowrap')}
-                >
-                  {currentSegment.label}
+                <BreadcrumbPage className={cn(currentPageClassName, 'block min-w-0')}>
+                  <span className="block truncate whitespace-nowrap">{currentSegment.label}</span>
                 </BreadcrumbPage>
               </BreadcrumbItem>
             ) : null}
