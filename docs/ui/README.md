@@ -24,7 +24,8 @@ docs/ui/
 ├─ initiatives/
 │  └─ mobile-responsive-redesign.md
 ├─ patterns/                 # Futuro: tablas, formularios, detalles y page composition.
-└─ components/               # Futuro: contratos de componentes compartidos.
+└─ components/
+   └─ sticky-collapsible-page-header.md
 ```
 
 ## Tipos de Documento
@@ -35,8 +36,10 @@ docs/ui/
   implementaciones que adopten el dashboard shell.
 - `initiatives/`: diagnósticos y direcciones de trabajo diferidas. No son
   guidelines ni obligan cambios inmediatos.
-- `patterns/` y `components/`: ubicaciones reservadas para guidelines más
-  específicas que se aprueben en specs futuras.
+- `patterns/`: ubicación reservada para guidelines específicas de tablas,
+  formularios, detalles y Page Composition.
+- `components/`: contratos aprobados de componentes compartidos. Cada archivo
+  indica si su implementación ya está validada o sigue en etapa de Playground.
 - `adoption-log.md`: registro de módulos, vistas o componentes existentes que
   adopten una guideline de esta carpeta.
 

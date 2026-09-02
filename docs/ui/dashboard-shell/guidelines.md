@@ -309,6 +309,10 @@ capa opcional para agrupar título, descripción y acciones propias de una
 vista. Una ruta puede no requerirlo si su composición resuelve esa jerarquía de
 otra forma.
 
+La variante opcional `Sticky Collapsible Header` se rige por su
+[contrato específico](../components/sticky-collapsible-page-header.md). No se
+activa por defecto ni reemplaza al `Page Header` expandido.
+
 ### Móvil
 
 Este contrato de canvas fijo y scroll interno se acuerda inicialmente solo para
