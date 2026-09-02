@@ -19,8 +19,8 @@
 - [ ] Implementar `NextDashboardShell` con el contrato aprobado.
       Status: deferred_to_slice_2
 
-- [ ] Validar que la politica vacia conserva el fallback `legacy` y validar rutas legado representativas.
-      Status: in_progress
+- [x] Validar que la politica vacia conserva el fallback `legacy` y validar rutas legado representativas.
+      Status: done
 
 ## Fase 3. Primera Adopcion
 

@@ -16,3 +16,5 @@
   politica de adopcion inicia vacia, por lo que todas las rutas resuelven a
   `legacy`. El soporte de `next` permanece bloqueado hasta el Slice 2. Queda
   pendiente la validacion manual de rutas legado representativas.
+- Se validaron manualmente varias rutas existentes sin detectar diferencias de
+  comportamiento o presentacion. El Slice 1 queda cerrado.
