@@ -2,25 +2,25 @@
 
 ## Fase 1. Definicion
 
-- [ ] Aprobar decisiones de URLs, boundary y politica de adopcion.
-      Status: in_progress
+- [x] Aprobar decisiones de URLs, boundary y politica de adopcion.
+      Status: done
 
 - [x] Definir criterios para seleccionar una primera ruta sin asumir un modulo.
       Status: done
 
 ## Fase 2. Coexistencia Estructural
 
-- [ ] Extraer `LegacyDashboardShell` sin cambios funcionales.
-      Status: pending
+- [x] Extraer `LegacyDashboardShell` sin cambios funcionales.
+      Status: done
 
-- [ ] Implementar boundary central y resolvedor de shell tipado.
-      Status: pending
+- [x] Implementar boundary central y resolvedor de shell tipado.
+      Status: done
 
 - [ ] Implementar `NextDashboardShell` con el contrato aprobado.
-      Status: pending
+      Status: deferred_to_slice_2
 
-- [ ] Añadir pruebas del resolvedor y validar rutas legado representativas.
-      Status: pending
+- [ ] Validar que la politica vacia conserva el fallback `legacy` y validar rutas legado representativas.
+      Status: in_progress
 
 ## Fase 3. Primera Adopcion
 

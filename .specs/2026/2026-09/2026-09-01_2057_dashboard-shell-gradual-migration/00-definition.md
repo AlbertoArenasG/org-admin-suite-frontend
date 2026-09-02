@@ -14,8 +14,8 @@ su propia spec o slice, donde se decidira la ruta adecuada y su composicion.
 
 - Iniciativa: `dashboard-shell-gradual-migration`
 - Fecha: `2026-09-01`
-- Definition status: `in_progress`
-- Implementation ready: `no`
+- Definition status: `completed`
+- Implementation ready: `yes`
 
 ---
 
@@ -45,11 +45,11 @@ runtime y no una diferencia visible en la URL.
 
 ### Decision Final
 
-Pendiente de aprobacion.
+Aprobada la opcion 1. Las rutas migradas conservan su URL bajo `/dashboard`.
 
 ### Status
 
-pending
+approved
 
 ---
 
@@ -85,11 +85,12 @@ de runtime. Un registro central determinara si el pathname usa `legacy` o
 
 ### Decision Final
 
-Pendiente de aprobacion.
+Aprobada la opcion 3. `DashboardLayout` sera un delegador delgado; el shell
+legado se preserva en un componente dedicado y la seleccion se centraliza.
 
 ### Status
 
-pending
+approved
 
 ---
 
@@ -121,11 +122,12 @@ las rutas migradas. No se agrega infraestructura de feature flags.
 
 ### Decision Final
 
-Pendiente de aprobacion.
+Aprobada la opcion 2. Se utilizara un registro local, tipado y explicito. No
+se incorporan feature flags remotos.
 
 ### Status
 
-pending
+approved
 
 ---
 

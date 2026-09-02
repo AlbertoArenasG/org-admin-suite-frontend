@@ -9,7 +9,7 @@ Incluye:
 
 - `LegacyDashboardShell` extraido sin cambios visuales;
 - `DashboardLayout` delegado;
-- resolvedor tipado y pruebas;
+- resolvedor tipado con politica vacia;
 - validacion de rutas existentes.
 
 No incluye:
