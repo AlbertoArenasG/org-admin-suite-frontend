@@ -2,30 +2,20 @@
 
 import type { PropsWithChildren } from 'react';
 import { usePathname } from 'next/navigation';
-import {
-  resolveDashboardShell,
-  type DashboardShellVariant,
-} from '@/components/dashboard-shell/migration/dashboardShellMigration';
+import { resolveDashboardShell } from '@/components/dashboard-shell/migration/dashboardShellMigration';
 import { LegacyDashboardShell } from '@/components/dashboard-shell/migration/LegacyDashboardShell';
-
-function assertSupportedDashboardShell(
-  variant: DashboardShellVariant
-): asserts variant is 'legacy' {
-  if (variant !== 'legacy') {
-    throw new Error(
-      'The next dashboard shell cannot be activated until NextDashboardShell is implemented.'
-    );
-  }
-}
+import { NextDashboardShell } from '@/components/dashboard-shell/migration/NextDashboardShell';
 
 /**
  * Central runtime boundary for the gradual dashboard shell migration.
  * The policy intentionally starts empty, so every current route stays legacy.
  */
 export function DashboardShellMigrationBoundary({ children }: PropsWithChildren) {
-  const shellVariant = resolveDashboardShell(usePathname());
+  const resolution = resolveDashboardShell(usePathname());
 
-  assertSupportedDashboardShell(shellVariant);
+  if (resolution.variant === 'next') {
+    return <NextDashboardShell config={resolution.config}>{children}</NextDashboardShell>;
+  }
 
   return <LegacyDashboardShell>{children}</LegacyDashboardShell>;
 }

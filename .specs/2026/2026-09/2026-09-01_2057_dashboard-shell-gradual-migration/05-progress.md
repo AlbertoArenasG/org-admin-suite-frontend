@@ -18,3 +18,6 @@
   pendiente la validacion manual de rutas legado representativas.
 - Se validaron manualmente varias rutas existentes sin detectar diferencias de
   comportamiento o presentacion. El Slice 1 queda cerrado.
+- Se completo la implementacion del Slice 2: `NextDashboardShell` queda
+  conectado al boundary con breadcrumbs y modo de scroll declarativos. El
+  registro de adopcion sigue vacio, por lo que ninguna ruta productiva lo usa.

@@ -16,11 +16,11 @@
 - [x] Implementar boundary central y resolvedor de shell tipado.
       Status: done
 
-- [ ] Implementar `NextDashboardShell` con el contrato aprobado.
-      Status: deferred_to_slice_2
-
-- [x] Validar que la politica vacia conserva el fallback `legacy` y validar rutas legado representativas.
+- [x] Implementar `NextDashboardShell` con el contrato aprobado.
       Status: done
+
+- [ ] Validar que el shell nuevo conectado no altera rutas legado con la politica vacia.
+      Status: in_progress
 
 ## Fase 3. Primera Adopcion
 
