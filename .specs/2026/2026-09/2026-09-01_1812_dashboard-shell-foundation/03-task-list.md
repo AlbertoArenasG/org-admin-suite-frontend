@@ -12,16 +12,16 @@
 
 ## Fase 2. Playground
 
-- [ ] Crear la ruta protegida del Playground para la referencia del shell.
-      Status: pending
+- [x] Crear la ruta protegida del Playground para la referencia del shell.
+      Status: done
 
-- [ ] Componer contenido neutral, placeholders globales y las variantes de
+- [x] Componer contenido neutral, placeholders globales y las variantes de
       scroll de escritorio.
-      Status: pending
+      Status: done
 
-- [ ] Resolver el viewport móvil con Document Scroll y sin superficie exterior
+- [x] Resolver el viewport móvil con Document Scroll y sin superficie exterior
       de escritorio.
-      Status: pending
+      Status: done
 
 ## Fase 3. Validación
 
