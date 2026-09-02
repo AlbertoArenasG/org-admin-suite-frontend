@@ -20,9 +20,9 @@ export function DashboardWorkspaceCanvas({
       data-dashboard-scroll-mode={scrollMode}
       className={cn(
         'flex min-w-0 flex-1 flex-col bg-background',
-        scrollMode === 'page-content'
-          ? 'md:min-h-0 md:overflow-hidden'
-          : 'md:min-h-0 md:overflow-y-auto',
+        scrollMode === 'workspace'
+          ? 'md:min-h-0 md:overflow-y-auto'
+          : 'md:min-h-0 md:overflow-hidden',
         className
       )}
     >

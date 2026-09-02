@@ -2,9 +2,9 @@
 
 ## Objetivo
 
-Implementar una base de dashboard shell reusable y una ruta Playground neutral
-que valide su jerarquía responsive y política de scroll sin impactar rutas de
-negocio existentes.
+Implementar una base de dashboard shell reusable y una ruta aislada
+`/dashboard-playground` que valide su jerarquía responsive y política de scroll
+sin impactar rutas de negocio existentes.
 
 ## Diseño Objetivo
 
@@ -12,10 +12,10 @@ negocio existentes.
 - `Workspace Canvas` contiene `Workspace Header` y la composición de una ruta.
 - Los componentes reciben contenido mediante slots o `children`, sin conocer el
   dominio ni rutas concretas.
-- La ruta Playground usa las mismas primitivas que consumirán migraciones
-  futuras.
-- Desktop permite `page-content` y `workspace` como variantes de scroll;
-  móvil conserva `document` como resolución natural.
+- La ruta aislada usa las mismas primitivas que consumirán migraciones futuras
+  y su propio layout, sin heredar el shell vigente de `/dashboard`.
+- Desktop permite `page-content`, `page-composition` y `workspace` como
+  variantes de scroll; móvil conserva `document` como resolución natural.
 
 ## Fases
 
@@ -27,7 +27,7 @@ negocio existentes.
 
 ### Fase 2. Playground Neutral
 
-- Crear una ruta protegida de Playground para el shell.
+- Crear una ruta protegida e independiente para el shell.
 - Componer Global Header, Workspace Header y contenido de muestra largo.
 - Permitir inspeccionar las variantes desktop de scroll con contenido neutral.
 - Resolver el mismo modelo en móvil mediante scroll de documento.
@@ -42,6 +42,8 @@ negocio existentes.
 ## Notas de Secuencia
 
 - La implementación no sustituye `DashboardPageHeader` ni `DashboardLayout`.
+- `/dashboard-playground` tiene layout propio para evitar condicionales por ruta
+  dentro del shell vigente y para observar la composición real en paralelo.
 - La migración de una ruta real solo se inicia mediante una spec o slice posterior.
 - Los patrones de tablas, formularios y Page Header colapsable se definen fuera
   de esta iniciativa.

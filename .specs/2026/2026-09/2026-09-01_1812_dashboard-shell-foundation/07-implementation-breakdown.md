@@ -8,7 +8,7 @@
 
 ## Slice 2. Ruta Playground
 
-- Crear `/dashboard/playground/dashboard-shell` con el guard existente.
+- Crear `/dashboard-playground` con el guard existente y un layout paralelo.
 - Agregar un selector exclusivo de Playground para alternar las variantes de
   scroll de escritorio.
 - Usar placeholders estáticos para las utilidades globales.
@@ -17,6 +17,8 @@
 
 - Verificar que la variante móvil use flujo de documento.
 - Verificar que el modo workspace no conserve overflow en Page Content Scroller.
+- Verificar que el modo page-composition mantenga fijo Workspace Header y no
+  deje overflow en Page Content Scroller.
 - Verificar que el modo page-content no desplace Global Header ni Workspace Header.
 
 ## Slice 4. Cierre

@@ -244,6 +244,11 @@ efecto incidental de CSS.
 - `Page Content Scroll` es el modo predeterminado de escritorio. `Global Header`
   y `Workspace Header` permanecen fijos; `Page Content Scroller` recibe el
   scroll vertical.
+- `Page Composition Scroll` es una variante de escritorio en la que `Global
+Header` y `Workspace Header` permanecen fijos, mientras `Page Composition`,
+  incluido su `Page Header` opcional, recibe el scroll vertical. Permite que el
+  encabezado de una vista se desplace, se vuelva sticky o se transforme sin
+  entregar el scroll al canvas completo.
 - `Workspace Canvas Scroll` es una variante de escritorio para rutas cuyo
   contexto amplio debe desplazarse, volverse sticky o transformarse al hacer
   scroll. El canvas conserva su posición y tamaño dentro de `Content Inset`,
@@ -252,9 +257,9 @@ efecto incidental de CSS.
 - `Document Scroll` es el modo predeterminado en móvil. La ruta participa en el
   scroll natural del documento.
 
-`Workspace Canvas` y `Page Content Scroller` no pueden ser dueños del scroll
-vertical al mismo tiempo. Las regiones anidadas se reservan para necesidades
-excepcionales y documentadas.
+`Workspace Canvas`, `Page Composition` y `Page Content Scroller` no pueden ser
+dueños del scroll vertical al mismo tiempo. Las regiones anidadas se reservan
+para necesidades excepcionales y documentadas.
 
 ### Global Header
 

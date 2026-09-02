@@ -115,6 +115,9 @@ cada ruta aplica mediante un unico dueño principal:
 - `Page Content Scroll` es el modo predeterminado de escritorio:
   `Page Content Scroller` desplaza el contenido operativo y el contexto del
   workspace permanece fijo.
+- `Page Composition Scroll` es una variante explícita de escritorio:
+  `Workspace Header` permanece fijo y `Page Composition`, incluido su `Page
+Header` opcional, recibe el scroll vertical.
 - `Workspace Canvas Scroll` es una variante explícita de escritorio:
   `Workspace Canvas` conserva su geometria fija dentro de `Content Inset`, pero
   recibe el scroll vertical. Sus headers pueden desplazarse, permanecer sticky
@@ -122,9 +125,9 @@ cada ruta aplica mediante un unico dueño principal:
 - `Document Scroll` es el modo predeterminado de movil: la ruta participa en el
   desplazamiento natural del documento.
 
-`Workspace Canvas` y `Page Content Scroller` no deben ser dueños de scroll
-vertical simultáneamente. Las regiones anidadas se reservan para casos de uso
-excepcionales y deliberados.
+`Workspace Canvas`, `Page Composition` y `Page Content Scroller` no deben ser
+dueños de scroll vertical simultáneamente. Las regiones anidadas se reservan
+para casos de uso excepcionales y deliberados.
 
 ## Limites del Modelo
 

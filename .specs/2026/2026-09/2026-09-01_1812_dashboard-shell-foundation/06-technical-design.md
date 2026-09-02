@@ -18,9 +18,9 @@ inyectan como contenido; el componente no implementa notificaciones ni cuenta.
 
 ### DashboardWorkspaceCanvas
 
-Recibe `scrollMode` con los valores `page-content` o `workspace` para
-escritorio. Conserva una geometría fija dentro de `Content Inset`; el modo solo
-determina qué región recibe el overflow vertical.
+Recibe `scrollMode` con los valores `page-content`, `page-composition` o
+`workspace` para escritorio. Conserva una geometría fija dentro de `Content
+Inset`; el modo solo determina qué región recibe el overflow vertical.
 
 ### DashboardWorkspaceHeader
 
@@ -31,6 +31,11 @@ datos de navegación ni genera rutas por sí mismo.
 
 Expresa el dueño de scroll en el modo `page-content`. En modo `workspace` pasa
 a ser flujo normal dentro del canvas, sin segundo `overflow-y`.
+
+### DashboardPageComposition
+
+Agrupa `Page Header` y `Page Content Scroller`. En modo `page-composition`
+recibe el scroll vertical; en los demás modos no compite con el dueño activo.
 
 ## Resolución Responsive
 
@@ -43,9 +48,9 @@ a ser flujo normal dentro del canvas, sin segundo `overflow-y`.
 
 ## Ruta de Referencia
 
-Se creará `/dashboard/playground/dashboard-shell`, protegida igual que las
-rutas Playground existentes. La ruta usará contenido largo y neutral; en
-escritorio permitirá inspeccionar los modos `page-content` y `workspace`.
+Se creará `/dashboard-playground`, protegida y con layout paralelo. La ruta
+usará contenido largo y neutral; en escritorio permitirá inspeccionar los modos
+`page-content`, `page-composition` y `workspace`.
 
 ## Integración Futura
 

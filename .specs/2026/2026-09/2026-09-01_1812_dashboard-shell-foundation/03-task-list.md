@@ -12,7 +12,8 @@
 
 ## Fase 2. Playground
 
-- [x] Crear la ruta protegida del Playground para la referencia del shell.
+- [x] Crear la ruta protegida e independiente `/dashboard-playground` para la
+      referencia del shell.
       Status: done
 
 - [x] Componer contenido neutral, placeholders globales y las variantes de

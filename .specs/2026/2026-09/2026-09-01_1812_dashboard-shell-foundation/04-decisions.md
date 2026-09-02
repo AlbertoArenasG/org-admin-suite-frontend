@@ -23,13 +23,15 @@ Header` vive dentro y contiene breadcrumbs.
 
 ### Política explícita de scroll
 
-**Decisión:** admitir `page-content`, `workspace` y `document` como modos,
-pero solo un dueño principal por ruta.
+**Decisión:** admitir `page-content`, `page-composition`, `workspace` y
+`document` como modos, pero solo un dueño principal por ruta.
 
 **Razón:** mantiene abierta la posibilidad de headers transformables sin crear
 scroll anidado accidentalmente.
 
-**Impacto:** `Workspace Canvas Scroll` no se combina con `Page Content Scroll`.
+**Impacto:** `Workspace Canvas Scroll`, `Page Composition Scroll` y `Page
+Content Scroll` son excluyentes. El modo de composición permite mantener fijo
+`Workspace Header` mientras el `Page Header` opcional participa en el scroll.
 
 ### Placeholders sin cambio funcional
 
