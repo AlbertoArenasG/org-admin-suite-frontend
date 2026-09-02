@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Bell, Layers3, Monitor, PanelLeft, Smartphone } from 'lucide-react';
+import { Bell, Layers3, Monitor, PanelLeft, Smartphone, Sparkles } from 'lucide-react';
 import {
   DashboardGlobalHeader,
   DashboardPageComposition,
@@ -151,6 +151,23 @@ export function DashboardShellPlayground() {
                 <Link href="/dashboard-playground/mobile-structure-model">
                   <Smartphone className="size-4" aria-hidden="true" />
                   Modelo móvil
+                </Link>
+              </Button>
+            </div>
+          </section>
+
+          <section className="mb-5 rounded-xl border border-border/80 bg-card p-4 shadow-sm">
+            <p className="text-xs font-semibold tracking-[0.1em] text-[var(--secondary-700)] uppercase">
+              Experimentos de interacción
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Patrones aislados para validar comportamiento antes de incorporarlos a una vista real.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard-playground/sticky-page-header">
+                  <Sparkles className="size-4" aria-hidden="true" />
+                  Header sticky colapsable
                 </Link>
               </Button>
             </div>
