@@ -28,8 +28,8 @@
 - [ ] Validar manualmente desktop, móvil y cambio de modo de scroll.
       Status: pending
 
-- [ ] Ejecutar typecheck, lint o validaciones disponibles y revisión de diff.
-      Status: pending
+- [x] Ejecutar typecheck, lint o validaciones disponibles y revisión de diff.
+      Status: done
 
 - [ ] Actualizar documentación viva y registro de adopción si corresponde.
       Status: pending

@@ -14,3 +14,10 @@
   escritorio.
 - La composición móvil usa Document Scroll por CSS; falta validación visual
   manual como parte del Slice 3.
+- Se validaron typecheck, lint y diff sin errores introducidos por la iniciativa.
+  Lint conserva dos warnings preexistentes fuera de este trabajo.
+- El build de producción no pudo completarse en este entorno porque `next/font`
+  no logró descargar fuentes desde `fonts.googleapis.com`. No se detectaron
+  errores de compilación atribuibles al dashboard shell.
+- La validación visual manual de desktop, móvil y ambos modos de scroll queda
+  pendiente en la ruta Playground con un servidor de desarrollo activo.
