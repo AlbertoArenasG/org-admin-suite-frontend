@@ -1,16 +1,6 @@
 'use client';
 
-import {
-  Bell,
-  ChevronRight,
-  Home,
-  Layers3,
-  Menu,
-  PanelTop,
-  Sheet,
-  SquareStack,
-  UserRound,
-} from 'lucide-react';
+import { Bell, ChevronRight, Home, Layers3, Menu, PanelTop, Sheet, UserRound } from 'lucide-react';
 import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { StructureModelLayerLabel } from '@/components/playground/StructureModelLayerLabel';
 

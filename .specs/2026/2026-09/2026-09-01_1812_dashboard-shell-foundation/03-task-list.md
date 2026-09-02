@@ -2,13 +2,13 @@
 
 ## Fase 1. Fundación
 
-- [ ] Crear primitivas reutilizables para Global Header, Workspace Canvas,
+- [x] Crear primitivas reutilizables para Global Header, Workspace Canvas,
       Workspace Header y Page Content Scroller.
-      Status: pending
+      Status: done
 
-- [ ] Implementar el contrato de `scrollMode` y evitar dueños verticales de
+- [x] Implementar el contrato de `scrollMode` y evitar dueños verticales de
       scroll simultáneos.
-      Status: pending
+      Status: done
 
 ## Fase 2. Playground
 
