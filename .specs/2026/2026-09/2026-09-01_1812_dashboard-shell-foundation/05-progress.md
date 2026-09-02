@@ -18,16 +18,22 @@
 - En desktop, el layout aislado restringe la cadena `SidebarProvider` →
   `SidebarInset` → `Content Inset` al viewport. El modo activo es el único que
   recibe overflow vertical; en móvil se preserva `Document Scroll`.
-- La composición móvil usa Document Scroll por CSS; falta validación visual
-  manual como parte del Slice 3.
+- Se agregó `DashboardPageComposition` para formalizar el modo `Page
+Composition Scroll`: conserva fijo `Workspace Header` y desplaza juntos
+  `Page Header` y contenido.
+- La composición móvil usa Document Scroll por CSS.
 - Se validaron typecheck, lint y diff sin errores introducidos por la iniciativa.
   Lint conserva dos warnings preexistentes fuera de este trabajo.
 - El build de producción no pudo completarse en este entorno porque `next/font`
   no logró descargar fuentes desde `fonts.googleapis.com`. No se detectaron
   errores de compilación atribuibles al dashboard shell.
-- La validación visual manual de desktop, móvil y ambos modos de scroll queda
-  pendiente en la ruta Playground con un servidor de desarrollo activo.
+- La validación visual manual fue aprobada en `/dashboard-playground` para
+  desktop, móvil y los modos `Page Content Scroll`, `Page Composition Scroll`
+  y `Workspace Canvas Scroll`.
 - Tras mover la referencia a `/dashboard-playground`, `typecheck` local quedó
   bloqueado únicamente por una entrada obsoleta en `.next/types` para la ruta
-  eliminada. No se modificó esa caché generada para no interferir con el
-  proceso de desarrollo activo.
+  eliminada. Se retiró únicamente ese artefacto huérfano y `npm run typecheck`
+  volvió a completarse correctamente.
+- Las guidelines vivas y el modelo estructural se actualizaron con el tercer
+  modo de scroll. No se registra adopción en `docs/ui/adoption-log.md` porque
+  `/dashboard-playground` es una referencia aislada, no una ruta productiva.

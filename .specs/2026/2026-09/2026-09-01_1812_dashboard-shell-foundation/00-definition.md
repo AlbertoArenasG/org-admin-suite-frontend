@@ -46,9 +46,9 @@ detalles específicos de una vista en abstracciones prematuras.
 ### Decisión Final
 
 La iniciativa incorpora componentes para `Global Header`, `Workspace Canvas`,
-`Workspace Header` y la región de contenido scrolleable. Los componentes usan
-slots o `children`; no conocen rutas, permisos, datos de negocio ni el sidebar
-concreto.
+`Workspace Header`, `Page Composition` y la región de contenido scrolleable.
+Los componentes usan slots o `children`; no conocen rutas, permisos, datos de
+negocio ni el sidebar concreto.
 
 ### Status
 
@@ -65,9 +65,10 @@ sus headers durante el desplazamiento.
 
 ### Decisión Final
 
-En escritorio, `Page Content Scroll` es el modo predeterminado y `Workspace
-Canvas Scroll` una variante explícita. En móvil se usa `Document Scroll`. Una
-ruta solo puede tener un dueño principal del scroll vertical.
+En escritorio, `Page Content Scroll` es el modo predeterminado; `Page
+Composition Scroll` y `Workspace Canvas Scroll` son variantes explícitas. En
+móvil se usa `Document Scroll`. Una ruta solo puede tener un dueño principal
+del scroll vertical.
 
 ### Status
 
