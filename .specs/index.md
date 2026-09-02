@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [dashboard-shell-foundation](./2026/2026-09/2026-09-01_1812_dashboard-shell-foundation/00-definition.md) - definition completed
 - [contacts-company-names-frontend](./2026/2026-08/2026-08-26_2200_contacts-company-names-frontend/00-definition.md) - completed
 - [internal-staff-classification-frontend](./2026/2026-08/2026-08-26_2000_internal-staff-classification-frontend/00-definition.md) - completed
 - [user-customer-relationship-frontend](./2026/2026-08/2026-08-26_1309_user-customer-relationship-frontend/00-definition.md) - completed
