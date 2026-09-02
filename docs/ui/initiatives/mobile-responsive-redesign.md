@@ -2,9 +2,15 @@
 
 ## Estado
 
-Esta iniciativa está diferida. La aplicación se prioriza actualmente para escritorio; este documento conserva el diagnóstico y la dirección técnica para retomar el trabajo cuando el uso móvil sea relevante para negocio.
+Esta iniciativa está diferida. La aplicación se prioriza actualmente para
+escritorio; este documento conserva el diagnóstico y la dirección de migración
+para retomarla cuando el uso móvil sea relevante para negocio.
 
 Documentado el 31 de agosto de 2026.
+
+Las reglas estructurales del shell que se hayan aprobado se consultan en
+[`../dashboard-shell/guidelines.md`](../dashboard-shell/guidelines.md). Este
+documento no las reemplaza ni es una guideline viva.
 
 ## Diagnóstico
 
@@ -31,26 +37,35 @@ Ofrecer una experiencia móvil intencional que aproveche el viewport, mantenga l
 - Preferir representaciones móviles propias para tablas, formularios y acciones complejas, en lugar de escalar o recortar la interfaz de escritorio.
 - Validar en dispositivos y tamaños reales, no solo mediante reducción visual del navegador.
 
-## Arquitectura Propuesta
+## Dirección de Migración
 
 ### Shell Móvil Global
 
-El shell debe definir una variante móvil a nivel del layout de dashboard:
+La implementación deberá adoptar la variante móvil del shell definida en las
+guidelines y validarla frente a las necesidades reales de los módulos:
 
 - Usar el ancho disponible con padding compacto, normalmente 16 px, sin conservar los grandes gutters laterales de escritorio.
 - Reducir o eliminar en móvil la superficie contenedora global con radio grande cuando no aporte jerarquía.
-- Usar una barra superior compacta con acceso al menú, contexto de la vista y acciones esenciales.
-- Sustituir el breadcrumb completo por un contexto compacto. Cuando aplique, usar inicio o volver; no forzar rutas largas en una sola línea.
+- Usar `Global Header` y `Workspace Header` como capas separadas, sin volver a
+  mezclar controles globales, contexto de ruta y acciones de página.
+- Resolver los breadcrumbs de manera compacta, con elipsis cuando aplique, sin
+  perder el segmento actual.
 - Mantener el sidebar como panel superpuesto (`Sheet`) y comprobar que el trigger abre y cierra desde cualquier vista.
 - Definir z-index, focus trap, cierre por navegación y áreas táctiles para el panel móvil como responsabilidades del shell, no de las páginas.
 
-El componente `DashboardPageHeader` ya centraliza trigger, alineación y breadcrumbs en escritorio. Cuando se implemente esta iniciativa, deberá convertirse en el punto de extensión para la variante móvil, evitando reescribir cada encabezado.
+La variante móvil debe reutilizar las capas compartidas del shell en lugar de
+reconstruir encabezados página por página.
 
 ### Canvas de Contenido Móvil
 
-Como dirección de implementación, en móvil el canvas del dashboard puede dejar de usar el fondo morado y la card exterior redondeada que envuelven el content area en escritorio. El layout debe ocupar el ancho disponible del viewport con padding compacto y conservar únicamente las superficies que representen secciones funcionales de cada módulo.
+En móvil, `Content Inset` no debe exponerse como una superficie visual
+independiente. El canvas debe ocupar el ancho disponible del viewport con
+padding compacto y conservar únicamente las superficies que representen
+secciones funcionales de cada módulo.
 
-Este cambio libera espacio horizontal y evita apilar dos niveles de contenedores visuales. Debe resolverse en el layout compartido del dashboard, manteniendo intacta la variante de escritorio; no mediante ajustes aislados en las páginas.
+Este cambio libera espacio horizontal y evita apilar dos niveles de contenedores
+visuales. Debe resolverse en el layout compartido del dashboard, manteniendo
+intacta la variante de escritorio; no mediante ajustes aislados en las páginas.
 
 ### Patrones por Módulo
 

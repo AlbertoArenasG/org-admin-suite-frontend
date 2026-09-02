@@ -74,7 +74,7 @@ Los componentes nuevos deben contar desde su origen con responsive basico:
 
 Esto no reemplaza el rediseño responsive global. La revision del shell movil,
 sidebar, encabezados, tablas y representaciones moviles se mantiene en
-`docs/mobile-responsive-redesign.md` y debe ejecutarse como iniciativa
+`docs/ui/initiatives/mobile-responsive-redesign.md` y debe ejecutarse como iniciativa
 transversal separada cuando tenga prioridad de negocio.
 
 ## Fuera De Alcance
