@@ -1,12 +1,13 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, ReactNode, Ref } from 'react';
 import { Bell } from 'lucide-react';
 import {
   DashboardGlobalHeader,
   DashboardPageComposition,
   DashboardPageContentScroller,
   DashboardShellFrame,
+  type DashboardScrollMode,
   DashboardWorkspaceHeader,
 } from '@/components/dashboard-shell';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -17,11 +18,23 @@ import { PageBreadcrumbs, type BreadcrumbSegment } from '@/components/shared/Pag
 interface DashboardPlaygroundFrameProps {
   segments: BreadcrumbSegment[];
   children: ReactNode;
+  scrollMode?: DashboardScrollMode;
+  childrenArePageComposition?: boolean;
+  pageCompositionProps?: Omit<ComponentPropsWithoutRef<'div'>, 'children'>;
+  pageCompositionRef?: Ref<HTMLDivElement>;
 }
 
-export function DashboardPlaygroundFrame({ segments, children }: DashboardPlaygroundFrameProps) {
+export function DashboardPlaygroundFrame({
+  segments,
+  children,
+  scrollMode,
+  childrenArePageComposition = false,
+  pageCompositionProps,
+  pageCompositionRef,
+}: DashboardPlaygroundFrameProps) {
   return (
     <DashboardShellFrame
+      scrollMode={scrollMode}
       className="min-h-svh md:h-full md:min-h-0"
       contentInsetClassName="bg-transparent md:min-h-0 md:bg-[var(--sidebar)] md:p-4"
       workspaceCanvasClassName="rounded-none shadow-none md:rounded-[1.5rem] md:shadow-sm"
@@ -57,10 +70,14 @@ export function DashboardPlaygroundFrame({ segments, children }: DashboardPlaygr
         </DashboardWorkspaceHeader>
       }
     >
-      <DashboardPageComposition>
-        <DashboardPageContentScroller className="px-5 py-5 sm:px-7">
-          {children}
-        </DashboardPageContentScroller>
+      <DashboardPageComposition ref={pageCompositionRef} {...pageCompositionProps}>
+        {childrenArePageComposition ? (
+          children
+        ) : (
+          <DashboardPageContentScroller className="px-5 py-5 sm:px-7">
+            {children}
+          </DashboardPageContentScroller>
+        )}
       </DashboardPageComposition>
     </DashboardShellFrame>
   );
