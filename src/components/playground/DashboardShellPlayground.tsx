@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Bell, Layers3, PanelLeft } from 'lucide-react';
+import Link from 'next/link';
+import { Bell, Layers3, Monitor, PanelLeft, Smartphone } from 'lucide-react';
 import {
   DashboardGlobalHeader,
   DashboardPageComposition,
@@ -132,6 +133,29 @@ export function DashboardShellPlayground() {
         </section>
 
         <DashboardPageContentScroller className="px-5 py-5 sm:px-7">
+          <section className="mb-5 rounded-xl border border-[var(--secondary-300)] bg-[var(--secondary-50)]/55 p-4">
+            <p className="text-xs font-semibold tracking-[0.1em] text-[var(--secondary-700)] uppercase">
+              Modelos de estructura
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Diagramas de referencia de las capas del dashboard en ambos viewports.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard-playground/structure-model">
+                  <Monitor className="size-4" aria-hidden="true" />
+                  Modelo desktop
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard-playground/mobile-structure-model">
+                  <Smartphone className="size-4" aria-hidden="true" />
+                  Modelo móvil
+                </Link>
+              </Button>
+            </div>
+          </section>
+
           <div className="mb-4 flex items-center justify-between gap-3">
             <p className="text-xs font-semibold tracking-[0.1em] text-muted-foreground uppercase">
               Contenido de prueba
