@@ -37,3 +37,6 @@ Composition Scroll`: conserva fijo `Workspace Header` y desplaza juntos
 - Las guidelines vivas y el modelo estructural se actualizaron con el tercer
   modo de scroll. No se registra adopción en `docs/ui/adoption-log.md` porque
   `/dashboard-playground` es una referencia aislada, no una ruta productiva.
+- El shell aislado evita en escritorio la propagación del overscroll elástico
+  desde el dueño activo de scroll para no revelar el fondo del documento en
+  los límites de la región de trabajo.

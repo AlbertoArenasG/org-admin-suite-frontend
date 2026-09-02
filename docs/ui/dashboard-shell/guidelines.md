@@ -261,6 +261,11 @@ Header` y `Workspace Header` permanecen fijos, mientras `Page Composition`,
 dueños del scroll vertical al mismo tiempo. Las regiones anidadas se reservan
 para necesidades excepcionales y documentadas.
 
+En escritorio, el dueño activo debe usar `overscroll-behavior-y: none` para no
+propagar el rebote del trackpad al documento ni revelar el fondo global en los
+límites de la región de trabajo. Esta regla no se traslada a móvil, donde el
+scroll pertenece al documento.
+
 ### Global Header
 
 `Global Header` es una capa de utilidades de alcance transversal. No expresa
