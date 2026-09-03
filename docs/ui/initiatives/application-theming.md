@@ -2,13 +2,15 @@
 
 **Registrado:** 2 de septiembre de 2026  
 **Estado:** Fundación inicial implementada el 2 de septiembre de 2026. La
-adopción de tokens continúa gradualmente por componente y vista.
+adopción de tokens y la extensión de superficies continúan gradualmente por
+componente y vista.
 
 ## Contexto Actual
 
 La preferencia global se controla con `next-themes` y los identificadores
-internos `classic`, `ambient` y `ambient-deep`. La preferencia se conserva localmente
-con la clave `application-appearance`; no depende del selector legado `light/dark/system`.
+internos `classic`, `ambient` y `ambient-deep`. La preferencia se conserva
+localmente con la clave `application-appearance`; no depende del selector
+legado `light/dark/system`.
 
 La primera implementación mantiene claro el `Workspace Canvas` y el contenido
 operativo en ambos temas. La diferencia inicial vive en los materiales de
@@ -28,8 +30,8 @@ Las primeras tres variantes de tema de aplicación son:
   durante la exploración visual. Difiere de `Ambient clásico` en la profundidad
   del shell, no en el contenido operativo.
 
-Ambos temas partirán de un `Workspace Canvas` y contenido operativo claros. En
-los dos casos, tablas, formularios, datos e inputs deberán ser la región más
+Las tres variantes parten de un `Workspace Canvas` y contenido operativo claros.
+En todos los casos, tablas, formularios, datos e inputs deberán ser la región más
 legible, clara y menos decorada de la aplicación.
 
 El tema no será una apariencia parcial del dashboard: cada tema deberá resolver
@@ -55,8 +57,8 @@ La fundación implementada reutiliza `next-themes` y:
 - Conserva CSS heredado de modo oscuro solo como compatibilidad temporal; su
   eliminación deberá decidirse y verificarse explícitamente en otra spec.
 
-MUI hoy contiene principalmente configuración tipográfica. La spec deberá
-alinear sus futuros colores y superficies con el mismo contrato de tokens.
+MUI hoy contiene principalmente configuración tipográfica. Sus futuros colores
+y superficies deben alinearse con el mismo contrato de tokens.
 
 ## Contrato Inicial
 

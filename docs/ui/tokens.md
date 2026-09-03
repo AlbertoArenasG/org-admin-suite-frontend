@@ -84,15 +84,17 @@ más clara y menos decorada de la aplicación.
 
 ## Temas Futuros
 
-Los tokens son la base para una futura iniciativa de temas completos. Un tema
-podrá redefinir tokens por capa sin reescribir componentes. La evolución de esa
-iniciativa está registrada en
-[application-theming.md](./initiatives/application-theming.md) y requerirá una
-spec propia antes de implementarse.
+Los tokens son la base de los temas de aplicación ya implementados y de sus
+futuras extensiones. Un tema puede redefinir tokens por capa sin reescribir
+componentes. La dirección vigente está registrada en
+[application-theming.md](./initiatives/application-theming.md). Agregar una
+variante nueva o ampliar el contrato a superficies aún no cubiertas requiere
+una spec propia.
 
-Las tres variantes iniciales son `Clásico`, `Ambient clásico` y `Ambient profundo`
-(identificadores internos `classic`, `ambient` y `ambient-deep`), todas con contenido
-operativo claro. Por ello, los componentes nuevos deben quedar preparados no
+Las tres variantes iniciales son `Clásico`, `Ambient clásico` y `Ambient
+profundo` (identificadores internos `classic`, `ambient` y `ambient-deep`),
+todas con contenido operativo claro. Por ello, los componentes nuevos deben
+quedar preparados no
 solo para variaciones de color, sino también para variaciones semánticas de
 material: textura ambiental, transparencia, borde y elevación. Estas
 variaciones se expresarán mediante tokens por rol, nunca mediante condiciones

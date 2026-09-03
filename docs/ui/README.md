@@ -40,8 +40,9 @@ docs/ui/
 - `dashboard-shell/migration.md`: proceso operativo para adoptar rutas al
   nuevo shell y retirar la compatibilidad temporal.
 - `tokens.md`: estrategia viva para crear y consumir tokens semánticos de UI.
-- `initiatives/`: diagnósticos y direcciones de trabajo diferidas. No son
-  guidelines ni obligan cambios inmediatos.
+- `initiatives/`: decisiones de dirección y trabajo diferido. No son
+  guidelines ni obligan cambios inmediatos, salvo cuando una iniciativa ya
+  implementada remite explícitamente a un contrato vivo como `tokens.md`.
 - `patterns/`: ubicación reservada para guidelines específicas de tablas,
   formularios, detalles y Page Composition.
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo

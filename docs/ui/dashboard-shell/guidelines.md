@@ -32,6 +32,11 @@ global, límites visuales, overflow y transición entre escritorio y móvil.
 No define la navegación interna, el canvas de trabajo, cards, tablas,
 formularios ni contenido de módulos.
 
+Su material visual se resuelve mediante los tokens del tema de aplicación. El
+shell no debe introducir colores, gradients, blur o sombras directos por ruta;
+las variantes `Clásico`, `Ambient clásico` y `Ambient profundo` viven en el
+contrato documentado en [`tokens.md`](../tokens.md).
+
 ### Escritorio
 
 - Ocupa todo el viewport mediante una altura mínima basada en `dvh`.
