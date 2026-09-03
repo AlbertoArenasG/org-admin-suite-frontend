@@ -1,0 +1,80 @@
+html.ambient-deep {
+  color-scheme: light;
+  --dashboard-deep-sidebar: var(--secondary-900);
+}
+
+html.ambient-deep .theme-sidebar {
+  --dashboard-shell-surface: color-mix(
+    in srgb,
+    var(--dashboard-deep-sidebar) 48%,
+    var(--secondary-500)
+  );
+  --dashboard-shell-mesh-primary: color-mix(in srgb, var(--secondary-500) 78%, transparent);
+  --dashboard-shell-mesh-accent: color-mix(in srgb, var(--primary-400) 44%, transparent);
+  --dashboard-shell-mesh:
+    radial-gradient(circle at 86% 8%, var(--dashboard-shell-mesh-primary), transparent 42%),
+    radial-gradient(circle at 8% 94%, var(--dashboard-shell-mesh-accent), transparent 38%);
+  --dashboard-content-inset-surface: color-mix(
+    in srgb,
+    var(--dashboard-deep-sidebar) 60%,
+    transparent
+  );
+  --dashboard-content-inset-border: color-mix(in srgb, var(--sidebar-foreground) 16%, transparent);
+  --dashboard-content-inset-shadow: 0 24px 64px
+    color-mix(in srgb, var(--dashboard-deep-sidebar) 46%, transparent);
+  --dashboard-content-inset-backdrop: blur(16px);
+  --dashboard-navigation-surface: color-mix(
+    in srgb,
+    var(--dashboard-deep-sidebar) 70%,
+    transparent
+  );
+  --dashboard-navigation-border: color-mix(in srgb, var(--sidebar-foreground) 8%, transparent);
+  --dashboard-navigation-image: none;
+  --dashboard-navigation-shadow: 0 20px 45px
+    color-mix(in srgb, var(--dashboard-deep-sidebar) 62%, transparent);
+  --dashboard-navigation-backdrop: blur(12px);
+  --dashboard-navigation-rail-surface: transparent;
+  --dashboard-navigation-rail-border: var(--dashboard-navigation-border);
+  --dashboard-navigation-panel-surface: color-mix(
+    in srgb,
+    var(--dashboard-deep-sidebar) 76%,
+    transparent
+  );
+  --dashboard-navigation-panel-border: var(--dashboard-navigation-border);
+  --dashboard-navigation-panel-shadow: 0 8px 20px
+    color-mix(in srgb, var(--dashboard-deep-sidebar) 48%, transparent);
+  --dashboard-navigation-panel-backdrop: blur(24px);
+  --dashboard-navigation-item-hover-surface: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 9%,
+    transparent
+  );
+  --dashboard-navigation-item-hover-border: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 14%,
+    transparent
+  );
+  --dashboard-navigation-item-active-surface: color-mix(
+    in srgb,
+    var(--sidebar-primary) 56%,
+    transparent
+  );
+  --dashboard-navigation-item-active-border: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 20%,
+    transparent
+  );
+  --dashboard-navigation-item-hover-shadow: inset 0 1px 0
+    color-mix(in srgb, var(--sidebar-foreground) 12%, transparent);
+  --dashboard-navigation-item-active-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--sidebar-foreground) 20%, transparent),
+    0 6px 16px color-mix(in srgb, var(--dashboard-deep-sidebar) 34%, transparent);
+  --dashboard-navigation-rail-item-active-border: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 28%,
+    transparent
+  );
+  --dashboard-navigation-rail-item-active-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--sidebar-foreground) 28%, transparent),
+    0 8px 18px color-mix(in srgb, var(--dashboard-deep-sidebar) 38%, transparent);
+}

@@ -29,7 +29,9 @@ Ejemplos: `--background`, `--foreground`, `--card`, `--border`, `--ring`.
 Representan el rol visual de una capa o región, no un color concreto. Deben
 usarse cuando una superficie tenga una responsabilidad reutilizable.
 
-Ejemplos: `--surface-bg`, `--surface-border`, `--data-grid-header-bg`,
+Ejemplos: `--workspace-canvas-surface`, `--module-surface`,
+`--module-surface-border`, `--control-surface`, `--surface-bg`,
+`--data-grid-header-bg`, `--dashboard-shell-surface` y
 `--dashboard-navigation-surface`.
 
 ### Específicos de Componente o Patrón
@@ -88,7 +90,8 @@ iniciativa está registrada en
 [application-theming.md](./initiatives/application-theming.md) y requerirá una
 spec propia antes de implementarse.
 
-Los dos primeros temas previstos son `Plano` y `Ambient`, ambos con contenido
+Las tres variantes iniciales son `Clásico`, `Ambient clásico` y `Ambient profundo`
+(identificadores internos `classic`, `ambient` y `ambient-deep`), todas con contenido
 operativo claro. Por ello, los componentes nuevos deben quedar preparados no
 solo para variaciones de color, sino también para variaciones semánticas de
 material: textura ambiental, transparencia, borde y elevación. Estas

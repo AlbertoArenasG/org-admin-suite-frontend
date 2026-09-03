@@ -1,0 +1,36 @@
+html.classic {
+  color-scheme: light;
+}
+
+html.classic .theme-sidebar {
+  --dashboard-shell-surface: var(--sidebar);
+  --dashboard-shell-mesh: none;
+  --dashboard-content-inset-surface: var(--sidebar);
+  --dashboard-content-inset-border: transparent;
+  --dashboard-content-inset-shadow: none;
+  --dashboard-content-inset-backdrop: none;
+  --dashboard-navigation-surface: var(--sidebar);
+  --dashboard-navigation-border: var(--sidebar-border);
+  --dashboard-navigation-image: linear-gradient(
+    to bottom,
+    var(--sidebar-gradient-from),
+    var(--sidebar-gradient-via),
+    var(--sidebar-gradient-to)
+  );
+  --dashboard-navigation-shadow: 0 20px 45px rgba(14, 4, 46, 0.45);
+  --dashboard-navigation-backdrop: none;
+  --dashboard-navigation-rail-surface: var(--sidebar-rail);
+  --dashboard-navigation-rail-border: rgb(255 255 255 / 10%);
+  --dashboard-navigation-panel-surface: var(--sidebar-overlay);
+  --dashboard-navigation-panel-border: rgb(255 255 255 / 10%);
+  --dashboard-navigation-panel-shadow: 0 8px 20px rgba(14, 4, 46, 0.18);
+  --dashboard-navigation-panel-backdrop: none;
+  --dashboard-navigation-item-hover-surface: var(--sidebar-accent);
+  --dashboard-navigation-item-hover-border: transparent;
+  --dashboard-navigation-item-active-surface: var(--sidebar-accent);
+  --dashboard-navigation-item-active-border: transparent;
+  --dashboard-navigation-item-hover-shadow: none;
+  --dashboard-navigation-item-active-shadow: none;
+  --dashboard-navigation-rail-item-active-border: transparent;
+  --dashboard-navigation-rail-item-active-shadow: none;
+}

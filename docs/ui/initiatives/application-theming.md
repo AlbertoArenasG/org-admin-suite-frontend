@@ -1,34 +1,32 @@
 # Evolución de Temas de Aplicación
 
 **Registrado:** 2 de septiembre de 2026  
-**Estado:** Decisión aprobada. Requiere una spec de fundación antes de cambiar
-el selector de tema o migrar componentes.
+**Estado:** Fundación inicial implementada el 2 de septiembre de 2026. La
+adopción de tokens continúa gradualmente por componente y vista.
 
 ## Contexto Actual
 
-La aplicación conserva el selector global de tema claro/oscuro. Ese selector es
-el único responsable de la apariencia del `Workspace Canvas` y de su contenido:
-superficies de módulos, tablas, formularios, inputs, popovers y estados.
+La preferencia global se controla con `next-themes` y los identificadores
+internos `classic`, `ambient` y `ambient-deep`. La preferencia se conserva localmente
+con la clave `application-appearance`; no depende del selector legado `light/dark/system`.
 
-De forma independiente, el dashboard ofrece dos apariencias transitorias de
-frontend, sin persistencia ni backend:
-
-- `Clásica`: conserva la apariencia previa a los experimentos visuales.
-- `Ambient`: aplica la composición morada con mesh gradients y materiales
-  translúcidos sutiles.
-
-Estas apariencias solo modifican `Navigation Shell` y `Content Inset`. No deben
-alterar el `Workspace Canvas` ni los tokens del contenido funcional.
+La primera implementación mantiene claro el `Workspace Canvas` y el contenido
+operativo en ambos temas. La diferencia inicial vive en los materiales de
+`Navigation Shell` y `Content Inset`, pero el contrato de tokens ya cubre todas
+las capas para extenderlos gradualmente sin reescribir los componentes.
 
 ## Dirección Aprobada
 
-Los primeros dos temas completos de aplicación serán:
+Las primeras tres variantes de tema de aplicación son:
 
-- `Plano`: evolución de la apariencia clásica actual. Usa superficies sobrias,
+- `Clásico`: evolución de la apariencia clásica actual. Usa superficies sobrias,
   sin ambient mesh, blur ni elevación decorativa innecesaria.
-- `Ambient`: evolución de la apariencia morada ambient actual. Usa fondo,
+- `Ambient clásico`: evolución de la apariencia morada ambient actual. Usa fondo,
   navegación, content inset y contenido como una composición coherente de
   materiales y ambient mesh sutiles.
+- `Ambient profundo`: conserva la composición morada de mayor contraste creada
+  durante la exploración visual. Difiere de `Ambient clásico` en la profundidad
+  del shell, no en el contenido operativo.
 
 Ambos temas partirán de un `Workspace Canvas` y contenido operativo claros. En
 los dos casos, tablas, formularios, datos e inputs deberán ser la región más
@@ -43,42 +41,40 @@ en lugar de exponer nombres técnicos o el binario claro/oscuro.
 
 ## Transición Técnica Planeada
 
-La implementación deberá reutilizar `next-themes`, que hoy controla las clases
-`light`, `dark` y `system`. La spec de fundación deberá:
+La fundación implementada reutiliza `next-themes` y:
 
-- Reemplazar los identificadores expuestos por `flat` y `ambient`.
-- Unificar el selector de tema con las apariencias temporales actuales del
-  dashboard; `Clásica` evolucionará a `Plano` y `Ambient` conservará su nombre.
-- Retirar el selector claro/oscuro/system de la interfaz una vez que los dos
-  temas estén definidos como conjuntos completos.
-- Conservar la preferencia inicialmente en frontend mediante `next-themes`; la
-  persistencia de usuario en backend queda para una decisión posterior.
-- Adaptar `SnackbarProvider`, `ModeToggle` y cualquier consumidor de
-  `resolvedTheme` a los nuevos identificadores.
-- Mantener cualquier CSS o compatibilidad heredada de modo oscuro solo mientras
-  sea necesaria; su eliminación deberá decidirse y verificarse explícitamente,
-  no quedar como deuda permanente.
+- Expone nombres de apariencia; no expone identificadores técnicos ni
+  claro/oscuro/sistema en la interfaz.
+- Unifica el selector de cuenta, `ModeToggle` y la antigua apariencia temporal
+  del dashboard en una sola preferencia.
+- Elimina `DashboardAppearanceProvider`, evitando estados visuales paralelos.
+- Mantiene la preferencia en frontend mediante `next-themes`; la persistencia
+  de usuario en backend queda para una decisión posterior.
+- Mantiene las notificaciones y la configuración actual de MUI en modo claro,
+  coherente con las tres variantes iniciales.
+- Conserva CSS heredado de modo oscuro solo como compatibilidad temporal; su
+  eliminación deberá decidirse y verificarse explícitamente en otra spec.
 
 MUI hoy contiene principalmente configuración tipográfica. La spec deberá
 alinear sus futuros colores y superficies con el mismo contrato de tokens.
 
-## Requisitos Para La Spec de Fundación
+## Contrato Inicial
 
 - Definir conjuntos completos de tokens semánticos por capa: shell,
   navegación, content inset, workspace, superficies de módulo, formularios,
   tablas, popovers, bordes, texto y estados.
-- Alinear el tema de MUI con los mismos conjuntos de tokens.
+- Mantener MUI alineado al mismo contrato conforme incorpore superficies y
+  colores además de su configuración tipográfica actual.
 - Mantener los componentes nuevos dependientes de tokens semánticos, no de
   colores directos, desde su primera implementación o migración.
 - Completar progresivamente el contrato de tokens al construir o migrar
   componentes; no dejar ese refactor para la iniciativa de temas.
-- Decidir si la preferencia se persiste localmente, en backend o en ambos.
-- Definir accesibilidad, contraste y combinaciones soportadas.
-- Implementar y validar el cambio mediante una spec explícitamente aprobada.
+- Definir accesibilidad, contraste y combinaciones soportadas para cada tema
+  que se agregue.
 
 ## Adopción Gradual
 
-La definición de los dos temas no autoriza a aplicar estilos manuales por vista.
+La definición de las tres variantes no autoriza a aplicar estilos manuales por vista.
 Mientras la aplicación se migra, cada componente nuevo o reestructurado debe
 adoptar los tokens semánticos que le correspondan. Las vistas heredadas pueden
 conservar temporalmente su apariencia clara actual, pero no se deben crear

@@ -10,10 +10,10 @@ import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
  */
 export function LegacyDashboardShell({ children }: PropsWithChildren) {
   return (
-    <SidebarProvider className="theme-sidebar dashboard-shell-ambient text-secondary-foreground/90">
+    <SidebarProvider className="theme-sidebar dashboard-shell text-secondary-foreground/90">
       <AppSidebar />
       <SidebarInset className="dashboard-content-inset px-4 p-5">
-        <div className="mx-auto flex w-full flex-1 rounded-[2rem] bg-background/95 p-6 md:p-4">
+        <div className="mx-auto flex w-full flex-1 rounded-[2rem] bg-[var(--workspace-canvas-surface)] p-6 md:p-4">
           <div className="flex w-full flex-1 flex-col gap-6">{children}</div>
         </div>
       </SidebarInset>

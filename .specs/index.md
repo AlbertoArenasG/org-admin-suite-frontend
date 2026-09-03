@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [application-theme-foundation](./2026/2026-09/2026-09-02_1100_application-theme-foundation/00-definition.md) - completed
 - [dashboard-shell-gradual-migration](./2026/2026-09/2026-09-01_2057_dashboard-shell-gradual-migration/00-definition.md) - completed
 - [dashboard-shell-foundation](./2026/2026-09/2026-09-01_1812_dashboard-shell-foundation/00-definition.md) - definition completed
 - [contacts-company-names-frontend](./2026/2026-08/2026-08-26_2200_contacts-company-names-frontend/00-definition.md) - completed

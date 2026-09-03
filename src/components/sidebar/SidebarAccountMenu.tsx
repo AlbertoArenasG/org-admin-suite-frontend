@@ -5,12 +5,10 @@ import {
   Globe,
   Layers,
   LogOut,
-  Monitor,
-  Moon,
   Settings,
   Sparkles,
-  Sun,
   UserCircle,
+  Waves,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
@@ -18,10 +16,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import {
-  DASHBOARD_APPEARANCES,
-  useDashboardAppearance,
-} from '@/components/dashboard-shell/DashboardAppearanceProvider';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -60,7 +54,6 @@ export function SidebarAccountMenu({
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { setTheme, theme } = useTheme();
-  const { appearance, setAppearance } = useDashboardAppearance();
   const { t, i18n } = useTranslation(['myProfile', 'auth', 'common']);
   const initials = getInitialsFromText(user.name || user.email, '??');
   const avatarSrc = user.avatar ?? undefined;
@@ -123,32 +116,20 @@ export function SidebarAccountMenu({
             <DropdownMenuSubContent className="w-52">
               <DropdownMenuLabel>{t('common:theme')}</DropdownMenuLabel>
               <DropdownMenuRadioGroup
-                value={theme ?? 'system'}
+                value={theme ?? 'classic'}
                 onValueChange={(value) => setTheme(value)}
               >
-                <DropdownMenuRadioItem value="light">
-                  <Sun />
-                  {t('common:themeLight')}
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="dark">
-                  <Moon />
-                  {t('common:themeDark')}
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem value="system">
-                  <Monitor />
-                  {t('common:themeSystem')}
-                </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>{t('common:dashboardAppearance')}</DropdownMenuLabel>
-              <DropdownMenuRadioGroup value={appearance} onValueChange={setDashboardAppearance}>
                 <DropdownMenuRadioItem value="classic">
                   <Layers />
-                  {t('common:dashboardAppearanceClassic')}
+                  {t('common:themeClassic')}
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem value="ambient">
                   <Sparkles />
-                  {t('common:dashboardAppearanceAmbient')}
+                  {t('common:themeAmbientClassic')}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="ambient-deep">
+                  <Waves />
+                  {t('common:themeAmbientDeep')}
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
               <DropdownMenuSeparator />
@@ -183,12 +164,6 @@ export function SidebarAccountMenu({
       </DropdownMenu>
     </div>
   );
-
-  function setDashboardAppearance(value: string) {
-    if (DASHBOARD_APPEARANCES.includes(value as (typeof DASHBOARD_APPEARANCES)[number])) {
-      setAppearance(value as (typeof DASHBOARD_APPEARANCES)[number]);
-    }
-  }
 }
 
 type AccountAvatarProps = {
