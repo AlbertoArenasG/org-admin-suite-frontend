@@ -1,0 +1,30 @@
+# Deuda Técnica
+
+## Propósito
+
+Esta carpeta registra deuda técnica identificada y pendiente de atender. Cada
+tema debe tener su propia subcarpeta y documento para conservar su contexto,
+estado, fechas, referencias y criterios de cierre.
+
+## Estructura
+
+```text
+docs/technical-debt/
+├─ README.md
+└─ session-hydration/
+   └─ auth-me-endpoint-inconsistency.md
+```
+
+## Mantenimiento
+
+- Crear un expediente por tema; no agrupar incidencias no relacionadas.
+- Registrar la fecha de identificación y actualizar la fecha de última
+  revisión cada vez que cambie su estado o análisis.
+- Mantener el estado como `identificada`, `planificada`, `en progreso`,
+  `resuelta` o `descartada`.
+- Al resolver una deuda, conservar el expediente y documentar la decisión, la
+  fecha de cierre y las pruebas realizadas.
+
+## Expedientes Activos
+
+- [Inconsistencia del endpoint para recuperar la sesión](session-hydration/auth-me-endpoint-inconsistency.md)
