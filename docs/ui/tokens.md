@@ -10,6 +10,10 @@ valores visuales directos. Esto permite mantener consistencia, preparar la
 aplicación para futuros temas completos y evitar que cada vista defina su
 propia variante visual.
 
+Esta preparación no se difiere hasta una futura iniciativa de multitemas. Es un
+requisito para cada componente nuevo y para cada componente o vista que se
+reestructure durante la migración gradual.
+
 ## Niveles de Tokens
 
 ### Fundacionales
@@ -54,8 +58,27 @@ de una sola vista. En ese caso se deben componer los tokens existentes.
 3. Si falta un rol reutilizable, proponer y definir un token con nombre
    semántico, sin asociarlo a un color concreto.
 4. Usar el token desde el componente compartido o patrón correspondiente.
-5. Cuando el patrón esté aprobado, actualizar este documento o su guideline
+5. Al migrar una pieza heredada, reemplazar los valores visuales directos que
+   toque esa migración por el contrato semántico aplicable.
+6. Cuando el patrón esté aprobado, actualizar este documento o su guideline
    específica en `patterns/` o `components/`.
+
+## Expresión Visual Futura
+
+El contrato debe permitir temas completos con expresiones visuales distintas:
+
+- **Plana:** superficies sobrias, sin textura ambiental, blur ni elevación
+  decorativa innecesaria en toda la aplicación.
+- **Ambient:** una composición coherente de fondo, navegación, content inset y
+  contenido con ambient mesh, materiales o elevación sutiles.
+
+Ambas expresiones deben cubrir todas las capas que compongan un tema. Un tema
+ambient no debe limitarse al shell, ni un tema plano debe conservar decoración
+ambient residual en el contenido.
+
+Incluso en temas ambient, el contenido operativo debe preservar jerarquía,
+contraste y sobriedad: tablas, formularios y datos son la región visualmente
+más clara y menos decorada de la aplicación.
 
 ## Temas Futuros
 
@@ -64,6 +87,13 @@ podrá redefinir tokens por capa sin reescribir componentes. La evolución de es
 iniciativa está registrada en
 [application-theming.md](./initiatives/application-theming.md) y requerirá una
 spec propia antes de implementarse.
+
+Los dos primeros temas previstos son `Plano` y `Ambient`, ambos con contenido
+operativo claro. Por ello, los componentes nuevos deben quedar preparados no
+solo para variaciones de color, sino también para variaciones semánticas de
+material: textura ambiental, transparencia, borde y elevación. Estas
+variaciones se expresarán mediante tokens por rol, nunca mediante condiciones
+visuales embebidas en una vista.
 
 Los componentes de MUI también deberán alinearse con estos tokens cuando se
 incorporen nuevos temas.
