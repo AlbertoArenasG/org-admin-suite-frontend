@@ -18,6 +18,7 @@ entre specs puntuales o implementaciones aisladas.
 docs/ui/
 ├─ README.md
 ├─ adoption-log.md
+├─ tokens.md
 ├─ dashboard-shell/
 │  ├─ structure-model.md
 │  ├─ guidelines.md
@@ -38,6 +39,7 @@ docs/ui/
   implementaciones que adopten el dashboard shell.
 - `dashboard-shell/migration.md`: proceso operativo para adoptar rutas al
   nuevo shell y retirar la compatibilidad temporal.
+- `tokens.md`: estrategia viva para crear y consumir tokens semánticos de UI.
 - `initiatives/`: diagnósticos y direcciones de trabajo diferidas. No son
   guidelines ni obligan cambios inmediatos.
 - `patterns/`: ubicación reservada para guidelines específicas de tablas,
