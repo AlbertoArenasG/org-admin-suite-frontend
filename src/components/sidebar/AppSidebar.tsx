@@ -59,8 +59,8 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
     <Sidebar
       collapsible="icon"
       className={cn(
-        'border-none [&_[data-slot=sidebar-gap]]:bg-transparent',
-        '[&_[data-slot=sidebar-inner]]:border [&_[data-slot=sidebar-inner]]:border-sidebar-border [&_[data-slot=sidebar-inner]]:bg-gradient-to-b [&_[data-slot=sidebar-inner]]:from-[var(--sidebar-gradient-from)] [&_[data-slot=sidebar-inner]]:via-[var(--sidebar-gradient-via)] [&_[data-slot=sidebar-inner]]:to-[var(--sidebar-gradient-to)] [&_[data-slot=sidebar-inner]]:text-sidebar-foreground [&_[data-slot=sidebar-inner]]:shadow-[0_20px_45px_rgba(14,4,46,0.45)]',
+        'dashboard-navigation-shell border-none [&_[data-slot=sidebar-gap]]:bg-transparent',
+        '[&_[data-slot=sidebar-inner]]:border [&_[data-slot=sidebar-inner]]:text-sidebar-foreground',
         className
       )}
       {...props}

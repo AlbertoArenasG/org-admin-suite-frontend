@@ -106,6 +106,52 @@
   --sidebar-rail: var(--sidebar);
   --sidebar-overlay: color-mix(in srgb, var(--sidebar) 92%, var(--sidebar-foreground));
 
+  /* ===== Materiales del dashboard ===== */
+  --dashboard-shell-ambient-base: color-mix(in srgb, var(--sidebar) 48%, var(--secondary-500));
+  --dashboard-shell-ambient-primary: color-mix(in srgb, var(--secondary-500) 78%, transparent);
+  --dashboard-shell-ambient-accent: color-mix(in srgb, var(--primary-400) 44%, transparent);
+  --dashboard-shell-ambient-mesh:
+    radial-gradient(circle at 86% 8%, var(--dashboard-shell-ambient-primary), transparent 42%),
+    radial-gradient(circle at 8% 94%, var(--dashboard-shell-ambient-accent), transparent 38%);
+  --dashboard-content-inset-surface: color-mix(in srgb, var(--sidebar) 60%, transparent);
+  --dashboard-content-inset-border: color-mix(in srgb, var(--sidebar-foreground) 16%, transparent);
+  --dashboard-content-inset-shadow: 0 24px 64px color-mix(in srgb, var(--sidebar) 46%, transparent);
+  --dashboard-navigation-surface: color-mix(in srgb, var(--sidebar) 70%, transparent);
+  --dashboard-navigation-border: color-mix(in srgb, var(--sidebar-foreground) 8%, transparent);
+  --dashboard-navigation-shadow: 0 20px 45px color-mix(in srgb, var(--sidebar) 62%, transparent);
+  --dashboard-navigation-panel-surface: color-mix(in srgb, var(--sidebar) 76%, transparent);
+  --dashboard-navigation-panel-shadow: 0 8px 20px
+    color-mix(in srgb, var(--sidebar) 48%, transparent);
+  --dashboard-navigation-item-hover-surface: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 9%,
+    transparent
+  );
+  --dashboard-navigation-item-hover-border: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 14%,
+    transparent
+  );
+  --dashboard-navigation-item-active-surface: color-mix(
+    in srgb,
+    var(--sidebar-primary) 56%,
+    transparent
+  );
+  --dashboard-navigation-item-active-border: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 20%,
+    transparent
+  );
+  --dashboard-navigation-item-hover-shadow: inset 0 1px 0
+    color-mix(in srgb, var(--sidebar-foreground) 12%, transparent);
+  --dashboard-navigation-item-active-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--sidebar-foreground) 20%, transparent),
+    0 6px 16px color-mix(in srgb, var(--sidebar) 34%, transparent);
+
+  --dashboard-appearance-classic-panel-border: rgb(255 255 255 / 10%);
+  --dashboard-appearance-classic-navigation-shadow: 0 20px 45px rgba(14, 4, 46, 0.45);
+  --dashboard-appearance-classic-panel-shadow: 0 8px 20px rgba(14, 4, 46, 0.18);
+
   --surface-bg: #ffffff;
   --surface-border: #dfe7ec;
   --surface-shadow: 0 14px 40px rgba(20, 63, 60, 0.08);
@@ -199,6 +245,13 @@
   --data-grid-cell-border: #273247;
   --data-grid-progress-track: #28334b;
   --data-grid-progress-bar: var(--secondary-400);
+
+  --dashboard-shell-ambient-base: color-mix(in srgb, var(--sidebar) 66%, var(--secondary-500));
+  --dashboard-shell-ambient-primary: color-mix(in srgb, var(--secondary-500) 68%, transparent);
+  --dashboard-shell-ambient-accent: color-mix(in srgb, var(--primary-400) 30%, transparent);
+  --dashboard-shell-ambient-mesh:
+    radial-gradient(circle at 86% 8%, var(--dashboard-shell-ambient-primary), transparent 36%),
+    radial-gradient(circle at 8% 94%, var(--dashboard-shell-ambient-accent), transparent 32%);
 }
 
 .light {
@@ -380,6 +433,103 @@
   --sidebar-gradient-via: var(--sidebar);
   --sidebar-gradient-to: var(--sidebar);
   --sidebar-rail: color-mix(in srgb, var(--sidebar) 78%, var(--sidebar-accent));
+}
+
+.dashboard-shell-ambient {
+  background-color: var(--dashboard-shell-ambient-base);
+  background-image: var(--dashboard-shell-ambient-mesh);
+}
+
+.dashboard-content-inset {
+  background-color: transparent;
+}
+
+@media (min-width: 48rem) {
+  .dashboard-content-inset {
+    border: 1px solid var(--dashboard-content-inset-border);
+    background-color: var(--dashboard-content-inset-surface);
+    box-shadow: var(--dashboard-content-inset-shadow);
+    backdrop-filter: blur(16px);
+  }
+}
+
+.dashboard-navigation-shell [data-slot='sidebar-inner'] {
+  border-color: var(--dashboard-navigation-border);
+  background-color: var(--dashboard-navigation-surface);
+  box-shadow: var(--dashboard-navigation-shadow);
+  backdrop-filter: blur(12px);
+}
+
+.dashboard-navigation-rail {
+  border-color: var(--dashboard-navigation-border);
+}
+
+.dashboard-navigation-item {
+  border: 1px solid transparent;
+  background-color: transparent;
+}
+
+.dashboard-navigation-item:hover {
+  border-color: var(--dashboard-navigation-item-hover-border);
+  background-color: var(--dashboard-navigation-item-hover-surface);
+  box-shadow: var(--dashboard-navigation-item-hover-shadow);
+}
+
+.dashboard-navigation-item--active {
+  border-color: var(--dashboard-navigation-item-active-border);
+  background-color: var(--dashboard-navigation-item-active-surface);
+  box-shadow: var(--dashboard-navigation-item-active-shadow);
+}
+
+.dashboard-navigation-rail-item.dashboard-navigation-item--active {
+  border-color: color-mix(in srgb, var(--sidebar-foreground) 28%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--sidebar-foreground) 28%, transparent),
+    0 8px 18px color-mix(in srgb, var(--sidebar) 38%, transparent);
+}
+
+html[data-dashboard-appearance='classic'] .dashboard-shell-ambient {
+  background-color: var(--sidebar);
+  background-image: none;
+}
+
+html[data-dashboard-appearance='classic'] .dashboard-content-inset {
+  border-color: transparent;
+  background-color: var(--sidebar);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+html[data-dashboard-appearance='classic'] .dashboard-navigation-shell [data-slot='sidebar-inner'] {
+  border-color: var(--sidebar-border);
+  background-color: var(--sidebar);
+  background-image: linear-gradient(
+    to bottom,
+    var(--sidebar-gradient-from),
+    var(--sidebar-gradient-via),
+    var(--sidebar-gradient-to)
+  );
+  box-shadow: var(--dashboard-appearance-classic-navigation-shadow);
+  backdrop-filter: none;
+}
+
+html[data-dashboard-appearance='classic'] .dashboard-navigation-rail {
+  border-color: var(--dashboard-appearance-classic-panel-border);
+  background-color: var(--sidebar-rail);
+}
+
+html[data-dashboard-appearance='classic'] .dashboard-navigation-panel {
+  border-color: var(--dashboard-appearance-classic-panel-border);
+  background-color: var(--sidebar-overlay);
+  box-shadow: var(--dashboard-appearance-classic-panel-shadow);
+  backdrop-filter: none;
+}
+
+html[data-dashboard-appearance='classic'] .dashboard-navigation-item:hover,
+html[data-dashboard-appearance='classic'] .dashboard-navigation-item--active {
+  border-color: transparent;
+  background-color: var(--sidebar-accent);
+  box-shadow: none;
 }
 
 @keyframes route-progress {

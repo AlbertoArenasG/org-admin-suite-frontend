@@ -23,6 +23,7 @@ docs/ui/
 │  ├─ guidelines.md
 │  └─ migration.md
 ├─ initiatives/
+│  ├─ application-theming.md
 │  └─ mobile-responsive-redesign.md
 ├─ patterns/                 # Futuro: tablas, formularios, detalles y page composition.
 └─ components/

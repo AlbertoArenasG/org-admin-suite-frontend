@@ -10,6 +10,7 @@
   "configuration": "Configuration",
   "administration": "Administration",
   "dashboard": "Dashboard",
+  "dashboardPlayground": "Dashboard Playground",
   "customers": "Customers",
   "customersList": "Customers list",
   "customersCreate": "Add customer",

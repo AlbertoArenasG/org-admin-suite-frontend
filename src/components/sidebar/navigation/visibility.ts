@@ -31,6 +31,7 @@ export function resolveSidebarNavigationVisibility(
 
   return {
     dashboard: true,
+    dashboardPlayground: authorization.isMasterAdmin,
     users: true,
     usersList: canReadUsers,
     usersInvite: canInviteUsers,

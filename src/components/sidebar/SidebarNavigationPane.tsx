@@ -46,8 +46,9 @@ export function SidebarNavigationPane({
                   <button
                     type="button"
                     className={cn(
-                      'flex h-auto min-h-10 w-full min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-left text-sm text-sidebar-foreground/85 outline-hidden transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
-                      entry.isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
+                      'dashboard-navigation-item flex h-auto min-h-10 w-full min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-left text-sm text-sidebar-foreground/85 outline-hidden transition-[background-color,border-color,box-shadow,color] duration-200 ease-out hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+                      entry.isActive &&
+                        'dashboard-navigation-item--active text-sidebar-accent-foreground'
                     )}
                   >
                     {entry.icon ? <entry.icon className="mt-0.5 size-4 shrink-0" /> : null}
@@ -91,9 +92,9 @@ function SidebarNavigationLink({ entry, onNavigate, root = false }: SidebarNavig
       href={entry.href}
       onClick={onNavigate}
       className={cn(
-        'flex h-auto min-h-9 min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/75 outline-hidden transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+        'dashboard-navigation-item flex h-auto min-h-9 min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/75 outline-hidden transition-[background-color,border-color,box-shadow,color] duration-200 ease-out hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
         root && 'min-h-10 px-3 text-sidebar-foreground/85',
-        entry.isActive && 'bg-sidebar-accent text-sidebar-accent-foreground'
+        entry.isActive && 'dashboard-navigation-item--active text-sidebar-accent-foreground'
       )}
     >
       {Icon ? <Icon className="mt-0.5 size-4 shrink-0" /> : null}

@@ -5,8 +5,9 @@ import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 import { useAuthorization } from '@/features/auth';
+import { useAppSelector } from '@/hooks/useAppSelector';
 
-import { dashboardNavigationEntry, sidebarNavigationGroups } from './navigation/definitions';
+import { dashboardNavigationEntries, sidebarNavigationGroups } from './navigation/definitions';
 import { resolveSidebarNavigation } from './navigation/resolve';
 import type { SidebarGroupId } from './navigation/types';
 import { resolveSidebarNavigationVisibility } from './navigation/visibility';
@@ -15,14 +16,20 @@ export function useSidebarNavigation() {
   const pathname = usePathname();
   const { t } = useTranslation('nav');
   const { hasModule, hasPermission } = useAuthorization();
+  const user = useAppSelector((state) => state.auth.user);
   const visibility = React.useMemo(
-    () => resolveSidebarNavigationVisibility({ hasModule, hasPermission }),
-    [hasModule, hasPermission]
+    () =>
+      resolveSidebarNavigationVisibility({
+        hasModule,
+        hasPermission,
+        isMasterAdmin: user?.systemRole === 'MASTER_ADMIN',
+      }),
+    [hasModule, hasPermission, user?.systemRole]
   );
   const navigation = React.useMemo(
     () =>
       resolveSidebarNavigation(
-        dashboardNavigationEntry,
+        dashboardNavigationEntries,
         sidebarNavigationGroups,
         visibility,
         pathname,
@@ -53,7 +60,7 @@ export function useSidebarNavigation() {
 
   const selectedGroup = navigation.groups.find((group) => group.id === selectedGroupId) ?? null;
   const selectedEntries =
-    selectedGroupId === 'dashboard' ? [navigation.dashboard] : (selectedGroup?.entries ?? []);
+    selectedGroupId === 'dashboard' ? navigation.dashboardEntries : (selectedGroup?.entries ?? []);
 
   return {
     ...navigation,

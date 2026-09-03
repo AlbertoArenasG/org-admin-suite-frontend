@@ -10,6 +10,7 @@ export type SidebarGroupId =
 
 export type SidebarNavigationEntryId =
   | 'dashboard'
+  | 'dashboardPlayground'
   | 'users'
   | 'usersList'
   | 'usersInvite'
@@ -42,6 +43,7 @@ export type SidebarNavigationEntryId =
 export interface SidebarNavigationAuthorization {
   hasModule: (module: string) => boolean;
   hasPermission: (module: string, operation: string) => boolean;
+  isMasterAdmin: boolean;
 }
 
 export interface SidebarNavigationEntryDefinition {
@@ -81,6 +83,7 @@ export interface ResolvedSidebarNavigationGroup {
 
 export interface ResolvedSidebarNavigation {
   dashboard: ResolvedSidebarNavigationEntry;
+  dashboardEntries: ResolvedSidebarNavigationEntry[];
   groups: ResolvedSidebarNavigationGroup[];
   activeGroupId: SidebarGroupId | null;
 }

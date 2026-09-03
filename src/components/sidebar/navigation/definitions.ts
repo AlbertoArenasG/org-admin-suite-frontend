@@ -5,6 +5,7 @@ import {
   ChartColumn,
   ClipboardList,
   ClockAlert,
+  FlaskConical,
   LayoutDashboard,
   Mail,
   PlusCircle,
@@ -30,6 +31,19 @@ export const dashboardNavigationEntry: SidebarNavigationEntryDefinition = {
   icon: LayoutDashboard,
   matchesPathname: isExactPath('/dashboard'),
 };
+
+export const dashboardPlaygroundNavigationEntry: SidebarNavigationEntryDefinition = {
+  id: 'dashboardPlayground',
+  labelKey: 'dashboardPlayground',
+  href: '/dashboard-playground',
+  icon: FlaskConical,
+  matchesPathname: startsWith('/dashboard-playground'),
+};
+
+export const dashboardNavigationEntries = [
+  dashboardNavigationEntry,
+  dashboardPlaygroundNavigationEntry,
+];
 
 export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
   {

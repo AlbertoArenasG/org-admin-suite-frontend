@@ -65,13 +65,16 @@ function resolveGroup(
 }
 
 export function resolveSidebarNavigation(
-  dashboardDefinition: SidebarNavigationEntryDefinition,
+  dashboardDefinitions: SidebarNavigationEntryDefinition[],
   groupDefinitions: SidebarNavigationGroupDefinition[],
   visibility: SidebarNavigationVisibility,
   pathname: string,
   t: TFunction
 ): ResolvedSidebarNavigation {
-  const dashboard = resolveEntry(dashboardDefinition, visibility, pathname, t);
+  const dashboardEntries = dashboardDefinitions
+    .map((definition) => resolveEntry(definition, visibility, pathname, t))
+    .filter((entry): entry is ResolvedSidebarNavigationEntry => entry !== null);
+  const dashboard = dashboardEntries.find((entry) => entry.id === 'dashboard');
 
   if (!dashboard) {
     throw new Error('Dashboard navigation entry must always be visible.');
@@ -84,7 +87,10 @@ export function resolveSidebarNavigation(
 
   return {
     dashboard,
+    dashboardEntries,
     groups,
-    activeGroupId: dashboard.isActive ? 'dashboard' : (activeGroup?.id ?? null),
+    activeGroupId: dashboardEntries.some((entry) => entry.isActive)
+      ? 'dashboard'
+      : (activeGroup?.id ?? null),
   };
 }
