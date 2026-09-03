@@ -38,17 +38,13 @@ cambiar su URL ni impactar rutas que permanezcan en el shell legado.
 - Añadir pruebas unitarias al resolvedor, incluidos pathnames dinamicos y
   negativos.
 
-### Fase 4. Primera adopcion real
+## Seguimiento Fuera de Esta Spec
 
-- Abrir una spec o slice para elegir una ruta y su modo de scroll.
-- Registrar un patron de ruta deliberado en la politica.
-- Adaptar solo la composicion necesaria y validar desktop, movil y permisos.
-
-### Fase 5. Migracion gradual y retiro
-
-- Registrar cada adopcion en `docs/ui/adoption-log.md`.
-- Migrar rutas por iniciativas independientes.
-- Cuando no existan rutas `legacy`, retirar boundary, shell legado y politica.
+- La primera adopcion real se define en una spec independiente, incluyendo la
+  seleccion de ruta, configuracion de breadcrumbs, modo de scroll y validacion.
+- Cada adopcion aprobada se registra en `docs/ui/adoption-log.md`.
+- El retiro del shell legado se decide en una iniciativa exclusiva cuando no
+  existan rutas que resuelvan a `legacy`.
 
 ## Criterios de Salida
 

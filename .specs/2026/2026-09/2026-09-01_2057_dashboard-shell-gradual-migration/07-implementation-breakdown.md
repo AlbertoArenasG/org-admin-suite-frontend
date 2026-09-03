@@ -30,19 +30,8 @@ Incluye:
 - cobertura del fallback legado;
 - validacion de que no afecta rutas existentes.
 
-## Slice 3. Adopcion de una ruta seleccionada
+## Limite de la Iniciativa
 
-Objetivo: migrar una sola ruta aprobada mediante su spec propia.
-
-Incluye:
-
-- entrada explicita en la politica;
-- configuracion de breadcrumbs y scroll;
-- adaptacion minima de la pagina;
-- actualizacion de `docs/ui/adoption-log.md`;
-- validacion responsive y funcional.
-
-## Slice 4. Adopciones posteriores y retiro
-
-Objetivo: repetir el slice 3 por ruta hasta agotar consumidores del shell
-legado y retirar la infraestructura temporal.
+La adopcion de una ruta, las adopciones posteriores y el retiro del shell
+legado no son slices de esta iniciativa. Cada uno requerira una spec con
+alcance, riesgos y validacion propios.

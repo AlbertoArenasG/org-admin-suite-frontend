@@ -21,3 +21,12 @@
 - Se completo la implementacion del Slice 2: `NextDashboardShell` queda
   conectado al boundary con breadcrumbs y modo de scroll declarativos. El
   registro de adopcion sigue vacio, por lo que ninguna ruta productiva lo usa.
+- Se validaron rutas de ambos dashboards sin detectar regresiones. El Slice 2
+  queda cerrado y la coexistencia esta lista para una primera adopcion real.
+
+## 2026-09-02
+
+- Se cerro la iniciativa al completar su proposito: estrategia aprobada y
+  coexistencia preparada, sin rutas productivas activadas en `next`.
+- La primera adopcion real y el retiro del shell legado se movieron a specs
+  futuras de alcance fijo.

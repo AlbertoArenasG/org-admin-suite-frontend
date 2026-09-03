@@ -20,7 +20,8 @@ docs/ui/
 ├─ adoption-log.md
 ├─ dashboard-shell/
 │  ├─ structure-model.md
-│  └─ guidelines.md
+│  ├─ guidelines.md
+│  └─ migration.md
 ├─ initiatives/
 │  └─ mobile-responsive-redesign.md
 ├─ patterns/                 # Futuro: tablas, formularios, detalles y page composition.
@@ -34,6 +35,8 @@ docs/ui/
   Es una referencia conceptual, no una spec de ejecución.
 - `dashboard-shell/guidelines.md`: referencia viva y normativa para nuevas
   implementaciones que adopten el dashboard shell.
+- `dashboard-shell/migration.md`: proceso operativo para adoptar rutas al
+  nuevo shell y retirar la compatibilidad temporal.
 - `initiatives/`: diagnósticos y direcciones de trabajo diferidas. No son
   guidelines ni obligan cambios inmediatos.
 - `patterns/`: ubicación reservada para guidelines específicas de tablas,

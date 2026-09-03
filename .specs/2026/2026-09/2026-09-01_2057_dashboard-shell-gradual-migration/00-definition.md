@@ -10,12 +10,17 @@ modelo.
 Esta spec no elige ni migra un modulo de negocio. Cada primera adopcion tendra
 su propia spec o slice, donde se decidira la ruta adecuada y su composicion.
 
+La migracion gradual y el retiro final del shell legado son procesos de largo
+plazo documentados en `docs/ui/dashboard-shell/migration.md`; no extienden el
+alcance ni la vida de esta spec.
+
 ## Estado General
 
 - Iniciativa: `dashboard-shell-gradual-migration`
 - Fecha: `2026-09-01`
 - Definition status: `completed`
 - Implementation ready: `yes`
+- Initiative status: `completed`
 
 ---
 
