@@ -44,6 +44,10 @@ El retiro de `LegacyDashboardShell`, el boundary y la politica de migracion no
 forma parte de una adopcion individual. Requiere una iniciativa exclusiva una
 vez que no existan rutas que resuelvan a `legacy`.
 
+No se debe iniciar esa iniciativa de retiro automaticamente ni como parte de
+la ultima adopcion. Solo se crea una spec de cierre cuando el responsable del
+proyecto decida hacerlo despues de confirmar que la migracion esta completa.
+
 ## Estado Objetivo Posterior a la Migracion
 
 Al completar todas las adopciones, el dashboard no debe conservar terminologia
@@ -52,11 +56,9 @@ ni infraestructura transitoria de migracion.
 - Se retiran `LegacyDashboardShell`, `DashboardShellMigrationBoundary`, la
   variante `legacy | next` y el registro de adopcion temporal.
 - `NextDashboardShell` es un nombre transitorio que significa la siguiente
-  version del shell, no una dependencia de Next.js. Durante la coexistencia se
-  debe renombrar a `MigratedDashboardShell` para expresar ese caracter
-  temporal.
-- Al retirar la coexistencia, `MigratedDashboardShell` se consolida como
-  `DashboardAppShell`, responsable del host comun del dashboard: sidebar,
+  version del shell, no una dependencia de Next.js. Al retirar la coexistencia
+  se consolida y renombra como `DashboardAppShell`, responsable del host comun
+  del dashboard: sidebar,
   content inset, workspace canvas y marco compartido de las rutas.
 - `DashboardShellFrame` permanece como primitiva interna y neutral para
   componer canvas y headers; no reemplaza la responsabilidad de
@@ -66,6 +68,22 @@ ni infraestructura transitoria de migracion.
   configuracion estructural permanente, o vivir junto al modulo cuando resulte
   mas claro.
 
-La iniciativa de retiro debe validar que no existan rutas `legacy`, imports de
-la carpeta de migracion ni fallbacks de shell antes de eliminar esa
-infraestructura.
+## Spec Obligatoria de Cierre
+
+Cuando se decida iniciar la spec posterior a la migracion completa, su alcance
+debe incluir todo el retiro de la infraestructura temporal. No se permite dejar
+un fallback, una variante de shell o una politica de adopcion sin consumidores.
+
+La spec debe comprobar y ejecutar:
+
+- No existen rutas que resuelvan a `legacy` ni entradas pendientes de adopcion.
+- No existen imports de `LegacyDashboardShell`,
+  `DashboardShellMigrationBoundary` ni archivos de la carpeta `migration/`.
+- Se elimina el resolvedor de pathname, el registro temporal y la union
+  `legacy | next`.
+- `NextDashboardShell` se consolida como `DashboardAppShell` y el layout final
+  deja de seleccionar variantes de shell.
+- La configuracion estructural permanente se separa de la politica temporal de
+  migracion.
+- Se validan rutas representativas, desktop, movil, sidebar, auth y scroll
+  antes de cerrar la spec.
