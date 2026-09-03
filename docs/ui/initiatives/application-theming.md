@@ -13,9 +13,10 @@ localmente con la clave `application-appearance`; no depende del selector
 legado `light/dark/system`.
 
 La primera implementación mantiene claro el `Workspace Canvas` y el contenido
-operativo en ambos temas. La diferencia inicial vive en los materiales de
-`Navigation Shell` y `Content Inset`, pero el contrato de tokens ya cubre todas
-las capas para extenderlos gradualmente sin reescribir los componentes.
+operativo en ambos temas. `Navigation Shell` y `Content Inset` consumen la
+misma receta de material del dashboard en cada tema, mientras el contrato de
+tokens cubre todas las capas para extenderlos gradualmente sin reescribir los
+componentes.
 
 ## Dirección Aprobada
 
@@ -33,6 +34,15 @@ Las primeras tres variantes de tema de aplicación son:
 Las tres variantes parten de un `Workspace Canvas` y contenido operativo claros.
 En todos los casos, tablas, formularios, datos e inputs deberán ser la región más
 legible, clara y menos decorada de la aplicación.
+
+### Material Compartido del Dashboard
+
+`Dashboard Shell` define el fondo base y el ambient mesh. `Navigation Shell` y
+`Content Inset` aplican encima la misma receta semántica de material mediante
+`--dashboard-shell-glass-*`: superficie, imagen, borde, sombra y backdrop.
+Esto garantiza que ambos se perciban como una sola composición en escritorio y
+mobile, sin duplicar fórmulas por componente o viewport. `Global Header` se
+mantiene transparente y revela el material de `Content Inset`.
 
 El tema no será una apariencia parcial del dashboard: cada tema deberá resolver
 fondo, navegación, content inset, workspace, superficies de módulo, controles,
@@ -59,6 +69,38 @@ La fundación implementada reutiliza `next-themes` y:
 
 MUI hoy contiene principalmente configuración tipográfica. Sus futuros colores
 y superficies deben alinearse con el mismo contrato de tokens.
+
+## Mobile Navigation Sheet y Transparencia Contextual
+
+`Mobile Navigation Sheet` se renderiza mediante un portal. Conserva el rol de
+`Navigation Shell`, pero no es descendiente DOM del `Dashboard Shell`; por eso
+debe recibir explícitamente las mismas clases y tokens temáticos que consume la
+navegación de escritorio.
+
+Las variantes iniciales son oscuras y pueden permitir una transparencia
+contextual sutil en el sheet: el usuario puede percibir vagamente la vista de
+trabajo que permanece detrás sin comprometer la legibilidad de la navegación.
+Este comportamiento es intencional mientras el contraste se mantenga dentro de
+los requisitos de accesibilidad.
+
+Al diseñar un tema claro, o uno cuya receta ambient sea suficientemente
+translúcida para revelar de forma distractora el `Workspace Canvas`, se deberá
+evaluar el sheet en dispositivos móviles. Si la transparencia contextual deja
+de ser adecuada, la solución aprobada no será agregar colores o gradients
+locales al componente móvil. El sheet deberá componerse con las mismas
+primitivas compartidas del tema:
+
+- Fondo base de `Dashboard Shell`: `--dashboard-shell-surface` y
+  `--dashboard-shell-mesh`.
+- Receta compartida de material para `Navigation Shell` y `Content Inset`:
+  tinte, transparencia, borde, elevación y backdrop mediante tokens
+  semánticos del tema.
+
+La diferencia entre desktop y mobile será únicamente estructural, necesaria
+por el portal. Los valores visuales y fórmulas deberán provenir del mismo
+contrato de tokens. Esta reconstrucción del fondo dentro del sheet no se
+implementa anticipadamente: requiere una spec cuando exista un tema que la
+justifique y debe validarse junto con contraste, foco y cierre del overlay.
 
 ## Contrato Inicial
 

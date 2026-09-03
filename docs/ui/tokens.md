@@ -32,7 +32,12 @@ usarse cuando una superficie tenga una responsabilidad reutilizable.
 Ejemplos: `--workspace-canvas-surface`, `--module-surface`,
 `--module-surface-border`, `--control-surface`, `--surface-bg`,
 `--data-grid-header-bg`, `--dashboard-shell-surface` y
-`--dashboard-navigation-surface`.
+`--dashboard-shell-glass-surface`.
+
+La familia `--dashboard-shell-glass-*` describe una receta reutilizable de
+material: superficie, imagen, borde, sombra y backdrop. `Navigation Shell` y
+`Content Inset` deben consumir la misma receta dentro de cada tema; sus
+subregiones pueden tener tokens propios solo cuando expresen otro rol visual.
 
 ### Específicos de Componente o Patrón
 

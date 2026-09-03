@@ -36,7 +36,7 @@ export function SidebarBrand({
   return (
     <div
       className={cn(
-        'dashboard-navigation-panel group/brand relative flex min-h-16 items-center gap-3 rounded-2xl border border-[var(--dashboard-navigation-border)] bg-[var(--dashboard-navigation-panel-surface)] p-3 text-sidebar-foreground shadow-[var(--dashboard-navigation-panel-shadow)] backdrop-blur-xl',
+        'dashboard-navigation-panel group/brand relative flex min-h-16 items-center gap-3 rounded-2xl border border-[var(--dashboard-navigation-panel-border)] bg-[var(--dashboard-navigation-panel-surface)] p-3 text-sidebar-foreground shadow-[var(--dashboard-navigation-panel-shadow)] backdrop-[var(--dashboard-navigation-panel-backdrop)]',
         collapsed &&
           'size-10 min-h-10 justify-center rounded-xl border-transparent bg-transparent p-0 shadow-none',
         className

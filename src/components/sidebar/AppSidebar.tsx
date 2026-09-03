@@ -59,7 +59,7 @@ export function AppSidebar({ className, ...props }: React.ComponentProps<typeof 
     <Sidebar
       collapsible="icon"
       className={cn(
-        'dashboard-navigation-shell border-none [&_[data-slot=sidebar-gap]]:bg-transparent',
+        'theme-sidebar dashboard-navigation-shell border-none [&_[data-slot=sidebar-gap]]:bg-transparent',
         '[&_[data-slot=sidebar-inner]]:border [&_[data-slot=sidebar-inner]]:text-sidebar-foreground',
         className
       )}

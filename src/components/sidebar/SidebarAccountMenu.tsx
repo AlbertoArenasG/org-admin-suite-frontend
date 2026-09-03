@@ -66,7 +66,7 @@ export function SidebarAccountMenu({
   return (
     <div
       className={cn(
-        'dashboard-navigation-panel rounded-xl border border-[var(--dashboard-navigation-border)] bg-[var(--dashboard-navigation-panel-surface)] p-1.5 text-sidebar-foreground shadow-[var(--dashboard-navigation-panel-shadow)] backdrop-blur-xl',
+        'dashboard-navigation-panel rounded-xl border border-[var(--dashboard-navigation-panel-border)] bg-[var(--dashboard-navigation-panel-surface)] p-1.5 text-sidebar-foreground shadow-[var(--dashboard-navigation-panel-shadow)] backdrop-[var(--dashboard-navigation-panel-backdrop)]',
         collapsed && 'border-transparent bg-transparent p-0 shadow-none',
         className
       )}

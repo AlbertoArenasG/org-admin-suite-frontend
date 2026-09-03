@@ -389,6 +389,11 @@
   --sidebar-gradient-via: var(--sidebar);
   --sidebar-gradient-to: var(--sidebar);
   --sidebar-rail: color-mix(in srgb, var(--sidebar) 78%, var(--sidebar-accent));
+  --dashboard-shell-glass-surface: var(--sidebar);
+  --dashboard-shell-glass-border: var(--sidebar-border);
+  --dashboard-shell-glass-image: none;
+  --dashboard-shell-glass-shadow: none;
+  --dashboard-shell-glass-backdrop: none;
 }
 
 .dashboard-shell {
@@ -397,24 +402,27 @@
 }
 
 .dashboard-content-inset {
-  background-color: transparent;
-}
-
-@media (min-width: 48rem) {
-  .dashboard-content-inset {
-    border: 1px solid var(--dashboard-content-inset-border);
-    background-color: var(--dashboard-content-inset-surface);
-    box-shadow: var(--dashboard-content-inset-shadow);
-    backdrop-filter: var(--dashboard-content-inset-backdrop);
-  }
+  border: 1px solid var(--dashboard-shell-glass-border);
+  background-color: var(--dashboard-shell-glass-surface);
+  background-image: var(--dashboard-shell-glass-image);
+  box-shadow: var(--dashboard-shell-glass-shadow);
+  backdrop-filter: var(--dashboard-shell-glass-backdrop);
 }
 
 .dashboard-navigation-shell [data-slot='sidebar-inner'] {
-  border-color: var(--dashboard-navigation-border);
-  background-color: var(--dashboard-navigation-surface);
-  background-image: var(--dashboard-navigation-image);
-  box-shadow: var(--dashboard-navigation-shadow);
-  backdrop-filter: var(--dashboard-navigation-backdrop);
+  border-color: var(--dashboard-shell-glass-border);
+  background-color: var(--dashboard-shell-glass-surface);
+  background-image: var(--dashboard-shell-glass-image);
+  box-shadow: var(--dashboard-shell-glass-shadow);
+  backdrop-filter: var(--dashboard-shell-glass-backdrop);
+}
+
+.dashboard-navigation-shell[data-mobile='true'] {
+  border-color: var(--dashboard-shell-glass-border);
+  background-color: var(--dashboard-shell-glass-surface);
+  background-image: var(--dashboard-shell-glass-image);
+  box-shadow: var(--dashboard-shell-glass-shadow);
+  backdrop-filter: var(--dashboard-shell-glass-backdrop);
 }
 
 .dashboard-navigation-rail {

@@ -34,7 +34,7 @@ export function SidebarMobileShell({
         />
       </SidebarHeader>
       <SidebarContent className="min-w-0 flex-1 overflow-x-hidden px-2 pb-4">
-        <div className="mb-4 border-b border-white/10 px-2 pb-3">
+        <div className="mb-4 border-b border-[var(--dashboard-navigation-rail-border)] px-2 pb-3">
           <SidebarGroupRail
             dashboard={dashboard}
             groups={groups}
