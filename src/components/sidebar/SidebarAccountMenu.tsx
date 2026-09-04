@@ -76,7 +76,7 @@ export function SidebarAccountMenu({
           <Button
             variant="ghost"
             className={cn(
-              'h-auto w-full justify-start gap-2 px-2 py-1.5 text-sidebar-foreground hover:bg-white/10 hover:text-sidebar-foreground',
+              'h-auto w-full justify-start gap-2 px-2 py-1.5 text-sidebar-foreground hover:bg-[var(--dashboard-navigation-control-hover-surface)] hover:text-sidebar-foreground',
               collapsed && 'size-10 justify-center rounded-xl p-0'
             )}
           >
@@ -174,9 +174,9 @@ type AccountAvatarProps = {
 
 function AccountAvatar({ avatarSrc, name, initials }: AccountAvatarProps) {
   return (
-    <Avatar className="size-8 shrink-0 rounded-lg border border-white/30 bg-white/90">
+    <Avatar className="size-8 shrink-0 rounded-lg border border-[var(--dashboard-navigation-avatar-border)] bg-[var(--dashboard-navigation-avatar-surface)]">
       {avatarSrc ? <AvatarImage src={avatarSrc} alt={name} /> : null}
-      <AvatarFallback className="rounded-lg text-xs font-semibold text-foreground">
+      <AvatarFallback className="rounded-lg text-xs font-semibold text-[var(--dashboard-navigation-avatar-foreground)]">
         {initials}
       </AvatarFallback>
     </Avatar>

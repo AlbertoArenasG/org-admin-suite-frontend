@@ -35,6 +35,26 @@ Las tres variantes parten de un `Workspace Canvas` y contenido operativo claros.
 En todos los casos, tablas, formularios, datos e inputs deberán ser la región más
 legible, clara y menos decorada de la aplicación.
 
+Cada apariencia declara explícitamente su receta de `Workspace Canvas`, aunque
+las tres variantes iniciales compartan hoy valores claros. Una variante futura
+puede modificar esa receta por tema sin cambiar `NextDashboardShell`, la
+primitiva del canvas ni las vistas migradas.
+
+### Frontera Temática del Next Dashboard
+
+Los valores estructurales globales, como espaciado, tipografía, dimensiones,
+duraciones y z-index, pueden compartirse entre apariencias. Todo valor de color
+o material que consuma `NextDashboardShell`, sus primitivas compartidas o sus
+overlays debe declararse en cada selector `html.<tema>`, incluso cuando los
+valores iniciales coincidan.
+
+Las variables cromáticas de `:root` se conservan como compatibilidad para
+legacy y para superficies fuera del dashboard. No son fuente de apariencia para
+el `Next Dashboard`. Al introducir un token cromático en un componente nuevo o
+migrado, el mismo cambio debe añadir su valor a las tres apariencias activas.
+Esto incluye los tokens genéricos de UI que un overlay portalizado pueda
+consumir, como `--overlay-surface` para el scrim de un `Sheet`.
+
 ### Material Compartido del Dashboard
 
 `Dashboard Shell` define el fondo base y el ambient mesh. `Navigation Shell` y

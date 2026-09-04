@@ -51,7 +51,6 @@ export function DashboardShellPlayground() {
       scrollMode={scrollMode}
       className="min-h-svh md:h-full md:min-h-0"
       contentInsetClassName="dashboard-content-inset md:min-h-0 md:p-4"
-      workspaceCanvasClassName="rounded-none shadow-none md:rounded-[1.5rem] md:shadow-sm"
       globalHeader={
         <DashboardGlobalHeader
           className="text-sidebar-foreground"

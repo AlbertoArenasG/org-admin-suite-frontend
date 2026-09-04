@@ -84,6 +84,7 @@
 
   --destructive: var(--error-500);
   --destructive-foreground: #ffffff;
+  --overlay-surface: rgb(0 0 0 / 50%);
 
   /* ===== Elementos UI ===== */
   --border: #d7e0e7;
@@ -110,7 +111,6 @@
   --sidebar-overlay: color-mix(in srgb, var(--sidebar) 92%, var(--sidebar-foreground));
 
   /* ===== Roles semánticos de composición ===== */
-  --workspace-canvas-surface: var(--background);
   --module-surface: var(--card);
   --module-surface-border: var(--border);
   --control-surface: var(--popover);
@@ -407,6 +407,19 @@
   background-image: var(--dashboard-shell-glass-image);
   box-shadow: var(--dashboard-shell-glass-shadow);
   backdrop-filter: var(--dashboard-shell-glass-backdrop);
+}
+
+.dashboard-workspace-canvas {
+  background-color: var(--workspace-canvas-surface, var(--background));
+}
+
+@media (min-width: 768px) {
+  .dashboard-workspace-canvas {
+    border: var(--workspace-canvas-border-width, 0px) solid
+      var(--workspace-canvas-border, transparent);
+    border-radius: var(--workspace-canvas-radius, 0);
+    box-shadow: var(--workspace-canvas-shadow, none);
+  }
 }
 
 .dashboard-navigation-shell [data-slot='sidebar-inner'] {

@@ -24,14 +24,13 @@ interface NextDashboardShellProps extends PropsWithChildren {
  */
 export function NextDashboardShell({ children, config }: NextDashboardShellProps) {
   return (
-    <SidebarProvider className="theme-sidebar dashboard-shell min-h-svh text-secondary-foreground/90 md:h-svh md:min-h-0 md:overscroll-y-none md:overflow-hidden">
+    <SidebarProvider className="theme-sidebar dashboard-shell min-h-svh text-[var(--foreground)] md:h-svh md:min-h-0 md:overscroll-y-none md:overflow-hidden">
       <AppSidebar />
       <SidebarInset className="min-h-svh bg-transparent p-0 md:h-svh md:min-h-0 md:overscroll-y-none md:overflow-hidden">
         <DashboardShellFrame
           scrollMode={config.scrollMode}
           className="min-h-svh md:h-full md:min-h-0"
           contentInsetClassName="dashboard-content-inset md:min-h-0 md:p-4"
-          workspaceCanvasClassName="rounded-none shadow-none md:rounded-[1.5rem] md:shadow-sm"
           globalHeader={
             <DashboardGlobalHeader
               className="text-sidebar-foreground"

@@ -1,10 +1,64 @@
 html.classic {
   color-scheme: light;
-}
-
-html.classic .theme-sidebar {
+  --background: #f6f8f9;
+  --foreground: #111827;
+  --card: #ffffff;
+  --card-foreground: #111827;
+  --primary-50: #f1fcfb;
+  --primary-400: #3cbab0;
+  --primary-500: #1d9f9a;
+  --primary-600: #178682;
+  --primary-700: #126b68;
+  --primary-foreground: #ffffff;
+  --accent-500: #30b3a2;
+  --accent-foreground: #ffffff;
+  --secondary-50: #f4f2ff;
+  --secondary-300: #a69ff8;
+  --secondary-500: #6b5be5;
+  --secondary-600: #5742c9;
+  --secondary-700: #422f9b;
+  --secondary-800: #2d1f6d;
+  --secondary-900: #1c1243;
+  --secondary-foreground: #f7f5ff;
+  --border: #d7e0e7;
+  --input: #d7e0e7;
+  --ring: #1d9f9a;
+  --muted: #eff4f8;
+  --muted-foreground: #566173;
+  --popover: #ffffff;
+  --popover-foreground: #111827;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --overlay-surface: rgb(0 0 0 / 50%);
+  --sidebar: #422f9b;
+  --sidebar-foreground: #f7f5ff;
+  --sidebar-primary: #6b5be5;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #2d1f6d;
+  --sidebar-accent-foreground: #ece9ff;
+  --sidebar-border: rgba(78, 67, 138, 0.45);
+  --sidebar-ring: rgba(126, 106, 219, 0.5);
+  --sidebar-gradient-from: #422f9b;
+  --sidebar-gradient-via: #422f9b;
+  --sidebar-gradient-to: #422f9b;
+  --sidebar-rail: color-mix(in srgb, var(--sidebar) 78%, var(--sidebar-accent));
+  --sidebar-overlay: color-mix(in srgb, var(--sidebar) 92%, var(--sidebar-foreground));
+  --dashboard-navigation-control-hover-surface: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 10%,
+    transparent
+  );
+  --dashboard-navigation-logo-surface: #ffffff;
+  --dashboard-navigation-avatar-surface: rgb(255 255 255 / 90%);
+  --dashboard-navigation-avatar-border: rgb(255 255 255 / 30%);
+  --dashboard-navigation-avatar-foreground: #111827;
   --dashboard-shell-surface: var(--sidebar);
   --dashboard-shell-mesh: none;
+  --workspace-canvas-surface: #f6f8f9;
+  --workspace-canvas-border: transparent;
+  --workspace-canvas-border-width: 0px;
+  --workspace-canvas-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
+  --workspace-canvas-radius: 1.5rem;
   --dashboard-shell-glass-surface: var(--sidebar);
   --dashboard-shell-glass-border: var(--sidebar-border);
   --dashboard-shell-glass-image: linear-gradient(

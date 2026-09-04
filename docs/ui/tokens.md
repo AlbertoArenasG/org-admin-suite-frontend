@@ -39,6 +39,24 @@ material: superficie, imagen, borde, sombra y backdrop. `Navigation Shell` y
 `Content Inset` deben consumir la misma receta dentro de cada tema; sus
 subregiones pueden tener tokens propios solo cuando expresen otro rol visual.
 
+`Workspace Canvas` usa su propia receta mediante
+`--workspace-canvas-{surface,border,border-width,shadow,radius}`. Esta capa es
+operativa y deliberadamente sobria: no hereda el mesh ni el material de vidrio
+del shell. Los valores de esta receta se declaran por tema, no se derivan de
+`--background`; cada apariencia puede redefinirlos sin cambiar la primitiva ni
+las vistas que la consumen.
+
+`DashboardWorkspaceCanvas` conserva fallbacks locales solo para un montaje
+accidental fuera del scope temático. `NextDashboardShell` siempre debe recibir
+la receta desde la apariencia activa; esos fallbacks no constituyen una fuente
+visual alternativa ni un contrato de tema.
+
+Para el `Next Dashboard`, los tokens cromáticos y de material se declaran en
+cada `html.<tema>`. `:root` puede conservar valores equivalentes para legacy,
+pero un componente nuevo o migrado no puede depender de ellos como fuente
+visual. Si introduce un token cromático adicional, se debe completar su valor
+en todas las apariencias activas dentro del mismo cambio.
+
 ### Específicos de Componente o Patrón
 
 Se crean únicamente si un componente compartido o patrón reutilizable necesita

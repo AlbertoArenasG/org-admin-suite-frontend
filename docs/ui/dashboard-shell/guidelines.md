@@ -234,6 +234,10 @@ y los módulos compitan por el scroll.
   requiera utilidades globales.
 - `Workspace Canvas` ocupa el espacio restante de `Content Inset` y también
   permanece fijo.
+- En escritorio, su superficie se resuelve exclusivamente mediante la receta
+  `--workspace-canvas-*`, declarada por cada tema. Las variantes iniciales
+  conservan un fondo claro, radio y elevación tenue; un tema futuro puede
+  redefinirlos sin replicar el mesh ni el vidrio del shell.
 - `Workspace Header` contiene los breadcrumbs y el contexto de la ruta activa.
 - `Page Content Scroller` contiene la parte desplazable de `Page Composition`
   y sus `Module Surfaces` en el modo predeterminado.
@@ -334,6 +338,9 @@ ruta utiliza el desplazamiento natural del documento.
 - El marco morado y los gutters decorativos de escritorio no se exponen.
 - `Content Inset` y `Workspace Canvas` ocupan el ancho disponible sin
   comportarse como una card flotante de escritorio.
+- `Workspace Canvas` no aplica borde, radio ni sombra en móvil. Los temas
+  podrán redefinir su receta de escritorio sin crear excepciones visuales por
+  vista o por componente.
 - `Global Header` conserva el acceso a `Mobile Navigation Sheet` y el espacio
   para utilidades globales.
 - `Workspace Header` conserva los breadcrumbs en una resolución compacta, con

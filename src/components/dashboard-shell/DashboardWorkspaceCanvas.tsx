@@ -19,7 +19,7 @@ export function DashboardWorkspaceCanvas({
     <section
       data-dashboard-scroll-mode={scrollMode}
       className={cn(
-        'flex min-w-0 flex-1 flex-col bg-[var(--workspace-canvas-surface)]',
+        'dashboard-workspace-canvas flex min-w-0 flex-1 flex-col',
         scrollMode === 'workspace'
           ? 'md:min-h-0 md:overscroll-y-none md:overflow-y-auto'
           : 'md:min-h-0 md:overflow-hidden',
