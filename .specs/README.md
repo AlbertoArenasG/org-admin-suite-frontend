@@ -11,6 +11,9 @@
 - permitir avanzar por slices pequenos sin perder consistencia
 - distinguir entre documentos historicos en `.specs` y documentos vivos en `docs/`
 
+La guia operativa para crear, retomar, implementar y cerrar iniciativas vive
+en [`SPEC_WORKFLOW.md`](./SPEC_WORKFLOW.md).
+
 ## Cuando Usarlo
 
 Usar `.specs` para:
