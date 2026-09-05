@@ -10,7 +10,12 @@ interface DashboardWorkspaceHeaderProps {
 
 export function DashboardWorkspaceHeader({ children, className }: DashboardWorkspaceHeaderProps) {
   return (
-    <header className={cn('flex min-h-12 shrink-0 items-center px-1 py-1 sm:px-2', className)}>
+    <header
+      className={cn(
+        'flex min-h-12 shrink-0 items-center border-b border-[var(--workspace-chrome-border)] px-1 py-1 sm:px-2',
+        className
+      )}
+    >
       <div className="min-w-0 flex-1">{children}</div>
     </header>
   );

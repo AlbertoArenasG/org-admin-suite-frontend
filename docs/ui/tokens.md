@@ -46,6 +46,11 @@ del shell. Los valores de esta receta se declaran por tema, no se derivan de
 `--background`; cada apariencia puede redefinirlos sin cambiar la primitiva ni
 las vistas que la consumen.
 
+Su chrome interno usa una familia independiente por tema:
+`--workspace-chrome-{foreground,border,control-hover,avatar-surface,avatar-border}`.
+Estos tokens cubren toolbar, breadcrumbs, trigger y cuenta sin acoplarlos a
+los bordes, foregrounds o hovers genéricos de tablas, formularios y popovers.
+
 `DashboardWorkspaceCanvas` conserva fallbacks locales solo para un montaje
 accidental fuera del scope temático. `NextDashboardShell` siempre debe recibir
 la receta desde la apariencia activa; esos fallbacks no constituyen una fuente

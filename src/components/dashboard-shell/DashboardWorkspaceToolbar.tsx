@@ -23,7 +23,7 @@ export function DashboardWorkspaceToolbar({
   return (
     <header
       className={cn(
-        'flex min-h-16 shrink-0 items-center gap-3 border-b border-border/70 px-4 sm:px-5',
+        'flex min-h-16 shrink-0 items-center gap-3 border-b border-[var(--workspace-chrome-border)] px-4 sm:px-5',
         className
       )}
     >

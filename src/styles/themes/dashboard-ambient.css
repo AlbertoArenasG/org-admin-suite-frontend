@@ -58,6 +58,11 @@ html.ambient {
   --workspace-canvas-border-width: 0px;
   --workspace-canvas-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
   --workspace-canvas-radius: 1.5rem;
+  --workspace-chrome-foreground: #111827;
+  --workspace-chrome-border: rgb(215 224 231 / 70%);
+  --workspace-chrome-control-hover: #eff4f8;
+  --workspace-chrome-avatar-surface: #eff4f8;
+  --workspace-chrome-avatar-border: #d7e0e7;
   --dashboard-shell-mesh-primary: color-mix(in srgb, var(--secondary-500) 78%, transparent);
   --dashboard-shell-mesh-accent: color-mix(in srgb, var(--primary-400) 44%, transparent);
   --dashboard-shell-mesh:

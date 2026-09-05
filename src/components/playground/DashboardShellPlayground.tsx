@@ -53,15 +53,15 @@ export function DashboardShellPlayground() {
       contentInsetClassName="dashboard-content-inset md:min-h-0 md:p-4"
       workspaceToolbar={
         <DashboardWorkspaceToolbar
-          className="text-foreground"
+          className="text-[var(--workspace-chrome-foreground)]"
           start={
-            <SidebarTrigger className="size-9 text-foreground hover:bg-muted hover:text-foreground md:flex" />
+            <SidebarTrigger className="size-9 text-[var(--workspace-chrome-foreground)] hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)] md:flex" />
           }
           end={<DashboardWorkspaceAccountMenu />}
         />
       }
       workspaceHeader={
-        <DashboardWorkspaceHeader className="border-b border-border/70 px-4 sm:px-5">
+        <DashboardWorkspaceHeader className="px-4 sm:px-5">
           <PageBreadcrumbs segments={segments} />
         </DashboardWorkspaceHeader>
       }

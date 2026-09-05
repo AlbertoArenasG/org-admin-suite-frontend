@@ -27,7 +27,7 @@ export function NextDashboardShell({ children, config }: NextDashboardShellProps
           contentInsetClassName="dashboard-content-inset md:min-h-0 md:p-4"
           workspaceToolbar={<NextDashboardGlobalHeader />}
           workspaceHeader={
-            <DashboardWorkspaceHeader className="border-b border-border/70 px-4 sm:px-5">
+            <DashboardWorkspaceHeader className="px-4 sm:px-5">
               <PageBreadcrumbs segments={config.breadcrumbs} />
             </DashboardWorkspaceHeader>
           }
