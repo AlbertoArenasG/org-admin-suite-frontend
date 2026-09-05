@@ -3,9 +3,9 @@
 import type { PropsWithChildren } from 'react';
 import { Bell } from 'lucide-react';
 import {
-  DashboardGlobalHeader,
   DashboardShellFrame,
   DashboardWorkspaceHeader,
+  DashboardWorkspaceToolbar,
 } from '@/components/dashboard-shell';
 import type { NextDashboardShellRouteConfig } from '@/components/dashboard-shell/migration/dashboardShellMigration';
 import { PageBreadcrumbs } from '@/components/shared/PageBreadcrumbs';
@@ -31,11 +31,11 @@ export function NextDashboardShell({ children, config }: NextDashboardShellProps
           scrollMode={config.scrollMode}
           className="min-h-svh md:h-full md:min-h-0"
           contentInsetClassName="dashboard-content-inset md:min-h-0 md:p-4"
-          globalHeader={
-            <DashboardGlobalHeader
-              className="text-sidebar-foreground"
+          workspaceToolbar={
+            <DashboardWorkspaceToolbar
+              className="text-foreground"
               start={
-                <SidebarTrigger className="size-9 text-sidebar-foreground hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground md:flex" />
+                <SidebarTrigger className="size-9 text-foreground hover:bg-muted hover:text-foreground md:flex" />
               }
               end={
                 <>
@@ -44,7 +44,7 @@ export function NextDashboardShell({ children, config }: NextDashboardShellProps
                     variant="ghost"
                     size="icon"
                     aria-label="Notificaciones"
-                    className="size-9 text-sidebar-foreground hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground"
+                    className="size-9 text-foreground hover:bg-muted hover:text-foreground"
                   >
                     <Bell className="size-4" aria-hidden="true" />
                   </Button>
@@ -53,10 +53,10 @@ export function NextDashboardShell({ children, config }: NextDashboardShellProps
                     variant="ghost"
                     size="icon"
                     aria-label="Cuenta"
-                    className="size-9 text-sidebar-foreground hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground"
+                    className="size-9 text-foreground hover:bg-muted hover:text-foreground"
                   >
-                    <Avatar className="size-7 border border-current/20">
-                      <AvatarFallback className="bg-current/10 text-[10px] font-semibold text-current">
+                    <Avatar className="size-7 border border-border">
+                      <AvatarFallback className="bg-muted text-[10px] font-semibold text-foreground">
                         AA
                       </AvatarFallback>
                     </Avatar>

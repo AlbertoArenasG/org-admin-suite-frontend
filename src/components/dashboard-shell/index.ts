@@ -11,3 +11,4 @@ export {
 } from '@/components/dashboard-shell/DashboardShellContext';
 export { DashboardWorkspaceCanvas } from '@/components/dashboard-shell/DashboardWorkspaceCanvas';
 export { DashboardWorkspaceHeader } from '@/components/dashboard-shell/DashboardWorkspaceHeader';
+export { DashboardWorkspaceToolbar } from '@/components/dashboard-shell/DashboardWorkspaceToolbar';

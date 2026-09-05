@@ -164,7 +164,7 @@ export function DashboardShellPlayground() {
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard-playground/navigation-composition/demo">
+                <Link href="/next-dashboard-demo">
                   <PanelLeft className="size-4" aria-hidden="true" />
                   Navegación + canvas
                 </Link>

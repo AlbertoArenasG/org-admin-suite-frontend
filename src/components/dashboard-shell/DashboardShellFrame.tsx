@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 
 export interface DashboardShellFrameProps {
   globalHeader?: ReactNode;
+  workspaceToolbar?: ReactNode;
   workspaceHeader?: ReactNode;
   scrollMode?: DashboardScrollMode;
   children: ReactNode;
@@ -20,6 +21,7 @@ export interface DashboardShellFrameProps {
 
 export function DashboardShellFrame({
   globalHeader,
+  workspaceToolbar,
   workspaceHeader,
   scrollMode = 'page-content',
   children,
@@ -33,6 +35,7 @@ export function DashboardShellFrame({
         <div className={cn('flex min-w-0 flex-1 flex-col md:min-h-0', contentInsetClassName)}>
           {globalHeader}
           <DashboardWorkspaceCanvas scrollMode={scrollMode} className={workspaceCanvasClassName}>
+            {workspaceToolbar}
             {workspaceHeader}
             {children}
           </DashboardWorkspaceCanvas>
