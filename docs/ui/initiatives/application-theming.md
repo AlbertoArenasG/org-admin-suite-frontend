@@ -61,8 +61,11 @@ consumir, como `--overlay-surface` para el scrim de un `Sheet`.
 `Content Inset` aplican encima la misma receta semántica de material mediante
 `--dashboard-shell-glass-*`: superficie, imagen, borde, sombra y backdrop.
 Esto garantiza que ambos se perciban como una sola composición en escritorio y
-mobile, sin duplicar fórmulas por componente o viewport. `Global Header` se
-mantiene transparente y revela el material de `Content Inset`.
+mobile, sin duplicar fórmulas por componente o viewport. En `Next Dashboard`,
+`Workspace Toolbar` y `Workspace Header` usan la superficie del canvas y no
+introducen una receta de vidrio adicional. El `Global Header` exterior de
+legacy se mantiene transparente y revela el material de `Content Inset`
+mientras continúe la coexistencia.
 
 El tema no será una apariencia parcial del dashboard: cada tema deberá resolver
 fondo, navegación, content inset, workspace, superficies de módulo, controles,

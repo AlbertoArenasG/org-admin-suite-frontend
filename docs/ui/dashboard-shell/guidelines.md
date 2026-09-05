@@ -40,7 +40,7 @@ contrato documentado en [`tokens.md`](../tokens.md).
 ### Escritorio
 
 - Ocupa todo el viewport mediante una altura mínima basada en `dvh`.
-- Conserva el fondo morado institucional como marco exterior del dashboard.
+- Resuelve su fondo, mesh y marco exterior mediante los tokens del tema activo.
 - Entrega un espacio exterior compacto a las capas de navegación y contenido.
 - No permite desbordamiento horizontal accidental.
 - El desplazamiento vertical se define dentro del área principal de trabajo;
@@ -51,8 +51,8 @@ contrato documentado en [`tokens.md`](../tokens.md).
 
 - Ocupa todo el viewport sin reservar margen decorativo alrededor de la ruta
   activa.
-- Usa el fondo base de la aplicación en lugar de exponer el marco morado de
-  escritorio.
+- Usa el fondo base definido por el tema en lugar de exponer el marco exterior
+  de escritorio.
 - Considera las safe areas superior e inferior del dispositivo.
 - La navegación móvil se presenta como overlay y no reduce el ancho disponible
   del shell.
@@ -91,7 +91,12 @@ contenido de las páginas, breadcrumbs ni acciones de una ruta.
 - El pane presenta la navegación contextual del área seleccionada.
 - Al colapsar el sidebar se oculta el pane, pero el rail permanece disponible.
   Es una reducción de densidad, no una navegación distinta.
-- Marca y cuenta pertenecen al shell de navegación, no al canvas de contenido.
+- La marca se presenta exclusivamente en el rail.
+- El pane muestra la identidad de la organización en su cabecera.
+- Mientras exista `LegacyDashboardShell`, la cuenta permanece de forma
+  temporal en el pie del pane: legacy no dispone del toolbar del canvas. La
+  ubicación definitiva se revisará en la spec de cierre de migración, no en
+  una adopción individual.
 
 ### Móvil
 
@@ -131,8 +136,9 @@ implementación anticipada.
 
 - `App Shell` define viewport, fondo y overflow.
 - `Navigation Shell` define navegación y su variante responsive.
-- `Global Header` solo solicita la apertura del sheet móvil mediante el trigger
-  compartido.
+- En `Next Dashboard`, `Workspace Toolbar` solicita la apertura del sheet móvil
+  mediante el trigger compartido. Legacy conserva esa responsabilidad en su
+  `Global Header` exterior.
 
 ## Navigation Rail
 
@@ -173,8 +179,9 @@ secundarias, submenús, marca, cuenta ni acciones utilitarias.
 ### Propósito
 
 `Navigation Pane` presenta las rutas y subsecciones del contexto seleccionado
-en `Navigation Rail`. No contiene marca, cuenta, preferencias globales ni
-acciones que no sean rutas de navegación.
+en `Navigation Rail`. No contiene marca ni preferencias globales. Durante la
+coexistencia, incluye temporalmente la cuenta en su pie para mantener legacy
+operativo; no se deben agregar otros controles globales al pane.
 
 Su contenido se resuelve por permisos antes de renderizarse.
 
@@ -229,11 +236,14 @@ y los módulos compitan por el scroll.
 
 - `Content Inset` permanece fijo dentro del espacio disponible del `App Shell`
   y no es una región scrolleable.
-- `Global Header` es un hijo fijo de `Content Inset`, fuera de
-  `Workspace Canvas`. Su presencia es opcional hasta que la experiencia
-  requiera utilidades globales.
 - `Workspace Canvas` ocupa el espacio restante de `Content Inset` y también
   permanece fijo.
+- En rutas de `Next Dashboard`, `Workspace Toolbar` es el primer hijo fijo del
+  canvas; sus utilidades globales viven dentro de la misma superficie de
+  trabajo. `Workspace Header` ocupa la fila inmediatamente posterior para
+  breadcrumbs y contexto de ruta.
+- `Global Header` exterior queda reservado para `LegacyDashboardShell` durante
+  la coexistencia. No se agrega a nuevas rutas ni a rutas migradas.
 - En escritorio, su superficie se resuelve exclusivamente mediante la receta
   `--workspace-canvas-*`, declarada por cada tema. Las variantes iniciales
   conservan un fondo claro, radio y elevación tenue; un tema futuro puede
@@ -250,14 +260,16 @@ Cada ruta tiene un único dueño principal del desplazamiento vertical. La
 selección de ese dueño es una variante explícita de `Page Composition`, no un
 efecto incidental de CSS.
 
-- `Page Content Scroll` es el modo predeterminado de escritorio. `Global Header`
-  y `Workspace Header` permanecen fijos; `Page Content Scroller` recibe el
-  scroll vertical.
+- `Page Content Scroll` es el modo predeterminado de escritorio. En `Next
+Dashboard`, `Workspace Toolbar` y `Workspace Header` permanecen fijos; `Page
+Content Scroller` recibe el scroll vertical. Legacy conserva su `Global Header`
+  exterior mientras no se adopte.
 - `Page Composition Scroll` es una variante de escritorio en la que `Global
-Header` y `Workspace Header` permanecen fijos, mientras `Page Composition`,
-  incluido su `Page Header` opcional, recibe el scroll vertical. Permite que el
-  encabezado de una vista se desplace, se vuelva sticky o se transforme sin
-  entregar el scroll al canvas completo.
+Header` de legacy, o `Workspace Toolbar` y `Workspace Header` de Next,
+  permanecen fijos, mientras `Page Composition`, incluido su `Page Header`
+  opcional, recibe el scroll vertical. Permite que el encabezado de una vista
+  se desplace, se vuelva sticky o se transforme sin entregar el scroll al
+  canvas completo.
 - `Workspace Canvas Scroll` es una variante de escritorio para rutas cuyo
   contexto amplio debe desplazarse, volverse sticky o transformarse al hacer
   scroll. El canvas conserva su posición y tamaño dentro de `Content Inset`,
@@ -275,11 +287,12 @@ propagar el rebote del trackpad al documento ni revelar el fondo global en los
 límites de la región de trabajo. Esta regla no se traslada a móvil, donde el
 scroll pertenece al documento.
 
-### Global Header
+### Workspace Toolbar
 
-`Global Header` es una capa de utilidades de alcance transversal. No expresa
-la ruta activa ni contiene breadcrumbs, título, filtros o acciones propias de
-un módulo.
+`Workspace Toolbar` es una capa de utilidades de alcance transversal de
+`Next Dashboard`. Vive dentro de `Workspace Canvas`, antes de
+`Workspace Header`; no expresa la ruta activa ni contiene breadcrumbs, título,
+filtros o acciones propias de un módulo.
 
 - Su zona inicial contiene el trigger de `Navigation Shell`: en escritorio
   colapsa o expande el pane; en móvil solicita la apertura del sheet.
@@ -287,11 +300,13 @@ un módulo.
   búsqueda, sin llenarse artificialmente mientras no exista esa necesidad.
 - Su zona final puede alojar notificaciones, ayuda y cuenta.
 
-Para la primera validación visual del nuevo modelo, se podrán mostrar una
-campana y un avatar sin funcionalidad. Son placeholders de controles globales,
-no una decisión para trasladar la cuenta o los ajustes desde `Navigation Pane`.
-La navegación actual conserva su comportamiento y contenido hasta una decisión
-posterior y explícita.
+Una campana y un avatar pueden ser placeholders de controles globales mientras
+se define su funcionalidad. No adelantan el traslado de la cuenta desde el
+`Navigation Pane`: esa cuenta se mantiene durante la coexistencia para legacy.
+
+`Global Header` exterior solo representa el contrato previo de legacy. No debe
+recibir nuevos controles ni cambios estructurales salvo los necesarios para
+compatibilidad durante la migración.
 
 ### Workspace Header
 
@@ -299,7 +314,8 @@ posterior y explícita.
 de navegación de la ruta activa y contiene sus breadcrumbs.
 
 - No contiene el trigger de navegación, notificaciones, ayuda ni cuenta; esas
-  responsabilidades pertenecen a `Global Header`.
+  responsabilidades pertenecen a `Workspace Toolbar` en Next Dashboard y al
+  `Global Header` exterior en legacy.
 - No contiene título, descripción, filtros ni acciones de una vista; esas
   piezas pertenecen a `Page Composition`.
 - En rutas largas, el breadcrumb puede resolver segmentos intermedios mediante
@@ -341,8 +357,9 @@ ruta utiliza el desplazamiento natural del documento.
 - `Workspace Canvas` no aplica borde, radio ni sombra en móvil. Los temas
   podrán redefinir su receta de escritorio sin crear excepciones visuales por
   vista o por componente.
-- `Global Header` conserva el acceso a `Mobile Navigation Sheet` y el espacio
-  para utilidades globales.
+- En Next Dashboard, `Workspace Toolbar` conserva el acceso a `Mobile
+Navigation Sheet` y el espacio para utilidades globales. Legacy conserva su
+  `Global Header` exterior hasta su adopción.
 - `Workspace Header` conserva los breadcrumbs en una resolución compacta, con
   elipsis cuando sea necesario sin ocultar el segmento actual.
 - `Page Composition` y sus superficies participan en el scroll natural de la

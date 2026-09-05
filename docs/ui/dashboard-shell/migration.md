@@ -28,6 +28,9 @@ Cada primera adopcion requiere una spec de alcance fijo. La spec debe definir:
 - Adaptacion minima de `Page Composition` y compatibilidad temporal necesaria.
 - Validacion funcional, desktop, movil, permisos y ausencia de scroll
   competitivo.
+- Adopcion del host de Next Dashboard: `Workspace Toolbar` dentro de
+  `Workspace Canvas` y `Workspace Header` en una fila posterior para el
+  contexto de ruta. No se replica el `Global Header` exterior de legacy.
 
 Al completarse una adopcion, debe registrarse fecha, alcance y spec en
 [`../adoption-log.md`](../adoption-log.md).

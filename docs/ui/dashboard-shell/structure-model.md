@@ -5,7 +5,7 @@
 Documento de referencia para el vocabulario y las capas del dashboard. Acompaña
 las guidelines del shell, pero no las sustituye.
 
-Documentado el 1 de septiembre de 2026.
+Actualizado el 4 de septiembre de 2026.
 
 ## Proposito
 
@@ -38,7 +38,10 @@ detallada de cada area.
 ### Navigation Pane
 
 Panel contextual asociado al area seleccionada en el rail. Contiene grupos y
-entradas de navegacion, identidad de la aplicacion y acceso a la cuenta.
+entradas de navegacion. En escritorio, su cabecera identifica la organizacion
+activa. Durante la coexistencia con legacy, conserva temporalmente el acceso a
+la cuenta en su pie, ya que legacy no dispone aun de un toolbar dentro del
+canvas.
 
 ### Content Inset
 
@@ -46,13 +49,17 @@ Area que separa el contenido de la navegacion y lo ubica dentro del shell. Es
 responsable de los gutters, la relacion espacial con el sidebar y el espacio
 disponible para la superficie de trabajo.
 
-### Global Header
+### Workspace Toolbar
 
-Cabecera de alcance transversal a la aplicacion dentro de `Content Inset` y
-fuera de `Workspace Canvas`. Aloja controles globales, como el acceso a la
+Barra de utilidades de alcance transversal dentro de `Workspace Canvas` y
+antes de `Workspace Header`. Aloja controles globales, como el trigger de
 navegacion, notificaciones, ayuda o cuenta; no expresa el contexto de una ruta
 concreta. La presencia y funcionalidad de cada control se define de manera
 independiente.
+
+`Workspace Toolbar` es el patrón de `Next Dashboard`. La cabecera exterior
+`Global Header` se mantiene como compatibilidad de `LegacyDashboardShell` y no
+debe utilizarse en una ruta nueva o migrada.
 
 ### Workspace Canvas
 
@@ -98,14 +105,18 @@ App Shell
 |  |- Navigation Rail
 |  `- Navigation Pane
 `- Content Inset
-   |- Global Header
    `- Workspace Canvas
+      |- Workspace Toolbar
       |- Workspace Header
       `- Page Composition
          |- Page Header (opcional)
          `- Page Content Scroller
             `- Module Surfaces
 ```
+
+Durante la migracion, `LegacyDashboardShell` conserva `Global Header` como
+hermano exterior de `Workspace Canvas`. Esta excepcion de coexistencia no
+modifica el modelo objetivo de las rutas adoptadas en `Next Dashboard`.
 
 ## Politica de Scroll
 
@@ -114,14 +125,15 @@ cada ruta aplica mediante un unico dueño principal:
 
 - `Page Content Scroll` es el modo predeterminado de escritorio:
   `Page Content Scroller` desplaza el contenido operativo y el contexto del
-  workspace permanece fijo.
+  workspace, incluido `Workspace Toolbar` y `Workspace Header`, permanece fijo.
 - `Page Composition Scroll` es una variante explícita de escritorio:
-  `Workspace Header` permanece fijo y `Page Composition`, incluido su `Page
-Header` opcional, recibe el scroll vertical.
+  `Workspace Toolbar` y `Workspace Header` permanecen fijos y `Page
+Composition`, incluido su `Page Header` opcional, recibe el scroll vertical.
 - `Workspace Canvas Scroll` es una variante explícita de escritorio:
   `Workspace Canvas` conserva su geometria fija dentro de `Content Inset`, pero
-  recibe el scroll vertical. Sus headers pueden desplazarse, permanecer sticky
-  o transformarse segun la composicion de la ruta.
+  recibe el scroll vertical. `Workspace Toolbar` permanece fijo; el
+  `Workspace Header` puede desplazarse, permanecer sticky o transformarse
+  segun la composicion de la ruta.
 - `Document Scroll` es el modo predeterminado de movil: la ruta participa en el
   desplazamiento natural del documento.
 
