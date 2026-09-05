@@ -68,6 +68,20 @@ html.ambient-deep {
   --workspace-chrome-control-hover: #eff4f8;
   --workspace-chrome-avatar-surface: #eff4f8;
   --workspace-chrome-avatar-border: #d7e0e7;
+  --auth-aurora-surface: #fafafa;
+  --auth-aurora-white-gradient: repeating-linear-gradient(
+    100deg,
+    #fff 0%,
+    #fff 7%,
+    transparent 10%,
+    transparent 12%,
+    #fff 16%
+  );
+  --auth-aurora-color-1: #10b981;
+  --auth-aurora-color-2: #34d399;
+  --auth-aurora-color-3: #6ee7b7;
+  --auth-aurora-color-4: #2dd4bf;
+  --auth-aurora-color-5: #14b8a6;
   --dashboard-shell-mesh-primary: color-mix(in srgb, var(--secondary-500) 78%, transparent);
   --dashboard-shell-mesh-accent: color-mix(in srgb, var(--primary-400) 44%, transparent);
   --dashboard-shell-mesh:

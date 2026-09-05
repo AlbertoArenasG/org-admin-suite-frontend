@@ -5,6 +5,7 @@
 @import '../styles/themes/dashboard-classic.css';
 @import '../styles/themes/dashboard-ambient.css';
 @import '../styles/themes/dashboard-ambient-deep.css';
+@import '../styles/auth/aurora.css';
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
 
