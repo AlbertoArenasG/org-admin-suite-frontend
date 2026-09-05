@@ -164,6 +164,12 @@ export function DashboardShellPlayground() {
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard-playground/navigation-composition/demo">
+                  <PanelLeft className="size-4" aria-hidden="true" />
+                  Navegación + canvas
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="sm">
                 <Link href="/dashboard-playground/sticky-page-header">
                   <Sparkles className="size-4" aria-hidden="true" />
                   Header sticky colapsable

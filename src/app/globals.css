@@ -376,26 +376,6 @@
   }
 }
 
-.theme-sidebar {
-  --sidebar: #422f9b;
-  --sidebar-foreground: #f7f5ff;
-  --sidebar-primary: #6b5be5;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #2d1f6d;
-  --sidebar-accent-foreground: #ece9ff;
-  --sidebar-border: rgba(78, 67, 138, 0.45);
-  --sidebar-ring: rgba(126, 106, 219, 0.4);
-  --sidebar-gradient-from: var(--sidebar);
-  --sidebar-gradient-via: var(--sidebar);
-  --sidebar-gradient-to: var(--sidebar);
-  --sidebar-rail: color-mix(in srgb, var(--sidebar) 78%, var(--sidebar-accent));
-  --dashboard-shell-glass-surface: var(--sidebar);
-  --dashboard-shell-glass-border: var(--sidebar-border);
-  --dashboard-shell-glass-image: none;
-  --dashboard-shell-glass-shadow: none;
-  --dashboard-shell-glass-backdrop: none;
-}
-
 .dashboard-shell {
   background-color: var(--dashboard-shell-surface);
   background-image: var(--dashboard-shell-mesh);
