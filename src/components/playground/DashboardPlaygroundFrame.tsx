@@ -1,17 +1,15 @@
 'use client';
 
 import type { ComponentPropsWithoutRef, ReactNode, Ref } from 'react';
-import { Bell } from 'lucide-react';
 import {
-  DashboardGlobalHeader,
   DashboardPageComposition,
   DashboardPageContentScroller,
   DashboardShellFrame,
   type DashboardScrollMode,
   DashboardWorkspaceHeader,
+  DashboardWorkspaceAccountMenu,
+  DashboardWorkspaceToolbar,
 } from '@/components/dashboard-shell';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { PageBreadcrumbs, type BreadcrumbSegment } from '@/components/shared/PageBreadcrumbs';
 
@@ -37,30 +35,13 @@ export function DashboardPlaygroundFrame({
       scrollMode={scrollMode}
       className="min-h-svh md:h-full md:min-h-0"
       contentInsetClassName="dashboard-content-inset md:min-h-0 md:p-4"
-      globalHeader={
-        <DashboardGlobalHeader
-          className="text-sidebar-foreground"
+      workspaceToolbar={
+        <DashboardWorkspaceToolbar
+          className="text-foreground"
           start={
-            <SidebarTrigger className="size-9 text-sidebar-foreground hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground md:flex" />
+            <SidebarTrigger className="size-9 text-foreground hover:bg-muted hover:text-foreground md:flex" />
           }
-          end={
-            <>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                aria-label="Notificaciones de ejemplo"
-                className="size-9 text-sidebar-foreground hover:bg-sidebar-foreground/10 hover:text-sidebar-foreground"
-              >
-                <Bell className="size-4" aria-hidden="true" />
-              </Button>
-              <Avatar className="size-7 border border-sidebar-foreground/20">
-                <AvatarFallback className="bg-sidebar-foreground/10 text-[10px] font-semibold text-sidebar-foreground">
-                  AA
-                </AvatarFallback>
-              </Avatar>
-            </>
-          }
+          end={<DashboardWorkspaceAccountMenu />}
         />
       }
       workspaceHeader={
