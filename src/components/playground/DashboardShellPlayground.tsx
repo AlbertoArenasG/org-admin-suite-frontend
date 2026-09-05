@@ -55,14 +55,14 @@ export function DashboardShellPlayground() {
         <DashboardWorkspaceToolbar
           className="text-[var(--workspace-chrome-foreground)]"
           start={
-            <SidebarTrigger className="size-9 text-[var(--workspace-chrome-foreground)] hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)] md:flex" />
+            <SidebarTrigger className="dashboard-workspace-chrome-control size-9 text-[var(--workspace-chrome-foreground)] hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)] md:flex" />
           }
           end={<DashboardWorkspaceAccountMenu />}
         />
       }
       workspaceHeader={
         <DashboardWorkspaceHeader className="px-4 sm:px-5">
-          <PageBreadcrumbs segments={segments} />
+          <PageBreadcrumbs segments={segments} tone="workspace" />
         </DashboardWorkspaceHeader>
       }
     >
@@ -106,7 +106,7 @@ export function DashboardShellPlayground() {
           </div>
         </section>
 
-        <DashboardPageContentScroller className="px-5 py-5 sm:px-7">
+        <DashboardPageContentScroller padding="default">
           <section className="mb-5 rounded-xl border border-[var(--secondary-300)] bg-[var(--secondary-50)]/55 p-4">
             <p className="text-xs font-semibold tracking-[0.1em] text-[var(--secondary-700)] uppercase">
               Modelos de estructura

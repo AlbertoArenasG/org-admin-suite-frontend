@@ -39,14 +39,14 @@ export function DashboardPlaygroundFrame({
         <DashboardWorkspaceToolbar
           className="text-[var(--workspace-chrome-foreground)]"
           start={
-            <SidebarTrigger className="size-9 text-[var(--workspace-chrome-foreground)] hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)] md:flex" />
+            <SidebarTrigger className="dashboard-workspace-chrome-control size-9 text-[var(--workspace-chrome-foreground)] hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)] md:flex" />
           }
           end={<DashboardWorkspaceAccountMenu />}
         />
       }
       workspaceHeader={
         <DashboardWorkspaceHeader className="px-4 sm:px-5">
-          <PageBreadcrumbs segments={segments} />
+          <PageBreadcrumbs segments={segments} tone="workspace" />
         </DashboardWorkspaceHeader>
       }
     >
@@ -54,9 +54,7 @@ export function DashboardPlaygroundFrame({
         {childrenArePageComposition ? (
           children
         ) : (
-          <DashboardPageContentScroller className="px-5 py-5 sm:px-7">
-            {children}
-          </DashboardPageContentScroller>
+          <DashboardPageContentScroller padding="default">{children}</DashboardPageContentScroller>
         )}
       </DashboardPageComposition>
     </DashboardShellFrame>

@@ -1,0 +1,172 @@
+.dashboard-navigation-shell [data-slot='sidebar-gap'],
+.dashboard-navigation-shell [data-slot='sidebar-container'] {
+  transition-duration: var(--dashboard-navigation-collapse-duration);
+  transition-timing-function: var(--dashboard-navigation-collapse-easing);
+}
+
+.dashboard-navigation-pane {
+  transition-duration: var(--dashboard-navigation-collapse-duration);
+  transition-timing-function: var(--dashboard-navigation-collapse-easing);
+}
+
+.dashboard-navigation-rail {
+  border-color: var(--dashboard-navigation-rail-border);
+  background-color: var(--dashboard-navigation-rail-surface);
+}
+
+.dashboard-navigation-item {
+  border: 1px solid transparent;
+  background-color: transparent;
+  transition:
+    background-color var(--dashboard-navigation-item-transition-duration)
+      var(--dashboard-navigation-item-transition-easing),
+    border-color var(--dashboard-navigation-item-transition-duration)
+      var(--dashboard-navigation-item-transition-easing),
+    box-shadow var(--dashboard-navigation-item-transition-duration)
+      var(--dashboard-navigation-item-transition-easing),
+    color var(--dashboard-navigation-item-transition-duration)
+      var(--dashboard-navigation-item-transition-easing),
+    transform var(--dashboard-navigation-item-transition-duration)
+      var(--dashboard-navigation-item-transition-easing);
+}
+
+.dashboard-navigation-item:hover {
+  border-color: var(--dashboard-navigation-item-hover-border);
+  background-color: var(--dashboard-navigation-item-hover-surface);
+  box-shadow: var(--dashboard-navigation-item-hover-shadow);
+}
+
+.dashboard-navigation-item:focus-visible,
+.dashboard-navigation-control:focus-visible {
+  outline: var(--dashboard-navigation-focus-outline-width) solid
+    var(--dashboard-navigation-focus-outline-color);
+  outline-offset: var(--dashboard-navigation-focus-outline-offset);
+  box-shadow: none;
+}
+
+.dashboard-navigation-item--active {
+  border-color: var(--dashboard-navigation-item-active-border);
+  background-color: var(--dashboard-navigation-item-active-surface);
+  box-shadow: var(--dashboard-navigation-item-active-shadow);
+}
+
+.dashboard-navigation-rail-item:hover {
+  transform: var(--dashboard-navigation-rail-hover-transform);
+}
+
+.dashboard-navigation-rail-item.dashboard-navigation-item--active {
+  border-color: var(--dashboard-navigation-rail-item-active-border);
+  box-shadow: var(--dashboard-navigation-rail-item-active-shadow);
+}
+
+.dashboard-navigation-panel {
+  border-color: var(--dashboard-navigation-panel-border);
+  background-color: var(--dashboard-navigation-panel-surface);
+  box-shadow: var(--dashboard-navigation-panel-shadow);
+  backdrop-filter: var(--dashboard-navigation-panel-backdrop);
+}
+
+.dashboard-navigation-control,
+.dashboard-navigation-brand-control {
+  transition-duration: var(--dashboard-navigation-control-transition-duration);
+  transition-timing-function: var(--dashboard-navigation-control-transition-easing);
+}
+
+.dashboard-navigation-brand-link {
+  transition-duration: var(--dashboard-navigation-control-transition-duration);
+  transition-timing-function: var(--dashboard-navigation-control-transition-easing);
+}
+
+.dashboard-navigation-disclosure-icon {
+  transition-duration: var(--dashboard-navigation-disclosure-transition-duration);
+  transition-timing-function: var(--dashboard-navigation-disclosure-transition-easing);
+}
+
+@keyframes dashboard-navigation-section-expand {
+  from {
+    height: 0;
+    opacity: 0;
+    transform: translateY(var(--dashboard-navigation-disclosure-translate-y));
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dashboard-navigation-section-collapse {
+  from {
+    height: var(--radix-collapsible-content-height);
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    height: 0;
+    opacity: 0;
+    transform: translateY(var(--dashboard-navigation-disclosure-translate-y));
+  }
+}
+
+.sidebar-nav-collapsible-content {
+  overflow: hidden;
+}
+
+.sidebar-nav-collapsible-content[data-state='open'] {
+  animation: var(--dashboard-navigation-disclosure-open-animation);
+}
+
+.sidebar-nav-collapsible-content[data-state='closed'] {
+  animation: var(--dashboard-navigation-disclosure-closed-animation);
+}
+
+.dashboard-workspace-chrome-control {
+  transition:
+    background-color var(--workspace-chrome-control-transition-duration)
+      var(--workspace-chrome-control-transition-easing),
+    color var(--workspace-chrome-control-transition-duration)
+      var(--workspace-chrome-control-transition-easing),
+    border-color var(--workspace-chrome-control-transition-duration)
+      var(--workspace-chrome-control-transition-easing);
+}
+
+.dashboard-workspace-breadcrumb-control {
+  outline: none;
+  transition:
+    background-color var(--workspace-chrome-control-transition-duration)
+      var(--workspace-chrome-control-transition-easing),
+    color var(--workspace-chrome-control-transition-duration)
+      var(--workspace-chrome-control-transition-easing);
+}
+
+.dashboard-workspace-chrome-control:focus-visible {
+  outline: var(--workspace-chrome-focus-outline-width) solid
+    var(--workspace-chrome-focus-outline-color);
+  outline-offset: var(--workspace-chrome-focus-outline-offset);
+  box-shadow: none;
+}
+
+.dashboard-workspace-breadcrumb-control:focus-visible {
+  outline: var(--workspace-chrome-focus-outline-width) solid
+    var(--workspace-chrome-focus-outline-color);
+  outline-offset: var(--workspace-chrome-focus-outline-offset);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-navigation-shell [data-slot='sidebar-gap'],
+  .dashboard-navigation-shell [data-slot='sidebar-container'],
+  .dashboard-navigation-pane,
+  .dashboard-navigation-item,
+  .dashboard-navigation-control,
+  .dashboard-navigation-brand-control,
+  .dashboard-navigation-brand-link,
+  .dashboard-navigation-disclosure-icon,
+  .dashboard-workspace-chrome-control,
+  .dashboard-workspace-breadcrumb-control {
+    transition: none;
+  }
+
+  .sidebar-nav-collapsible-content[data-state] {
+    animation: none;
+  }
+}

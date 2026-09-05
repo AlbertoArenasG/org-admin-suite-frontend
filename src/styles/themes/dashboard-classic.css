@@ -59,11 +59,23 @@ html.classic {
   --workspace-canvas-border-width: 0px;
   --workspace-canvas-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
   --workspace-canvas-radius: 1.5rem;
+  --page-composition-surface: transparent;
+  --page-composition-image: none;
   --workspace-chrome-foreground: #111827;
   --workspace-chrome-border: rgb(215 224 231 / 70%);
   --workspace-chrome-control-hover: #eff4f8;
   --workspace-chrome-avatar-surface: #eff4f8;
   --workspace-chrome-avatar-border: #d7e0e7;
+  --workspace-chrome-breadcrumb-foreground: #566173;
+  --workspace-chrome-breadcrumb-hover-surface: #f4f2ff;
+  --workspace-chrome-breadcrumb-hover-foreground: #422f9b;
+  --workspace-chrome-breadcrumb-current-foreground: #111827;
+  --workspace-chrome-breadcrumb-current-indicator: #6b5be5;
+  --workspace-chrome-breadcrumb-separator: color-mix(
+    in srgb,
+    var(--workspace-chrome-breadcrumb-foreground) 45%,
+    transparent
+  );
   --auth-aurora-surface: #fafafa;
   --auth-aurora-white-gradient: repeating-linear-gradient(
     100deg,
@@ -94,6 +106,39 @@ html.classic {
   --dashboard-navigation-panel-border: rgb(255 255 255 / 10%);
   --dashboard-navigation-panel-shadow: 0 8px 20px rgba(14, 4, 46, 0.18);
   --dashboard-navigation-panel-backdrop: none;
+  --dashboard-navigation-section-label-foreground: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 60%,
+    transparent
+  );
+  --dashboard-navigation-rail-foreground: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 70%,
+    transparent
+  );
+  --dashboard-navigation-item-foreground: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 85%,
+    transparent
+  );
+  --dashboard-navigation-item-muted-foreground: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 75%,
+    transparent
+  );
+  --dashboard-navigation-control-foreground: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 70%,
+    transparent
+  );
+  --dashboard-navigation-account-secondary-foreground: color-mix(
+    in srgb,
+    var(--sidebar-foreground) 70%,
+    transparent
+  );
+  --dashboard-navigation-subtree-border: color-mix(in srgb, var(--sidebar-border) 80%, transparent);
+  --dashboard-navigation-brand-toggle-surface: var(--sidebar-primary);
+  --dashboard-navigation-brand-toggle-hover-surface: var(--secondary-500);
   --dashboard-navigation-item-hover-surface: var(--sidebar-accent);
   --dashboard-navigation-item-hover-border: transparent;
   --dashboard-navigation-item-active-surface: var(--sidebar-accent);
@@ -102,4 +147,26 @@ html.classic {
   --dashboard-navigation-item-active-shadow: none;
   --dashboard-navigation-rail-item-active-border: transparent;
   --dashboard-navigation-rail-item-active-shadow: none;
+  --dashboard-navigation-collapse-duration: 200ms;
+  --dashboard-navigation-collapse-easing: linear;
+  --dashboard-navigation-item-transition-duration: 200ms;
+  --dashboard-navigation-item-transition-easing: ease-out;
+  --dashboard-navigation-focus-outline-width: 2px;
+  --dashboard-navigation-focus-outline-offset: 2px;
+  --dashboard-navigation-focus-outline-color: var(--sidebar-ring);
+  --dashboard-navigation-rail-hover-transform: translateY(-1px);
+  --dashboard-navigation-control-transition-duration: 150ms;
+  --dashboard-navigation-control-transition-easing: ease-out;
+  --dashboard-navigation-disclosure-transition-duration: 200ms;
+  --dashboard-navigation-disclosure-transition-easing: ease-out;
+  --dashboard-navigation-disclosure-translate-y: -0.25rem;
+  --dashboard-navigation-disclosure-open-animation: dashboard-navigation-section-expand 220ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+  --dashboard-navigation-disclosure-closed-animation: dashboard-navigation-section-collapse 160ms
+    ease-in;
+  --workspace-chrome-control-transition-duration: 150ms;
+  --workspace-chrome-control-transition-easing: ease-out;
+  --workspace-chrome-focus-outline-width: 2px;
+  --workspace-chrome-focus-outline-offset: 2px;
+  --workspace-chrome-focus-outline-color: var(--ring);
 }

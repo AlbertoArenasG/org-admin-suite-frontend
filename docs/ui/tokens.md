@@ -24,6 +24,13 @@ nuevo, se deben revisar los tokens fundacionales existentes.
 
 Ejemplos: `--background`, `--foreground`, `--card`, `--border`, `--ring`.
 
+Los gutters de `Page Content Scroller` son un contrato estructural compartido,
+no una receta de tema: `--dashboard-page-content-padding-{block,inline,inline-wide}`.
+Se declaran junto con la composición en `styles/dashboard/page-composition.css`
+y se aplican mediante `padding="default"`. El valor predeterminado es
+`padding="none"`, para que una vista migrada elija explícitamente su propia
+composición antes de recibir gutters.
+
 ### Semánticos de Superficie
 
 Representan el rol visual de una capa o región, no un color concreto. Deben
@@ -46,15 +53,60 @@ del shell. Los valores de esta receta se declaran por tema, no se derivan de
 `--background`; cada apariencia puede redefinirlos sin cambiar la primitiva ni
 las vistas que la consumen.
 
+`Page Composition` hereda el canvas como decisión visual inicial, pero su
+transparencia también es una receta explícita por tema:
+`--page-composition-{surface,image}`. Los temas actuales declaran
+`transparent` y `none`; un tema futuro puede redefinir esos valores sin
+convertir la composición en una excepción por vista.
+
 Su chrome interno usa una familia independiente por tema:
 `--workspace-chrome-{foreground,border,control-hover,avatar-surface,avatar-border}`.
 Estos tokens cubren toolbar, breadcrumbs, trigger y cuenta sin acoplarlos a
 los bordes, foregrounds o hovers genéricos de tablas, formularios y popovers.
 
+Los breadcrumbs del Workspace amplían esa familia con
+`--workspace-chrome-breadcrumb-{foreground,hover-surface,hover-foreground,current-foreground,current-indicator}`.
+`PageBreadcrumbs` debe recibir `tone="workspace"` solo dentro de un
+`DashboardWorkspaceHeader`; su variante predeterminada sigue siendo el
+contrato compartido compatible con legacy.
+
+La navegación del dashboard también separa su jerarquía y sus estados de
+marca mediante `--dashboard-navigation-{section-label,rail,item,item-muted,control,account-secondary}-foreground`,
+`--dashboard-navigation-subtree-border` y
+`--dashboard-navigation-brand-toggle-{surface,hover-surface}`. No se deben
+usar opacidades utilitarias sobre `--sidebar-foreground` ni reutilizar tokens
+fundacionales de color para esos roles cuando se modifique esta composición.
+
 `DashboardWorkspaceCanvas` conserva fallbacks locales solo para un montaje
 accidental fuera del scope temático. `NextDashboardShell` siempre debe recibir
 la receta desde la apariencia activa; esos fallbacks no constituyen una fuente
 visual alternativa ni un contrato de tema.
+
+### Recetas de Interacción
+
+Los temas también son dueños de la expresión de interacción de los patrones
+compartidos. La lógica funcional permanece en React: una ruta activa, la
+apertura de un menú, el colapso del pane o el disparo de una acción no son
+configuración temática. Lo que varía por tema es cómo se manifiestan esos
+estados: duración, curva, desplazamiento, foco, elevación, borde y material.
+
+La capa exterior del dashboard tiene dos familias iniciales:
+
+- `--dashboard-navigation-*`: colapso del shell, transición, foco, hover de
+  rail, controles de navegación y apertura/cierre de secciones.
+- `--workspace-chrome-*`: transición y foco de controles dentro del toolbar
+  del Workspace Canvas, además de sus tokens visuales ya definidos.
+
+Los valores de ambas familias deben declararse en cada `html.<tema>`, incluso
+si las apariencias iniciales coinciden. Los componentes consumen esos tokens
+desde `styles/dashboard/interactions.css`; no deben volver a introducir
+duraciones, curvas, `translate` de hover ni anillos de foco directos dentro de
+sus clases.
+
+Al crear un patrón interactivo nuevo, se debe decidir si su comportamiento es
+estructural compartido o una expresión que un tema pueda cambiar. Solo en el
+segundo caso se agrega una receta temática. No se debe tokenizar la lógica de
+negocio ni crear un token por cada evento aislado.
 
 Para el `Next Dashboard`, los tokens cromáticos y de material se declaran en
 cada `html.<tema>`. `:root` puede conservar valores equivalentes para legacy,

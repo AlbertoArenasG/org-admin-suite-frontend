@@ -44,7 +44,7 @@ export function SidebarDesktopShell({
         </aside>
         <div
           className={cn(
-            'flex min-w-0 flex-1 flex-col overflow-hidden transition-[width,opacity,transform] duration-200 ease-out motion-reduce:transition-none',
+            'dashboard-navigation-pane flex min-w-0 flex-1 flex-col overflow-hidden transition-[width,opacity,transform]',
             collapsed && 'pointer-events-none w-0 flex-none translate-x-2 px-0 opacity-0'
           )}
         >

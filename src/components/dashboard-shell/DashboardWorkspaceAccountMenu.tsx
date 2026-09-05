@@ -26,7 +26,7 @@ export function DashboardWorkspaceAccountMenu() {
       <DropdownMenuTrigger
         type="button"
         aria-label="Cuenta"
-        className="inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--workspace-chrome-foreground)] outline-none transition-colors hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)] focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+        className="dashboard-workspace-chrome-control inline-flex size-9 shrink-0 items-center justify-center rounded-md text-[var(--workspace-chrome-foreground)] outline-none hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)]"
       >
         <Avatar className="size-7 border border-[var(--workspace-chrome-avatar-border)]">
           {user.avatar ? <AvatarImage src={user.avatar} alt={user.name} /> : null}

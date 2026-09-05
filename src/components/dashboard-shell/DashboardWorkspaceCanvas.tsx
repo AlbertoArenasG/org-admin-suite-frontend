@@ -18,6 +18,7 @@ export function DashboardWorkspaceCanvas({
   return (
     <section
       data-dashboard-scroll-mode={scrollMode}
+      data-dashboard-scroll-owner={scrollMode === 'workspace' ? 'workspace-canvas' : undefined}
       className={cn(
         'dashboard-workspace-canvas flex min-w-0 flex-1 flex-col',
         scrollMode === 'workspace'

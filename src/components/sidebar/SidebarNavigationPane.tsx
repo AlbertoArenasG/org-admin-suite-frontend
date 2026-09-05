@@ -30,7 +30,7 @@ export function SidebarNavigationPane({
 
   return (
     <nav aria-label={title} className={cn('min-w-0', className)}>
-      <p className="px-3 pt-3 pb-2 text-xs font-medium tracking-wide text-sidebar-foreground/60 uppercase">
+      <p className="px-3 pt-3 pb-2 text-xs font-medium tracking-wide text-[var(--dashboard-navigation-section-label-foreground)] uppercase">
         {title}
       </p>
       <ul className="flex min-w-0 flex-col gap-1">
@@ -46,7 +46,7 @@ export function SidebarNavigationPane({
                   <button
                     type="button"
                     className={cn(
-                      'dashboard-navigation-item flex h-auto min-h-10 w-full min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-left text-sm text-sidebar-foreground/85 outline-hidden transition-[background-color,border-color,box-shadow,color] duration-200 ease-out hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
+                      'dashboard-navigation-item flex h-auto min-h-10 w-full min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-left text-sm text-[var(--dashboard-navigation-item-foreground)] outline-hidden hover:text-sidebar-accent-foreground',
                       entry.isActive &&
                         'dashboard-navigation-item--active text-sidebar-accent-foreground'
                     )}
@@ -55,11 +55,11 @@ export function SidebarNavigationPane({
                     <span className="min-w-0 flex-1 whitespace-normal leading-4">
                       {entry.title}
                     </span>
-                    <ChevronRight className="mt-0.5 size-4 shrink-0 transition-transform duration-200 group-data-[state=open]/entry:rotate-90" />
+                    <ChevronRight className="dashboard-navigation-disclosure-icon mt-0.5 size-4 shrink-0 transition-transform group-data-[state=open]/entry:rotate-90" />
                   </button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="sidebar-nav-collapsible-content">
-                  <ul className="border-sidebar-border/80 mt-1 ml-2.5 flex min-w-0 flex-col gap-1 border-l py-0.5 pl-1">
+                  <ul className="mt-1 ml-2.5 flex min-w-0 flex-col gap-1 border-l border-[var(--dashboard-navigation-subtree-border)] py-0.5 pl-1">
                     {entry.children.map((child) => (
                       <li key={child.id} className="min-w-0">
                         <SidebarNavigationLink entry={child} onNavigate={onNavigate} />
@@ -92,8 +92,8 @@ function SidebarNavigationLink({ entry, onNavigate, root = false }: SidebarNavig
       href={entry.href}
       onClick={onNavigate}
       className={cn(
-        'dashboard-navigation-item flex h-auto min-h-9 min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-sm text-sidebar-foreground/75 outline-hidden transition-[background-color,border-color,box-shadow,color] duration-200 ease-out hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring',
-        root && 'min-h-10 px-3 text-sidebar-foreground/85',
+        'dashboard-navigation-item flex h-auto min-h-9 min-w-0 items-start gap-2 rounded-lg px-3 py-2 text-sm text-[var(--dashboard-navigation-item-muted-foreground)] outline-hidden hover:text-sidebar-accent-foreground',
+        root && 'min-h-10 px-3 text-[var(--dashboard-navigation-item-foreground)]',
         entry.isActive && 'dashboard-navigation-item--active text-sidebar-accent-foreground'
       )}
     >

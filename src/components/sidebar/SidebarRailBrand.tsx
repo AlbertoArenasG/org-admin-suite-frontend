@@ -21,7 +21,7 @@ export function SidebarRailBrand({ collapsed, logoAlt, onExpand }: SidebarRailBr
       <Link
         href="/dashboard"
         aria-label={t('dashboard')}
-        className="flex rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-sidebar-ring"
+        className="dashboard-navigation-control flex rounded-xl outline-hidden"
       >
         <span className="flex size-9 items-center justify-center rounded-xl bg-[var(--dashboard-navigation-logo-surface)] p-1">
           <Image
@@ -43,7 +43,7 @@ export function SidebarRailBrand({ collapsed, logoAlt, onExpand }: SidebarRailBr
               size="icon"
               aria-label={t('expandNavigation')}
               onClick={onExpand}
-              className="absolute inset-0 size-11 rounded-xl bg-[var(--sidebar-primary)] opacity-0 transition-[opacity,background-color] group-hover/rail-brand:opacity-100 focus-visible:opacity-100 hover:bg-[var(--secondary-500)]"
+              className="dashboard-navigation-brand-control dashboard-navigation-control absolute inset-0 size-11 rounded-xl bg-[var(--dashboard-navigation-brand-toggle-surface)] opacity-0 transition-[opacity,background-color] group-hover/rail-brand:opacity-100 focus-visible:opacity-100 hover:bg-[var(--dashboard-navigation-brand-toggle-hover-surface)]"
             >
               <PanelLeftOpen className="size-4" aria-hidden="true" />
             </Button>

@@ -14,7 +14,7 @@ export function NextDashboardGlobalHeader() {
     <DashboardWorkspaceToolbar
       className="text-[var(--workspace-chrome-foreground)]"
       start={
-        <SidebarTrigger className="size-9 text-[var(--workspace-chrome-foreground)] hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)] md:flex" />
+        <SidebarTrigger className="dashboard-workspace-chrome-control size-9 text-[var(--workspace-chrome-foreground)] hover:bg-[var(--workspace-chrome-control-hover)] hover:text-[var(--workspace-chrome-foreground)] md:flex" />
       }
       end={<DashboardWorkspaceAccountMenu />}
     />

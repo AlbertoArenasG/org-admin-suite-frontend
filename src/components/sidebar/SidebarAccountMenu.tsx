@@ -46,7 +46,7 @@ export function SidebarAccountMenu({
           <Button
             variant="ghost"
             className={cn(
-              'h-auto w-full justify-start gap-2 px-2 py-1.5 text-sidebar-foreground hover:bg-[var(--dashboard-navigation-control-hover-surface)] hover:text-sidebar-foreground',
+              'dashboard-navigation-control h-auto w-full justify-start gap-2 px-2 py-1.5 text-sidebar-foreground hover:bg-[var(--dashboard-navigation-control-hover-surface)] hover:text-sidebar-foreground',
               collapsed && 'size-10 justify-center rounded-xl p-0'
             )}
           >
@@ -54,7 +54,9 @@ export function SidebarAccountMenu({
             {!collapsed ? (
               <span className="grid min-w-0 flex-1 text-left leading-tight">
                 <span className="truncate text-sm font-semibold">{user.name}</span>
-                <span className="truncate text-xs text-sidebar-foreground/70">{user.email}</span>
+                <span className="truncate text-xs text-[var(--dashboard-navigation-account-secondary-foreground)]">
+                  {user.email}
+                </span>
               </span>
             ) : null}
             {!collapsed ? <ChevronsUpDown className="size-4 shrink-0" /> : null}

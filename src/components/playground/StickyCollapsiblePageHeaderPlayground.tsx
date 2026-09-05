@@ -129,7 +129,7 @@ export function StickyCollapsiblePageHeaderPlayground() {
         </motion.div>
       </motion.header>
 
-      <DashboardPageContentScroller className="px-5 py-5 sm:px-7">
+      <DashboardPageContentScroller padding="default">
         <div className="rounded-xl border border-border/80 bg-card shadow-sm">
           <div className="flex flex-col gap-3 border-b border-border/70 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>

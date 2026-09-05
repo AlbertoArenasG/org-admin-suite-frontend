@@ -30,6 +30,7 @@ export interface PageBreadcrumbsProps {
   segments: BreadcrumbSegment[];
   className?: string;
   listClassName?: string;
+  tone?: 'default' | 'workspace';
 }
 
 const MAX_VISIBLE_SEGMENTS = 3;
@@ -41,11 +42,41 @@ const linkClassName =
 const currentPageClassName =
   'relative px-1 py-1 text-[13px] font-semibold text-foreground after:absolute after:-bottom-0.5 after:right-1 after:left-1 after:h-0.5 after:rounded-full after:bg-[var(--secondary-500)]';
 
-function MobileBreadcrumbs({ segments, className, listClassName }: PageBreadcrumbsProps) {
+function getBreadcrumbClassNames(tone: NonNullable<PageBreadcrumbsProps['tone']>) {
+  if (tone === 'workspace') {
+    return {
+      rootLink:
+        'dashboard-workspace-breadcrumb-control inline-flex size-8 items-center justify-center rounded-md text-[var(--workspace-chrome-breadcrumb-foreground)] hover:bg-[var(--workspace-chrome-breadcrumb-hover-surface)] hover:text-[var(--workspace-chrome-breadcrumb-hover-foreground)]',
+      link: 'dashboard-workspace-breadcrumb-control inline-flex items-center rounded-md px-1 py-1 text-[13px] font-medium text-[var(--workspace-chrome-breadcrumb-foreground)] hover:text-[var(--workspace-chrome-breadcrumb-hover-foreground)]',
+      current:
+        'relative px-1 py-1 text-[13px] font-semibold text-[var(--workspace-chrome-breadcrumb-current-foreground)] after:absolute after:-bottom-0.5 after:right-1 after:left-1 after:h-0.5 after:rounded-full after:bg-[var(--workspace-chrome-breadcrumb-current-indicator)]',
+      trigger:
+        'dashboard-workspace-breadcrumb-control flex size-8 items-center justify-center rounded-md text-[var(--workspace-chrome-breadcrumb-foreground)] hover:bg-[var(--workspace-chrome-breadcrumb-hover-surface)] hover:text-[var(--workspace-chrome-breadcrumb-hover-foreground)]',
+      separator: 'mx-0 text-[var(--workspace-chrome-breadcrumb-separator)] [&>svg]:size-3.5',
+    };
+  }
+
+  return {
+    rootLink: rootLinkClassName,
+    link: linkClassName,
+    current: currentPageClassName,
+    trigger:
+      'flex size-8 items-center justify-center rounded-md text-muted-foreground outline-hidden transition-colors hover:bg-[var(--secondary-50)] hover:text-[var(--secondary-700)] focus-visible:ring-2 focus-visible:ring-[var(--secondary-600)]',
+    separator: 'mx-0 text-muted-foreground/45 [&>svg]:size-3.5',
+  };
+}
+
+function MobileBreadcrumbs({
+  segments,
+  className,
+  listClassName,
+  tone = 'default',
+}: PageBreadcrumbsProps) {
   const firstSegment = segments[0];
   const currentSegment = segments.at(-1)!;
   const hiddenSegments = segments.slice(1, -1);
   const isRootRoute = segments.length === 1;
+  const breadcrumbClassNames = getBreadcrumbClassNames(tone);
 
   return (
     <Breadcrumb className={cn('min-w-0 flex-1 md:hidden', className)}>
@@ -56,29 +87,29 @@ function MobileBreadcrumbs({ segments, className, listClassName }: PageBreadcrum
               <Link
                 href={firstSegment.href}
                 aria-label={firstSegment.label}
-                className={rootLinkClassName}
+                className={breadcrumbClassNames.rootLink}
               >
                 <Home className="size-4" aria-hidden="true" />
               </Link>
             </BreadcrumbLink>
           ) : (
-            <BreadcrumbPage className={cn(currentPageClassName, 'inline-flex items-center gap-2')}>
+            <BreadcrumbPage
+              className={cn(breadcrumbClassNames.current, 'inline-flex items-center gap-2')}
+            >
               <Home className="size-4" aria-hidden="true" />
               {firstSegment.label}
             </BreadcrumbPage>
           )}
         </BreadcrumbItem>
 
-        {!isRootRoute ? (
-          <BreadcrumbSeparator className="mx-0 text-muted-foreground/45 [&>svg]:size-3.5" />
-        ) : null}
+        {!isRootRoute ? <BreadcrumbSeparator className={breadcrumbClassNames.separator} /> : null}
 
         {hiddenSegments.length > 0 ? (
           <>
             <BreadcrumbItem className="shrink-0">
               <DropdownMenu>
                 <DropdownMenuTrigger
-                  className="flex size-8 items-center justify-center rounded-md text-muted-foreground outline-hidden transition-colors hover:bg-[var(--secondary-50)] hover:text-[var(--secondary-700)] focus-visible:ring-2 focus-visible:ring-[var(--secondary-600)]"
+                  className={breadcrumbClassNames.trigger}
                   aria-label="Mostrar niveles intermedios"
                 >
                   <BreadcrumbEllipsis className="size-6" />
@@ -99,13 +130,13 @@ function MobileBreadcrumbs({ segments, className, listClassName }: PageBreadcrum
                 </DropdownMenuContent>
               </DropdownMenu>
             </BreadcrumbItem>
-            <BreadcrumbSeparator className="mx-0 text-muted-foreground/45 [&>svg]:size-3.5" />
+            <BreadcrumbSeparator className={breadcrumbClassNames.separator} />
           </>
         ) : null}
 
         {!isRootRoute ? (
           <BreadcrumbItem className="min-w-0">
-            <BreadcrumbPage className={cn(currentPageClassName, 'block min-w-0')}>
+            <BreadcrumbPage className={cn(breadcrumbClassNames.current, 'block min-w-0')}>
               <span className="block truncate whitespace-nowrap">{currentSegment.label}</span>
             </BreadcrumbPage>
           </BreadcrumbItem>
@@ -115,7 +146,12 @@ function MobileBreadcrumbs({ segments, className, listClassName }: PageBreadcrum
   );
 }
 
-export function PageBreadcrumbs({ segments, className, listClassName }: PageBreadcrumbsProps) {
+export function PageBreadcrumbs({
+  segments,
+  className,
+  listClassName,
+  tone = 'default',
+}: PageBreadcrumbsProps) {
   if (!segments.length) {
     return null;
   }
@@ -127,6 +163,7 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
   const totalLabelLength = segments.reduce((total, segment) => total + segment.label.length, 0);
   const shouldCollapse =
     segments.length > MAX_VISIBLE_SEGMENTS || totalLabelLength > MAX_VISIBLE_LABEL_LENGTH;
+  const breadcrumbClassNames = getBreadcrumbClassNames(tone);
 
   if (shouldCollapse) {
     return (
@@ -135,6 +172,7 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
           segments={segments}
           className={className}
           listClassName={listClassName}
+          tone={tone}
         />
         <Breadcrumb className={cn('hidden min-w-0 md:block', className)}>
           <BreadcrumbList
@@ -146,14 +184,14 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
                   <Link
                     href={firstSegment.href}
                     aria-label={firstSegment.label}
-                    className={rootLinkClassName}
+                    className={breadcrumbClassNames.rootLink}
                   >
                     <Home className="size-4" aria-hidden="true" />
                   </Link>
                 </BreadcrumbLink>
               ) : (
                 <BreadcrumbPage
-                  className={cn(currentPageClassName, 'inline-flex items-center gap-2')}
+                  className={cn(breadcrumbClassNames.current, 'inline-flex items-center gap-2')}
                 >
                   <Home className="size-4" aria-hidden="true" />
                   {firstSegment.label}
@@ -165,14 +203,14 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
               <>
                 <BreadcrumbSeparator
                   className={cn(
-                    'mx-0 text-muted-foreground/45 [&>svg]:size-3.5',
+                    breadcrumbClassNames.separator,
                     firstSegment.hideOnDesktop && 'hidden md:flex'
                   )}
                 />
                 <BreadcrumbItem>
                   <DropdownMenu>
                     <DropdownMenuTrigger
-                      className="flex size-8 items-center justify-center rounded-md text-muted-foreground outline-hidden transition-colors hover:bg-[var(--secondary-50)] hover:text-[var(--secondary-700)] focus-visible:ring-2 focus-visible:ring-[var(--secondary-600)]"
+                      className={breadcrumbClassNames.trigger}
                       aria-label="Mostrar niveles intermedios"
                     >
                       <BreadcrumbEllipsis className="size-6" />
@@ -197,11 +235,11 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
             ) : null}
 
             {segments.length > 1 ? (
-              <BreadcrumbSeparator className="mx-0 text-muted-foreground/45 [&>svg]:size-3.5" />
+              <BreadcrumbSeparator className={breadcrumbClassNames.separator} />
             ) : null}
             {segments.length > 1 ? (
               <BreadcrumbItem className="min-w-0">
-                <BreadcrumbPage className={cn(currentPageClassName, 'block min-w-0')}>
+                <BreadcrumbPage className={cn(breadcrumbClassNames.current, 'block min-w-0')}>
                   <span className="block truncate whitespace-nowrap">{currentSegment.label}</span>
                 </BreadcrumbPage>
               </BreadcrumbItem>
@@ -214,7 +252,12 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
 
   return (
     <>
-      <MobileBreadcrumbs segments={segments} className={className} listClassName={listClassName} />
+      <MobileBreadcrumbs
+        segments={segments}
+        className={className}
+        listClassName={listClassName}
+        tone={tone}
+      />
       <Breadcrumb className={cn('hidden md:block', className)}>
         <BreadcrumbList
           className={cn('h-9 flex-nowrap gap-1.5 text-[13px] sm:gap-2', listClassName)}
@@ -232,21 +275,21 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
                       <Link
                         href={segment.href}
                         aria-label={segment.label}
-                        className={rootLinkClassName}
+                        className={breadcrumbClassNames.rootLink}
                       >
                         <Home className="size-4" aria-hidden="true" />
                       </Link>
                     </BreadcrumbLink>
                   ) : segment.href && !isLast ? (
                     <BreadcrumbLink asChild>
-                      <Link href={segment.href} className={linkClassName}>
+                      <Link href={segment.href} className={breadcrumbClassNames.link}>
                         {segment.label}
                       </Link>
                     </BreadcrumbLink>
                   ) : (
                     <BreadcrumbPage
                       className={cn(
-                        currentPageClassName,
+                        breadcrumbClassNames.current,
                         isFirst && 'inline-flex items-center gap-2'
                       )}
                     >
@@ -258,7 +301,7 @@ export function PageBreadcrumbs({ segments, className, listClassName }: PageBrea
                 {!isLast ? (
                   <BreadcrumbSeparator
                     className={cn(
-                      'mx-0 text-muted-foreground/45 [&>svg]:size-3.5',
+                      breadcrumbClassNames.separator,
                       segment.hideOnDesktop && 'hidden md:flex'
                     )}
                   />

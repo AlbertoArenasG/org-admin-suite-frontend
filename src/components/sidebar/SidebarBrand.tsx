@@ -47,8 +47,8 @@ export function SidebarBrand({
         aria-label={t('dashboard')}
         onClick={onNavigate}
         className={cn(
-          'flex shrink-0 rounded-xl outline-hidden focus-visible:ring-2 focus-visible:ring-sidebar-ring',
-          collapsed && 'transition-opacity duration-150 group-hover/brand:opacity-0'
+          'dashboard-navigation-brand-link dashboard-navigation-control flex shrink-0 rounded-xl outline-hidden',
+          collapsed && 'transition-opacity group-hover/brand:opacity-0'
         )}
       >
         <span className="flex size-10 items-center justify-center rounded-xl bg-[var(--dashboard-navigation-logo-surface)] p-1">
@@ -74,9 +74,9 @@ export function SidebarBrand({
             aria-label={toggleLabel}
             onClick={onToggle}
             className={cn(
-              'size-8 shrink-0 text-sidebar-foreground hover:bg-[var(--dashboard-navigation-control-hover-surface)] hover:text-sidebar-foreground',
+              'dashboard-navigation-brand-control dashboard-navigation-control size-8 shrink-0 text-sidebar-foreground hover:bg-[var(--dashboard-navigation-control-hover-surface)] hover:text-sidebar-foreground',
               collapsed &&
-                'absolute inset-0 size-10 rounded-xl bg-[var(--sidebar-primary)] opacity-0 transition-[opacity,background-color] group-hover/brand:opacity-100 focus-visible:opacity-100 hover:bg-[var(--secondary-500)]'
+                'absolute inset-0 size-10 rounded-xl bg-[var(--dashboard-navigation-brand-toggle-surface)] opacity-0 transition-[opacity,background-color] group-hover/brand:opacity-100 focus-visible:opacity-100 hover:bg-[var(--dashboard-navigation-brand-toggle-hover-surface)]'
             )}
           >
             {mobile ? (

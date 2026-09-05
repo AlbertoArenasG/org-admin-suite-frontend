@@ -334,6 +334,13 @@ capa opcional para agrupar título, descripción y acciones propias de una
 vista. Una ruta puede no requerirlo si su composición resuelve esa jerarquía de
 otra forma.
 
+`DashboardPageComposition` y `DashboardPageContentScroller` son primitivas
+estructurales sin material visual propio: heredan la superficie de `Workspace
+Canvas`. El modo de scroll se identifica mediante `data-dashboard-scroll-owner`
+y nunca puede asignar propietarios simultáneos. `Page Content Scroller` usa
+`padding="none"` por defecto; una ruta debe elegir `padding="default"` solo
+cuando adopte los gutters estructurales compartidos.
+
 La variante opcional `Sticky Collapsible Header` se rige por su
 [contrato específico](../components/sticky-collapsible-page-header.md). No se
 activa por defecto ni reemplaza al `Page Header` expandido.

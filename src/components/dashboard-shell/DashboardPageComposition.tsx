@@ -14,7 +14,11 @@ export const DashboardPageComposition = forwardRef<HTMLDivElement, DashboardPage
       <div
         ref={ref}
         data-dashboard-page-composition={scrollMode}
+        data-dashboard-scroll-owner={
+          scrollMode === 'page-composition' ? 'page-composition' : undefined
+        }
         className={cn(
+          'dashboard-page-composition',
           scrollMode === 'page-content'
             ? 'flex min-h-0 flex-1 flex-col'
             : scrollMode === 'page-composition'

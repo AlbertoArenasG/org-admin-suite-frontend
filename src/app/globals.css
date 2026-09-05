@@ -6,6 +6,8 @@
 @import '../styles/themes/dashboard-ambient.css';
 @import '../styles/themes/dashboard-ambient-deep.css';
 @import '../styles/auth/aurora.css';
+@import '../styles/dashboard/interactions.css';
+@import '../styles/dashboard/page-composition.css';
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
 
@@ -419,40 +421,6 @@
   backdrop-filter: var(--dashboard-shell-glass-backdrop);
 }
 
-.dashboard-navigation-rail {
-  border-color: var(--dashboard-navigation-rail-border);
-  background-color: var(--dashboard-navigation-rail-surface);
-}
-
-.dashboard-navigation-item {
-  border: 1px solid transparent;
-  background-color: transparent;
-}
-
-.dashboard-navigation-item:hover {
-  border-color: var(--dashboard-navigation-item-hover-border);
-  background-color: var(--dashboard-navigation-item-hover-surface);
-  box-shadow: var(--dashboard-navigation-item-hover-shadow);
-}
-
-.dashboard-navigation-item--active {
-  border-color: var(--dashboard-navigation-item-active-border);
-  background-color: var(--dashboard-navigation-item-active-surface);
-  box-shadow: var(--dashboard-navigation-item-active-shadow);
-}
-
-.dashboard-navigation-rail-item.dashboard-navigation-item--active {
-  border-color: var(--dashboard-navigation-rail-item-active-border);
-  box-shadow: var(--dashboard-navigation-rail-item-active-shadow);
-}
-
-.dashboard-navigation-panel {
-  border-color: var(--dashboard-navigation-panel-border);
-  background-color: var(--dashboard-navigation-panel-surface);
-  box-shadow: var(--dashboard-navigation-panel-shadow);
-  backdrop-filter: var(--dashboard-navigation-panel-backdrop);
-}
-
 @keyframes route-progress {
   0% {
     transform: translateX(-100%);
@@ -467,50 +435,6 @@
 
 .animate-route-progress {
   animation: route-progress 0.6s ease-in-out forwards;
-}
-
-@keyframes sidebar-section-expand {
-  from {
-    height: 0;
-    opacity: 0;
-    transform: translateY(-0.25rem);
-  }
-  to {
-    height: var(--radix-collapsible-content-height);
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes sidebar-section-collapse {
-  from {
-    height: var(--radix-collapsible-content-height);
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    height: 0;
-    opacity: 0;
-    transform: translateY(-0.25rem);
-  }
-}
-
-.sidebar-nav-collapsible-content {
-  overflow: hidden;
-}
-
-.sidebar-nav-collapsible-content[data-state='open'] {
-  animation: sidebar-section-expand 220ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.sidebar-nav-collapsible-content[data-state='closed'] {
-  animation: sidebar-section-collapse 160ms ease-in;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sidebar-nav-collapsible-content[data-state] {
-    animation: none;
-  }
 }
 
 /* Keep Sileo's exit inside its 600 ms unmount window, but make it feel deliberate. */

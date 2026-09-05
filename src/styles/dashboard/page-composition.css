@@ -1,0 +1,26 @@
+:root {
+  --dashboard-page-content-padding-block: 1.25rem;
+  --dashboard-page-content-padding-inline: 1.25rem;
+  --dashboard-page-content-padding-inline-wide: 1.75rem;
+}
+
+.dashboard-page-composition,
+.dashboard-page-content-scroller {
+  min-width: 0;
+}
+
+.dashboard-page-composition {
+  background-color: var(--page-composition-surface);
+  background-image: var(--page-composition-image);
+}
+
+.dashboard-page-content-scroller[data-dashboard-page-content-padding='default'] {
+  padding-block: var(--dashboard-page-content-padding-block);
+  padding-inline: var(--dashboard-page-content-padding-inline);
+}
+
+@media (min-width: 40rem) {
+  .dashboard-page-content-scroller[data-dashboard-page-content-padding='default'] {
+    padding-inline: var(--dashboard-page-content-padding-inline-wide);
+  }
+}
