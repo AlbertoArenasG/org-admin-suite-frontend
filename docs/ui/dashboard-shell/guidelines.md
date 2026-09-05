@@ -59,10 +59,9 @@ contrato documentado en [`tokens.md`](../tokens.md).
 
 ### Fondo Global y Overscroll
 
-El fondo global del documento puede quedar visible durante el overscroll
-elástico del navegador, carga inicial o áreas externas al dashboard. Por ello,
-debe ser coherente con la superficie que el shell expone en cada viewport y
-tema:
+El fondo global del documento puede quedar visible durante la carga inicial o
+en áreas externas al dashboard. Por ello, debe ser coherente con la superficie
+que el shell expone en cada viewport y tema:
 
 - En escritorio no debe producir un salto visual frente al marco del dashboard.
 - En móvil debe alinearse con el `Mobile Canvas` para no revelar una capa ajena
@@ -282,10 +281,16 @@ Header` de legacy, o `Workspace Toolbar` y `Workspace Header` de Next,
 dueños del scroll vertical al mismo tiempo. Las regiones anidadas se reservan
 para necesidades excepcionales y documentadas.
 
-En escritorio, el dueño activo debe usar `overscroll-behavior-y: none` para no
-propagar el rebote del trackpad al documento ni revelar el fondo global en los
-límites de la región de trabajo. Esta regla no se traslada a móvil, donde el
-scroll pertenece al documento.
+En escritorio, el dueño activo debe usar `overscroll-behavior: none` para no
+propagar el rebote vertical u horizontal del trackpad al documento ni revelar
+el fondo global en los límites de la región de trabajo. Los elementos con
+overflow horizontal intencional conservan su desplazamiento propio, pero no lo
+encadenan al viewport.
+
+En móvil, el documento continúa como dueño natural del scroll, pero el
+`Dashboard Shell` debe usar esa misma política en ambos ejes. Así se conserva
+el flujo normal de la página sin rebote ni propagación horizontal o vertical
+fuera del dashboard.
 
 ### Workspace Toolbar
 

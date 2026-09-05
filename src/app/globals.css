@@ -7,6 +7,7 @@
 @import '../styles/themes/dashboard-ambient-deep.css';
 @import '../styles/auth/aurora.css';
 @import '../styles/dashboard/interactions.css';
+@import '../styles/dashboard/overscroll.css';
 @import '../styles/dashboard/page-composition.css';
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
@@ -384,19 +385,19 @@
   background-image: var(--dashboard-shell-mesh);
 }
 
-.dashboard-content-inset {
-  border: 1px solid var(--dashboard-shell-glass-border);
-  background-color: var(--dashboard-shell-glass-surface);
-  background-image: var(--dashboard-shell-glass-image);
-  box-shadow: var(--dashboard-shell-glass-shadow);
-  backdrop-filter: var(--dashboard-shell-glass-backdrop);
-}
-
 .dashboard-workspace-canvas {
   background-color: var(--workspace-canvas-surface, var(--background));
 }
 
 @media (min-width: 768px) {
+  .dashboard-content-inset {
+    border: 1px solid var(--dashboard-shell-glass-border);
+    background-color: var(--dashboard-shell-glass-surface);
+    background-image: var(--dashboard-shell-glass-image);
+    box-shadow: var(--dashboard-shell-glass-shadow);
+    backdrop-filter: var(--dashboard-shell-glass-backdrop);
+  }
+
   .dashboard-workspace-canvas {
     border: var(--workspace-canvas-border-width, 0px) solid
       var(--workspace-canvas-border, transparent);

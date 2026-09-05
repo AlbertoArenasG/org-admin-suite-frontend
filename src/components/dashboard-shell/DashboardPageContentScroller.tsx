@@ -24,7 +24,7 @@ export function DashboardPageContentScroller({
       className={cn(
         'dashboard-page-content-scroller',
         scrollMode === 'page-content'
-          ? 'min-h-0 flex-1 md:overscroll-y-none md:overflow-y-auto'
+          ? 'min-h-0 flex-1 md:overscroll-none md:overflow-y-auto'
           : 'min-w-0 shrink-0',
         className
       )}

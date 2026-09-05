@@ -1,0 +1,9 @@
+/*
+ * Mobile dashboard routes use the document as their scroll owner. Scope the
+ * viewport boundary to this shell so a gesture cannot chain into page bounce.
+ */
+html:has(.dashboard-shell),
+body:has(.dashboard-shell),
+.dashboard-shell {
+  overscroll-behavior: none;
+}
