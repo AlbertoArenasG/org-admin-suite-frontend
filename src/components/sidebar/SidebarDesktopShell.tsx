@@ -1,9 +1,10 @@
 'use client';
 
 import { SidebarAccountMenu } from '@/components/sidebar/SidebarAccountMenu';
-import { SidebarBrand } from '@/components/sidebar/SidebarBrand';
 import { SidebarGroupRail } from '@/components/sidebar/SidebarGroupRail';
 import { SidebarNavigationPane } from '@/components/sidebar/SidebarNavigationPane';
+import { SidebarPaneHeader } from '@/components/sidebar/SidebarPaneHeader';
+import { SidebarRailBrand } from '@/components/sidebar/SidebarRailBrand';
 import type { SidebarNavigationShellProps } from '@/components/sidebar/sidebar-shell.types';
 import { SidebarContent, SidebarFooter, SidebarHeader } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
@@ -31,11 +32,9 @@ export function SidebarDesktopShell({
         aria-hidden="true"
         className="dashboard-navigation-rail pointer-events-none absolute inset-y-0 left-0 z-0 w-14 border-r"
       />
-      <SidebarHeader className="relative z-10 p-2">
-        <SidebarBrand collapsed={collapsed} logoAlt={logoAlt} onToggle={onToggle} />
-      </SidebarHeader>
       <div className="relative z-10 flex min-h-0 flex-1">
-        <aside className="flex w-14 shrink-0 flex-col items-center px-1 pt-1">
+        <aside className="flex w-14 shrink-0 flex-col items-center gap-3 px-1 py-2">
+          <SidebarRailBrand collapsed={collapsed} logoAlt={logoAlt} onExpand={onToggle} />
           <SidebarGroupRail
             dashboard={dashboard}
             groups={groups}
@@ -43,22 +42,27 @@ export function SidebarDesktopShell({
             onSelectGroup={onSelectGroup}
           />
         </aside>
-        <SidebarContent
+        <div
           className={cn(
-            'min-w-0 flex-1 overflow-x-hidden px-2 pb-4 transition-[width,opacity,transform] duration-200 ease-out motion-reduce:transition-none',
+            'flex min-w-0 flex-1 flex-col overflow-hidden transition-[width,opacity,transform] duration-200 ease-out motion-reduce:transition-none',
             collapsed && 'pointer-events-none w-0 flex-none translate-x-2 px-0 opacity-0'
           )}
         >
-          <SidebarNavigationPane
-            title={navigationTitle}
-            entries={selectedEntries}
-            className="px-1"
-          />
-        </SidebarContent>
+          <SidebarHeader className="shrink-0 p-2">
+            <SidebarPaneHeader onCollapse={onToggle} />
+          </SidebarHeader>
+          <SidebarContent className="min-w-0 flex-1 overflow-x-hidden px-2 pb-4">
+            <SidebarNavigationPane
+              title={navigationTitle}
+              entries={selectedEntries}
+              className="px-1"
+            />
+          </SidebarContent>
+          <SidebarFooter className="shrink-0 p-2">
+            <SidebarAccountMenu user={user} />
+          </SidebarFooter>
+        </div>
       </div>
-      <SidebarFooter className="relative z-10 p-2">
-        <SidebarAccountMenu user={user} collapsed={collapsed} />
-      </SidebarFooter>
     </div>
   );
 }
