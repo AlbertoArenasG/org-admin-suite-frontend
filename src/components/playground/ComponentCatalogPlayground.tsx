@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {
   ArrowRight,
   Blocks,
+  Filter,
   LayoutTemplate,
   MousePointerClick,
   PanelsTopLeft,
@@ -97,6 +98,26 @@ export function ComponentCatalogPlayground() {
               <Link href="/dashboard-playground/catalog/actions-buttons">
                 <MousePointerClick className="size-4" aria-hidden="true" />
                 Revisar acciones
+              </Link>
+            </Button>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-2xl border border-border/80 bg-card p-5 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.1em] text-muted-foreground uppercase">
+                Control en validación
+              </p>
+              <h2 className="mt-1 text-lg font-semibold">Menú de filtros</h2>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
+                Tabs, selección única, contador y reset para filtros de listados operativos.
+              </p>
+            </div>
+            <Button asChild variant="outline" className="shrink-0">
+              <Link href="/dashboard-playground/catalog/controls/filter-menu">
+                <Filter className="size-4" aria-hidden="true" />
+                Revisar filtros
               </Link>
             </Button>
           </div>
