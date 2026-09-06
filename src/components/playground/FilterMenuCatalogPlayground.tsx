@@ -42,20 +42,45 @@ const filterCategories = [
       { value: 'completed', label: 'Completado' },
     ],
   },
+  {
+    id: 'provider',
+    label: 'Proveedor',
+    searchable: true,
+    searchPlaceholder: 'Buscar proveedor...',
+    options: [
+      { value: 'bosch', label: 'Robert Bosch México' },
+      { value: 'fluke', label: 'Fluke Calibration' },
+      { value: 'keysight', label: 'Keysight Technologies' },
+    ],
+  },
+  {
+    id: 'provider-presence',
+    label: 'Proveedor asignado',
+    options: [
+      { value: 'assigned', label: 'Con proveedor' },
+      { value: 'unassigned', label: 'Sin proveedor' },
+    ],
+  },
 ] as const satisfies readonly DashboardFilterCategory[];
 
 export function FilterMenuCatalogPlayground() {
-  const [variant, setVariant] = useState<'simple' | 'tabs' | 'searchable'>('tabs');
+  const [variant, setVariant] = useState<
+    'simple' | 'simple-searchable' | 'tabs' | 'searchable' | 'overflow'
+  >('tabs');
   const [filters, setFilters] = useState<Record<string, string | undefined>>({});
   const [singleStatus, setSingleStatus] = useState<string | undefined>();
+  const [singleCustomer, setSingleCustomer] = useState<string | undefined>();
   const visibleCategories =
-    variant === 'searchable'
+    variant === 'overflow'
       ? filterCategories
-      : filterCategories.map((category) => ({ ...category, searchable: false }));
-  const activeCount =
-    variant === 'simple'
-      ? Number(Boolean(singleStatus))
-      : Object.values(filters).filter(Boolean).length;
+      : variant === 'searchable'
+        ? filterCategories.slice(0, 3)
+        : filterCategories.slice(0, 3).map((category) => ({ ...category, searchable: false }));
+  const isSingleVariant = variant === 'simple' || variant === 'simple-searchable';
+  const selectedSingleValue = variant === 'simple' ? singleStatus : singleCustomer;
+  const activeCount = isSingleVariant
+    ? Number(Boolean(selectedSingleValue))
+    : Object.values(filters).filter(Boolean).length;
 
   return (
     <DashboardPlaygroundFrame
@@ -90,6 +115,14 @@ export function FilterMenuCatalogPlayground() {
             <DashboardButton
               type="button"
               size="sm"
+              variant={variant === 'simple-searchable' ? 'secondary' : 'outline'}
+              onClick={() => setVariant('simple-searchable')}
+            >
+              Simple con búsqueda
+            </DashboardButton>
+            <DashboardButton
+              type="button"
+              size="sm"
               variant={variant === 'tabs' ? 'secondary' : 'outline'}
               onClick={() => setVariant('tabs')}
             >
@@ -103,6 +136,14 @@ export function FilterMenuCatalogPlayground() {
             >
               Tabs con búsqueda
             </DashboardButton>
+            <DashboardButton
+              type="button"
+              size="sm"
+              variant={variant === 'overflow' ? 'secondary' : 'outline'}
+              onClick={() => setVariant('overflow')}
+            >
+              Tabs con overflow
+            </DashboardButton>
           </div>
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
@@ -113,7 +154,11 @@ export function FilterMenuCatalogPlayground() {
               <p className="mt-1 text-sm leading-6 text-muted-foreground">
                 {variant === 'simple'
                   ? 'Un campo, una categoría y una selección directa.'
-                  : 'Una selección por categoría, con contador, palomita y reset.'}
+                  : variant === 'simple-searchable'
+                    ? 'Un campo y una categoría; la búsqueda aparece dentro del menú.'
+                    : variant === 'overflow'
+                      ? 'Cinco categorías en una franja navegable sin comprimir ni ocultar filtros.'
+                      : 'Una selección por categoría, con contador, palomita y restablecimiento.'}
               </p>
             </div>
             {variant === 'simple' ? (
@@ -123,6 +168,14 @@ export function FilterMenuCatalogPlayground() {
                 value={singleStatus}
                 onValueChange={setSingleStatus}
                 onReset={() => setSingleStatus(undefined)}
+              />
+            ) : variant === 'simple-searchable' ? (
+              <DashboardSingleFilterMenu
+                category={filterCategories[1]}
+                label="Cliente"
+                value={singleCustomer}
+                onValueChange={setSingleCustomer}
+                onReset={() => setSingleCustomer(undefined)}
               />
             ) : (
               <DashboardFilterMenu

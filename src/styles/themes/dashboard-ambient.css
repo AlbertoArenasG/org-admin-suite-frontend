@@ -249,6 +249,15 @@ html.ambient {
   --filter-menu-tab-active-surface: color-mix(in srgb, var(--card) 86%, transparent);
   --filter-menu-tab-active-foreground: var(--foreground);
   --filter-menu-tab-active-shadow: 0 2px 5px rgb(17 24 39 / 8%);
+  --filter-menu-tab-scroll-control-surface: color-mix(in srgb, var(--card) 90%, transparent);
+  --filter-menu-tab-scroll-control-border: color-mix(in srgb, var(--border) 76%, transparent);
+  --filter-menu-tab-scroll-control-foreground: var(--foreground);
+  --filter-menu-tab-scroll-control-hover-surface: color-mix(
+    in srgb,
+    var(--secondary-50) 86%,
+    transparent
+  );
+  --filter-menu-tab-scroll-control-shadow: 0 2px 5px rgb(17 24 39 / 10%);
   --filter-menu-option-foreground: var(--foreground);
   --filter-menu-option-hover-surface: color-mix(in srgb, var(--muted) 68%, transparent);
   --filter-menu-option-selected-indicator: var(--primary-600);

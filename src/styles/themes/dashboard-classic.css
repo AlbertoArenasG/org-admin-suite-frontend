@@ -224,6 +224,11 @@ html.classic {
   --filter-menu-tab-active-surface: var(--card);
   --filter-menu-tab-active-foreground: var(--foreground);
   --filter-menu-tab-active-shadow: 0 1px 2px rgb(17 24 39 / 8%);
+  --filter-menu-tab-scroll-control-surface: var(--card);
+  --filter-menu-tab-scroll-control-border: var(--border);
+  --filter-menu-tab-scroll-control-foreground: var(--foreground);
+  --filter-menu-tab-scroll-control-hover-surface: var(--secondary-50);
+  --filter-menu-tab-scroll-control-shadow: 0 1px 2px rgb(17 24 39 / 10%);
   --filter-menu-option-foreground: var(--foreground);
   --filter-menu-option-hover-surface: var(--muted);
   --filter-menu-option-selected-indicator: var(--primary-600);
