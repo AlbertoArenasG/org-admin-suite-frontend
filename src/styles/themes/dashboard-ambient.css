@@ -201,4 +201,34 @@ html.ambient {
   --workspace-chrome-focus-outline-width: 2px;
   --workspace-chrome-focus-outline-offset: 2px;
   --workspace-chrome-focus-outline-color: var(--ring);
+  --button-primary-surface: var(--primary-500);
+  --button-primary-foreground: var(--primary-foreground);
+  --button-primary-hover-surface: var(--primary-600);
+  --button-secondary-surface: var(--secondary-50);
+  --button-secondary-foreground: var(--secondary-700);
+  --button-secondary-border: var(--secondary-300);
+  --button-secondary-hover-surface: color-mix(
+    in srgb,
+    var(--secondary-50) 74%,
+    var(--secondary-300)
+  );
+  --button-secondary-hover-border: var(--secondary-500);
+  --button-outline-surface: transparent;
+  --button-outline-foreground: var(--foreground);
+  --button-outline-border: var(--border);
+  --button-outline-hover-surface: var(--muted);
+  --button-outline-hover-border: var(--border);
+  --button-ghost-surface: transparent;
+  --button-ghost-foreground: var(--foreground);
+  --button-ghost-hover-surface: var(--muted);
+  --button-ghost-hover-foreground: var(--foreground);
+  --button-destructive-surface: var(--destructive);
+  --button-destructive-foreground: var(--destructive-foreground);
+  --button-destructive-hover-surface: color-mix(in srgb, var(--destructive) 88%, black);
+  --button-link-foreground: var(--primary-700);
+  --button-focus-outline-width: 2px;
+  --button-focus-outline-color: var(--ring);
+  --button-transition-duration: 150ms;
+  --button-transition-easing: ease-out;
+  --button-disabled-opacity: 0.5;
 }

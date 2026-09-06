@@ -6,7 +6,7 @@ import { ArrowRight, Plus, Sparkles } from 'lucide-react';
 import { DashboardPageContentScroller } from '@/components/dashboard-shell';
 import { PageHeader } from '@/components/page-header';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
-import { Button } from '@/components/ui/button';
+import { DashboardButton } from '@/components/ui/dashboard-button';
 
 type PageHeaderVariant = 'minimal' | 'contextual' | 'with-actions';
 
@@ -81,10 +81,10 @@ export function PageHeaderCatalogPlayground() {
         actions={
           definition.actions ? (
             <>
-              <Button size="sm">
+              <DashboardButton size="sm">
                 <Plus className="size-4" aria-hidden="true" />
                 {definition.actions.primary}
-              </Button>
+              </DashboardButton>
             </>
           ) : undefined
         }
@@ -110,13 +110,13 @@ export function PageHeaderCatalogPlayground() {
               const isSelected = variant === key;
 
               return (
-                <Button
+                <DashboardButton
                   key={key}
                   type="button"
                   role="tab"
                   id={`page-header-tab-${key}`}
                   size="sm"
-                  variant="ghost"
+                  variant={isSelected ? 'secondary' : 'ghost'}
                   aria-selected={isSelected}
                   aria-controls="page-header-catalog-panel"
                   tabIndex={isSelected ? 0 : -1}
@@ -137,14 +137,9 @@ export function PageHeaderCatalogPlayground() {
                       ?.querySelector<HTMLButtonElement>(`#page-header-tab-${nextVariant}`)
                       ?.focus();
                   }}
-                  className={
-                    isSelected
-                      ? 'bg-[var(--secondary-600)] text-white shadow-sm hover:bg-[var(--secondary-700)] hover:text-white'
-                      : 'text-muted-foreground hover:bg-background hover:text-foreground'
-                  }
                 >
                   {variants[key].label}
-                </Button>
+                </DashboardButton>
               );
             })}
           </div>
@@ -240,12 +235,12 @@ export function PageHeaderCatalogPlayground() {
                   informar una variante futura, pero no define el comportamiento base.
                 </p>
               </div>
-              <Button asChild variant="outline" className="shrink-0">
+              <DashboardButton asChild variant="outline" className="shrink-0">
                 <Link href="/dashboard-playground/experiments/sticky-page-header">
                   Abrir experimento
                   <ArrowRight className="size-4" aria-hidden="true" />
                 </Link>
-              </Button>
+              </DashboardButton>
             </div>
           </section>
         </section>

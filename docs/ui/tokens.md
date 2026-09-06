@@ -64,6 +64,12 @@ convertir la composición en una excepción por vista.
 La base actual es sobria y transparente, pero un tema futuro puede ajustar su
 material o jerarquía cromática sin modificar el componente ni cada página.
 
+`DashboardButton` usa una receta independiente por tema para sus roles `primary`,
+`secondary`, `outline`, `ghost`, `destructive` y `link`. Cada rol declara su
+material y, cuando aplica, borde y hover; foco, transición y disabled se
+declaran mediante `--button-*`. `Button` conserva su contrato Legacy; una
+vista nueva o migrada no debe introducir color directo en sus botones.
+
 Su chrome interno usa una familia independiente por tema:
 `--workspace-chrome-{foreground,border,control-hover,avatar-surface,avatar-border}`.
 Estos tokens cubren toolbar, breadcrumbs, trigger y cuenta sin acoplarlos a

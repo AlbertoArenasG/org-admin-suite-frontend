@@ -1,7 +1,15 @@
 'use client';
 
-import { CircleEllipsis, CirclePlus, MousePointerClick, ShieldAlert } from 'lucide-react';
+import Link from 'next/link';
+import {
+  ArrowRight,
+  CircleEllipsis,
+  CirclePlus,
+  MousePointerClick,
+  ShieldAlert,
+} from 'lucide-react';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
+import { Button } from '@/components/ui/button';
 
 const actionRoles = [
   {
@@ -110,12 +118,21 @@ export function ActionsButtonsCatalogPlayground() {
         </section>
 
         <section className="mt-5 rounded-2xl border border-dashed border-[var(--secondary-300)] bg-[var(--secondary-50)]/45 p-5 sm:p-6">
-          <p className="text-sm font-semibold">Siguiente incorporación</p>
-          <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-            Los candidatos de ChatCN o ReUI se evaluarán aquí antes de entrar al catálogo: contrato
-            de accesibilidad, dependencia, API, tokens temáticos y consistencia con los roles ya
-            definidos. Ninguna pieza externa se adopta directamente en una vista de negocio.
-          </p>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm font-semibold">Primer primitive validable</p>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+                El botón local basado en shadcn recibe una receta temática propia antes de adoptarse
+                gradualmente en las vistas migradas.
+              </p>
+            </div>
+            <Button asChild variant="outline" className="shrink-0">
+              <Link href="/dashboard-playground/catalog/actions-buttons/buttons">
+                Revisar botones
+                <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
         </section>
       </section>
     </DashboardPlaygroundFrame>

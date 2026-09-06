@@ -29,6 +29,7 @@ docs/ui/
 ├─ patterns/                 # Futuro: tablas, formularios, detalles y page composition.
 └─ components/
    ├─ actions-and-buttons.md
+   ├─ buttons.md
    ├─ page-header.md
    └─ sticky-collapsible-page-header.md
 ```
