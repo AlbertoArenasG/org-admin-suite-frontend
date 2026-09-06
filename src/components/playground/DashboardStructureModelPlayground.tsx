@@ -41,6 +41,7 @@ export function DashboardStructureModelPlayground() {
       segments={[
         { label: 'Panel', href: '/dashboard', hideOnDesktop: true },
         { label: 'Dashboard Playground', href: '/dashboard-playground' },
+        { label: 'Foundations' },
         { label: 'Modelo de estructura' },
       ]}
     >

@@ -61,6 +61,13 @@ html.classic {
   --workspace-canvas-radius: 1.5rem;
   --page-composition-surface: transparent;
   --page-composition-image: none;
+  --page-header-surface: transparent;
+  --page-header-image: none;
+  --page-header-border: color-mix(in srgb, var(--border) 72%, transparent);
+  --page-header-foreground: var(--foreground);
+  --page-header-description-foreground: var(--muted-foreground);
+  --page-header-metadata-foreground: var(--muted-foreground);
+  --page-header-eyebrow-foreground: var(--secondary-700);
   --workspace-chrome-foreground: #111827;
   --workspace-chrome-border: rgb(215 224 231 / 70%);
   --workspace-chrome-control-hover: #eff4f8;

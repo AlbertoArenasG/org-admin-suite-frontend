@@ -2,7 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Layers3, Monitor, PanelLeft, Smartphone, Sparkles } from 'lucide-react';
+import {
+  Blocks,
+  Layers3,
+  Monitor,
+  MousePointerClick,
+  PanelLeft,
+  Smartphone,
+  Sparkles,
+} from 'lucide-react';
 import {
   DashboardPageComposition,
   DashboardPageContentScroller,
@@ -107,6 +115,35 @@ export function DashboardShellPlayground() {
         </section>
 
         <DashboardPageContentScroller padding="default">
+          <section className="mb-5 rounded-xl border border-border/80 bg-card p-4 shadow-sm">
+            <p className="text-xs font-semibold tracking-[0.1em] text-[var(--secondary-700)] uppercase">
+              Catálogo
+            </p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Patrones reutilizables y composiciones que se consolidan conforme migramos vistas.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard-playground/catalog">
+                  <Blocks className="size-4" aria-hidden="true" />
+                  Catálogo del dashboard
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard-playground/catalog/page-headers">
+                  <Layers3 className="size-4" aria-hidden="true" />
+                  Page Header
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="sm">
+                <Link href="/dashboard-playground/catalog/actions-buttons">
+                  <MousePointerClick className="size-4" aria-hidden="true" />
+                  Acciones y botones
+                </Link>
+              </Button>
+            </div>
+          </section>
+
           <section className="mb-5 rounded-xl border border-[var(--secondary-300)] bg-[var(--secondary-50)]/55 p-4">
             <p className="text-xs font-semibold tracking-[0.1em] text-[var(--secondary-700)] uppercase">
               Modelos de estructura
@@ -116,13 +153,13 @@ export function DashboardShellPlayground() {
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard-playground/structure-model">
+                <Link href="/dashboard-playground/foundations/structure-model">
                   <Monitor className="size-4" aria-hidden="true" />
                   Modelo desktop
                 </Link>
               </Button>
               <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard-playground/mobile-structure-model">
+                <Link href="/dashboard-playground/foundations/structure-model/mobile">
                   <Smartphone className="size-4" aria-hidden="true" />
                   Modelo móvil
                 </Link>
@@ -145,7 +182,7 @@ export function DashboardShellPlayground() {
                 </Link>
               </Button>
               <Button asChild variant="outline" size="sm">
-                <Link href="/dashboard-playground/sticky-page-header">
+                <Link href="/dashboard-playground/experiments/sticky-page-header">
                   <Sparkles className="size-4" aria-hidden="true" />
                   Header sticky colapsable
                 </Link>

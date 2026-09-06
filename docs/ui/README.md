@@ -28,6 +28,8 @@ docs/ui/
 │  └─ mobile-responsive-redesign.md
 ├─ patterns/                 # Futuro: tablas, formularios, detalles y page composition.
 └─ components/
+   ├─ actions-and-buttons.md
+   ├─ page-header.md
    └─ sticky-collapsible-page-header.md
 ```
 
@@ -49,6 +51,26 @@ docs/ui/
   indica si su implementación ya está validada o sigue en etapa de Playground.
 - `adoption-log.md`: registro de módulos, vistas o componentes existentes que
   adopten una guideline de esta carpeta.
+
+## Catálogo Vivo
+
+`/dashboard-playground/catalog` es la referencia visual navegable del catálogo
+en evolución. Su propósito es validar piezas reutilizables con los temas,
+viewports y primitivas reales del dashboard; no sustituye sus contratos de
+documentación.
+
+- `Components` reúne piezas compartidas que se originan en necesidades reales
+  de vistas migradas.
+- `Compositions` reúne combinaciones sin datos de negocio que se repiten entre
+  rutas.
+- `Templates` reúne estructuras completas reutilizables de páginas.
+- `Experiments` conserva patrones aislados que todavía no forman parte del
+  catálogo estable.
+
+Una entrada de catálogo puede estar en definición o validación. Solo al aprobar
+su contrato reutilizable se actualizan `components/`, `patterns/`, las
+guidelines o `tokens.md` que correspondan. Una ruta de Playground por sí sola
+no convierte un experimento en una dependencia obligatoria.
 
 ## Regla de Evolución
 

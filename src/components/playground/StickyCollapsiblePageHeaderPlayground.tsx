@@ -54,6 +54,7 @@ export function StickyCollapsiblePageHeaderPlayground() {
       segments={[
         { label: 'Panel', href: '/dashboard', hideOnDesktop: true },
         { label: 'Dashboard Playground', href: '/dashboard-playground' },
+        { label: 'Experimentos' },
         { label: 'Sticky page header' },
       ]}
     >

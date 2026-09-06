@@ -59,6 +59,11 @@ transparencia también es una receta explícita por tema:
 `transparent` y `none`; un tema futuro puede redefinir esos valores sin
 convertir la composición en una excepción por vista.
 
+`Page Header` usa una receta independiente por tema:
+`--page-header-{surface,image,border,foreground,description-foreground,metadata-foreground,eyebrow-foreground}`.
+La base actual es sobria y transparente, pero un tema futuro puede ajustar su
+material o jerarquía cromática sin modificar el componente ni cada página.
+
 Su chrome interno usa una familia independiente por tema:
 `--workspace-chrome-{foreground,border,control-hover,avatar-surface,avatar-border}`.
 Estos tokens cubren toolbar, breadcrumbs, trigger y cuenta sin acoplarlos a

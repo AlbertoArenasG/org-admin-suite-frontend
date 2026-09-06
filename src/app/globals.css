@@ -8,6 +8,7 @@
 @import '../styles/auth/aurora.css';
 @import '../styles/dashboard/interactions.css';
 @import '../styles/dashboard/overscroll.css';
+@import '../styles/dashboard/page-header.css';
 @import '../styles/dashboard/page-composition.css';
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";

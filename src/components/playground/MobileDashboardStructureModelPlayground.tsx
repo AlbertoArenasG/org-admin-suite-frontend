@@ -25,6 +25,8 @@ export function MobileDashboardStructureModelPlayground() {
       segments={[
         { label: 'Panel', href: '/dashboard', hideOnDesktop: true },
         { label: 'Dashboard Playground', href: '/dashboard-playground' },
+        { label: 'Foundations' },
+        { label: 'Modelo de estructura' },
         { label: 'Modelo móvil' },
       ]}
     >

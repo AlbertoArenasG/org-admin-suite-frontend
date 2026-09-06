@@ -339,6 +339,17 @@ capa opcional para agrupar título, descripción y acciones propias de una
 vista. Una ruta puede no requerirlo si su composición resuelve esa jerarquía de
 otra forma.
 
+Cuando tiene acciones, admite cero o una `primary` y hasta dos `secondary`,
+solo si afectan el propósito completo de la página. Controles dependientes de
+una tabla, filtro, card o entidad seleccionada pertenecen a su `Page Content` o
+flujo local; no al encabezado de página.
+
+La implementación estática de catálogo es `PageHeader`. Su `title` es
+obligatorio; `eyebrow`, descripción, metadata y acciones son opcionales. Las
+acciones se limitan al alcance de la página. Filtros, tabs, búsqueda,
+ordenamiento y comandos operativos pertenecen a `Page Content`. El contrato y
+sus tokens se documentan en [components/page-header.md](../components/page-header.md).
+
 `DashboardPageComposition` y `DashboardPageContentScroller` son primitivas
 estructurales sin material visual propio: heredan la superficie de `Workspace
 Canvas`. El modo de scroll se identifica mediante `data-dashboard-scroll-owner`
