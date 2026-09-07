@@ -2,6 +2,11 @@
   "title": "Panel",
   "subtitle": "Resumen operativo para {{name}}",
   "guestFallback": "tu sesión",
+  "welcome": {
+    "eyebrow": "Panel",
+    "title": "Bienvenido de nuevo",
+    "description": "Consulta, organiza y da seguimiento a la operación de instrumentos científicos."
+  },
   "sections": {
     "quickActions": "Acciones rápidas",
     "quickActionsHint": "Atajos a las operaciones que puedes ejecutar ahora mismo.",

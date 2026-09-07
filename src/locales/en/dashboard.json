@@ -2,6 +2,11 @@
   "title": "Dashboard",
   "subtitle": "Operational overview for {{name}}",
   "guestFallback": "your session",
+  "welcome": {
+    "eyebrow": "Dashboard",
+    "title": "Welcome back",
+    "description": "Review, organize, and follow the operation of scientific instruments."
+  },
   "sections": {
     "quickActions": "Quick actions",
     "quickActionsHint": "Shortcuts to the operations you can execute right now.",

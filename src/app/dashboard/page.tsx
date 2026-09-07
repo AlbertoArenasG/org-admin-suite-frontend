@@ -18,6 +18,7 @@ import { MotionConfig, motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
 import { ServiceEntrySurveyStatsCard } from '@/components/dashboard/ServiceEntrySurveyStatsCard';
+import { DashboardWelcomeHero } from '@/components/dashboard/DashboardWelcomeHero';
 import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { useAuthorization } from '@/features/auth';
 import { useAppSelector } from '@/hooks/useAppSelector';
@@ -198,9 +199,7 @@ export default function DashboardPage() {
       : []),
   ];
 
-  const displayName = authUser
-    ? [authUser.name, authUser.lastname].filter(Boolean).join(' ').trim() || authUser.email
-    : t('guestFallback');
+  const welcomeName = authUser?.name?.trim() || authUser?.email || t('guestFallback');
   const hasSurveyWidget = hasModule('SERVICE_ENTRY_SURVEYS');
 
   return (
@@ -210,20 +209,29 @@ export default function DashboardPage() {
           <DashboardPageHeader segments={[{ label: t('title'), hideOnDesktop: true }]} />
         </motion.div>
 
-        <motion.section
+        <motion.div
           animate="visible"
-          className="rounded-3xl border border-border/60 bg-card/80 p-6 shadow-sm backdrop-blur"
           initial="hidden"
           transition={{ delay: 0.05 }}
           variants={sectionAnimation}
         >
-          <div className="flex flex-col gap-2">
-            <h1 className="text-2xl font-semibold text-foreground">{t('title')}</h1>
-            <p className="text-sm text-muted-foreground">{t('subtitle', { name: displayName })}</p>
-          </div>
+          <DashboardWelcomeHero
+            description={t('welcome.description')}
+            eyebrow={t('welcome.eyebrow')}
+            name={welcomeName}
+            title={t('welcome.title')}
+          />
+        </motion.div>
 
+        <motion.section
+          animate="visible"
+          className="rounded-3xl border border-border/60 bg-card/80 p-6 shadow-sm backdrop-blur"
+          initial="hidden"
+          transition={{ delay: 0.1 }}
+          variants={sectionAnimation}
+        >
           {quickActions.length ? (
-            <div className="mt-8">
+            <div>
               <div className="mb-4">
                 <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                   {t('sections.quickActions')}

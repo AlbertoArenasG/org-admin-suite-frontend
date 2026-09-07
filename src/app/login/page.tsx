@@ -9,7 +9,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useRouter } from 'next/navigation';
 import { FullScreenLoader } from '@/components/ui/full-screen-loader';
-import { AuthAuroraBackground } from '@/components/auth/AuthAuroraBackground';
 
 function LoginPageContent() {
   const { token } = useAppSelector((state) => state.auth);
@@ -40,26 +39,24 @@ function LoginPageContent() {
   }
 
   return (
-    <AuthAuroraBackground>
-      <div className="relative flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
-        <div className="absolute right-6 top-6 flex gap-2 md:right-10 md:top-10">
-          <SelectLang />
-          <ModeToggle />
-        </div>
-        <div className="flex w-full max-w-sm flex-col gap-6">
-          <BrandLogo href="#" size="lg" className="self-center" />
-          <Suspense
-            fallback={
-              <div className="flex justify-center py-10">
-                <Spinner className="size-6 text-primary" aria-label="Cargando formulario" />
-              </div>
-            }
-          >
-            <LoginForm />
-          </Suspense>
-        </div>
+    <div className="relative flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+      <div className="absolute right-6 top-6 flex gap-2 md:right-10 md:top-10">
+        <SelectLang />
+        <ModeToggle />
       </div>
-    </AuthAuroraBackground>
+      <div className="flex w-full max-w-sm flex-col gap-6">
+        <BrandLogo href="#" size="lg" className="self-center" />
+        <Suspense
+          fallback={
+            <div className="flex justify-center py-10">
+              <Spinner className="size-6 text-primary" aria-label="Cargando formulario" />
+            </div>
+          }
+        >
+          <LoginForm />
+        </Suspense>
+      </div>
+    </div>
   );
 }
 

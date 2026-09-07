@@ -1,0 +1,304 @@
+.hero {
+  --welcome-surface: linear-gradient(135deg, rgb(255 255 255 / 96%), rgb(247 250 252 / 88%));
+  --welcome-border: color-mix(in srgb, var(--border) 72%, transparent);
+  --welcome-title: var(--foreground);
+  --welcome-description: var(--muted-foreground);
+  --welcome-eyebrow: var(--secondary-700);
+  --welcome-icon: color-mix(in srgb, var(--secondary-500) 22%, transparent);
+  --welcome-mesh-one: color-mix(in srgb, var(--primary-300) 20%, transparent);
+  --welcome-mesh-two: color-mix(in srgb, var(--secondary-300) 18%, transparent);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 15.5rem;
+  border: 1px solid var(--welcome-border);
+  border-radius: var(--radius-card);
+  background: var(--welcome-surface);
+  box-shadow: 0 16px 35px rgb(17 24 39 / 5%);
+}
+
+:global(html.ambient) .hero {
+  --welcome-surface: linear-gradient(135deg, rgb(255 255 255 / 78%), rgb(246 249 253 / 58%));
+  --welcome-border: color-mix(in srgb, var(--border) 62%, transparent);
+  --welcome-icon: color-mix(in srgb, var(--secondary-500) 25%, transparent);
+}
+
+:global(html.ambient-deep) .hero {
+  --welcome-surface: linear-gradient(135deg, rgb(255 255 255 / 72%), rgb(246 249 253 / 48%));
+  --welcome-border: color-mix(in srgb, var(--border) 58%, transparent);
+  --welcome-icon: color-mix(in srgb, var(--secondary-500) 28%, transparent);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  min-height: inherit;
+  max-width: 46rem;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2.5rem clamp(1.5rem, 4vw, 4.25rem);
+}
+
+.eyebrow {
+  color: var(--welcome-eyebrow);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin-top: 0.625rem;
+  color: var(--welcome-title);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
+.title span {
+  white-space: nowrap;
+}
+
+.description {
+  max-width: 35rem;
+  margin-top: 1rem;
+  color: var(--welcome-description);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.ambientLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.meshOne,
+.meshTwo {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(4px);
+}
+
+.meshOne {
+  top: -58%;
+  right: 5%;
+  width: 26rem;
+  height: 26rem;
+  background: radial-gradient(circle, var(--welcome-mesh-one), transparent 68%);
+  animation: welcome-mesh-one 18s ease-in-out infinite alternate;
+}
+
+.meshTwo {
+  right: 24%;
+  bottom: -82%;
+  width: 22rem;
+  height: 22rem;
+  background: radial-gradient(circle, var(--welcome-mesh-two), transparent 70%);
+  animation: welcome-mesh-two 22s ease-in-out infinite alternate;
+}
+
+.icon {
+  position: absolute;
+  color: var(--welcome-icon);
+  stroke-width: 1.45;
+}
+
+.far {
+  width: 1.125rem;
+  opacity: 0.54;
+  animation: welcome-drift-far 19s ease-in-out infinite alternate both;
+}
+
+.mid {
+  width: 1.375rem;
+  opacity: 0.72;
+  animation: welcome-drift-mid 15s ease-in-out infinite alternate both;
+}
+
+.near {
+  width: 1.75rem;
+  opacity: 0.88;
+  animation: welcome-drift-near 12s ease-in-out infinite alternate both;
+}
+
+.iconMicroscope {
+  top: 18%;
+  right: 9%;
+  animation-delay: -4s;
+}
+.iconCircuit {
+  top: 12%;
+  right: 34%;
+  animation-delay: -11s;
+}
+.iconFlask {
+  top: 60%;
+  right: 20%;
+  animation-delay: -7s;
+}
+.iconAtom {
+  top: 49%;
+  right: 4%;
+  animation-delay: -2s;
+}
+.iconGauge {
+  top: 76%;
+  right: 39%;
+  animation-delay: -14s;
+}
+.iconRuler {
+  top: 23%;
+  right: 51%;
+  animation-delay: -6s;
+}
+.iconScan {
+  top: 72%;
+  right: 11%;
+  animation-delay: -9s;
+}
+.iconOrbit {
+  top: 38%;
+  right: 31%;
+  animation-delay: -3s;
+}
+.iconBeaker {
+  top: 68%;
+  right: 52%;
+  animation-delay: -12s;
+}
+.iconCrosshair {
+  top: 11%;
+  right: 18%;
+  animation-delay: -15s;
+}
+.iconActivity {
+  top: 34%;
+  right: 43%;
+  animation-delay: -10s;
+  animation-duration: 17s;
+}
+.iconBox {
+  top: 84%;
+  right: 30%;
+  animation-delay: -5s;
+  animation-duration: 24s;
+}
+.iconCable {
+  top: 7%;
+  right: 4%;
+  animation-delay: -8s;
+  animation-duration: 14s;
+}
+.iconCpu {
+  top: 49%;
+  right: 48%;
+  animation-delay: -13s;
+  animation-duration: 16s;
+}
+.iconDatabase {
+  top: 17%;
+  right: 25%;
+  animation-delay: -1s;
+  animation-duration: 21s;
+}
+.iconNetwork {
+  top: 82%;
+  right: 5%;
+  animation-delay: -11s;
+  animation-duration: 13s;
+}
+.iconSettings {
+  top: 61%;
+  right: 35%;
+  animation-delay: -6s;
+  animation-duration: 18s;
+}
+.iconWaves {
+  top: 88%;
+  right: 47%;
+  animation-delay: -16s;
+  animation-duration: 23s;
+}
+
+@keyframes welcome-mesh-one {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.96);
+  }
+  to {
+    transform: translate3d(-1.5%, 2%, 0) scale(1.05);
+  }
+}
+
+@keyframes welcome-mesh-two {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2%, -2%, 0) scale(1.08);
+  }
+}
+
+@keyframes welcome-drift-far {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.94);
+  }
+  to {
+    transform: translate3d(4px, -5px, 0) scale(1.03);
+  }
+}
+
+@keyframes welcome-drift-mid {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.98);
+  }
+  to {
+    transform: translate3d(-5px, 4px, 0) scale(1.07);
+  }
+}
+
+@keyframes welcome-drift-near {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.95) rotate(-1deg);
+  }
+  to {
+    transform: translate3d(6px, -5px, 0) scale(1.1) rotate(1deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 13.5rem;
+  }
+  .content {
+    padding-block: 2rem;
+  }
+  .description {
+    max-width: 25rem;
+  }
+  .far {
+    opacity: 0.32;
+  }
+  .iconRuler,
+  .iconBeaker,
+  .iconCircuit,
+  .iconDatabase,
+  .iconSettings,
+  .iconWaves {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meshOne,
+  .meshTwo,
+  .far,
+  .mid,
+  .near {
+    animation: none;
+  }
+}
