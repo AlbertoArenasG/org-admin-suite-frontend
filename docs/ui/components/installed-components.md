@@ -23,8 +23,8 @@ src/components/
 ```
 
 - `ui/` se actualiza mediante el CLI de shadcn desde la raíz del frontend.
-  Sus primitivas canónicas no se personalizan para necesidades de producto, de
-  un módulo o de una ruta.
+  Sus primitivas canónicas no se personalizan como reacción automática a una
+  necesidad de producto, de un módulo o de una ruta.
 - `vendor/` conserva sólo código de fuente externa que siga siendo útil. Puede
   importar `@/components/ui`, pero no redefine el contrato de tema.
 - Un componente compuesto es dueño de comportamiento, copy, props y estructura
@@ -32,8 +32,8 @@ src/components/
 
 ## Variantes De Producto
 
-Cuando una primitive canónica no cubra un caso, no se modifica su archivo en
-`src/components/ui`. Se elige una de estas alternativas:
+Cuando una primitive canónica no cubra un caso local, primero se elige una de
+estas alternativas:
 
 1. Crear un componente compuesto de producto que importe la primitive y exponga
    sólo la API necesaria. Es la opción preferida cuando la variación conserva el
@@ -46,8 +46,18 @@ Cuando una primitive canónica no cubra un caso, no se modifica su archivo en
 
 Clonar una primitive se reserva para el segundo caso y debe conservar una
 frontera explícita: nombre propio, consumidores propios y documentación de por
-qué no puede reutilizarse la base. Nunca se modifica una primitive canónica como
-atajo ni se le agregan variantes privadas de compatibilidad.
+qué no puede reutilizarse la base.
+
+Una modificación directa de `ui/` es una excepción válida, no una regla
+absoluta prohibida, cuando el ajuste se convierte deliberadamente en
+comportamiento compartido de producto o corrige una incompatibilidad verificable
+del registro. Requiere decisión explícita del responsable del producto,
+inventario de consumidores, motivo y condición para revisarla en la siguiente
+actualización del CLI. No se usa para resolver una diferencia exclusiva de una
+ruta, pantalla, componente creado o bloque descargado, ni para ocultar una
+regresión sin analizarla. La sesión de IA debe informar ese caso y evaluar con
+el responsable si corresponde una adaptación local o una modificación con fines
+compartidos de producto antes de editar una primitive.
 
 ## Encapsulación De Componentes
 
@@ -79,13 +89,21 @@ src/components/dashboard/dashboard-welcome-hero/
    `/Users/alberto/projects/icsacv/component-staging/component-lab`.
 2. Registrar fuente, licencia, comando, dependencias y resultado de evaluación
    en el laboratorio.
-3. Identificar primitives requeridas. Desde el frontend, actualizarlas o
-   instalarlas con `npx shadcn@latest add <primitive> --overwrite --yes`.
-4. Revisar el diff y migrar los consumidores afectados. No se conservan
-   variantes privadas de compatibilidad dentro de `ui/`.
-5. Copiar sólo el bloque o composición aprobada al producto, importando las
+3. Identificar primitives requeridas. Antes de aceptar una sobreescritura, la
+   sesión de IA informa qué primitives cambiará el CLI y solicita la aprobación
+   necesaria para ejecutar el comando.
+4. Desde el frontend, actualizar o instalar las primitives con
+   `npx shadcn@latest add <primitive> --overwrite --yes`.
+5. Inspeccionar el diff de cada primitive sobreescrita: API pública, clases,
+   dependencias, sintaxis de Tailwind, consumidores y compatibilidad con la
+   configuración real del proyecto.
+6. Si se detecta una regresión o una incompatibilidad del registro, la sesión
+   de IA la comunica antes de corregirla. Debe presentar el archivo afectado,
+   impacto, evidencia reproducible y alternativas: actualización oficial,
+   corrección compartida aprobada, componente propio o descarte del bloque.
+7. Copiar sólo el bloque o composición aprobada al producto, importando las
    primitives desde `@/components/ui`.
-6. Validar temas, viewport, teclado, foco y portales antes de adoptarlo en una
+8. Validar temas, viewport, teclado, foco y portales antes de adoptarlo en una
    vista de negocio.
 
 El frontend usa Tailwind 4. Por ello `components.json` deja
@@ -127,11 +145,16 @@ sistema ni directorios temporales fuera de la carpeta de trabajo.
 Una actualización de primitives se trata como migración, no como descarga
 inocua:
 
-1. Consultar consumidores e incompatibilidades de API.
-2. Ejecutar el CLI sobre las primitives exactas.
-3. Adaptar consumidores sin extender la primitive descargada.
-4. Ejecutar lint, typecheck y build.
-5. Revisar visualmente rutas consumidoras y el catálogo de controles en cada
+1. Consultar consumidores e incompatibilidades de API antes del comando.
+2. Informar al responsable qué primitives serán sobreescritas y esperar su
+   autorización cuando el comando lo requiera.
+3. Ejecutar el CLI sobre las primitives exactas y revisar el diff resultante.
+4. Detener la integración y comunicar cualquier regresión antes de añadir un
+   workaround. Nunca se deja una corrección tentativa sin una decisión explícita.
+5. Adaptar consumidores o aprobar una modificación compartida de la primitive
+   siguiendo la excepción documentada en esta guía.
+6. Ejecutar lint, typecheck y build.
+7. Revisar visualmente rutas consumidoras y el catálogo de controles en cada
    tema.
 
 El Date Range Picker ilustra la regla: conserva composición y CSS local en

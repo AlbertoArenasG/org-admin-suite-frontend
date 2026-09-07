@@ -18,27 +18,62 @@ ni comparten el comportamiento de la base del producto.
 - No se copian primitivas por componente ni por fuente de bloque.
 - Las actualizaciones se convierten en cambios explícitos y verificables.
 
-## 2026-09-07 - Primitivas canónicas sin personalización de producto
+## 2026-09-07 - Primitivas canónicas con excepciones explícitas
 
 ### Decision
 
-Los archivos canónicos de `src/components/ui` no se modificarán para añadir
-variantes, estilos o comportamiento específicos de producto. Las necesidades
-de producto se resuelven mediante componentes compuestos, primitives de
-producto con nombre propio o una implementación nueva.
+Las primitives canónicas de `src/components/ui` se mantienen sin cambios como
+regla predeterminada. Las necesidades locales se resuelven mediante componentes
+compuestos, primitives de producto con nombre propio o una implementación nueva.
+
+Una modificación directa es válida sólo si el ajuste será comportamiento
+compartido de producto o si corrige una incompatibilidad reproducible del
+registro. Requiere decisión explícita, inventario de consumidores, motivo y una
+condición para revisar o retirar el cambio en la siguiente actualización del
+CLI. Una necesidad de pantalla, componente creado o bloque descargado no
+autoriza por sí sola modificar `ui/`: la sesión de IA debe informar el caso y
+analizar con el responsable si procede una adaptación local o una decisión de
+producto compartida.
 
 ### Reason
 
 Modificar una primitive compartida convierte una necesidad local en una
 regresión potencial para todos sus consumidores y vuelve opaca la siguiente
-actualización del CLI.
+actualización del CLI. La excepción se conserva para decisiones intencionales
+de plataforma, no para acumular workarounds de ruta.
 
 ### Impact
 
 - Un componente compuesto puede importar y configurar una primitive canónica.
 - Una copia deliberada deja de ser primitive shadcn: tiene nombre, directorio,
   consumidores y documentación propios.
-- No se agregan variantes privadas ni parches de compatibilidad a `ui/`.
+- Una excepción en `ui/` se documenta junto con sus consumidores y no se agrega
+  como variante privada ni parche silencioso.
+
+## 2026-09-07 - Descargas de registro con revisión y aviso obligatorio
+
+### Decision
+
+Toda descarga o actualización desde shadcn u otra librería se revisa como una
+migración. Antes de corregir una primitive sobreescrita que presente una
+regresión, la sesión de IA debe informar al responsable del producto qué cambió,
+el impacto, la evidencia y las alternativas.
+
+### Reason
+
+El CLI instala código de un registro externo y puede introducir versiones,
+dependencias o sintaxis incompatibles con la configuración vigente. El caso de
+`Calendar` demostró que una descarga correcta a nivel de comando puede ser
+regresiva dentro de un proyecto concreto.
+
+### Impact
+
+- Se inspeccionan las primitives sobreescritas, sus consumidores, API, clases y
+  sintaxis de Tailwind antes de continuar la integración.
+- No se aplican correcciones tentativas ni se dejan workarounds sin una decisión
+  explícita del responsable.
+- Las opciones se presentan como actualización oficial, corrección compartida
+  aprobada, composición o descarte del bloque.
 
 ## 2026-09-07 - Temas como única fuente de valores
 
