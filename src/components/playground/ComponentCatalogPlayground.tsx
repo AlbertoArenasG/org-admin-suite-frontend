@@ -4,10 +4,10 @@ import Link from 'next/link';
 import {
   ArrowRight,
   Blocks,
-  Filter,
   LayoutTemplate,
   MousePointerClick,
   PanelsTopLeft,
+  SlidersHorizontal,
   Sparkles,
 } from 'lucide-react';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
@@ -109,15 +109,15 @@ export function ComponentCatalogPlayground() {
               <p className="text-xs font-semibold tracking-[0.1em] text-muted-foreground uppercase">
                 Control en validación
               </p>
-              <h2 className="mt-1 text-lg font-semibold">Menú de filtros</h2>
+              <h2 className="mt-1 text-lg font-semibold">Controles</h2>
               <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
-                Tabs, selección única, contador y reset para filtros de listados operativos.
+                Índice de filtros, lookups y rangos de fecha validados antes de usarse en módulos.
               </p>
             </div>
             <Button asChild variant="outline" className="shrink-0">
-              <Link href="/dashboard-playground/catalog/controls/filter-menu">
-                <Filter className="size-4" aria-hidden="true" />
-                Revisar filtros
+              <Link href="/dashboard-playground/catalog/controls">
+                <SlidersHorizontal className="size-4" aria-hidden="true" />
+                Ver controles
               </Link>
             </Button>
           </div>

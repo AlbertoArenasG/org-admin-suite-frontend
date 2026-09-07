@@ -222,7 +222,7 @@ export function DashboardFilterMenu({
           id={`${tabIds}-${activeCategory.id}-panel`}
           role="tabpanel"
           aria-labelledby={`${tabIds}-${activeCategory.id}-tab`}
-          className="p-1.5"
+          className="p-0"
         >
           {activeCategory.searchable ? (
             <label className="relative block border-b border-[var(--filter-menu-divider)] p-2">
@@ -241,7 +241,7 @@ export function DashboardFilterMenu({
                   activeCategory.searchPlaceholder ?? `Buscar ${activeCategory.label.toLowerCase()}`
                 }
                 aria-label={`Buscar opciones de ${activeCategory.label}`}
-                className="h-9 w-full rounded-[var(--filter-menu-search-radius)] border border-[var(--filter-menu-search-border)] bg-[var(--filter-menu-search-surface)] py-1 pr-3 pl-8 text-sm text-[var(--filter-menu-search-foreground)] outline-none placeholder:text-[var(--filter-menu-search-placeholder)] focus-visible:border-[var(--filter-menu-search-focus-border)] focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)]"
+                className="h-[var(--control-height-compact)] w-full rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] py-0 pr-3 pl-8 text-sm text-[var(--control-foreground)] outline-none placeholder:text-[var(--filter-menu-search-placeholder)] focus-visible:border-[var(--filter-menu-search-focus-border)] focus-visible:ring-2 focus-visible:ring-[var(--control-focus-ring)] focus-visible:ring-offset-2"
               />
             </label>
           ) : null}

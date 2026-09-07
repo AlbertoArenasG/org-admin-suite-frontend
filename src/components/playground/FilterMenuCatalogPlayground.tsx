@@ -102,7 +102,7 @@ export function FilterMenuCatalogPlayground() {
           habilita dentro de una categoría cuando su volumen realmente lo necesita.
         </p>
 
-        <section className="mt-8 rounded-2xl border border-border/80 bg-card p-5 shadow-sm sm:p-6">
+        <div className="mt-8">
           <div className="flex flex-wrap gap-2 border-b border-border/70 pb-5">
             <DashboardButton
               type="button"
@@ -145,22 +145,10 @@ export function FilterMenuCatalogPlayground() {
               Tabs con overflow
             </DashboardButton>
           </div>
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs font-semibold tracking-[0.1em] text-muted-foreground uppercase">
-                Vista de interacción
-              </p>
-              <h2 className="mt-1 text-lg font-semibold">Registros de servicio</h2>
-              <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                {variant === 'simple'
-                  ? 'Un campo, una categoría y una selección directa.'
-                  : variant === 'simple-searchable'
-                    ? 'Un campo y una categoría; la búsqueda aparece dentro del menú.'
-                    : variant === 'overflow'
-                      ? 'Cinco categorías en una franja navegable sin comprimir ni ocultar filtros.'
-                      : 'Una selección por categoría, con contador, palomita y restablecimiento.'}
-              </p>
-            </div>
+          <div className="mt-6">
+            <p className="mb-2 text-[0.6875rem] font-medium tracking-[0.08em] text-muted-foreground uppercase">
+              Vista de interacción
+            </p>
             {variant === 'simple' ? (
               <DashboardSingleFilterMenu
                 category={filterCategories[2]}
@@ -189,8 +177,17 @@ export function FilterMenuCatalogPlayground() {
             )}
           </div>
 
-          <div className="mt-6 border-t border-border/70 pt-5">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="mt-6 text-sm text-muted-foreground">
+            <p>
+              {variant === 'simple'
+                ? 'Un campo, una categoría y una selección directa.'
+                : variant === 'simple-searchable'
+                  ? 'Un campo y una categoría; la búsqueda aparece dentro del menú.'
+                  : variant === 'overflow'
+                    ? 'Cinco categorías en una franja navegable sin comprimir ni ocultar filtros.'
+                    : 'Una selección por categoría, con contador, palomita y restablecimiento.'}
+            </p>
+            <div className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
               <Search className="size-4" aria-hidden="true" />
               El buscador de texto y los rangos de fecha se definirán como controles separados.
             </div>
@@ -200,7 +197,7 @@ export function FilterMenuCatalogPlayground() {
                 : 'Sin filtros activos'}
             </p>
           </div>
-        </section>
+        </div>
       </section>
     </DashboardPlaygroundFrame>
   );

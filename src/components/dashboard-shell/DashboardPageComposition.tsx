@@ -22,7 +22,7 @@ export const DashboardPageComposition = forwardRef<HTMLDivElement, DashboardPage
           scrollMode === 'page-content'
             ? 'flex min-h-0 flex-1 flex-col'
             : scrollMode === 'page-composition'
-              ? 'min-h-0 flex-1 md:overscroll-none md:overflow-y-auto'
+              ? 'min-h-0 flex-1 md:overscroll-y-none md:overflow-y-auto'
               : 'min-w-0 shrink-0',
           className
         )}

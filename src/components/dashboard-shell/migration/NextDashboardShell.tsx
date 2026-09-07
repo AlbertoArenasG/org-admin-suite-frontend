@@ -18,9 +18,9 @@ interface NextDashboardShellProps extends PropsWithChildren {
  */
 export function NextDashboardShell({ children, config }: NextDashboardShellProps) {
   return (
-    <SidebarProvider className="theme-sidebar dashboard-shell min-h-svh text-[var(--foreground)] md:h-svh md:min-h-0 md:overscroll-none md:overflow-hidden">
+    <SidebarProvider className="theme-sidebar dashboard-shell min-h-svh text-[var(--foreground)] md:h-svh md:min-h-0 md:overscroll-y-none md:overflow-hidden">
       <AppSidebar />
-      <SidebarInset className="min-h-svh bg-transparent p-0 md:h-svh md:min-h-0 md:overscroll-none md:overflow-hidden">
+      <SidebarInset className="min-h-svh bg-transparent p-0 md:h-svh md:min-h-0 md:overscroll-y-none md:overflow-hidden">
         <DashboardShellFrame
           scrollMode={config.scrollMode}
           className="min-h-svh md:h-full md:min-h-0"

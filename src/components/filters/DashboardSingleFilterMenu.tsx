@@ -51,11 +51,11 @@ export function DashboardSingleFilterMenu({
         align="end"
         className={cn(
           styles.scope,
-          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--filter-menu-radius)] border-[var(--filter-menu-border)] bg-[var(--filter-menu-surface)] p-1.5 text-[var(--filter-menu-foreground)] shadow-[var(--filter-menu-shadow)] [backdrop-filter:var(--filter-menu-backdrop)]'
+          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--filter-menu-radius)] border-[var(--filter-menu-border)] bg-[var(--filter-menu-surface)] p-0 text-[var(--filter-menu-foreground)] shadow-[var(--filter-menu-shadow)] [backdrop-filter:var(--filter-menu-backdrop)]'
         )}
       >
         {category.searchable ? (
-          <label className="relative mb-1.5 block border-b border-[var(--filter-menu-divider)] p-2">
+          <label className="relative block border-b border-[var(--filter-menu-divider)] p-2">
             <Search
               aria-hidden="true"
               className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-[var(--filter-menu-search-icon)]"
@@ -69,7 +69,7 @@ export function DashboardSingleFilterMenu({
               }}
               placeholder={category.searchPlaceholder ?? `Buscar ${category.label.toLowerCase()}`}
               aria-label={`Buscar opciones de ${category.label}`}
-              className="h-9 w-full rounded-[var(--filter-menu-search-radius)] border border-[var(--filter-menu-search-border)] bg-[var(--filter-menu-search-surface)] py-1 pr-3 pl-8 text-sm text-[var(--filter-menu-search-foreground)] outline-none placeholder:text-[var(--filter-menu-search-placeholder)] focus-visible:border-[var(--filter-menu-search-focus-border)] focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)]"
+              className="h-[var(--control-height-compact)] w-full rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] py-0 pr-3 pl-8 text-sm text-[var(--control-foreground)] outline-none placeholder:text-[var(--filter-menu-search-placeholder)] focus-visible:border-[var(--filter-menu-search-focus-border)] focus-visible:ring-2 focus-visible:ring-[var(--control-focus-ring)] focus-visible:ring-offset-2"
             />
           </label>
         ) : null}

@@ -206,4 +206,13 @@ html.classic {
   --button-transition-duration: 150ms;
   --button-transition-easing: ease-out;
   --button-disabled-opacity: 0.5;
+  --control-surface: var(--card);
+  --control-foreground: var(--foreground);
+  --control-border: var(--border);
+  --control-hover-surface: var(--muted);
+  --control-focus-ring: var(--ring);
+  --control-shadow: 0 1px 2px rgb(17 24 39 / 3%);
+  --control-selection-surface: var(--primary-50);
+  --control-selection-foreground: var(--foreground);
+  --control-selection-indicator: var(--primary-600);
 }

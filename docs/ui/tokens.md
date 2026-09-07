@@ -145,6 +145,33 @@ Los bundles externos y sus primitives aislados siguen la estrategia de
 vendor no se modifican para tematizarse; el adaptador propio y su CSS local son
 los únicos responsables de la receta visual de la aplicación.
 
+## Controles Compactos
+
+Los controles que conviven en filtros, formularios compactos o toolbars
+consumen este contrato estructural fundacional:
+
+```css
+--control-height-compact: 2rem;
+--control-padding-inline: 0.75rem;
+--control-gap: 0.5rem;
+--control-radius: var(--radius-input);
+```
+
+El control es responsable de consumir altura, padding y radio. La vista solo
+compone controles mediante flex o grid y decide el ancho disponible; no
+redeclara su densidad. El Date Range Picker, Lookup con búsqueda y Menú de
+filtros son los primeros consumidores de este contrato.
+
+El mismo contrato visual compartido define `--control-surface`,
+`--control-border`, `--control-foreground`, `--control-hover-surface`,
+`--control-focus-ring`, `--control-shadow` y los tokens de selección. Cada
+tema resuelve esos valores; los controles los consumen para que una toolbar no
+combine fondos, bordes, hover o foco incongruentes.
+
+Un adaptador de vendor que herede estados visuales de su librería debe
+remapearlos dentro de su propio scope al contrato `--control-*`; no se modifica
+la primitiva compartida ni se duplican valores por tema.
+
 ## Criterio de Creación
 
 Crear un token cuando el valor:

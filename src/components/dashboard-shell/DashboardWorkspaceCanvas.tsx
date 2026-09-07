@@ -22,7 +22,7 @@ export function DashboardWorkspaceCanvas({
       className={cn(
         'dashboard-workspace-canvas flex min-w-0 flex-1 flex-col',
         scrollMode === 'workspace'
-          ? 'md:min-h-0 md:overscroll-none md:overflow-y-auto'
+          ? 'md:min-h-0 md:overscroll-y-none md:overflow-y-auto'
           : 'md:min-h-0 md:overflow-hidden',
         className
       )}

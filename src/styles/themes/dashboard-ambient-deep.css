@@ -244,4 +244,13 @@ html.ambient-deep {
   --button-transition-duration: 150ms;
   --button-transition-easing: ease-out;
   --button-disabled-opacity: 0.5;
+  --control-surface: color-mix(in srgb, var(--card) 74%, transparent);
+  --control-foreground: var(--foreground);
+  --control-border: color-mix(in srgb, var(--border) 66%, transparent);
+  --control-hover-surface: color-mix(in srgb, var(--muted) 68%, transparent);
+  --control-focus-ring: var(--ring);
+  --control-shadow: 0 4px 12px rgb(17 24 39 / 7%);
+  --control-selection-surface: color-mix(in srgb, var(--primary-50) 78%, transparent);
+  --control-selection-foreground: var(--foreground);
+  --control-selection-indicator: var(--primary-600);
 }

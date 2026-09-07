@@ -1,0 +1,54 @@
+.dashboard-lookup-dropdown button[aria-haspopup='listbox'] {
+  min-height: var(--control-height-compact);
+  border-color: var(--control-border);
+  background-color: var(--control-surface);
+  border-radius: var(--control-radius);
+  padding: 0.375rem var(--control-padding-inline);
+  color: var(--control-foreground);
+  font-size: 0.875rem;
+  box-shadow: var(--control-shadow);
+}
+
+.dashboard-lookup-dropdown button[aria-haspopup='listbox']:hover {
+  background-color: var(--control-hover-surface);
+}
+
+.dashboard-lookup-dropdown button[data-slot='lookup-clear'] {
+  color: var(--control-foreground);
+}
+
+.dashboard-lookup-dropdown button[data-slot='lookup-clear']:hover {
+  background-color: var(--control-hover-surface);
+}
+
+/* SmoothUI portals its search field to body and exposes no content class. */
+input[aria-label='Search dropdown items'] {
+  height: var(--control-height-compact);
+  border-color: var(--control-border);
+  background-color: var(--control-surface);
+  border-radius: var(--control-radius);
+  padding-top: 0;
+  padding-bottom: 0;
+  color: var(--control-foreground);
+}
+
+button[aria-label='Clear search'] {
+  min-height: var(--control-height-compact);
+  min-width: var(--control-height-compact);
+  padding: 0.375rem;
+  border-radius: var(--control-radius);
+}
+
+ul[id^='searchable-dropdown-items-'] li[aria-selected='true'] > button {
+  background-color: var(--control-selection-surface);
+  color: var(--control-selection-foreground);
+}
+
+ul[id^='searchable-dropdown-items-'] > li > button:hover,
+ul[id^='searchable-dropdown-items-'] > li > button:focus-visible {
+  background-color: var(--control-hover-surface);
+}
+
+ul[id^='searchable-dropdown-items-'] li[aria-selected='true'] > button svg {
+  color: var(--control-selection-indicator);
+}

@@ -10,6 +10,7 @@
 @import '../styles/dashboard/overscroll.css';
 @import '../styles/dashboard/page-header.css';
 @import '../styles/dashboard/page-composition.css';
+@import '../components/vendor/smoothui/searchable-dropdown/DashboardLookupDropdown.css';
 @import 'tailwindcss';
 @plugin "tailwindcss-animate";
 
@@ -30,6 +31,19 @@
   --radius-button: 0.625rem;
   --radius-input: 0.625rem;
   --radius-card: 1rem;
+  --control-height-compact: 2rem;
+  --control-padding-inline: 0.75rem;
+  --control-gap: 0.5rem;
+  --control-radius: var(--radius-input);
+  --control-surface: var(--card);
+  --control-foreground: var(--foreground);
+  --control-border: var(--border);
+  --control-hover-surface: var(--muted);
+  --control-focus-ring: var(--ring);
+  --control-shadow: 0 1px 2px rgb(17 24 39 / 3%);
+  --control-selection-surface: var(--primary-50);
+  --control-selection-foreground: var(--foreground);
+  --control-selection-indicator: var(--primary-600);
   --font-sans-stack:
     var(--font-geist), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-sans: var(--font-geist);
