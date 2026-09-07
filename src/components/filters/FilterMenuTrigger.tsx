@@ -18,14 +18,14 @@ export const FilterMenuTrigger = React.forwardRef<HTMLButtonElement, FilterMenuT
         {...props}
         aria-label={activeCount ? `${label}: ${activeCount} activos` : label}
         className={cn(
-          'inline-flex h-[var(--control-height-compact)] shrink-0 items-center justify-center gap-1.5 rounded-[var(--control-radius)] border border-[var(--filter-menu-trigger-border)] bg-[var(--filter-menu-trigger-surface)] px-[var(--control-padding-inline)] text-sm font-medium text-[var(--filter-menu-trigger-foreground)] shadow-[var(--filter-menu-trigger-shadow)] outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--filter-menu-transition-duration)] ease-[var(--filter-menu-transition-easing)] hover:border-[var(--filter-menu-trigger-hover-border)] hover:bg-[var(--filter-menu-trigger-hover-surface)] focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)] disabled:pointer-events-none disabled:opacity-[var(--button-disabled-opacity)]',
+          'inline-flex h-[var(--control-height-compact)] shrink-0 items-center justify-center gap-1.5 rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] px-[var(--control-padding-inline)] text-sm font-medium text-[var(--control-foreground)] shadow-[var(--control-shadow)] outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)] disabled:pointer-events-none disabled:opacity-50',
           className
         )}
       >
         <SlidersHorizontal className="size-4" aria-hidden="true" />
         {label}
         {activeCount ? (
-          <span className="inline-flex size-4 items-center justify-center rounded-full bg-[var(--filter-menu-count-surface)] text-[0.625rem] font-semibold text-[var(--filter-menu-count-foreground)]">
+          <span className="inline-flex size-4 items-center justify-center rounded-full bg-[var(--secondary-50)] text-[0.625rem] font-semibold text-[var(--secondary-700)]">
             {activeCount}
           </span>
         ) : null}

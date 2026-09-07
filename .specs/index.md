@@ -1,5 +1,7 @@
 # Frontend Specs Index
 
+- [canonical-shadcn-primitives-theme-migration](./2026/2026-09/2026-09-07_0941_canonical-shadcn-primitives-theme-migration/00-definition.md) - completed
+- [customer-service-records-client-access-monitoring](./2026/2026-09/2026-09-06_2246_customer-service-records-client-access-monitoring/00-definition.md) - definition in progress
 - [application-theme-foundation](./2026/2026-09/2026-09-02_1100_application-theme-foundation/00-definition.md) - completed
 - [dashboard-shell-gradual-migration](./2026/2026-09/2026-09-01_2057_dashboard-shell-gradual-migration/00-definition.md) - completed
 - [dashboard-shell-foundation](./2026/2026-09/2026-09-01_1812_dashboard-shell-foundation/00-definition.md) - definition completed

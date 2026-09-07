@@ -68,7 +68,7 @@ export function CustomerCard({
             {(onEdit || onDelete) && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon-sm" aria-label="Acciones">
+                  <Button variant="ghost" size="icon" className="size-8" aria-label="Acciones">
                     <MoreHorizontal className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>

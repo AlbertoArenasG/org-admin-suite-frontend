@@ -2,6 +2,7 @@
 
 import { Check, ChevronDown, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import * as PopoverPrimitive from '@radix-ui/react-popover';
 
 import { cn } from '@/lib/utils';
 import { Input } from './input';
@@ -61,6 +62,54 @@ export function Combobox({
     if (!nextOpen) setQuery('');
   };
 
+  const dropdownContent = (
+    <>
+      <Input
+        value={query}
+        onChange={(event) => setQuery(event.target.value)}
+        placeholder={searchPlaceholder}
+        autoFocus
+        className="mb-2"
+      />
+      <div className="max-h-64 overflow-y-auto" role="listbox">
+        {loading ? (
+          <p className="px-2 py-3 text-sm text-muted-foreground">
+            {loadingMessage ?? emptyMessage}
+          </p>
+        ) : filteredOptions.length === 0 ? (
+          <p className="px-2 py-3 text-sm text-muted-foreground">{emptyMessage}</p>
+        ) : (
+          filteredOptions.map((option) => {
+            const isSelected = option.value === value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                role="option"
+                aria-selected={isSelected}
+                className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
+                onClick={() => {
+                  onValueChange(option.value);
+                  setOpen(false);
+                }}
+              >
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-medium">{option.label}</span>
+                  {option.description ? (
+                    <span className="block truncate text-xs text-muted-foreground">
+                      {option.description}
+                    </span>
+                  ) : null}
+                </span>
+                {isSelected ? <Check className="size-4 shrink-0 text-primary" /> : null}
+              </button>
+            );
+          })
+        )}
+      </div>
+    </>
+  );
+
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <div className="relative">
@@ -90,55 +139,21 @@ export function Combobox({
           </button>
         ) : null}
       </div>
-      <PopoverContent
-        className="w-[var(--radix-popover-trigger-width)] p-2"
-        onOpenAutoFocus={(event) => event.preventDefault()}
-        portalled={portalled}
-      >
-        <Input
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder={searchPlaceholder}
-          autoFocus
-          className="mb-2"
-        />
-        <div className="max-h-64 overflow-y-auto" role="listbox">
-          {loading ? (
-            <p className="px-2 py-3 text-sm text-muted-foreground">
-              {loadingMessage ?? emptyMessage}
-            </p>
-          ) : filteredOptions.length === 0 ? (
-            <p className="px-2 py-3 text-sm text-muted-foreground">{emptyMessage}</p>
-          ) : (
-            filteredOptions.map((option) => {
-              const isSelected = option.value === value;
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  role="option"
-                  aria-selected={isSelected}
-                  className="flex w-full items-center gap-2 rounded-lg px-2 py-2 text-left text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
-                  onClick={() => {
-                    onValueChange(option.value);
-                    setOpen(false);
-                  }}
-                >
-                  <span className="min-w-0 flex-1">
-                    <span className="block truncate font-medium">{option.label}</span>
-                    {option.description ? (
-                      <span className="block truncate text-xs text-muted-foreground">
-                        {option.description}
-                      </span>
-                    ) : null}
-                  </span>
-                  {isSelected ? <Check className="size-4 shrink-0 text-primary" /> : null}
-                </button>
-              );
-            })
-          )}
-        </div>
-      </PopoverContent>
+      {portalled ? (
+        <PopoverContent
+          className="w-[var(--radix-popover-trigger-width)] p-2"
+          onOpenAutoFocus={(event) => event.preventDefault()}
+        >
+          {dropdownContent}
+        </PopoverContent>
+      ) : (
+        <PopoverPrimitive.Content
+          className="z-50 w-[var(--radix-popover-trigger-width)] rounded-md border bg-popover p-2 text-popover-foreground shadow-md outline-none"
+          onOpenAutoFocus={(event) => event.preventDefault()}
+        >
+          {dropdownContent}
+        </PopoverPrimitive.Content>
+      )}
     </Popover>
   );
 }

@@ -2,7 +2,7 @@
 
 import { Download, Ellipsis, Plus, Trash2 } from 'lucide-react';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
-import { DashboardButton } from '@/components/ui/dashboard-button';
+import { DashboardButton } from '@/components/controls/dashboard-button/DashboardButton';
 
 const variants = [
   {

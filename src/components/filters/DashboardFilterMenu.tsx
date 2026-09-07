@@ -6,7 +6,6 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { FilterMenuTrigger } from '@/components/filters/FilterMenuTrigger';
 import { FilterOptionList } from '@/components/filters/FilterOptionList';
 import type { DashboardFilterCategory } from '@/components/filters/filter-menu.types';
-import styles from '@/components/filters/FilterMenuTheme.module.css';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
@@ -134,21 +133,16 @@ export function DashboardFilterMenu({
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <FilterMenuTrigger
-          activeCount={activeCount}
-          className={cn(styles.scope, className)}
-          label={label}
-        />
+        <FilterMenuTrigger activeCount={activeCount} className={className} label={label} />
       </PopoverTrigger>
 
       <PopoverContent
         align="end"
         className={cn(
-          styles.scope,
-          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--filter-menu-radius)] border-[var(--filter-menu-border)] bg-[var(--filter-menu-surface)] p-0 text-[var(--filter-menu-foreground)] shadow-[var(--filter-menu-shadow)] [backdrop-filter:var(--filter-menu-backdrop)]'
+          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--radius-card)] border-[var(--control-border)] bg-popover p-0 text-popover-foreground shadow-[var(--control-shadow)] [backdrop-filter:var(--control-popover-backdrop)]'
         )}
       >
-        <div className="flex items-center gap-1 border-b border-[var(--filter-menu-divider)] bg-[var(--filter-menu-tabs-surface)] p-1">
+        <div className="flex items-center gap-1 border-b border-[var(--control-border)] bg-muted p-1">
           <div
             ref={setTabListElement}
             role="tablist"
@@ -183,9 +177,9 @@ export function DashboardFilterMenu({
                     }
                   }}
                   className={cn(
-                    'flex h-8 shrink-0 items-center justify-center rounded-[var(--filter-menu-tab-radius)] px-3 text-xs font-medium whitespace-nowrap text-[var(--filter-menu-tab-foreground)] transition-[color,background-color,box-shadow] duration-[var(--filter-menu-transition-duration)] ease-[var(--filter-menu-transition-easing)] focus-visible:z-10 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)]',
+                    'flex h-8 shrink-0 items-center justify-center rounded-[var(--control-radius)] px-3 text-xs font-medium whitespace-nowrap text-muted-foreground transition-[color,background-color,box-shadow] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] focus-visible:z-10 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)]',
                     isActive &&
-                      'bg-[var(--filter-menu-tab-active-surface)] text-[var(--filter-menu-tab-active-foreground)] shadow-[var(--filter-menu-tab-active-shadow)]'
+                      'bg-[var(--control-surface)] text-[var(--control-foreground)] shadow-[var(--control-shadow)]'
                   )}
                 >
                   <span className="truncate">{category.label}</span>
@@ -201,7 +195,7 @@ export function DashboardFilterMenu({
                 aria-label="Ver categorías de filtros anteriores"
                 disabled={!canScrollTabsBackward}
                 onClick={() => scrollTabs(-1)}
-                className="inline-flex size-8 items-center justify-center rounded-[var(--filter-menu-tab-radius)] border border-[var(--filter-menu-tab-scroll-control-border)] bg-[var(--filter-menu-tab-scroll-control-surface)] text-[var(--filter-menu-tab-scroll-control-foreground)] shadow-[var(--filter-menu-tab-scroll-control-shadow)] transition-[color,background-color,opacity] duration-[var(--filter-menu-transition-duration)] ease-[var(--filter-menu-transition-easing)] hover:bg-[var(--filter-menu-tab-scroll-control-hover-surface)] disabled:pointer-events-none disabled:opacity-[var(--filter-menu-disabled-opacity)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)]"
+                className="inline-flex size-8 items-center justify-center rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] text-[var(--control-foreground)] shadow-[var(--control-shadow)] transition-[color,background-color,opacity] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)]"
               >
                 <ChevronLeft className="size-3.5" aria-hidden="true" />
               </button>
@@ -210,7 +204,7 @@ export function DashboardFilterMenu({
                 aria-label="Ver más categorías de filtros"
                 disabled={!canScrollTabsForward}
                 onClick={() => scrollTabs(1)}
-                className="inline-flex size-8 items-center justify-center rounded-[var(--filter-menu-tab-radius)] border border-[var(--filter-menu-tab-scroll-control-border)] bg-[var(--filter-menu-tab-scroll-control-surface)] text-[var(--filter-menu-tab-scroll-control-foreground)] shadow-[var(--filter-menu-tab-scroll-control-shadow)] transition-[color,background-color,opacity] duration-[var(--filter-menu-transition-duration)] ease-[var(--filter-menu-transition-easing)] hover:bg-[var(--filter-menu-tab-scroll-control-hover-surface)] disabled:pointer-events-none disabled:opacity-[var(--filter-menu-disabled-opacity)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)]"
+                className="inline-flex size-8 items-center justify-center rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] text-[var(--control-foreground)] shadow-[var(--control-shadow)] transition-[color,background-color,opacity] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)]"
               >
                 <ChevronRight className="size-3.5" aria-hidden="true" />
               </button>
@@ -225,10 +219,10 @@ export function DashboardFilterMenu({
           className="p-0"
         >
           {activeCategory.searchable ? (
-            <label className="relative block border-b border-[var(--filter-menu-divider)] p-2">
+            <label className="relative block border-b border-[var(--control-border)] p-2">
               <Search
                 aria-hidden="true"
-                className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-[var(--filter-menu-search-icon)]"
+                className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted-foreground"
               />
               <input
                 value={activeSearchQuery}
@@ -241,7 +235,7 @@ export function DashboardFilterMenu({
                   activeCategory.searchPlaceholder ?? `Buscar ${activeCategory.label.toLowerCase()}`
                 }
                 aria-label={`Buscar opciones de ${activeCategory.label}`}
-                className="h-[var(--control-height-compact)] w-full rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] py-0 pr-3 pl-8 text-sm text-[var(--control-foreground)] outline-none placeholder:text-[var(--filter-menu-search-placeholder)] focus-visible:border-[var(--filter-menu-search-focus-border)] focus-visible:ring-2 focus-visible:ring-[var(--control-focus-ring)] focus-visible:ring-offset-2"
+                className="h-[var(--control-height-compact)] w-full rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] py-0 pr-3 pl-8 text-sm text-[var(--control-foreground)] outline-none placeholder:text-muted-foreground focus-visible:border-[var(--control-focus-ring)] focus-visible:ring-2 focus-visible:ring-[var(--control-focus-ring)] focus-visible:ring-offset-2"
               />
             </label>
           ) : null}
@@ -254,11 +248,11 @@ export function DashboardFilterMenu({
         </div>
 
         {activeCount ? (
-          <div className="border-t border-[var(--filter-menu-divider)] p-1.5">
+          <div className="border-t border-[var(--control-border)] p-1.5">
             <button
               type="button"
               onClick={onReset}
-              className="flex h-8 w-full items-center rounded-[var(--filter-menu-option-radius)] px-2.5 text-sm font-medium text-[var(--filter-menu-reset-foreground)] transition-[color,background-color] duration-[var(--filter-menu-transition-duration)] ease-[var(--filter-menu-transition-easing)] hover:bg-[var(--filter-menu-reset-hover-surface)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)]"
+              className="flex h-8 w-full items-center rounded-[var(--control-radius)] px-2.5 text-sm font-medium text-foreground transition-[color,background-color] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)]"
             >
               Restablecer filtros
             </button>

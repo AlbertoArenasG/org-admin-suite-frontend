@@ -5,10 +5,11 @@ import { CalendarIcon, XIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { DateRange } from 'react-day-picker';
 
-import { Calendar } from './calendar';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+
 import styles from './ShadcnDatePickerWithRange.module.css';
-import { Popover, PopoverContent, PopoverTrigger } from './popover';
-import { cn } from 'cn';
 
 export interface ShadcnDatePickerWithRangeProps {
   value?: DateRange;
@@ -37,7 +38,7 @@ export function ShadcnDatePickerWithRange({
   };
 
   return (
-    <div className={styles.scope}>
+    <div>
       <div className={cn(styles.control, date?.from && styles.hasValue)}>
         <Popover>
           <PopoverTrigger asChild>

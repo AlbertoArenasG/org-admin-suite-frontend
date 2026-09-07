@@ -119,11 +119,10 @@ estructural compartido o una expresión que un tema pueda cambiar. Solo en el
 segundo caso se agrega una receta temática. No se debe tokenizar la lógica de
 negocio ni crear un token por cada evento aislado.
 
-Para el `Next Dashboard`, los tokens cromáticos y de material se declaran en
-cada `html.<tema>`. `:root` puede conservar valores equivalentes para legacy,
-pero un componente nuevo o migrado no puede depender de ellos como fuente
-visual. Si introduce un token cromático adicional, se debe completar su valor
-en todas las apariencias activas dentro del mismo cambio.
+Para el `Next Dashboard`, los valores de todos los tokens visuales se declaran
+en cada `html.<tema>`. `:root` conserva sólo bootstrap no temático, como la
+tipografía. Si se introduce un token visual, se completa su valor en todas las
+apariencias activas dentro del mismo cambio.
 
 ### Específicos de Componente o Patrón
 
@@ -133,17 +132,18 @@ una variante visual que no expresa un token existente.
 Ejemplos potenciales: encabezado de tabla, agrupación de formulario, panel de
 detalle o controles de una lista.
 
-Las recetas exclusivas de un componente no se declaran en los archivos globales
-`styles/themes/dashboard-*.css`. Sus valores por tema viven en el CSS local
-del componente, bajo selectores de cada `html.<tema>`, y se aplican mediante
-una clase de scope al trigger, superficie y portal que corresponda. Esto evita
-que los archivos de tema se conviertan en catálogos de componentes y mantiene
-cada contrato junto a su implementación.
+Los archivos `styles/themes/dashboard-*.css` son el único dueño de valores por
+tema. Cada uno resuelve el mismo contrato base de shadcn, controles,
+superficies, radios y composición. No se agregan selectores de un componente
+particular a esos archivos.
 
-Los bundles externos y sus primitives aislados siguen la estrategia de
-[installed-components.md](./components/installed-components.md). Sus fuentes
-vendor no se modifican para tematizarse; el adaptador propio y su CSS local son
-los únicos responsables de la receta visual de la aplicación.
+El CSS local conserva estructura, layout, animación y tamaños propios. Consume
+tokens semánticos compartidos y no declara selectores `html.<tema>` ni reasigna
+tokens fundacionales en scopes locales.
+
+Los bundles externos siguen la estrategia de
+[installed-components.md](./components/installed-components.md): importan
+primitives canónicas desde `src/components/ui` y no mantienen copias privadas.
 
 ## Controles Compactos
 
@@ -168,9 +168,9 @@ El mismo contrato visual compartido define `--control-surface`,
 tema resuelve esos valores; los controles los consumen para que una toolbar no
 combine fondos, bordes, hover o foco incongruentes.
 
-Un adaptador de vendor que herede estados visuales de su librería debe
-remapearlos dentro de su propio scope al contrato `--control-*`; no se modifica
-la primitiva compartida ni se duplican valores por tema.
+Un adaptador de vendor que herede estados visuales de su librería consume el
+contrato `--control-*` directamente. No modifica una primitive compartida ni
+duplica valores por tema.
 
 ## Criterio de Creación
 

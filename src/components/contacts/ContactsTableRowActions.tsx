@@ -36,9 +36,9 @@ export function ContactsTableRowActions({
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          size="icon-sm"
+          size="icon"
           aria-label={labels.menu}
-          className="text-muted-foreground hover:text-foreground"
+          className="size-8 text-muted-foreground hover:text-foreground"
         >
           <EllipsisVertical className="size-4" />
         </Button>

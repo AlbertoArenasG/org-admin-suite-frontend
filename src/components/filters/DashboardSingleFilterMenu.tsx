@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { FilterMenuTrigger } from '@/components/filters/FilterMenuTrigger';
 import { FilterOptionList } from '@/components/filters/FilterOptionList';
 import type { DashboardFilterCategory } from '@/components/filters/filter-menu.types';
-import styles from '@/components/filters/FilterMenuTheme.module.css';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
@@ -41,24 +40,19 @@ export function DashboardSingleFilterMenu({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <FilterMenuTrigger
-          activeCount={activeCount}
-          className={cn(styles.scope, className)}
-          label={label}
-        />
+        <FilterMenuTrigger activeCount={activeCount} className={className} label={label} />
       </PopoverTrigger>
       <PopoverContent
         align="end"
         className={cn(
-          styles.scope,
-          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--filter-menu-radius)] border-[var(--filter-menu-border)] bg-[var(--filter-menu-surface)] p-0 text-[var(--filter-menu-foreground)] shadow-[var(--filter-menu-shadow)] [backdrop-filter:var(--filter-menu-backdrop)]'
+          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--radius-card)] border-[var(--control-border)] bg-popover p-0 text-popover-foreground shadow-[var(--control-shadow)] [backdrop-filter:var(--control-popover-backdrop)]'
         )}
       >
         {category.searchable ? (
-          <label className="relative block border-b border-[var(--filter-menu-divider)] p-2">
+          <label className="relative block border-b border-[var(--control-border)] p-2">
             <Search
               aria-hidden="true"
-              className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-[var(--filter-menu-search-icon)]"
+              className="pointer-events-none absolute top-1/2 left-4 size-4 -translate-y-1/2 text-muted-foreground"
             />
             <input
               value={searchQuery}
@@ -69,7 +63,7 @@ export function DashboardSingleFilterMenu({
               }}
               placeholder={category.searchPlaceholder ?? `Buscar ${category.label.toLowerCase()}`}
               aria-label={`Buscar opciones de ${category.label}`}
-              className="h-[var(--control-height-compact)] w-full rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] py-0 pr-3 pl-8 text-sm text-[var(--control-foreground)] outline-none placeholder:text-[var(--filter-menu-search-placeholder)] focus-visible:border-[var(--filter-menu-search-focus-border)] focus-visible:ring-2 focus-visible:ring-[var(--control-focus-ring)] focus-visible:ring-offset-2"
+              className="h-[var(--control-height-compact)] w-full rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] py-0 pr-3 pl-8 text-sm text-[var(--control-foreground)] outline-none placeholder:text-muted-foreground focus-visible:border-[var(--control-focus-ring)] focus-visible:ring-2 focus-visible:ring-[var(--control-focus-ring)] focus-visible:ring-offset-2"
             />
           </label>
         ) : null}
@@ -82,11 +76,11 @@ export function DashboardSingleFilterMenu({
           onValueChange={onValueChange}
         />
         {activeCount ? (
-          <div className="mt-1.5 border-t border-[var(--filter-menu-divider)] pt-1.5">
+          <div className="mt-1.5 border-t border-[var(--control-border)] pt-1.5">
             <button
               type="button"
               onClick={onReset}
-              className="flex h-8 w-full items-center rounded-[var(--filter-menu-option-radius)] px-2.5 text-sm font-medium text-[var(--filter-menu-reset-foreground)] transition-[color,background-color] duration-[var(--filter-menu-transition-duration)] ease-[var(--filter-menu-transition-easing)] hover:bg-[var(--filter-menu-reset-hover-surface)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)]"
+              className="flex h-8 w-full items-center rounded-[var(--control-radius)] px-2.5 text-sm font-medium text-foreground transition-[color,background-color] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)]"
             >
               Restablecer filtro
             </button>

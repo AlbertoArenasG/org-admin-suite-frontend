@@ -6,7 +6,7 @@ import { ArrowRight, Plus, Sparkles } from 'lucide-react';
 import { DashboardPageContentScroller } from '@/components/dashboard-shell';
 import { PageHeader } from '@/components/page-header';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
-import { DashboardButton } from '@/components/ui/dashboard-button';
+import { DashboardButton } from '@/components/controls/dashboard-button/DashboardButton';
 
 type PageHeaderVariant = 'minimal' | 'contextual' | 'with-actions';
 

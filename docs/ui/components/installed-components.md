@@ -1,119 +1,139 @@
 # Componentes Instalados y Vendor
 
-**Estado:** Guideline viva para componentes y bloques externos incorporados al
-Next Dashboard.
+**Estado:** Guideline viva para bloques y componentes externos del frontend.
 
-## Propósito
+## Principio
 
-Un componente instalado desde shadcn.io u otra fuente externa conserva su
-estructura y densidad de origen durante la evaluación inicial. La aplicación
-lo adapta mediante una capa propia, sin convertir primitives compartidos en una
-dependencia visual del dashboard o de Legacy.
+`src/components/ui` es la única fuente de primitivas shadcn del producto. Los
+componentes compuestos, construidos o externos siempre importan desde esa
+carpeta; no copian `button`, `popover`, `calendar` u otra primitive dentro de
+su propio directorio.
 
-## Estructura Obligatoria
+El frontend mantiene `style: new-york` y Radix en `components.json`. El
+laboratorio puede evaluar otra base de shadcn, pero no define el runtime del
+producto.
 
-```text
-src/components/vendor/<fuente>/<componente>/
-├─ <primitives instalados>.tsx
-├─ <ComponentePropio>.tsx
-└─ <ComponentePropio>.module.css
-```
-
-- Los primitives descargados se copian completos a `vendor`. No se modifican
-  para adaptar temas, densidad o comportamientos de producto.
-- El componente propio compone esos primitives y define la API que consumen
-  las vistas: valores, callbacks, variantes aprobadas, límites y accesibilidad.
-- Si un primitive descargado es dependencia exclusiva de ese componente propio,
-  permanece en su mismo directorio `vendor`; no se promociona a
-  `src/components/ui`.
-- `src/components/ui` conserva los primitives de la aplicación y Legacy. No se
-  reemplaza ni se sobrescribe al instalar un bloque externo.
-
-## Staging Temporal de Descargas
-
-Toda descarga inicial se hace exclusivamente en esta raíz ignorada por Git:
+## Estructura
 
 ```text
-/Users/alberto/projects/icsacv/org-admin-suite-frontend/.component-staging/
+src/components/
+├─ ui/                        # Primitivas canónicas de shadcn.
+├─ vendor/<fuente>/<bloque>/   # Fuente externa sin primitives copiadas.
+└─ <dominio o control>/        # Composición y API de producto.
 ```
 
-La ruta de cada descarga es aislada y predecible:
+- `ui/` se actualiza mediante el CLI de shadcn desde la raíz del frontend.
+  Sus primitivas canónicas no se personalizan para necesidades de producto, de
+  un módulo o de una ruta.
+- `vendor/` conserva sólo código de fuente externa que siga siendo útil. Puede
+  importar `@/components/ui`, pero no redefine el contrato de tema.
+- Un componente compuesto es dueño de comportamiento, copy, props y estructura
+  local. No existe únicamente para inyectar una clase de tema.
+
+## Variantes De Producto
+
+Cuando una primitive canónica no cubra un caso, no se modifica su archivo en
+`src/components/ui`. Se elige una de estas alternativas:
+
+1. Crear un componente compuesto de producto que importe la primitive y exponga
+   sólo la API necesaria. Es la opción preferida cuando la variación conserva el
+   comportamiento base.
+2. Crear una nueva primitive de producto, con nombre y directorio propios, si
+   requiere una implementación o contrato deliberadamente distinto. No se
+   presenta como sustitución de la primitive de shadcn.
+3. Construir el componente desde cero cuando ni la primitive ni una composición
+   permitan expresar el comportamiento requerido con claridad.
+
+Clonar una primitive se reserva para el segundo caso y debe conservar una
+frontera explícita: nombre propio, consumidores propios y documentación de por
+qué no puede reutilizarse la base. Nunca se modifica una primitive canónica como
+atajo ni se le agregan variantes privadas de compatibilidad.
+
+## Encapsulación De Componentes
+
+Un componente que tenga CSS local propio vive en su directorio dedicado. Ahí se
+guardan su implementación, CSS estructural, agregador de temas, archivos por
+tema y cualquier asset exclusivo. La carpeta usa `kebab-case` y evita mezclar
+artefactos de componentes distintos.
+
+Un componente sin CSS local, que sólo compone primitives canónicas y utilidades
+compartidas, puede permanecer como archivo dentro de la carpeta de su sección o
+dominio. No se crea una subcarpeta sin una razón de propiedad real.
+
+Ejemplo:
 
 ```text
-.component-staging/<fuente>/<componente>/
+src/components/dashboard/dashboard-welcome-hero/
+├─ DashboardWelcomeHero.tsx
+├─ DashboardWelcomeHero.module.css
+├─ DashboardWelcomeHero.theme.css
+└─ themes/
+   ├─ DashboardWelcomeHero.classic.css
+   ├─ DashboardWelcomeHero.ambient.css
+   └─ DashboardWelcomeHero.ambient-deep.css
 ```
 
-Por ejemplo, el rango de fechas de shadcn.io se descargaría en
-`.component-staging/shadcn/date-picker-with-range/`. Esta carpeta solo es un
-área de inspección: el código de la aplicación nunca la importa, no es fuente
-de verdad y nunca se versiona.
+## Flujo De Instalación
 
-- Cada adopción inicia con un directorio nuevo o vacío para ese componente. No
-  se descargan dos bloques en el mismo directorio ni se reutilizan archivos de
-  una descarga anterior.
-- Al terminar la integración, se conserva el bundle aprobado en
-  `src/components/vendor/<fuente>/<componente>/`, no en staging.
-- La limpieza del directorio exacto de staging es obligatoria al cerrar la
-  adopción, después de revisar que los archivos y dependencias requeridos ya
-  están registrados. Nunca se elimina `.component-staging/` completa ni el
-  staging de otro componente por una adopción individual.
-- El agente indicará la ruta exacta a limpiar antes de hacerlo; no creará ni
-  manipulará staging fuera de este repositorio.
+1. Descargar y evaluar el bloque en
+   `/Users/alberto/projects/icsacv/component-staging/component-lab`.
+2. Registrar fuente, licencia, comando, dependencias y resultado de evaluación
+   en el laboratorio.
+3. Identificar primitives requeridas. Desde el frontend, actualizarlas o
+   instalarlas con `npx shadcn@latest add <primitive> --overwrite --yes`.
+4. Revisar el diff y migrar los consumidores afectados. No se conservan
+   variantes privadas de compatibilidad dentro de `ui/`.
+5. Copiar sólo el bloque o composición aprobada al producto, importando las
+   primitives desde `@/components/ui`.
+6. Validar temas, viewport, teclado, foco y portales antes de adoptarlo en una
+   vista de negocio.
 
-## Dependencias y Coincidencias
+El frontend usa Tailwind 4. Por ello `components.json` deja
+`tailwind.config` vacío y apunta `tailwind.css` a `src/app/globals.css`, tal
+como requiere el CLI actual. No se crea ni se declara un `tailwind.config.ts`:
+aunque no se cargue mediante `@config` en el runtime, declararlo en
+`components.json` puede alterar la plantilla que produce el CLI.
 
-- Las dependencias de paquetes se revisan contra `package.json` antes de
-  agregarlas. Si ya existe una versión compatible, se reutiliza; el gestor de
-  paquetes mantiene una sola resolución del paquete en el proyecto.
-- Archivos fuente con nombres coincidentes, como `button.tsx`, `popover.tsx` o
-  `calendar.tsx`, no se deduplican por nombre. Cada bloque conserva sus
-  primitives dentro de su carpeta `vendor` para que una actualización no altere
-  otro componente ni Legacy.
-- Una primitive solo se promueve a un componente compartido mediante una
-  decisión explícita de diseño y una migración documentada. Una descarga nueva
-  nunca sobrescribe `src/components/ui` ni el bundle de otro vendor para
-  resolver una coincidencia.
+Las descargas y su historial permanecen dentro de
+`/Users/alberto/projects/icsacv/component-staging/`. No se usan rutas de
+sistema ni directorios temporales fuera de la carpeta de trabajo.
 
-## Estilos y Temas
+## Tokens Y Estilos
 
-- Los tokens, selectores y reglas exclusivos de un componente viven en su CSS
-  local. El archivo contiene las recetas para cada tema activo con selectores
-  `html.classic`, `html.ambient` y `html.ambient-deep`.
-- Los archivos `styles/themes/dashboard-*.css` solo contienen recetas de capas
-  estructurales compartidas: shell, navegación, canvas, composition y chrome.
-  No deben acumular familias de `--<componente>-*`.
-- Los valores cromáticos y de material se definen independientemente para cada
-  tema, aunque coincidan hoy. La cercanía física al componente no elimina el
-  requisito multitema.
-- Cuando un componente usa un portal, su clase de scope también debe aplicarse
-  al contenido portalled. De otro modo no hereda las variables del trigger.
-- Radios, espaciado y otras decisiones estructurales compartidas consumen los
-  tokens fundacionales aplicables, por ejemplo `--radius-input`; no se duplican
-  por tema salvo que se apruebe una variación temática.
+- Los tokens compartidos por varios componentes viven en
+  `src/styles/themes/dashboard-{classic,ambient,ambient-deep}.css`. Cada tema
+  resuelve el mismo contrato semántico global.
+- `src/app/globals.css` sólo importa temas, declara mappings de Tailwind y
+  contiene resets o reglas realmente globales.
+- El CSS local de un componente define estructura, layout, animación y tamaños
+  propios. Si una receta visual exclusiva requiere diferencias por tema, sus
+  variables viven en archivos de tema co-localizados con el componente. Cada
+  archivo se acota a una clase estable del componente y a `html.<tema>`, y se
+  importa una sola vez desde `globals.css`. No se promueven al contrato global.
+- Un componente con variantes propias conserva en su directorio el componente,
+  CSS estructural, agregador de temas y subcarpeta `themes/`; no comparte una
+  carpeta de variantes con otros componentes de dashboard.
+- Los tokens locales cuyo valor sea idéntico en todos los temas permanecen en
+  el CSS principal del componente. Los archivos co-localizados por tema sólo
+  declaran las diferencias efectivas; no repiten invariantes.
+- Un token se mantiene global únicamente si es semántico y lo consumen varios
+  componentes o si es una compatibilidad temporal inventariada, como
+  `--data-grid-*` durante la migración de tablas legacy.
+- Una excepción puede requerir un selector global co-localizado cuando una
+  librería externa porta contenido a `body` y no expone una clase.
 
-## Flujo de Adopción
+## Actualización Controlada
 
-1. Descargar el bloque completo en
-   `.component-staging/<fuente>/<componente>/`, sin salir de
-   `/Users/alberto/projects/icsacv`.
-2. Revisar sus archivos y dependencias; si coincide el nombre de un primitive
-   existente, no sobrescribirlo ni mezclarlo.
-3. Copiar el bundle aprobado bajo
-   `src/components/vendor/<fuente>/<componente>`.
-4. Crear el componente propio y su CSS local para la API y recetas de tema.
-5. Validarlo en `/dashboard-playground/catalog` con los temas y viewports
-   aplicables antes de adoptarlo en una vista de negocio.
-6. Limpiar el directorio exacto de staging y documentar el contrato aprobado
-   en `docs/ui/components/` antes de cerrar la adopción.
+Una actualización de primitives se trata como migración, no como descarga
+inocua:
 
-## Caso Inicial
+1. Consultar consumidores e incompatibilidades de API.
+2. Ejecutar el CLI sobre las primitives exactas.
+3. Adaptar consumidores sin extender la primitive descargada.
+4. Ejecutar lint, typecheck y build.
+5. Revisar visualmente rutas consumidoras y el catálogo de controles en cada
+   tema.
 
-`vendor/shadcn/date-picker/` contiene el bundle completo del rango de fechas:
-`Button`, `Popover`, `Calendar` y `ShadcnDatePickerWithRange`. Los tres
-primitives permanecen intactos; el último es el adaptador propio y su módulo
-CSS contiene las recetas `--date-picker-*` por tema para el trigger y el
-popover portalled.
-
-El `Filter Menu` no es vendor, pero sigue la misma regla de localización:
-`FilterMenuTheme.module.css` concentra su familia `--filter-menu-*` por tema y
-la aplica tanto al trigger como al `PopoverContent` portalled.
+El Date Range Picker ilustra la regla: conserva composición y CSS local en
+`vendor/shadcn/date-picker`, pero usa `Button`, `Calendar` y `Popover`
+canónicos de `src/components/ui`.

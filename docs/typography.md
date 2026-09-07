@@ -24,17 +24,16 @@ La aplicación usa una fuente única en tres fronteras: `body` y Tailwind, Mater
 
 ## Procedimiento Obligatorio Para Cambiar La Fuente Sans
 
-Una sustitución tipográfica no se considera terminada al cambiar la importación. En esta aplicación intervienen Next Font, la clase de `body`, la variable de Tailwind v4, la pila usada por los overrides globales y la configuración de Tailwind. Actualizar **todos** los puntos de la siguiente tabla en el mismo cambio.
+Una sustitución tipográfica no se considera terminada al cambiar la importación. En esta aplicación intervienen Next Font, la clase de `body`, la variable de Tailwind v4 y la pila usada por los overrides globales. Actualizar **todos** los puntos de la siguiente tabla en el mismo cambio.
 
-| Ubicación                                       | Cambio obligatorio                                                                                     | Qué cubre                                                                 |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
-| `src/app/layout.tsx`                            | Importación, instancia, variables CSS en `<html>` y `className` sans en `<body>`                       | Carga optimizada y resolución para preflight, herencia y contenido.       |
-| `src/app/globals.css`                           | `--font-sans-stack` y `--font-sans`                                                                    | `body`, override CSS heredado y preflight/utilidades de Tailwind v4.      |
-| `tailwind.config.ts`                            | `theme.extend.fontFamily.sans`                                                                         | Configuración explícita para utilidades y extensiones que lean el config. |
-| `src/components/providers/MuiThemeProvider.tsx` | Mantener la fuente como `var(--font-sans-stack)` y añadir nuevos componentes MUI si requieren override | Componentes Material UI y encabezados/celdas/paginación de Data Grid.     |
-| `src/components/providers/AppProviders.tsx`     | Mantener `MuiThemeProvider` alrededor de los providers de aplicación                                   | Propaga el tema a toda la aplicación, incluidas vistas públicas.          |
-| SVG propios                                     | `fontFamily="var(--font-sans-stack)"` en el `<svg>` raíz                                               | Texto SVG, que no siempre hereda la fuente de HTML.                       |
-| `docs/typography.md`                            | Fuente actual y ejemplos                                                                               | Evita que el siguiente cambio siga una receta obsoleta.                   |
+| Ubicación                                       | Cambio obligatorio                                                                                     | Qué cubre                                                             |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------- |
+| `src/app/layout.tsx`                            | Importación, instancia, variables CSS en `<html>` y `className` sans en `<body>`                       | Carga optimizada y resolución para preflight, herencia y contenido.   |
+| `src/app/globals.css`                           | `--font-sans-stack` y `--font-sans`                                                                    | `body`, override CSS heredado y preflight/utilidades de Tailwind v4.  |
+| `src/components/providers/MuiThemeProvider.tsx` | Mantener la fuente como `var(--font-sans-stack)` y añadir nuevos componentes MUI si requieren override | Componentes Material UI y encabezados/celdas/paginación de Data Grid. |
+| `src/components/providers/AppProviders.tsx`     | Mantener `MuiThemeProvider` alrededor de los providers de aplicación                                   | Propaga el tema a toda la aplicación, incluidas vistas públicas.      |
+| SVG propios                                     | `fontFamily="var(--font-sans-stack)"` en el `<svg>` raíz                                               | Texto SVG, que no siempre hereda la fuente de HTML.                   |
+| `docs/typography.md`                            | Fuente actual y ejemplos                                                                               | Evita que el siguiente cambio siga una receta obsoleta.               |
 
 No modificar la fuente monoespaciada salvo que ese también sea el objetivo del cambio.
 
@@ -92,17 +91,12 @@ Si el inspector del navegador muestra `Helvetica`, `system-ui` u otra familia tr
 3. Revisar si el componente tiene una declaración propia de `font-family`; esa declaración debe actualizarse solo si la excepción no es intencional.
 4. No corregirlo con una regla global `!important`.
 
-### 3. Tailwind
+### 3. Tailwind 4
 
-Archivo: `tailwind.config.ts`
-
-Actualizar `theme.extend.fontFamily.sans` con la misma variable de la fuente sans:
-
-```ts
-sans: ['var(--font-nueva-sans)', 'system-ui', 'sans-serif'],
-```
-
-Esta configuración no sustituye `--font-sans` en Tailwind v4. Por eso el paso anterior en `globals.css` sigue siendo indispensable.
+La aplicación usa configuración CSS-first y no conserva un
+`tailwind.config.ts`. La fuente para las utilidades de Tailwind se resuelve con
+`--font-sans` en `src/app/globals.css`; al sustituir la fuente, actualizar esa
+variable en el paso anterior es suficiente.
 
 ### 4. Material UI, Data Grid Y Tablas
 

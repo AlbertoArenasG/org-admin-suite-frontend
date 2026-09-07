@@ -18,7 +18,7 @@ import { MotionConfig, motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
 import { ServiceEntrySurveyStatsCard } from '@/components/dashboard/ServiceEntrySurveyStatsCard';
-import { DashboardWelcomeHero } from '@/components/dashboard/DashboardWelcomeHero';
+import { DashboardWelcomeHero } from '@/components/dashboard/dashboard-welcome-hero/DashboardWelcomeHero';
 import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { useAuthorization } from '@/features/auth';
 import { useAppSelector } from '@/hooks/useAppSelector';

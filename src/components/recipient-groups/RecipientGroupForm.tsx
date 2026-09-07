@@ -346,7 +346,8 @@ export function RecipientGroupForm({
                       <Button
                         type="button"
                         variant="ghost"
-                        size="icon-sm"
+                        size="icon"
+                        className="size-8"
                         disabled={disableActions}
                         onClick={() => {
                           setValue(

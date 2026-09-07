@@ -63,7 +63,10 @@ export function DashboardWelcomeHero({
   title,
 }: DashboardWelcomeHeroProps) {
   return (
-    <section aria-labelledby="dashboard-welcome-title" className={styles.hero}>
+    <section
+      aria-labelledby="dashboard-welcome-title"
+      className={`${styles.hero} dashboard-welcome-hero`}
+    >
       <div aria-hidden="true" className={styles.ambientLayer}>
         <span className={styles.meshOne} />
         <span className={styles.meshTwo} />

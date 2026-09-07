@@ -17,11 +17,7 @@ export function FilterOptionList({
   value,
 }: FilterOptionListProps) {
   if (!options.length) {
-    return (
-      <p className="px-4 py-8 text-center text-sm text-[var(--filter-menu-empty-foreground)]">
-        {emptyMessage}
-      </p>
-    );
+    return <p className="px-4 py-8 text-center text-sm text-muted-foreground">{emptyMessage}</p>;
   }
 
   return (
@@ -37,7 +33,7 @@ export function FilterOptionList({
             aria-pressed={isSelected}
             onClick={() => onValueChange(option.value)}
             className={cn(
-              'flex min-h-11 w-full items-center gap-3 px-4 py-2 text-left text-sm text-[var(--filter-menu-option-foreground)] transition-[color,background-color] duration-[var(--filter-menu-transition-duration)] ease-[var(--filter-menu-transition-easing)] hover:bg-[var(--control-hover-surface)] disabled:pointer-events-none disabled:opacity-[var(--filter-menu-disabled-opacity)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_var(--filter-menu-focus-outline-width)_var(--filter-menu-focus-outline-color)]',
+              'flex min-h-11 w-full items-center gap-3 px-4 py-2 text-left text-sm text-foreground transition-[color,background-color] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)]',
               isSelected && 'bg-[var(--control-selection-surface)]'
             )}
           >
@@ -45,7 +41,7 @@ export function FilterOptionList({
             {isSelected ? (
               <>
                 <Check
-                  className="size-4 shrink-0 text-[var(--filter-menu-option-selected-indicator)]"
+                  className="size-4 shrink-0 text-[var(--control-selection-indicator)]"
                   aria-hidden="true"
                 />
                 <span className="sr-only">Seleccionado</span>

@@ -16,10 +16,10 @@ export function SidebarPaneHeader({ onCollapse }: SidebarPaneHeaderProps) {
       <Button
         type="button"
         variant="ghost"
-        size="icon-sm"
+        size="icon"
         aria-label="Colapsar navegación"
         onClick={onCollapse}
-        className="dashboard-navigation-control shrink-0 text-[var(--dashboard-navigation-control-foreground)] hover:bg-[var(--dashboard-navigation-control-hover-surface)] hover:text-sidebar-foreground"
+        className="dashboard-navigation-control size-8 shrink-0 text-[var(--dashboard-navigation-control-foreground)] hover:bg-[var(--dashboard-navigation-control-hover-surface)] hover:text-sidebar-foreground"
       >
         <PanelLeftClose className="size-4" aria-hidden="true" />
       </Button>

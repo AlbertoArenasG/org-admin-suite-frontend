@@ -9,7 +9,7 @@ import {
 } from '@/components/filters/DashboardFilterMenu';
 import { DashboardSingleFilterMenu } from '@/components/filters/DashboardSingleFilterMenu';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
-import { DashboardButton } from '@/components/ui/dashboard-button';
+import { DashboardButton } from '@/components/controls/dashboard-button/DashboardButton';
 
 const filterCategories = [
   {
