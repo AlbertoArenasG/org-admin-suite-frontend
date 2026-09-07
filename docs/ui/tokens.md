@@ -133,6 +133,18 @@ una variante visual que no expresa un token existente.
 Ejemplos potenciales: encabezado de tabla, agrupación de formulario, panel de
 detalle o controles de una lista.
 
+Las recetas exclusivas de un componente no se declaran en los archivos globales
+`styles/themes/dashboard-*.css`. Sus valores por tema viven en el CSS local
+del componente, bajo selectores de cada `html.<tema>`, y se aplican mediante
+una clase de scope al trigger, superficie y portal que corresponda. Esto evita
+que los archivos de tema se conviertan en catálogos de componentes y mantiene
+cada contrato junto a su implementación.
+
+Los bundles externos y sus primitives aislados siguen la estrategia de
+[installed-components.md](./components/installed-components.md). Sus fuentes
+vendor no se modifican para tematizarse; el adaptador propio y su CSS local son
+los únicos responsables de la receta visual de la aplicación.
+
 ## Criterio de Creación
 
 Crear un token cuando el valor:

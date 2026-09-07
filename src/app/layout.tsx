@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { Geist_Mono, Manrope } from 'next/font/google';
+import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import 'sileo/styles.css';
 import 'ldrs/react/Tailspin.css';
 import { AppProviders } from '@/components/providers/AppProviders';
 
-const manrope = Manrope({
-  variable: '--font-manrope',
+const geist = Geist({
+  variable: '--font-geist',
   subsets: ['latin'],
   weight: 'variable',
 });
@@ -27,12 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      className={`${manrope.variable} ${geistMono.variable}`}
-      lang="es"
-      suppressHydrationWarning
-    >
-      <body className={`${manrope.className} antialiased`} suppressHydrationWarning>
+    <html className={`${geist.variable} ${geistMono.variable}`} lang="es" suppressHydrationWarning>
+      <body className={`${geist.className} antialiased`} suppressHydrationWarning>
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

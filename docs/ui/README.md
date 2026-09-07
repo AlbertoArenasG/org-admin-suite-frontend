@@ -30,6 +30,7 @@ docs/ui/
 └─ components/
    ├─ actions-and-buttons.md
    ├─ buttons.md
+   ├─ installed-components.md
    ├─ page-header.md
    └─ sticky-collapsible-page-header.md
 ```
@@ -50,6 +51,8 @@ docs/ui/
   formularios, detalles y Page Composition.
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo
   indica si su implementación ya está validada o sigue en etapa de Playground.
+- `components/installed-components.md`: estrategia obligatoria para bundles y
+  bloques externos aislados en `vendor` y sus adaptadores propios.
 - `adoption-log.md`: registro de módulos, vistas o componentes existentes que
   adopten una guideline de esta carpeta.
 

@@ -1,0 +1,137 @@
+.scope,
+.popover {
+  --date-picker-cell-size: 1.8125rem;
+  --background: var(--date-picker-surface);
+  --foreground: var(--date-picker-foreground);
+  --popover: var(--date-picker-popover-surface);
+  --popover-foreground: var(--date-picker-popover-foreground);
+  --primary-500: var(--date-picker-selection-surface);
+  --primary-foreground: var(--date-picker-selection-foreground);
+  --muted: var(--date-picker-muted-surface);
+  --muted-foreground: var(--date-picker-muted-foreground);
+  --accent-500: var(--date-picker-range-surface);
+  --accent-foreground: var(--date-picker-range-foreground);
+  --border: var(--date-picker-border);
+  --input: var(--date-picker-border);
+  --ring: var(--date-picker-focus-ring);
+}
+
+.control {
+  position: relative;
+  display: inline-block;
+}
+
+:global(html.classic) .scope,
+:global(html.classic) .popover {
+  --date-picker-surface: #ffffff;
+  --date-picker-foreground: #111827;
+  --date-picker-popover-surface: #ffffff;
+  --date-picker-popover-foreground: #111827;
+  --date-picker-border: #d7e0e7;
+  --date-picker-muted-surface: #eff4f8;
+  --date-picker-muted-foreground: #566173;
+  --date-picker-selection-surface: #1d9f9a;
+  --date-picker-selection-foreground: #ffffff;
+  --date-picker-range-surface: #d9f1ef;
+  --date-picker-range-foreground: #111827;
+  --date-picker-hover-surface: #e8f7f6;
+  --date-picker-hover-foreground: #111827;
+  --date-picker-focus-ring: #1d9f9a;
+  --date-picker-shadow: 0 10px 24px rgb(17 24 39 / 12%);
+  --date-picker-backdrop-filter: none;
+}
+
+:global(html.ambient) .scope,
+:global(html.ambient) .popover {
+  --date-picker-surface: rgb(255 255 255 / 78%);
+  --date-picker-foreground: #111827;
+  --date-picker-popover-surface: rgb(255 255 255 / 88%);
+  --date-picker-popover-foreground: #111827;
+  --date-picker-border: rgb(215 224 231 / 82%);
+  --date-picker-muted-surface: rgb(239 244 248 / 88%);
+  --date-picker-muted-foreground: #566173;
+  --date-picker-selection-surface: #1d9f9a;
+  --date-picker-selection-foreground: #ffffff;
+  --date-picker-range-surface: rgb(29 159 154 / 14%);
+  --date-picker-range-foreground: #111827;
+  --date-picker-hover-surface: rgb(29 159 154 / 10%);
+  --date-picker-hover-foreground: #111827;
+  --date-picker-focus-ring: rgb(29 159 154 / 62%);
+  --date-picker-shadow: 0 14px 30px rgb(50 43 105 / 15%);
+  --date-picker-backdrop-filter: blur(18px);
+}
+
+:global(html.ambient-deep) .scope,
+:global(html.ambient-deep) .popover {
+  --date-picker-surface: rgb(255 255 255 / 76%);
+  --date-picker-foreground: #111827;
+  --date-picker-popover-surface: rgb(255 255 255 / 86%);
+  --date-picker-popover-foreground: #111827;
+  --date-picker-border: rgb(215 224 231 / 80%);
+  --date-picker-muted-surface: rgb(239 244 248 / 86%);
+  --date-picker-muted-foreground: #566173;
+  --date-picker-selection-surface: #1d9f9a;
+  --date-picker-selection-foreground: #ffffff;
+  --date-picker-range-surface: rgb(107 91 229 / 14%);
+  --date-picker-range-foreground: #111827;
+  --date-picker-hover-surface: rgb(107 91 229 / 10%);
+  --date-picker-hover-foreground: #111827;
+  --date-picker-focus-ring: rgb(107 91 229 / 60%);
+  --date-picker-shadow: 0 16px 34px rgb(28 18 67 / 20%);
+  --date-picker-backdrop-filter: blur(20px);
+}
+
+.popover {
+  box-shadow: var(--date-picker-shadow);
+  backdrop-filter: var(--date-picker-backdrop-filter);
+}
+
+/* Match the compact density used by the shadcn range-picker preview. */
+.scope :global([data-slot='button'][data-variant='outline']) {
+  height: 2rem;
+  min-height: 2rem;
+  padding-inline: 0.75rem;
+  border-radius: var(--radius-input);
+}
+
+.scope .hasValue :global([data-slot='button'][data-variant='outline']) {
+  padding-right: 2.5rem;
+}
+
+.scope .clearButton {
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  z-index: 1;
+  transform: translateY(-50%);
+  color: var(--date-picker-muted-foreground);
+}
+
+.scope .clearButton:hover {
+  background-color: var(--date-picker-hover-surface);
+  color: var(--date-picker-hover-foreground);
+}
+
+.popover :global(.group\/calendar) {
+  --cell-size: var(--date-picker-cell-size);
+}
+
+/* The host theme has no Tailwind utility for text-primary-foreground. */
+.scope :global([data-selected-single='true']),
+.popover :global([data-selected-single='true']),
+.scope :global([data-range-start='true']),
+.popover :global([data-range-start='true']),
+.scope :global([data-range-end='true']),
+.popover :global([data-range-end='true']) {
+  color: var(--primary-foreground);
+}
+
+.popover
+  :global(
+    [data-slot='button'][data-variant='ghost']:not([data-range-start='true']):not(
+        [data-range-middle='true']
+      ):not([data-range-end='true']):hover
+  ) {
+  background-color: var(--date-picker-hover-surface);
+  color: var(--date-picker-hover-foreground);
+}

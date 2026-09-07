@@ -20,6 +20,9 @@
 # production
 /build
 
+# Temporary source downloads for external component adoption.
+/.component-staging/
+
 # misc
 .DS_Store
 *.pem

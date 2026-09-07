@@ -6,6 +6,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { FilterMenuTrigger } from '@/components/filters/FilterMenuTrigger';
 import { FilterOptionList } from '@/components/filters/FilterOptionList';
 import type { DashboardFilterCategory } from '@/components/filters/filter-menu.types';
+import styles from '@/components/filters/FilterMenuTheme.module.css';
 import { cn } from '@/lib/utils';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
@@ -133,12 +134,19 @@ export function DashboardFilterMenu({
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <FilterMenuTrigger activeCount={activeCount} className={className} label={label} />
+        <FilterMenuTrigger
+          activeCount={activeCount}
+          className={cn(styles.scope, className)}
+          label={label}
+        />
       </PopoverTrigger>
 
       <PopoverContent
         align="end"
-        className="w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--filter-menu-radius)] border-[var(--filter-menu-border)] bg-[var(--filter-menu-surface)] p-0 text-[var(--filter-menu-foreground)] shadow-[var(--filter-menu-shadow)] [backdrop-filter:var(--filter-menu-backdrop)]"
+        className={cn(
+          styles.scope,
+          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--filter-menu-radius)] border-[var(--filter-menu-border)] bg-[var(--filter-menu-surface)] p-0 text-[var(--filter-menu-foreground)] shadow-[var(--filter-menu-shadow)] [backdrop-filter:var(--filter-menu-backdrop)]'
+        )}
       >
         <div className="flex items-center gap-1 border-b border-[var(--filter-menu-divider)] bg-[var(--filter-menu-tabs-surface)] p-1">
           <div
