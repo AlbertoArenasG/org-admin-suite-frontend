@@ -24,6 +24,7 @@ import expirationNotificationPoliciesEn from '@/locales/en/expirationNotificatio
 import internalAssetControlEn from '@/locales/en/internalAssetControl.json';
 import customerServiceRecordsEn from '@/locales/en/customerServiceRecords.json';
 import userRegistrationInvitationsEn from '@/locales/en/userRegistrationInvitations.json';
+import clientAccessServicesEn from '@/locales/en/clientAccessServices.json';
 import commonEs from '@/locales/es/common.json';
 import navEs from '@/locales/es/nav.json';
 import breadcrumbsEs from '@/locales/es/breadcrumbs.json';
@@ -47,6 +48,7 @@ import expirationNotificationPoliciesEs from '@/locales/es/expirationNotificatio
 import internalAssetControlEs from '@/locales/es/internalAssetControl.json';
 import customerServiceRecordsEs from '@/locales/es/customerServiceRecords.json';
 import userRegistrationInvitationsEs from '@/locales/es/userRegistrationInvitations.json';
+import clientAccessServicesEs from '@/locales/es/clientAccessServices.json';
 
 const FALLBACK_LANGUAGE = 'es';
 export const LANGUAGE_STORAGE_KEY = 'preferred-language';
@@ -76,6 +78,7 @@ const resources = {
     internalAssetControl: internalAssetControlEn,
     customerServiceRecords: customerServiceRecordsEn,
     userRegistrationInvitations: userRegistrationInvitationsEn,
+    clientAccessServices: clientAccessServicesEn,
   },
   es: {
     common: commonEs,
@@ -101,6 +104,7 @@ const resources = {
     internalAssetControl: internalAssetControlEs,
     customerServiceRecords: customerServiceRecordsEs,
     userRegistrationInvitations: userRegistrationInvitationsEs,
+    clientAccessServices: clientAccessServicesEs,
   },
 };
 
@@ -152,6 +156,7 @@ export function initI18n(): I18nInstance {
         'internalAssetControl',
         'customerServiceRecords',
         'userRegistrationInvitations',
+        'clientAccessServices',
       ],
       defaultNS: 'common',
       interpolation: {

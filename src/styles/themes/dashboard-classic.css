@@ -1,5 +1,5 @@
 html.classic,
-html:not(.ambient):not(.ambient-deep):not(.dark):not(.light) {
+html:not(.ambient):not(.ambient-deep):not(.nocturne):not(.dark):not(.light) {
   color-scheme: light;
   --background: #f6f8f9;
   --foreground: #111827;

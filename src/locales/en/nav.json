@@ -11,6 +11,8 @@
   "administration": "Administration",
   "dashboard": "Dashboard",
   "dashboardPlayground": "Dashboard Playground",
+  "portal": "Portal",
+  "portalServices": "Service tracking",
   "customers": "Customers",
   "customersList": "Customers list",
   "customersCreate": "Add customer",

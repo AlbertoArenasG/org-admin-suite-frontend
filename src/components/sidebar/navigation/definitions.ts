@@ -293,4 +293,18 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
       },
     ],
   },
+  {
+    id: 'portal',
+    labelKey: 'portal',
+    icon: ClipboardList,
+    entries: [
+      {
+        id: 'portalServices',
+        labelKey: 'portalServices',
+        href: '/dashboard/portal/services',
+        icon: ClipboardList,
+        matchesPathname: isExactPath('/dashboard/portal/services'),
+      },
+    ],
+  },
 ];

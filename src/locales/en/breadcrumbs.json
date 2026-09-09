@@ -1,6 +1,8 @@
 {
   "home": "Home",
   "dashboard": "Dashboard",
+  "portal": "Portal",
+  "portalServices": "Service tracking",
   "customers": "Customers",
   "providers": "Providers",
   "users": "Users",

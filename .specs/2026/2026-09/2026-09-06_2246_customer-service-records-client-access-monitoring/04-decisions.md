@@ -31,3 +31,22 @@
   `customer_delivery` del contrato Client Access ampliado.
 - Source: ampliacion aprobada para la API el 2026-09-06.
 - Impact: la vista puede priorizar esas senales sin usar datos de proveedor.
+
+## 2026-09-08 - Portal autenticado extensible
+
+- Decision: ubicar la primera vista en `/dashboard/portal/services`, bajo el
+  subgrupo `Servicios` del espacio `Portal`.
+- Source: decision de producto.
+- Impact: `Portal` no queda acoplado a seguimiento. Habilita incorporar futuras
+  capacidades autenticadas de cliente por dominio, sin reorganizar esta ruta.
+  El acceso autenticado de proveedores se modelara como subgrupo independiente
+  cuando exista.
+
+## 2026-09-08 - Copy neutral de navegacion
+
+- Decision: usar `Portal` y `Seguimiento de servicios` como copy comun para
+  todos los actores autorizados.
+- Source: decision de producto.
+- Impact: no se mezcla `systemRole` con la clasificacion de staff, que no forma
+  parte de `AuthUser`. La visibilidad del dato sigue resuelta exclusivamente
+  por backend y no se duplican rutas ni permisos.

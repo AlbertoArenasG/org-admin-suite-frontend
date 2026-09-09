@@ -1,0 +1,4 @@
+html.ambient-deep .data-table-search-highlight {
+  --data-table-search-highlight-surface: #fef3c7;
+  --data-table-search-highlight-foreground: inherit;
+}

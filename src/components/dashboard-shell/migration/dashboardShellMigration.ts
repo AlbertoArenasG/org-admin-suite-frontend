@@ -4,7 +4,7 @@ import type { BreadcrumbSegment } from '@/components/shared/PageBreadcrumbs';
 export type DashboardShellVariant = 'legacy' | 'next';
 
 export interface NextDashboardShellRouteConfig {
-  breadcrumbs: BreadcrumbSegment[];
+  breadcrumbs: Array<BreadcrumbSegment & { labelKey?: string }>;
   scrollMode?: DashboardScrollMode;
 }
 
@@ -17,7 +17,18 @@ export type DashboardShellResolution =
   | { variant: 'legacy' }
   | { variant: 'next'; config: NextDashboardShellRouteConfig };
 
-const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [];
+const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [
+  {
+    matches: (pathname) => pathname === '/dashboard/portal/services',
+    config: {
+      breadcrumbs: [
+        { label: 'Portal', labelKey: 'portal', href: '/dashboard' },
+        { label: 'Seguimiento de servicios', labelKey: 'portalServices' },
+      ],
+      scrollMode: 'page-content',
+    },
+  },
+];
 
 export function resolveDashboardShell(pathname: string | null): DashboardShellResolution {
   const normalizedPathname = pathname ?? '/dashboard';

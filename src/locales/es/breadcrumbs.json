@@ -1,6 +1,8 @@
 {
   "home": "Inicio",
   "dashboard": "Panel",
+  "portal": "Portal",
+  "portalServices": "Seguimiento de servicios",
   "customers": "Clientes",
   "providers": "Proveedores",
   "users": "Usuarios",

@@ -54,7 +54,7 @@ export function AppProviders({ children }: PropsWithChildren) {
       <ThemeProvider
         attribute="class"
         defaultTheme="classic"
-        themes={['classic', 'ambient', 'ambient-deep']}
+        themes={['classic', 'ambient', 'ambient-deep', 'nocturne']}
         storageKey="application-appearance"
         disableTransitionOnChange
       >

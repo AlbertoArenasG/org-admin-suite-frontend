@@ -13,5 +13,21 @@
 - Se creo `/Users/alberto/projects/icsacv/component-staging/component-lab` para
   evaluar bloques de tabla sin mezclar sus primitives con el frontend de
   producto. Lint y build con Webpack pasaron.
-- Pendiente: definir pathname y evaluar la composicion visual en el laboratorio
-  de bloques.
+- Se aprobo `Portal` como espacio autenticado extensible y
+  `/dashboard/portal/services` como primera ruta. El subgrupo inicial es
+  `Servicios`.
+- Se aprobo copy neutral en navegacion: `Portal` y `Seguimiento de servicios`
+  para todo actor autorizado. No se usa `systemRole` como sustituto de
+  `isInternalStaff`, clasificacion que el frontend no recibe.
+- La composicion usara el `DataTable` compartido ya validado y promovido al
+  frontend. Pendiente: registrar el diseno tecnico de adaptacion y construir
+  la ruta.
+- Se registro el diseno tecnico y se implemento la primera adopcion en
+  `/dashboard/portal/services`: feature Redux exclusiva, estado Zustand de
+  query, URL sincronizable, `DataTable` v9, navegacion `Portal`, shell Next y
+  copy localizado.
+- El MVP expone buscador con debounce, paginacion, ordenamiento permitido y
+  expansion local de observaciones. No consulta detalle, lookups
+  ni filtros multicampo y no importa artefactos administrativos.
+- Pendiente: validacion manual con permisos y respuestas HTTP reales para
+  cerrar la iniciativa.

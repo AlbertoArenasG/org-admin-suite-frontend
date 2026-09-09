@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 export type SidebarGroupId =
   | 'dashboard'
   | 'operation'
+  | 'portal'
   | 'directory'
   | 'communication'
   | 'configuration'
@@ -38,7 +39,8 @@ export type SidebarNavigationEntryId =
   | 'services'
   | 'serviceEntries'
   | 'serviceEntrySurveys'
-  | 'servicePackagesRecords';
+  | 'servicePackagesRecords'
+  | 'portalServices';
 
 export interface SidebarNavigationAuthorization {
   hasModule: (module: string) => boolean;

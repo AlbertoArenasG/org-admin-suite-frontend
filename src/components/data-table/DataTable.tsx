@@ -8,6 +8,7 @@ import {
   ChevronsUpDown,
   Expand,
   Info,
+  MessageSquareText,
   RefreshCw,
   Search,
   Settings2,
@@ -32,13 +33,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 export type DataTableColumn<T extends RowData> = {
   id: string;
   header: React.ReactNode;
   ariaLabel?: string;
   accessor: (row: T) => unknown;
-  cell?: (row: T) => React.ReactNode;
+  cell?: (row: T, context: { highlight: (value: string) => React.ReactNode }) => React.ReactNode;
   sorting?: { enabled: boolean; apiField: string };
   width?: { initial?: number; min?: number; max?: number; resizable?: boolean };
   align?: 'start' | 'center' | 'end';
@@ -56,11 +58,54 @@ type TableToolbar = {
   filters?: React.ReactNode;
   leading?: React.ReactNode;
   trailing?: React.ReactNode;
+  compact?: boolean;
 };
 
 type TableHeader = {
   title?: React.ReactNode;
   actions?: React.ReactNode;
+};
+
+type DataTableLabels = {
+  loading: string;
+  loadingResults: string;
+  settings: string;
+  density: string;
+  compact: string;
+  comfortable: string;
+  displayColumns: string;
+  resizeColumn: (column: string) => string;
+  selectAllRows: string;
+  selectRow: (rowId: string) => string;
+  additionalDetails: string;
+  noResults: string;
+  noResultsForCriteria: string;
+  clearCriteria: string;
+  pagination: string;
+  rowsPerPage: string;
+  previousPage: string;
+  nextPage: string;
+};
+
+const defaultLabels: DataTableLabels = {
+  loading: 'Loading',
+  loadingResults: 'Loading table results',
+  settings: 'Table settings',
+  density: 'Density',
+  compact: 'Compact',
+  comfortable: 'Comfortable',
+  displayColumns: 'Display columns',
+  resizeColumn: (column) => `Resize ${column} column`,
+  selectAllRows: 'Select all rows',
+  selectRow: (rowId) => `Select row ${rowId}`,
+  additionalDetails: 'Show additional details',
+  noResults: 'No results.',
+  noResultsForCriteria: 'No results match the active criteria.',
+  clearCriteria: 'Clear criteria',
+  pagination: 'Table pagination',
+  rowsPerPage: 'Rows per page',
+  previousPage: 'Previous page',
+  nextPage: 'Next page',
 };
 
 export type DataTableProps<T extends RowData> = {
@@ -83,12 +128,13 @@ export type DataTableProps<T extends RowData> = {
     };
     columnVisibility?: { visibleColumnIds: string[]; onChange: (columnIds: string[]) => void };
   };
+  settingsPlacement?: 'header' | 'toolbar';
   rowLayout?: 'single-line' | 'multiline';
   density?: 'compact' | 'comfortable';
-  stickyHeader?: { maxHeight?: number; offset?: number } | boolean;
+  stickyHeader?: { maxHeight?: number | 'available'; offset?: number } | boolean;
   sorting?: {
-    columnId: string;
-    direction: 'asc' | 'desc';
+    columnId?: string;
+    direction?: 'asc' | 'desc';
     onChange: (next: { columnId: string; direction: 'asc' | 'desc' }) => void;
   };
   pagination?: {
@@ -111,16 +157,98 @@ export type DataTableProps<T extends RowData> = {
     expandedRowIds: string[];
     onChange: (ids: string[]) => void;
     isRowExpandable?: (row: T) => boolean;
-    trigger?: 'chevron' | 'information';
+    trigger?: 'chevron' | 'information' | 'feedback';
     ariaLabel?: string;
   };
-  getRowVisual?: (row: T) => { indicatorClassName?: string; className?: string } | undefined;
-  searchHighlight?: { query: string };
+  getRowVisual?: (
+    row: T
+  ) => { indicatorClassName?: string; indicatorColor?: string; className?: string } | undefined;
+  searchHighlight?: { query: string; columnIds?: string[] };
   getRowActions?: (row: T) => React.ReactNode;
   fullscreen?: { enterLabel: string; exitLabel: string; onChange?: (active: boolean) => void };
+  labels?: Partial<DataTableLabels>;
 };
 
 const features = tableFeatures({});
+
+function DataTableSettingsMenu<T extends RowData>({
+  settings,
+  rowLayout,
+  columns,
+  labels,
+}: {
+  settings: DataTableProps<T>['settings'];
+  rowLayout: DataTableProps<T>['rowLayout'];
+  columns: DataTableColumn<T>[];
+  labels: DataTableLabels;
+}) {
+  if (!settings?.density && !settings?.columnVisibility) return null;
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          aria-label={labels.settings}
+          title={labels.settings}
+          className="inline-flex size-9 items-center justify-center rounded-md border"
+        >
+          <Settings2 className="size-4" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-64">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>{labels.settings}</DropdownMenuLabel>
+        </DropdownMenuGroup>
+        {settings.density && rowLayout === 'single-line' ? (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuRadioGroup
+              value={settings.density.value}
+              onValueChange={(value) =>
+                settings.density?.onChange(value as 'compact' | 'comfortable')
+              }
+            >
+              <DropdownMenuLabel className="text-xs text-muted-foreground">
+                {labels.density}
+              </DropdownMenuLabel>
+              <DropdownMenuRadioItem value="compact">{labels.compact}</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="comfortable">
+                {labels.comfortable}
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </>
+        ) : null}
+        {settings.columnVisibility ? (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className="text-xs text-muted-foreground">
+                {labels.displayColumns}
+              </DropdownMenuLabel>
+              {columns.map((column) => (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  checked={settings.columnVisibility?.visibleColumnIds.includes(column.id)}
+                  disabled={column.visibility?.hideable === false}
+                  onCheckedChange={(checked) => {
+                    const current = settings.columnVisibility?.visibleColumnIds ?? [];
+                    settings.columnVisibility?.onChange(
+                      checked ? [...current, column.id] : current.filter((id) => id !== column.id)
+                    );
+                  }}
+                >
+                  {column.ariaLabel ??
+                    (typeof column.header === 'string' ? column.header : column.id)}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuGroup>
+          </>
+        ) : null}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   const {
@@ -137,6 +265,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     toolbar,
     header,
     settings,
+    settingsPlacement = 'header',
     rowLayout = 'single-line',
     density = 'comfortable',
     stickyHeader = false,
@@ -149,31 +278,48 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     searchHighlight,
     getRowActions,
     fullscreen,
+    labels: labelsOverride,
   } = props;
+  const labels = { ...defaultLabels, ...labelsOverride };
   const rootRef = React.useRef<HTMLElement>(null);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
+  const chromeRef = React.useRef<HTMLDivElement>(null);
+  const resultsRef = React.useRef<HTMLDivElement>(null);
+  const paginationRef = React.useRef<HTMLElement>(null);
   const [nativeFullscreen, setNativeFullscreen] = React.useState(false);
   const [fallbackFullscreen, setFallbackFullscreen] = React.useState(false);
   const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
+  const [availableResultsHeight, setAvailableResultsHeight] = React.useState<number | null>(null);
   const visibleColumns = settings?.columnVisibility
     ? columns.filter((column) => settings.columnVisibility?.visibleColumnIds.includes(column.id))
     : columns;
   const tableColumns = React.useMemo<ColumnDef<typeof features, T>[]>(
     () =>
-      visibleColumns.map((column) => ({
-        id: column.id,
-        header: () => column.header,
-        accessorFn: column.accessor,
-        cell: ({ row }) =>
-          column.cell?.(row.original) ??
-          highlightText(String(column.accessor(row.original) ?? ''), searchHighlight?.query),
-      })),
-    [visibleColumns, searchHighlight?.query]
+      visibleColumns.map((column) => {
+        const shouldHighlight =
+          Boolean(searchHighlight?.query.trim()) &&
+          (!searchHighlight?.columnIds || searchHighlight.columnIds.includes(column.id));
+        const highlight = (value: string) =>
+          shouldHighlight ? highlightText(value, searchHighlight?.query) : value;
+
+        return {
+          id: column.id,
+          header: () => column.header,
+          accessorFn: column.accessor,
+          cell: ({ row }) =>
+            column.cell?.(row.original, { highlight }) ??
+            highlight(String(column.accessor(row.original) ?? '')),
+        };
+      }),
+    [visibleColumns, searchHighlight?.columnIds, searchHighlight?.query]
   );
   const table = useTable({ features, data: rows, columns: tableColumns, getRowId });
   const isFullscreen = nativeFullscreen || fallbackFullscreen;
   const sticky = typeof stickyHeader === 'object' ? stickyHeader : undefined;
+  const usesAvailableHeight = sticky?.maxHeight === 'available';
   const hasDetails = Boolean(renderDetail && expansion);
+  const totalColumnCount =
+    visibleColumns.length + (selection ? 1 : 0) + (hasDetails ? 1 : 0) + (getRowActions ? 1 : 0);
   const padding = rowLayout === 'multiline' ? 'py-4' : density === 'compact' ? 'py-2' : 'py-4';
 
   React.useEffect(() => {
@@ -235,136 +381,131 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     selectableRows.every((row) => selection?.selectedRowIds.includes(row.id));
   const pageNumbers = pagination ? getPageNumbers(pagination.page, pagination.totalPages) : [];
 
+  React.useLayoutEffect(() => {
+    if (!usesAvailableHeight || isFullscreen) {
+      setAvailableResultsHeight(null);
+      return;
+    }
+
+    const resultsElement = resultsRef.current;
+    if (!resultsElement) return;
+    const scrollOwner = resultsElement.closest<HTMLElement>('[data-dashboard-scroll-owner]');
+
+    const updateAvailableHeight = () => {
+      const resultsTop = resultsElement.getBoundingClientRect().top;
+      const ownerBottom = scrollOwner?.getBoundingClientRect().bottom ?? window.innerHeight;
+      const ownerPaddingBottom = scrollOwner
+        ? Number.parseFloat(window.getComputedStyle(scrollOwner).paddingBottom) || 0
+        : 0;
+      const paginationHeight = paginationRef.current?.getBoundingClientRect().height ?? 0;
+      const nextHeight = Math.max(
+        0,
+        Math.floor(ownerBottom - ownerPaddingBottom - resultsTop - paginationHeight)
+      );
+
+      setAvailableResultsHeight((current) => (current === nextHeight ? current : nextHeight));
+    };
+
+    updateAvailableHeight();
+    const observer = new ResizeObserver(updateAvailableHeight);
+    observer.observe(resultsElement);
+    if (chromeRef.current) observer.observe(chromeRef.current);
+    if (paginationRef.current) observer.observe(paginationRef.current);
+    if (scrollOwner) observer.observe(scrollOwner);
+    scrollOwner?.addEventListener('scroll', updateAvailableHeight, { passive: true });
+    window.addEventListener('resize', updateAvailableHeight);
+
+    return () => {
+      observer.disconnect();
+      scrollOwner?.removeEventListener('scroll', updateAvailableHeight);
+      window.removeEventListener('resize', updateAvailableHeight);
+    };
+  }, [isFullscreen, loading, pagination, usesAvailableHeight]);
+
   return (
     <section
       ref={rootRef}
       className={`w-full rounded-xl border border-border bg-card shadow-sm ${isFullscreen ? 'fixed inset-0 z-50 flex h-dvh flex-col rounded-none' : ''}`}
     >
-      {header?.title || header?.actions || fullscreen ? (
-        <div className="flex min-h-14 items-center gap-3 border-b px-4 py-3">
-          {header?.title ? (
-            <div className="flex items-center gap-2">
-              <div className="text-sm font-medium">{header.title}</div>
-              {loading ? (
-                <RefreshCw
-                  aria-label="Loading"
-                  className="size-4 animate-spin text-muted-foreground"
+      {header?.title || header?.actions || fullscreen || toolbar ? (
+        <div ref={chromeRef}>
+          {header?.title || header?.actions || fullscreen ? (
+            <div className="flex min-h-14 items-center gap-3 border-b px-4 py-3">
+              {header?.title ? (
+                <div className="flex items-center gap-2">
+                  <div className="text-sm font-medium">{header.title}</div>
+                  {loading ? (
+                    <RefreshCw
+                      aria-label={labels.loading}
+                      className="size-4 animate-spin text-muted-foreground"
+                    />
+                  ) : null}
+                </div>
+              ) : null}
+              <div className="ml-auto flex items-center gap-2">
+                {header?.actions}
+                {settingsPlacement === 'header' ? (
+                  <DataTableSettingsMenu
+                    settings={settings}
+                    rowLayout={rowLayout}
+                    columns={columns}
+                    labels={labels}
+                  />
+                ) : null}
+                {fullscreen ? (
+                  <button
+                    ref={triggerRef}
+                    type="button"
+                    aria-label={isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
+                    title={isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
+                    onClick={toggleFullscreen}
+                    className="inline-flex size-9 items-center justify-center rounded-md border"
+                  >
+                    <span className="sr-only">
+                      {isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
+                    </span>
+                    {isFullscreen ? <Shrink className="size-4" /> : <Expand className="size-4" />}
+                  </button>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+          {toolbar ? (
+            <div
+              className={`flex flex-wrap items-center gap-3 border-b ${toolbar.compact ? 'p-2' : 'p-4'}`}
+            >
+              {toolbar.leading}
+              {toolbar.search ? (
+                <label className="flex min-w-52 flex-1 items-center gap-2 rounded-md border bg-background px-3 py-2">
+                  <Search className="size-4 text-muted-foreground" />
+                  <span className="sr-only">
+                    {toolbar.search.ariaLabel ?? toolbar.search.placeholder}
+                  </span>
+                  <input
+                    value={toolbar.search.value}
+                    onChange={(event) => toolbar.search?.onChange(event.target.value)}
+                    placeholder={toolbar.search.placeholder}
+                    className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                  />
+                </label>
+              ) : null}
+              {toolbar.filters ? (
+                <div className="flex items-center gap-2">
+                  <SlidersHorizontal className="size-4 text-muted-foreground" />
+                  {toolbar.filters}
+                </div>
+              ) : null}
+              {toolbar.trailing}
+              {settingsPlacement === 'toolbar' ? (
+                <DataTableSettingsMenu
+                  settings={settings}
+                  rowLayout={rowLayout}
+                  columns={columns}
+                  labels={labels}
                 />
               ) : null}
             </div>
           ) : null}
-          <div className="ml-auto flex items-center gap-2">
-            {header?.actions}
-            {settings?.density || settings?.columnVisibility ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    type="button"
-                    aria-label="Table settings"
-                    title="Table settings"
-                    className="inline-flex size-9 items-center justify-center rounded-md border"
-                  >
-                    <Settings2 className="size-4" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64">
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel>Table settings</DropdownMenuLabel>
-                  </DropdownMenuGroup>
-                  {settings.density && rowLayout === 'single-line' ? (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuRadioGroup
-                        value={settings.density.value}
-                        onValueChange={(value) =>
-                          settings.density?.onChange(value as 'compact' | 'comfortable')
-                        }
-                      >
-                        <DropdownMenuLabel className="text-xs text-muted-foreground">
-                          Density
-                        </DropdownMenuLabel>
-                        <DropdownMenuRadioItem value="compact">Compact</DropdownMenuRadioItem>
-                        <DropdownMenuRadioItem value="comfortable">
-                          Comfortable
-                        </DropdownMenuRadioItem>
-                      </DropdownMenuRadioGroup>
-                    </>
-                  ) : null}
-                  {settings.columnVisibility ? (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuGroup>
-                        <DropdownMenuLabel className="text-xs text-muted-foreground">
-                          Display columns
-                        </DropdownMenuLabel>
-                        {columns.map((column) => (
-                          <DropdownMenuCheckboxItem
-                            key={column.id}
-                            checked={settings.columnVisibility?.visibleColumnIds.includes(
-                              column.id
-                            )}
-                            disabled={column.visibility?.hideable === false}
-                            onCheckedChange={(checked) => {
-                              const current = settings.columnVisibility?.visibleColumnIds ?? [];
-                              settings.columnVisibility?.onChange(
-                                checked
-                                  ? [...current, column.id]
-                                  : current.filter((id) => id !== column.id)
-                              );
-                            }}
-                          >
-                            {column.ariaLabel ??
-                              (typeof column.header === 'string' ? column.header : column.id)}
-                          </DropdownMenuCheckboxItem>
-                        ))}
-                      </DropdownMenuGroup>
-                    </>
-                  ) : null}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : null}
-            {fullscreen ? (
-              <button
-                ref={triggerRef}
-                type="button"
-                aria-label={isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
-                title={isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
-                onClick={toggleFullscreen}
-                className="inline-flex size-9 items-center justify-center rounded-md border"
-              >
-                <span className="sr-only">
-                  {isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
-                </span>
-                {isFullscreen ? <Shrink className="size-4" /> : <Expand className="size-4" />}
-              </button>
-            ) : null}
-          </div>
-        </div>
-      ) : null}
-      {toolbar ? (
-        <div className="flex flex-wrap items-center gap-3 border-b p-4">
-          {toolbar.leading}
-          {toolbar.search ? (
-            <label className="flex min-w-52 flex-1 items-center gap-2 rounded-md border bg-background px-3 py-2">
-              <Search className="size-4 text-muted-foreground" />
-              <span className="sr-only">
-                {toolbar.search.ariaLabel ?? toolbar.search.placeholder}
-              </span>
-              <input
-                value={toolbar.search.value}
-                onChange={(event) => toolbar.search?.onChange(event.target.value)}
-                placeholder={toolbar.search.placeholder}
-                className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-              />
-            </label>
-          ) : null}
-          {toolbar.filters ? (
-            <div className="flex items-center gap-2">
-              <SlidersHorizontal className="size-4 text-muted-foreground" />
-              {toolbar.filters}
-            </div>
-          ) : null}
-          {toolbar.trailing}
         </div>
       ) : null}
       {selection?.selectedRowIds.length && selection.bulkActions ? (
@@ -384,14 +525,23 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
         </div>
       ) : null}
       {loading && loadingContent ? (
-        <div aria-live="polite" aria-label="Loading table results">
+        <div aria-live="polite" aria-label={labels.loadingResults}>
           {loadingContent}
         </div>
       ) : (
         <div
-          className={`min-h-0 ${isFullscreen ? 'flex-1 overflow-auto' : stickyHeader ? 'overflow-auto' : 'overflow-x-auto'}`}
+          ref={resultsRef}
+          className={`min-h-0 ${isFullscreen ? 'flex-1 overflow-auto overscroll-y-contain' : stickyHeader ? 'overflow-auto overscroll-y-contain' : 'overflow-x-auto'}`}
           style={
-            sticky ? { maxHeight: sticky.maxHeight, scrollMarginTop: sticky.offset } : undefined
+            sticky && !isFullscreen
+              ? {
+                  maxHeight:
+                    sticky.maxHeight === 'available'
+                      ? (availableResultsHeight ?? undefined)
+                      : sticky.maxHeight,
+                  scrollMarginTop: sticky.offset,
+                }
+              : undefined
           }
           aria-label="Data table results"
           tabIndex={0}
@@ -419,7 +569,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                 {selection ? (
                   <th className="border-b px-3 py-3">
                     <input
-                      aria-label="Select all rows"
+                      aria-label={labels.selectAllRows}
                       type="checkbox"
                       checked={allSelected}
                       onChange={(event) =>
@@ -474,7 +624,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                         {column.width?.resizable && column.width.min && column.width.max ? (
                           <span
                             role="separator"
-                            aria-label={`Resize ${column.ariaLabel ?? column.id} column`}
+                            aria-label={labels.resizeColumn(column.ariaLabel ?? column.id)}
                             aria-orientation="vertical"
                             aria-valuemin={column.width.min}
                             aria-valuemax={column.width.max}
@@ -545,14 +695,19 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                       <tr className={`border-b hover:bg-muted/40 ${visual?.className ?? ''}`}>
                         {selection ? (
                           <td className="relative px-3">
-                            {visual?.indicatorClassName ? (
+                            {visual?.indicatorClassName || visual?.indicatorColor ? (
                               <span
                                 aria-hidden
                                 className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
+                                style={
+                                  visual.indicatorColor
+                                    ? { backgroundColor: visual.indicatorColor }
+                                    : undefined
+                                }
                               />
                             ) : null}
                             <input
-                              aria-label={`Select row ${row.id}`}
+                              aria-label={labels.selectRow(row.id)}
                               type="checkbox"
                               disabled={!(selection.isRowSelectable?.(row.original) ?? true)}
                               checked={selection.selectedRowIds.includes(row.id)}
@@ -562,28 +717,56 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                         ) : null}
                         {hasDetails ? (
                           <td className="relative px-3">
-                            {visual?.indicatorClassName && !selection ? (
+                            {(visual?.indicatorClassName || visual?.indicatorColor) &&
+                            !selection ? (
                               <span
                                 aria-hidden
                                 className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
+                                style={
+                                  visual.indicatorColor
+                                    ? { backgroundColor: visual.indicatorColor }
+                                    : undefined
+                                }
                               />
                             ) : null}
                             {isExpandable ? (
-                              <button
-                                type="button"
-                                aria-expanded={isExpanded}
-                                aria-controls={`detail-${row.id}`}
-                                aria-label={expansion?.ariaLabel ?? 'Show additional details'}
-                                onClick={() => toggleExpansion(row.id)}
-                              >
-                                {expansion?.trigger === 'information' ? (
-                                  <Info className="size-4" />
-                                ) : isExpanded ? (
-                                  <ChevronDown className="size-4" />
-                                ) : (
-                                  <ChevronRight className="size-4" />
-                                )}
-                              </button>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <button
+                                    type="button"
+                                    aria-expanded={isExpanded}
+                                    aria-controls={`detail-${row.id}`}
+                                    aria-label={expansion?.ariaLabel ?? labels.additionalDetails}
+                                    onClick={() => toggleExpansion(row.id)}
+                                    className={
+                                      expansion?.trigger === 'feedback'
+                                        ? 'relative inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                                        : undefined
+                                    }
+                                  >
+                                    {expansion?.trigger === 'information' ? (
+                                      <Info className="size-4" />
+                                    ) : expansion?.trigger === 'feedback' ? (
+                                      <>
+                                        <MessageSquareText className="size-4" />
+                                        {!isExpanded ? (
+                                          <span
+                                            aria-hidden
+                                            className="absolute right-1 top-1 size-1.5 rounded-full bg-primary"
+                                          />
+                                        ) : null}
+                                      </>
+                                    ) : isExpanded ? (
+                                      <ChevronDown className="size-4" />
+                                    ) : (
+                                      <ChevronRight className="size-4" />
+                                    )}
+                                  </button>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">
+                                  {expansion?.ariaLabel ?? labels.additionalDetails}
+                                </TooltipContent>
+                              </Tooltip>
                             ) : null}
                           </td>
                         ) : null}
@@ -595,13 +778,18 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                               key={cell.id}
                               className={`relative px-4 ${padding} align-top ${column?.align === 'end' ? 'text-right' : column?.align === 'center' ? 'text-center' : 'text-left'} ${column?.textBehavior === 'wrap' ? 'break-words whitespace-normal' : column?.textBehavior === 'truncate' ? 'truncate whitespace-nowrap' : 'whitespace-nowrap'}`}
                             >
-                              {visual?.indicatorClassName &&
+                              {(visual?.indicatorClassName || visual?.indicatorColor) &&
                               !selection &&
                               !hasDetails &&
                               isFirstDataCell ? (
                                 <span
                                   aria-hidden
                                   className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
+                                  style={
+                                    visual.indicatorColor
+                                      ? { backgroundColor: visual.indicatorColor }
+                                      : undefined
+                                  }
                                 />
                               ) : null}
                               {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -614,10 +802,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                       </tr>
                       {hasDetails && isExpanded ? (
                         <tr id={`detail-${row.id}`}>
-                          <td
-                            colSpan={visibleColumns.length + (selection ? 1 : 0) + 2}
-                            className="border-b bg-muted/30 p-4"
-                          >
+                          <td colSpan={totalColumnCount} className="border-b bg-muted/30 p-4">
                             {renderDetail?.(row.original)}
                           </td>
                         </tr>
@@ -627,31 +812,23 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                 })
               ) : (
                 <tr>
-                  <td
-                    colSpan={
-                      visibleColumns.length +
-                      (selection ? 1 : 0) +
-                      (hasDetails ? 1 : 0) +
-                      (getRowActions ? 1 : 0)
-                    }
-                    className="p-12 text-center text-muted-foreground"
-                  >
+                  <td colSpan={totalColumnCount} className="p-12 text-center text-muted-foreground">
                     {renderEmpty?.({ filtered: hasActiveCriteria, onClearCriteria }) ??
                       (hasActiveCriteria ? (
                         <>
-                          <p>No results match the active criteria.</p>
+                          <p>{labels.noResultsForCriteria}</p>
                           {onClearCriteria ? (
                             <button
                               type="button"
                               onClick={onClearCriteria}
                               className="mt-2 underline"
                             >
-                              Clear criteria
+                              {labels.clearCriteria}
                             </button>
                           ) : null}
                         </>
                       ) : (
-                        'No results.'
+                        labels.noResults
                       ))}
                   </td>
                 </tr>
@@ -662,15 +839,16 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
       )}
       {pagination && !loading ? (
         <nav
-          aria-label="Table pagination"
+          ref={paginationRef}
+          aria-label={labels.pagination}
           className="flex flex-col gap-4 border-t px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between"
         >
           <div className="flex flex-wrap items-center gap-3 text-muted-foreground">
             {pagination.onPerPageChange ? (
               <label className="flex items-center gap-2">
-                Rows per page
+                {labels.rowsPerPage}
                 <select
-                  aria-label="Rows per page"
+                  aria-label={labels.rowsPerPage}
                   value={pagination.perPage}
                   onChange={(event) => pagination.onPerPageChange?.(Number(event.target.value))}
                   className="h-8 rounded-md border bg-background px-2 text-foreground"
@@ -692,7 +870,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
           <div className="flex flex-wrap items-center justify-center gap-1">
             <button
               type="button"
-              aria-label="Previous page"
+              aria-label={labels.previousPage}
               disabled={pagination.page <= 1}
               onClick={() => pagination.onChange(pagination.page - 1)}
               className="inline-flex h-8 items-center gap-1 rounded-md border px-2 disabled:opacity-50"
@@ -719,7 +897,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
             )}
             <button
               type="button"
-              aria-label="Next page"
+              aria-label={labels.nextPage}
               disabled={pagination.page >= pagination.totalPages}
               onClick={() => pagination.onChange(pagination.page + 1)}
               className="inline-flex h-8 items-center gap-1 rounded-md border px-2 disabled:opacity-50"
@@ -740,10 +918,7 @@ function highlightText(value: string, query?: string) {
   const parts = value.split(new RegExp(`(${escapeRegExp(normalizedQuery)})`, 'ig'));
   return parts.map((part, index) =>
     part.toLocaleLowerCase() === normalizedQuery.toLocaleLowerCase() ? (
-      <mark
-        key={index}
-        className="rounded-sm bg-amber-200/70 px-0.5 text-inherit dark:bg-amber-400/30"
-      >
+      <mark key={index} className="data-table-search-highlight rounded-sm px-0.5">
         {part}
       </mark>
     ) : (

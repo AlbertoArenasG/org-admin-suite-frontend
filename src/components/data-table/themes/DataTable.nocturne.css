@@ -1,0 +1,4 @@
+html.nocturne .data-table-search-highlight {
+  --data-table-search-highlight-surface: rgb(123 87 20 / 62%);
+  --data-table-search-highlight-foreground: #fff3c4;
+}

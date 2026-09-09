@@ -1,0 +1,52 @@
+{
+  "title": "Seguimiento de servicios",
+  "columns": {
+    "serviceNumber": "Folio",
+    "serviceAndAssets": "Equipo y servicio",
+    "equipmentDetails": "Detalles de equipo",
+    "customer": "Cliente",
+    "operationalStatus": "Estado",
+    "customerCommitment": "Seguimiento",
+    "receivedAt": "Recoleccion",
+    "deliveryAt": "Entrega"
+  },
+  "values": {
+    "noDate": "Sin fecha",
+    "noStatus": "Sin estatus",
+    "estimated": "Estimada",
+    "delivered": "Entregada"
+  },
+  "search": {
+    "placeholder": "Buscar por folio, servicio o equipo",
+    "ariaLabel": "Buscar servicios"
+  },
+  "empty": {
+    "title": "No hay servicios para mostrar",
+    "description": "Cuando haya servicios disponibles para tu acceso, apareceran aqui.",
+    "filteredTitle": "No hay resultados para esta busqueda",
+    "filteredDescription": "Prueba con otro termino o limpia la busqueda para ver todos los servicios disponibles.",
+    "clearSearch": "Limpiar busqueda"
+  },
+  "restricted": {
+    "title": "No tienes acceso a seguimiento de servicios",
+    "description": "Solicita el permiso de lectura del modulo a un administrador."
+  },
+  "expansion": {
+    "ariaLabel": "Mostrar observaciones",
+    "generalObservations": "Observaciones generales",
+    "assetObservations": "Observaciones de equipo"
+  },
+  "table": {
+    "loading": "Cargando",
+    "loadingResults": "Cargando resultados de servicios",
+    "settings": "Configuracion de tabla",
+    "displayColumns": "Mostrar columnas",
+    "resizeColumn": "Cambiar ancho de columna {{column}}",
+    "enterFullscreen": "Ampliar tabla",
+    "exitFullscreen": "Salir de vista ampliada",
+    "pagination": "Paginacion de servicios",
+    "rowsPerPage": "Filas por pagina",
+    "previousPage": "Pagina anterior",
+    "nextPage": "Pagina siguiente"
+  }
+}

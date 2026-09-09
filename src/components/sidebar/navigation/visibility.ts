@@ -24,6 +24,10 @@ export function resolveSidebarNavigationVisibility(
     'CUSTOMER_SERVICE_RECORDS',
     'READ'
   );
+  const canReadClientAccessServices = authorization.hasPermission(
+    'CUSTOMER_SERVICE_RECORDS_CLIENT_ACCESS',
+    'READ'
+  );
   const canCreateCustomerServiceRecords = authorization.hasPermission(
     'CUSTOMER_SERVICE_RECORDS',
     'CREATE'
@@ -32,6 +36,7 @@ export function resolveSidebarNavigationVisibility(
   return {
     dashboard: true,
     dashboardPlayground: authorization.isMasterAdmin,
+    portalServices: canReadClientAccessServices,
     users: true,
     usersList: canReadUsers,
     usersInvite: canInviteUsers,

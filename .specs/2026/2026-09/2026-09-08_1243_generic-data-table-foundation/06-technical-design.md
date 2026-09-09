@@ -201,9 +201,9 @@ settings:
 
 - `single-line` es el modo estandar: aplica densidad global y las celdas no
   envuelven texto.
-- `multiline` es una declaracion explicita de vista para celdas compuestas o
-  texto que debe envolver; la altura de fila se adapta a contenido y no recibe
-  espaciado adicional de densidad.
+- `multiline` es una declaracion explicita para contenido de hasta dos líneas;
+  usa siempre la altura `comfortable`. No puede introducir una tercera altura
+  ni bloques apilados dentro de una celda.
 - Cada columna declara `textBehavior`: `nowrap`, `wrap` o `truncate`.
   `truncate` es opt-in y requiere que la vista ofrezca expansion, detalle o
   accion equivalente para ver el valor completo; `title` solo puede ser ayuda
@@ -218,7 +218,9 @@ settings:
   crea solo scroll horizontal local cuando sus columnas lo requieren.
 - Con `stickyHeader`, la vista debe configurar una region de tabla con altura o
   `max-height` que maneje ambos ejes; la vista tambien entrega el offset
-  necesario para su composicion. No se usan offsets globales implicitos.
+  necesario para su composicion. `maxHeight: 'available'` mide el espacio real
+  hasta el borde inferior del scroller de pagina y descuenta su padding
+  inferior. No se usan offsets globales implicitos ni restas fijas del shell.
 - Movil conserva la semantica de tabla y acceso a scroll horizontal. Toolbar y
   slots se reorganizan sin convertir filas automaticamente a cards.
 - Ordenamiento, expansion, seleccion, menu, paginacion, edicion y

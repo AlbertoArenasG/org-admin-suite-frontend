@@ -55,6 +55,14 @@
   conserva el scroll vertical y la tabla el horizontal local.
 - La nueva ruta no debe duplicar su breadcrumb dentro del contenido: lo
   entrega `Workspace Header`.
+- `Portal` es una superficie autenticada extensible, no un sinonimo de esta
+  vista. Su primer subgrupo es `Servicios`; capacidades futuras de clientes
+  (por ejemplo, datos fiscales) se agruparan por dominio. Un eventual acceso
+  autenticado de proveedores se modelara como subgrupo independiente.
+- La ruta estable es `/dashboard/portal/services`. El copy es neutral:
+  `Portal` y `Seguimiento de servicios` para todo actor autorizado. `AuthUser`
+  no expone `isInternalStaff`; esa clasificacion se resuelve en backend y no se
+  infiere desde `systemRole` para presentar la navegacion.
 
 ## Risks
 

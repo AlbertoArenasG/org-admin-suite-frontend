@@ -1,0 +1,4 @@
+.data-table-search-highlight {
+  background-color: var(--data-table-search-highlight-surface);
+  color: var(--data-table-search-highlight-foreground);
+}

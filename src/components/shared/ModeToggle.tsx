@@ -52,6 +52,9 @@ export function ModeToggle({
         <DropdownMenuItem onClick={() => setTheme('ambient-deep')}>
           {t('themeAmbientDeep')}
         </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme('nocturne')}>
+          {t('themeNocturne')}
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -5,7 +5,7 @@
 - Name: `customer-service-records-client-access-monitoring`
 - Date: `2026-09-06`
 - Definition status: `in_progress`
-- Implementation ready: `no`
+- Implementation ready: `yes`
 
 ## Problem
 
@@ -23,12 +23,15 @@ informacion de proveedor ni capacidades de gestion interna.
 
 ## Included Scope
 
-- Definir y adoptar la ruta nueva de Seguimiento de servicios al Next Dashboard
-  Shell. No se reutiliza la ruta administrativa.
+- Definir y adoptar `/dashboard/portal/services` como la primera ruta del
+  espacio autenticado `Portal` dentro del Next Dashboard Shell. No se reutiliza
+  la ruta administrativa.
+- Definir la navegacion extensible `Portal`, con `Seguimiento de servicios`
+  como su primera funcion visible para cualquier actor autorizado.
 - Composicion de la pagina, breadcrumb, superficie de trabajo y dueno de
   scroll para la vista de listado.
-- Integracion del listado, lookups contextuales, filtros, paginacion y
-  ordenamientos del contrato Client Access.
+- Integracion del listado, buscador de texto, paginacion y ordenamientos del
+  contrato Client Access. Los lookups y filtros multicampo quedan diferidos.
 - Permiso unico `CUSTOMER_SERVICE_RECORDS_CLIENT_ACCESS:READ`.
 - Señales predominantes: estatus operativo, fecha de recoleccion y fecha
   estimada de entrega al cliente, junto con el estatus materializado del
@@ -48,6 +51,9 @@ informacion de proveedor ni capacidades de gestion interna.
 
 - La ruta administrativa `/dashboard/customer-service-records` conserva su
   shell y comportamiento actuales; no es parte de esta iniciativa.
+- El copy de navegacion es neutral para cualquier actor: `Portal` y
+  `Seguimiento de servicios`. No se infiere staff desde `systemRole` ni se
+  mezcla esa clasificacion de perfil con roles y permisos.
 - La politica central de migracion debe resolver esta ruta de forma exacta; no
   adopta por prefijo rutas administrativas ni futuras rutas hijas.
 - El frontend usa exclusivamente
@@ -68,8 +74,12 @@ informacion de proveedor ni capacidades de gestion interna.
 
 - El listado usa la proyeccion exclusiva de Client Access y no muestra datos de
   proveedor, politicas, eventos, fechas internas ni acciones de gestion.
-- El listado conserva su estado al abrir una URL con pagina, limite, busqueda,
-  filtros u ordenamiento admitidos por Client Access.
+- La navegacion conserva `Portal` como frontera de producto extensible para
+  consulta y autoservicio autenticado. Capacidades futuras de clientes se
+  agrupan por dominio; el acceso autenticado de proveedores se incorporara como
+  un subgrupo separado cuando exista.
+- El listado conserva su estado al abrir una URL con pagina, limite, busqueda
+  u ordenamiento admitidos por el MVP de Client Access.
 - La navegacion atras y adelante resincroniza la vista desde la URL.
 - La ausencia de permiso de lectura no consulta ni expone la tabla.
 - Un externo sin relaciones vigentes o sin registros asociados ve una tabla
@@ -84,13 +94,10 @@ informacion de proveedor ni capacidades de gestion interna.
 
 ## Open Questions
 
-- Definir el pathname publico de la nueva vista. No puede reutilizar la ruta
-  administrativa `/dashboard/customer-service-records`.
-- Confirmar la composicion visual final del listado despues de evaluar bloques
-  en el laboratorio de componentes.
+Ninguna. La composicion se basa en el `DataTable` compartido aprobado; filtros
+multicampo y su patron visual permanecen fuera del MVP.
 
 ## Gate
 
-No iniciar la implementacion de la ruta hasta definir el pathname y cerrar la
-composicion visual. La exploracion en el laboratorio de componentes puede
-continuar en paralelo.
+La implementacion puede iniciar cuando se registre el diseno tecnico de la
+ruta, su contenedor y la adaptacion del contrato Client Access al `DataTable`.

@@ -1,6 +1,6 @@
 'use client';
 
-import { Globe, Layers, LogOut, Settings, Sparkles, UserCircle, Waves } from 'lucide-react';
+import { Globe, Layers, LogOut, Moon, Settings, Sparkles, UserCircle, Waves } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { useTranslation } from 'react-i18next';
@@ -108,6 +108,10 @@ export function AccountMenuContent({
             <DropdownMenuRadioItem value="ambient-deep">
               <Waves />
               {t('common:themeAmbientDeep')}
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="nocturne">
+              <Moon />
+              {t('common:themeNocturne')}
             </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
           <DropdownMenuSeparator />

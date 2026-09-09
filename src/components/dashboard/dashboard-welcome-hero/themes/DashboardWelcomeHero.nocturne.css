@@ -1,0 +1,5 @@
+html.nocturne .dashboard-welcome-hero {
+  --hero-surface: linear-gradient(135deg, rgb(26 36 46 / 96%), rgb(18 24 32 / 94%));
+  --hero-border: rgb(128 151 172 / 25%);
+  --hero-icon: color-mix(in srgb, var(--primary-300) 25%, transparent);
+}

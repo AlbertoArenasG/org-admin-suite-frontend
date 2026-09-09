@@ -104,8 +104,10 @@ crecer el contrato sin aportar reutilización ni claridad de propiedad.
   receta en CSS local.
 - `--data-grid-*` permanece temporalmente como compatibilidad shared de las
   tablas legacy hasta que exista una tabla canónica.
-- Los valores locales idénticos entre todos los temas permanecen en el CSS
-  principal del componente; los archivos de tema sólo contienen diferencias.
+- Si una receta local requiere variantes, su carpeta `themes/` contiene un
+  archivo por cada tema activo y cada archivo declara todos los tokens locales,
+  incluso cuando sus valores coinciden temporalmente. El CSS principal del
+  componente no aporta valores visuales de respaldo.
 
 ## 2026-09-07 - Directorio dedicado para componentes con CSS local
 

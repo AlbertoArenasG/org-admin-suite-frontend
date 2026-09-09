@@ -200,10 +200,11 @@ detalle remoto o implemente reglas de guardado propias de formularios.
 ### Decision
 
 La vista declara el layout de fila y el comportamiento de texto por columna.
-Las filas `single-line` usan densidad global y no envuelven texto; las filas
-`multiline` permiten contenido compuesto o envoltura y anulan esa densidad.
-El truncado es explicito por columna y exige una via no dependiente de hover
-para acceder al contenido completo.
+Las filas solo tienen dos alturas estandar: `compact` y `comfortable`.
+`single-line` usa la preferencia global; `multiline` se limita a dos líneas y
+usa siempre la altura `comfortable`. No se permite una tercera altura ni usar
+celdas como tarjetas verticales. El truncado es explicito por columna y exige
+una via no dependiente de hover para acceder al contenido completo.
 
 ### Reason
 
@@ -222,8 +223,9 @@ predecibles y evita que texto importante se pierda tras una elipsis.
   cuando la columna declara `wrap`.
 - Movil conserva tabla semantica y scroll horizontal. No transforma filas a
   cards ni oculta columnas automaticamente.
-- Para Client Access, activo con nombre e identificador es `multiline`; las
-  observaciones viven en expansion o detalle, no en una columna de fila base.
+- Para Client Access, los datos técnicos del activo se distribuyen en columnas
+  horizontales; observaciones viven en expansion o detalle, no en una columna
+  de fila base.
 
 ## 2026-09-08 - Table Preferences And Column Widths
 
@@ -354,7 +356,10 @@ mantiene sticky header predecible cuando se solicita.
 ### Impact
 
 - `stickyHeader` no se habilita con valores magicos globales: la vista entrega
-  region desplazable y offset compatibles con su composicion.
+  region desplazable y offset compatibles con su composicion. Puede usar un
+  `maxHeight` numerico o `available`; este ultimo mide el espacio real hasta el
+  borde inferior del scroller de pagina y descuenta su padding inferior, sin
+  una resta fija ligada al shell.
 - Toolbar y slots se apilan o envuelven en pantallas reducidas.
 - Hover no es el unico mecanismo para descubrir acciones.
 - Controles, handles de redimensionamiento y regiones desplazables deben ser

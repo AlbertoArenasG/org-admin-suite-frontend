@@ -1,6 +1,7 @@
 'use client';
 
 import type { PropsWithChildren } from 'react';
+import { useTranslation } from 'react-i18next';
 import { DashboardShellFrame, DashboardWorkspaceHeader } from '@/components/dashboard-shell';
 import { NextDashboardGlobalHeader } from '@/components/dashboard-shell/migration/NextDashboardGlobalHeader';
 import type { NextDashboardShellRouteConfig } from '@/components/dashboard-shell/migration/dashboardShellMigration';
@@ -17,6 +18,12 @@ interface NextDashboardShellProps extends PropsWithChildren {
  * Route-specific content remains in children and in the route configuration.
  */
 export function NextDashboardShell({ children, config }: NextDashboardShellProps) {
+  const { t } = useTranslation('breadcrumbs');
+  const breadcrumbs = config.breadcrumbs.map(({ labelKey, ...segment }) => ({
+    ...segment,
+    label: labelKey ? t(labelKey) : segment.label,
+  }));
+
   return (
     <SidebarProvider className="theme-sidebar dashboard-shell min-h-svh text-[var(--foreground)] md:h-svh md:min-h-0 md:overscroll-y-none md:overflow-hidden">
       <AppSidebar />
@@ -28,7 +35,7 @@ export function NextDashboardShell({ children, config }: NextDashboardShellProps
           workspaceToolbar={<NextDashboardGlobalHeader />}
           workspaceHeader={
             <DashboardWorkspaceHeader className="px-4 sm:px-5">
-              <PageBreadcrumbs segments={config.breadcrumbs} tone="workspace" />
+              <PageBreadcrumbs segments={breadcrumbs} tone="workspace" />
             </DashboardWorkspaceHeader>
           }
         >

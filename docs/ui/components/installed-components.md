@@ -131,9 +131,11 @@ sistema ni directorios temporales fuera de la carpeta de trabajo.
 - Un componente con variantes propias conserva en su directorio el componente,
   CSS estructural, agregador de temas y subcarpeta `themes/`; no comparte una
   carpeta de variantes con otros componentes de dashboard.
-- Los tokens locales cuyo valor sea idéntico en todos los temas permanecen en
-  el CSS principal del componente. Los archivos co-localizados por tema sólo
-  declaran las diferencias efectivas; no repiten invariantes.
+- Si una receta local tiene variantes de tema, su carpeta `themes/` contiene un
+  archivo por cada tema activo. Cada archivo declara todos los tokens locales
+  de esa receta, incluso si temporalmente comparte valores con otras
+  apariencias. El CSS principal del componente sólo conserva estructura,
+  layout, animación y tamaños: nunca valores visuales de respaldo.
 - Un token se mantiene global únicamente si es semántico y lo consumen varios
   componentes o si es una compatibilidad temporal inventariada, como
   `--data-grid-*` durante la migración de tablas legacy.

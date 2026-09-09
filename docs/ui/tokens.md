@@ -137,9 +137,13 @@ tema. Cada uno resuelve el mismo contrato base de shadcn, controles,
 superficies, radios y composición. No se agregan selectores de un componente
 particular a esos archivos.
 
-El CSS local conserva estructura, layout, animación y tamaños propios. Consume
-tokens semánticos compartidos y no declara selectores `html.<tema>` ni reasigna
-tokens fundacionales en scopes locales.
+El CSS local base conserva estructura, layout, animación y tamaños propios. Una
+receta visual exclusiva puede declarar tokens locales en archivos co-localizados
+por tema, acotados a `html.<tema>` y a una clase estable del componente. Debe
+existir un archivo para cada tema activo y cada uno declara todos los tokens de
+la receta, aunque algunos valores coincidan temporalmente; no hay valores
+visuales de respaldo en el CSS base del componente. No se reasignan tokens
+fundacionales en scopes locales.
 
 Los bundles externos siguen la estrategia de
 [installed-components.md](./components/installed-components.md): importan

@@ -1,0 +1,52 @@
+{
+  "title": "Service tracking",
+  "columns": {
+    "serviceNumber": "Service number",
+    "serviceAndAssets": "Equipment and service",
+    "equipmentDetails": "Equipment details",
+    "customer": "Customer",
+    "operationalStatus": "Operational status",
+    "customerCommitment": "Customer commitment",
+    "receivedAt": "Collection",
+    "deliveryAt": "Delivery"
+  },
+  "values": {
+    "noDate": "No date",
+    "noStatus": "No status",
+    "estimated": "Estimated",
+    "delivered": "Delivered"
+  },
+  "search": {
+    "placeholder": "Search by service number, service, or equipment",
+    "ariaLabel": "Search services"
+  },
+  "empty": {
+    "title": "There are no services to display",
+    "description": "Available services will appear here when they are available for your access.",
+    "filteredTitle": "No results match this search",
+    "filteredDescription": "Try another term or clear the search to view all available services.",
+    "clearSearch": "Clear search"
+  },
+  "restricted": {
+    "title": "You do not have access to service tracking",
+    "description": "Ask an administrator for the module read permission."
+  },
+  "expansion": {
+    "ariaLabel": "Show observations",
+    "generalObservations": "General observations",
+    "assetObservations": "Equipment observations"
+  },
+  "table": {
+    "loading": "Loading",
+    "loadingResults": "Loading service results",
+    "settings": "Table settings",
+    "displayColumns": "Display columns",
+    "resizeColumn": "Resize {{column}} column",
+    "enterFullscreen": "Expand table",
+    "exitFullscreen": "Exit expanded view",
+    "pagination": "Service pagination",
+    "rowsPerPage": "Rows per page",
+    "previousPage": "Previous page",
+    "nextPage": "Next page"
+  }
+}

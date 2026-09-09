@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Building2,
   ChartColumn,
+  ClipboardList,
   Package,
   ShieldCheck,
   ShieldPlus,
@@ -194,6 +195,17 @@ export default function DashboardPage() {
             description: t('workspaces.servicePackages.description'),
             href: '/dashboard/service-packages-records',
             icon: Package,
+          },
+        ]
+      : []),
+    ...(hasPermission('CUSTOMER_SERVICE_RECORDS_CLIENT_ACCESS', 'READ')
+      ? [
+          {
+            key: 'portal-services',
+            title: t('workspaces.portalServices.title'),
+            description: t('workspaces.portalServices.description'),
+            href: '/dashboard/portal/services',
+            icon: ClipboardList,
           },
         ]
       : []),

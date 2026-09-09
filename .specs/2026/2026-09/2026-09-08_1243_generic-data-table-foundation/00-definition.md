@@ -67,8 +67,9 @@ verdad ni una receta de implementacion.
   una frontera clara; no duplica la coleccion remota.
 - El contenedor de cada modulo adapta el contrato remoto y conecta callbacks;
   la page solo compone su ruta y autorizacion.
-- Las filas de una linea usan densidad global `compact` o `comfortable`.
-  Contenido multilínea usa una variante de altura propia.
+- Las filas solo usan dos alturas estandar: `compact` o `comfortable`. El
+  contenido de dos líneas usa siempre `comfortable`; ninguna celda ni variante
+  de vista introduce una tercera altura.
 - Una vista normal delega scroll vertical al shell o pagina y mantiene scroll
   horizontal local. Al habilitar `sticky header`, debe declarar una region de
   tabla con altura o `max-height` que sea dueña deliberada de ambos ejes.

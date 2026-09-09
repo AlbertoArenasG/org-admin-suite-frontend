@@ -63,6 +63,10 @@
     "servicePackages": {
       "title": "Recepción, Recolección y Entrega",
       "description": "Gestionar archivos recolectados y paquetes asociados."
+    },
+    "portalServices": {
+      "title": "Seguimiento de servicios",
+      "description": "Consultar el estado y compromiso de entrega de tus servicios."
     }
   },
   "profileCard": {

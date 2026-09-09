@@ -1,0 +1,213 @@
+html.nocturne {
+  color-scheme: dark;
+  --background: #09121d;
+  --foreground: #f2f6fb;
+  --card: rgb(21 32 45 / 72%);
+  --card-foreground: #f2f6fb;
+  --primary-50: #e7fffc;
+  --primary-100: #b9f7f0;
+  --primary-200: #7de9df;
+  --primary-300: #50d8cf;
+  --primary-400: #30c5bd;
+  --primary-500: #20aaa5;
+  --primary-600: #188985;
+  --primary-700: #126c69;
+  --primary-800: #0e5351;
+  --primary-900: #0a3d3c;
+  --primary-foreground: #061817;
+  --accent-50: #edf6ff;
+  --accent-100: #cce6ff;
+  --accent-200: #9acbff;
+  --accent-300: #68adfa;
+  --accent-400: #478fdf;
+  --accent-500: #2f73bf;
+  --accent-600: #235d9c;
+  --accent-700: #1b487b;
+  --accent-800: #15365c;
+  --accent-900: #102743;
+  --secondary-50: #f1efff;
+  --secondary-100: #ddd8ff;
+  --secondary-200: #c2b9ff;
+  --secondary-300: #a89bff;
+  --secondary-400: #8d7cf0;
+  --secondary-500: #7562d3;
+  --secondary-600: #5e4bb0;
+  --secondary-700: #493a8d;
+  --secondary-800: #362b68;
+  --secondary-900: #261f4b;
+  --secondary-foreground: #f7f5ff;
+  --border: rgb(157 186 212 / 20%);
+  --input: rgb(110 145 175 / 28%);
+  --ring: #50d8cf;
+  --muted: rgb(77 103 129 / 20%);
+  --muted-foreground: #a9b5c6;
+  --popover: rgb(19 32 46 / 88%);
+  --popover-foreground: #f2f6fb;
+  --destructive: #f87171;
+  --destructive-foreground: #260707;
+  --success-50: #102b23;
+  --success-500: #4ade80;
+  --success-700: #86efac;
+  --warning-50: #30250f;
+  --warning-500: #fbbf24;
+  --warning-700: #fde68a;
+  --privilege-50: #33270d;
+  --privilege-200: #e9c86c;
+  --privilege-700: #ffe3a6;
+  --error-50: #351719;
+  --error-500: #f87171;
+  --error-700: #fecaca;
+  --overlay-surface: rgb(0 0 0 / 68%);
+  --radius: 0.625rem;
+  --radius-button: 0.625rem;
+  --radius-input: 0.625rem;
+  --radius-card: 1rem;
+  --control-height-compact: 2rem;
+  --control-padding-inline: 0.75rem;
+  --control-gap: 0.5rem;
+  --control-radius: var(--radius-input);
+
+  --sidebar: rgb(10 20 31 / 78%);
+  --sidebar-foreground: #e7edf6;
+  --sidebar-primary: #1f827f;
+  --sidebar-primary-foreground: #eaffff;
+  --sidebar-accent: rgb(106 151 184 / 13%);
+  --sidebar-accent-foreground: #effcff;
+  --sidebar-border: rgb(157 186 212 / 18%);
+  --sidebar-ring: #50d8cf;
+  --sidebar-gradient-from: #08131f;
+  --sidebar-gradient-via: #10273a;
+  --sidebar-gradient-to: #12363d;
+  --sidebar-rail: rgb(6 14 23 / 86%);
+  --sidebar-overlay: rgb(15 30 43 / 72%);
+
+  --dashboard-shell-surface: #071019;
+  --dashboard-shell-mesh:
+    radial-gradient(circle at 84% 12%, rgb(46 211 201 / 24%), transparent 32%),
+    radial-gradient(circle at 12% 86%, rgb(124 105 240 / 20%), transparent 34%),
+    radial-gradient(circle at 56% 46%, rgb(69 142 210 / 12%), transparent 44%);
+  --workspace-canvas-surface: rgb(14 26 39 / 68%);
+  --workspace-canvas-border: rgb(164 198 224 / 20%);
+  --workspace-canvas-border-width: 1px;
+  --workspace-canvas-shadow: 0 22px 62px rgb(0 0 0 / 38%), inset 0 1px 0 rgb(255 255 255 / 8%);
+  --workspace-canvas-radius: 1.5rem;
+  --dashboard-shell-glass-surface: rgb(15 29 43 / 66%);
+  --dashboard-shell-glass-border: rgb(187 218 240 / 20%);
+  --dashboard-shell-glass-image: linear-gradient(
+    135deg,
+    rgb(255 255 255 / 8%),
+    transparent 36%,
+    rgb(76 212 204 / 5%)
+  );
+  --dashboard-shell-glass-shadow:
+    0 18px 50px rgb(0 0 0 / 36%), inset 0 1px 0 rgb(255 255 255 / 10%);
+  --dashboard-shell-glass-backdrop: blur(24px) saturate(145%);
+
+  --page-composition-surface: transparent;
+  --page-composition-image: none;
+  --page-header-surface: rgb(15 29 43 / 42%);
+  --page-header-image: linear-gradient(90deg, rgb(255 255 255 / 5%), transparent 35%);
+  --page-header-border: rgb(172 205 230 / 15%);
+  --page-header-foreground: var(--foreground);
+  --page-header-description-foreground: var(--muted-foreground);
+  --page-header-metadata-foreground: var(--muted-foreground);
+  --page-header-eyebrow-foreground: var(--primary-200);
+
+  --workspace-chrome-foreground: var(--foreground);
+  --workspace-chrome-border: rgb(177 207 229 / 16%);
+  --workspace-chrome-control-hover: rgb(117 155 185 / 16%);
+  --workspace-chrome-avatar-surface: rgb(85 113 140 / 22%);
+  --workspace-chrome-avatar-border: rgb(184 214 236 / 19%);
+  --workspace-chrome-breadcrumb-foreground: var(--muted-foreground);
+  --workspace-chrome-breadcrumb-hover-surface: rgb(110 149 181 / 18%);
+  --workspace-chrome-breadcrumb-hover-foreground: #d9d2ff;
+  --workspace-chrome-breadcrumb-current-foreground: var(--foreground);
+  --workspace-chrome-breadcrumb-current-indicator: var(--secondary-300);
+  --workspace-chrome-breadcrumb-separator: rgb(169 181 198 / 48%);
+
+  --dashboard-navigation-rail-surface: rgb(6 15 24 / 62%);
+  --dashboard-navigation-rail-border: rgb(173 207 232 / 15%);
+  --dashboard-navigation-panel-surface: rgb(14 30 44 / 58%);
+  --dashboard-navigation-panel-border: rgb(177 211 235 / 18%);
+  --dashboard-navigation-panel-shadow:
+    0 14px 34px rgb(0 0 0 / 27%), inset 0 1px 0 rgb(255 255 255 / 7%);
+  --dashboard-navigation-panel-backdrop: blur(24px) saturate(145%);
+  --dashboard-navigation-section-label-foreground: #95a4b8;
+  --dashboard-navigation-rail-foreground: #a9b9cc;
+  --dashboard-navigation-item-foreground: #e1e8f2;
+  --dashboard-navigation-item-muted-foreground: #bdc8d6;
+  --dashboard-navigation-control-foreground: #b7c4d4;
+  --dashboard-navigation-account-secondary-foreground: #9eacbd;
+  --dashboard-navigation-subtree-border: #2e3a48;
+  --dashboard-navigation-brand-toggle-surface: #1f827f;
+  --dashboard-navigation-brand-toggle-hover-surface: #7562d3;
+  --dashboard-navigation-item-hover-surface: rgb(136 179 207 / 13%);
+  --dashboard-navigation-item-hover-border: rgb(201 230 248 / 16%);
+  --dashboard-navigation-item-active-surface: rgb(70 188 184 / 22%);
+  --dashboard-navigation-item-active-border: rgb(206 238 250 / 28%);
+  --dashboard-navigation-item-hover-shadow: inset 0 1px 0 rgb(255 255 255 / 10%);
+  --dashboard-navigation-item-active-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 18%), 0 8px 20px rgb(0 0 0 / 18%);
+  --dashboard-navigation-rail-item-active-border: rgb(211 240 250 / 32%);
+  --dashboard-navigation-rail-item-active-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 22%), 0 8px 18px rgb(0 0 0 / 20%);
+  --dashboard-navigation-collapse-duration: 200ms;
+  --dashboard-navigation-collapse-easing: linear;
+  --dashboard-navigation-item-transition-duration: 200ms;
+  --dashboard-navigation-item-transition-easing: ease-out;
+  --dashboard-navigation-focus-outline-width: 2px;
+  --dashboard-navigation-focus-outline-offset: 2px;
+  --dashboard-navigation-focus-outline-color: var(--ring);
+  --dashboard-navigation-rail-hover-transform: translateY(-1px);
+  --dashboard-navigation-control-transition-duration: 150ms;
+  --dashboard-navigation-control-transition-easing: ease-out;
+  --dashboard-navigation-disclosure-transition-duration: 200ms;
+  --dashboard-navigation-disclosure-transition-easing: ease-out;
+  --dashboard-navigation-disclosure-translate-y: -0.25rem;
+  --dashboard-navigation-disclosure-open-animation: dashboard-navigation-section-expand 220ms
+    cubic-bezier(0.16, 1, 0.3, 1);
+  --dashboard-navigation-disclosure-closed-animation: dashboard-navigation-section-collapse 160ms
+    ease-in;
+
+  --dashboard-navigation-control-hover-surface: rgb(151 190 216 / 14%);
+  --dashboard-navigation-logo-surface: rgb(240 251 255 / 92%);
+  --dashboard-navigation-avatar-surface: rgb(143 182 211 / 18%);
+  --dashboard-navigation-avatar-border: rgb(209 234 250 / 24%);
+  --dashboard-navigation-avatar-foreground: var(--foreground);
+
+  --workspace-chrome-control-transition-duration: 150ms;
+  --workspace-chrome-control-transition-easing: ease-out;
+  --workspace-chrome-focus-outline-width: 2px;
+  --workspace-chrome-focus-outline-offset: 2px;
+  --workspace-chrome-focus-outline-color: var(--ring);
+
+  --control-surface: rgb(34 51 68 / 56%);
+  --control-foreground: var(--foreground);
+  --control-border: rgb(166 201 226 / 20%);
+  --control-hover-surface: rgb(101 143 174 / 20%);
+  --control-focus-ring: var(--ring);
+  --control-shadow: 0 8px 20px rgb(0 0 0 / 18%), inset 0 1px 0 rgb(255 255 255 / 8%);
+  --control-selection-surface: #143a3a;
+  --control-selection-foreground: var(--foreground);
+  --control-selection-indicator: var(--primary-300);
+  --control-popover-backdrop: blur(18px) saturate(145%);
+  --control-transition-duration: 170ms;
+  --control-transition-easing: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --primary: var(--primary-400);
+  --secondary: #242142;
+  --secondary-foreground: #ddd8ff;
+  --accent: var(--control-hover-surface);
+  --accent-foreground: var(--foreground);
+  --module-surface: var(--card);
+  --module-surface-border: var(--border);
+  --surface-bg: var(--card);
+  --surface-border: var(--border);
+  --surface-shadow: 0 18px 46px rgb(0 0 0 / 28%), inset 0 1px 0 rgb(255 255 255 / 7%);
+  --data-grid-header-bg: rgb(43 62 81 / 62%);
+  --data-grid-header-border: rgb(166 201 226 / 17%);
+  --data-grid-row-hover: rgb(74 116 144 / 17%);
+  --data-grid-cell-border: rgb(166 201 226 / 14%);
+  --data-grid-progress-track: rgb(89 124 153 / 24%);
+  --data-grid-progress-bar: var(--secondary-300);
+}
