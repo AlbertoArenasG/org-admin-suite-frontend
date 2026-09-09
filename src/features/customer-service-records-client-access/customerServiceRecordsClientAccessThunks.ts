@@ -21,7 +21,8 @@ interface ApiLocalizedValue {
 
 interface ApiClientAccessRecord {
   customer_service_record_id: string;
-  service_number: string;
+  service_number: number;
+  service_number_display: string;
   service_type: { service_type_code: string; name: string };
   customer: { customer_id: string; name: string };
   assets: Array<{
@@ -52,6 +53,7 @@ function mapRecord(value: ApiClientAccessRecord): ClientAccessCustomerServiceRec
   return {
     id: value.customer_service_record_id,
     serviceNumber: value.service_number,
+    serviceNumberDisplay: value.service_number_display,
     serviceType: { code: value.service_type.service_type_code, name: value.service_type.name },
     customer: { id: value.customer.customer_id, name: value.customer.name },
     assets: (value.assets ?? []).map((asset) => ({

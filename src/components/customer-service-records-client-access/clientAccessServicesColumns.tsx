@@ -50,9 +50,11 @@ export function createClientAccessServicesColumns({
       id: 'serviceNumber',
       header: labels.serviceNumber,
       ariaLabel: labels.serviceNumber,
-      accessor: (row) => row.serviceNumber,
-      cell: (row) => (
-        <span className="font-mono font-normal text-muted-foreground">{row.serviceNumber}</span>
+      accessor: (row) => row.serviceNumberDisplay,
+      cell: (row, { highlight }) => (
+        <span className="font-mono font-normal text-muted-foreground">
+          {highlight(row.serviceNumberDisplay)}
+        </span>
       ),
       sorting: { enabled: true, apiField: 'service_number' },
       width: { initial: 80, min: 80, max: 160, resizable: true },

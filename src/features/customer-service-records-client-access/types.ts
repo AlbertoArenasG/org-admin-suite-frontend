@@ -14,7 +14,8 @@ export interface ClientAccessSort {
 
 export interface ClientAccessCustomerServiceRecord {
   id: string;
-  serviceNumber: string;
+  serviceNumber: number;
+  serviceNumberDisplay: string;
   serviceType: { code: string; name: string };
   customer: { id: string; name: string };
   assets: Array<{

@@ -34,7 +34,8 @@ interface ApiMaterialization {
 
 interface ApiCustomerServiceRecordListItem {
   customer_service_record_id: string;
-  service_number: string;
+  service_number: number;
+  service_number_display: string;
   service_type: { service_type_code: string; name: string };
   requested_at: string;
   customer: { customer_id: string; name: string };
@@ -135,7 +136,7 @@ function mapMaterialization(
 function mapListItem(value: ApiCustomerServiceRecordListItem): CustomerServiceRecordListItem {
   return {
     customerServiceRecordId: value.customer_service_record_id,
-    serviceNumber: value.service_number,
+    serviceNumber: value.service_number_display,
     serviceType: {
       serviceTypeCode: value.service_type.service_type_code,
       name: value.service_type.name,
