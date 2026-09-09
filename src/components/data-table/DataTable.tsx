@@ -14,6 +14,7 @@ import {
   Settings2,
   Shrink,
   SlidersHorizontal,
+  X,
 } from 'lucide-react';
 import {
   flexRender,
@@ -86,6 +87,7 @@ type DataTableLabels = {
   paginationSummary: (range: { from: number; to: number; total: number }) => string;
   previousPage: string;
   nextPage: string;
+  clearSearch: string;
 };
 
 const defaultLabels: DataTableLabels = {
@@ -108,6 +110,7 @@ const defaultLabels: DataTableLabels = {
   paginationSummary: ({ from, to, total }) => `Showing ${from}-${to} of ${total}`,
   previousPage: 'Previous page',
   nextPage: 'Next page',
+  clearSearch: 'Clear search',
 };
 
 export type DataTableProps<T extends RowData> = {
@@ -512,18 +515,26 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
             >
               {toolbar.leading}
               {toolbar.search ? (
-                <label className="flex min-w-52 flex-1 items-center gap-2 rounded-md border bg-background px-3 py-2">
+                <div className="flex min-w-52 flex-1 items-center gap-2 rounded-md border bg-background px-3 py-2">
                   <Search className="size-4 text-muted-foreground" />
-                  <span className="sr-only">
-                    {toolbar.search.ariaLabel ?? toolbar.search.placeholder}
-                  </span>
                   <input
                     value={toolbar.search.value}
                     onChange={(event) => toolbar.search?.onChange(event.target.value)}
                     placeholder={toolbar.search.placeholder}
+                    aria-label={toolbar.search.ariaLabel ?? toolbar.search.placeholder}
                     className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                   />
-                </label>
+                  {toolbar.search.value ? (
+                    <button
+                      type="button"
+                      onClick={() => toolbar.search?.onChange('')}
+                      className="rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      aria-label={labels.clearSearch}
+                    >
+                      <X className="size-4" />
+                    </button>
+                  ) : null}
+                </div>
               ) : null}
               {toolbar.filters ? (
                 <div className="flex items-center gap-2">

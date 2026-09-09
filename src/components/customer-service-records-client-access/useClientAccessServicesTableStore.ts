@@ -21,12 +21,15 @@ type ClientAccessServicesTableState = {
   setSorting: (value: ClientAccessTableSorting | null) => void;
   setVisibleColumnIds: (value: string[]) => void;
   setExpandedRowIds: (value: string[]) => void;
-  syncFromUrl: (value: {
-    page: number;
-    limit: number;
-    search: string;
-    sorting: ClientAccessTableSorting | null;
-  }) => void;
+  syncFromUrl: (
+    value: {
+      page: number;
+      limit: number;
+      search: string;
+      sorting: ClientAccessTableSorting | null;
+    },
+    options?: { ignoreIfInitialized?: boolean }
+  ) => void;
   reset: () => void;
 };
 
@@ -67,8 +70,10 @@ export const useClientAccessServicesTableStore = create<ClientAccessServicesTabl
   setSorting: (sorting) => set({ sorting }),
   setVisibleColumnIds: (visibleColumnIds) => set({ visibleColumnIds }),
   setExpandedRowIds: (expandedRowIds) => set({ expandedRowIds }),
-  syncFromUrl: ({ page, limit, search, sorting }) =>
+  syncFromUrl: ({ page, limit, search, sorting }, options) =>
     set((state) => {
+      if (options?.ignoreIfInitialized && state.initialized) return state;
+
       const unchanged =
         state.page === page &&
         state.limit === limit &&

@@ -32,11 +32,6 @@
 - Pendiente: validacion manual con permisos y respuestas HTTP reales para
   cerrar la iniciativa.
 
-## Pendientes de validacion - 2026-09-09
-
-- Al salir y volver a `/dashboard/portal/services`, limpiar el estado local del
-  buscador para que no conserve el patron de busqueda aplicado anteriormente.
-
 ## 2026-09-09 - Resolucion móvil de Table Workspace
 
 - La ruta declara `stickyHeader={{ desktopOnly: true }}` de forma explícita.
@@ -48,3 +43,16 @@
 - `DataTable` recibió el contrato `paginationSummary` y ya no hardcodea el
   resumen ni los labels visibles de navegación. La vista de seguimiento aporta
   las traducciones español e inglés para rango, anterior y siguiente.
+
+## 2026-09-09 - Limpieza de busqueda
+
+- El buscador compartido expone un control de limpieza localizado cuando tiene
+  contenido. Reutiliza el mismo `onChange` de la vista para reiniciar pagina y
+  aplicar el criterio vacio mediante el flujo existente.
+
+## 2026-09-09 - Sincronizacion del borrador de busqueda
+
+- La ruta identifica las actualizaciones de URL que ella misma origina y evita
+  rehidratar el store con un criterio anterior. Esto preserva todos los
+  caracteres escritos durante el debounce o la carga remota; atras y adelante
+  conservan la rehidratacion normal desde la URL.

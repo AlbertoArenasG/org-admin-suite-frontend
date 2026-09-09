@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -44,6 +44,7 @@ export function ClientAccessServicesContainer() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const searchParamsString = searchParams.toString();
+  const pendingLocalQueriesRef = useRef(new Set<string>());
   const { hasPermission, isReady } = useAuthorization();
   const list = useAppSelector((state) => state.customerServiceRecordsClientAccess.list);
 
@@ -69,16 +70,26 @@ export function ClientAccessServicesContainer() {
 
   const canRead = hasPermission(CLIENT_ACCESS_PERMISSION, 'READ');
 
-  useEffect(() => () => reset(), [reset]);
+  useEffect(
+    () => () => {
+      pendingLocalQueriesRef.current.clear();
+      reset();
+    },
+    [reset]
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(searchParamsString);
     const pagination = getClientAccessInitialPagination(params);
-    syncFromUrl({
-      ...pagination,
-      search: params.get('search') ?? '',
-      sorting: parseClientAccessSorting(params),
-    });
+    const isLocalQueryUpdate = pendingLocalQueriesRef.current.delete(searchParamsString);
+    syncFromUrl(
+      {
+        ...pagination,
+        search: params.get('search') ?? '',
+        sorting: parseClientAccessSorting(params),
+      },
+      { ignoreIfInitialized: isLocalQueryUpdate }
+    );
   }, [searchParamsString, syncFromUrl]);
 
   useEffect(() => {
@@ -101,7 +112,10 @@ export function ClientAccessServicesContainer() {
   useEffect(() => {
     if (!initialized) return;
     const next = buildClientAccessQuery({ page, limit, search: appliedSearch, sorting }).toString();
-    if (next !== searchParamsString) router.replace(`${pathname}?${next}`, { scroll: false });
+    if (next !== searchParamsString) {
+      pendingLocalQueriesRef.current.add(next);
+      router.replace(`${pathname}?${next}`, { scroll: false });
+    }
   }, [appliedSearch, initialized, limit, page, pathname, router, searchParamsString, sorting]);
 
   useEffect(() => {
@@ -280,6 +294,7 @@ export function ClientAccessServicesContainer() {
           t('table.paginationSummary', { from, to, total }),
         previousPage: t('table.previousPage'),
         nextPage: t('table.nextPage'),
+        clearSearch: t('empty.clearSearch'),
       }}
     />
   );

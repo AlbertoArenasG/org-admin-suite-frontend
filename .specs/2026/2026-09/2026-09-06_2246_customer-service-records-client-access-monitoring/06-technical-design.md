@@ -45,7 +45,10 @@ page -> ClientAccessServicesContainer -> feature thunk -> API client
   columnas visibles y filas expandidas. No duplica filas ni metadata remota.
 - La URL es la fuente sincronizable de pagina, limite, `search` y un solo
   ordenamiento. El input se aplica con debounce y reinicia a pagina uno; atras
-  y adelante rehidratan el store. No se emiten filtros ni lookups en el MVP.
+  y adelante rehidratan el store. Las actualizaciones de URL originadas por la
+  propia tabla no rehidratan el store, para no sobrescribir un borrador de
+  busqueda mientras el usuario escribe. No se emiten filtros ni lookups en el
+  MVP.
 
 ## Query Contract
 
