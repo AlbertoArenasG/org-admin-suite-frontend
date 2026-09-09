@@ -46,6 +46,7 @@
     "exitFullscreen": "Salir de vista ampliada",
     "pagination": "Paginacion de servicios",
     "rowsPerPage": "Filas por pagina",
+    "paginationSummary": "Mostrando {{from}}-{{to}} de {{total}}",
     "previousPage": "Pagina anterior",
     "nextPage": "Pagina siguiente"
   }

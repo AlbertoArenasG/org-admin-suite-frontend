@@ -276,6 +276,8 @@ export function ClientAccessServicesContainer() {
         clearCriteria: t('empty.clearSearch'),
         pagination: t('table.pagination'),
         rowsPerPage: t('table.rowsPerPage'),
+        paginationSummary: ({ from, to, total }) =>
+          t('table.paginationSummary', { from, to, total }),
         previousPage: t('table.previousPage'),
         nextPage: t('table.nextPage'),
       }}

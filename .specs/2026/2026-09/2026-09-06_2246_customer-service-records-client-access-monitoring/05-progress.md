@@ -34,8 +34,6 @@
 
 ## Pendientes de validacion - 2026-09-09
 
-- Localizar el copy del paginador compartido: `Showing`, `Previous` y `Next`
-  no respetan el idioma seleccionado en la aplicacion.
 - Al salir y volver a `/dashboard/portal/services`, limpiar el estado local del
   buscador para que no conserve el patron de busqueda aplicado anteriormente.
 
@@ -44,3 +42,9 @@
 - La ruta declara `stickyHeader={{ desktopOnly: true }}` de forma explícita.
   En móvil, `scrollRegion.desktopOnly` evita el viewport interno y el header de
   columnas no se fija; la tabla participa en el scroll del documento.
+
+## 2026-09-09 - Localizacion del paginador
+
+- `DataTable` recibió el contrato `paginationSummary` y ya no hardcodea el
+  resumen ni los labels visibles de navegación. La vista de seguimiento aporta
+  las traducciones español e inglés para rango, anterior y siguiente.

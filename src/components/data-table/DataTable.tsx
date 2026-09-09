@@ -83,6 +83,7 @@ type DataTableLabels = {
   clearCriteria: string;
   pagination: string;
   rowsPerPage: string;
+  paginationSummary: (range: { from: number; to: number; total: number }) => string;
   previousPage: string;
   nextPage: string;
 };
@@ -104,6 +105,7 @@ const defaultLabels: DataTableLabels = {
   clearCriteria: 'Clear criteria',
   pagination: 'Table pagination',
   rowsPerPage: 'Rows per page',
+  paginationSummary: ({ from, to, total }) => `Showing ${from}-${to} of ${total}`,
   previousPage: 'Previous page',
   nextPage: 'Next page',
 };
@@ -892,9 +894,11 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
               </label>
             ) : null}
             <span>
-              Showing {Math.min((pagination.page - 1) * pagination.perPage + 1, pagination.total)}-
-              {Math.min(pagination.page * pagination.perPage, pagination.total)} of{' '}
-              {pagination.total}
+              {labels.paginationSummary({
+                from: Math.min((pagination.page - 1) * pagination.perPage + 1, pagination.total),
+                to: Math.min(pagination.page * pagination.perPage, pagination.total),
+                total: pagination.total,
+              })}
             </span>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-1">
@@ -906,7 +910,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
               className="inline-flex h-8 items-center gap-1 rounded-md border px-2 disabled:opacity-50"
             >
               <ChevronLeft className="size-4" />
-              <span className="hidden sm:inline">Previous</span>
+              <span className="hidden sm:inline">{labels.previousPage}</span>
             </button>
             {pageNumbers.map((item, index) =>
               item === 'ellipsis' ? (
@@ -932,7 +936,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
               onClick={() => pagination.onChange(pagination.page + 1)}
               className="inline-flex h-8 items-center gap-1 rounded-md border px-2 disabled:opacity-50"
             >
-              <span className="hidden sm:inline">Next</span>
+              <span className="hidden sm:inline">{labels.nextPage}</span>
               <ChevronRight className="size-4" />
             </button>
           </div>

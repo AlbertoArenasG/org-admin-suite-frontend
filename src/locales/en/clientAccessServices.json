@@ -46,6 +46,7 @@
     "exitFullscreen": "Exit expanded view",
     "pagination": "Service pagination",
     "rowsPerPage": "Rows per page",
+    "paginationSummary": "Showing {{from}}-{{to}} of {{total}}",
     "previousPage": "Previous page",
     "nextPage": "Next page"
   }
