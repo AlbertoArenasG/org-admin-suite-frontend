@@ -18,6 +18,7 @@
   "actions": {
     "invite": "Invite user",
     "inviteShort": "Invite",
+    "createDirect": "Create user",
     "edit": "Edit",
     "delete": "Delete",
     "openMenu": "Open actions menu",
@@ -47,14 +48,18 @@
   "form": {
     "title": {
       "create": "Invite user",
+      "directCreate": "Create user",
       "edit": "Edit user"
     },
     "description": {
       "create": "Send an invitation email to add a teammate to the organization.",
+      "directCreate": "Create an account directly and define its initial password.",
       "edit": "Update basic details for the selected user."
     },
     "labels": {
       "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
       "role": "Role",
       "name": "First name",
       "lastname": "Last name",
@@ -84,6 +89,10 @@
     "errors": {
       "emailRequired": "Email is required",
       "emailInvalid": "Enter a valid email",
+      "passwordRequired": "Password is required",
+      "passwordLength": "Password must be at least 6 characters",
+      "confirmPasswordRequired": "Confirm the password",
+      "passwordMismatch": "Passwords do not match",
       "roleRequired": "Select a role",
       "internalStaffRequired": "Select whether this person belongs to Implementos Científicos personnel"
     },
@@ -91,10 +100,14 @@
     "submitting": "Saving...",
     "submit": {
       "create": "Send invitation",
+      "directCreate": "Create user",
       "edit": "Save changes"
     },
     "inviteSuccess": "Invitation sent successfully.",
-    "inviteError": "We couldn't send the invitation."
+    "inviteError": "We couldn't send the invitation.",
+    "directCreateSuccess": "User created successfully.",
+    "directCreateError": "We couldn't create the user.",
+    "directCreateCustomerLimit": "Direct creation can relate only one customer."
   },
   "roles": {
     "MASTER_ADMIN": "Master admin",
@@ -112,7 +125,8 @@
   },
   "permissions": {
     "inviteRestricted": "You do not have permission to send invitations for your current role.",
-    "inviteRestrictedAction": "Ask an administrator to grant additional access if needed."
+    "inviteRestrictedAction": "Ask an administrator to grant additional access if needed.",
+    "createRestricted": "You do not have permission to create users directly."
   },
   "delete": {
     "success": "User deleted successfully.",

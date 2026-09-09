@@ -7,6 +7,7 @@ export function resolveSidebarNavigationVisibility(
 ): SidebarNavigationVisibility {
   const canReadUsers = authorization.hasModule('USERS');
   const canInviteUsers = authorization.hasPermission('USER_REGISTRATION_INVITATIONS', 'CREATE');
+  const canCreateUsers = authorization.hasPermission('USERS', 'CREATE');
   const canReadUserRegistrationInvitations = authorization.hasPermission(
     'USER_REGISTRATION_INVITATIONS',
     'READ'
@@ -39,6 +40,7 @@ export function resolveSidebarNavigationVisibility(
     portalServices: canReadClientAccessServices,
     users: true,
     usersList: canReadUsers,
+    usersCreate: canCreateUsers,
     usersInvite: canInviteUsers,
     userRegistrationInvitations: canReadUserRegistrationInvitations,
     roles: canReadRoles,

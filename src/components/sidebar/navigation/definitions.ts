@@ -244,7 +244,12 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
         href: '/dashboard/users',
         icon: Users,
         matchesPathname: startsWith('/dashboard/users'),
-        hrefChildPriority: ['usersList', 'userRegistrationInvitations', 'usersInvite'],
+        hrefChildPriority: [
+          'usersList',
+          'usersCreate',
+          'userRegistrationInvitations',
+          'usersInvite',
+        ],
         children: [
           {
             id: 'usersList',
@@ -258,6 +263,13 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
             href: '/dashboard/users/invite',
             icon: UserPlus2,
             matchesPathname: isExactPath('/dashboard/users/invite'),
+          },
+          {
+            id: 'usersCreate',
+            labelKey: 'usersCreate',
+            href: '/dashboard/users/create',
+            icon: UserPlus2,
+            matchesPathname: isExactPath('/dashboard/users/create'),
           },
           {
             id: 'userRegistrationInvitations',

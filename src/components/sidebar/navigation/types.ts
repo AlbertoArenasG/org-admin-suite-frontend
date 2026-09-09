@@ -14,6 +14,7 @@ export type SidebarNavigationEntryId =
   | 'dashboardPlayground'
   | 'users'
   | 'usersList'
+  | 'usersCreate'
   | 'usersInvite'
   | 'userRegistrationInvitations'
   | 'roles'

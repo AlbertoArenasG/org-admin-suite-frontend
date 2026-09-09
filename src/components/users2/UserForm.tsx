@@ -15,6 +15,8 @@ import { CustomerMultiSelect } from '@/components/user-customer-relationships/Cu
 
 export interface UserFormValues {
   email: string;
+  password: string;
+  confirmPassword: string;
   roleId: string;
   name: string;
   lastname: string;
@@ -28,7 +30,7 @@ export interface UserFormValues {
 
 export interface UserFormProps {
   defaultValues?: Partial<UserFormValues>;
-  mode: 'create' | 'edit';
+  mode: 'create' | 'direct-create' | 'edit';
   roleOptions: Array<{
     value: string;
     label: string;
@@ -48,6 +50,8 @@ export interface UserFormProps {
 function buildInitialValues(defaultValues?: Partial<UserFormValues>): UserFormValues {
   return {
     email: defaultValues?.email ?? '',
+    password: '',
+    confirmPassword: '',
     roleId: defaultValues?.roleId ?? '',
     name: defaultValues?.name ?? '',
     lastname: defaultValues?.lastname ?? '',
@@ -92,6 +96,7 @@ export function UserForm({
 
   const roleId = useWatch({ control, name: 'roleId' });
   const selectedSystemRole = roleOptions.find((role) => role.value === roleId)?.systemRole;
+  const isDirectCreate = mode === 'direct-create';
   const isUserRole = selectedSystemRole === 'USER';
   const isAdministrativeRole =
     selectedSystemRole === 'ADMIN' || selectedSystemRole === 'MASTER_ADMIN';
@@ -103,7 +108,7 @@ export function UserForm({
 
     if (isAdministrativeRole) {
       setValue('isInternalStaff', true, { shouldDirty: true });
-    } else if (mode === 'create' && wasAdministrativeRole) {
+    } else if ((mode === 'create' || mode === 'direct-create') && wasAdministrativeRole) {
       setValue('isInternalStaff', null, { shouldDirty: true });
     }
 
@@ -157,6 +162,44 @@ export function UserForm({
           />
           {errors.email ? <p className="text-sm text-destructive">{errors.email.message}</p> : null}
         </div>
+
+        {isDirectCreate ? (
+          <div className="grid gap-2 md:grid-cols-2 md:gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="user-password">{t('form.labels.password')}</Label>
+              <Input
+                id="user-password"
+                type="password"
+                autoComplete="new-password"
+                {...register('password', {
+                  required: t('form.errors.passwordRequired'),
+                  minLength: { value: 6, message: t('form.errors.passwordLength') },
+                })}
+                aria-invalid={errors.password ? 'true' : 'false'}
+              />
+              {errors.password ? (
+                <p className="text-sm text-destructive">{errors.password.message}</p>
+              ) : null}
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="user-confirm-password">{t('form.labels.confirmPassword')}</Label>
+              <Input
+                id="user-confirm-password"
+                type="password"
+                autoComplete="new-password"
+                {...register('confirmPassword', {
+                  required: t('form.errors.confirmPasswordRequired'),
+                  validate: (value, values) =>
+                    value === values.password || t('form.errors.passwordMismatch'),
+                })}
+                aria-invalid={errors.confirmPassword ? 'true' : 'false'}
+              />
+              {errors.confirmPassword ? (
+                <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
 
         <div className="grid gap-2">
           <Label htmlFor="user-role">{t('form.labels.role')}</Label>
@@ -286,7 +329,7 @@ export function UserForm({
               {t('form.submitting')}
             </>
           ) : (
-            t(`form.submit.${mode}`)
+            t(`form.submit.${mode === 'direct-create' ? 'directCreate' : mode}`)
           )}
         </Button>
       </div>

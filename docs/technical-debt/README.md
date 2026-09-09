@@ -13,6 +13,12 @@ docs/technical-debt/
 ├─ README.md
 └─ session-hydration/
    └─ auth-me-endpoint-inconsistency.md
+└─ user-role-assignment-options/
+   └─ role-options-capability-inconsistency.md
+└─ user-form-boundary/
+   └─ user-form-flow-coupling.md
+└─ system-role-type-ownership/
+   └─ system-role-type-ownership.md
 ```
 
 ## Mantenimiento
@@ -28,3 +34,6 @@ docs/technical-debt/
 ## Expedientes Activos
 
 - [Inconsistencia del endpoint para recuperar la sesión](session-hydration/auth-me-endpoint-inconsistency.md)
+- [Inconsistencia de la capability de roles asignables](user-role-assignment-options/role-options-capability-inconsistency.md)
+- [Acoplamiento de flujos en el formulario de usuario legacy](user-form-boundary/user-form-flow-coupling.md)
+- [Propiedad inconsistente del tipo de rol de sistema](system-role-type-ownership/system-role-type-ownership.md)

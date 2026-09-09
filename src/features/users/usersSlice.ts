@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { fetchUsers, fetchUserRoles, fetchUserById, updateUser, deleteUser } from './usersThunks';
+import {
+  fetchUsers,
+  fetchUserRoles,
+  fetchUserCreationRoles,
+  fetchUserById,
+  updateUser,
+  deleteUser,
+} from './usersThunks';
 import type { AuthSystemRole } from '@/features/auth/types';
 import type { CustomerRelationshipSummary } from '@/features/customers';
 
@@ -175,6 +182,21 @@ const usersSlice = createSlice({
         state.roles.items = action.payload;
       })
       .addCase(fetchUserRoles.rejected, (state, action) => {
+        state.roles.status = 'failed';
+        state.roles.error =
+          (action.payload as string | undefined) ??
+          action.error.message ??
+          'No fue posible obtener los roles disponibles';
+      })
+      .addCase(fetchUserCreationRoles.pending, (state) => {
+        state.roles.status = 'loading';
+        state.roles.error = null;
+      })
+      .addCase(fetchUserCreationRoles.fulfilled, (state, action) => {
+        state.roles.status = 'succeeded';
+        state.roles.items = action.payload;
+      })
+      .addCase(fetchUserCreationRoles.rejected, (state, action) => {
         state.roles.status = 'failed';
         state.roles.error =
           (action.payload as string | undefined) ??

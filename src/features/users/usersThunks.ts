@@ -43,6 +43,26 @@ export interface UpdateUserResult {
   message: string | null;
 }
 
+export interface CreateUserPayload {
+  name: string;
+  lastname: string;
+  email: string;
+  password: string;
+  systemRole: 'ADMIN' | 'USER';
+  roleId: string;
+  isInternalStaff: boolean;
+  cellPhone: {
+    countryCode: string;
+    number: string;
+  } | null;
+  customerId?: string;
+}
+
+export interface CreateUserResult {
+  user: User;
+  message: string | null;
+}
+
 interface ApiUser {
   id: string;
   name: string;
@@ -364,3 +384,67 @@ export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: Ro
     }
   }
 );
+
+export const fetchUserCreationRoles = createAsyncThunk<UserRoleInfo[], void, { state: RootState }>(
+  'users/fetchCreationRoles',
+  async (_void, thunkAPI) => {
+    const token = thunkAPI.getState().auth.token ?? readPersistedAuthToken();
+    if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+    try {
+      const response = await jsonRequest<ApiUserRole[]>(`/v1/users/creation-roles`, {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        token,
+      });
+      return (Array.isArray(response.data) ? response.data : []).map((role) => ({
+        roleId: role.role_id,
+        roleCode: role.role_code,
+        roleName: role.role_name ?? role.role_id,
+        systemRole: role.system_role,
+        roleScope: role.role_scope,
+        isSystem: role.is_system,
+        isDefault: role.is_default,
+      }));
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error instanceof Error ? error.message : 'No fue posible obtener los roles disponibles'
+      );
+    }
+  }
+);
+
+export const createUser = createAsyncThunk<
+  CreateUserResult,
+  CreateUserPayload,
+  { state: RootState }
+>('users/create', async (data, thunkAPI) => {
+  const token = thunkAPI.getState().auth.token ?? readPersistedAuthToken();
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<ApiUser>(`/v1/users`, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: {
+        name: data.name,
+        lastname: data.lastname,
+        email: data.email,
+        password: data.password,
+        system_role: data.systemRole,
+        role_id: data.roleId,
+        is_internal_staff: data.isInternalStaff,
+        cell_phone: data.cellPhone
+          ? { country_code: data.cellPhone.countryCode, number: data.cellPhone.number }
+          : undefined,
+        ...(data.customerId ? { customer_id: data.customerId } : {}),
+      },
+      token,
+    });
+    return { user: mapUser(response.data), message: response.successMessage ?? null };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible crear el usuario'
+    );
+  }
+});

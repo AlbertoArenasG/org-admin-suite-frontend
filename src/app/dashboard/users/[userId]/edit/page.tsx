@@ -88,6 +88,8 @@ export default function UserEditPage() {
   const defaultValues: UserFormValues | undefined = user
     ? {
         email: user.email,
+        password: '',
+        confirmPassword: '',
         roleId: user.roleId ?? '',
         name: user.name ?? '',
         lastname: user.lastname ?? '',

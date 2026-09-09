@@ -76,6 +76,8 @@ export default function InviteUserPage() {
     const defaultRole: string = safeRoleOptions[0]?.value ?? '';
     return {
       email: '',
+      password: '',
+      confirmPassword: '',
       roleId: defaultRole,
       name: '',
       lastname: '',
