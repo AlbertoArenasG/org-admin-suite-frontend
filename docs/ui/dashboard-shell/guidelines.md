@@ -274,12 +274,24 @@ Header` de legacy, o `Workspace Toolbar` y `Workspace Header` de Next,
   scroll. El canvas conserva su posición y tamaño dentro de `Content Inset`,
   pero recibe el overflow vertical. En este modo, `Workspace Header` puede
   mantenerse sticky, reducirse o desplazarse según la composición.
+- `Table Workspace` es una variante de escritorio para resultados tabulares
+  extensos cuando la tabla es la superficie operativa principal y debe ocupar
+  el área disponible. `Workspace Canvas`, `Page Composition` y `Page Content
+Scroller` solo establecen la geometría disponible; el viewport de resultados
+  de `DataTable` recibe el único overflow vertical y horizontal. Su
+  `stickyHeader` es opcional e independiente del contrato `scrollRegion`, que
+  controla altura, overflow y overscroll. No se usa por el solo hecho de
+  incluir una tabla: una vista donde la tabla comparte protagonismo con
+  resumen, métricas, formularios u otras superficies debe adoptar una
+  composición de página normal.
 - `Document Scroll` es el modo predeterminado en móvil. La ruta participa en el
   scroll natural del documento.
 
 `Workspace Canvas`, `Page Composition` y `Page Content Scroller` no pueden ser
-dueños del scroll vertical al mismo tiempo. Las regiones anidadas se reservan
-para necesidades excepcionales y documentadas.
+dueños del scroll vertical al mismo tiempo. `Table Workspace` es una excepción
+formal: ninguno de esos contenedores recibe overflow vertical en escritorio y
+el viewport de resultados de `DataTable` es el único dueño. En móvil, la
+composición vuelve al flujo del documento, sin región interna ni header sticky.
 
 En escritorio, el dueño activo debe usar `overscroll-behavior: none` para no
 propagar el rebote vertical u horizontal del trackpad al documento ni revelar
@@ -353,9 +365,11 @@ sus tokens se documentan en [components/page-header.md](../components/page-heade
 `DashboardPageComposition` y `DashboardPageContentScroller` son primitivas
 estructurales sin material visual propio: heredan la superficie de `Workspace
 Canvas`. El modo de scroll se identifica mediante `data-dashboard-scroll-owner`
-y nunca puede asignar propietarios simultáneos. `Page Content Scroller` usa
-`padding="none"` por defecto; una ruta debe elegir `padding="default"` solo
-cuando adopte los gutters estructurales compartidos.
+y nunca puede asignar propietarios simultáneos. `DashboardTableWorkspace`
+establece el límite estructural de la excepción tabular mediante
+`data-dashboard-scroll-viewport`; no es dueño de scroll. `Page Content
+Scroller` usa `padding="none"` por defecto; una ruta debe elegir
+`padding="default"` solo cuando adopte los gutters estructurales compartidos.
 
 La variante opcional `Sticky Collapsible Header` se rige por su
 [contrato específico](../components/sticky-collapsible-page-header.md). No se

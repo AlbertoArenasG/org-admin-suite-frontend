@@ -66,9 +66,10 @@ sus headers durante el desplazamiento.
 ### Decisión Final
 
 En escritorio, `Page Content Scroll` es el modo predeterminado; `Page
-Composition Scroll` y `Workspace Canvas Scroll` son variantes explícitas. En
-móvil se usa `Document Scroll`. Una ruta solo puede tener un dueño principal
-del scroll vertical.
+Composition Scroll`, `Workspace Canvas Scroll` y `Table Workspace` son
+variantes explícitas. En móvil se usa `Document Scroll`. Una ruta solo puede
+tener un dueño principal del scroll vertical. En `Table Workspace`, ese dueño
+es el viewport de resultados de `DataTable`, no una capa del shell.
 
 ### Status
 

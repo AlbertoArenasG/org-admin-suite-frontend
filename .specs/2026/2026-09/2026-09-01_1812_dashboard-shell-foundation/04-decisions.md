@@ -23,15 +23,21 @@ Header` vive dentro y contiene breadcrumbs.
 
 ### Política explícita de scroll
 
-**Decisión:** admitir `page-content`, `page-composition`, `workspace` y
-`document` como modos, pero solo un dueño principal por ruta.
+**Decisión:** admitir `page-content`, `page-composition`, `workspace`,
+`table-workspace` y `document` como modos, pero solo un dueño principal por
+ruta.
 
 **Razón:** mantiene abierta la posibilidad de headers transformables sin crear
 scroll anidado accidentalmente.
 
-**Impacto:** `Workspace Canvas Scroll`, `Page Composition Scroll` y `Page
-Content Scroll` son excluyentes. El modo de composición permite mantener fijo
-`Workspace Header` mientras el `Page Header` opcional participa en el scroll.
+**Impacto:** `Workspace Canvas Scroll`, `Page Composition Scroll`, `Page
+Content Scroll` y `Table Workspace` son excluyentes. El modo de composición
+permite mantener fijo `Workspace Header` mientras el `Page Header` opcional
+participa en el scroll. En `Table Workspace`, el shell delimita el área y
+`DataTable` es el único dueño vertical en escritorio; en móvil vuelve al scroll
+del documento. Solo se adopta cuando la tabla es la superficie operativa
+principal y debe aprovechar el área disponible; una tabla secundaria junto a
+otras superficies relevantes conserva una composición de página normal.
 
 ### Placeholders sin cambio funcional
 

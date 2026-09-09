@@ -20,6 +20,9 @@
 - Verificar que el modo page-composition mantenga fijo Workspace Header y no
   deje overflow en Page Content Scroller.
 - Verificar que el modo page-content no desplace Global Header ni Workspace Header.
+- Verificar que `table-workspace` deje el overflow vertical exclusivamente al
+  viewport de resultados de `DataTable` en escritorio y use flujo de documento
+  en móvil.
 
 ## Slice 4. Cierre
 

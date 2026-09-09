@@ -18,9 +18,10 @@ inyectan como contenido; el componente no implementa notificaciones ni cuenta.
 
 ### DashboardWorkspaceCanvas
 
-Recibe `scrollMode` con los valores `page-content`, `page-composition` o
-`workspace` para escritorio. Conserva una geometría fija dentro de `Content
-Inset`; el modo solo determina qué región recibe el overflow vertical.
+Recibe `scrollMode` con los valores `page-content`, `page-composition`,
+`workspace` o `table-workspace` para escritorio. Conserva una geometría fija
+dentro de `Content Inset`; el modo solo determina qué región recibe el
+overflow vertical.
 
 ### DashboardWorkspaceHeader
 
@@ -29,13 +30,23 @@ datos de navegación ni genera rutas por sí mismo.
 
 ### DashboardPageContentScroller
 
-Expresa el dueño de scroll en el modo `page-content`. En modo `workspace` pasa
-a ser flujo normal dentro del canvas, sin segundo `overflow-y`.
+Expresa el dueño de scroll en el modo `page-content`. En los modos `workspace`
+y `table-workspace` pasa a ser flujo normal dentro del canvas, sin segundo
+`overflow-y`.
 
 ### DashboardPageComposition
 
 Agrupa `Page Header` y `Page Content Scroller`. En modo `page-composition`
 recibe el scroll vertical; en los demás modos no compite con el dueño activo.
+
+### DashboardTableWorkspace
+
+Compone `DashboardPageComposition` y `DashboardPageContentScroller` para una
+vista cuya tabla es la superficie operativa principal. En escritorio delimita
+el área disponible sin crear overflow vertical propio; el viewport de
+resultados de `DataTable` recibe el único scroll vertical. No se usa para una
+tabla secundaria que comparte la vista con otras superficies relevantes. En
+móvil conserva el flujo del documento.
 
 ## Resolución Responsive
 
@@ -50,7 +61,7 @@ recibe el scroll vertical; en los demás modos no compite con el dueño activo.
 
 Se creará `/dashboard-playground`, protegida y con layout paralelo. La ruta
 usará contenido largo y neutral; en escritorio permitirá inspeccionar los modos
-`page-content`, `page-composition` y `workspace`.
+`page-content`, `page-composition`, `workspace` y `table-workspace`.
 
 ## Integración Futura
 

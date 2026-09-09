@@ -50,3 +50,17 @@
 - Impact: no se mezcla `systemRole` con la clasificacion de staff, que no forma
   parte de `AuthUser`. La visibilidad del dato sigue resuelta exclusivamente
   por backend y no se duplican rutas ni permisos.
+
+## 2026-09-09 - Composicion de Workspace para Tablas
+
+- Decision: incorporar `table-workspace` como cuarta composicion del Next
+  Dashboard Shell.
+- Source: validacion manual de Seguimiento de servicios.
+- Impact: en escritorio la tabla es el unico dueño del scroll vertical y puede
+  habilitar header sticky de forma opcional. En mobile la composicion regresa a
+  flujo de pagina, sin restringir la altura ni fijar los encabezados. La
+  composicion no exige titulo, toolbar, fullscreen ni un layout visual de tabla.
+- `scrollRegion` es el contrato de `DataTable` para altura, overflow y
+  overscroll de la region interna; `stickyHeader` solo controla los
+  encabezados. Para `table-workspace` en escritorio se usa
+  `overscrollBehavior: 'none'` como politica formal del unico dueño de scroll.

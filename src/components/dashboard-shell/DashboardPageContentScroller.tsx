@@ -21,11 +21,16 @@ export function DashboardPageContentScroller({
       data-dashboard-page-content={scrollMode}
       data-dashboard-page-content-padding={padding}
       data-dashboard-scroll-owner={scrollMode === 'page-content' ? 'page-content' : undefined}
+      data-dashboard-scroll-viewport={
+        scrollMode === 'table-workspace' ? 'table-workspace' : undefined
+      }
       className={cn(
         'dashboard-page-content-scroller',
         scrollMode === 'page-content'
           ? 'min-h-0 flex-1 md:overscroll-y-none md:overflow-y-auto'
-          : 'min-w-0 shrink-0',
+          : scrollMode === 'table-workspace'
+            ? 'flex min-h-0 flex-1 flex-col md:overflow-hidden'
+            : 'min-w-0 shrink-0',
         className
       )}
       {...props}

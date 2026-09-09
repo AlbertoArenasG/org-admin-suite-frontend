@@ -25,7 +25,7 @@ const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [
         { label: 'Portal', labelKey: 'portal', href: '/dashboard' },
         { label: 'Seguimiento de servicios', labelKey: 'portalServices' },
       ],
-      scrollMode: 'page-content',
+      scrollMode: 'table-workspace',
     },
   },
 ];

@@ -29,6 +29,10 @@
 - [x] Validar manualmente desktop, móvil y cambio de modo de scroll.
       Status: done
 
+- [x] Formalizar `Table Workspace` como cuarta composición, con `DataTable`
+      como único dueño vertical en escritorio y fallback a Document Scroll móvil.
+      Status: done
+
 - [x] Ejecutar typecheck, lint o validaciones disponibles y revisión de diff.
       Status: done
 

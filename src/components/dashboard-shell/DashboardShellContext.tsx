@@ -2,7 +2,11 @@
 
 import { createContext, useContext } from 'react';
 
-export type DashboardScrollMode = 'page-content' | 'page-composition' | 'workspace';
+export type DashboardScrollMode =
+  | 'page-content'
+  | 'page-composition'
+  | 'workspace'
+  | 'table-workspace';
 
 const DashboardShellScrollModeContext = createContext<DashboardScrollMode>('page-content');
 

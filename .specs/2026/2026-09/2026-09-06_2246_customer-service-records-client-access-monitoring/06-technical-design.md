@@ -11,7 +11,7 @@ contrato HTTP real.
 - Ruta publica: `/dashboard/portal/services`.
 - El resolvedor de migracion registra exclusivamente la coincidencia exacta de
   esa ruta con `NextDashboardShell`, breadcrumbs `Portal` y `Seguimiento de
-servicios`, y `scrollMode: 'page-content'`.
+servicios`, y `scrollMode: 'table-workspace'`.
 - El sidebar incorpora el grupo `portal`, con `portalServices`, visible solo con
   `CUSTOMER_SERVICE_RECORDS_CLIENT_ACCESS:READ`.
 - `Panel` pertenece siempre al grupo Dashboard y la casita del rail siempre se
@@ -65,6 +65,11 @@ estados `emptyFiltered` y en limpiar criterios.
 
 ## Table Composition
 
+Esta ruta adopta `Table Workspace` porque la tabla es su superficie operativa
+principal. No establece que cualquier vista con una tabla deba usar esa
+composición: una tabla secundaria junto a resumen, métricas, formularios u
+otras superficies relevantes debe conservar una composición de página normal.
+
 La tabla usa `DataTable` con `rowLayout: 'multiline'`; por ello no expone el
 selector global de densidad. Su fila usa la altura `comfortable` y se limita a
 dos líneas; información adicional se muestra en el detalle expandido.
@@ -94,9 +99,16 @@ dos líneas; información adicional se muestra en el detalle expandido.
 - No hay seleccion multiple, acciones de fila, edicion ni toolbar de filtros.
 - Fullscreen no se habilita en esta ruta. La capacidad compartida permanece
   disponible para futuras vistas que justifiquen ampliar la tabla.
-- No se habilita `stickyHeader` inicialmente: `page-content` es dueño del
-  scroll vertical y la tabla solo conserva scroll horizontal local. Activarlo
-  requerira una region de tabla acotada que sea dueña de ambos ejes.
+- La ruta usa `DashboardTableWorkspace`. En escritorio, la region de
+  resultados de `DataTable` es la unica dueña del scroll vertical y horizontal;
+  `scrollRegion` establece altura disponible dinamica y
+  `overscrollBehavior: 'none'`; `stickyHeader` se habilita en esta vista. En
+  mobile la composicion conserva flujo de pagina y no aplica el viewport ni
+  estos encabezados fijos.
+- `scrollRegion` y `stickyHeader` son contratos separados: el primero es
+  necesario para una tabla con scroll interno y el segundo es opcional. La
+  composicion no obliga una configuracion de columnas, titulo, toolbar ni
+  paginacion.
 
 ## Remote States And Accessibility
 
@@ -115,6 +127,7 @@ dos líneas; información adicional se muestra en el detalle expandido.
 | Artefacto            | Ubicacion                                                                                    | Responsabilidad                                                             | Estado |
 | -------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------ |
 | Ruta                 | `src/app/dashboard/portal/services/page.tsx`                                                 | Compone guard y contenedor de la vista.                                     | new    |
+| Composicion de tabla | `src/components/dashboard-shell/DashboardTableWorkspace.tsx`                                 | Define viewport de tabla y propiedad de scroll por breakpoint.              | new    |
 | Feature              | `src/features/customer-service-records-client-access/`                                       | Tipos de lectura, slice y thunk dedicado al endpoint Client Access.         | new    |
 | Query helper         | `src/utils/customerServiceRecordsClientAccessQuery.ts`                                       | Serializa y rehidrata pagina, limite, busqueda y sort permitido.            | new    |
 | Store UI             | `src/components/customer-service-records-client-access/useClientAccessServicesTableStore.ts` | Estado local de query, visibilidad y expansion.                             | new    |
@@ -136,4 +149,5 @@ dos líneas; información adicional se muestra en el detalle expandido.
 - La vista no expone datos de proveedor en columnas, expansion, requests ni
   estados vacios.
 - Se valida manualmente escritorio, movil y cada tema activo, incluidos
-  loading, error, vacio, busqueda vacia y fullscreen.
+  loading, error, vacio, busqueda vacia y el comportamiento de scroll de
+  `table-workspace`. Fullscreen no forma parte de esta ruta.

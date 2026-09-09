@@ -40,3 +40,14 @@ Composition Scroll`: conserva fijo `Workspace Header` y desplaza juntos
 - El shell aislado evita en escritorio la propagación del overscroll elástico
   desde el dueño activo de scroll para no revelar el fondo del documento en
   los límites de la región de trabajo.
+
+## 2026-09-09
+
+- Se formalizó `Table Workspace` como cuarta composición de escritorio para
+  vistas tabulares. El shell delimita el área disponible y `DataTable` es el
+  único dueño del scroll vertical del resultado.
+- `DashboardTableWorkspace` establece el límite estructural de esa composición
+  sin crear un segundo overflow vertical. `stickyHeader` permanece opcional e
+  independiente de `scrollRegion`.
+- En móvil, `Table Workspace` regresa a `Document Scroll`, sin viewport interno
+  restringido ni header de columnas sticky.

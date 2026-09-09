@@ -134,12 +134,22 @@ Composition`, incluido su `Page Header` opcional, recibe el scroll vertical.
   recibe el scroll vertical. `Workspace Toolbar` permanece fijo; el
   `Workspace Header` puede desplazarse, permanecer sticky o transformarse
   segun la composicion de la ruta.
+- `Table Workspace` es una variante explícita de escritorio para vistas cuyo
+  resultado tabular es la superficie operativa principal y debe aprovechar el
+  área disponible. `Workspace Canvas`, `Page Composition` y `Page Content
+Scroller` solo delimitan el área disponible; `DataTable` es el único dueño
+  del scroll vertical y horizontal del resultado. Su header de columnas puede
+  ser sticky de manera opcional. No se adopta solo porque una ruta incluya una
+  tabla: si comparte protagonismo con resumen, métricas, formularios u otras
+  superficies relevantes, se usa una composición de página normal.
 - `Document Scroll` es el modo predeterminado de movil: la ruta participa en el
   desplazamiento natural del documento.
 
 `Workspace Canvas`, `Page Composition` y `Page Content Scroller` no deben ser
-dueños de scroll vertical simultáneamente. Las regiones anidadas se reservan
-para casos de uso excepcionales y deliberados.
+dueños de scroll vertical simultáneamente. `Table Workspace` es la excepción
+deliberada: en escritorio, los tres quedan sin overflow vertical y el
+resultado de `DataTable` es el único dueño. En móvil, vuelve a `Document
+Scroll` sin viewport interno ni header de columnas sticky.
 
 ## Limites del Modelo
 

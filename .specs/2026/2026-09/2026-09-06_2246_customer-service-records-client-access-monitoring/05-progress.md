@@ -31,3 +31,13 @@
   ni filtros multicampo y no importa artefactos administrativos.
 - Pendiente: validacion manual con permisos y respuestas HTTP reales para
   cerrar la iniciativa.
+
+## Pendientes de validacion - 2026-09-09
+
+- Localizar el copy del paginador compartido: `Showing`, `Previous` y `Next`
+  no respetan el idioma seleccionado en la aplicacion.
+- Al salir y volver a `/dashboard/portal/services`, limpiar el estado local del
+  buscador para que no conserve el patron de busqueda aplicado anteriormente.
+- Validar `table-workspace`: en escritorio la tabla debe conservar el unico
+  scroll vertical y header sticky; en mobile debe regresar a scroll de pagina
+  sin header sticky.

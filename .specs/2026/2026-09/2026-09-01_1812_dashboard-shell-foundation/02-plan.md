@@ -14,8 +14,9 @@ sin impactar rutas de negocio existentes.
   dominio ni rutas concretas.
 - La ruta aislada usa las mismas primitivas que consumirán migraciones futuras
   y su propio layout, sin heredar el shell vigente de `/dashboard`.
-- Desktop permite `page-content`, `page-composition` y `workspace` como
-  variantes de scroll; móvil conserva `document` como resolución natural.
+- Desktop permite `page-content`, `page-composition`, `workspace` y
+  `table-workspace` como variantes de scroll; móvil conserva `document` como
+  resolución natural.
 
 ## Fases
 

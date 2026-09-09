@@ -1,6 +1,7 @@
 export { DashboardGlobalHeader } from '@/components/dashboard-shell/DashboardGlobalHeader';
 export { DashboardPageComposition } from '@/components/dashboard-shell/DashboardPageComposition';
 export { DashboardPageContentScroller } from '@/components/dashboard-shell/DashboardPageContentScroller';
+export { DashboardTableWorkspace } from '@/components/dashboard-shell/DashboardTableWorkspace';
 export {
   DashboardShellFrame,
   type DashboardShellFrameProps,

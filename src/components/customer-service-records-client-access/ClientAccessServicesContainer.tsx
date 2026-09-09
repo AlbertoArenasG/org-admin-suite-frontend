@@ -213,7 +213,8 @@ export function ClientAccessServicesContainer() {
         columnVisibility: { visibleColumnIds, onChange: setVisibleColumnIds },
       }}
       settingsPlacement="toolbar"
-      stickyHeader={{ maxHeight: 'available' }}
+      scrollRegion={{ maxHeight: 'available', desktopOnly: true, overscrollBehavior: 'none' }}
+      stickyHeader
       rowLayout="multiline"
       sorting={{
         columnId: sorting?.columnId,

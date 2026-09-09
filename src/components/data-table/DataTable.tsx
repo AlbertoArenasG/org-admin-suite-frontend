@@ -131,7 +131,12 @@ export type DataTableProps<T extends RowData> = {
   settingsPlacement?: 'header' | 'toolbar';
   rowLayout?: 'single-line' | 'multiline';
   density?: 'compact' | 'comfortable';
-  stickyHeader?: { maxHeight?: number | 'available'; offset?: number } | boolean;
+  scrollRegion?: {
+    maxHeight?: number | 'available';
+    desktopOnly?: boolean;
+    overscrollBehavior?: 'contain' | 'none';
+  };
+  stickyHeader?: { offset?: number; desktopOnly?: boolean } | boolean;
   sorting?: {
     columnId?: string;
     direction?: 'asc' | 'desc';
@@ -268,6 +273,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     settingsPlacement = 'header',
     rowLayout = 'single-line',
     density = 'comfortable',
+    scrollRegion,
     stickyHeader = false,
     sorting,
     pagination,
@@ -316,7 +322,9 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   const table = useTable({ features, data: rows, columns: tableColumns, getRowId });
   const isFullscreen = nativeFullscreen || fallbackFullscreen;
   const sticky = typeof stickyHeader === 'object' ? stickyHeader : undefined;
-  const usesAvailableHeight = sticky?.maxHeight === 'available';
+  const scrollRegionDesktopOnly = Boolean(scrollRegion?.desktopOnly);
+  const stickyDesktopOnly = sticky?.desktopOnly ?? scrollRegionDesktopOnly;
+  const usesAvailableHeight = scrollRegion?.maxHeight === 'available';
   const hasDetails = Boolean(renderDetail && expansion);
   const totalColumnCount =
     visibleColumns.length + (selection ? 1 : 0) + (hasDetails ? 1 : 0) + (getRowActions ? 1 : 0);
@@ -380,6 +388,30 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     selectableRows.length > 0 &&
     selectableRows.every((row) => selection?.selectedRowIds.includes(row.id));
   const pageNumbers = pagination ? getPageNumbers(pagination.page, pagination.totalPages) : [];
+  const scrollRegionMaxHeight =
+    scrollRegion?.maxHeight === 'available'
+      ? (availableResultsHeight ?? undefined)
+      : scrollRegion?.maxHeight;
+  const scrollRegionOverscrollClass =
+    scrollRegion?.overscrollBehavior === 'none' ? 'overscroll-y-none' : 'overscroll-y-contain';
+  const scrollRegionDesktopOverscrollClass =
+    scrollRegion?.overscrollBehavior === 'none'
+      ? 'md:overscroll-y-none'
+      : 'md:overscroll-y-contain';
+  const resultsClassName = isFullscreen
+    ? 'flex-1 overflow-auto overscroll-y-contain'
+    : scrollRegion
+      ? scrollRegionDesktopOnly
+        ? `overflow-x-auto md:overflow-auto ${scrollRegionDesktopOverscrollClass} md:max-h-(--data-table-results-max-height)`
+        : `overflow-auto ${scrollRegionOverscrollClass}`
+      : 'overflow-x-auto';
+  const tableHeaderClassName = isFullscreen
+    ? 'sticky top-0 z-10 bg-muted/95 backdrop-blur'
+    : stickyHeader
+      ? stickyDesktopOnly
+        ? 'bg-muted/70 md:sticky md:top-0 md:z-10 md:bg-muted/95 md:backdrop-blur'
+        : 'sticky top-0 z-10 bg-muted/95 backdrop-blur'
+      : 'bg-muted/70';
 
   React.useLayoutEffect(() => {
     if (!usesAvailableHeight || isFullscreen) {
@@ -389,18 +421,20 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
 
     const resultsElement = resultsRef.current;
     if (!resultsElement) return;
-    const scrollOwner = resultsElement.closest<HTMLElement>('[data-dashboard-scroll-owner]');
+    const scrollViewport = resultsElement.closest<HTMLElement>(
+      '[data-dashboard-scroll-owner], [data-dashboard-scroll-viewport]'
+    );
 
     const updateAvailableHeight = () => {
       const resultsTop = resultsElement.getBoundingClientRect().top;
-      const ownerBottom = scrollOwner?.getBoundingClientRect().bottom ?? window.innerHeight;
-      const ownerPaddingBottom = scrollOwner
-        ? Number.parseFloat(window.getComputedStyle(scrollOwner).paddingBottom) || 0
+      const viewportBottom = scrollViewport?.getBoundingClientRect().bottom ?? window.innerHeight;
+      const viewportPaddingBottom = scrollViewport
+        ? Number.parseFloat(window.getComputedStyle(scrollViewport).paddingBottom) || 0
         : 0;
       const paginationHeight = paginationRef.current?.getBoundingClientRect().height ?? 0;
       const nextHeight = Math.max(
         0,
-        Math.floor(ownerBottom - ownerPaddingBottom - resultsTop - paginationHeight)
+        Math.floor(viewportBottom - viewportPaddingBottom - resultsTop - paginationHeight)
       );
 
       setAvailableResultsHeight((current) => (current === nextHeight ? current : nextHeight));
@@ -411,13 +445,13 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     observer.observe(resultsElement);
     if (chromeRef.current) observer.observe(chromeRef.current);
     if (paginationRef.current) observer.observe(paginationRef.current);
-    if (scrollOwner) observer.observe(scrollOwner);
-    scrollOwner?.addEventListener('scroll', updateAvailableHeight, { passive: true });
+    if (scrollViewport) observer.observe(scrollViewport);
+    scrollViewport?.addEventListener('scroll', updateAvailableHeight, { passive: true });
     window.addEventListener('resize', updateAvailableHeight);
 
     return () => {
       observer.disconnect();
-      scrollOwner?.removeEventListener('scroll', updateAvailableHeight);
+      scrollViewport?.removeEventListener('scroll', updateAvailableHeight);
       window.removeEventListener('resize', updateAvailableHeight);
     };
   }, [isFullscreen, loading, pagination, usesAvailableHeight]);
@@ -531,16 +565,18 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
       ) : (
         <div
           ref={resultsRef}
-          className={`min-h-0 ${isFullscreen ? 'flex-1 overflow-auto overscroll-y-contain' : stickyHeader ? 'overflow-auto overscroll-y-contain' : 'overflow-x-auto'}`}
+          className={`min-h-0 ${resultsClassName}`}
           style={
-            sticky && !isFullscreen
-              ? {
-                  maxHeight:
-                    sticky.maxHeight === 'available'
-                      ? (availableResultsHeight ?? undefined)
-                      : sticky.maxHeight,
-                  scrollMarginTop: sticky.offset,
-                }
+            scrollRegion && !isFullscreen
+              ? scrollRegionDesktopOnly
+                ? ({
+                    '--data-table-results-max-height':
+                      scrollRegionMaxHeight === undefined
+                        ? undefined
+                        : `${scrollRegionMaxHeight}px`,
+                    scrollMarginTop: sticky?.offset,
+                  } as React.CSSProperties)
+                : { maxHeight: scrollRegionMaxHeight, scrollMarginTop: sticky?.offset }
               : undefined
           }
           aria-label="Data table results"
@@ -558,13 +594,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
               ))}
               {getRowActions ? <col className="w-14" /> : null}
             </colgroup>
-            <thead
-              className={
-                stickyHeader || isFullscreen
-                  ? 'sticky top-0 z-10 bg-muted/95 backdrop-blur'
-                  : 'bg-muted/70'
-              }
-            >
+            <thead className={tableHeaderClassName}>
               <tr>
                 {selection ? (
                   <th className="border-b px-3 py-3">

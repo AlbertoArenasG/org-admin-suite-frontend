@@ -19,7 +19,7 @@ export const DashboardPageComposition = forwardRef<HTMLDivElement, DashboardPage
         }
         className={cn(
           'dashboard-page-composition',
-          scrollMode === 'page-content'
+          scrollMode === 'page-content' || scrollMode === 'table-workspace'
             ? 'flex min-h-0 flex-1 flex-col'
             : scrollMode === 'page-composition'
               ? 'min-h-0 flex-1 md:overscroll-y-none md:overflow-y-auto'

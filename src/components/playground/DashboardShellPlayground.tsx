@@ -43,12 +43,14 @@ const scrollModes: Array<{ value: DashboardScrollMode; label: string }> = [
   { value: 'page-content', label: 'Page Content Scroll' },
   { value: 'page-composition', label: 'Page Composition Scroll' },
   { value: 'workspace', label: 'Workspace Canvas Scroll' },
+  { value: 'table-workspace', label: 'Table Workspace Scroll' },
 ];
 
 const scrollModeLabels: Record<DashboardScrollMode, string> = {
   'page-content': 'Scroll: contenido',
   'page-composition': 'Scroll: composición',
   workspace: 'Scroll: canvas',
+  'table-workspace': 'Scroll: tabla',
 };
 
 export function DashboardShellPlayground() {
