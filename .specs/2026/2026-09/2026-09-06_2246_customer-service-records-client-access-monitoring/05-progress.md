@@ -38,6 +38,9 @@
   no respetan el idioma seleccionado en la aplicacion.
 - Al salir y volver a `/dashboard/portal/services`, limpiar el estado local del
   buscador para que no conserve el patron de busqueda aplicado anteriormente.
-- Validar `table-workspace`: en escritorio la tabla debe conservar el unico
-  scroll vertical y header sticky; en mobile debe regresar a scroll de pagina
-  sin header sticky.
+
+## 2026-09-09 - Resolucion móvil de Table Workspace
+
+- La ruta declara `stickyHeader={{ desktopOnly: true }}` de forma explícita.
+  En móvil, `scrollRegion.desktopOnly` evita el viewport interno y el header de
+  columnas no se fija; la tabla participa en el scroll del documento.

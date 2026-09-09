@@ -214,7 +214,7 @@ export function ClientAccessServicesContainer() {
       }}
       settingsPlacement="toolbar"
       scrollRegion={{ maxHeight: 'available', desktopOnly: true, overscrollBehavior: 'none' }}
-      stickyHeader
+      stickyHeader={{ desktopOnly: true }}
       rowLayout="multiline"
       sorting={{
         columnId: sorting?.columnId,
