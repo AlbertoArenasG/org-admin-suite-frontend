@@ -7,7 +7,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { RecipientGroupsDataTable } from '@/components/recipient-groups/RecipientGroupsDataTable';
 import { useRecipientGroupsTableColumns } from '@/components/recipient-groups/useRecipientGroupsTableColumns';

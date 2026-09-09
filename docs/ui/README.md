@@ -26,7 +26,8 @@ docs/ui/
 ├─ initiatives/
 │  ├─ application-theming.md
 │  └─ mobile-responsive-redesign.md
-├─ patterns/                 # Futuro: tablas, formularios, detalles y page composition.
+├─ patterns/
+│  └─ data-table.md
 └─ components/
    ├─ actions-and-buttons.md
    ├─ buttons.md
@@ -49,6 +50,8 @@ docs/ui/
   implementada remite explícitamente a un contrato vivo como `tokens.md`.
 - `patterns/`: ubicación reservada para guidelines específicas de tablas,
   formularios, detalles y Page Composition.
+- `patterns/data-table.md`: contrato vigente para colecciones remotas y su
+  adopción sin acoplar presentación con transporte HTTP.
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo
   indica si su implementación ya está validada o sigue en etapa de Playground.
 - `components/installed-components.md`: estrategia obligatoria para bundles y

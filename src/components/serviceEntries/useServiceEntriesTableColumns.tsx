@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef } from '@tanstack/react-table-v8';
 import { ArrowDown, ArrowUp, ArrowUpDown, CheckCircle2, Clock, Download } from 'lucide-react';
 import type { TFunction } from 'i18next';
 import type { ServiceEntriesTableRow } from '@/components/serviceEntries/useServiceEntriesTableData';

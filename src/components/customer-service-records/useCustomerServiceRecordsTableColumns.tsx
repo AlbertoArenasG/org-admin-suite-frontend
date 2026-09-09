@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Stack from '@mui/material/Stack';
 import { ArrowDown, ArrowUp, ArrowUpDown, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef } from '@tanstack/react-table-v8';
 import type { TFunction } from 'i18next';
 import { Button } from '@/components/ui/button';
 import { CustomerServiceRecordSemaphoreBadge } from '@/components/customer-service-records/CustomerServiceRecordSemaphoreBadge';

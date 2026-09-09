@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import type { Table } from '@tanstack/react-table';
+import type { Table } from '@tanstack/react-table-v8';
 import { SlidersHorizontal } from 'lucide-react';
 import type { ServicePackagesRecordsTableRow } from '@/components/servicePackagesRecords/useServicePackagesRecordsTableData';
 import { useServicePackagesRecordsTableStore } from '@/components/servicePackagesRecords/useServicePackagesRecordsTableStore';

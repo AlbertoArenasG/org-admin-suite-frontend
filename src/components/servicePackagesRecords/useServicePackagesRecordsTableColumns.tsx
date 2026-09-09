@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef } from '@tanstack/react-table-v8';
 import {
   ArrowDown,
   ArrowUp,

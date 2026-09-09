@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { ArrowDown, ArrowUp, ArrowUpDown, Check, ClockFading, FileX, Hammer } from 'lucide-react';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef } from '@tanstack/react-table-v8';
 import type { TFunction } from 'i18next';
 import type { InternalAssetControlTableRow } from '@/components/internal-asset-control/types';
 import { InternalAssetControlTableRowActions } from '@/components/internal-asset-control/InternalAssetControlTableRowActions';

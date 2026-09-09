@@ -7,7 +7,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { RolesDataTable } from '@/components/roles/RolesDataTable';
 import { RolesTableSkeleton } from '@/components/roles/RolesTableSkeleton';

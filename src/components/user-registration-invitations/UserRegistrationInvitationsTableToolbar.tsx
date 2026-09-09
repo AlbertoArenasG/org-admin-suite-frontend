@@ -1,7 +1,7 @@
 'use client';
 
 import { SlidersHorizontal, X } from 'lucide-react';
-import type { Table } from '@tanstack/react-table';
+import type { Table } from '@tanstack/react-table-v8';
 
 import { Button } from '@/components/ui/button';
 import {

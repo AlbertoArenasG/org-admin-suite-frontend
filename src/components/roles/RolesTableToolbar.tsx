@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SlidersHorizontal } from 'lucide-react';
-import type { Table } from '@tanstack/react-table';
+import type { Table } from '@tanstack/react-table-v8';
 import type { RolesTableRow } from '@/components/roles/types';
 import { useRolesTableStore } from '@/components/roles/useRolesTableStore';
 

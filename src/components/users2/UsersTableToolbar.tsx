@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { SlidersHorizontal } from 'lucide-react';
-import type { Table } from '@tanstack/react-table';
+import type { Table } from '@tanstack/react-table-v8';
 import type { UsersTableUser } from '@/components/users2/types';
 import { useUsersTableStore } from '@/components/users2/useUsersTableStore';
 import type { CustomerOption } from '@/features/customers';

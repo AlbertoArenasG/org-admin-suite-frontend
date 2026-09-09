@@ -9,6 +9,7 @@ import {
   PanelsTopLeft,
   SlidersHorizontal,
   Sparkles,
+  Table2,
 } from 'lucide-react';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
 import { Button } from '@/components/ui/button';
@@ -77,6 +78,27 @@ export function ComponentCatalogPlayground() {
               <Link href="/dashboard-playground/catalog/page-headers">
                 Revisar Page Header
                 <ArrowRight className="size-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-2xl border border-border/80 bg-card p-5 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.1em] text-muted-foreground uppercase">
+                Componente compartido
+              </p>
+              <h2 className="mt-1 text-lg font-semibold">DataTable</h2>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
+                Colecciones remotas con búsqueda, paginación, estados, preferencias y capacidades
+                opcionales por vista.
+              </p>
+            </div>
+            <Button asChild variant="outline" className="shrink-0">
+              <Link href="/dashboard-playground/catalog/data-table">
+                <Table2 className="size-4" aria-hidden="true" />
+                Revisar DataTable
               </Link>
             </Button>
           </div>

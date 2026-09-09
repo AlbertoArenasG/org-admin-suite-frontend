@@ -6,7 +6,7 @@ import type {
   SortingState,
   Updater,
   VisibilityState,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import type { ContactListFilters } from '@/features/contacts/types';
 import type { ContactsTableRow } from '@/components/contacts/types';
 

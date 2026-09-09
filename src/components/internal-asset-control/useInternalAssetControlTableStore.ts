@@ -6,7 +6,7 @@ import type {
   SortingState,
   Updater,
   VisibilityState,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import type { InternalAssetMaintenanceRecordsListFilters } from '@/features/internal-asset-control/types';
 import type { InternalAssetControlDeleteTarget } from '@/components/internal-asset-control/types';
 

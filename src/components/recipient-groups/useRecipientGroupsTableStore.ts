@@ -6,7 +6,7 @@ import type {
   SortingState,
   Updater,
   VisibilityState,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import type { RecipientGroupListFilters } from '@/features/recipient-groups/types';
 import type { RecipientGroupsTableRow } from '@/components/recipient-groups/types';
 

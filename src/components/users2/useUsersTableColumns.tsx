@@ -3,7 +3,7 @@
 import { useMemo } from 'react';
 import Chip from '@mui/material/Chip';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef } from '@tanstack/react-table-v8';
 import type { TFunction } from 'i18next';
 
 import type { UsersTableUser } from '@/components/users2/types';

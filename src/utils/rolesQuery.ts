@@ -1,4 +1,4 @@
-import type { SortingState } from '@tanstack/react-table';
+import type { SortingState } from '@tanstack/react-table-v8';
 import type { RoleListSort, RoleSortField } from '@/features/roles/types';
 
 const SORT_COLUMN_FIELD_MAP: Record<string, RoleSortField> = {

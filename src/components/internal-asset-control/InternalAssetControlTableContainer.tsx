@@ -7,7 +7,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
@@ -29,7 +29,7 @@ import {
   mapInternalAssetControlSortingToApi,
   parseInternalAssetControlSortingFromParams,
 } from '@/utils/internalAssetControlQuery';
-import type { SortingState } from '@tanstack/react-table';
+import type { SortingState } from '@tanstack/react-table-v8';
 
 const DEFAULT_INTERNAL_ASSET_CONTROL_SORTING: SortingState = [
   { id: 'status', desc: false },

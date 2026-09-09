@@ -1,6 +1,6 @@
 'use client';
 
-import { flexRender, type Table } from '@tanstack/react-table';
+import { flexRender, type Table } from '@tanstack/react-table-v8';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Box from '@mui/material/Box';

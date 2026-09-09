@@ -7,7 +7,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 
 import { useAuthorization } from '@/features/auth';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';

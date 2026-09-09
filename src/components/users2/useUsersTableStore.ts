@@ -6,7 +6,7 @@ import type {
   SortingState,
   Updater,
   VisibilityState,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import type { UsersTableUser } from '@/components/users2/types';
 
 type StringUpdater = string | ((prev: string) => string);

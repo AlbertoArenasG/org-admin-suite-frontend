@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { getCoreRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table-v8';
 import { CustomerServiceRecordsDataTable } from '@/components/customer-service-records/CustomerServiceRecordsDataTable';
 import { useCustomerServiceRecordsTableStore } from '@/components/customer-service-records/useCustomerServiceRecordsTableStore';
 import { useCustomerServiceRecordsTableColumns } from '@/components/customer-service-records/useCustomerServiceRecordsTableColumns';

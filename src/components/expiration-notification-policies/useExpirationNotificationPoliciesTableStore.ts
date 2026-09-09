@@ -6,7 +6,7 @@ import type {
   SortingState,
   Updater,
   VisibilityState,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 
 import type { ExpirationNotificationPoliciesTableRow } from '@/components/expiration-notification-policies/types';
 import type { ExpirationNotificationPolicyListFilters } from '@/features/expiration-notification-policies/types';

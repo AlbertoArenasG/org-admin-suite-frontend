@@ -1,6 +1,6 @@
 'use client';
 
-import type { Table } from '@tanstack/react-table';
+import type { Table } from '@tanstack/react-table-v8';
 import { SlidersHorizontal } from 'lucide-react';
 
 import type { ExpirationStatusPoliciesTableRow } from '@/components/expiration-status-policies/types';

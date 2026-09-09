@@ -7,7 +7,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 
 import { ExpirationNotificationPoliciesDataTable } from '@/components/expiration-notification-policies/ExpirationNotificationPoliciesDataTable';
 import { useExpirationNotificationPoliciesTableColumns } from '@/components/expiration-notification-policies/useExpirationNotificationPoliciesTableColumns';

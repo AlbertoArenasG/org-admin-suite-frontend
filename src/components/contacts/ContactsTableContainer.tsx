@@ -7,7 +7,7 @@ import {
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { ContactsDataTable } from '@/components/contacts/ContactsDataTable';
 import { useContactsTableColumns } from '@/components/contacts/useContactsTableColumns';

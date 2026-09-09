@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table-v8';
 import type { TFunction } from 'i18next';
 import type { ServiceEntrySurveyTableRow } from '@/components/serviceEntrySurveys/useServiceEntrySurveyTableData';
 import { PUBLIC_SURVEY_QUESTIONS } from '@/features/publicServiceEntry/constants';

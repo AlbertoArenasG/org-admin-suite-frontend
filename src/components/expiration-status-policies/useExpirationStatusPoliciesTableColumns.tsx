@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef } from '@tanstack/react-table-v8';
 import type { TFunction } from 'i18next';
 
 import { ExpirationStatusPoliciesTableRowActions } from '@/components/expiration-status-policies/ExpirationStatusPoliciesTableRowActions';

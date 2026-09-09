@@ -11,7 +11,7 @@ import {
   MailWarning,
   MailX,
 } from 'lucide-react';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import type { Column, ColumnDef } from '@tanstack/react-table-v8';
 import type { TFunction } from 'i18next';
 
 import { UserRegistrationInvitationTableRowActions } from './UserRegistrationInvitationTableRowActions';

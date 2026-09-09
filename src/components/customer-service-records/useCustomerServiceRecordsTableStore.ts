@@ -6,7 +6,7 @@ import type {
   SortingState,
   Updater,
   VisibilityState,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import type { CustomerServiceRecordsListFilters } from '@/features/customer-service-records';
 
 type StringUpdater = string | ((current: string) => string);

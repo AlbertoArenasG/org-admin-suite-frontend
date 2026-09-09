@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo } from 'react';
-import { useReactTable, getCoreRowModel, getPaginationRowModel } from '@tanstack/react-table';
+import { useReactTable, getCoreRowModel, getPaginationRowModel } from '@tanstack/react-table-v8';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useServiceEntrySurveyTableData } from '@/components/serviceEntrySurveys/useServiceEntrySurveyTableData';

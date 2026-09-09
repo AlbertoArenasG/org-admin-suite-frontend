@@ -6,7 +6,7 @@ import type {
   SortingState,
   Updater,
   VisibilityState,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table-v8';
 import type { RolesTableRow } from '@/components/roles/types';
 
 type StringUpdater = string | ((prev: string) => string);

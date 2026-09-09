@@ -1,6 +1,6 @@
 'use client';
 
-import { flexRender, type Table } from '@tanstack/react-table';
+import { flexRender, type Table } from '@tanstack/react-table-v8';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import LinearProgress from '@mui/material/LinearProgress';

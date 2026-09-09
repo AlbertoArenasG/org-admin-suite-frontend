@@ -1,4 +1,4 @@
-import type { SortingState } from '@tanstack/react-table';
+import type { SortingState } from '@tanstack/react-table-v8';
 
 const SORT_COLUMN_FIELD_MAP: Record<string, string> = {
   fullName: 'lastname',
