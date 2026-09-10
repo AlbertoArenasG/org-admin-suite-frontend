@@ -56,3 +56,12 @@
   rehidratar el store con un criterio anterior. Esto preserva todos los
   caracteres escritos durante el debounce o la carga remota; atras y adelante
   conservan la rehidratacion normal desde la URL.
+
+## 2026-09-09 - Validation Gate completado
+
+- Se validaron manualmente las respuestas HTTP reales y la visibilidad para
+  staff autorizado, externo autorizado, externo sin relaciones y usuario sin
+  permiso.
+- Se validaron busqueda, ordenamiento, paginacion, carga, error, estados
+  vacios, scroll de `table-workspace` y los temas activos.
+- La iniciativa queda cerrada.

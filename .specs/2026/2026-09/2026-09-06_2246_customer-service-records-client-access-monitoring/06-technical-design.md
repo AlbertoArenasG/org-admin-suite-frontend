@@ -2,9 +2,8 @@
 
 ## Status
 
-Implementacion completada y pendiente de validacion manual integrada. Esta
-iniciativa sigue abierta hasta validar la ruta con usuarios autorizados y el
-contrato HTTP real.
+Implementacion completada y validada manualmente contra usuarios autorizados y
+el contrato HTTP real. La iniciativa esta cerrada.
 
 ## Route And Navigation
 

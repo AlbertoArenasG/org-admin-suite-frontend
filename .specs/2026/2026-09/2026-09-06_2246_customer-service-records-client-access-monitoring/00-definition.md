@@ -4,8 +4,9 @@
 
 - Name: `customer-service-records-client-access-monitoring`
 - Date: `2026-09-06`
-- Definition status: `in_progress`
+- Definition status: `complete`
 - Implementation ready: `yes`
+- Spec status: `closed`
 
 ## Problem
 
@@ -97,7 +98,8 @@ informacion de proveedor ni capacidades de gestion interna.
 Ninguna. La composicion se basa en el `DataTable` compartido aprobado; filtros
 multicampo y su patron visual permanecen fuera del MVP.
 
-## Gate
+## Closure
 
-La implementacion puede iniciar cuando se registre el diseno tecnico de la
-ruta, su contenedor y la adaptacion del contrato Client Access al `DataTable`.
+La ruta y su integracion se validaron manualmente contra el contrato HTTP real.
+Los escenarios de staff autorizado, externo autorizado, externo sin relaciones
+y usuario sin permiso cumplieron la frontera de visibilidad definida.
