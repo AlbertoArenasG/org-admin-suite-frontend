@@ -139,4 +139,4 @@
   - exclusión de `DELETED` en edición y filtros de estado donde no aporta valor operativo
   - afinación visual de toolbars, filtros y formularios
 - No quedan pendientes funcionales abiertos dentro del alcance de esta spec.
-- La spec queda lista para cierre formal.
+- La spec queda cerrada formalmente.

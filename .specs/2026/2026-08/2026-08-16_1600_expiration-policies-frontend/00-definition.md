@@ -14,8 +14,11 @@ Regla de trabajo:
 ## Overall Status
 
 - Initiative: `expiration-policies-frontend`
-- Definition status: `in_progress`
-- Implementation ready: `no`
+- Definition status: `complete`
+- Implementation ready: `yes`
+- Implementation status: `completed`
+- Validation status: `completed`
+- Spec status: `closed`
 
 ---
 

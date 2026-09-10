@@ -51,3 +51,8 @@ Composition Scroll`: conserva fijo `Workspace Header` y desplaza juntos
   independiente de `scrollRegion`.
 - En móvil, `Table Workspace` regresa a `Document Scroll`, sin viewport interno
   restringido ni header de columnas sticky.
+
+## Cierre
+
+- La implementación y sus validaciones manuales y estáticas están completadas.
+- La spec queda cerrada formalmente.

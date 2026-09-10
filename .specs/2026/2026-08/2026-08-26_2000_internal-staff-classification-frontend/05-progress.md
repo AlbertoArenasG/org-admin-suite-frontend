@@ -19,3 +19,8 @@
 ## Validation
 
 - [x] Validación manual completada.
+
+## Cierre
+
+- No quedan pendientes funcionales dentro del alcance aprobado.
+- La spec queda cerrada formalmente.
