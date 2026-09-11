@@ -2,4 +2,7 @@ html.nocturne .dashboard-welcome-hero {
   --hero-surface: linear-gradient(135deg, rgb(26 36 46 / 96%), rgb(18 24 32 / 94%));
   --hero-border: rgb(128 151 172 / 25%);
   --hero-icon: color-mix(in srgb, var(--primary-300) 25%, transparent);
+  --hero-mesh-one: color-mix(in srgb, var(--primary-300) 36%, transparent);
+  --hero-mesh-two: color-mix(in srgb, var(--secondary-300) 30%, transparent);
+  --hero-mesh-three: color-mix(in srgb, var(--accent-300) 24%, transparent);
 }

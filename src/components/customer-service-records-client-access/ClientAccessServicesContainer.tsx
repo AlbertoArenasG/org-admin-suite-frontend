@@ -276,13 +276,7 @@ export function ClientAccessServicesContainer() {
             labels={{
               general: t('expansion.generalObservations'),
               assets: t('expansion.assetObservations'),
-              timeline: t('expansion.timeline'),
-              collection: t('expansion.collection'),
-              delivery: t('expansion.delivery'),
-              estimatedDelivery: t('expansion.estimatedDelivery'),
-              pending: t('expansion.pending'),
             }}
-            dateFormatter={dateFormatter}
           />
         )}
         getRowVisual={(row) => {

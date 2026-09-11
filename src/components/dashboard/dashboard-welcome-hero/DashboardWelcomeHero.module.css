@@ -3,8 +3,6 @@
   --hero-title: var(--foreground);
   --hero-description: var(--muted-foreground);
   --hero-eyebrow: var(--secondary-700);
-  --hero-mesh-one: color-mix(in srgb, var(--primary-300) 20%, transparent);
-  --hero-mesh-two: color-mix(in srgb, var(--secondary-300) 18%, transparent);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -64,10 +62,11 @@
 }
 
 .meshOne,
-.meshTwo {
+.meshTwo,
+.meshThree {
   position: absolute;
   border-radius: 999px;
-  filter: blur(4px);
+  filter: blur(18px);
 }
 
 .meshOne {
@@ -86,6 +85,15 @@
   height: 22rem;
   background: radial-gradient(circle, var(--hero-mesh-two), transparent 70%);
   animation: welcome-mesh-two 22s ease-in-out infinite alternate;
+}
+
+.meshThree {
+  top: 20%;
+  left: 42%;
+  width: 18rem;
+  height: 18rem;
+  background: radial-gradient(circle, var(--hero-mesh-three), transparent 70%);
+  animation: welcome-mesh-three 26s ease-in-out infinite alternate;
 }
 
 .icon {
@@ -229,6 +237,15 @@
   }
 }
 
+@keyframes welcome-mesh-three {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.94);
+  }
+  to {
+    transform: translate3d(-3%, 3%, 0) scale(1.08);
+  }
+}
+
 @keyframes welcome-drift-far {
   from {
     transform: translate3d(0, 0, 0) scale(0.94);
@@ -282,6 +299,7 @@
 @media (prefers-reduced-motion: reduce) {
   .meshOne,
   .meshTwo,
+  .meshThree,
   .far,
   .mid,
   .near {

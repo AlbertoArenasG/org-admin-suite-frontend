@@ -70,6 +70,7 @@ export function DashboardWelcomeHero({
       <div aria-hidden="true" className={styles.ambientLayer}>
         <span className={styles.meshOne} />
         <span className={styles.meshTwo} />
+        <span className={styles.meshThree} />
         {ambientIcons.map(({ Icon, className, depth }) => (
           <Icon className={`${styles.icon} ${styles[depth]} ${className}`} key={className} />
         ))}
