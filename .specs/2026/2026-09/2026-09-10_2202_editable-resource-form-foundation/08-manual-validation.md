@@ -1,5 +1,12 @@
 # Validación Manual
 
+## Validación Estática
+
+- [x] `npm run lint` termina sin errores atribuibles a la fundación. Conserva
+      cuatro warnings preexistentes fuera de alcance.
+- [x] `npm run typecheck` termina sin errores.
+- [x] `npm run build` compila correctamente.
+
 ## Superficie Compartida
 
 - [ ] El frame muestra lectura, edición, carga, guardado y error sin copy

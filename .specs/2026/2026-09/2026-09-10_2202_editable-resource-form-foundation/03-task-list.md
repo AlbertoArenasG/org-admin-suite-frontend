@@ -16,13 +16,13 @@
 
 ## Fase 3. Exportación Y Verificación
 
-- [ ] Exponer el contrato público y verificar fronteras de importación.
-      Status: pending
+- [x] Exponer el contrato público y verificar fronteras de importación.
+      Status: completed
       Cierre: no existen tipos de dominio ni imports a API, features, stores,
       permisos o navegación desde `src/components/resource-form/`.
 
-- [ ] Ejecutar typecheck, lint sin autofix y build.
-      Status: pending
+- [x] Ejecutar typecheck, lint sin autofix y build.
+      Status: completed
       Cierre: las validaciones estáticas terminan sin errores atribuibles a la
       fundación.
 

@@ -49,3 +49,7 @@
   detalle en ruta sin asumir shell o scroll; `ResourceFormOverlay` reutiliza el
   frame y exige que el módulo entregue el contenedor elegido (`Dialog` o
   `Drawer`).
+- Se completó la Slice 3: el índice público expone la fundación y la auditoría
+  confirmó que su carpeta no importa API, features, stores, permisos ni
+  navegación. Lint, typecheck y build terminan sin errores atribuibles a esta
+  iniciativa; la validación visual sigue pendiente de un consumidor aprobado.
