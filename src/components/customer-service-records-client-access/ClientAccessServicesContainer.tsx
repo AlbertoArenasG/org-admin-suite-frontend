@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { motion, useReducedMotion } from 'motion/react';
 import { DataTable } from '@/components/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthorization } from '@/features/auth';
@@ -46,6 +47,7 @@ export function ClientAccessServicesContainer() {
   const searchParamsString = searchParams.toString();
   const pendingLocalQueriesRef = useRef(new Set<string>());
   const { hasPermission, isReady } = useAuthorization();
+  const reduceMotion = useReducedMotion();
   const list = useAppSelector((state) => state.customerServiceRecordsClientAccess.list);
 
   const page = useClientAccessServicesTableStore((state) => state.page);
@@ -178,124 +180,138 @@ export function ClientAccessServicesContainer() {
   }
 
   return (
-    <DataTable<ClientAccessCustomerServiceRecord>
-      rows={list.items}
-      columns={columns}
-      getRowId={(row) => row.id}
-      loading={list.status === 'loading'}
-      renderLoading={(columnId) => loadingCell(columnId)}
-      error={
-        list.status === 'failed' && list.error ? { message: list.error, onRetry: retry } : undefined
-      }
-      hasActiveCriteria={Boolean(search.trim())}
-      onClearCriteria={() => {
-        setSearch('');
-        setAppliedSearch('');
-        setPage(1);
-      }}
-      renderEmpty={({ filtered, onClearCriteria }) => (
-        <div className="mx-auto max-w-sm space-y-2">
-          <p className="font-medium text-foreground">
-            {filtered ? t('empty.filteredTitle') : t('empty.title')}
-          </p>
-          <p>{filtered ? t('empty.filteredDescription') : t('empty.description')}</p>
-          {filtered && onClearCriteria ? (
-            <button
-              type="button"
-              className="font-medium text-primary underline"
-              onClick={onClearCriteria}
-            >
-              {t('empty.clearSearch')}
-            </button>
-          ) : null}
-        </div>
-      )}
-      toolbar={{
-        compact: true,
-        search: {
-          value: search,
-          onChange: (value) => {
-            setSearch(value);
-            if (!value) setAppliedSearch('');
+    <motion.div
+      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+      animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      transition={reduceMotion ? undefined : { duration: 0.4, ease: 'easeOut' }}
+    >
+      <DataTable<ClientAccessCustomerServiceRecord>
+        rows={list.items}
+        columns={columns}
+        getRowId={(row) => row.id}
+        loading={list.status === 'loading'}
+        renderLoading={(columnId) => loadingCell(columnId)}
+        error={
+          list.status === 'failed' && list.error
+            ? { message: list.error, onRetry: retry }
+            : undefined
+        }
+        hasActiveCriteria={Boolean(search.trim())}
+        onClearCriteria={() => {
+          setSearch('');
+          setAppliedSearch('');
+          setPage(1);
+        }}
+        renderEmpty={({ filtered, onClearCriteria }) => (
+          <div className="mx-auto max-w-sm space-y-2">
+            <p className="font-medium text-foreground">
+              {filtered ? t('empty.filteredTitle') : t('empty.title')}
+            </p>
+            <p>{filtered ? t('empty.filteredDescription') : t('empty.description')}</p>
+            {filtered && onClearCriteria ? (
+              <button
+                type="button"
+                className="font-medium text-primary underline"
+                onClick={onClearCriteria}
+              >
+                {t('empty.clearSearch')}
+              </button>
+            ) : null}
+          </div>
+        )}
+        toolbar={{
+          compact: true,
+          search: {
+            value: search,
+            onChange: (value) => {
+              setSearch(value);
+              if (!value) setAppliedSearch('');
+              setPage(1);
+            },
+            placeholder: t('search.placeholder'),
+            ariaLabel: t('search.ariaLabel'),
+          },
+        }}
+        settings={{
+          columnVisibility: { visibleColumnIds, onChange: setVisibleColumnIds },
+        }}
+        settingsPlacement="toolbar"
+        scrollRegion={{ maxHeight: 'available', desktopOnly: true, overscrollBehavior: 'none' }}
+        stickyHeader={{ desktopOnly: true }}
+        rowLayout="multiline"
+        sorting={{
+          columnId: sorting?.columnId,
+          direction: sorting?.direction,
+          onChange: (next) => {
+            const columnId = next.columnId;
+            if (columnId !== 'serviceNumber' && columnId !== 'receivedAt') {
+              return;
+            }
+            setSorting({ columnId, direction: next.direction });
             setPage(1);
           },
-          placeholder: t('search.placeholder'),
-          ariaLabel: t('search.ariaLabel'),
-        },
-      }}
-      settings={{
-        columnVisibility: { visibleColumnIds, onChange: setVisibleColumnIds },
-      }}
-      settingsPlacement="toolbar"
-      scrollRegion={{ maxHeight: 'available', desktopOnly: true, overscrollBehavior: 'none' }}
-      stickyHeader={{ desktopOnly: true }}
-      rowLayout="multiline"
-      sorting={{
-        columnId: sorting?.columnId,
-        direction: sorting?.direction,
-        onChange: (next) => {
-          const columnId = next.columnId;
-          if (columnId !== 'serviceNumber' && columnId !== 'receivedAt') {
-            return;
-          }
-          setSorting({ columnId, direction: next.direction });
-          setPage(1);
-        },
-      }}
-      pagination={{
-        page,
-        perPage: limit,
-        total: list.total,
-        totalPages: list.totalPages,
-        onChange: setPage,
-        onPerPageChange: (nextLimit) => {
-          setLimit(nextLimit);
-          setPage(1);
-        },
-        pageSizes: [10, 25, 50],
-      }}
-      expansion={{
-        expandedRowIds,
-        onChange: setExpandedRowIds,
-        isRowExpandable: hasClientAccessObservations,
-        trigger: 'feedback',
-        ariaLabel: t('expansion.ariaLabel'),
-      }}
-      renderDetail={(row) => (
-        <ClientAccessObservationsDetail
-          row={row}
-          labels={{
-            general: t('expansion.generalObservations'),
-            assets: t('expansion.assetObservations'),
-          }}
-        />
-      )}
-      getRowVisual={(row) => {
-        const color = row.customerDelivery.statusMaterialization?.colorHex;
-        return color ? { indicatorColor: color } : undefined;
-      }}
-      searchHighlight={{
-        query: appliedSearch,
-        columnIds: ['serviceNumber', 'serviceAndAssets', 'equipmentDetails'],
-      }}
-      labels={{
-        loading: t('table.loading'),
-        loadingResults: t('table.loadingResults'),
-        settings: t('table.settings'),
-        displayColumns: t('table.displayColumns'),
-        resizeColumn: (column) => t('table.resizeColumn', { column }),
-        additionalDetails: t('expansion.ariaLabel'),
-        noResults: t('empty.title'),
-        noResultsForCriteria: t('empty.filteredTitle'),
-        clearCriteria: t('empty.clearSearch'),
-        pagination: t('table.pagination'),
-        rowsPerPage: t('table.rowsPerPage'),
-        paginationSummary: ({ from, to, total }) =>
-          t('table.paginationSummary', { from, to, total }),
-        previousPage: t('table.previousPage'),
-        nextPage: t('table.nextPage'),
-        clearSearch: t('empty.clearSearch'),
-      }}
-    />
+        }}
+        pagination={{
+          page,
+          perPage: limit,
+          total: list.total,
+          totalPages: list.totalPages,
+          onChange: setPage,
+          onPerPageChange: (nextLimit) => {
+            setLimit(nextLimit);
+            setPage(1);
+          },
+          pageSizes: [10, 25, 50],
+        }}
+        expansion={{
+          expandedRowIds,
+          onChange: setExpandedRowIds,
+          isRowExpandable: hasClientAccessObservations,
+          trigger: 'feedback',
+          ariaLabel: t('expansion.ariaLabel'),
+        }}
+        renderDetail={(row) => (
+          <ClientAccessObservationsDetail
+            row={row}
+            labels={{
+              general: t('expansion.generalObservations'),
+              assets: t('expansion.assetObservations'),
+              timeline: t('expansion.timeline'),
+              collection: t('expansion.collection'),
+              delivery: t('expansion.delivery'),
+              estimatedDelivery: t('expansion.estimatedDelivery'),
+              pending: t('expansion.pending'),
+            }}
+            dateFormatter={dateFormatter}
+          />
+        )}
+        getRowVisual={(row) => {
+          const color = row.customerDelivery.statusMaterialization?.colorHex;
+          return color ? { indicatorColor: color } : undefined;
+        }}
+        searchHighlight={{
+          query: appliedSearch,
+          columnIds: ['serviceNumber', 'serviceAndAssets', 'equipmentDetails'],
+        }}
+        labels={{
+          loading: t('table.loading'),
+          loadingResults: t('table.loadingResults'),
+          settings: t('table.settings'),
+          displayColumns: t('table.displayColumns'),
+          resizeColumn: (column) => t('table.resizeColumn', { column }),
+          additionalDetails: t('expansion.ariaLabel'),
+          noResults: t('empty.title'),
+          noResultsForCriteria: t('empty.filteredTitle'),
+          clearCriteria: t('empty.clearSearch'),
+          pagination: t('table.pagination'),
+          rowsPerPage: t('table.rowsPerPage'),
+          paginationSummary: ({ from, to, total }) =>
+            t('table.paginationSummary', { from, to, total }),
+          previousPage: t('table.previousPage'),
+          nextPage: t('table.nextPage'),
+          clearSearch: t('empty.clearSearch'),
+        }}
+      />
+    </motion.div>
   );
 }

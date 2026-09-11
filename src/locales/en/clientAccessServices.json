@@ -34,7 +34,12 @@
   "expansion": {
     "ariaLabel": "Show observations",
     "generalObservations": "General observations",
-    "assetObservations": "Equipment observations"
+    "assetObservations": "Equipment observations",
+    "timeline": "Service dates",
+    "collection": "Collection",
+    "delivery": "Delivery",
+    "estimatedDelivery": "Estimated delivery",
+    "pending": "Pending"
   },
   "table": {
     "loading": "Loading",

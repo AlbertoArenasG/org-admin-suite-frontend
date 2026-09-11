@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import {
   ChevronDown,
   ChevronLeft,
@@ -301,6 +302,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   const [fallbackFullscreen, setFallbackFullscreen] = React.useState(false);
   const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
   const [availableResultsHeight, setAvailableResultsHeight] = React.useState<number | null>(null);
+  const reduceMotion = useReducedMotion();
   const visibleColumns = settings?.columnVisibility
     ? columns.filter((column) => settings.columnVisibility?.visibleColumnIds.includes(column.id))
     : columns;
@@ -843,10 +845,29 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                           <td className="px-3 text-right">{getRowActions(row.original)}</td>
                         ) : null}
                       </tr>
-                      {hasDetails && isExpanded ? (
+                      {hasDetails ? (
                         <tr id={`detail-${row.id}`}>
-                          <td colSpan={totalColumnCount} className="border-b bg-muted/30 p-4">
-                            {renderDetail?.(row.original)}
+                          <td
+                            colSpan={totalColumnCount}
+                            className={isExpanded ? 'border-b bg-muted p-0' : 'p-0'}
+                          >
+                            <AnimatePresence initial={false}>
+                              {isExpanded ? (
+                                <motion.div
+                                  className="overflow-hidden"
+                                  initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+                                  animate={
+                                    reduceMotion ? undefined : { height: 'auto', opacity: 1 }
+                                  }
+                                  exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+                                  transition={
+                                    reduceMotion ? undefined : { duration: 0.26, ease: 'easeOut' }
+                                  }
+                                >
+                                  <div className="p-4">{renderDetail?.(row.original)}</div>
+                                </motion.div>
+                              ) : null}
+                            </AnimatePresence>
                           </td>
                         </tr>
                       ) : null}
