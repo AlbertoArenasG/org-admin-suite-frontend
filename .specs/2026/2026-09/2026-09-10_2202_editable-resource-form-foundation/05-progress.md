@@ -20,8 +20,9 @@
 - Se aprobó un modelo de persistencia híbrido: guardado por sección solo ante
   operaciones remotas independientes; detalles largos con una única operación
   backend usan secciones visuales sobre una transacción global.
-- Se aprobó la adopción selectiva y encapsulada de Shark UI, manteniendo React
-  Hook Form, Zod y las primitives canónicas como base de producto.
+- Se aprobó la adopción selectiva de Shark UI, manteniendo React Hook Form y
+  Zod como stack y evaluando sus primitives antes de integrarlas al catálogo
+  canónico.
 - Se aprobó el orden inicial de consumidores: edición de usuarios primero y
   registros de servicio a cliente después. No se definió el orden de módulos
   posteriores.

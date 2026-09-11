@@ -172,9 +172,8 @@ El mismo contrato visual compartido define `--control-surface`,
 tema resuelve esos valores; los controles los consumen para que una toolbar no
 combine fondos, bordes, hover o foco incongruentes.
 
-Un adaptador de vendor que herede estados visuales de su librería consume el
-contrato `--control-*` directamente. No modifica una primitive compartida ni
-duplica valores por tema.
+Una primitive externa aprobada que herede estados visuales de su librería
+consume el contrato `--control-*` directamente. No duplica valores por tema.
 
 ## Criterio de Creación
 

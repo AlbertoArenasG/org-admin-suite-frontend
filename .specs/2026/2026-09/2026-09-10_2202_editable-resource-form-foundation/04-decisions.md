@@ -110,17 +110,17 @@ estrategia de guardado.
 **Status:** approved
 
 Shark UI se evalúa primero en Component Lab y se adopta bloque por bloque solo
-cuando cubre una necesidad concreta de la base de formularios. Un bloque
-aprobado vive encapsulado bajo `src/components/vendor/shark/<bloque>/` y se
-consume mediante una composición propia de producto; los módulos no importan
-directamente desde `vendor`.
+cuando cubre una necesidad concreta de la base de formularios. Una primitive
+aprobada se instala directamente en `src/components/ui` mediante su registro;
+las composiciones de producto la consumen desde esa ubicación canónica sin
+duplicar su implementación.
 
-React Hook Form y Zod continúan como stack. Las primitives canónicas de
-`src/components/ui` siguen siendo la base y no pueden ser sobrescritas por un
-comando o bloque de Shark UI.
+React Hook Form y Zod continúan como stack. Las primitives instaladas mediante
+Shark se revisan como parte del catálogo canónico, incluidos sus diffs,
+consumidores, temas y dependencias.
 
-**Reason:** permite aprovechar bloques evaluados sin acoplar los módulos a una
-fuente externa ni alterar primitives compartidas por una necesidad local.
+**Reason:** permite adoptar directamente primitives ya evaluadas y evita una
+capa `vendor` artificial ahora que el CLI no depende de un `tailwind.config`.
 
 **Impact:** cada candidato exige evaluación documentada de fuente, licencia,
 dependencias, tokens, temas, responsive, foco, teclado y lector de pantalla.

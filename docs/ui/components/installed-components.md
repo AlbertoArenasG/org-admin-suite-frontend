@@ -1,13 +1,13 @@
-# Componentes Instalados y Vendor
+# Componentes Instalados y Adopción Directa
 
-**Estado:** Guideline viva para bloques y componentes externos del frontend.
+**Estado:** Guideline viva para primitives y componentes externos del frontend.
 
 ## Principio
 
-`src/components/ui` es la única fuente de primitivas shadcn del producto. Los
-componentes compuestos, construidos o externos siempre importan desde esa
-carpeta; no copian `button`, `popover`, `calendar` u otra primitive dentro de
-su propio directorio.
+`src/components/ui` es la única fuente de primitives canónicas del producto,
+incluidas las primitives externas aprobadas. Los componentes compuestos siempre
+importan desde esa carpeta; no copian `button`, `popover`, `calendar` u otra
+primitive dentro de su propio directorio.
 
 El frontend mantiene `style: new-york` y Radix en `components.json`. El
 laboratorio puede evaluar otra base de shadcn, pero no define el runtime del
@@ -17,16 +17,17 @@ producto.
 
 ```text
 src/components/
-├─ ui/                        # Primitivas canónicas de shadcn.
-├─ vendor/<fuente>/<bloque>/   # Fuente externa sin primitives copiadas.
+├─ ui/                        # Primitives canónicas instaladas y aprobadas.
 └─ <dominio o control>/        # Composición y API de producto.
 ```
 
-- `ui/` se actualiza mediante el CLI de shadcn desde la raíz del frontend.
-  Sus primitivas canónicas no se personalizan como reacción automática a una
-  necesidad de producto, de un módulo o de una ruta.
-- `vendor/` conserva sólo código de fuente externa que siga siendo útil. Puede
-  importar `@/components/ui`, pero no redefine el contrato de tema.
+- `ui/` se actualiza mediante el CLI de shadcn desde la raíz del frontend. Una
+  primitive externa aprobada se instala directamente ahí y queda sometida al
+  mismo contrato de temas, revisión de API y compatibilidad que una primitive
+  shadcn nativa.
+- No se crean nuevas carpetas `vendor/`. Las existentes son legado y se
+  revisarán o retirarán cuando se migren sus consumidores; no establecen el
+  patrón para nuevas integraciones.
 - Un componente compuesto es dueño de comportamiento, copy, props y estructura
   local. No existe únicamente para inyectar una clase de tema.
 
@@ -59,7 +60,7 @@ regresión sin analizarla. La sesión de IA debe informar ese caso y evaluar con
 el responsable si corresponde una adaptación local o una modificación con fines
 compartidos de producto antes de editar una primitive.
 
-## Encapsulación De Componentes
+## Composición De Producto
 
 Un componente que tenga CSS local propio vive en su directorio dedicado. Ahí se
 guardan su implementación, CSS estructural, agregador de temas, archivos por
@@ -89,11 +90,11 @@ src/components/dashboard/dashboard-welcome-hero/
    `/Users/alberto/projects/icsacv/component-staging/component-lab`.
 2. Registrar fuente, licencia, comando, dependencias y resultado de evaluación
    en el laboratorio.
-3. Identificar primitives requeridas. Antes de aceptar una sobreescritura, la
-   sesión de IA informa qué primitives cambiará el CLI y solicita la aprobación
-   necesaria para ejecutar el comando.
-4. Desde el frontend, actualizar o instalar las primitives con
-   `npx shadcn@latest add <primitive> --overwrite --yes`.
+3. Identificar primitives requeridas y qué archivos o dependencias modificará
+   el CLI. Una primitive externa aprobada se instala directamente en
+   `src/components/ui`.
+4. Desde el frontend, instalar o actualizar las primitives con el comando del
+   registro aprobado, permitiendo la sobreescritura cuando corresponda.
 5. Inspeccionar el diff de cada primitive sobreescrita: API pública, clases,
    dependencias, sintaxis de Tailwind, consumidores y compatibilidad con la
    configuración real del proyecto.
@@ -101,8 +102,8 @@ src/components/dashboard/dashboard-welcome-hero/
    de IA la comunica antes de corregirla. Debe presentar el archivo afectado,
    impacto, evidencia reproducible y alternativas: actualización oficial,
    corrección compartida aprobada, componente propio o descarte del bloque.
-7. Copiar sólo el bloque o composición aprobada al producto, importando las
-   primitives desde `@/components/ui`.
+7. Usar la primitive aprobada desde `@/components/ui`; las composiciones de
+   producto viven bajo su dominio o control y no replican su implementación.
 8. Validar temas, viewport, teclado, foco y portales antes de adoptarlo en una
    vista de negocio.
 
@@ -159,6 +160,6 @@ inocua:
 7. Revisar visualmente rutas consumidoras y el catálogo de controles en cada
    tema.
 
-El Date Range Picker ilustra la regla: conserva composición y CSS local en
-`vendor/shadcn/date-picker`, pero usa `Button`, `Calendar` y `Popover`
-canónicos de `src/components/ui`.
+El Date Range Picker ilustra la regla: conserva su composición y CSS local bajo
+su control de producto, pero usa `Button`, `Calendar` y `Popover` canónicos de
+`src/components/ui`.

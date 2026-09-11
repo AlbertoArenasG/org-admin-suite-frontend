@@ -146,14 +146,14 @@ de la transacción global.
 ## Approved Shark UI Adoption Boundary
 
 Shark UI es una fuente selectiva de bloques evaluados primero en Component Lab.
-Un bloque aprobado se integra como vendor encapsulado y se consume únicamente
-mediante una composición propia de producto; los módulos no importan directo
-desde `vendor`.
+Una primitive aprobada se instala directamente en `src/components/ui` mediante
+el registro correspondiente y se consume desde esa ubicación canónica. Las
+composiciones de producto la usan sin duplicar su implementación.
 
-Las primitives canónicas de `src/components/ui` permanecen como base. Shark UI
-no puede sobrescribirlas y tampoco sustituye React Hook Form o Zod. Cada bloque
-requiere evaluación documentada de fuente, licencia, dependencias, tokens,
-temas, responsive, foco, teclado y lector de pantalla antes de adoptarse.
+Shark UI tampoco sustituye React Hook Form o Zod. Cada bloque requiere
+evaluación documentada de fuente, licencia, dependencias, tokens, temas,
+responsive, foco, teclado y lector de pantalla antes de adoptarse. Cualquier
+sobreescritura del CLI se revisa como actualización de una primitive canónica.
 
 ## Approved Migration Order
 

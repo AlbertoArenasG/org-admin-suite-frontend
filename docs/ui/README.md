@@ -54,8 +54,8 @@ docs/ui/
   adopción sin acoplar presentación con transporte HTTP.
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo
   indica si su implementación ya está validada o sigue en etapa de Playground.
-- `components/installed-components.md`: estrategia obligatoria para bundles y
-  bloques externos aislados en `vendor` y sus adaptadores propios.
+- `components/installed-components.md`: estrategia obligatoria para evaluar e
+  instalar primitives externas aprobadas directamente en `src/components/ui`.
 - `adoption-log.md`: registro de módulos, vistas o componentes existentes que
   adopten una guideline de esta carpeta.
 
