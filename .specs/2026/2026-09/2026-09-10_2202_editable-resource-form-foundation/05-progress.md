@@ -42,3 +42,10 @@
   La base no implementa ni migra todavía formularios de negocio; usuarios
   requerirá una iniciativa posterior propia para creación, invitación y
   adopción.
+- Se completó la Slice 1: `ResourceFormFrame`, `ResourceFormSection` y
+  `ResourceFormActions` establecen estructura, secciones y acciones controladas
+  sin introducir tipos de dominio, React Hook Form, Zod o integración remota.
+- Se completó la Slice 2: `ResourceFormRoute` ordena la composición de un
+  detalle en ruta sin asumir shell o scroll; `ResourceFormOverlay` reutiliza el
+  frame y exige que el módulo entregue el contenedor elegido (`Dialog` o
+  `Drawer`).

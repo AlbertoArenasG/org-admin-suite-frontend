@@ -2,15 +2,15 @@
 
 ## Fase 1. Composición Neutral
 
-- [ ] Crear `ResourceFormFrame`, `ResourceFormSection` y `ResourceFormActions`.
-      Status: pending
+- [x] Crear `ResourceFormFrame`, `ResourceFormSection` y `ResourceFormActions`.
+      Status: completed
       Cierre: las tres piezas presentan estructura y estados controlados sin
       conocer tipos, schemas, permisos o integración remota.
 
 ## Fase 2. Hosts De Experiencia
 
-- [ ] Crear `ResourceFormRoute` y `ResourceFormOverlay`.
-      Status: pending
+- [x] Crear `ResourceFormRoute` y `ResourceFormOverlay`.
+      Status: completed
       Cierre: una ruta y ambos contenedores overlay reutilizan el mismo frame;
       `Dialog` y `Drawer` son elección explícita del consumidor.
 
