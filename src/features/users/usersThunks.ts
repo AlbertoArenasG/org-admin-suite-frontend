@@ -347,72 +347,44 @@ interface ApiUserRole {
   is_default: boolean;
 }
 
-export const fetchUserRoles = createAsyncThunk<UserRoleInfo[], void, { state: RootState }>(
-  'users/fetchRoles',
-  async (_void, thunkAPI) => {
-    const state = thunkAPI.getState();
-    const tokenFromState = state.auth.token;
-    const token = tokenFromState ?? readPersistedAuthToken();
+export const fetchAssignableUserRoles = createAsyncThunk<
+  UserRoleInfo[],
+  void,
+  { state: RootState }
+>('users/fetchAssignableRoles', async (_void, thunkAPI) => {
+  const state = thunkAPI.getState();
+  const tokenFromState = state.auth.token;
+  const token = tokenFromState ?? readPersistedAuthToken();
 
-    if (!token) {
-      return thunkAPI.rejectWithValue('No hay token de autenticación');
-    }
-
-    try {
-      const response = await jsonRequest<ApiUserRole[]>(`/v1/users/roles`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-        token,
-      });
-
-      const roles = Array.isArray(response.data) ? response.data : [];
-
-      return roles.map((role) => ({
-        roleId: role.role_id,
-        roleCode: role.role_code,
-        roleName: role.role_name ?? role.role_id,
-        systemRole: role.system_role,
-        roleScope: role.role_scope,
-        isSystem: role.is_system,
-        isDefault: role.is_default,
-      }));
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'No fue posible obtener los roles';
-      return thunkAPI.rejectWithValue(message);
-    }
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
   }
-);
 
-export const fetchUserCreationRoles = createAsyncThunk<UserRoleInfo[], void, { state: RootState }>(
-  'users/fetchCreationRoles',
-  async (_void, thunkAPI) => {
-    const token = thunkAPI.getState().auth.token ?? readPersistedAuthToken();
-    if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+  try {
+    const response = await jsonRequest<ApiUserRole[]>(`/v1/roles/options`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+      token,
+    });
 
-    try {
-      const response = await jsonRequest<ApiUserRole[]>(`/v1/users/creation-roles`, {
-        method: 'GET',
-        headers: { Accept: 'application/json' },
-        token,
-      });
-      return (Array.isArray(response.data) ? response.data : []).map((role) => ({
-        roleId: role.role_id,
-        roleCode: role.role_code,
-        roleName: role.role_name ?? role.role_id,
-        systemRole: role.system_role,
-        roleScope: role.role_scope,
-        isSystem: role.is_system,
-        isDefault: role.is_default,
-      }));
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error instanceof Error ? error.message : 'No fue posible obtener los roles disponibles'
-      );
-    }
+    const roles = Array.isArray(response.data) ? response.data : [];
+
+    return roles.map((role) => ({
+      roleId: role.role_id,
+      roleCode: role.role_code,
+      roleName: role.role_name ?? role.role_id,
+      systemRole: role.system_role,
+      roleScope: role.role_scope,
+      isSystem: role.is_system,
+      isDefault: role.is_default,
+    }));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'No fue posible obtener los roles';
+    return thunkAPI.rejectWithValue(message);
   }
-);
+});
 
 export const createUser = createAsyncThunk<
   CreateUserResult,

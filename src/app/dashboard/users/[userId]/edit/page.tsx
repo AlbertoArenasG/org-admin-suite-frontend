@@ -15,10 +15,9 @@ import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { canManageSystemRole } from '@/features/users/roles';
 import Chip from '@mui/material/Chip';
-import { fetchUserById, fetchUserRoles, updateUser } from '@/features/users/usersThunks';
+import { fetchAssignableUserRoles, fetchUserById, updateUser } from '@/features/users/usersThunks';
 import { fetchCustomerOptions } from '@/features/customers';
 import { resetUserUpdateState } from '@/features/users/usersSlice';
-import type { UserRoleInfo } from '@/features/users/usersSlice';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { getInitialsFromText } from '@/lib/get-initials';
 import { useAuthorization } from '@/features/auth';
@@ -54,24 +53,12 @@ export default function UserEditPage() {
   }, [authHydrated, dispatch, params.userId]);
 
   useEffect(() => {
-    if (rolesState.status === 'idle') {
-      void dispatch(fetchUserRoles());
+    if (canUpdateUsers && rolesState.status === 'idle') {
+      void dispatch(fetchAssignableUserRoles());
     }
-  }, [dispatch, rolesState.status]);
+  }, [canUpdateUsers, dispatch, rolesState.status]);
 
-  const availableRoles: UserRoleInfo[] = rolesState.items.filter((role) => {
-    if (role.systemRole === 'MASTER_ADMIN') {
-      return currentRole === 'MASTER_ADMIN';
-    }
-
-    if (role.systemRole === 'ADMIN') {
-      return currentRole === 'MASTER_ADMIN' || currentRole === 'ADMIN';
-    }
-
-    return Boolean(currentRole);
-  });
-
-  const roleOptionsWithLabels = availableRoles.map((role) => ({
+  const roleOptionsWithLabels = rolesState.items.map((role) => ({
     value: role.roleId,
     label: role.roleName,
     systemRole: role.systemRole,

@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { UserForm, type UserFormValues } from '@/components/users2/UserForm';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { fetchUserRoles } from '@/features/users/usersThunks';
+import { fetchAssignableUserRoles } from '@/features/users/usersThunks';
 import { fetchCustomerOptions } from '@/features/customers';
 import { createUserRegistrationInvitation } from '@/features/user-registration-invitations';
 import { Button } from '@/components/ui/button';
@@ -33,7 +33,7 @@ export default function InviteUserPage() {
 
   useEffect(() => {
     if (canInviteUsers && rolesState.status === 'idle') {
-      void dispatch(fetchUserRoles());
+      void dispatch(fetchAssignableUserRoles());
     }
   }, [canInviteUsers, dispatch, rolesState.status]);
 
@@ -221,7 +221,7 @@ export default function InviteUserPage() {
                 <Button
                   variant="outline"
                   onClick={() => {
-                    void dispatch(fetchUserRoles());
+                    void dispatch(fetchAssignableUserRoles());
                   }}
                 >
                   {t('detail.error.retry', { defaultValue: 'Reintentar' })}

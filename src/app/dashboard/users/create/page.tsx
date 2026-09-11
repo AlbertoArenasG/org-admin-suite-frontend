@@ -14,7 +14,7 @@ import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { useAuthorization } from '@/features/auth';
 import { fetchCustomerOptions } from '@/features/customers';
-import { createUser, fetchUserCreationRoles } from '@/features/users';
+import { createUser, fetchAssignableUserRoles } from '@/features/users';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
@@ -30,7 +30,7 @@ export default function CreateUserPage() {
   const canCreateUsers = hasPermission('USERS', 'CREATE');
 
   useEffect(() => {
-    if (canCreateUsers) void dispatch(fetchUserCreationRoles());
+    if (canCreateUsers) void dispatch(fetchAssignableUserRoles());
   }, [canCreateUsers, dispatch]);
 
   const roleOptions = useMemo(

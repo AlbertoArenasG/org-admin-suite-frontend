@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [user-role-options-consumer-migration](./2026/2026-09/2026-09-10_1130_user-role-options-consumer-migration/00-definition.md) - completed; consumidores migrados al lookup transversal de roles
 - [generic-data-table-foundation](./2026/2026-09/2026-09-08_1243_generic-data-table-foundation/00-definition.md) - completed; DataTable v9 validated and promoted to the official catalog
 - [canonical-shadcn-primitives-theme-migration](./2026/2026-09/2026-09-07_0941_canonical-shadcn-primitives-theme-migration/00-definition.md) - completed
 - [customer-service-records-client-access-monitoring](./2026/2026-09/2026-09-06_2246_customer-service-records-client-access-monitoring/00-definition.md) - completada; Seguimiento de servicios validado en Next Dashboard

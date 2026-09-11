@@ -2,8 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchUsers,
-  fetchUserRoles,
-  fetchUserCreationRoles,
+  fetchAssignableUserRoles,
   fetchUserById,
   updateUser,
   deleteUser,
@@ -173,30 +172,15 @@ const usersSlice = createSlice({
           action.error.message ??
           'No fue posible obtener la lista de usuarios';
       })
-      .addCase(fetchUserRoles.pending, (state) => {
+      .addCase(fetchAssignableUserRoles.pending, (state) => {
         state.roles.status = 'loading';
         state.roles.error = null;
       })
-      .addCase(fetchUserRoles.fulfilled, (state, action) => {
+      .addCase(fetchAssignableUserRoles.fulfilled, (state, action) => {
         state.roles.status = 'succeeded';
         state.roles.items = action.payload;
       })
-      .addCase(fetchUserRoles.rejected, (state, action) => {
-        state.roles.status = 'failed';
-        state.roles.error =
-          (action.payload as string | undefined) ??
-          action.error.message ??
-          'No fue posible obtener los roles disponibles';
-      })
-      .addCase(fetchUserCreationRoles.pending, (state) => {
-        state.roles.status = 'loading';
-        state.roles.error = null;
-      })
-      .addCase(fetchUserCreationRoles.fulfilled, (state, action) => {
-        state.roles.status = 'succeeded';
-        state.roles.items = action.payload;
-      })
-      .addCase(fetchUserCreationRoles.rejected, (state, action) => {
+      .addCase(fetchAssignableUserRoles.rejected, (state, action) => {
         state.roles.status = 'failed';
         state.roles.error =
           (action.payload as string | undefined) ??
