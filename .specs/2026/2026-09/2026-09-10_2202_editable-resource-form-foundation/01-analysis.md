@@ -12,9 +12,9 @@
 - El dashboard tiene primitives canónicas shadcn, contrato multitema y
   composiciones de workspace. No existe todavía un patrón vivo de formularios
   aprobado.
-- Shark UI está disponible únicamente como entorno de evaluación en Component
-  Lab. Su uso productivo no ha sido aprobado ni evaluado contra las primitives,
-  tokens y políticas del frontend.
+- Shark UI/Ark UI fue evaluada en Component Lab y se aprobó como familia
+  acotada para formularios nuevos de Next Dashboard. Todavía no se han
+  incorporado sus fuentes productivas ni dependencias al frontend.
 
 ## Findings
 
@@ -49,8 +49,9 @@
   HTTP y composición de todos los dominios.
 - Elegir overlays para formularios que necesitan una experiencia de workspace,
   produciendo scroll, foco y confirmaciones difíciles de mantener.
-- Adoptar Shark UI desde el laboratorio sin evaluación de dependencias,
-  primitives, temas, responsive y accesibilidad.
+- Incorporar Shark/Ark sin documentar su procedencia, dependencias, primitives
+  internas, temas, responsive y accesibilidad, o sobrescribir por ello una
+  primitive canónica con consumidores activos.
 - Migrar usuarios antes de que la base defina fronteras y repetir el
   acoplamiento de `UserForm` con una API nueva.
 
@@ -106,8 +107,8 @@
 
 - `Field` es candidato para evaluar composición semántica de etiqueta,
   descripción y error sobre controles de formulario.
-- `Editable` se descarta para este primer flujo: la propia guía de Shark lo
-  desaconseja para formularios con validación global.
-- `Dialog`, `Select` y `Combobox` no se adoptan por defecto: el producto ya
-  dispone de primitives canónicas y cualquier sustitución exigiría evaluación
-  independiente de API, accesibilidad, tema y dependencias.
+- `Editable` controlado es candidato de la familia para alternar lectura y
+  edición sin sustituir la instancia RHF, schema o submit global del módulo.
+- `Dialog`, `Drawer`, `Select` y `Combobox` se integran únicamente cuando el
+  flujo de formularios aprobado los requiera; no sustituyen por defecto las
+  primitives canónicas en el resto del producto.

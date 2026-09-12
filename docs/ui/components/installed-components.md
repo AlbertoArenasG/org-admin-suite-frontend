@@ -1,12 +1,12 @@
-# Componentes Instalados y Adopción Directa
+# Componentes Instalados y Adopción de Fuentes Externas
 
 **Estado:** Guideline viva para primitives y componentes externos del frontend.
 
 ## Principio
 
-`src/components/ui` es la única fuente de primitives canónicas del producto,
-incluidas las primitives externas aprobadas. Los componentes compuestos siempre
-importan desde esa carpeta; no copian `button`, `popover`, `calendar` u otra
+`src/components/ui` conserva las primitives canónicas y transversales del
+producto. Los componentes compuestos importan desde esa carpeta cuando usan
+esa familia canónica; no copian `button`, `popover`, `calendar` u otra
 primitive dentro de su propio directorio.
 
 El frontend mantiene `style: new-york` y Radix en `components.json`. El
@@ -17,17 +17,28 @@ producto.
 
 ```text
 src/components/
-├─ ui/                        # Primitives canónicas instaladas y aprobadas.
+├─ ui/                        # Primitives canónicas y transversales.
+├─ vendor/<fuente>/<familia>/  # Subsistema externo aprobado y acotado.
 └─ <dominio o control>/        # Composición y API de producto.
 ```
 
-- `ui/` se actualiza mediante el CLI de shadcn desde la raíz del frontend. Una
-  primitive externa aprobada se instala directamente ahí y queda sometida al
-  mismo contrato de temas, revisión de API y compatibilidad que una primitive
-  shadcn nativa.
-- No se crean nuevas carpetas `vendor/`. Las existentes son legado y se
-  revisarán o retirarán cuando se migren sus consumidores; no establecen el
-  patrón para nuevas integraciones.
+- Una primitive externa puede instalarse directamente en `ui/` únicamente si
+  conserva el contrato global existente y no sustituye ni altera una primitive
+  transversal con consumidores activos.
+- `vendor/<fuente>/<familia>/` es una frontera válida para una familia externa
+  cohesionada que necesita primitives dependientes propias o resulta
+  incompatible con los contratos globales. No es un directorio genérico para
+  bloques aislados ni una segunda biblioteca de producto.
+- La familia vendor debe registrar fuente, versión o revisión, licencia,
+  dependencias, primitives internas, consumidores y procedimiento de
+  actualización. Sus componentes interactivos no se mezclan arbitrariamente
+  con primitives canónicas en el mismo flujo.
+- `vendor` es una frontera de fuente y dependencias, nunca un wrapper para
+  traducir clases o tokens de estilos.
+- Esta política describe la decisión vigente, no una prohibición permanente.
+  La persona responsable del producto puede aprobar otra familia vendor, una
+  integración directa o el cambio de una adopción existente cuando exista una
+  evaluación explícita de su alcance, contratos, dependencias y consumidores.
 - Un componente compuesto es dueño de comportamiento, copy, props y estructura
   local. No existe únicamente para inyectar una clase de tema.
 
@@ -91,19 +102,23 @@ src/components/dashboard/dashboard-welcome-hero/
 2. Registrar fuente, licencia, comando, dependencias y resultado de evaluación
    en el laboratorio.
 3. Identificar primitives requeridas y qué archivos o dependencias modificará
-   el CLI. Una primitive externa aprobada se instala directamente en
-   `src/components/ui`.
-4. Desde el frontend, instalar o actualizar las primitives con el comando del
-   registro aprobado, permitiendo la sobreescritura cuando corresponda.
-5. Inspeccionar el diff de cada primitive sobreescrita: API pública, clases,
+   el CLI. Definir explícitamente si se integran en `src/components/ui` o como
+   una familia acotada en `src/components/vendor/<fuente>/<familia>/`.
+4. No permitir que un registro externo sustituya una primitive canónica con
+   consumidores activos sin una decisión independiente de migración. Si el
+   bloque requiere su propio stack, copiar o adaptar sus fuentes dentro de su
+   frontera vendor con procedencia verificable.
+5. Inspeccionar el diff de cada primitive, source o dependencia incorporada:
+   API pública, clases,
    dependencias, sintaxis de Tailwind, consumidores y compatibilidad con la
    configuración real del proyecto.
 6. Si se detecta una regresión o una incompatibilidad del registro, la sesión
    de IA la comunica antes de corregirla. Debe presentar el archivo afectado,
    impacto, evidencia reproducible y alternativas: actualización oficial,
    corrección compartida aprobada, componente propio o descarte del bloque.
-7. Usar la primitive aprobada desde `@/components/ui`; las composiciones de
-   producto viven bajo su dominio o control y no replican su implementación.
+7. Usar primitives canónicas desde `@/components/ui` y una familia vendor solo
+   desde su boundary aprobado. Las composiciones de producto viven bajo su
+   dominio o control y no replican esa implementación.
 8. Validar temas, viewport, teclado, foco y portales antes de adoptarlo en una
    vista de negocio.
 

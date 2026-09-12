@@ -105,26 +105,28 @@ contenedor que no puede sostener su interacción, foco, validación y contexto.
 criterios. La regla no determina por sí sola el diseño de una vista ni su
 estrategia de guardado.
 
-## 2026-09-10 - Adopción selectiva de Shark UI
+## 2026-09-11 - Familia Shark UI para formularios de Next Dashboard
 
 **Status:** approved
 
-Shark UI se evalúa primero en Component Lab y se adopta bloque por bloque solo
-cuando cubre una necesidad concreta de la base de formularios. Una primitive
-aprobada se instala directamente en `src/components/ui` mediante su registro;
-las composiciones de producto la consumen desde esa ubicación canónica sin
-duplicar su implementación.
+Shark UI y Ark UI son la familia oficial para formularios nuevos de Next
+Dashboard y overlays asociados. Sus fuentes vivirán bajo
+`src/components/vendor/shark/`; no sobrescribirán el `Button` ni el `Spinner`
+canónicos de `src/components/ui`. React Hook Form y Zod continúan como stack.
 
-React Hook Form y Zod continúan como stack. Las primitives instaladas mediante
-Shark se revisan como parte del catálogo canónico, incluidos sus diffs,
-consumidores, temas y dependencias.
+**Reason:** el registro de Shark requiere primitives dependientes y su
+instalación directa reemplazaría contratos globales activos. El vendor conserva
+una frontera explícita de fuente y dependencias sin introducir un wrapper de
+traducción de estilos.
 
-**Reason:** permite adoptar directamente primitives ya evaluadas y evita una
-capa `vendor` artificial ahora que el CLI no depende de un `tailwind.config`.
-
-**Impact:** cada candidato exige evaluación documentada de fuente, licencia,
-dependencias, tokens, temas, responsive, foco, teclado y lector de pantalla.
-No se adopta todavía un bloque concreto en esta iniciativa de definición.
+**Impact:** la familia debe consumir tokens semánticos globales directamente,
+mantener CSS estructural co-localizado y declarar cualquier rol visual nuevo en
+todos los temas activos. Antes de integrar sus fuentes se documentarán
+procedencia, licencia, revisión, dependencias, consumidores y actualización;
+no se instala todavía ningún bloque en esta iniciativa. Esta es la decisión
+vigente para esta etapa, no una restricción absoluta: la persona responsable
+puede aprobar en el futuro otra familia vendor, una integración directa o un
+cambio de adopción mediante una evaluación explícita.
 
 ## 2026-09-10 - Primeros consumidores y orden de migración
 

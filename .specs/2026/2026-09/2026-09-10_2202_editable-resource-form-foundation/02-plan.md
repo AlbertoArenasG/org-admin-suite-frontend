@@ -12,11 +12,20 @@ Crear `ResourceFormRoute` y `ResourceFormOverlay`. El host overlay recibe
 `Dialog` o `Drawer` del consumidor; no selecciona una variante ni implementa
 su propia política responsive.
 
-## Fase 3. Contrato Y Verificación
+## Fase 3. Integración De La Familia De Formularios
+
+Incorporar las fuentes aprobadas de Shark/Ark bajo
+`src/components/vendor/shark/`, sin sobrescribir primitives canónicas. Registrar
+procedencia, dependencias, estilos estructurales, contrato de tokens y
+actualización. La fundación `ResourceForm*` conserva su neutralidad y recibe
+los hosts de overlay desde el consumidor.
+
+## Fase 4. Contrato Y Verificación
 
 Exportar la superficie pública desde un único índice, verificar límites de
-imports, typecheck, lint y build. Registrar la composición en el catálogo vivo
-solo si existe un preview de producto que no dependa del Component Lab.
+imports, typecheck, lint y build. Crear un preview oficial que valide la
+fundación con la familia Shark/Ark, incluyendo `Editable` controlado y hosts
+`Dialog` y `Drawer`, antes de registrar la composición en el catálogo vivo.
 
 ## Entrega Posterior
 

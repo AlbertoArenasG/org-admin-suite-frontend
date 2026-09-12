@@ -20,9 +20,9 @@
 - Se aprobó un modelo de persistencia híbrido: guardado por sección solo ante
   operaciones remotas independientes; detalles largos con una única operación
   backend usan secciones visuales sobre una transacción global.
-- Se aprobó la adopción selectiva de Shark UI, manteniendo React Hook Form y
-  Zod como stack y evaluando sus primitives antes de integrarlas al catálogo
-  canónico.
+- Se aprobó Shark UI/Ark UI como familia de formularios de Next Dashboard,
+  manteniendo React Hook Form y Zod como stack. Su integración se hará como
+  source vendor acotado, no como reemplazo del catálogo canónico.
 - Se aprobó el orden inicial de consumidores: edición de usuarios primero y
   registros de servicio a cliente después. No se definió el orden de módulos
   posteriores.
@@ -54,3 +54,7 @@
   confirmó que su carpeta no importa API, features, stores, permisos ni
   navegación. Lint, typecheck y build terminan sin errores atribuibles a esta
   iniciativa; la validación visual sigue pendiente de un consumidor aprobado.
+- Se formalizó que Shark/Ark vivirá bajo `src/components/vendor/shark/` para
+  formularios y overlays de formulario. El vendor es una frontera de fuente y
+  dependencias, no un wrapper de tokens; no sobrescribirá `Button` ni `Spinner`
+  canónicos. Su incorporación y preview oficial siguen pendientes.

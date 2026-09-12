@@ -172,8 +172,13 @@ El mismo contrato visual compartido define `--control-surface`,
 tema resuelve esos valores; los controles los consumen para que una toolbar no
 combine fondos, bordes, hover o foco incongruentes.
 
-Una primitive externa aprobada que herede estados visuales de su librería
-consume el contrato `--control-*` directamente. No duplica valores por tema.
+Una primitive externa aprobada, directa o dentro de una familia vendor, consume
+el contrato semántico existente (`--control-*` cuando corresponda) directamente.
+`vendor` no introduce un wrapper para traducir tokens. El CSS estructural o de
+animación exclusivo de esa familia vive junto a sus fuentes y se importa una
+vez desde el alcance global cuando sus portales lo requieran. Si la familia
+necesita roles visuales nuevos y reutilizables, cada tema activo declara su
+archivo completo; no se resuelve mediante valores por defecto de otro tema.
 
 ## Criterio de Creación
 

@@ -55,7 +55,8 @@ docs/ui/
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo
   indica si su implementación ya está validada o sigue en etapa de Playground.
 - `components/installed-components.md`: estrategia obligatoria para evaluar e
-  instalar primitives externas aprobadas directamente en `src/components/ui`.
+  integrar primitives externas, ya sea como canónicas en `src/components/ui` o
+  como una familia vendor acotada y documentada.
 - `adoption-log.md`: registro de módulos, vistas o componentes existentes que
   adopten una guideline de esta carpeta.
 

@@ -44,8 +44,8 @@ presentación.
   para Next Dashboard.
 - Establecer cómo los módulos conectan carga, mutación, error, reintento,
   permisos y navegación a esa base.
-- Evaluar formalmente Shark UI como posible fuente de componentes para
-  formularios, sin adoptarlo todavía en producción.
+- Integrar la familia aprobada Shark UI/Ark UI como source vendor acotado para
+  formularios de Next Dashboard y overlays asociados.
 - Definir el camino de migración posterior del módulo de usuarios que resuelve
   la deuda de `UserForm`.
 
@@ -54,8 +54,8 @@ presentación.
 - Implementar el componente genérico o migrar una vista de negocio en esta
   etapa de definición.
 - Rediseñar o modificar formularios legacy actuales.
-- Adoptar Shark UI, copiar código del Component Lab o instalar dependencias de
-  producción.
+- Migrar un formulario o una ruta de negocio; la integración de Shark/Ark solo
+  establece la familia compartida y su preview oficial.
 - Cambiar contratos backend, capabilities, endpoints o reglas de jerarquía.
 - Decidir el diseño particular de clientes, proveedores, usuarios u otro
   recurso antes de analizar su caso de uso.
@@ -145,15 +145,28 @@ de la transacción global.
 
 ## Approved Shark UI Adoption Boundary
 
-Shark UI es una fuente selectiva de bloques evaluados primero en Component Lab.
-Una primitive aprobada se instala directamente en `src/components/ui` mediante
-el registro correspondiente y se consume desde esa ubicación canónica. Las
-composiciones de producto la usan sin duplicar su implementación.
+Shark UI y Ark UI son la familia aprobada para formularios nuevos de Next
+Dashboard y sus overlays de formulario. React Hook Form y Zod permanecen como
+stack de valores, validación y submit.
 
-Shark UI tampoco sustituye React Hook Form o Zod. Cada bloque requiere
-evaluación documentada de fuente, licencia, dependencias, tokens, temas,
-responsive, foco, teclado y lector de pantalla antes de adoptarse. Cualquier
-sobreescritura del CLI se revisa como actualización de una primitive canónica.
+La familia se integrará como source vendor bajo
+`src/components/vendor/shark/`, sin sobrescribir `src/components/ui/button.tsx`
+ni `src/components/ui/spinner.tsx`. El vendor es dueño únicamente de sus
+primitives dependientes de formularios y overlays; no es un wrapper de estilos
+ni un segundo catálogo general de UI. Las composiciones de producto usarán la
+API de formularios aprobada, sin mezclar primitives interactivas de Shark y
+Radix de forma arbitraria dentro del mismo flujo.
+
+Shark consume los tokens semánticos globales actuales directamente. El CSS
+estructural o de animación exclusivo queda co-localizado con la familia y se
+importa globalmente una sola vez si existen portales. Si requiere nuevos roles
+visuales reutilizables, cada tema activo los declara explícitamente en su
+archivo de familia; no existen fallbacks implícitos entre temas.
+
+Antes de incorporar fuentes productivas se documentarán fuente, licencia,
+revisión, dependencias, primitives internas, consumidores, actualización,
+temas, responsive, foco, teclado y lector de pantalla. La adopción no se
+ejecuta todavía en este punto.
 
 ## Approved Migration Order
 

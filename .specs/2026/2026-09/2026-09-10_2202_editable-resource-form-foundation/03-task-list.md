@@ -14,7 +14,15 @@
       Cierre: una ruta y ambos contenedores overlay reutilizan el mismo frame;
       `Dialog` y `Drawer` son elección explícita del consumidor.
 
-## Fase 3. Exportación Y Verificación
+## Fase 3. Familia Shark/Ark
+
+- [ ] Integrar la familia de formularios y overlays de Shark/Ark bajo
+      `src/components/vendor/shark/` sin sobrescribir primitives canónicas.
+      Status: pending
+      Cierre: fuente, revisión, licencia, dependencias, estilos y actualización
+      quedan documentados; el vendor consume los tokens globales sin wrapper.
+
+## Fase 4. Exportación Y Verificación
 
 - [x] Exponer el contrato público y verificar fronteras de importación.
       Status: completed
@@ -28,5 +36,5 @@
 
 - [ ] Realizar validación visual, de teclado, foco y temas activos.
       Status: pending
-      Cierre: la persona usuaria valida composición de ruta y ambas variantes
-      de overlay en el catálogo o consumidor aprobado.
+      Cierre: la persona usuaria valida composición de ruta, `Editable`
+      controlado y ambas variantes de overlay en el preview oficial.

@@ -17,9 +17,10 @@ src/components/resource-form/
 └─ index.ts
 ```
 
-La carpeta es una composición de producto, no una primitive. Usa únicamente
-primitives canónicas de `src/components/ui` y no importa código del Component
-Lab ni bloques de Shark UI directamente.
+La carpeta es una composición de producto, no una primitive. Puede recibir
+hosts construidos con primitives canónicas o con la familia de formularios
+Shark/Ark aprobada bajo `src/components/vendor/shark/`, pero no importa código
+del Component Lab ni implementa sus primitives.
 
 No se crea CSS local ni tokens nuevos mientras las primitives existentes cubran
 la superficie. Si una necesidad visual futura obliga a CSS propio, la carpeta
@@ -140,7 +141,8 @@ solo existe cuando backend expone operaciones independientes.
 - No hay imports a `features`, `api`, `stores`, `app` ni rutas desde esta
   carpeta.
 - No hay lectura de permisos, HTTP, navegación, autosave, wizard ni auditoría.
-- No se adopta todavía Shark UI en producción.
+- Shark/Ark no está incorporado todavía en producción. Cuando se integre,
+  vivirá como familia vendor acotada y no sustituirá primitives canónicas.
 
 ## Criterios De Aceptación Técnicos
 
