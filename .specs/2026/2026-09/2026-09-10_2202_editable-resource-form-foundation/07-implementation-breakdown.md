@@ -30,3 +30,17 @@ la decisión por recurso.
 
 **Cierre:** queda una fundación consumible y verificable; la primera migración
 de recurso continúa en su propia spec.
+
+## Slice 4. Contrato De Presentación Y Anatomía
+
+1. Mantener la topología `host o ruta -> frame -> sección -> campos -> acciones`.
+2. Añadir variantes explícitas de `surface` (`card | bare`) y `density`
+   (`comfortable | compact | none`) al frame, con títulos y descripciones
+   opcionales.
+3. Permitir secciones sin encabezado visual conservando su agrupación
+   estructural.
+4. Extender el preview oficial como espécimen completo y añadir diagramas de
+   ruta y overlay que distingan estructura de apariencia opcional.
+
+**Cierre:** las rutas futuras reutilizan una composición estable sin heredar
+por obligación una acumulación de superficies, padding o encabezados.

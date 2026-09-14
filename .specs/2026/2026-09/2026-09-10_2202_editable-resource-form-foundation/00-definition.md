@@ -5,7 +5,8 @@
 - Name: `editable-resource-form-foundation`
 - Date: `2026-09-10`
 - Definition status: `completed`
-- Implementation ready: `yes`
+- Implementation status: `completed`
+- Spec status: `closed`
 
 ## Problem
 
@@ -48,17 +49,20 @@ presentación.
   formularios de Next Dashboard y overlays asociados.
 - Definir el camino de migración posterior del módulo de usuarios que resuelve
   la deuda de `UserForm`.
+- Añadir navegación intraformulario opcional para rutas de recursos largos,
+  con scroll spy y regiones sticky configurables.
 
 ## Excluded Scope
 
-- Implementar el componente genérico o migrar una vista de negocio en esta
-  etapa de definición.
+- Migrar una vista o formulario de negocio. Esta iniciativa implementa y valida
+  la fundación neutral, pero no adopta todavía un consumidor de dominio.
 - Rediseñar o modificar formularios legacy actuales.
 - Migrar un formulario o una ruta de negocio; la integración de Shark/Ark solo
   establece la familia compartida y su preview oficial.
 - Cambiar contratos backend, capabilities, endpoints o reglas de jerarquía.
 - Decidir el diseño particular de clientes, proveedores, usuarios u otro
   recurso antes de analizar su caso de uso.
+- Aplicar navegación intraformulario a una ruta de negocio o a overlays.
 
 ## Constraints
 
@@ -93,7 +97,9 @@ comportamiento responsive. Debe resolver cancelación y cambios sin guardar de
 forma accesible.
 
 Ninguna variante overlay se extiende hasta convertirse en una página comprimida
-con scroll, secciones o dependencias complejas.
+con scroll, secciones o dependencias complejas. Por política vigente, un
+recurso con varias secciones usa ruta dedicada; una excepción futura requiere
+una decisión explícita en la spec de ese recurso.
 
 ### Editable Detail Route
 
@@ -149,7 +155,7 @@ Shark UI y Ark UI son la familia aprobada para formularios nuevos de Next
 Dashboard y sus overlays de formulario. React Hook Form y Zod permanecen como
 stack de valores, validación y submit.
 
-La familia se integrará como source vendor bajo
+La familia se integra como source vendor bajo
 `src/components/vendor/shark/`, sin sobrescribir `src/components/ui/button.tsx`
 ni `src/components/ui/spinner.tsx`. El vendor es dueño únicamente de sus
 primitives dependientes de formularios y overlays; no es un wrapper de estilos
@@ -163,10 +169,11 @@ importa globalmente una sola vez si existen portales. Si requiere nuevos roles
 visuales reutilizables, cada tema activo los declara explícitamente en su
 archivo de familia; no existen fallbacks implícitos entre temas.
 
-Antes de incorporar fuentes productivas se documentarán fuente, licencia,
-revisión, dependencias, primitives internas, consumidores, actualización,
-temas, responsive, foco, teclado y lector de pantalla. La adopción no se
-ejecuta todavía en este punto.
+La integración documenta fuente, licencia, revisión, dependencias, primitives
+internas, consumidores y actualización en
+`src/components/vendor/shark/forms/README.md`. El preview oficial ya validó
+temas, responsive, foco y teclado; la integración con React Hook Form y una
+mutación remota real permanece como gate del primer consumidor de dominio.
 
 ## Approved Migration Order
 
@@ -179,8 +186,20 @@ ejecuta todavía en este punto.
    mantenga una operación única.
 3. El orden de los módulos posteriores no se define en esta iniciativa.
 
-## Gate
+## Gate Del Primer Consumidor
 
-No se creará código de formularios ni se migrará una ruta mientras no exista
-diseño técnico con registro de artefactos y criterios de aceptación
-verificables.
+La primera ruta de negocio que adopte esta fundación deberá validar React Hook
+Form, su mutación remota, permisos reales y los estados derivados de datos de
+dominio. Esos casos no corresponden a la fundación neutral ni se simulan como
+integración remota en el preview.
+
+## Cierre
+
+La fundación `ResourceForm`, la familia Shark/Ark aprobada, su preview oficial
+y la documentación de adopción quedaron implementados y validados dentro del
+alcance neutral. La ampliación posterior completó la navegación intraformulario
+opcional para rutas largas, incluidos scroll spy, tabs sticky en móvil,
+navegación lateral sticky en escritorio y regiones sticky opcionales de ruta.
+No quedan decisiones ni tareas abiertas en esta iniciativa. La primera adopción
+de negocio deberá cumplir el gate de integración; adjuntos requieren una spec
+propia.

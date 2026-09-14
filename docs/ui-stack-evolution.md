@@ -15,9 +15,11 @@ componentes de interfaz reutilizables. Esta capa debe permitir que los
 formularios y superficies complejas tengan una presentacion mas refinada,
 coherente y mantenible.
 
-La iniciativa comienza aplicando estos principios al formulario de creacion de
-un registro de servicio al cliente. Sus resultados solo se generalizaran cuando
-representen un patron real para otros flujos.
+La fundación `Resource Form` ya fue aprobada y validada como composición
+neutral en el catálogo de Next Dashboard. La primera adopción de negocio será
+la edición de usuarios; los registros de servicio a cliente validarán después
+el caso amplio con varias secciones. La adopción se mantiene gradual y cada
+recurso conserva su propia spec.
 
 ## Principios
 
@@ -34,22 +36,24 @@ representen un patron real para otros flujos.
 - Respetar los patrones visuales aprobados: tipografia global, colores, radios,
   espaciado, estados de foco, borde y sombra.
 
-## Candidatos Reutilizables
+## Fundación De Formularios Aprobada
 
-Los siguientes patrones pueden convertirse en componentes compartidos si el
-primer formulario confirma que tienen uso mas alla de una sola pantalla:
+`src/components/resource-form/` concentra los patrones ya aprobados:
 
-- Contenedor de formulario para concentrar jerarquia, ancho y espaciado.
-- Seccion de formulario con titulo, descripcion opcional y contenido compuesto.
-- Grid de campos que adapte la distribucion sin que cada formulario replique
-  sus breakpoints.
-- Barra de acciones para formularios largos, con variantes normales o fijas
-  segun el contexto.
-- Tratamiento consistente de carga, error, vacio y acciones deshabilitadas.
+- Frame con superficie, densidad, encabezado, feedback y acciones globales.
+- Secciones semánticas con presentación opcional y acciones locales cuando la
+  operación remota sea independiente.
+- Detalle editable en ruta para recursos amplios o multi-sección.
+- Overlay breve con `Dialog` o `Drawer` para recursos de una sola sección.
+- Estados visuales controlados de carga, guardado, error y reintento.
 
 Los campos, validaciones y agrupaciones que sean exclusivos de un flujo deben
 permanecer dentro de su modulo. Un componente compartido no debe incluir reglas
 de dominio ni asumir nombres de entidades.
+
+La navegación intraformulario y regiones fijas no forman parte todavía de la
+fundación adoptada. Se evaluaron como dirección futura para formularios largos,
+pero se implementarán solo cuando una spec de recurso tenga esa necesidad.
 
 ## Proceso De Trabajo
 
@@ -70,7 +74,9 @@ Los componentes nuevos deben contar desde su origen con responsive basico:
 
 - Grids que se apilen de forma legible en anchos reducidos.
 - Controles de ancho disponible y espaciado compacto.
-- Acciones alcanzables cuando el formulario requiera desplazamiento prolongado.
+- En formularios largos de ruta, la spec del recurso decide navegación y
+  acciones alcanzables según un único dueño de scroll. Los overlays se reservan
+  para una sección breve y no se extienden con scroll prolongado.
 
 Esto no reemplaza el rediseño responsive global. La revision del shell movil,
 sidebar, encabezados, tablas y representaciones moviles se mantiene en

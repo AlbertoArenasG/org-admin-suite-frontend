@@ -23,3 +23,16 @@ Las futuras entradas deben incluir:
 - Spec: `generic-data-table-foundation`.
 - Propósito: validar el componente promovido con tokens y temas reales; no es
   una adopción de módulo de negocio ni importa Component Lab.
+
+## 2026-09-13 - Resource Form Catalog Preview
+
+- Alcance: `/dashboard-playground/catalog/resource-forms` y
+  `src/components/resource-form/`.
+- Patrón: composición neutral de detalle editable con frame, secciones,
+  acciones globales/locales y hosts `Dialog` o `Drawer`.
+- Spec: `editable-resource-form-foundation`.
+- Propósito: validar superficies, densidad, estados simulados, temas,
+  responsive, teclado y foco antes de adoptar el primer formulario de negocio.
+- Compatibilidad temporal: la integración real con React Hook Form y mutación
+  remota es un gate de la spec del primer consumidor, no responsabilidad del
+  catálogo neutral.

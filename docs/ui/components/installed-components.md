@@ -42,6 +42,21 @@ src/components/
 - Un componente compuesto es dueño de comportamiento, copy, props y estructura
   local. No existe únicamente para inyectar una clase de tema.
 
+## Familias Vendor Aprobadas
+
+### Shark Forms
+
+`src/components/vendor/shark/forms/` es la familia aprobada para formularios
+nuevos y overlays asociados de Next Dashboard. Usa Ark UI y contiene
+`Editable`, `Drawer`, `Checkbox`, `Radio Group` y sus dependencias. No
+sobrescribe `Button` ni `Spinner` canónicos; consume los tokens semánticos
+globales sin wrapper de estilos.
+
+La procedencia, revisión, licencia, dependencias y actualización viven en su
+[`README`](../../../src/components/vendor/shark/forms/README.md). Su adopción
+en un recurso de negocio exige seguir el patrón
+[`Resource Form`](../patterns/resource-form.md).
+
 ## Variantes De Producto
 
 Cuando una primitive canónica no cubra un caso local, primero se elige una de

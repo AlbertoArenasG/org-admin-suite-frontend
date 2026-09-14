@@ -14,6 +14,7 @@ src/components/resource-form/
 ├─ ResourceFormOverlay.tsx
 ├─ ResourceFormSection.tsx
 ├─ ResourceFormActions.tsx
+├─ ResourceFormNavigation.tsx
 └─ index.ts
 ```
 
@@ -55,16 +56,31 @@ Contrato conceptual:
 
 ```text
 mode: read | edit
-title, description?: ReactNode
+surface: ResourceFormSurface | { base: ResourceFormSurface, md?: ResourceFormSurface }
+density: ResourceFormDensity | { base: ResourceFormDensity, md?: ResourceFormDensity }
+title?, description?: ReactNode
 status?: idle | loading | saving | error
 feedback?: ReactNode
 children: ReactNode
-actions?: ReactNode
+headerActions?: ReactNode
+footerActions?: ReactNode
 ```
 
 El consumidor puede envolver el contenido con el elemento `form` de React Hook
 Form. Así conserva tipos y submit propios, y la base no introduce un genérico
 de valores que borre la frontera entre intenciones de negocio.
+
+`surface` y `density` solo controlan presentación. Aceptan un valor fijo o una
+declaración `{ base, md? }`, resuelta con clases CSS estáticas, sin lectura de
+viewport en JavaScript. `card` presenta la superficie completa; `bare` conserva
+el mismo nodo estructural sin fondo, borde, radio, sombra ni padding propio. El
+título y la descripción son opcionales: el
+recurso puede delegar su contexto visible al `Page Header`, `Dialog` o `Drawer`
+sin eliminar el frame.
+
+Las acciones globales son opcionales y pueden ocupar `headerActions` o
+`footerActions`. Su ubicación visual no cambia la atomicidad: cuando el recurso
+usa una mutación global, ambas posiciones pertenecen a la misma operación.
 
 ### `ResourceFormRoute`
 
@@ -76,25 +92,61 @@ estable para `ResourceFormFrame`, secciones y acciones globales. No define
 Sirve tanto para detalle con una sola transacción `global` como para un recurso
 con operaciones independientes por `section`.
 
+Puede componer una `ResourceFormNavigation` opcional para una ruta larga. La
+ruta recibe los destinos declarados por el recurso y el contexto de scroll de
+su `Page Composition`; no crea un viewport interno. La navegación usa anclas
+de secciones montadas, actualiza su elemento activo mediante scroll spy y puede
+presentarse como tabs o navegación lateral según la configuración responsive
+del recurso. También puede exponer regiones de header y footer sticky dentro de
+la ruta; el recurso declara el offset del header cuando deba apilarse con una
+navegación sticky.
+
+### `ResourceFormNavigation`
+
+Control de recorrido intraformulario exclusivo de `ResourceFormRoute`. Recibe
+una lista tipada de destinos (`id`, etiqueta y descripción opcional), el
+elemento de scroll entregado por la ruta y una variante visual responsive.
+Navega mediante botones hacia las anclas existentes y conserva todas las
+secciones montadas; no implementa paneles de tabs, rutas ni carga diferida.
+
+Su scroll spy es propio y usa APIs de plataforma. No depende de ReUI ni altera
+primitives de Shark/Ark. Mantiene semántica de navegación, foco visible y el
+elemento activo accesible.
+
 ### `ResourceFormOverlay`
 
 Composición breve para un recurso acotado. Recibe un contenedor ya decidido por
 la spec del recurso: `Dialog` o `Drawer`, junto con sus props de apertura y
 cierre. Compone encabezado, cuerpo y acciones mediante `ResourceFormFrame`.
+Las acciones globales pueden exponerse en el header o footer del frame.
 
 No elige variante, no administra foco fuera de lo que provea la primitive, no
 transforma móvil/escritorio por cuenta propia y no contiene una ruta de detalle
-oculta. Si su contenido necesita scroll prolongado, varias secciones o
-dependencias complejas, el módulo usa `ResourceFormRoute`.
+oculta. Por política vigente no soporta recursos multi-sección, navegación
+intraformulario, scroll prolongado ni regiones sticky: esos recursos usan
+`ResourceFormRoute`. Una excepción futura se diseña en la spec de su recurso,
+no como comportamiento implícito de esta fundación.
 
 ### `ResourceFormSection`
 
-Agrupación visual semántica de un detalle amplio: título, descripción opcional,
-contenido y acciones locales opcionales. No crea un formulario, no persiste ni
-infiere la estrategia de datos.
+Expone `surface: bare | card` con `bare` como valor por defecto y la misma
+capacidad responsive `{ base, md? }` del frame para superficie y densidad. La
+superficie solo separa visualmente una agrupación: no altera la operación remota, el
+alcance de las acciones ni el orden estructural del formulario.
+
+Agrupación visual semántica de un detalle amplio: título y descripción
+opcionales, contenido y acciones locales opcionales. Expone `headerActions` y
+`footerActions`; ambas posiciones son opcionales y solo corresponden a una
+operación local cuando el backend expone esa operación de forma independiente.
+Comparte la densidad del frame cuando el consumidor la entrega, pero no crea un
+formulario, no persiste ni infiere la estrategia de datos.
+
+Una sección puede existir sin encabezado visible para conservar la topología
+del detalle cuando un grupo pequeño no requiere jerarquía adicional.
 
 - En `global`, sus acciones locales solo pueden controlar lectura/edición
-  visual; guardar, validación y descarte viven en el detalle.
+  visual; guardar, validación y descarte viven en las acciones globales del
+  frame, ya sea en header o footer.
 - En `section`, el consumidor conecta en esa sección su propia instancia de
   formulario, estado de mutación y acciones.
 
@@ -106,6 +158,8 @@ callbacks controlados y no interpreta resultados remotos.
 
 Debe impedir doble submit mientras `saving`, conservar foco visible, exponer
 acciones destructivas de forma distinguible y mantener orden de teclado estable.
+Puede renderizarse en cualquiera de los cuatro slots de acciones (`header` o
+`footer`, global o de sección); el consumidor decide su alcance y persistencia.
 
 ## Estados Y Estrategias
 
@@ -122,6 +176,23 @@ secciones se renderizan. La combinación `global` con varias `ResourceFormSectio
 mantiene una única instancia RHF y una sola mutación. La combinación `section`
 solo existe cuando backend expone operaciones independientes.
 
+El módulo decide el modo `read` o `edit` a partir de sus permisos. En `read`,
+conserva la misma topología de detalle, pero no entrega controles editables ni
+acciones de edición o persistencia. La fundación no lee autorización ni
+redirecciona.
+
+El layout de secciones y campos es propiedad del formulario de dominio. Puede
+usar una columna, grids responsivos o apilamiento según contenido; la fundación
+no expone una abstracción de columnas. Cada frame y sección recibe sus propias
+variantes visuales, fijas o responsive.
+
+Las intenciones de un mismo recurso pueden, de forma opcional, componer piezas
+visuales o grupos de campos realmente comunes. No es una abstracción por
+defecto: si no hay coincidencia semántica comprobable, permanecen
+independientes. Nunca comparten valores, schema, payload, submit ni mutación.
+Cuando dos intenciones tienen capacidades o efectos remotos distintos, mantienen
+rutas y contratos separados aunque su apariencia sea similar.
+
 ## Accesibilidad Y Responsive
 
 - Todo modo editable conserva etiquetas asociadas, errores legibles por lector
@@ -130,8 +201,14 @@ solo existe cuando backend expone operaciones independientes.
   hover.
 - El overlay usa las garantías de foco, escape y restauración de foco de la
   primitive canónica elegida.
+- Un overlay permanece reservado a una única sección breve. No introduce un
+  viewport interno ni header o footer fijo; una excepción futura debe definir
+  explícitamente dueño de scroll, responsive y foco.
 - La composición no inventa breakpoints ni cambia `Dialog` por `Drawer` de
   manera implícita. Esa elección pertenece a cada spec de recurso.
+- La navegación intraformulario solo se habilita en una ruta larga y respeta el
+  único dueño vertical de la `Page Composition`; no crea overflow interno ni
+  se aplica a overlays.
 - Copy, títulos y descripciones llegan localizados desde el módulo consumidor.
 
 ## Límites Invariables
@@ -141,8 +218,10 @@ solo existe cuando backend expone operaciones independientes.
 - No hay imports a `features`, `api`, `stores`, `app` ni rutas desde esta
   carpeta.
 - No hay lectura de permisos, HTTP, navegación, autosave, wizard ni auditoría.
-- Shark/Ark no está incorporado todavía en producción. Cuando se integre,
-  vivirá como familia vendor acotada y no sustituirá primitives canónicas.
+- No hay carga, gestión ni persistencia genérica de adjuntos.
+- Shark/Ark vive en `src/components/vendor/shark/forms/` como familia vendor
+  acotada y no sustituye primitives canónicas. La validación manual del preview
+  oficial es requisito antes de que un recurso de negocio lo adopte.
 
 ## Criterios De Aceptación Técnicos
 
@@ -157,3 +236,16 @@ solo existe cuando backend expone operaciones independientes.
 - La carpeta no contiene imports de integración remota o autorización.
 - Los componentes respetan primitives canónicas, temas activos, teclado, foco
   y viewport antes de que una ruta de negocio los adopte.
+- Un recurso puede conservar `ResourceFormFrame` y `ResourceFormSection` con
+  superficie, densidad y encabezados opcionales sin alterar la topología ni la
+  estrategia de persistencia.
+- Un recurso puede declarar superficie y densidad fijas o por breakpoint sin
+  introducir lógica de viewport ni cambiar la estructura del formulario.
+
+## Gate Del Primer Consumidor
+
+La primera spec que adopte esta fundación debe validar con un formulario de
+dominio real: una instancia RHF y mutación global sobre varias secciones,
+aislamiento de una sección con operación independiente cuando exista y
+persistencia inalterada al reorganizar visualmente las secciones. Estos casos
+no se implementan ni se simulan mediante API en la fundación neutral.

@@ -27,7 +27,8 @@ docs/ui/
 │  ├─ application-theming.md
 │  └─ mobile-responsive-redesign.md
 ├─ patterns/
-│  └─ data-table.md
+│  ├─ data-table.md
+│  └─ resource-form.md
 └─ components/
    ├─ actions-and-buttons.md
    ├─ buttons.md
@@ -52,6 +53,8 @@ docs/ui/
   formularios, detalles y Page Composition.
 - `patterns/data-table.md`: contrato vigente para colecciones remotas y su
   adopción sin acoplar presentación con transporte HTTP.
+- `patterns/resource-form.md`: composición neutral para detalle editable,
+  secciones, acciones y la política de ruta u overlay de formularios nuevos.
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo
   indica si su implementación ya está validada o sigue en etapa de Playground.
 - `components/installed-components.md`: estrategia obligatoria para evaluar e

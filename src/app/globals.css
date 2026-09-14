@@ -10,6 +10,7 @@
 @import '../components/vendor/smoothui/searchable-dropdown/DashboardLookupDropdown.css';
 @import '../components/dashboard/dashboard-welcome-hero/DashboardWelcomeHero.theme.css';
 @import 'tailwindcss';
+@import 'tw-animate-css';
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));

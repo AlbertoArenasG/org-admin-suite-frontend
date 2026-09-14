@@ -7,8 +7,11 @@ export type {
 export { ResourceFormFrame } from '@/components/resource-form/ResourceFormFrame';
 export type {
   ResourceFormFrameProps,
+  ResourceFormDensity,
   ResourceFormMode,
+  ResourceFormResponsiveValue,
   ResourceFormStatus,
+  ResourceFormSurface,
 } from '@/components/resource-form/ResourceFormFrame';
 
 export { ResourceFormOverlay } from '@/components/resource-form/ResourceFormOverlay';
@@ -17,5 +20,15 @@ export type { ResourceFormOverlayProps } from '@/components/resource-form/Resour
 export { ResourceFormRoute } from '@/components/resource-form/ResourceFormRoute';
 export type { ResourceFormRouteProps } from '@/components/resource-form/ResourceFormRoute';
 
+export { ResourceFormNavigation } from '@/components/resource-form/ResourceFormNavigation';
+export type {
+  ResourceFormNavigationItem,
+  ResourceFormNavigationProps,
+  ResourceFormNavigationVariant,
+} from '@/components/resource-form/ResourceFormNavigation';
+
 export { ResourceFormSection } from '@/components/resource-form/ResourceFormSection';
-export type { ResourceFormSectionProps } from '@/components/resource-form/ResourceFormSection';
+export type {
+  ResourceFormSectionProps,
+  ResourceFormSectionSurface,
+} from '@/components/resource-form/ResourceFormSection';
