@@ -242,10 +242,9 @@ rutas y contratos separados aunque su apariencia sea similar.
 - Un recurso puede declarar superficie y densidad fijas o por breakpoint sin
   introducir lógica de viewport ni cambiar la estructura del formulario.
 
-## Gate Del Primer Consumidor
+## Límite De Integración
 
-La primera spec que adopte esta fundación debe validar con un formulario de
-dominio real: una instancia RHF y mutación global sobre varias secciones,
-aislamiento de una sección con operación independiente cuando exista y
-persistencia inalterada al reorganizar visualmente las secciones. Estos casos
-no se implementan ni se simulan mediante API en la fundación neutral.
+La fundación no implementa ni simula mediante API una instancia RHF, mutación
+global sobre varias secciones, una sección con operación independiente ni
+persistencia de dominio. Cualquier iniciativa que adopte esta composición
+definirá y validará esos comportamientos según su recurso.

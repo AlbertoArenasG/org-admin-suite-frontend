@@ -64,20 +64,13 @@ clientes. Cada formulario debe definir su propio tipo de valores, validación y
 payload; ningún formulario debe transportar campos que no pertenecen a su
 operación.
 
-## Dependencia y Orden de Migración
+## Dependencia Técnica
 
-La extracción depende de resolver primero la deuda de
-[roles asignables](../user-role-assignment-options/role-options-capability-inconsistency.md).
-Los tres formularios deben consumir la misma capability auxiliar de roles
-asignables antes de separarse; de lo contrario se replicaría la inconsistencia
-de endpoints y permisos dentro de las nuevas composiciones.
-
-1. Normalizar la capability transversal de roles asignables en backend y
-   frontend.
-2. Definir contratos de valores y payload por intención de usuario.
-3. Migrar una pantalla a la vez a su formulario específico.
-4. Eliminar `UserForm`, `UserFormValues` y sus modos cuando no queden
-   consumidores legacy.
+La deuda de [roles asignables](../user-role-assignment-options/role-options-capability-inconsistency.md)
+ya quedó resuelta mediante una capability auxiliar transversal. Cualquier
+resolución futura de este acoplamiento debe consumir esa fuente de opciones y
+mantener valores, schemas y payloads separados por intención; no debe recrear
+rutas ni permisos específicos para invitación, creación o edición.
 
 ## Criterios de Cierre
 

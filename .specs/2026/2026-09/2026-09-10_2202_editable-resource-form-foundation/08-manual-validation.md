@@ -34,18 +34,11 @@
 - [x] Una ruta amplia puede presentar varias secciones visuales con una sola
       acción global de guardar.
 
-## Validación Transferida Al Primer Consumidor
+## Límite De Validación De Dominio
 
-La fundación no crea instancias de React Hook Form ni mutaciones remotas. Estas
-pruebas no se omiten: pasan como gate obligatorio a la spec del primer recurso
-migrado.
-
-- [x] Transferir la validación de varias secciones con una instancia RHF y una
-      mutación global única.
-- [x] Transferir la validación de una sección con formulario y mutación propios
-      que no afecten otra transacción.
-- [x] Transferir la validación de que el seccionamiento visual no altera la
-      estrategia de persistencia declarada.
+La fundación no crea instancias de React Hook Form ni mutaciones remotas. La
+validación de integración con un recurso de dominio queda fuera de esta matriz y
+debe definirse por la iniciativa que corresponda.
 
 ## Overlay
 

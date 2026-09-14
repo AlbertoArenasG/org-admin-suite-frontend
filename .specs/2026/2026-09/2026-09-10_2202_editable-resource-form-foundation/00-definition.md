@@ -47,8 +47,6 @@ presentación.
   permisos y navegación a esa base.
 - Integrar la familia aprobada Shark UI/Ark UI como source vendor acotado para
   formularios de Next Dashboard y overlays asociados.
-- Definir el camino de migración posterior del módulo de usuarios que resuelve
-  la deuda de `UserForm`.
 - Añadir navegación intraformulario opcional para rutas de recursos largos,
   con scroll spy y regiones sticky configurables.
 
@@ -172,26 +170,10 @@ archivo de familia; no existen fallbacks implícitos entre temas.
 La integración documenta fuente, licencia, revisión, dependencias, primitives
 internas, consumidores y actualización en
 `src/components/vendor/shark/forms/README.md`. El preview oficial ya validó
-temas, responsive, foco y teclado; la integración con React Hook Form y una
-mutación remota real permanece como gate del primer consumidor de dominio.
-
-## Approved Migration Order
-
-1. Usuarios será el primer consumidor de la base. La primera intención a
-   migrar será edición mediante `EditUserForm`; invitación y alta directa se
-   organizarán después como formularios propios, sin compartir valores ni
-   payloads.
-2. Registros de servicio a cliente será la siguiente prioridad. Validará el
-   detalle amplio con secciones visuales y transacción global mientras backend
-   mantenga una operación única.
-3. El orden de los módulos posteriores no se define en esta iniciativa.
-
-## Gate Del Primer Consumidor
-
-La primera ruta de negocio que adopte esta fundación deberá validar React Hook
-Form, su mutación remota, permisos reales y los estados derivados de datos de
-dominio. Esos casos no corresponden a la fundación neutral ni se simulan como
-integración remota en el preview.
+temas, responsive, foco y teclado. React Hook Form, mutaciones remotas,
+permisos reales y estados de dominio quedan deliberadamente fuera de esta
+fundación neutral; cualquier iniciativa que adopte la base decidirá y validará
+su propia integración.
 
 ## Cierre
 
@@ -200,6 +182,5 @@ y la documentación de adopción quedaron implementados y validados dentro del
 alcance neutral. La ampliación posterior completó la navegación intraformulario
 opcional para rutas largas, incluidos scroll spy, tabs sticky en móvil,
 navegación lateral sticky en escritorio y regiones sticky opcionales de ruta.
-No quedan decisiones ni tareas abiertas en esta iniciativa. La primera adopción
-de negocio deberá cumplir el gate de integración; adjuntos requieren una spec
-propia.
+No quedan decisiones ni tareas abiertas en esta iniciativa. Adjuntos y cualquier
+adopción de negocio requieren una iniciativa con alcance propio.

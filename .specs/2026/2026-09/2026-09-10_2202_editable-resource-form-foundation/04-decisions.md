@@ -11,8 +11,8 @@ campos con una responsabilidad realmente común.
 **Reason:** evita propagar campos y reglas de alta directa a invitación o
 edición, como ocurre actualmente con `UserFormValues`.
 
-**Impact:** la migración futura de usuarios crea formularios separados para
-invitación, alta directa y edición; esta iniciativa no los implementa todavía.
+**Impact:** esta iniciativa no crea formularios de dominio ni define valores,
+schemas o payloads de una intención de negocio.
 
 ## 2026-09-10 - Base antes de migraciones de formularios
 
@@ -24,8 +24,8 @@ construirá una base reutilizable de composición de formularios.
 **Reason:** evita que cada migración decida de forma independiente estados,
 acciones, permisos, feedback y estructura visual.
 
-**Impact:** la siguiente spec de implementación debe cerrar el contrato de la
-base y validarlo con un primer consumidor real antes de migrar en serie.
+**Impact:** la iniciativa define y valida el contrato neutral de la base dentro
+de su propio alcance, sin seleccionar ni preautorizar adopciones posteriores.
 
 ## 2026-09-10 - Frontera de la base de formularios
 
@@ -286,29 +286,6 @@ comprimidas.
 sobrescribir las de Shark/Ark. Cada spec de recurso decide si habilita la
 navegación, sus etiquetas, variante responsive y regiones sticky. Los overlays
 multi-sección continúan fuera de política.
-
-## 2026-09-10 - Primeros consumidores y orden de migración
-
-**Status:** approved
-
-Usuarios será el primer consumidor de la base de formularios. La primera
-intención a migrar será edición mediante un `EditUserForm` propio; invitación y
-alta directa permanecen como operaciones posteriores con formularios, valores,
-schemas y payloads separados.
-
-Registros de servicio a cliente será la siguiente prioridad. Ese módulo
-validará el detalle amplio con secciones visuales y transacción global mientras
-backend persista el recurso en una única operación. El orden posterior de
-clientes, proveedores u otros módulos queda sin definir hasta contar con una
-prioridad de producto concreta.
-
-**Reason:** usuarios permite validar la base con la deuda conocida y un recurso
-acotado. Registros de servicio valida después el caso de mayor prioridad y
-complejidad, sin adelantar decisiones de otros dominios.
-
-**Impact:** la siguiente etapa de esta spec debe elaborar el diseño técnico de
-la base y de la primera migración de edición de usuarios. No autoriza migrar el
-resto de operaciones de usuarios ni el módulo de registros todavía.
 
 ## 2026-09-10 - Responsabilidades de integración
 

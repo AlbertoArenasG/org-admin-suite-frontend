@@ -50,9 +50,8 @@
       Cierre: la persona usuaria validó composición de ruta, `Editable`
       controlado, superficies, acciones, estados simulados, temas, teclado,
       foco, responsive y ambas variantes de overlay en el preview oficial.
-      La validación RHF y de mutación remota queda transferida como gate al
-      primer consumidor real, porque esta fundación no crea formularios de
-      dominio ni integra datos remotos.
+      La validación RHF y de mutación remota queda fuera de esta fundación,
+      porque no crea formularios de dominio ni integra datos remotos.
 
 ## Cierre
 

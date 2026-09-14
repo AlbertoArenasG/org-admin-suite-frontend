@@ -23,9 +23,6 @@
 - Se aprobó Shark UI/Ark UI como familia de formularios de Next Dashboard,
   manteniendo React Hook Form y Zod como stack. Su integración se hará como
   source vendor acotado, no como reemplazo del catálogo canónico.
-- Se aprobó el orden inicial de consumidores: edición de usuarios primero y
-  registros de servicio a cliente después. No se definió el orden de módulos
-  posteriores.
 - La definición queda cerrada. Falta elaborar diseño técnico, registro de
   artefactos y criterios verificables antes de habilitar implementación.
 
@@ -97,7 +94,7 @@
 - La auditoría final confirmó que `src/components/resource-form/` no importa
   integración remota, autorización, navegación, RHF, Zod ni tipos de dominio;
   no se creó ni ejecutó una prueba unitaria. Las validaciones con RHF y
-  mutación real se transfirieron como gate obligatorio al primer consumidor.
+  mutación real quedan fuera del alcance neutral de esta iniciativa.
 - El contrato de presentación admite superficie y densidad fijas o responsivas
   mediante `{ base, md? }` en frame y sección. El catálogo conserva controles
   individuales; cada spec de recurso decide y valida su combinación real.

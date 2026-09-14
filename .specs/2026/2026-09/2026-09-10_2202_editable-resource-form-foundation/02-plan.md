@@ -27,8 +27,8 @@ imports, typecheck, lint y build. Crear un preview oficial que valide la
 fundación con la familia Shark/Ark, incluyendo `Editable` controlado y hosts
 `Dialog` y `Drawer`, antes de registrar la composición en el catálogo vivo.
 
-## Entrega Posterior
+## Límite Del Plan
 
-Una spec de recurso será dueña de adoptar la base. Para usuarios se abrirá una
-iniciativa separada de creación/invitación y migración, con formularios por
-intención y decisión propia de ruta u overlay. No es parte de este plan.
+La adopción de la base por cualquier recurso queda fuera de este plan. Una
+iniciativa futura, si una necesidad de producto la justifica, definirá de forma
+independiente su intención, alcance y decisión de ruta u overlay.
