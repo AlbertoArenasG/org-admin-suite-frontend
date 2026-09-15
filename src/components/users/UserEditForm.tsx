@@ -165,7 +165,7 @@ export function UserEditForm({
             surface="bare"
             title={t('edit.generalTitle')}
           >
-            <div className="grid min-w-0 gap-4 md:grid-cols-2">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-2">
               <TextField
                 disabled={isReadOnly}
                 error={form.formState.errors.name?.message}
@@ -224,7 +224,7 @@ export function UserEditForm({
             surface="bare"
             title={t('edit.accessTitle')}
           >
-            <div className="grid min-w-0 gap-4 md:grid-cols-2">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-2">
               <Controller
                 control={form.control}
                 name="roleId"

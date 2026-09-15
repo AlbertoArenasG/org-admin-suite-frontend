@@ -31,7 +31,7 @@ const DEFAULT_COUNTRIES = ['MX', 'US', 'CA'] as const satisfies readonly Country
 
 const NumberInput = forwardRef<HTMLInputElement, ComponentProps<'input'>>(
   ({ className, ...props }, ref) => (
-    <Input className={cn('rounded-l-none border-l-0', className)} ref={ref} {...props} />
+    <Input className={cn('rounded-l-none border-l-0 text-sm', className)} ref={ref} {...props} />
   )
 );
 NumberInput.displayName = 'PhoneNumberInput';
