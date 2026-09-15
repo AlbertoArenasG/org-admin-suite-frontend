@@ -18,7 +18,7 @@ export const FilterMenuTrigger = React.forwardRef<HTMLButtonElement, FilterMenuT
         {...props}
         aria-label={activeCount ? `${label}: ${activeCount} activos` : label}
         className={cn(
-          'inline-flex h-[var(--control-height-compact)] shrink-0 items-center justify-center gap-1.5 rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] px-[var(--control-padding-inline)] text-sm font-medium text-[var(--control-foreground)] shadow-[var(--control-shadow)] outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)] disabled:pointer-events-none disabled:opacity-50',
+          'inline-flex h-[var(--control-height-compact)] shrink-0 items-center justify-center gap-1.5 rounded-lg border border-[var(--control-border)] bg-[var(--control-surface)] px-[var(--control-padding-inline)] text-sm font-medium text-[var(--control-foreground)] shadow-[var(--control-shadow)] outline-none transition-[color,background-color,border-color,box-shadow] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)] disabled:pointer-events-none disabled:opacity-50',
           className
         )}
       >

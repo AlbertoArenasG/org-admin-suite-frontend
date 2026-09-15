@@ -145,7 +145,44 @@
     "subtitle": "Actualiza roles y datos de contacto.",
     "restricted": "No tienes permisos para editar a este usuario.",
     "successFeedback": "Usuario actualizado correctamente.",
-    "errorFeedback": "No fue posible actualizar el usuario."
+    "errorFeedback": "No fue posible actualizar el usuario.",
+    "start": "Editar usuario",
+    "retry": "Reintentar",
+    "generalTitle": "Datos generales y contacto",
+    "generalDescription": "Información básica para identificar y contactar al usuario.",
+    "accessTitle": "Acceso y alcance",
+    "accessDescription": "Rol, clasificación y relaciones con clientes.",
+    "securityTitle": "Seguridad",
+    "securityDescription": "Administra la contraseña mediante una operación independiente.",
+    "phone": "Teléfono",
+    "countryPlaceholder": "Código",
+    "countrySearchPlaceholder": "Buscar país...",
+    "countryEmpty": "No hay países disponibles.",
+    "countries": {
+      "mx": "México",
+      "us": "Estados Unidos",
+      "ca": "Canadá"
+    },
+    "rolePlaceholder": "Selecciona un rol...",
+    "roleSearchPlaceholder": "Buscar roles...",
+    "roleEmpty": "No hay roles disponibles."
+  },
+  "passwordDialog": {
+    "title": "Cambiar contraseña",
+    "description": "Define una nueva contraseña para este usuario.",
+    "open": "Cambiar contraseña",
+    "password": "Nueva contraseña",
+    "confirmPassword": "Confirmar nueva contraseña",
+    "cancel": "Cancelar",
+    "submit": "Cambiar contraseña",
+    "submitting": "Cambiando...",
+    "success": "Contraseña cambiada correctamente.",
+    "error": "No fue posible cambiar la contraseña.",
+    "errors": {
+      "length": "La contraseña debe tener al menos 6 caracteres.",
+      "confirmRequired": "Confirma la contraseña.",
+      "mismatch": "Las contraseñas no coinciden."
+    }
   },
   "register": {
     "title": "Completa tu registro",

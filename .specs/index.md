@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [user-editable-detail-migration](./2026/2026-09/2026-09-14_1558_user-editable-detail-migration/00-definition.md) - ready for implementation; migración de detalle editable de Usuario
 - [editable-resource-form-foundation](./2026/2026-09/2026-09-10_2202_editable-resource-form-foundation/00-definition.md) - ready for implementation; fundación de formularios y patrón de detalle editable para migraciones futuras
 - [user-role-options-consumer-migration](./2026/2026-09/2026-09-10_1130_user-role-options-consumer-migration/00-definition.md) - completed; consumidores migrados al lookup transversal de roles
 - [generic-data-table-foundation](./2026/2026-09/2026-09-08_1243_generic-data-table-foundation/00-definition.md) - completed; DataTable v9 validated and promoted to the official catalog

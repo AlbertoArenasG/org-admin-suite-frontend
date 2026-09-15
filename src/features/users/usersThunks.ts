@@ -43,6 +43,15 @@ export interface UpdateUserResult {
   message: string | null;
 }
 
+export interface UpdateUserPasswordPayload {
+  id: string;
+  password: string;
+}
+
+export interface UpdateUserPasswordResult {
+  message: string | null;
+}
+
 export interface CreateUserPayload {
   name: string;
   lastname: string;
@@ -302,6 +311,33 @@ export const updateUser = createAsyncThunk<
         ? error.message
         : 'No fue posible actualizar la información del usuario';
     return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const updateUserPassword = createAsyncThunk<
+  UpdateUserPasswordResult,
+  UpdateUserPasswordPayload,
+  { state: RootState }
+>('users/updatePassword', async ({ id, password }, thunkAPI) => {
+  const token = thunkAPI.getState().auth.token ?? readPersistedAuthToken();
+
+  if (!token) {
+    return thunkAPI.rejectWithValue('No hay token de autenticación');
+  }
+
+  try {
+    const response = await jsonRequest<null>(`/v1/users/${id}/password`, {
+      method: 'PATCH',
+      headers: { Accept: 'application/json' },
+      body: { password },
+      token,
+    });
+
+    return { message: response.successMessage ?? null };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible cambiar la contraseña'
+    );
   }
 });
 

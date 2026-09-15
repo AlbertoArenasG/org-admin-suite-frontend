@@ -3,8 +3,8 @@
 ## Estado
 
 Proceso operativo establecido el 2 de septiembre de 2026. La infraestructura
-de coexistencia esta preparada; no hay rutas productivas adoptadas en el nuevo
-shell todavia.
+de coexistencia está preparada y las rutas adoptadas se registran de forma
+explícita en la política central.
 
 Este documento define como migrar rutas entre shells. No sustituye las
 guidelines visuales y estructurales de `guidelines.md`.
@@ -19,6 +19,38 @@ guidelines visuales y estructurales de `guidelines.md`.
 - La entrada a `next` es explicita en la politica central de migracion; no se
   infiere por convenciones de carpetas ni por heuristicas de pathname.
 
+## Frontera De Migración
+
+Adoptar una ruta en `Next Dashboard` es sustituir su host y su composición de
+layout; no es envolver una vista legacy con un shell nuevo. La migración
+conserva comportamiento de dominio, no infraestructura visual heredada.
+
+Antes de implementar, cada pieza de la vista existente debe clasificarse:
+
+- **Host o shell legacy:** `Global Header`, breadcrumbs o encabezados de
+  contexto legacy, canvas, márgenes, fondos, scroll y navegación. No se
+  reutilizan en una ruta adoptada.
+- **Composición de página:** título, descripción, acciones y superficies. Se
+  reconstruye con las piezas aprobadas de Next Dashboard; puede omitirse si la
+  jerarquía de la ruta ya queda resuelta por otra composición nueva.
+- **Dominio:** carga, permisos, jerarquía, RHF, Zod, valores, payloads,
+  mutaciones, copy y feedback. Puede conservarse o migrarse internamente sin
+  heredar su layout legacy.
+- **Primitives neutrales:** se evalúan por contrato y apariencia; no se
+  reutilizan solo porque ya existen en una pantalla legacy.
+
+Una ruta adoptada debe tener un único dueño para cada capa de host:
+
+- `Workspace Toolbar` es el único toolbar global.
+- `Workspace Header` es la única fuente de breadcrumbs y contexto de ruta.
+- Un `Page Header` nuevo, cuando aplique, contiene únicamente jerarquía y
+  acciones propias del contenido; no replica breadcrumbs del shell.
+
+No se permiten imports de componentes legacy de host o layout en una ruta que
+resuelva a `next`. Si existe duda sobre la clasificación de una pieza, se
+inspecciona antes de reutilizarla; la reutilización no es el comportamiento por
+defecto.
+
 ## Adopcion de una Ruta
 
 Cada primera adopcion requiere una spec de alcance fijo. La spec debe definir:
@@ -31,6 +63,9 @@ Cada primera adopcion requiere una spec de alcance fijo. La spec debe definir:
 - Adopcion del host de Next Dashboard: `Workspace Toolbar` dentro de
   `Workspace Canvas` y `Workspace Header` en una fila posterior para el
   contexto de ruta. No se replica el `Global Header` exterior de legacy.
+- Sustitución de toda infraestructura legacy de host y layout según la
+  frontera anterior; la validación comprueba que no existan toolbar o
+  breadcrumbs duplicados.
 
 Al completarse una adopcion, debe registrarse fecha, alcance y spec en
 [`../adoption-log.md`](../adoption-log.md).

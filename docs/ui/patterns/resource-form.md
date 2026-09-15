@@ -3,9 +3,9 @@
 ## Estado
 
 Contrato compartido aprobado y validado en
-`/dashboard-playground/catalog/resource-forms`. Aún no tiene un consumidor de
-negocio migrado; la primera adopción debe completar el gate de integración con
-React Hook Form y su mutación remota.
+`/dashboard-playground/catalog/resource-forms`. El detalle editable de Usuario
+es su primer consumidor de negocio: la composición permanece neutral y el
+módulo conserva ownership de React Hook Form y sus mutaciones remotas.
 
 ## Propósito
 
@@ -96,16 +96,22 @@ este contrato. Requieren una spec posterior que defina backend, permisos,
 progreso, errores, reintentos, eliminación y el flujo para recursos todavía no
 creados.
 
-## Familia De Formularios
+## Controles De Formulario
 
-Shark UI/Ark UI es la familia aprobada para formularios nuevos y overlays de
-Next Dashboard. Sus fuentes viven bajo `src/components/vendor/shark/forms/` y
-no sustituyen primitives canónicas de `src/components/ui`. Consume tokens
-semánticos globales directamente; no existe wrapper de traducción de estilos.
+La composición no impone una familia visual externa. Los controles compartidos
+de selección buscable viven en `src/components/forms/` y se construyen sobre
+`cmdk` y primitives canónicas de `src/components/ui`; no conocen RHF, dominio,
+Redux ni transporte remoto. `PhoneInput` de la misma familia usa
+`react-phone-number-input`, limita sus países al consumidor y preserva el
+contrato telefónico del backend.
+
+No se usa un vendor de Shark/Ark UI ni se sustituyen primitives canónicas o
+tokens globales para estos controles. Una adopción futura de otra familia debe
+evaluarse por artefacto y no modifica esta composición por sí sola.
 
 ## Gate Del Primer Consumidor
 
-La spec del primer recurso migrado debe validar:
+La primera adopción y cada recurso posterior validan cuando corresponda:
 
 - varias secciones con una instancia RHF y mutación global única;
 - una sección con formulario y mutación independientes, si ese contrato backend

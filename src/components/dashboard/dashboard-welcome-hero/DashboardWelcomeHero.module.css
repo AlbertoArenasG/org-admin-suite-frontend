@@ -8,7 +8,7 @@
   overflow: hidden;
   min-height: 15.5rem;
   border: 1px solid var(--hero-border);
-  border-radius: var(--radius-card);
+  border-radius: var(--radius);
   background: var(--hero-surface);
   box-shadow: 0 16px 35px rgb(17 24 39 / 5%);
 }

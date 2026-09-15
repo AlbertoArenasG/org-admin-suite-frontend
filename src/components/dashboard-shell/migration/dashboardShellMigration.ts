@@ -28,6 +28,21 @@ const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [
       scrollMode: 'table-workspace',
     },
   },
+  {
+    matches: (pathname) => {
+      const match = /^\/dashboard\/users\/([^/]+)$/.exec(pathname);
+      const staticRoutes = ['create', 'invite', 'invitations'];
+
+      return Boolean(match && !staticRoutes.includes(match[1]));
+    },
+    config: {
+      breadcrumbs: [
+        { label: 'Usuarios', labelKey: 'users', href: '/dashboard/users' },
+        { label: 'Detalle de usuario' },
+      ],
+      scrollMode: 'page-content',
+    },
+  },
 ];
 
 export function resolveDashboardShell(pathname: string | null): DashboardShellResolution {

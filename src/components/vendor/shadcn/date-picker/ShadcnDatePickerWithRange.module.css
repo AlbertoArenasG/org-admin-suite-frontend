@@ -20,7 +20,7 @@
   align-items: center;
   justify-content: flex-start;
   border: 1px solid var(--control-border);
-  border-radius: var(--control-radius);
+  border-radius: var(--radius);
   background-color: var(--control-surface);
   box-shadow: var(--control-shadow);
   color: var(--control-foreground);
@@ -63,7 +63,7 @@
   height: 1.5rem;
   align-items: center;
   justify-content: center;
-  border-radius: var(--control-radius);
+  border-radius: var(--radius);
   transform: translateY(-50%);
   transition:
     background-color 150ms ease,

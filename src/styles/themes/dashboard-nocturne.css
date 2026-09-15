@@ -59,13 +59,9 @@ html.nocturne {
   --error-700: #fecaca;
   --overlay-surface: rgb(0 0 0 / 68%);
   --radius: 0.625rem;
-  --radius-button: 0.625rem;
-  --radius-input: 0.625rem;
-  --radius-card: 1rem;
   --control-height-compact: 2rem;
   --control-padding-inline: 0.75rem;
   --control-gap: 0.5rem;
-  --control-radius: var(--radius-input);
 
   --sidebar: rgb(10 20 31 / 78%);
   --sidebar-foreground: #e7edf6;
@@ -90,7 +86,6 @@ html.nocturne {
   --workspace-canvas-border: rgb(164 198 224 / 20%);
   --workspace-canvas-border-width: 1px;
   --workspace-canvas-shadow: 0 22px 62px rgb(0 0 0 / 38%), inset 0 1px 0 rgb(255 255 255 / 8%);
-  --workspace-canvas-radius: 1.5rem;
   --dashboard-shell-glass-surface: rgb(15 29 43 / 66%);
   --dashboard-shell-glass-border: rgb(187 218 240 / 20%);
   --dashboard-shell-glass-image: linear-gradient(

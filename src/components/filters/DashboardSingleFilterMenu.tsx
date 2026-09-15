@@ -45,7 +45,7 @@ export function DashboardSingleFilterMenu({
       <PopoverContent
         align="end"
         className={cn(
-          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-[var(--radius-card)] border-[var(--control-border)] bg-popover p-0 text-popover-foreground shadow-[var(--control-shadow)] [backdrop-filter:var(--control-popover-backdrop)]'
+          'w-[min(20rem,calc(100vw-2rem))] overflow-hidden rounded-lg border-[var(--control-border)] bg-popover p-0 text-popover-foreground shadow-[var(--control-shadow)] [backdrop-filter:var(--control-popover-backdrop)]'
         )}
       >
         {category.searchable ? (
@@ -63,7 +63,7 @@ export function DashboardSingleFilterMenu({
               }}
               placeholder={category.searchPlaceholder ?? `Buscar ${category.label.toLowerCase()}`}
               aria-label={`Buscar opciones de ${category.label}`}
-              className="h-[var(--control-height-compact)] w-full rounded-[var(--control-radius)] border border-[var(--control-border)] bg-[var(--control-surface)] py-0 pr-3 pl-8 text-sm text-[var(--control-foreground)] outline-none placeholder:text-muted-foreground focus-visible:border-[var(--control-focus-ring)] focus-visible:ring-2 focus-visible:ring-[var(--control-focus-ring)] focus-visible:ring-offset-2"
+              className="h-[var(--control-height-compact)] w-full rounded-lg border border-[var(--control-border)] bg-[var(--control-surface)] py-0 pr-3 pl-8 text-sm text-[var(--control-foreground)] outline-none placeholder:text-muted-foreground focus-visible:border-[var(--control-focus-ring)] focus-visible:ring-2 focus-visible:ring-[var(--control-focus-ring)] focus-visible:ring-offset-2"
             />
           </label>
         ) : null}
@@ -80,7 +80,7 @@ export function DashboardSingleFilterMenu({
             <button
               type="button"
               onClick={onReset}
-              className="flex h-8 w-full items-center rounded-[var(--control-radius)] px-2.5 text-sm font-medium text-foreground transition-[color,background-color] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)]"
+              className="flex h-8 w-full items-center rounded-lg px-2.5 text-sm font-medium text-foreground transition-[color,background-color] duration-[var(--control-transition-duration)] ease-[var(--control-transition-easing)] hover:bg-[var(--control-hover-surface)] focus-visible:outline-none focus-visible:[box-shadow:0_0_0_2px_var(--control-focus-ring)]"
             >
               Restablecer filtro
             </button>

@@ -149,6 +149,17 @@ Los bundles externos siguen la estrategia de
 [installed-components.md](./components/installed-components.md): importan
 primitives canónicas desde `src/components/ui` y no mantienen copias privadas.
 
+## Escala De Radio
+
+`--radius` es el único valor de radio declarado por tema. La escala de
+utilidades `rounded-sm` a `rounded-4xl` se deriva de ese valor en
+`src/app/globals.css`, siguiendo la proporción recomendada por shadcn. Un tema
+puede redefinir solo `--radius`; no declara radios semánticos adicionales.
+
+En Next Dashboard se respeta la escala estándar de shadcn/Tailwind. No se crean
+tokens semánticos de radio ni overrides locales, salvo una necesidad visual
+justificada.
+
 ## Controles Compactos
 
 Los controles que conviven en filtros, formularios compactos o toolbars
@@ -158,13 +169,14 @@ consumen este contrato estructural fundacional:
 --control-height-compact: 2rem;
 --control-padding-inline: 0.75rem;
 --control-gap: 0.5rem;
---control-radius: var(--radius-input);
 ```
 
-El control es responsable de consumir altura, padding y radio. La vista solo
-compone controles mediante flex o grid y decide el ancho disponible; no
-redeclara su densidad. El Date Range Picker, Lookup con búsqueda y Menú de
-filtros son los primeros consumidores de este contrato.
+El control es responsable de consumir altura y padding. Su radio deriva de
+`--radius`: las utilidades `rounded-*` resuelven la escala de shadcn y el CSS
+de una primitive externa consume `var(--radius)` directamente cuando no puede
+usar utilidades. La vista solo compone controles mediante flex o grid y decide
+el ancho disponible; no redeclara su densidad. El Date Range Picker, Lookup
+con búsqueda y Menú de filtros son los primeros consumidores de este contrato.
 
 El mismo contrato visual compartido define `--control-surface`,
 `--control-border`, `--control-foreground`, `--control-hover-surface`,

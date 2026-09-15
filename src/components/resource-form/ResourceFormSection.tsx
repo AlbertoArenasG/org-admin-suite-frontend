@@ -17,7 +17,7 @@ type ResourceFormSectionProps = React.ComponentProps<'section'> & {
   description?: React.ReactNode;
   headerActions?: React.ReactNode;
   footerActions?: React.ReactNode;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 function ResourceFormSection({
@@ -106,7 +106,7 @@ function ResourceFormSection({
           ) : null}
         </div>
       ) : null}
-      <div data-slot="resource-form-section-content">{children}</div>
+      {children ? <div data-slot="resource-form-section-content">{children}</div> : null}
       {footerActions ? (
         <div className="border-t pt-3" data-slot="resource-form-section-footer-actions">
           {footerActions}
