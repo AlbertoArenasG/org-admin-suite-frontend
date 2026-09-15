@@ -133,6 +133,8 @@
     "error": "We couldn't delete the user."
   },
   "detail": {
+    "formTitle": "User information",
+    "formDescription": "View and manage the user's contact details and access.",
     "subtitle": "User details and activity",
     "missingTitle": "User not found",
     "notFound": "We could not find this user yet."

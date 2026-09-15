@@ -133,6 +133,8 @@
     "error": "No fue posible eliminar al usuario."
   },
   "detail": {
+    "formTitle": "Información del usuario",
+    "formDescription": "Consulta y administra los datos de contacto y acceso del usuario.",
     "subtitle": "Detalle e historial del usuario",
     "missingTitle": "Usuario no encontrado",
     "notFound": "Aún no pudimos encontrar este usuario."

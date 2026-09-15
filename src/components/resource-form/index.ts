@@ -7,7 +7,9 @@ export type {
 export { ResourceFormFrame } from '@/components/resource-form/ResourceFormFrame';
 export type {
   ResourceFormFrameProps,
+  ResourceFormContentSurface,
   ResourceFormDensity,
+  ResourceFormDividers,
   ResourceFormMode,
   ResourceFormResponsiveValue,
   ResourceFormStatus,

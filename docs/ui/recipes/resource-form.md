@@ -1,0 +1,71 @@
+# Recetas De Resource Form
+
+## Propósito
+
+Este documento cataloga composiciones aprobadas de `ResourceForm*`. Una receta
+combina contratos existentes para resolver una necesidad visual recurrente; no
+crea un componente nuevo, no sustituye la spec del recurso y no define su
+persistencia, permisos ni datos.
+
+## Frame Con Inset De Contenido
+
+### Cuándo Usarla
+
+Usar en detalles o ediciones de recursos con dos o más grupos de campos
+relacionados, acciones globales y una mutación principal. La receta da una
+jerarquía continua: el frame contiene el contexto y las acciones, y un único
+panel interior contiene todos los grupos de campos.
+
+No usar cuando cada sección sea una unidad de negocio independiente que deba
+tener su propia superficie, acciones o persistencia.
+
+### Composición
+
+```tsx
+<ResourceFormFrame
+  contentSurface={{ base: 'bare', md: 'inset' }}
+  density={{ base: 'compact', md: 'comfortable' }}
+  dividers="hidden"
+  footerActions={isEditing ? <ResourceFormActions {...actions} /> : null}
+  headerActions={<GlobalActions />}
+  mode={mode}
+  surface={{ base: 'bare', md: 'card' }}
+  title={title}
+  description={description}
+>
+  <div className="grid gap-5">
+    <ResourceFormSection surface="bare" title={firstSectionTitle}>
+      <Fields />
+    </ResourceFormSection>
+
+    <Separator />
+
+    <ResourceFormSection surface="bare" title={secondSectionTitle}>
+      <Fields />
+    </ResourceFormSection>
+  </div>
+</ResourceFormFrame>
+```
+
+### Resultado Visual
+
+- En móvil, el frame y las secciones son `bare`, con densidad `compact`.
+- Desde `md`, el frame es una card y el contenido usa un único `inset` con
+  separación mínima respecto de su borde exterior.
+- Las secciones internas son `bare`; `Separator` delimita los grupos sin
+  apilar cards.
+- `dividers="hidden"` mantiene el borde exterior del frame y deja que el
+  inset establezca la separación visual del contenido, sin líneas bajo el
+  header o sobre el footer.
+- Las acciones globales pueden ir en `headerActions`; las de confirmar o
+  cancelar una edición global van en `footerActions`.
+
+### Límites
+
+La receta no obliga a mostrar todos los slots. El recurso decide cuándo renderizar
+el header, footer, acciones, secciones y campos según su modo, permisos y
+operaciones disponibles. Los grids, la cantidad de secciones y el contenido de
+cada una siguen siendo responsabilidad del recurso.
+
+No convertir esta receta en un `variant` o preset de código hasta que varios
+recursos la adopten con la misma semántica y sin extensiones relevantes.

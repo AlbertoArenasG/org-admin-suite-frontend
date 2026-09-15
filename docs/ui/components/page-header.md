@@ -22,6 +22,8 @@ contexto global de navegación.
 - `actions` es opcional y recibe contenido explícito de la ruta.
 - `actionsPlacement` usa `end` por defecto; `title` solo aplica a la variante
   minimalista que muestra acciones inmediatas junto al título.
+- `density` usa `default` por defecto. `compact` reduce padding, gap y tamaño
+  de título para vistas que ya tienen contexto suficiente en breadcrumbs.
 - La implementación base es estática y compacta; no infiere contexto ni
   transforma su contenido al hacer scroll.
 

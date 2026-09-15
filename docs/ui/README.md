@@ -29,6 +29,8 @@ docs/ui/
 ├─ patterns/
 │  ├─ data-table.md
 │  └─ resource-form.md
+├─ recipes/
+│  └─ resource-form.md
 └─ components/
    ├─ actions-and-buttons.md
    ├─ buttons.md
@@ -55,6 +57,10 @@ docs/ui/
   adopción sin acoplar presentación con transporte HTTP.
 - `patterns/resource-form.md`: composición neutral para detalle editable,
   secciones, acciones y la política de ruta u overlay de formularios nuevos.
+- `recipes/`: combinaciones aprobadas de contratos existentes para acelerar
+  adopciones sin introducir presets o componentes nuevos.
+- `recipes/resource-form.md`: recetas reutilizables de composición para
+  `ResourceForm*`.
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo
   indica si su implementación ya está validada o sigue en etapa de Playground.
 - `components/installed-components.md`: estrategia obligatoria para evaluar e

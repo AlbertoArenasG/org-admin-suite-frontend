@@ -9,6 +9,7 @@ type PageHeaderProps = Omit<ComponentPropsWithoutRef<'header'>, 'title'> & {
   metadata?: ReactNode;
   actions?: ReactNode;
   actionsPlacement?: 'end' | 'title';
+  density?: 'default' | 'compact';
 };
 
 export function PageHeader({
@@ -19,13 +20,21 @@ export function PageHeader({
   metadata,
   actions,
   actionsPlacement = 'end',
+  density = 'default',
   className,
   ...props
 }: PageHeaderProps) {
   const Title = `h${titleAs}` as 'h1' | 'h2' | 'h3';
 
   return (
-    <header className={cn('dashboard-page-header', className)} {...props}>
+    <header
+      className={cn(
+        'dashboard-page-header',
+        density === 'compact' && 'dashboard-page-header--compact',
+        className
+      )}
+      {...props}
+    >
       <div className="min-w-0 flex-1">
         {eyebrow ? <p className="dashboard-page-header__eyebrow">{eyebrow}</p> : null}
         {actions && actionsPlacement === 'title' ? (

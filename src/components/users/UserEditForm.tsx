@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ShieldKeyhole } from 'lucide-react';
 import { useEffect } from 'react';
 import { Controller, useForm, type UseFormRegisterReturn } from 'react-hook-form';
 import { z } from 'zod';
@@ -16,6 +15,8 @@ import {
   type PhoneValue,
 } from '@/components/forms';
 import { Button } from '@/components/ui/button';
+import { RadioGroup } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
 import {
   ResourceFormActions,
   ResourceFormFrame,
@@ -47,11 +48,13 @@ type UserEditFormProps = {
   onModeChange: (mode: ResourceFormMode) => void;
   onSubmit: (values: UserEditValues, systemRole: AuthSystemRole) => Promise<void>;
   onOpenPassword: () => void;
+  canUpdateUser: boolean;
   canUpdatePassword: boolean;
   isSubmitting: boolean;
 };
 
 export function UserEditForm({
+  canUpdateUser,
   canUpdatePassword,
   customerOptions,
   customerOptionsLoading,
@@ -117,15 +120,28 @@ export function UserEditForm({
   return (
     <form onSubmit={form.handleSubmit(submit)}>
       <ResourceFormFrame
+        contentSurface={{ base: 'bare', md: 'inset' }}
         density={{ base: 'compact', md: 'comfortable' }}
-        footerActions={
-          isReadOnly ? (
-            <div className="flex justify-end">
-              <Button onClick={() => onModeChange('edit')} type="button">
-                {t('edit.start')}
-              </Button>
+        dividers="hidden"
+        headerActions={
+          (isReadOnly && canUpdateUser) || canUpdatePassword ? (
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              {isReadOnly && canUpdateUser ? (
+                <Button onClick={() => onModeChange('edit')} type="button">
+                  {t('edit.start')}
+                </Button>
+              ) : null}
+              {canUpdatePassword ? (
+                <Button onClick={onOpenPassword} size="sm" type="button" variant="outline">
+                  {t('passwordDialog.open')}
+                </Button>
+              ) : null}
             </div>
-          ) : (
+          ) : null
+        }
+        description={t('detail.formDescription')}
+        footerActions={
+          !isReadOnly ? (
             <ResourceFormActions
               cancelAction={{
                 label: t('form.cancel'),
@@ -137,15 +153,16 @@ export function UserEditForm({
               primaryAction={{ label: t('form.submit.edit'), loadingLabel: t('form.submitting') }}
               status={isSubmitting ? 'saving' : 'idle'}
             />
-          )
+          ) : null
         }
         mode={mode}
         surface={{ base: 'bare', md: 'card' }}
+        title={t('detail.formTitle')}
       >
-        <div className="grid gap-6">
+        <div className="grid gap-5">
           <ResourceFormSection
             description={t('edit.generalDescription')}
-            surface={{ base: 'bare', md: 'card' }}
+            surface="bare"
             title={t('edit.generalTitle')}
           >
             <div className="grid min-w-0 gap-4 md:grid-cols-2">
@@ -200,9 +217,11 @@ export function UserEditForm({
             </div>
           </ResourceFormSection>
 
+          <Separator />
+
           <ResourceFormSection
             description={t('edit.accessDescription')}
-            surface={{ base: 'bare', md: 'card' }}
+            surface="bare"
             title={t('edit.accessTitle')}
           >
             <div className="grid min-w-0 gap-4 md:grid-cols-2">
@@ -235,28 +254,25 @@ export function UserEditForm({
                   name="isInternalStaff"
                   render={({ field }) => (
                     <FormField label={t('classification.label')}>
-                      {isReadOnly ? (
-                        <FormReadValue>
-                          {field.value ? t('classification.yes') : t('classification.no')}
-                        </FormReadValue>
-                      ) : (
-                        <label className="flex h-9 items-center gap-3 rounded-md border border-input px-3 text-sm">
-                          <input
-                            checked={field.value}
-                            className="size-4 accent-primary"
-                            onChange={(event) => field.onChange(event.target.checked)}
-                            type="checkbox"
-                          />
-                          {t('classification.helper')}
-                        </label>
-                      )}
+                      <RadioGroup
+                        aria-label={t('classification.group')}
+                        name="isInternalStaff"
+                        onValueChange={(value) => field.onChange(value === 'true')}
+                        options={[
+                          { label: t('classification.yes'), value: 'true' },
+                          { label: t('classification.no'), value: 'false' },
+                        ]}
+                        readOnly={isReadOnly}
+                        value={String(field.value)}
+                        variant="bare"
+                      />
                     </FormField>
                   )}
                 />
               ) : null}
             </div>
             {isCustomerRole ? (
-              <div className="min-w-0">
+              <div className="mt-4 min-w-0">
                 <Controller
                   control={form.control}
                   name="customerIds"
@@ -293,20 +309,6 @@ export function UserEditForm({
               </div>
             ) : null}
           </ResourceFormSection>
-
-          {canUpdatePassword ? (
-            <ResourceFormSection
-              description={t('edit.securityDescription')}
-              headerActions={
-                <Button onClick={onOpenPassword} size="sm" type="button" variant="outline">
-                  <ShieldKeyhole />
-                  {t('passwordDialog.open')}
-                </Button>
-              }
-              surface={{ base: 'bare', md: 'card' }}
-              title={t('edit.securityTitle')}
-            />
-          ) : null}
         </div>
       </ResourceFormFrame>
     </form>

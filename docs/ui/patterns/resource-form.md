@@ -41,6 +41,20 @@ descripciones y slots de acciones son opcionales. Estas variantes solo cambian
 presentación, nunca persistencia ni atomicidad. La spec de cada recurso decide
 y valida cualquier combinación responsive concreta.
 
+`ResourceFormFrame.contentSurface="inset"` agrega un único panel interno con
+un inset mínimo dentro del frame. Se usa con secciones `bare` cuando el recurso
+necesita una superficie continua para sus campos; el valor por defecto es
+`"bare"` y conserva la composición actual. Como `surface` y `density`, admite
+un valor responsive, por ejemplo `{ base: "bare", md: "inset" }`.
+
+`ResourceFormFrame.dividers` controla los bordes internos del encabezado y el
+footer sin alterar el borde exterior del frame. Su valor por defecto es
+`"visible"`; `"hidden"` se usa cuando un inset continuo ya establece la
+separación visual del contenido.
+
+Las combinaciones aprobadas de estos contratos se catalogan en
+[`../recipes/resource-form.md`](../recipes/resource-form.md).
+
 ## Acciones Y Persistencia
 
 `headerActions` y `footerActions` existen tanto en el frame como en una

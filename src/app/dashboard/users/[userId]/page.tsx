@@ -135,6 +135,7 @@ export default function UserDetailPage() {
           {!isLoading && !loadError && user ? (
             <ResourceFormRoute className="mx-auto w-full max-w-4xl">
               <UserEditForm
+                canUpdateUser={canEdit}
                 canUpdatePassword={canChangePassword}
                 customerOptions={resolvedCustomerOptions}
                 customerOptionsLoading={customerOptions.status === 'loading'}
