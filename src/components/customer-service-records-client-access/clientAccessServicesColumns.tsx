@@ -1,6 +1,7 @@
 import type { DataTableColumn } from '@/components/data-table';
 import { BadgeCell, DateWithRelativeTimeCell } from '@/components/data-table/cells';
 import type { ClientAccessCustomerServiceRecord } from '@/features/customer-service-records-client-access';
+import { Ban, Check, ClockFading, Hammer } from 'lucide-react';
 
 type ClientAccessServicesLabels = {
   serviceNumber: string;
@@ -36,6 +37,15 @@ function formatEquipmentDetails(row: ClientAccessCustomerServiceRecord) {
     .join(', ');
 
   return { brandAndModel, serialNumbers };
+}
+
+function getOperationalStatusIcon(code: string) {
+  const className = 'size-3';
+  if (code === 'PENDING') return <ClockFading className={className} />;
+  if (code === 'IN_PROGRESS') return <Hammer className={className} />;
+  if (code === 'COMPLETED') return <Check className={className} />;
+  if (code === 'CANCELLED') return <Ban className={className} />;
+  return null;
 }
 
 export function createClientAccessServicesColumns({
@@ -100,7 +110,13 @@ export function createClientAccessServicesColumns({
       header: labels.operationalStatus,
       ariaLabel: labels.operationalStatus,
       accessor: (row) => row.operationalStatus.name,
-      cell: (row) => <BadgeCell label={row.operationalStatus.name} variant="outline" />,
+      cell: (row) => (
+        <BadgeCell
+          label={row.operationalStatus.name}
+          icon={getOperationalStatusIcon(row.operationalStatus.code)}
+          variant="outline"
+        />
+      ),
       width: { initial: 148, min: 148, max: 240, resizable: true },
     },
     {
@@ -133,7 +149,7 @@ export function createClientAccessServicesColumns({
       width: { initial: 146, min: 132, max: 190, resizable: true },
     },
     {
-      id: 'deliveryAt',
+      id: 'estimatedDeliveryAt',
       header: labels.deliveryAt,
       ariaLabel: labels.deliveryAt,
       accessor: (row) =>
@@ -152,6 +168,7 @@ export function createClientAccessServicesColumns({
           />
         );
       },
+      sorting: { enabled: true, apiField: 'estimated_customer_delivery_at' },
       width: { initial: 170, min: 148, max: 220, resizable: true },
     },
     {

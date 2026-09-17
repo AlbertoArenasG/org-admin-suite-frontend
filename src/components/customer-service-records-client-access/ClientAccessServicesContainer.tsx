@@ -241,8 +241,17 @@ export function ClientAccessServicesContainer() {
           columnId: sorting?.columnId,
           direction: sorting?.direction,
           onChange: (next) => {
+            if (!next) {
+              setSorting(null);
+              setPage(1);
+              return;
+            }
             const columnId = next.columnId;
-            if (columnId !== 'serviceNumber' && columnId !== 'receivedAt') {
+            if (
+              columnId !== 'serviceNumber' &&
+              columnId !== 'receivedAt' &&
+              columnId !== 'estimatedDeliveryAt'
+            ) {
               return;
             }
             setSorting({ columnId, direction: next.direction });

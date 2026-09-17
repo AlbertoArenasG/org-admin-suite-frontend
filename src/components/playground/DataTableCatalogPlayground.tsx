@@ -18,6 +18,11 @@ type DemoRecord = {
   notes: string;
 };
 
+type DemoSorting = {
+  columnId: 'record' | 'client' | 'delivery';
+  direction: 'asc' | 'desc';
+} | null;
+
 const clients = ['Bosch México', 'Kern & Sohn', 'Mitsubishi Electric', 'Keysight Technologies'];
 const services = [
   'Calibración',
@@ -50,6 +55,7 @@ export function DataTableCatalogPlayground() {
   const [request, setRequest] = useState(0);
   const [expandedRowIds, setExpandedRowIds] = useState<string[]>([]);
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
+  const [sorting, setSorting] = useState<DemoSorting>(null);
   const [visibleColumnIds, setVisibleColumnIds] = useState([
     'record',
     'client',
@@ -66,8 +72,17 @@ export function DataTableCatalogPlayground() {
       ),
     [search]
   );
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-  const visibleRows = filtered.slice((page - 1) * perPage, page * perPage);
+  const sorted = useMemo(() => {
+    if (!sorting) return filtered;
+
+    const field = sorting.columnId === 'record' ? 'id' : sorting.columnId;
+    return [...filtered].sort((left, right) => {
+      const comparison = String(left[field]).localeCompare(String(right[field]));
+      return sorting.direction === 'asc' ? comparison : -comparison;
+    });
+  }, [filtered, sorting]);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / perPage));
+  const visibleRows = sorted.slice((page - 1) * perPage, page * perPage);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => setIsLoading(false), 500);
@@ -120,6 +135,21 @@ export function DataTableCatalogPlayground() {
               },
             }}
             searchHighlight={{ query: search }}
+            sorting={{
+              columnId: sorting?.columnId,
+              direction: sorting?.direction,
+              onChange: (next) => {
+                if (!next) setSorting(null);
+                else if (next.columnId === 'record')
+                  setSorting({ columnId: 'record', direction: next.direction });
+                else if (next.columnId === 'client')
+                  setSorting({ columnId: 'client', direction: next.direction });
+                else if (next.columnId === 'delivery')
+                  setSorting({ columnId: 'delivery', direction: next.direction });
+                setPage(1);
+                reload();
+              },
+            }}
             pagination={{
               page,
               perPage,
@@ -188,6 +218,7 @@ export function DataTableCatalogPlayground() {
                 id: 'record',
                 header: 'Registro',
                 accessor: (row) => row.id,
+                sorting: { enabled: true, apiField: 'record' },
                 visibility: { hideable: false },
                 width: { initial: 110, min: 100, max: 200, resizable: true },
               },
@@ -195,6 +226,7 @@ export function DataTableCatalogPlayground() {
                 id: 'client',
                 header: 'Cliente',
                 accessor: (row) => row.client,
+                sorting: { enabled: true, apiField: 'client' },
                 width: { initial: 180, min: 140, max: 320, resizable: true },
               },
               {
@@ -213,7 +245,12 @@ export function DataTableCatalogPlayground() {
                   </span>
                 ),
               },
-              { id: 'delivery', header: 'Entrega estimada', accessor: (row) => row.delivery },
+              {
+                id: 'delivery',
+                header: 'Entrega estimada',
+                accessor: (row) => row.delivery,
+                sorting: { enabled: true, apiField: 'delivery' },
+              },
             ]}
           />
         </div>

@@ -3,10 +3,12 @@
 import * as React from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  ChevronsUpDown,
   Expand,
   Info,
   MessageSquareText,
@@ -146,7 +148,7 @@ export type DataTableProps<T extends RowData> = {
   sorting?: {
     columnId?: string;
     direction?: 'asc' | 'desc';
-    onChange: (next: { columnId: string; direction: 'asc' | 'desc' }) => void;
+    onChange: (next: { columnId: string; direction: 'asc' | 'desc' } | null) => void;
   };
   pagination?: {
     page: number;
@@ -634,6 +636,12 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                     if (!column) return null;
                     const direction =
                       sorting?.columnId === column.id ? sorting.direction : undefined;
+                    const SortIcon =
+                      direction === 'asc'
+                        ? ArrowUp
+                        : direction === 'desc'
+                          ? ArrowDown
+                          : ArrowUpDown;
                     const width =
                       columnWidths[column.id] ?? column.width?.initial ?? column.width?.min ?? 80;
                     return (
@@ -652,16 +660,21 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                         {column.sorting?.enabled ? (
                           <button
                             type="button"
-                            onClick={() =>
-                              sorting?.onChange({
-                                columnId: column.id,
-                                direction: direction === 'asc' ? 'desc' : 'asc',
-                              })
-                            }
+                            onClick={() => {
+                              const next =
+                                direction === 'asc'
+                                  ? { columnId: column.id, direction: 'desc' as const }
+                                  : direction === 'desc'
+                                    ? null
+                                    : { columnId: column.id, direction: 'asc' as const };
+                              sorting?.onChange(next);
+                            }}
                             className="inline-flex items-center gap-1"
                           >
                             {flexRender(header.column.columnDef.header, header.getContext())}
-                            <ChevronsUpDown className="size-3.5 text-muted-foreground" />
+                            <SortIcon
+                              className={`size-3.5 ${direction ? 'text-foreground' : 'text-muted-foreground'}`}
+                            />
                           </button>
                         ) : (
                           flexRender(header.column.columnDef.header, header.getContext())

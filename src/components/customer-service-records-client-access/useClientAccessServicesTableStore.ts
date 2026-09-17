@@ -39,7 +39,7 @@ const DEFAULT_VISIBLE_COLUMNS = [
   'operationalStatus',
   'customerCommitment',
   'receivedAt',
-  'deliveryAt',
+  'estimatedDeliveryAt',
   'equipmentDetails',
   'customer',
 ];
