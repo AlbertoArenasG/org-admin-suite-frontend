@@ -62,6 +62,8 @@ Las futuras entradas deben incluir:
 - Alcance: `/dashboard/users/[userId]`.
 - Adopción: `Next Dashboard` con breadcrumbs de recurso y `ResourceForm` para
   lectura y edición; usa campos responsive, skeleton estructural y feedback de
-  mutación local en las acciones del formulario.
+  mutación local en las acciones del formulario. El diálogo de cambio de
+  contraseña conserva feedback local durante guardado o error y confirma éxito
+  mediante toast después de cerrarse.
 - Specs: `dashboard-shell-migration` y `editable-resource-form-foundation`.
 - Compatibilidad temporal: ninguna.

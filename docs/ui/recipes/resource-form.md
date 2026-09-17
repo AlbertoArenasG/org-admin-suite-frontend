@@ -34,13 +34,13 @@ tener su propia superficie, acciones o persistencia.
   description={description}
 >
   <div className="grid gap-5">
-    <ResourceFormSection surface="bare" title={firstSectionTitle}>
+    <ResourceFormSection surface="bare">
       <Fields />
     </ResourceFormSection>
 
     <Separator />
 
-    <ResourceFormSection surface="bare" title={secondSectionTitle}>
+    <ResourceFormSection surface="bare">
       <Fields />
     </ResourceFormSection>
   </div>
@@ -54,6 +54,8 @@ tener su propia superficie, acciones o persistencia.
   separación mínima respecto de su borde exterior.
 - Las secciones internas son `bare`; `Separator` delimita los grupos sin
   apilar cards.
+- Los encabezados de sección son opcionales. Se omiten cuando el título del
+  frame y la agrupación visual ya dan contexto suficiente a los campos.
 - `dividers="hidden"` mantiene el borde exterior del frame y deja que el
   inset establezca la separación visual del contenido, sin líneas bajo el
   header o sobre el footer.
@@ -112,7 +114,11 @@ global en otra región de la pantalla.
 ```
 
 El módulo inicia con `{ status: 'saving', title: 'Guardando cambios' }`, cambia
-a éxito al resolver la mutación y vuelve a lectura después de cuatro segundos.
-Ante error entrega `mutationRecovery`: título, guía breve y el detalle del
-backend visible. Las acciones nunca se reemplazan en este estado. El componente
-no ejecuta transporte ni decide cuándo cambiar de modo.
+a éxito al resolver la mutación. Cada recurso decide cuánto tiempo permanece
+visible ese éxito y su transición posterior; el detalle editable de Usuario
+usa dos segundos antes de volver a lectura. Ante error entrega
+`mutationRecovery`: título, guía breve y el detalle del backend visible. Las
+acciones nunca se reemplazan en este estado. `MutationFeedback` y
+`MutationRecovery` viven en `components/feedback`, por lo que también pueden
+usarse en hosts de diálogo o drawer. El componente no ejecuta transporte ni
+decide cuándo cambiar de modo.

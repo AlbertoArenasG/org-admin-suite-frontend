@@ -8,8 +8,8 @@ Es la receta predeterminada para acciones cuyo resultado debe permanecer fuera
 del recurso que la inició, como creación, eliminación, navegación o procesos
 de fondo. Usa `showToastPromise` para conservar un único toast entre
 `loading` y el resultado final. El éxito muestra únicamente un título y
-permanece cuatro segundos; el error puede incluir una descripción cuando aporta
-la causa.
+su duración se define en cada invocación; el error puede incluir una
+descripción cuando aporta la causa.
 
 No se agrega contenido expandido para repetir el título, el estado ni el nombre
 del recurso.
@@ -26,9 +26,10 @@ contraseña, el éxito sí se comunica con toast global después de cerrarlo. La
 dos piezas usan la familia independiente `--feedback-*`; su apariencia puede
 alinearse con Toast sin acoplarse a Sileo.
 
-Usa `showToast({ type: 'success', title, duration: 4000 })` para esa
-confirmación posterior al cierre. No agregues `description`: la cápsula debe
-comunicar únicamente el resultado y no repetir información fuera de contexto.
+Usa `showToast({ type: 'success', title, duration })` para esa confirmación
+posterior al cierre. `duration` es configurable por vista según el contexto.
+No agregues `description`: la cápsula debe comunicar únicamente el resultado y
+no repetir información fuera de contexto.
 
 ## Resumen Expandible
 
@@ -45,6 +46,7 @@ Una receta expandible nueva debe:
 
 ## Tema
 
-La geometría y la superficie se resuelven globalmente en `SnackbarProvider`.
-Cada tema define `--toast-surface`; Nocturno usa una variante inversa clara y
-el modo interno de Sileo se adapta para conservar el contraste del contenido.
+La geometría y la superficie se resuelven globalmente en el `Toaster` de
+Sileo. Cada tema define `--toast-surface`; Nocturno usa una variante inversa
+clara y el modo interno de Sileo se adapta para conservar el contraste del
+contenido.

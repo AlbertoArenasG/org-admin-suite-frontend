@@ -43,6 +43,8 @@ export type UserEditValues = {
   customerIds: string[];
 };
 
+const SUCCESS_FEEDBACK_DURATION_MS = 2000;
+
 type UserEditFormProps = {
   user: User;
   mode: ResourceFormMode;
@@ -149,7 +151,7 @@ export function UserEditForm({
             200
           );
         }, 180);
-      }, 4000);
+      }, SUCCESS_FEEDBACK_DURATION_MS);
     } catch (error) {
       setMutationFeedback(undefined);
       setMutationRecovery({
