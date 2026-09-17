@@ -16,6 +16,8 @@ import {
   ResourceFormRoute,
   ResourceFormSection,
   ResourceFormSkeleton,
+  type FormMutationFeedbackData,
+  type FormMutationRecoveryData,
   type ResourceFormDensity,
   type ResourceFormSectionSurface,
   type ResourceFormStatus,
@@ -673,6 +675,8 @@ function OverlayForm({
             onEditChange={setEditing}
             onRetry={() => remote.save(onClose)}
             onSave={() => remote.save(onClose)}
+            mutationFeedback={remote.mutationFeedback}
+            mutationRecovery={remote.mutationRecovery}
             status={remote.status}
           />
         ) : undefined
@@ -684,6 +688,8 @@ function OverlayForm({
             onEditChange={setEditing}
             onRetry={() => remote.save(onClose)}
             onSave={() => remote.save(onClose)}
+            mutationFeedback={remote.mutationFeedback}
+            mutationRecovery={remote.mutationRecovery}
             status={remote.status}
           />
         ) : undefined
@@ -740,6 +746,8 @@ function EditableResourceForm({
               onEditChange={onEditChange}
               onRetry={() => remote.save(() => onEditChange(false))}
               onSave={() => remote.save(() => onEditChange(false))}
+              mutationFeedback={remote.mutationFeedback}
+              mutationRecovery={remote.mutationRecovery}
               status={remote.status}
             />
           ) : undefined
@@ -751,6 +759,8 @@ function EditableResourceForm({
               onEditChange={onEditChange}
               onRetry={() => remote.save(() => onEditChange(false))}
               onSave={() => remote.save(() => onEditChange(false))}
+              mutationFeedback={remote.mutationFeedback}
+              mutationRecovery={remote.mutationRecovery}
               status={remote.status}
             />
           ) : undefined
@@ -882,12 +892,16 @@ function EditableResourceContent({
 
 function EditableResourceActions({
   editing,
+  mutationFeedback,
+  mutationRecovery,
   onEditChange,
   onRetry,
   onSave,
   status,
 }: {
   editing: boolean;
+  mutationFeedback?: FormMutationFeedbackData;
+  mutationRecovery?: FormMutationRecoveryData;
   onEditChange: (editing: boolean) => void;
   onRetry: () => void;
   onSave: () => void;
@@ -901,6 +915,8 @@ function EditableResourceActions({
           ? { label: 'Guardar', loadingLabel: 'Guardando…', onClick: onSave }
           : undefined
       }
+      mutationFeedback={mutationFeedback}
+      mutationRecovery={mutationRecovery}
       retryAction={status === 'error' ? { label: 'Reintentar', onClick: onRetry } : undefined}
       secondaryActions={
         !editing ? (
@@ -923,11 +939,15 @@ function EditableResourceActions({
 type PreviewRemoteState = {
   status: ResourceFormStatus;
   feedback: ReactNode;
+  mutationFeedback?: FormMutationFeedbackData;
+  mutationRecovery?: FormMutationRecoveryData;
   save: (onSuccess: () => void) => void;
 };
 
 function usePreviewRemoteState(configuration: PreviewConfiguration): PreviewRemoteState {
   const [mutationStatus, setMutationStatus] = useState<ResourceFormStatus>('idle');
+  const [mutationFeedback, setMutationFeedback] = useState<FormMutationFeedbackData>();
+  const [mutationRecovery, setMutationRecovery] = useState<FormMutationRecoveryData>();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const status = configuration.simulateLoading ? 'loading' : mutationStatus;
 
@@ -942,14 +962,26 @@ function usePreviewRemoteState(configuration: PreviewConfiguration): PreviewRemo
     if (status === 'loading' || status === 'saving') return;
 
     setMutationStatus('saving');
+    setMutationRecovery(undefined);
+    setMutationFeedback({ status: 'saving', title: 'Guardando cambios' });
     timeoutRef.current = setTimeout(() => {
       if (configuration.saveResult === 'error') {
         setMutationStatus('error');
+        setMutationFeedback(undefined);
+        setMutationRecovery({
+          message: 'El servidor rechazó el cambio de configuración.',
+          guidance: 'Revisa la información e inténtalo de nuevo.',
+          title: 'No se pudieron guardar los cambios',
+        });
         return;
       }
 
       setMutationStatus('idle');
-      onSuccess();
+      setMutationFeedback({ status: 'success', title: 'Cambios guardados' });
+      timeoutRef.current = setTimeout(() => {
+        setMutationFeedback(undefined);
+        onSuccess();
+      }, 1800);
     }, 900);
   };
 
@@ -962,16 +994,9 @@ function usePreviewRemoteState(configuration: PreviewConfiguration): PreviewRemo
         <Spinner aria-hidden="true" />
         Cargando datos del recurso…
       </div>
-    ) : status === 'error' ? (
-      <div
-        className="rounded-lg border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
-        role="alert"
-      >
-        No se pudieron guardar los cambios. Puedes reintentar la operación.
-      </div>
     ) : undefined;
 
-  return { status, feedback, save };
+  return { status, feedback, mutationFeedback, mutationRecovery, save };
 }
 
 function SectionActionPreview() {

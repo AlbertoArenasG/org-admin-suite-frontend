@@ -1,4 +1,8 @@
 export { DashboardGlobalHeader } from '@/components/dashboard-shell/DashboardGlobalHeader';
+export {
+  DashboardContentReveal,
+  type DashboardContentRevealProps,
+} from '@/components/dashboard-shell/DashboardContentReveal';
 export { DashboardPageComposition } from '@/components/dashboard-shell/DashboardPageComposition';
 export { DashboardPageContentScroller } from '@/components/dashboard-shell/DashboardPageContentScroller';
 export { DashboardTableWorkspace } from '@/components/dashboard-shell/DashboardTableWorkspace';

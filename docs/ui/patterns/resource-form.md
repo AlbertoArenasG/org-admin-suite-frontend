@@ -21,6 +21,10 @@ permisos ni transporte remoto entre intenciones de negocio.
 - `ResourceFormFrame`: superficie, encabezado, feedback y acciones globales.
 - `ResourceFormSection`: agrupación visual semántica de campos.
 - `ResourceFormActions`: clúster visual de acciones controladas.
+- `FormMutationFeedback`: confirmación local de una mutación en el host de sus
+  acciones.
+- `FormMutationRecovery`: estado de recuperación para un error remoto en el
+  host de sus acciones.
 - `ResourceFormNavigation`: navegación intraformulario opcional para rutas
   largas; no aplica a overlays.
 - `ResourceFormSkeleton`: estado de carga estructural que reutiliza el frame,
@@ -85,6 +89,32 @@ formulario de negocio.
 
 Los módulos son dueños de React Hook Form, Zod, carga, permisos, thunks,
 payloads, mutaciones, feedback localizado y navegación posterior.
+
+### Feedback Local De Mutación
+
+Cuando la acción remota es global para el formulario, `ResourceFormActions`
+puede recibir `mutationFeedback`. Durante `saving` y `success`, el feedback
+reemplaza el clúster de acciones en el mismo slot donde se inició la operación;
+los controles permanecen bloqueados hasta completar la transición de éxito.
+
+En un error remoto, `mutationRecovery` conserva las acciones disponibles y
+ocupa el slot contextual del mismo `ResourceFormActions`. Su guía indica cómo
+recuperar la operación y muestra el mensaje literal del backend. El mensaje
+tiene altura máxima con desplazamiento solo si fuera excepcionalmente extenso.
+En espacio reducido, el recovery ocupa la primera fila y las acciones pasan a
+la siguiente.
+
+Las acciones secundarias del header se mantienen montadas durante una edición
+global y se deshabilitan mientras esa mutación tiene ownership del formulario.
+No deben desaparecer al guardar ni competir con cambios pendientes. Al cerrar
+un éxito, la vista puede atenuar brevemente su contenido antes de entrar en
+lectura; la transición no modifica la mutación ni el contrato del frame.
+
+`FormMutationFeedback` usa su propia familia `--feedback-*`; puede conservar
+una apariencia alineada con Toast, pero no duplica ni depende del DOM, los
+tokens ni la configuración de Sileo. Se reserva el toast global para eventos
+que deben persistir fuera del recurso actual, como navegación, creación,
+eliminación o procesos de fondo.
 
 Con lectura sin edición, el módulo entrega `mode="read"` y omite controles y
 acciones de edición. Se conserva la misma ruta y composición; `ResourceForm*`

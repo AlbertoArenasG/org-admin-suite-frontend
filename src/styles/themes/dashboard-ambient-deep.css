@@ -5,6 +5,10 @@ html.ambient-deep {
   --card: #ffffff;
   --card-foreground: #111827;
   --toast-surface: #14181f;
+  --feedback-surface: #14181f;
+  --feedback-success: oklch(0.723 0.219 142.136);
+  --feedback-loading: oklch(0.556 0 0);
+  --feedback-error: oklch(0.637 0.237 25.331);
   --primary-50: #f1fcfb;
   --primary-100: #caf2ed;
   --primary-200: #9fe3da;

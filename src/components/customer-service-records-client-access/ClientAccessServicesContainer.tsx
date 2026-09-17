@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useRef } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { motion, useReducedMotion } from 'motion/react';
 import { DataTable } from '@/components/data-table';
+import { DashboardContentReveal } from '@/components/dashboard-shell';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAuthorization } from '@/features/auth';
 import {
@@ -47,7 +47,6 @@ export function ClientAccessServicesContainer() {
   const searchParamsString = searchParams.toString();
   const pendingLocalQueriesRef = useRef(new Set<string>());
   const { hasPermission, isReady } = useAuthorization();
-  const reduceMotion = useReducedMotion();
   const list = useAppSelector((state) => state.customerServiceRecordsClientAccess.list);
 
   const page = useClientAccessServicesTableStore((state) => state.page);
@@ -180,11 +179,7 @@ export function ClientAccessServicesContainer() {
   }
 
   return (
-    <motion.div
-      initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-      animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-      transition={reduceMotion ? undefined : { duration: 0.4, ease: 'easeOut' }}
-    >
+    <DashboardContentReveal>
       <DataTable<ClientAccessCustomerServiceRecord>
         rows={list.items}
         columns={columns}
@@ -306,6 +301,6 @@ export function ClientAccessServicesContainer() {
           clearSearch: t('empty.clearSearch'),
         }}
       />
-    </motion.div>
+    </DashboardContentReveal>
   );
 }

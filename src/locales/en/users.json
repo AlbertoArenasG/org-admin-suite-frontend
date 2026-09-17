@@ -153,6 +153,9 @@
       "successTitle": "User updated",
       "errorTitle": "Changes were not saved"
     },
+    "recovery": {
+      "guidance": "Review the information and try again."
+    },
     "start": "Edit user",
     "retry": "Retry",
     "generalTitle": "General details and contact",

@@ -93,3 +93,26 @@ carga realmente anticipa un footer visible en el modo de llegada.
 
 No convertir esta receta en un `variant` o preset de código hasta que varios
 recursos la adopten con la misma semántica y sin extensiones relevantes.
+
+## Confirmación Local De Guardado
+
+Usar cuando el resultado pertenece únicamente a la mutación iniciada desde un
+formulario de detalle o edición. El feedback ocupa temporalmente el mismo host
+que las acciones de guardar y cancelar, por lo que no compite con un toast
+global en otra región de la pantalla.
+
+```tsx
+<ResourceFormActions
+  cancelAction={{ label: 'Cancelar', onClick: onCancel }}
+  mutationFeedback={feedback}
+  mutationRecovery={recovery}
+  primaryAction={{ label: 'Guardar cambios' }}
+  status={feedback?.status === 'saving' ? 'saving' : 'idle'}
+/>
+```
+
+El módulo inicia con `{ status: 'saving', title: 'Guardando cambios' }`, cambia
+a éxito al resolver la mutación y vuelve a lectura después de cuatro segundos.
+Ante error entrega `mutationRecovery`: título, guía breve y el detalle del
+backend visible. Las acciones nunca se reemplazan en este estado. El componente
+no ejecuta transporte ni decide cuándo cambiar de modo.

@@ -153,6 +153,9 @@
       "successTitle": "Usuario actualizado",
       "errorTitle": "No se guardaron los cambios"
     },
+    "recovery": {
+      "guidance": "Revisa la información e inténtalo de nuevo."
+    },
     "start": "Editar usuario",
     "retry": "Reintentar",
     "generalTitle": "Datos generales y contacto",

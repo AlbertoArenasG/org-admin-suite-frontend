@@ -376,6 +376,16 @@ La variante opcional `Sticky Collapsible Header` se rige por su
 [contrato específico](../components/sticky-collapsible-page-header.md). No se
 activa por defecto ni reemplaza al `Page Header` expandido.
 
+### Entrada De Contenido
+
+`DashboardContentReveal` es la transición estándar para el contenido principal
+de una ruta adoptada. Aplica una sola entrada de `opacity` y `y: 16` durante
+`400 ms` al montar el contenido ya resuelto; respeta `prefers-reduced-motion`.
+
+Se usa una vez por ruta, alrededor de su tabla, formulario o composición
+principal. No envuelve skeletons, errores, drawers, diálogos ni bloques
+internos, y no se reproduce ante filtros, refetches o cambios locales de modo.
+
 ### Móvil
 
 Este contrato de canvas fijo y scroll interno se acuerda inicialmente solo para

@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { KeyRound, Pencil } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Controller, useForm, type UseFormRegisterReturn } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -24,12 +24,15 @@ import {
   ResourceFormActions,
   ResourceFormFrame,
   ResourceFormSection,
+  type FormMutationFeedbackData,
+  type FormMutationRecoveryData,
   type ResourceFormMode,
 } from '@/components/resource-form';
 import type { CustomerOption } from '@/features/customers';
 import type { AuthSystemRole } from '@/features/auth/types';
 import type { User, UserRoleInfo } from '@/features/users/usersSlice';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
+import { cn } from '@/lib/utils';
 
 export type UserEditValues = {
   name: string;
@@ -53,7 +56,6 @@ type UserEditFormProps = {
   onOpenPassword: () => void;
   canUpdateUser: boolean;
   canUpdatePassword: boolean;
-  isSubmitting: boolean;
 };
 
 export function UserEditForm({
@@ -61,7 +63,6 @@ export function UserEditForm({
   canUpdatePassword,
   customerOptions,
   customerOptionsLoading,
-  isSubmitting,
   mode,
   onCustomerOptionsRequired,
   onModeChange,
@@ -71,6 +72,12 @@ export function UserEditForm({
   user,
 }: UserEditFormProps) {
   const { t } = useTranslationHydrated('users');
+  const successTimeoutRef = useRef<number | null>(null);
+  const readModeTimeoutRef = useRef<number | null>(null);
+  const contentRestoreTimeoutRef = useRef<number | null>(null);
+  const [mutationFeedback, setMutationFeedback] = useState<FormMutationFeedbackData>();
+  const [mutationRecovery, setMutationRecovery] = useState<FormMutationRecoveryData>();
+  const [isSettlingToRead, setIsSettlingToRead] = useState(false);
   const form = useForm<UserEditValues>({
     resolver: zodResolver(
       z.object({
@@ -107,10 +114,55 @@ export function UserEditForm({
     }
   }, [form, isCustomerRole]);
 
+  useEffect(
+    () => () => {
+      [successTimeoutRef, readModeTimeoutRef, contentRestoreTimeoutRef].forEach((timeoutRef) => {
+        if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+      });
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (mode === 'read') {
+      if (successTimeoutRef.current) {
+        window.clearTimeout(successTimeoutRef.current);
+        successTimeoutRef.current = null;
+      }
+      setMutationFeedback(undefined);
+      setMutationRecovery(undefined);
+    }
+  }, [mode]);
+
   const submit = async (values: UserEditValues) => {
-    await onSubmit(values, selectedSystemRole);
+    setMutationRecovery(undefined);
+    setMutationFeedback({ status: 'saving', title: t('edit.toast.savingTitle') });
+
+    try {
+      await onSubmit(values, selectedSystemRole);
+      setMutationFeedback({ status: 'success', title: t('edit.toast.successTitle') });
+      successTimeoutRef.current = window.setTimeout(() => {
+        setIsSettlingToRead(true);
+        readModeTimeoutRef.current = window.setTimeout(() => {
+          onModeChange('read');
+          contentRestoreTimeoutRef.current = window.setTimeout(
+            () => setIsSettlingToRead(false),
+            200
+          );
+        }, 180);
+      }, 4000);
+    } catch (error) {
+      setMutationFeedback(undefined);
+      setMutationRecovery({
+        message: getMutationErrorMessage(error, t('edit.errorFeedback')),
+        guidance: t('edit.recovery.guidance'),
+        title: t('edit.toast.errorTitle'),
+      });
+    }
   };
   const isReadOnly = mode === 'read';
+  const isMutationLocked =
+    mutationFeedback?.status === 'saving' || mutationFeedback?.status === 'success';
   const roleSelectOptions = roleOptions.map((role) => ({
     value: role.roleId,
     label: role.roleName,
@@ -127,16 +179,22 @@ export function UserEditForm({
         density={{ base: 'compact', md: 'comfortable' }}
         dividers="hidden"
         headerActions={
-          (isReadOnly && canUpdateUser) || canUpdatePassword ? (
+          canUpdateUser || canUpdatePassword ? (
             <div className="flex flex-wrap items-center justify-end gap-2">
-              {isReadOnly && canUpdateUser ? (
-                <Button onClick={() => onModeChange('edit')} type="button">
+              {canUpdateUser ? (
+                <Button disabled={!isReadOnly} onClick={() => onModeChange('edit')} type="button">
                   <Pencil aria-hidden="true" className="size-4" />
                   {t('actions.edit')}
                 </Button>
               ) : null}
               {canUpdatePassword ? (
-                <Button onClick={onOpenPassword} size="sm" type="button" variant="outline">
+                <Button
+                  disabled={!isReadOnly}
+                  onClick={onOpenPassword}
+                  size="sm"
+                  type="button"
+                  variant="outline"
+                >
                   <KeyRound aria-hidden="true" className="size-4" />
                   {t('form.labels.password')}
                 </Button>
@@ -152,43 +210,56 @@ export function UserEditForm({
                 label: t('form.cancel'),
                 onClick: () => {
                   form.reset(getDefaultValues(user));
+                  setMutationFeedback(undefined);
+                  setMutationRecovery(undefined);
                   onModeChange('read');
                 },
               }}
               primaryAction={{ label: t('form.submit.edit'), loadingLabel: t('form.submitting') }}
-              status={isSubmitting ? 'saving' : 'idle'}
+              mutationFeedback={mutationFeedback}
+              mutationRecovery={mutationRecovery}
+              status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
             />
           ) : null
         }
         mode={mode}
+        status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
         surface={{ base: 'bare', md: 'card' }}
         title={t('detail.formTitle')}
       >
-        <div className="grid gap-5">
+        <div
+          className={cn(
+            'grid gap-5 transition-opacity duration-200 ease-out',
+            isSettlingToRead && 'opacity-60'
+          )}
+        >
           <ResourceFormSection surface="bare">
             <FieldGroup>
               <TextField
-                disabled={isReadOnly}
+                disabled={isMutationLocked}
                 error={form.formState.errors.name?.message}
                 id="user-name"
                 label={t('form.labels.name')}
                 readValue={user.name}
+                readOnly={isReadOnly}
                 registration={form.register('name')}
               />
               <TextField
-                disabled={isReadOnly}
+                disabled={isMutationLocked}
                 error={form.formState.errors.lastname?.message}
                 id="user-lastname"
                 label={t('form.labels.lastname')}
                 readValue={user.lastname}
+                readOnly={isReadOnly}
                 registration={form.register('lastname')}
               />
               <TextField
-                disabled={isReadOnly}
+                disabled={isMutationLocked}
                 error={form.formState.errors.email?.message}
                 id="user-email"
                 label={t('form.labels.email')}
                 readValue={user.email}
+                readOnly={isReadOnly}
                 registration={form.register('email')}
                 type="email"
               />
@@ -213,6 +284,7 @@ export function UserEditForm({
                           US: t('edit.countries.us'),
                           CA: t('edit.countries.ca'),
                         }}
+                        disabled={isMutationLocked}
                         emptyCountryMessage={t('edit.countryEmpty')}
                         id="user-cell-phone"
                         invalid={fieldState.invalid}
@@ -247,6 +319,7 @@ export function UserEditForm({
                       </FormReadValue>
                     ) : (
                       <FormCombobox
+                        disabled={isMutationLocked}
                         emptyMessage={t('edit.roleEmpty')}
                         id="user-role"
                         invalid={fieldState.invalid}
@@ -275,6 +348,7 @@ export function UserEditForm({
                           { label: t('classification.no'), value: 'false' },
                         ]}
                         readOnly={isReadOnly}
+                        disabled={isMutationLocked}
                         value={String(field.value)}
                         variant="bare"
                       />
@@ -301,7 +375,7 @@ export function UserEditForm({
                         </FormReadValue>
                       ) : (
                         <FormMultiSelect
-                          disabled={customerOptionsLoading}
+                          disabled={customerOptionsLoading || isMutationLocked}
                           emptyMessage={t('form.customers.noOptions')}
                           id="user-customers"
                           invalid={fieldState.invalid}
@@ -331,6 +405,13 @@ export function UserEditForm({
   );
 }
 
+function getMutationErrorMessage(error: unknown, fallback: string) {
+  if (typeof error === 'string') return error;
+  if (error instanceof Error && error.message) return error.message;
+
+  return fallback;
+}
+
 function getDefaultValues(user: User): UserEditValues {
   return {
     name: user.name ?? '',
@@ -352,6 +433,7 @@ function TextField({
   id,
   label,
   readValue,
+  readOnly,
   registration,
   type = 'text',
 }: {
@@ -360,22 +442,24 @@ function TextField({
   id: string;
   label: string;
   readValue: string;
+  readOnly: boolean;
   registration: UseFormRegisterReturn;
   type?: string;
 }) {
   return (
     <FormField
       error={error}
-      htmlFor={disabled ? undefined : id}
+      htmlFor={readOnly ? undefined : id}
       label={label}
       orientation="responsive"
     >
-      {disabled ? (
+      {readOnly ? (
         <FormReadValue>{readValue || '—'}</FormReadValue>
       ) : (
         <Input
           aria-invalid={Boolean(error) || undefined}
           className="text-sm"
+          disabled={disabled}
           id={id}
           type={type}
           {...registration}

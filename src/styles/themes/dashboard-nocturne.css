@@ -5,6 +5,10 @@ html.nocturne {
   --card: rgb(21 32 45 / 72%);
   --card-foreground: #f2f6fb;
   --toast-surface: #e7f0fa;
+  --feedback-surface: #e7f0fa;
+  --feedback-success: #167a4b;
+  --feedback-loading: #475569;
+  --feedback-error: #b42318;
   --sileo-state-success: #167a4b;
   --sileo-state-loading: #475569;
   --sileo-state-error: #b42318;

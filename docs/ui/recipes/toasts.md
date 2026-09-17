@@ -4,13 +4,24 @@
 
 ## Promesa Mínima
 
-Es la receta predeterminada para crear, editar o guardar un recurso. Usa
-`showSnackbarPromise` para conservar un único toast entre `loading` y el
-resultado final. El éxito muestra únicamente un título y permanece cuatro
-segundos; el error puede incluir una descripción cuando aporta la causa.
+Es la receta predeterminada para acciones cuyo resultado debe permanecer fuera
+del recurso que la inició, como creación, eliminación, navegación o procesos
+de fondo. Usa `showSnackbarPromise` para conservar un único toast entre
+`loading` y el resultado final. El éxito muestra únicamente un título y
+permanece cuatro segundos; el error puede incluir una descripción cuando aporta
+la causa.
 
 No se agrega contenido expandido para repetir el título, el estado ni el nombre
 del recurso.
+
+## Mutación Local De Formulario
+
+Guardar cambios dentro de un detalle o edición no muestra además un toast
+global: adopta la receta [Confirmación Local De
+Guardado](./resource-form.md#confirmación-local-de-guardado).
+`FormMutationFeedback` se renderiza en el host de las acciones del formulario
+y usa la familia independiente `--feedback-*`; su apariencia puede alinearse
+con Toast sin acoplarse a Sileo.
 
 ## Resumen Expandible
 

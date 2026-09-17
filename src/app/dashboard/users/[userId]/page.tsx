@@ -7,6 +7,7 @@ import { UserEditForm, type UserEditValues } from '@/components/users/UserEditFo
 import { UserPasswordDialog } from '@/components/users/UserPasswordDialog';
 import { Button } from '@/components/ui/button';
 import {
+  DashboardContentReveal,
   DashboardPageComposition,
   DashboardPageContentScroller,
 } from '@/components/dashboard-shell';
@@ -21,7 +22,6 @@ import type { AuthSystemRole } from '@/features/auth/types';
 import { canManageSystemRole } from '@/features/users/roles';
 import { fetchAssignableUserRoles, fetchUserById, updateUser } from '@/features/users/usersThunks';
 import type { User } from '@/features/users/usersSlice';
-import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
@@ -30,11 +30,9 @@ export default function UserDetailPage() {
   const params = useParams<{ userId: string }>();
   const dispatch = useAppDispatch();
   const { hasPermission } = useAuthorization();
-  const { showSnackbarPromise } = useSnackbar();
   const { t } = useTranslationHydrated('users');
   const [mode, setMode] = useState<ResourceFormMode>('read');
   const [passwordOpen, setPasswordOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const user = useAppSelector((state) =>
     state.users.entities.find((entity) => entity.id === params.userId)
   );
@@ -86,48 +84,22 @@ export default function UserDetailPage() {
   const handleSubmit = async (values: UserEditValues, systemRole: AuthSystemRole) => {
     if (!user || !canEdit) return;
 
-    setIsSubmitting(true);
-    try {
-      await showSnackbarPromise(
-        dispatch(
-          updateUser({
-            id: user.id,
-            data: {
-              name: values.name.trim(),
-              lastname: values.lastname.trim(),
-              email: values.email.trim(),
-              systemRole,
-              roleId: values.roleId,
-              statusId: user.status,
-              cellPhone: values.cellPhone.number ? values.cellPhone : null,
-              isInternalStaff: systemRole === 'USER' ? values.isInternalStaff : true,
-              customerIds: systemRole === 'USER' ? values.customerIds : [],
-            },
-          })
-        ).unwrap(),
-        {
-          error: (error) => ({
-            autopilot: { collapse: 5200, expand: 160 },
-            description: typeof error === 'string' ? error : t('edit.errorFeedback'),
-            duration: 6000,
-            title: t('edit.toast.errorTitle'),
-          }),
-          loading: {
-            description: t('edit.toast.savingDescription'),
-            title: t('edit.toast.savingTitle'),
-          },
-          success: {
-            duration: 4000,
-            title: t('edit.toast.successTitle'),
-          },
-        }
-      );
-      setMode('read');
-    } catch {
-      // Sileo's promise transition already presents the remote error.
-    } finally {
-      setIsSubmitting(false);
-    }
+    await dispatch(
+      updateUser({
+        id: user.id,
+        data: {
+          name: values.name.trim(),
+          lastname: values.lastname.trim(),
+          email: values.email.trim(),
+          systemRole,
+          roleId: values.roleId,
+          statusId: user.status,
+          cellPhone: values.cellPhone.number ? values.cellPhone : null,
+          isInternalStaff: systemRole === 'USER' ? values.isInternalStaff : true,
+          customerIds: systemRole === 'USER' ? values.customerIds : [],
+        },
+      })
+    ).unwrap();
   };
 
   return (
@@ -163,33 +135,34 @@ export default function UserDetailPage() {
             </div>
           ) : null}
           {!isLoading && !loadError && user ? (
-            <ResourceFormRoute className="mx-auto w-full max-w-4xl">
-              <UserEditForm
-                canUpdateUser={canEdit}
-                canUpdatePassword={canChangePassword}
-                customerOptions={resolvedCustomerOptions}
-                customerOptionsLoading={customerOptions.status === 'loading'}
-                isSubmitting={isSubmitting}
-                mode={mode}
-                onCustomerOptionsRequired={() => {
-                  if (customerOptions.status === 'idle') {
-                    void dispatch(fetchCustomerOptions());
-                  }
-                }}
-                onModeChange={setMode}
-                onOpenPassword={() => setPasswordOpen(true)}
-                onSubmit={handleSubmit}
-                roleOptions={rolesState.items}
-                user={user}
-              />
-              {canChangePassword ? (
-                <UserPasswordDialog
-                  onOpenChange={setPasswordOpen}
-                  open={passwordOpen}
-                  userId={user.id}
+            <DashboardContentReveal>
+              <ResourceFormRoute className="mx-auto w-full max-w-4xl">
+                <UserEditForm
+                  canUpdateUser={canEdit}
+                  canUpdatePassword={canChangePassword}
+                  customerOptions={resolvedCustomerOptions}
+                  customerOptionsLoading={customerOptions.status === 'loading'}
+                  mode={mode}
+                  onCustomerOptionsRequired={() => {
+                    if (customerOptions.status === 'idle') {
+                      void dispatch(fetchCustomerOptions());
+                    }
+                  }}
+                  onModeChange={setMode}
+                  onOpenPassword={() => setPasswordOpen(true)}
+                  onSubmit={handleSubmit}
+                  roleOptions={rolesState.items}
+                  user={user}
                 />
-              ) : null}
-            </ResourceFormRoute>
+                {canChangePassword ? (
+                  <UserPasswordDialog
+                    onOpenChange={setPasswordOpen}
+                    open={passwordOpen}
+                    userId={user.id}
+                  />
+                ) : null}
+              </ResourceFormRoute>
+            </DashboardContentReveal>
           ) : null}
           {!isLoading && !loadError && !user ? (
             <div className="rounded-xl border border-border bg-card p-8 text-center text-sm text-muted-foreground">

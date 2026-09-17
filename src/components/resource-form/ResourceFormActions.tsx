@@ -1,5 +1,13 @@
 import * as React from 'react';
 
+import {
+  FormMutationFeedback,
+  type FormMutationFeedback as FormMutationFeedbackData,
+} from '@/components/resource-form/FormMutationFeedback';
+import {
+  FormMutationRecovery,
+  type FormMutationRecovery as FormMutationRecoveryData,
+} from '@/components/resource-form/FormMutationRecovery';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import type { ResourceFormStatus } from '@/components/resource-form/ResourceFormFrame';
@@ -20,12 +28,16 @@ type ResourceFormActionsProps = React.ComponentProps<'div'> & {
   retryAction?: ActionDefinition;
   destructiveAction?: ActionDefinition;
   secondaryActions?: React.ReactNode;
+  mutationFeedback?: FormMutationFeedbackData;
+  mutationRecovery?: FormMutationRecoveryData;
 };
 
 function ResourceFormActions({
   cancelAction,
   className,
   destructiveAction,
+  mutationFeedback,
+  mutationRecovery,
   primaryAction,
   retryAction,
   secondaryActions,
@@ -33,6 +45,8 @@ function ResourceFormActions({
   ...props
 }: ResourceFormActionsProps) {
   const isSaving = status === 'saving';
+  const replacesActions =
+    mutationFeedback?.status === 'saving' || mutationFeedback?.status === 'success';
 
   return (
     <div
@@ -42,27 +56,40 @@ function ResourceFormActions({
       data-status={status}
       {...props}
     >
-      <div className="flex flex-wrap items-center gap-2">
-        {destructiveAction ? (
-          <ActionButton action={destructiveAction} type="button" variant="destructive" />
-        ) : null}
-        {secondaryActions}
-      </div>
-      <div className="flex flex-wrap items-center justify-end gap-2">
-        {retryAction ? <ActionButton action={retryAction} type="button" variant="outline" /> : null}
-        {cancelAction ? (
-          <ActionButton action={cancelAction} type="button" variant="outline" />
-        ) : null}
-        {primaryAction ? (
-          <ActionButton
-            action={primaryAction}
-            disabled={isSaving || primaryAction.disabled}
-            isLoading={isSaving}
-            type="submit"
-            variant="default"
-          />
-        ) : null}
-      </div>
+      {replacesActions && mutationFeedback ? (
+        <div className="flex w-full justify-end">
+          <FormMutationFeedback {...mutationFeedback} />
+        </div>
+      ) : (
+        <>
+          <div className="flex min-w-0 flex-1 basis-full flex-wrap items-center gap-2 sm:basis-auto">
+            {destructiveAction ? (
+              <ActionButton action={destructiveAction} type="button" variant="destructive" />
+            ) : null}
+            {secondaryActions}
+            {mutationRecovery ? (
+              <FormMutationRecovery className="basis-full sm:basis-auto" {...mutationRecovery} />
+            ) : null}
+          </div>
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            {retryAction ? (
+              <ActionButton action={retryAction} type="button" variant="outline" />
+            ) : null}
+            {cancelAction ? (
+              <ActionButton action={cancelAction} type="button" variant="outline" />
+            ) : null}
+            {primaryAction ? (
+              <ActionButton
+                action={primaryAction}
+                disabled={isSaving || primaryAction.disabled}
+                isLoading={isSaving}
+                type="submit"
+                variant="default"
+              />
+            ) : null}
+          </div>
+        </>
+      )}
     </div>
   );
 }
