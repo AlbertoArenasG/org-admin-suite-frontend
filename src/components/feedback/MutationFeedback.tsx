@@ -5,14 +5,14 @@ import { motion, useReducedMotion, type HTMLMotionProps } from 'motion/react';
 
 import { cn } from '@/lib/utils';
 
-export type FormMutationFeedbackStatus = 'saving' | 'success';
+export type MutationFeedbackStatus = 'saving' | 'success';
 
-export type FormMutationFeedback = {
-  status: FormMutationFeedbackStatus;
+export type MutationFeedback = {
+  status: MutationFeedbackStatus;
   title: React.ReactNode;
 };
 
-type FormMutationFeedbackProps = FormMutationFeedback &
+type MutationFeedbackProps = MutationFeedback &
   Omit<HTMLMotionProps<'div'>, 'animate' | 'initial' | 'title' | 'transition'>;
 
 const stateStyles = {
@@ -26,7 +26,7 @@ const stateStyles = {
   },
 } as const;
 
-function FormMutationFeedback({ className, status, title, ...props }: FormMutationFeedbackProps) {
+function MutationFeedback({ className, status, title, ...props }: MutationFeedbackProps) {
   const reduceMotion = useReducedMotion();
   const { icon: Icon, tone } = stateStyles[status];
 
@@ -35,7 +35,7 @@ function FormMutationFeedback({ className, status, title, ...props }: FormMutati
       animate={reduceMotion ? undefined : { opacity: 1, scale: 1, y: 0 }}
       aria-live="polite"
       className={cn('w-fit max-w-full', className)}
-      data-slot="form-mutation-feedback"
+      data-slot="mutation-feedback"
       data-status={status}
       initial={reduceMotion ? false : { opacity: 0, scale: 0.95, y: -6 }}
       role="status"
@@ -72,5 +72,5 @@ function FormMutationFeedback({ className, status, title, ...props }: FormMutati
   );
 }
 
-export { FormMutationFeedback };
-export type { FormMutationFeedbackProps };
+export { MutationFeedback };
+export type { MutationFeedbackProps };

@@ -6,7 +6,7 @@
 
 Es la receta predeterminada para acciones cuyo resultado debe permanecer fuera
 del recurso que la inició, como creación, eliminación, navegación o procesos
-de fondo. Usa `showSnackbarPromise` para conservar un único toast entre
+de fondo. Usa `showToastPromise` para conservar un único toast entre
 `loading` y el resultado final. El éxito muestra únicamente un título y
 permanece cuatro segundos; el error puede incluir una descripción cuando aporta
 la causa.
@@ -14,14 +14,21 @@ la causa.
 No se agrega contenido expandido para repetir el título, el estado ni el nombre
 del recurso.
 
-## Mutación Local De Formulario
+## Mutación Local
 
-Guardar cambios dentro de un detalle o edición no muestra además un toast
-global: adopta la receta [Confirmación Local De
-Guardado](./resource-form.md#confirmación-local-de-guardado).
-`FormMutationFeedback` se renderiza en el host de las acciones del formulario
-y usa la familia independiente `--feedback-*`; su apariencia puede alinearse
-con Toast sin acoplarse a Sileo.
+Una mutación cuyo contenedor permanece visible no muestra además un toast
+global: usa `MutationFeedback` durante `saving` y `MutationRecovery` ante un
+error remoto. El host lo determina el contenedor: `ResourceFormActions` en un
+formulario, `DialogFooter` en un diálogo o el panel de acciones de un drawer.
+
+Si el contenedor se cierra al resolver con éxito, como un diálogo de cambio de
+contraseña, el éxito sí se comunica con toast global después de cerrarlo. Las
+dos piezas usan la familia independiente `--feedback-*`; su apariencia puede
+alinearse con Toast sin acoplarse a Sileo.
+
+Usa `showToast({ type: 'success', title, duration: 4000 })` para esa
+confirmación posterior al cierre. No agregues `description`: la cápsula debe
+comunicar únicamente el resultado y no repetir información fuera de contexto.
 
 ## Resumen Expandible
 

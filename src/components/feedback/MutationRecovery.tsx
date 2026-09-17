@@ -2,25 +2,25 @@ import { X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
-export type FormMutationRecovery = {
+export type MutationRecovery = {
   title: React.ReactNode;
   message?: React.ReactNode;
   guidance: React.ReactNode;
 };
 
-type FormMutationRecoveryProps = FormMutationRecovery & Omit<React.ComponentProps<'div'>, 'title'>;
+type MutationRecoveryProps = MutationRecovery & Omit<React.ComponentProps<'div'>, 'title'>;
 
-function FormMutationRecovery({
+function MutationRecovery({
   className,
   guidance,
   message,
   title,
   ...props
-}: FormMutationRecoveryProps) {
+}: MutationRecoveryProps) {
   return (
     <div
       className={cn('min-w-0 max-w-md text-sm', className)}
-      data-slot="form-mutation-recovery"
+      data-slot="mutation-recovery"
       role="alert"
       {...props}
     >
@@ -48,5 +48,5 @@ function FormMutationRecovery({
   );
 }
 
-export { FormMutationRecovery };
-export type { FormMutationRecoveryProps };
+export { MutationRecovery };
+export type { MutationRecoveryProps };

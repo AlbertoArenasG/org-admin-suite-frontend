@@ -6,6 +6,12 @@ import { useState } from 'react';
 import { useForm, type UseFormRegisterReturn } from 'react-hook-form';
 import { z } from 'zod';
 
+import {
+  MutationFeedback,
+  MutationRecovery,
+  type MutationFeedbackData,
+  type MutationRecoveryData,
+} from '@/components/feedback';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -16,7 +22,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useSnackbar } from '@/components/providers/useSnackbarStore';
+import { showToast } from '@/components/toast';
 import { updateUserPassword } from '@/features/users/usersThunks';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
@@ -34,10 +40,12 @@ type UserPasswordDialogProps = {
 
 export function UserPasswordDialog({ onOpenChange, open, userId }: UserPasswordDialogProps) {
   const dispatch = useAppDispatch();
-  const { showSnackbar } = useSnackbar();
   const { t } = useTranslationHydrated('users');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [mutationFeedback, setMutationFeedback] = useState<MutationFeedbackData>();
+  const [mutationRecovery, setMutationRecovery] = useState<MutationRecoveryData>();
+  const isMutationLocked = mutationFeedback?.status === 'saving';
   const schema = z
     .object({
       password: z.string().min(6, t('passwordDialog.errors.length')),
@@ -52,29 +60,37 @@ export function UserPasswordDialog({ onOpenChange, open, userId }: UserPasswordD
     defaultValues: { password: '', confirmPassword: '' },
   });
 
-  const handleOpenChange = (nextOpen: boolean) => {
+  const handleOpenChange = (nextOpen: boolean, force = false) => {
+    if (!nextOpen && isMutationLocked && !force) return;
+
     if (!nextOpen) {
       form.reset();
       setShowPassword(false);
       setShowConfirmation(false);
+      setMutationFeedback(undefined);
+      setMutationRecovery(undefined);
     }
     onOpenChange(nextOpen);
   };
 
   const onSubmit = async (values: PasswordValues) => {
+    setMutationRecovery(undefined);
+    setMutationFeedback({ status: 'saving', title: t('passwordDialog.submitting') });
+
     try {
-      const result = await dispatch(
-        updateUserPassword({ id: userId, password: values.password })
-      ).unwrap();
-      showSnackbar({
-        message: result.message ?? t('passwordDialog.success'),
-        severity: 'success',
+      await dispatch(updateUserPassword({ id: userId, password: values.password })).unwrap();
+      handleOpenChange(false, true);
+      showToast({
+        duration: 4000,
+        title: t('passwordDialog.success'),
+        type: 'success',
       });
-      handleOpenChange(false);
     } catch (error) {
-      showSnackbar({
-        message: typeof error === 'string' ? error : t('passwordDialog.error'),
-        severity: 'error',
+      setMutationFeedback(undefined);
+      setMutationRecovery({
+        guidance: t('passwordDialog.recovery.guidance'),
+        message: getMutationErrorMessage(error, t('passwordDialog.error')),
+        title: t('passwordDialog.recovery.title'),
       });
     }
   };
@@ -93,6 +109,7 @@ export function UserPasswordDialog({ onOpenChange, open, userId }: UserPasswordD
             label={t('passwordDialog.password')}
             onToggle={() => setShowPassword((current) => !current)}
             show={showPassword}
+            disabled={isMutationLocked}
             registration={form.register('password')}
           />
           <PasswordField
@@ -101,17 +118,25 @@ export function UserPasswordDialog({ onOpenChange, open, userId }: UserPasswordD
             label={t('passwordDialog.confirmPassword')}
             onToggle={() => setShowConfirmation((current) => !current)}
             show={showConfirmation}
+            disabled={isMutationLocked}
             registration={form.register('confirmPassword')}
           />
-          <DialogFooter className="gap-2 sm:gap-2">
-            <Button onClick={() => handleOpenChange(false)} type="button" variant="outline">
-              {t('passwordDialog.cancel')}
-            </Button>
-            <Button disabled={form.formState.isSubmitting} type="submit">
-              {form.formState.isSubmitting
-                ? t('passwordDialog.submitting')
-                : t('passwordDialog.submit')}
-            </Button>
+          <DialogFooter className="flex-col gap-3 sm:flex-col sm:space-x-0">
+            {isMutationLocked && mutationFeedback ? (
+              <div className="flex w-full justify-end">
+                <MutationFeedback {...mutationFeedback} />
+              </div>
+            ) : (
+              <>
+                {mutationRecovery ? <MutationRecovery {...mutationRecovery} /> : null}
+                <div className="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                  <Button onClick={() => handleOpenChange(false)} type="button" variant="outline">
+                    {t('passwordDialog.cancel')}
+                  </Button>
+                  <Button type="submit">{t('passwordDialog.submit')}</Button>
+                </div>
+              </>
+            )}
           </DialogFooter>
         </form>
       </DialogContent>
@@ -126,7 +151,9 @@ function PasswordField({
   onToggle,
   registration,
   show,
+  disabled,
 }: {
+  disabled: boolean;
   error?: string;
   id: string;
   label: string;
@@ -143,6 +170,7 @@ function PasswordField({
         <Input
           aria-invalid={Boolean(error) || undefined}
           autoComplete="new-password"
+          disabled={disabled}
           id={id}
           type={show ? 'text' : 'password'}
           {...registration}
@@ -150,6 +178,7 @@ function PasswordField({
         <Button
           aria-label={show ? 'Ocultar contraseña' : 'Mostrar contraseña'}
           className="absolute right-1 top-1/2 -translate-y-1/2"
+          disabled={disabled}
           onClick={onToggle}
           size="icon-xs"
           type="button"
@@ -161,4 +190,11 @@ function PasswordField({
       {error ? <p className="text-sm text-destructive">{error}</p> : null}
     </div>
   );
+}
+
+function getMutationErrorMessage(error: unknown, fallback: string) {
+  if (typeof error === 'string') return error;
+  if (error instanceof Error && error.message) return error.message;
+
+  return fallback;
 }

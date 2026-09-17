@@ -4,19 +4,6 @@ export type {
   ResourceFormActionsProps,
 } from '@/components/resource-form/ResourceFormActions';
 
-export { FormMutationFeedback } from '@/components/resource-form/FormMutationFeedback';
-export type {
-  FormMutationFeedbackProps,
-  FormMutationFeedbackStatus,
-  FormMutationFeedback as FormMutationFeedbackData,
-} from '@/components/resource-form/FormMutationFeedback';
-
-export { FormMutationRecovery } from '@/components/resource-form/FormMutationRecovery';
-export type {
-  FormMutationRecoveryProps,
-  FormMutationRecovery as FormMutationRecoveryData,
-} from '@/components/resource-form/FormMutationRecovery';
-
 export { ResourceFormFrame } from '@/components/resource-form/ResourceFormFrame';
 export type {
   ResourceFormFrameProps,

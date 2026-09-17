@@ -21,14 +21,19 @@ permisos ni transporte remoto entre intenciones de negocio.
 - `ResourceFormFrame`: superficie, encabezado, feedback y acciones globales.
 - `ResourceFormSection`: agrupación visual semántica de campos.
 - `ResourceFormActions`: clúster visual de acciones controladas.
-- `FormMutationFeedback`: confirmación local de una mutación en el host de sus
+- `MutationFeedback`: confirmación local de una mutación en el host de sus
   acciones.
-- `FormMutationRecovery`: estado de recuperación para un error remoto en el
+- `MutationRecovery`: estado de recuperación para un error remoto en el
   host de sus acciones.
 - `ResourceFormNavigation`: navegación intraformulario opcional para rutas
   largas; no aplica a overlays.
 - `ResourceFormSkeleton`: estado de carga estructural que reutiliza el frame,
   secciones y orientación de campos del formulario final.
+
+`MutationFeedback` y `MutationRecovery` viven en `components/feedback`, no en
+este módulo. El resource form decide su colocación mediante
+`ResourceFormActions`; diálogos y drawers pueden usar el mismo contrato dentro
+de sus propios hosts de acciones.
 
 La topología se conserva aunque algunos elementos no sean visibles:
 
@@ -110,7 +115,7 @@ No deben desaparecer al guardar ni competir con cambios pendientes. Al cerrar
 un éxito, la vista puede atenuar brevemente su contenido antes de entrar en
 lectura; la transición no modifica la mutación ni el contrato del frame.
 
-`FormMutationFeedback` usa su propia familia `--feedback-*`; puede conservar
+`MutationFeedback` usa su propia familia `--feedback-*`; puede conservar
 una apariencia alineada con Toast, pero no duplica ni depende del DOM, los
 tokens ni la configuración de Sileo. Se reserva el toast global para eventos
 que deben persistir fuera del recurso actual, como navegación, creación,

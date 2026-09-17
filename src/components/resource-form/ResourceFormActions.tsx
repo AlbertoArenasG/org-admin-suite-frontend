@@ -1,13 +1,11 @@
 import * as React from 'react';
 
 import {
-  FormMutationFeedback,
-  type FormMutationFeedback as FormMutationFeedbackData,
-} from '@/components/resource-form/FormMutationFeedback';
-import {
-  FormMutationRecovery,
-  type FormMutationRecovery as FormMutationRecoveryData,
-} from '@/components/resource-form/FormMutationRecovery';
+  MutationFeedback,
+  type MutationFeedback as MutationFeedbackData,
+  MutationRecovery,
+  type MutationRecovery as MutationRecoveryData,
+} from '@/components/feedback';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import type { ResourceFormStatus } from '@/components/resource-form/ResourceFormFrame';
@@ -28,8 +26,8 @@ type ResourceFormActionsProps = React.ComponentProps<'div'> & {
   retryAction?: ActionDefinition;
   destructiveAction?: ActionDefinition;
   secondaryActions?: React.ReactNode;
-  mutationFeedback?: FormMutationFeedbackData;
-  mutationRecovery?: FormMutationRecoveryData;
+  mutationFeedback?: MutationFeedbackData;
+  mutationRecovery?: MutationRecoveryData;
 };
 
 function ResourceFormActions({
@@ -58,7 +56,7 @@ function ResourceFormActions({
     >
       {replacesActions && mutationFeedback ? (
         <div className="flex w-full justify-end">
-          <FormMutationFeedback {...mutationFeedback} />
+          <MutationFeedback {...mutationFeedback} />
         </div>
       ) : (
         <>
@@ -68,7 +66,7 @@ function ResourceFormActions({
             ) : null}
             {secondaryActions}
             {mutationRecovery ? (
-              <FormMutationRecovery className="basis-full sm:basis-auto" {...mutationRecovery} />
+              <MutationRecovery className="basis-full sm:basis-auto" {...mutationRecovery} />
             ) : null}
           </div>
           <div className="flex flex-wrap items-center justify-end gap-2">

@@ -186,8 +186,12 @@
     "cancel": "Cancel",
     "submit": "Change password",
     "submitting": "Changing...",
-    "success": "Password changed successfully.",
+    "success": "Password updated",
     "error": "We couldn't change the password.",
+    "recovery": {
+      "title": "Password was not changed",
+      "guidance": "Review the information and try again."
+    },
     "errors": {
       "length": "Password must be at least 6 characters.",
       "confirmRequired": "Confirm the password.",

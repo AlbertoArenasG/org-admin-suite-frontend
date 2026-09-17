@@ -9,6 +9,7 @@ import {
   useState,
 } from 'react';
 import { Edit3, PanelRight } from 'lucide-react';
+import type { MutationFeedbackData, MutationRecoveryData } from '@/components/feedback';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
 import {
   ResourceFormActions,
@@ -16,8 +17,6 @@ import {
   ResourceFormRoute,
   ResourceFormSection,
   ResourceFormSkeleton,
-  type FormMutationFeedbackData,
-  type FormMutationRecoveryData,
   type ResourceFormDensity,
   type ResourceFormSectionSurface,
   type ResourceFormStatus,
@@ -900,8 +899,8 @@ function EditableResourceActions({
   status,
 }: {
   editing: boolean;
-  mutationFeedback?: FormMutationFeedbackData;
-  mutationRecovery?: FormMutationRecoveryData;
+  mutationFeedback?: MutationFeedbackData;
+  mutationRecovery?: MutationRecoveryData;
   onEditChange: (editing: boolean) => void;
   onRetry: () => void;
   onSave: () => void;
@@ -939,15 +938,15 @@ function EditableResourceActions({
 type PreviewRemoteState = {
   status: ResourceFormStatus;
   feedback: ReactNode;
-  mutationFeedback?: FormMutationFeedbackData;
-  mutationRecovery?: FormMutationRecoveryData;
+  mutationFeedback?: MutationFeedbackData;
+  mutationRecovery?: MutationRecoveryData;
   save: (onSuccess: () => void) => void;
 };
 
 function usePreviewRemoteState(configuration: PreviewConfiguration): PreviewRemoteState {
   const [mutationStatus, setMutationStatus] = useState<ResourceFormStatus>('idle');
-  const [mutationFeedback, setMutationFeedback] = useState<FormMutationFeedbackData>();
-  const [mutationRecovery, setMutationRecovery] = useState<FormMutationRecoveryData>();
+  const [mutationFeedback, setMutationFeedback] = useState<MutationFeedbackData>();
+  const [mutationRecovery, setMutationRecovery] = useState<MutationRecoveryData>();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const status = configuration.simulateLoading ? 'loading' : mutationStatus;
 

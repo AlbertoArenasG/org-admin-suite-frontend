@@ -186,8 +186,12 @@
     "cancel": "Cancelar",
     "submit": "Cambiar contraseña",
     "submitting": "Cambiando...",
-    "success": "Contraseña cambiada correctamente.",
+    "success": "Contraseña actualizada",
     "error": "No fue posible cambiar la contraseña.",
+    "recovery": {
+      "title": "No se cambió la contraseña",
+      "guidance": "Revisa la información e inténtalo de nuevo."
+    },
     "errors": {
       "length": "La contraseña debe tener al menos 6 caracteres.",
       "confirmRequired": "Confirma la contraseña.",

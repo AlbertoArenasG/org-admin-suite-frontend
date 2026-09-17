@@ -1,16 +1,14 @@
 'use client';
 
-import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
+import { showToast, showToastPromise } from '@/components/toast';
 import { Button } from '@/components/ui/button';
 
 export function ToastCatalogPlayground() {
-  const { showSnackbar, showSnackbarPromise } = useSnackbar();
-
   const runMinimalPromise = () => {
     const request = new Promise<void>((resolve) => window.setTimeout(resolve, 1200));
 
-    void showSnackbarPromise(request, {
+    void showToastPromise(request, {
       error: {
         autopilot: { collapse: 5200, expand: 160 },
         description: 'Verifica tu conexión e inténtalo de nuevo.',
@@ -30,7 +28,7 @@ export function ToastCatalogPlayground() {
   const runExpandedSummary = () => {
     const request = new Promise<void>((resolve) => window.setTimeout(resolve, 1200));
 
-    void showSnackbarPromise(request, {
+    void showToastPromise(request, {
       error: {
         autopilot: { collapse: 5200, expand: 160 },
         description: 'No se pudo terminar la importación. Inténtalo de nuevo.',
@@ -85,6 +83,24 @@ export function ToastCatalogPlayground() {
               Simular importación
             </Button>
           </RecipeCard>
+          <RecipeCard
+            description="Para confirmar éxito después de que se cierra el diálogo, drawer u otro contenedor que inició la acción. Muestra solo el título."
+            title="Confirmación tras cierre"
+          >
+            <Button
+              onClick={() =>
+                showToast({
+                  duration: 4000,
+                  title: 'Contraseña actualizada',
+                  type: 'success',
+                })
+              }
+              type="button"
+              variant="outline"
+            >
+              Simular confirmación
+            </Button>
+          </RecipeCard>
         </section>
 
         <section className="mt-5 rounded-2xl border border-border/80 bg-card p-5 shadow-sm sm:p-6">
@@ -99,9 +115,10 @@ export function ToastCatalogPlayground() {
           <div className="mt-5 flex flex-wrap gap-2">
             <Button
               onClick={() =>
-                showSnackbar({
-                  message: 'Los cambios se guardaron correctamente.',
-                  severity: 'success',
+                showToast({
+                  description: 'Los cambios se guardaron correctamente.',
+                  duration: 4000,
+                  type: 'success',
                 })
               }
               type="button"
@@ -110,7 +127,11 @@ export function ToastCatalogPlayground() {
             </Button>
             <Button
               onClick={() =>
-                showSnackbar({ message: 'No fue posible completar la acción.', severity: 'error' })
+                showToast({
+                  description: 'No fue posible completar la acción.',
+                  duration: 4000,
+                  type: 'error',
+                })
               }
               type="button"
               variant="outline"
@@ -119,9 +140,10 @@ export function ToastCatalogPlayground() {
             </Button>
             <Button
               onClick={() =>
-                showSnackbar({
-                  message: 'Hay información pendiente de revisar.',
-                  severity: 'warning',
+                showToast({
+                  description: 'Hay información pendiente de revisar.',
+                  duration: 4000,
+                  type: 'warning',
                 })
               }
               type="button"
@@ -131,9 +153,10 @@ export function ToastCatalogPlayground() {
             </Button>
             <Button
               onClick={() =>
-                showSnackbar({
-                  message: 'Los cambios pueden tardar unos minutos en reflejarse.',
-                  severity: 'info',
+                showToast({
+                  description: 'Los cambios pueden tardar unos minutos en reflejarse.',
+                  duration: 4000,
+                  type: 'info',
                 })
               }
               type="button"

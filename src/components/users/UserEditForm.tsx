@@ -20,12 +20,11 @@ import { FieldGroup } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { RadioGroup } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
+import type { MutationFeedbackData, MutationRecoveryData } from '@/components/feedback';
 import {
   ResourceFormActions,
   ResourceFormFrame,
   ResourceFormSection,
-  type FormMutationFeedbackData,
-  type FormMutationRecoveryData,
   type ResourceFormMode,
 } from '@/components/resource-form';
 import type { CustomerOption } from '@/features/customers';
@@ -75,8 +74,8 @@ export function UserEditForm({
   const successTimeoutRef = useRef<number | null>(null);
   const readModeTimeoutRef = useRef<number | null>(null);
   const contentRestoreTimeoutRef = useRef<number | null>(null);
-  const [mutationFeedback, setMutationFeedback] = useState<FormMutationFeedbackData>();
-  const [mutationRecovery, setMutationRecovery] = useState<FormMutationRecoveryData>();
+  const [mutationFeedback, setMutationFeedback] = useState<MutationFeedbackData>();
+  const [mutationRecovery, setMutationRecovery] = useState<MutationRecoveryData>();
   const [isSettlingToRead, setIsSettlingToRead] = useState(false);
   const form = useForm<UserEditValues>({
     resolver: zodResolver(

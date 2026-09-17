@@ -34,11 +34,13 @@ conservan su `aria-label` de fallback.
 
 ### Toasts
 
-Sileo provee la capa de notificaciones. `showSnackbar` conserva el feedback
-simple existente; `showSnackbarPromise` encapsula la transición de una operación
-remota de `loading` a `success` o `error`. Los contenidos enriquecidos se
-prototipan primero como recetas en el laboratorio y solo se adoptan en producto
-cuando aportan información que el título no comunica.
+Sileo provee la capa de notificaciones. `showToast` comunica un estado directo
+y `showToastPromise` encapsula la transición de una operación remota de
+`loading` a `success` o `error`. `useSnackbarStore` es una fachada temporal
+para consumidores legacy, no una API disponible para Next Dashboard ni su
+catálogo. Los contenidos enriquecidos se prototipan primero como recetas en el
+laboratorio y solo se adoptan en producto cuando aportan información que el
+título no comunica.
 
 La superficie de toast usa `--toast-surface` en cada tema y `roundness: 16`.
 Nocturno usa una variante inversa clara y ajusta los colores de estado de Sileo
