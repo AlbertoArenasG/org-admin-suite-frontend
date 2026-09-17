@@ -245,8 +245,9 @@ y los módulos compitan por el scroll.
   la coexistencia. No se agrega a nuevas rutas ni a rutas migradas.
 - En escritorio, su superficie se resuelve exclusivamente mediante la receta
   `--workspace-canvas-*`, declarada por cada tema. Las variantes iniciales
-  conservan un fondo claro, radio y elevación tenue; un tema futuro puede
-  redefinirlos sin replicar el mesh ni el vidrio del shell.
+  conservan un fondo claro y elevación tenue. El radio compartido se resuelve
+  mediante el token global `--workspace-canvas-radius`; un tema futuro puede
+  ampliarlo sin replicar el mesh ni el vidrio del shell.
 - `Workspace Header` contiene los breadcrumbs y el contexto de la ruta activa.
 - `Page Content Scroller` contiene la parte desplazable de `Page Composition`
   y sus `Module Surfaces` en el modo predeterminado.

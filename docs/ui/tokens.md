@@ -49,9 +49,14 @@ subregiones pueden tener tokens propios solo cuando expresen otro rol visual.
 `Workspace Canvas` usa su propia receta mediante
 `--workspace-canvas-{surface,border,border-width,shadow,radius}`. Esta capa es
 operativa y deliberadamente sobria: no hereda el mesh ni el material de vidrio
-del shell. Los valores de esta receta se declaran por tema, no se derivan de
+del shell. Sus valores de superficie se declaran por tema, no se derivan de
 `--background`; cada apariencia puede redefinirlos sin cambiar la primitiva ni
 las vistas que la consumen.
+
+`--workspace-canvas-radius` es un token estructural global, definido fuera de
+las apariencias y consumido solo en escritorio. Conserva `1.625rem`, equivalente
+al `rounded-4xl` anterior. Si una apariencia necesita otro radio en el futuro,
+puede sobrescribirlo explícitamente.
 
 `Page Composition` hereda el canvas como decisión visual inicial, pero su
 transparencia también es una receta explícita por tema:
