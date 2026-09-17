@@ -338,10 +338,23 @@ Una spec se cierra cuando su objetivo se implemento, se verifico y sus
 documentos reflejan el estado final. Antes de marcarla como completada:
 
 - Actualizar definition, task list, breakdown, progreso y decisiones.
+- Para `Spec status: completed`, confirmar que `00-definition.md` declara
+  `Definition status`, `Implementation status` y `Validation status` como
+  `completed`.
+- Para `cancelled` o `superseded`, registrar motivo, alcance no realizado y,
+  en el segundo caso, el enlace a la spec sustituta; no usar `completed`.
+- Confirmar que toda tarea `done` o `completed` usa `[x]` y que una spec
+  `completed` no conserva tareas `pending` o `in_progress`.
 - Mover reglas permanentes a `docs/`; no usar la spec como guideline viva.
 - Registrar adopciones de UI, compatibilidad temporal y limpieza diferida.
 - Registrar pruebas ejecutadas, validacion manual y riesgos residuales reales.
 - Actualizar `.specs/index.md` con un estado util.
+
+Para preservar memoria institucional, una auditoría posterior de una spec
+cerrada solo puede corregir metadatos de estado, checkboxes contradictorios,
+enlaces rotos o referencias operativas claramente obsoletas. No reescribe
+análisis, decisiones, slices ni progreso histórico para acomodarlos a un
+workflow posterior.
 
 ## Tokens, Temas y Calidad Visual
 

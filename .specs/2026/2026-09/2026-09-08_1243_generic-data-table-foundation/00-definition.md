@@ -6,7 +6,7 @@
 - Date: `2026-09-08`
 - Definition status: `complete`
 - Implementation status: `complete`
-- Spec status: `closed`
+- Spec status: `completed`
 
 ## Problem
 

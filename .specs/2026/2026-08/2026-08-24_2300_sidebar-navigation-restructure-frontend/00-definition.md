@@ -18,6 +18,7 @@ Reglas de trabajo:
 - Definition status: `complete`
 - Implementation status: `completed`
 - Validation status: `completed`
+- Spec status: `completed`
 
 ## Approved Scope
 

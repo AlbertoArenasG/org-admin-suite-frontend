@@ -21,6 +21,9 @@ alcance ni la vida de esta spec.
 - Definition status: `completed`
 - Implementation ready: `yes`
 - Initiative status: `completed`
+- Implementation status: `completed`
+- Validation status: `completed`
+- Spec status: `completed`
 
 ---
 

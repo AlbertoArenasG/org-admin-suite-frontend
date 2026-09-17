@@ -16,6 +16,9 @@ Regla de trabajo:
 - Initiative: `contacts-recipient-groups-frontend`
 - Definition status: `completed`
 - Implementation ready: `yes`
+- Implementation status: `completed`
+- Validation status: `completed`
+- Spec status: `completed`
 
 ---
 

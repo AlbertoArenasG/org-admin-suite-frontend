@@ -5,7 +5,7 @@
 - Initiative: `customer-service-records-frontend`
 - Definition status: `completed`
 - Implementation status: `completed`
-- Spec status: `closed`
+- Spec status: `completed`
 
 ## Approved Scope
 

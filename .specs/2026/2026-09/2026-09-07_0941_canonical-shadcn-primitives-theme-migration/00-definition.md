@@ -6,6 +6,9 @@
 - Date: `2026-09-07`
 - Definition status: `completed`
 - Implementation ready: `yes`
+- Implementation status: `completed`
+- Validation status: `completed`
+- Spec status: `completed`
 
 ## Problem
 

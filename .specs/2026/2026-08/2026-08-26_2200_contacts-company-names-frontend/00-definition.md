@@ -24,6 +24,9 @@ Fuera de alcance inicial:
 
 - Initiative: `contacts-company-names-frontend`
 - Definition status: `complete`
+- Implementation status: `completed`
+- Validation status: `completed`
+- Spec status: `completed`
 - Implementation ready: `yes`
 
 ---

@@ -19,7 +19,7 @@ Reglas de trabajo:
 - Implementation ready: `yes`
 - Implementation status: `completed`
 - Validation status: `completed`
-- Spec status: `closed`
+- Spec status: `completed`
 
 ## Confirmed Backend Contract
 
