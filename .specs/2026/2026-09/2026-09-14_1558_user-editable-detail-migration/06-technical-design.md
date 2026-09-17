@@ -16,9 +16,8 @@ legacy mixto en sus otras intenciones.
         -> UserEditForm (RHF + Zod + reglas de dominio)
           -> datos generales / contacto
           -> acceso y alcance
-          -> seguridad
         -> acciones globales
-    -> UserPasswordDialog (operación independiente)
+    -> UserPasswordDialog (acción de header; operación independiente)
 ```
 
 La ruta `/dashboard/users/[userId]/edit` no monta formulario: redirecciona a
@@ -138,8 +137,10 @@ contraseña: USERS/UPDATE_PASSWORD + jerarquía de objetivo, incluido self
 ```
 
 El frontend usa los helpers existentes solo para visibilidad e interacción; el
-backend conserva la autorización efectiva. Cada operación tiene loading,
-errores, éxito y cancelación independientes.
+backend conserva la autorización efectiva. La edición ordinaria usa feedback
+local en el host de acciones para loading, éxito y error. El diálogo de
+contraseña conserva esos estados mientras existe; su éxito cierra el diálogo y
+se confirma mediante toast global.
 
 ## Dependencias
 

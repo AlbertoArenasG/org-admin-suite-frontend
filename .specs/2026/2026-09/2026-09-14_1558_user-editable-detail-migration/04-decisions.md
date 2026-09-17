@@ -100,3 +100,16 @@ instalará ni vendorizará `@shark/dialog` para esta operación.
 **Reason:** el flujo es breve e independiente. El Dialog de Shark sustituye
 primitives canónicas y agrega variables globales, costo que no se justifica
 para un único overlay de seguridad.
+
+## Feedback Local Y Confirmación Tras Cierre
+
+**Status:** approved
+
+La edición ordinaria muestra `MutationFeedback` durante guardado y éxito en el
+host de acciones, y `MutationRecovery` ante un error remoto sin retirar las
+acciones. El diálogo de contraseña conserva esos estados localmente mientras
+permanece abierto; si tiene éxito se cierra y usa un toast de título único.
+
+**Reason:** el feedback permanece junto a una acción mientras su contenedor
+existe. Al cerrarse el diálogo, el toast confirma el resultado sin mantener una
+superficie que ya terminó su tarea.

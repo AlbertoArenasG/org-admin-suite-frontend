@@ -58,3 +58,9 @@ una actualización ordinaria atómica y un cambio de contraseña independiente.
   estado y mutación.
 - La ruta legacy redirecciona correctamente y no queda código productivo
   dependiente del formulario legacy mixto.
+
+## Cierre
+
+Las tres fases se completaron. La edición ordinaria adopta feedback local en
+el host de acciones; el diálogo de contraseña mantiene feedback local durante
+guardado o error, se cierra al tener éxito y confirma mediante un toast global.

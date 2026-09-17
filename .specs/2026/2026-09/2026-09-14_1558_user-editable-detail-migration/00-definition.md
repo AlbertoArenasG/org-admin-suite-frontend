@@ -1,7 +1,10 @@
 # Migración de Detalle Editable de Usuario
 
-**Definition status:** ready_for_implementation  
-**Implementation ready:** yes
+## Estado
+
+- Definition status: completed
+- Implementation status: completed
+- Spec status: closed
 
 ## Problema
 
@@ -23,8 +26,8 @@ de datos de la operación independiente de cambio de contraseña.
   Dashboard.
 - Redirigir la ruta legacy `/dashboard/users/[userId]/edit` a la ruta canónica.
 - Usar una instancia RHF y schema Zod propios para la actualización ordinaria.
-- Componer secciones iniciales de datos generales/contacto, acceso/alcance y
-  seguridad con todas sus capacidades visibles durante la primera validación.
+- Componer grupos de datos generales/contacto y acceso/alcance dentro de un
+  único formulario editable.
 - Guardar los datos ordinarios mediante una única mutación `PATCH /v1/users/:id`.
 - Exponer cambio de contraseña en un `Dialog` breve e independiente que consume
   `PATCH /v1/users/:id/password`.
@@ -54,11 +57,14 @@ de datos de la operación independiente de cambio de contraseña.
   autorizadas.
 - La actualización ordinaria es atómica y usa acciones globales de guardar y
   cancelar.
-- El cambio de contraseña es una operación independiente dentro de una sección
-  de seguridad y abre un `Dialog` con su propio submit.
+- El cambio de contraseña es una operación independiente desde las acciones de
+  header y abre un `Dialog` con su propio submit.
 - La composición, RHF, Zod, permisos y adaptadores de payload son propios de
   la aplicación. Shark es opcional; bloques Pro de shadcn.io y botones de otras
   familias se evalúan por artefacto y no definen el comportamiento de dominio.
+- La edición ordinaria comunica guardado, éxito y error en su host local. El
+  cambio de contraseña conserva feedback local mientras el diálogo existe y
+  comunica éxito con un toast al cerrarse.
 
 ## Decisiones Abiertas
 
@@ -86,3 +92,12 @@ dependencias de los componentes externos es obligatoria antes de implementarlos.
   edición. Rol usa `FormCombobox`, clientes usa `FormMultiSelect`, contraseña
   usa el `Dialog` canónico y teléfono usa un Phone Input propio. Las acciones
   permanecen intercambiables.
+
+## Cierre
+
+La ruta canónica, el redirect legacy, las dos mutaciones independientes y sus
+gates de autorización fueron implementados y validados manualmente. La vista
+adopta los patrones compartidos de Resource Form, feedback local, toast tras
+cierre de diálogo, skeleton estructural y transición de contenido de Next
+Dashboard. La migración de consumidores legacy de `useSnackbarStore` queda
+fuera de este alcance.

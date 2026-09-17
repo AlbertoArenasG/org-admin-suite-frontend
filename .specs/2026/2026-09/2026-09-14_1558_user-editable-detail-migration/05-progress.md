@@ -28,4 +28,20 @@
   de cambio de contraseña y gates separados de capability y jerarquía.
 - `npm run typecheck`, `npm run lint` y `npm run build` completaron sin errores.
   Lint y build conservan warnings preexistentes fuera de este alcance.
-- Pendiente: matriz de validación manual y cierre formal de la spec.
+- La matriz manual y el cierre formal se completaron el 2026-09-16.
+
+## 2026-09-16
+
+- Se adoptaron `MutationFeedback` y `MutationRecovery` como piezas neutrales
+  reutilizables; `ResourceFormActions` actúa como host del formulario, sin
+  acoplar las piezas a Resource Form.
+- La edición ordinaria conserva éxito local durante dos segundos antes de
+  volver a lectura y muestra recuperación visible ante errores remotos.
+- El diálogo de contraseña bloquea sus controles durante guardado, conserva el
+  error dentro del diálogo y se cierra con éxito para confirmar mediante un
+  toast de título único.
+- Se aisló la API nueva de Sileo en `components/toast`; el store de Snackbar
+  queda solo como compatibilidad para consumidores legacy fuera de alcance.
+- Se actualizaron catálogo, recetas, patrones y registro de adopción.
+- La persona usuaria validó nuevamente la matriz manual completa. La spec queda
+  cerrada sin tareas ni slices pendientes.

@@ -20,8 +20,8 @@ RHF.
 ## Slice 3. Detalle Editable
 
 1. Crear `UserEditForm` exclusivo para actualización ordinaria.
-2. Integrar cargas, opciones, permissions gates, jerarquía, RHF, Zod, Sileo y
-   `ResourceForm*` en la ruta canónica.
+2. Integrar cargas, opciones, permissions gates, jerarquía, RHF, Zod,
+   `ResourceForm*` y feedback local en la ruta canónica.
 3. Crear el redirect de `/edit`.
 
 **Cierre:** lectura y edición autorizada comparten una única ruta y topología.
@@ -29,7 +29,8 @@ RHF.
 ## Slice 4. Contraseña
 
 1. Crear `UserPasswordDialog` sobre el Dialog canónico.
-2. Conectar capability, jerarquía, schema, thunk, loading, error y éxito.
+2. Conectar capability, jerarquía, schema, thunk, feedback local para loading
+   y error, y toast posterior al cierre con éxito.
 3. Verificar independencia frente a la edición ordinaria.
 
 **Cierre:** ninguna contraseña entra en el formulario ni mutación ordinarios.

@@ -35,11 +35,13 @@
 - [x] Ejecutar validaciones estáticas disponibles y correcciones acotadas.
       Status: completed
 
-- [ ] Ejecutar la matriz de validación manual de permisos, mutaciones, responsive, temas y accesibilidad.
-      Status: pending
+- [x] Ejecutar la matriz de validación manual de permisos, mutaciones, responsive, temas y accesibilidad.
+      Status: completed
+      Cierre: la persona usuaria validó nuevamente todos los flujos de la ruta y del diálogo.
 
 - [x] Actualizar documentación viva que resulte afectada.
       Status: completed
 
-- [ ] Cerrar la spec tras la validación manual.
-      Status: pending
+- [x] Cerrar la spec tras la validación manual.
+      Status: completed
+      Cierre: no quedan tareas ni slices abiertos dentro del alcance de la iniciativa.
