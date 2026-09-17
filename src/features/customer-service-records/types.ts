@@ -62,6 +62,7 @@ export interface FetchCustomerServiceRecordsParams {
   search?: string | null;
   filters?: Partial<CustomerServiceRecordsListFilters>;
   sorts?: CustomerServiceRecordsListSort[];
+  sortStrategy?: 'work_priority' | null;
 }
 export interface CustomerServiceRecordListItem {
   customerServiceRecordId: string;

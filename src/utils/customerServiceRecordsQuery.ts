@@ -126,10 +126,14 @@ export function buildCustomerServiceRecordsQuery(input: {
   Array.from(params.keys())
     .filter((key) => key.startsWith('sort['))
     .forEach((key) => params.delete(key));
-  mapCustomerServiceRecordsSortingToApi(input.sorting).forEach((sort, index) => {
+  params.delete('sorting');
+  params.delete('sort_strategy');
+  const sorts = mapCustomerServiceRecordsSortingToApi(input.sorting);
+  sorts.forEach((sort, index) => {
     params.set(`sort[${index}][field]`, sort.field);
     params.set(`sort[${index}][direction]`, sort.direction);
   });
+  if (!sorts.length) params.set('sort_strategy', 'work_priority');
 
   return params;
 }

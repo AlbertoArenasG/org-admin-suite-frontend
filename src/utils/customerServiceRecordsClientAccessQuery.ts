@@ -51,6 +51,8 @@ export function buildClientAccessQuery(value: {
   if (value.sorting) {
     params.set('sort[0][field]', SORT_FIELDS[value.sorting.columnId]);
     params.set('sort[0][direction]', value.sorting.direction);
+  } else {
+    params.set('sort_strategy', 'work_priority');
   }
   return params;
 }

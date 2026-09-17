@@ -47,6 +47,7 @@ export interface FetchClientAccessCustomerServiceRecordsParams {
   limit?: number;
   search?: string;
   sort?: ClientAccessSort | null;
+  sortStrategy?: 'work_priority' | null;
 }
 
 export interface ClientAccessCustomerServiceRecordsState {

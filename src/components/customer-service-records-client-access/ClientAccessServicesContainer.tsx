@@ -70,6 +70,7 @@ export function ClientAccessServicesContainer() {
   const reset = useClientAccessServicesTableStore((state) => state.reset);
 
   const canRead = hasPermission(CLIENT_ACCESS_PERMISSION, 'READ');
+  const sortStrategy = sorting ? null : 'work_priority';
 
   useEffect(
     () => () => {
@@ -106,9 +107,10 @@ export function ClientAccessServicesContainer() {
         limit,
         search: appliedSearch,
         sort: mapClientAccessSortingToApi(sorting),
+        sortStrategy,
       })
     );
-  }, [appliedSearch, canRead, dispatch, initialized, limit, page, sorting]);
+  }, [appliedSearch, canRead, dispatch, initialized, limit, page, sortStrategy, sorting]);
 
   useEffect(() => {
     if (!initialized) return;
@@ -163,6 +165,7 @@ export function ClientAccessServicesContainer() {
         limit,
         search: appliedSearch,
         sort: mapClientAccessSortingToApi(sorting),
+        sortStrategy,
       })
     );
   };

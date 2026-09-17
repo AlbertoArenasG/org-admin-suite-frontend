@@ -64,6 +64,7 @@ export function CustomerServiceRecordsTableContainer() {
   const reset = useCustomerServiceRecordsTableStore((state) => state.reset);
 
   const canCreate = hasPermission('CUSTOMER_SERVICE_RECORDS', 'CREATE');
+  const sortStrategy = sorting.length ? null : 'work_priority';
 
   useEffect(() => () => reset(), [reset]);
 
@@ -101,9 +102,10 @@ export function CustomerServiceRecordsTableContainer() {
         search: debouncedFilter,
         filters,
         sorts: mapCustomerServiceRecordsSortingToApi(sorting),
+        sortStrategy,
       })
     );
-  }, [debouncedFilter, dispatch, filters, initialized, pagination, sorting]);
+  }, [debouncedFilter, dispatch, filters, initialized, pagination, sortStrategy, sorting]);
 
   useEffect(() => {
     if (!initialized) return;
@@ -169,6 +171,7 @@ export function CustomerServiceRecordsTableContainer() {
         search: debouncedFilter,
         filters,
         sorts: mapCustomerServiceRecordsSortingToApi(sorting),
+        sortStrategy,
       })
     );
   };

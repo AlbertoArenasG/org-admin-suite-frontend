@@ -109,6 +109,7 @@ export const fetchClientAccessCustomerServiceRecords = createAsyncThunk<
     query.set('sort[0][field]', params.sort.field);
     query.set('sort[0][direction]', params.sort.direction);
   }
+  if (!params.sort && params.sortStrategy) query.set('sort_strategy', params.sortStrategy);
 
   try {
     const response = await jsonRequest<ApiClientAccessRecord[], { pagination?: PaginationMeta }>(

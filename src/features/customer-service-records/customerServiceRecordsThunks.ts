@@ -329,7 +329,15 @@ export const fetchCustomerServiceRecords = createAsyncThunk<
     return thunkAPI.rejectWithValue('No hay token de autenticación');
   }
 
-  const { page = 1, limit = 10, itemsPerPage, search, filters = {}, sorts = [] } = params;
+  const {
+    page = 1,
+    limit = 10,
+    itemsPerPage,
+    search,
+    filters = {},
+    sorts = [],
+    sortStrategy,
+  } = params;
   const query = new URLSearchParams({
     page: String(page),
     limit: String(limit),
@@ -362,6 +370,7 @@ export const fetchCustomerServiceRecords = createAsyncThunk<
     query.set(`sort[${index}][field]`, sort.field);
     query.set(`sort[${index}][direction]`, sort.direction);
   });
+  if (!sorts.length && sortStrategy) query.set('sort_strategy', sortStrategy);
 
   try {
     const response = await jsonRequest<
