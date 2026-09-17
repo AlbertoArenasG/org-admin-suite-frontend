@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { KeyRound, Pencil } from 'lucide-react';
 import { useEffect } from 'react';
 import { Controller, useForm, type UseFormRegisterReturn } from 'react-hook-form';
 import { z } from 'zod';
@@ -15,6 +16,8 @@ import {
   type PhoneValue,
 } from '@/components/forms';
 import { Button } from '@/components/ui/button';
+import { FieldGroup } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
 import { RadioGroup } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -128,12 +131,14 @@ export function UserEditForm({
             <div className="flex flex-wrap items-center justify-end gap-2">
               {isReadOnly && canUpdateUser ? (
                 <Button onClick={() => onModeChange('edit')} type="button">
-                  {t('edit.start')}
+                  <Pencil aria-hidden="true" className="size-4" />
+                  {t('actions.edit')}
                 </Button>
               ) : null}
               {canUpdatePassword ? (
                 <Button onClick={onOpenPassword} size="sm" type="button" variant="outline">
-                  {t('passwordDialog.open')}
+                  <KeyRound aria-hidden="true" className="size-4" />
+                  {t('form.labels.password')}
                 </Button>
               ) : null}
             </div>
@@ -160,15 +165,12 @@ export function UserEditForm({
         title={t('detail.formTitle')}
       >
         <div className="grid gap-5">
-          <ResourceFormSection
-            description={t('edit.generalDescription')}
-            surface="bare"
-            title={t('edit.generalTitle')}
-          >
-            <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+          <ResourceFormSection surface="bare">
+            <FieldGroup>
               <TextField
                 disabled={isReadOnly}
                 error={form.formState.errors.name?.message}
+                id="user-name"
                 label={t('form.labels.name')}
                 readValue={user.name}
                 registration={form.register('name')}
@@ -176,6 +178,7 @@ export function UserEditForm({
               <TextField
                 disabled={isReadOnly}
                 error={form.formState.errors.lastname?.message}
+                id="user-lastname"
                 label={t('form.labels.lastname')}
                 readValue={user.lastname}
                 registration={form.register('lastname')}
@@ -183,6 +186,7 @@ export function UserEditForm({
               <TextField
                 disabled={isReadOnly}
                 error={form.formState.errors.email?.message}
+                id="user-email"
                 label={t('form.labels.email')}
                 readValue={user.email}
                 registration={form.register('email')}
@@ -192,7 +196,12 @@ export function UserEditForm({
                 control={form.control}
                 name="cellPhone"
                 render={({ field, fieldState }) => (
-                  <FormField label={t('edit.phone')} error={fieldState.error?.message}>
+                  <FormField
+                    error={fieldState.error?.message}
+                    htmlFor={isReadOnly ? undefined : 'user-cell-phone'}
+                    label={t('edit.phone')}
+                    orientation="responsive"
+                  >
                     {isReadOnly ? (
                       <FormReadValue>{formatPhone(field.value)}</FormReadValue>
                     ) : (
@@ -205,6 +214,7 @@ export function UserEditForm({
                           CA: t('edit.countries.ca'),
                         }}
                         emptyCountryMessage={t('edit.countryEmpty')}
+                        id="user-cell-phone"
                         invalid={fieldState.invalid}
                         onValueChange={(values) => field.onChange(values)}
                         placeholder={t('form.placeholders.phoneNumber')}
@@ -214,22 +224,23 @@ export function UserEditForm({
                   </FormField>
                 )}
               />
-            </div>
+            </FieldGroup>
           </ResourceFormSection>
 
           <Separator />
 
-          <ResourceFormSection
-            description={t('edit.accessDescription')}
-            surface="bare"
-            title={t('edit.accessTitle')}
-          >
-            <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+          <ResourceFormSection surface="bare">
+            <FieldGroup>
               <Controller
                 control={form.control}
                 name="roleId"
                 render={({ field, fieldState }) => (
-                  <FormField label={t('form.labels.role')} error={fieldState.error?.message}>
+                  <FormField
+                    error={fieldState.error?.message}
+                    htmlFor={isReadOnly ? undefined : 'user-role'}
+                    label={t('form.labels.role')}
+                    orientation="responsive"
+                  >
                     {isReadOnly ? (
                       <FormReadValue>
                         {selectedRole?.roleName ?? user.roleName ?? '—'}
@@ -237,6 +248,7 @@ export function UserEditForm({
                     ) : (
                       <FormCombobox
                         emptyMessage={t('edit.roleEmpty')}
+                        id="user-role"
                         invalid={fieldState.invalid}
                         onValueChange={(value) => field.onChange(value ?? '')}
                         options={roleSelectOptions}
@@ -253,7 +265,7 @@ export function UserEditForm({
                   control={form.control}
                   name="isInternalStaff"
                   render={({ field }) => (
-                    <FormField label={t('classification.label')}>
+                    <FormField label={t('classification.label')} orientation="responsive">
                       <RadioGroup
                         aria-label={t('classification.group')}
                         name="isInternalStaff"
@@ -270,14 +282,17 @@ export function UserEditForm({
                   )}
                 />
               ) : null}
-            </div>
-            {isCustomerRole ? (
-              <div className="mt-4 min-w-0">
+              {isCustomerRole ? (
                 <Controller
                   control={form.control}
                   name="customerIds"
                   render={({ field, fieldState }) => (
-                    <FormField label={t('form.labels.customers')} error={fieldState.error?.message}>
+                    <FormField
+                      error={fieldState.error?.message}
+                      htmlFor={isReadOnly ? undefined : 'user-customers'}
+                      label={t('form.labels.customers')}
+                      orientation="responsive"
+                    >
                       {isReadOnly ? (
                         <FormReadValue className="flex min-h-10 items-center">
                           <FormValueChips
@@ -288,6 +303,7 @@ export function UserEditForm({
                         <FormMultiSelect
                           disabled={customerOptionsLoading}
                           emptyMessage={t('form.customers.noOptions')}
+                          id="user-customers"
                           invalid={fieldState.invalid}
                           onValueChange={field.onChange}
                           options={customerSelectOptions}
@@ -306,8 +322,8 @@ export function UserEditForm({
                     </FormField>
                   )}
                 />
-              </div>
-            ) : null}
+              ) : null}
+            </FieldGroup>
           </ResourceFormSection>
         </div>
       </ResourceFormFrame>
@@ -333,6 +349,7 @@ function getDefaultValues(user: User): UserEditValues {
 function TextField({
   disabled,
   error,
+  id,
   label,
   readValue,
   registration,
@@ -340,19 +357,26 @@ function TextField({
 }: {
   disabled: boolean;
   error?: string;
+  id: string;
   label: string;
   readValue: string;
   registration: UseFormRegisterReturn;
   type?: string;
 }) {
   return (
-    <FormField label={label} error={error}>
+    <FormField
+      error={error}
+      htmlFor={disabled ? undefined : id}
+      label={label}
+      orientation="responsive"
+    >
       {disabled ? (
         <FormReadValue>{readValue || '—'}</FormReadValue>
       ) : (
-        <input
+        <Input
           aria-invalid={Boolean(error) || undefined}
-          className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+          className="text-sm"
+          id={id}
           type={type}
           {...registration}
         />

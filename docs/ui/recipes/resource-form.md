@@ -67,5 +67,29 @@ el header, footer, acciones, secciones y campos según su modo, permisos y
 operaciones disponibles. Los grids, la cantidad de secciones y el contenido de
 cada una siguen siendo responsabilidad del recurso.
 
+## Skeleton Estructural
+
+Usar mientras se carga un detalle o edición que adopta `ResourceForm*`. La
+vista declara el número de filas de cada grupo y su orientación real:
+
+```tsx
+<ResourceFormSkeleton
+  contentSurface={{ base: 'bare', md: 'inset' }}
+  density={{ base: 'compact', md: 'comfortable' }}
+  dividers="hidden"
+  groups={[
+    { fields: 4, orientation: 'responsive' },
+    { fields: 3, orientation: 'responsive' },
+  ]}
+  headerActions={2}
+  surface={{ base: 'bare', md: 'card' }}
+/>
+```
+
+El skeleton hereda la geometría de frame, inset, secciones, separadores y
+campos. No se configura para cada input ni contiene datos ficticios; una vista
+solo declara su topología. `footerActions` se usa únicamente si el estado de
+carga realmente anticipa un footer visible en el modo de llegada.
+
 No convertir esta receta en un `variant` o preset de código hasta que varios
 recursos la adopten con la misma semántica y sin extensiones relevantes.

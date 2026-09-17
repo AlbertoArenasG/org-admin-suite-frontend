@@ -146,8 +146,13 @@
   "edit": {
     "subtitle": "Actualiza roles y datos de contacto.",
     "restricted": "No tienes permisos para editar a este usuario.",
-    "successFeedback": "Usuario actualizado correctamente.",
     "errorFeedback": "No fue posible actualizar el usuario.",
+    "toast": {
+      "savingTitle": "Guardando usuario",
+      "savingDescription": "Sincronizando los cambios con el servidor.",
+      "successTitle": "Usuario actualizado",
+      "errorTitle": "No se guardaron los cambios"
+    },
     "start": "Editar usuario",
     "retry": "Reintentar",
     "generalTitle": "Datos generales y contacto",

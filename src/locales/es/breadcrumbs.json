@@ -6,6 +6,7 @@
   "customers": "Clientes",
   "providers": "Proveedores",
   "users": "Usuarios",
+  "userDetail": "Detalle de usuario",
   "usersCreate": "Crear usuario",
   "userRegistrationInvitations": "Administrar invitaciones",
   "roles": "Roles",

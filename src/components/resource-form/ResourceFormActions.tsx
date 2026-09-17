@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import type { ResourceFormStatus } from '@/components/resource-form/ResourceFormFrame';
 import { cn } from '@/lib/utils';
 
@@ -56,6 +57,7 @@ function ResourceFormActions({
           <ActionButton
             action={primaryAction}
             disabled={isSaving || primaryAction.disabled}
+            isLoading={isSaving}
             type="submit"
             variant="default"
           />
@@ -68,22 +70,31 @@ function ResourceFormActions({
 type ActionButtonProps = {
   action: ActionDefinition;
   disabled?: boolean;
+  isLoading?: boolean;
   type: 'button' | 'submit';
   variant: NonNullable<React.ComponentProps<typeof Button>['variant']>;
 };
 
-function ActionButton({ action, disabled, type, variant }: ActionButtonProps) {
+function ActionButton({ action, disabled, isLoading = false, type, variant }: ActionButtonProps) {
   const isDisabled = disabled || action.disabled;
 
   return (
     <Button
       aria-label={action.ariaLabel}
+      aria-busy={isLoading || undefined}
       disabled={isDisabled}
       onClick={action.onClick}
       type={type}
       variant={variant}
     >
-      {disabled && action.loadingLabel ? action.loadingLabel : action.label}
+      {isLoading ? (
+        <>
+          <Spinner aria-hidden="true" />
+          {action.loadingLabel ?? action.label}
+        </>
+      ) : (
+        action.label
+      )}
     </Button>
   );
 }

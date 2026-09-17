@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, type ReactNode } from 'react';
+import { useTheme } from 'next-themes';
 import { sileo, Toaster } from 'sileo';
 import { useSnackbarStore } from '@/components/providers/useSnackbarStore';
 
 export function SnackbarProvider({ children }: { children: ReactNode }) {
+  const { theme } = useTheme();
   const open = useSnackbarStore((state) => state.open);
   const message = useSnackbarStore((state) => state.message);
   const severity = useSnackbarStore((state) => state.severity);
@@ -32,9 +34,9 @@ export function SnackbarProvider({ children }: { children: ReactNode }) {
       {children}
       <Toaster
         offset={{ top: 28 }}
-        options={{ fill: 'var(--card-foreground)', roundness: 24 }}
+        options={{ fill: 'var(--toast-surface)', roundness: 16 }}
         position="top-center"
-        theme="light"
+        theme={theme === 'nocturne' ? 'dark' : 'light'}
       />
     </>
   );

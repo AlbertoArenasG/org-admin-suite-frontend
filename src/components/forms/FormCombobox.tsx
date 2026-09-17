@@ -15,6 +15,8 @@ export type FormSelectOption = {
 };
 
 type SharedProps = {
+  id?: string;
+  ariaLabel?: string;
   options: readonly FormSelectOption[];
   placeholder: string;
   searchPlaceholder: string;
@@ -33,8 +35,10 @@ type FormComboboxProps = SharedProps & {
 
 export function FormCombobox({
   allowClear = false,
+  ariaLabel,
   disabled,
   emptyMessage,
+  id,
   invalid,
   onValueChange,
   options,
@@ -51,10 +55,12 @@ export function FormCombobox({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
+          aria-label={ariaLabel}
           aria-expanded={open}
           aria-invalid={invalid || undefined}
           className="h-9 w-full justify-between font-normal"
           disabled={disabled}
+          id={id}
           role="combobox"
           type="button"
           variant="outline"

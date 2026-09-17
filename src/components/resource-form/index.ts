@@ -34,3 +34,9 @@ export type {
   ResourceFormSectionProps,
   ResourceFormSectionSurface,
 } from '@/components/resource-form/ResourceFormSection';
+
+export { ResourceFormSkeleton } from '@/components/resource-form/ResourceFormSkeleton';
+export type {
+  ResourceFormSkeletonGroup,
+  ResourceFormSkeletonProps,
+} from '@/components/resource-form/ResourceFormSkeleton';

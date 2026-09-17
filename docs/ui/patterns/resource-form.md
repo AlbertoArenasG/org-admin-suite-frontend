@@ -23,6 +23,8 @@ permisos ni transporte remoto entre intenciones de negocio.
 - `ResourceFormActions`: clúster visual de acciones controladas.
 - `ResourceFormNavigation`: navegación intraformulario opcional para rutas
   largas; no aplica a overlays.
+- `ResourceFormSkeleton`: estado de carga estructural que reutiliza el frame,
+  secciones y orientación de campos del formulario final.
 
 La topología se conserva aunque algunos elementos no sean visibles:
 
@@ -55,6 +57,17 @@ separación visual del contenido.
 Las combinaciones aprobadas de estos contratos se catalogan en
 [`../recipes/resource-form.md`](../recipes/resource-form.md).
 
+## Estado De Carga
+
+`ResourceFormSkeleton` evita skeletons genéricos que cambian la geometría al
+resolver la carga. La vista declara sus grupos mediante `fields` y
+`orientation`; el componente compone el mismo `ResourceFormFrame`,
+`ResourceFormSection` y `FieldGroup` que el contenido final.
+
+No replica valores ni controles de negocio. Cuando una vista tiene una
+estructura verdaderamente excepcional, puede componer `Skeleton` directamente,
+pero debe conservar la jerarquía y superficie de su host final.
+
 ## Acciones Y Persistencia
 
 `headerActions` y `footerActions` existen tanto en el frame como en una
@@ -64,6 +77,11 @@ sección. La posición visual no define la operación:
   formulario, aunque tenga varias secciones visuales.
 - Una acción de sección persiste solo cuando el backend ofrece una operación
   independiente para esa sección.
+
+Cuando `ResourceFormActions` recibe `status="saving"`, su acción primaria se
+inhabilita y muestra `Spinner` junto a `loadingLabel` (o el label normal si no
+se declara). El estado visual pertenece a la primitive compartida, no a cada
+formulario de negocio.
 
 Los módulos son dueños de React Hook Form, Zod, carga, permisos, thunks,
 payloads, mutaciones, feedback localizado y navegación posterior.

@@ -3,6 +3,7 @@ export type { FormComboboxProps, FormSelectOption } from '@/components/forms/For
 export { FormField, FormReadValue, FormValueChips } from '@/components/forms/FormField';
 export type {
   FormFieldProps,
+  FormFieldOrientation,
   FormReadValueProps,
   FormValueChipsProps,
 } from '@/components/forms/FormField';

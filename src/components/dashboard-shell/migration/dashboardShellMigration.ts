@@ -37,8 +37,9 @@ const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [
     },
     config: {
       breadcrumbs: [
+        { label: 'Panel', labelKey: 'dashboard', href: '/dashboard', hideOnDesktop: true },
         { label: 'Usuarios', labelKey: 'users', href: '/dashboard/users' },
-        { label: 'Detalle de usuario' },
+        { label: 'Detalle de usuario', labelKey: 'userDetail' },
       ],
       scrollMode: 'page-content',
     },

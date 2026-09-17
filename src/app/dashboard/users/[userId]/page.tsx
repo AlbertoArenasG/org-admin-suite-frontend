@@ -10,8 +10,11 @@ import {
   DashboardPageComposition,
   DashboardPageContentScroller,
 } from '@/components/dashboard-shell';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ResourceFormRoute, type ResourceFormMode } from '@/components/resource-form';
+import {
+  ResourceFormRoute,
+  ResourceFormSkeleton,
+  type ResourceFormMode,
+} from '@/components/resource-form';
 import { fetchCustomerOptions, type CustomerOption } from '@/features/customers';
 import { useAuthorization } from '@/features/auth';
 import type { AuthSystemRole } from '@/features/auth/types';
@@ -27,7 +30,7 @@ export default function UserDetailPage() {
   const params = useParams<{ userId: string }>();
   const dispatch = useAppDispatch();
   const { hasPermission } = useAuthorization();
-  const { showSnackbar } = useSnackbar();
+  const { showSnackbarPromise } = useSnackbar();
   const { t } = useTranslationHydrated('users');
   const [mode, setMode] = useState<ResourceFormMode>('read');
   const [passwordOpen, setPasswordOpen] = useState(false);
@@ -85,29 +88,43 @@ export default function UserDetailPage() {
 
     setIsSubmitting(true);
     try {
-      const result = await dispatch(
-        updateUser({
-          id: user.id,
-          data: {
-            name: values.name.trim(),
-            lastname: values.lastname.trim(),
-            email: values.email.trim(),
-            systemRole,
-            roleId: values.roleId,
-            statusId: user.status,
-            cellPhone: values.cellPhone.number ? values.cellPhone : null,
-            isInternalStaff: systemRole === 'USER' ? values.isInternalStaff : true,
-            customerIds: systemRole === 'USER' ? values.customerIds : [],
+      await showSnackbarPromise(
+        dispatch(
+          updateUser({
+            id: user.id,
+            data: {
+              name: values.name.trim(),
+              lastname: values.lastname.trim(),
+              email: values.email.trim(),
+              systemRole,
+              roleId: values.roleId,
+              statusId: user.status,
+              cellPhone: values.cellPhone.number ? values.cellPhone : null,
+              isInternalStaff: systemRole === 'USER' ? values.isInternalStaff : true,
+              customerIds: systemRole === 'USER' ? values.customerIds : [],
+            },
+          })
+        ).unwrap(),
+        {
+          error: (error) => ({
+            autopilot: { collapse: 5200, expand: 160 },
+            description: typeof error === 'string' ? error : t('edit.errorFeedback'),
+            duration: 6000,
+            title: t('edit.toast.errorTitle'),
+          }),
+          loading: {
+            description: t('edit.toast.savingDescription'),
+            title: t('edit.toast.savingTitle'),
           },
-        })
-      ).unwrap();
-      showSnackbar({ message: result.message ?? t('edit.successFeedback'), severity: 'success' });
+          success: {
+            duration: 4000,
+            title: t('edit.toast.successTitle'),
+          },
+        }
+      );
       setMode('read');
-    } catch (error) {
-      showSnackbar({
-        message: typeof error === 'string' ? error : t('edit.errorFeedback'),
-        severity: 'error',
-      });
+    } catch {
+      // Sileo's promise transition already presents the remote error.
     } finally {
       setIsSubmitting(false);
     }
@@ -117,7 +134,20 @@ export default function UserDetailPage() {
     <DashboardPageComposition>
       <DashboardPageContentScroller padding="default">
         <div className="flex w-full min-w-0 flex-col gap-6">
-          {isLoading ? <DetailSkeleton /> : null}
+          {isLoading ? (
+            <ResourceFormSkeleton
+              className="mx-auto max-w-4xl"
+              contentSurface={{ base: 'bare', md: 'inset' }}
+              density={{ base: 'compact', md: 'comfortable' }}
+              dividers="hidden"
+              groups={[
+                { fields: 4, orientation: 'responsive' },
+                { fields: 3, orientation: 'responsive' },
+              ]}
+              headerActions={2}
+              surface={{ base: 'bare', md: 'card' }}
+            />
+          ) : null}
           {loadError ? (
             <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive">
               <p>{loadError}</p>
@@ -182,14 +212,4 @@ function mergeCustomerOptions(
     .map(({ companyName, id }) => ({ companyName, id }));
 
   return [...options, ...retainedRelatedCustomers];
-}
-
-function DetailSkeleton() {
-  return (
-    <div className="grid gap-6 rounded-xl border bg-card p-6">
-      <Skeleton className="h-8 w-56" />
-      <Skeleton className="h-32 w-full" />
-      <Skeleton className="h-32 w-full" />
-    </div>
-  );
 }

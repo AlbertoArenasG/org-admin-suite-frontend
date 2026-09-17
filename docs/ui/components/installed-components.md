@@ -13,6 +13,40 @@ El frontend mantiene `style: new-york` y Radix en `components.json`. El
 laboratorio puede evaluar otra base de shadcn, pero no define el runtime del
 producto.
 
+### Field
+
+`src/components/ui/field.tsx` adopta la primitive `Field` de shadcn con el
+estilo `new-york`. Es el contrato canónico para componer etiqueta, control,
+ayuda y error en orientación `vertical`, `horizontal` o `responsive`.
+
+`FormField` conserva la API de producto y la compone internamente. Las vistas
+no deben reimplementar grids de label/control: usan `FieldGroup` y la
+orientación `responsive` cuando el layout debe reaccionar al ancho efectivo del
+contenedor, incluido el espacio que ocupa el sidebar. En ese modo, la etiqueta
+usa una columna estable de `14rem` para que controles editables y valores de
+lectura compartan el mismo inicio; el campo vuelve a apilarse antes de aplicar
+esa columna en un contenedor angosto.
+
+Los controles compuestos que no son elementos labelable nativos, como
+`FormMultiSelect`, consumen opcionalmente el ID de etiqueta publicado por
+`FormField` y lo enlazan mediante `aria-labelledby`. Fuera de un `FormField`,
+conservan su `aria-label` de fallback.
+
+### Toasts
+
+Sileo provee la capa de notificaciones. `showSnackbar` conserva el feedback
+simple existente; `showSnackbarPromise` encapsula la transición de una operación
+remota de `loading` a `success` o `error`. Los contenidos enriquecidos se
+prototipan primero como recetas en el laboratorio y solo se adoptan en producto
+cuando aportan información que el título no comunica.
+
+La superficie de toast usa `--toast-surface` en cada tema y `roundness: 16`.
+Nocturno usa una variante inversa clara y ajusta los colores de estado de Sileo
+para mantener contraste frente al canvas oscuro. Los recibos remotos deben
+reservarse para mutaciones confirmadas que aporten identidad y estado del
+recurso; no para mensajes informativos o eliminaciones sin una acción de
+recuperación.
+
 ## Estructura
 
 ```text

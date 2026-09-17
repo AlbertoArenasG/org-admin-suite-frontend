@@ -15,6 +15,7 @@ import {
   ResourceFormOverlay,
   ResourceFormRoute,
   ResourceFormSection,
+  ResourceFormSkeleton,
   type ResourceFormDensity,
   type ResourceFormSectionSurface,
   type ResourceFormStatus,
@@ -134,6 +135,30 @@ export function ResourceFormCatalogPlayground() {
               <DialogPreview configuration={configuration} />
               <DrawerPreview configuration={configuration} />
             </div>
+          </div>
+        </section>
+
+        <section className="mt-10 border-t pt-8">
+          <p className="text-xs font-semibold tracking-[0.12em] text-[var(--secondary-700)] uppercase">
+            Estado de carga
+          </p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight">Skeleton estructural</h2>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
+            Reutiliza el frame y las orientaciones reales del formulario. Cada vista declara sus
+            grupos de campos, sin reconstruir una card genérica ni imitar valores de negocio.
+          </p>
+          <div className="mt-6 max-w-4xl">
+            <ResourceFormSkeleton
+              contentSurface={{ base: 'bare', md: 'inset' }}
+              density={{ base: 'compact', md: 'comfortable' }}
+              dividers="hidden"
+              groups={[
+                { fields: 4, orientation: 'responsive' },
+                { fields: 3, orientation: 'responsive' },
+              ]}
+              headerActions={2}
+              surface={{ base: 'bare', md: 'card' }}
+            />
           </div>
         </section>
 

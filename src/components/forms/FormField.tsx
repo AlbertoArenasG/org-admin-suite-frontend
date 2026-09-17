@@ -1,6 +1,26 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+'use client';
 
+import {
+  createContext,
+  useContext,
+  useId,
+  type ComponentPropsWithoutRef,
+  type ReactNode,
+} from 'react';
+
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+  FieldTitle,
+} from '@/components/ui/field';
 import { cn } from '@/lib/utils';
+
+type FormFieldOrientation = 'vertical' | 'horizontal' | 'responsive';
+
+const FormFieldLabelContext = createContext<string | undefined>(undefined);
 
 type FormFieldProps = ComponentPropsWithoutRef<'div'> & {
   label: ReactNode;
@@ -8,6 +28,7 @@ type FormFieldProps = ComponentPropsWithoutRef<'div'> & {
   error?: ReactNode;
   htmlFor?: string;
   children: ReactNode;
+  orientation?: FormFieldOrientation;
 };
 
 function FormField({
@@ -17,20 +38,39 @@ function FormField({
   error,
   htmlFor,
   label,
+  orientation = 'vertical',
   ...props
 }: FormFieldProps) {
-  const Label = htmlFor ? 'label' : 'span';
+  const labelId = useId();
 
   return (
-    <div className={cn('grid min-w-0 gap-2', className)} data-slot="form-field" {...props}>
-      <Label className="text-sm font-medium" htmlFor={htmlFor}>
-        {label}
-      </Label>
-      {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
-      {children}
-      {error ? <p className="text-sm text-destructive">{error}</p> : null}
-    </div>
+    <FormFieldLabelContext.Provider value={labelId}>
+      <Field
+        className={cn('min-w-0', className)}
+        data-slot="form-field"
+        data-invalid={Boolean(error) || undefined}
+        orientation={orientation}
+        {...props}
+      >
+        {htmlFor ? (
+          <FieldLabel id={labelId} htmlFor={htmlFor}>
+            {label}
+          </FieldLabel>
+        ) : (
+          <FieldTitle id={labelId}>{label}</FieldTitle>
+        )}
+        <FieldContent>
+          {children}
+          {description ? <FieldDescription>{description}</FieldDescription> : null}
+          {error ? <FieldError>{error}</FieldError> : null}
+        </FieldContent>
+      </Field>
+    </FormFieldLabelContext.Provider>
   );
+}
+
+function useFormFieldLabelId() {
+  return useContext(FormFieldLabelContext);
 }
 
 type FormReadValueProps = ComponentPropsWithoutRef<'div'> & {
@@ -86,5 +126,5 @@ function FormValueChips({ emptyLabel = '—', items, maxVisible = 2 }: FormValue
   );
 }
 
-export { FormField, FormReadValue, FormValueChips };
-export type { FormFieldProps, FormReadValueProps, FormValueChipsProps };
+export { FormField, FormReadValue, FormValueChips, useFormFieldLabelId };
+export type { FormFieldOrientation, FormFieldProps, FormReadValueProps, FormValueChipsProps };

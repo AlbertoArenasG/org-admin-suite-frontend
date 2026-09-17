@@ -30,7 +30,8 @@ docs/ui/
 │  ├─ data-table.md
 │  └─ resource-form.md
 ├─ recipes/
-│  └─ resource-form.md
+│  ├─ resource-form.md
+│  └─ toasts.md
 └─ components/
    ├─ actions-and-buttons.md
    ├─ buttons.md
@@ -61,6 +62,8 @@ docs/ui/
   adopciones sin introducir presets o componentes nuevos.
 - `recipes/resource-form.md`: recetas reutilizables de composición para
   `ResourceForm*`.
+- `recipes/toasts.md`: recetas de feedback inmediato, promesas y contenido
+  expandible con información accionable.
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo
   indica si su implementación ya está validada o sigue en etapa de Playground.
 - `components/installed-components.md`: estrategia obligatoria para evaluar e

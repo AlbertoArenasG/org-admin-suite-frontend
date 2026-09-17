@@ -4,6 +4,13 @@ html.nocturne {
   --foreground: #f2f6fb;
   --card: rgb(21 32 45 / 72%);
   --card-foreground: #f2f6fb;
+  --toast-surface: #e7f0fa;
+  --sileo-state-success: #167a4b;
+  --sileo-state-loading: #475569;
+  --sileo-state-error: #b42318;
+  --sileo-state-warning: #9a6700;
+  --sileo-state-info: #2563eb;
+  --sileo-state-action: #4f46e5;
   --primary-50: #e7fffc;
   --primary-100: #b9f7f0;
   --primary-200: #7de9df;

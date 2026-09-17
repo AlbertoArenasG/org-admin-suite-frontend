@@ -6,9 +6,12 @@ import { Command } from 'cmdk';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import type { FormSelectOption } from '@/components/forms/FormCombobox';
+import { useFormFieldLabelId } from '@/components/forms/FormField';
 import { cn } from '@/lib/utils';
 
 type FormMultiSelectProps = {
+  id?: string;
+  ariaLabel?: string;
   value: readonly string[];
   onValueChange: (value: string[]) => void;
   options: readonly FormSelectOption[];
@@ -23,8 +26,10 @@ type FormMultiSelectProps = {
 };
 
 export function FormMultiSelect({
+  ariaLabel,
   disabled,
   emptyMessage,
+  id,
   invalid,
   maxVisibleSelections = 2,
   onValueChange,
@@ -35,6 +40,7 @@ export function FormMultiSelect({
   searchPlaceholder,
   value,
 }: FormMultiSelectProps) {
+  const fieldLabelId = useFormFieldLabelId();
   const contentId = useId();
   const [open, setOpen] = useState(false);
   const selectedOptions = options.filter((option) => value.includes(option.value));
@@ -51,10 +57,14 @@ export function FormMultiSelect({
       aria-controls={contentId}
       aria-expanded={open}
       aria-invalid={invalid || undefined}
+      aria-labelledby={fieldLabelId}
       aria-label={
-        selectedOptions.length
-          ? selectedOptions.map((option) => option.label).join(', ')
-          : placeholder
+        fieldLabelId
+          ? undefined
+          : (ariaLabel ??
+            (selectedOptions.length
+              ? selectedOptions.map((option) => option.label).join(', ')
+              : placeholder))
       }
       className={cn(
         'flex h-10 w-full min-w-0 items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none transition-colors focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50',
@@ -74,6 +84,7 @@ export function FormMultiSelect({
           setOpen(true);
         }
       }}
+      id={id}
       role="combobox"
       tabIndex={disabled ? -1 : 0}
     >

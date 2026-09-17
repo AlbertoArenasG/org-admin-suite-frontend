@@ -3,6 +3,8 @@
 import { create } from 'zustand';
 import type { AlertColor } from '@mui/material/Alert';
 
+import { showSnackbarPromise } from '@/components/providers/toast';
+
 interface SnackbarStoreState {
   open: boolean;
   message: string;
@@ -48,5 +50,5 @@ export function useSnackbar() {
   const hideSnackbar = useSnackbarStore((state) => state.hideSnackbar);
   const reset = useSnackbarStore((state) => state.reset);
 
-  return { showSnackbar, hideSnackbar, reset };
+  return { showSnackbar, showSnackbarPromise, hideSnackbar, reset };
 }

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import {
   ArrowRight,
+  BellRing,
   Blocks,
   LayoutTemplate,
   MousePointerClick,
@@ -100,6 +101,27 @@ export function ComponentCatalogPlayground() {
               <Link href="/dashboard-playground/catalog/data-table">
                 <Table2 className="size-4" aria-hidden="true" />
                 Revisar DataTable
+              </Link>
+            </Button>
+          </div>
+        </section>
+
+        <section className="mt-5 rounded-2xl border border-border/80 bg-card p-5 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold tracking-[0.1em] text-muted-foreground uppercase">
+                Feedback transversal
+              </p>
+              <h2 className="mt-1 text-lg font-semibold">Toasts</h2>
+              <p className="mt-1 max-w-2xl text-sm leading-6 text-muted-foreground">
+                Recetas para estados inmediatos, mutaciones remotas y resultados expandibles que
+                aporten información accionable.
+              </p>
+            </div>
+            <Button asChild className="shrink-0" variant="outline">
+              <Link href="/dashboard-playground/catalog/toasts">
+                <BellRing className="size-4" aria-hidden="true" />
+                Revisar toasts
               </Link>
             </Button>
           </div>

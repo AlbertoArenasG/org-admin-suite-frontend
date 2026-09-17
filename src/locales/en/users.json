@@ -146,8 +146,13 @@
   "edit": {
     "subtitle": "Update roles and contact details.",
     "restricted": "You do not have permissions to edit this user.",
-    "successFeedback": "User updated successfully.",
     "errorFeedback": "We couldn't update the user.",
+    "toast": {
+      "savingTitle": "Saving user",
+      "savingDescription": "Syncing changes with the server.",
+      "successTitle": "User updated",
+      "errorTitle": "Changes were not saved"
+    },
     "start": "Edit user",
     "retry": "Retry",
     "generalTitle": "General details and contact",

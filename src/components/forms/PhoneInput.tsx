@@ -15,6 +15,7 @@ type PhoneValue = {
 };
 
 type PhoneInputProps = {
+  id?: string;
   value: PhoneValue;
   onValueChange: (value: PhoneValue) => void;
   countries?: readonly Country[];
@@ -52,6 +53,7 @@ function PhoneInput({
   disabled,
   emptyCountryMessage,
   invalid,
+  id,
   onValueChange,
   placeholder,
   value,
@@ -107,6 +109,7 @@ function PhoneInput({
         defaultCountry={country}
         disabled={disabled}
         inputComponent={NumberInput}
+        id={id}
         onChange={(nextValue) => {
           const nextNumber = (nextValue ?? '').startsWith(countryCode)
             ? (nextValue ?? '').slice(countryCode.length).replace(/\D/g, '')
