@@ -15,11 +15,11 @@ componentes de interfaz reutilizables. Esta capa debe permitir que los
 formularios y superficies complejas tengan una presentacion mas refinada,
 coherente y mantenible.
 
-La fundación `Resource Form` ya fue aprobada y validada como composición
-neutral en el catálogo de Next Dashboard. La primera adopción de negocio será
-la edición de usuarios; los registros de servicio a cliente validarán después
-el caso amplio con varias secciones. La adopción se mantiene gradual y cada
-recurso conserva su propia spec.
+La fundación `Resource Form` fue aprobada y validada como composición neutral
+en el catálogo de Next Dashboard. Su primera adopción de negocio, el detalle
+editable de Usuario, quedó implementada y validada. Los registros de servicio
+a cliente podrán evaluar después el caso amplio con varias secciones. La
+adopción se mantiene gradual y cada recurso conserva su propia spec.
 
 ## Principios
 
@@ -51,9 +51,10 @@ Los campos, validaciones y agrupaciones que sean exclusivos de un flujo deben
 permanecer dentro de su modulo. Un componente compartido no debe incluir reglas
 de dominio ni asumir nombres de entidades.
 
-La navegación intraformulario y regiones fijas no forman parte todavía de la
-fundación adoptada. Se evaluaron como dirección futura para formularios largos,
-pero se implementarán solo cuando una spec de recurso tenga esa necesidad.
+La fundación también ofrece navegación intraformulario y regiones fijas
+opcionales para rutas largas. Cada spec de recurso decide si las necesita;
+formularios breves, como el detalle editable de Usuario, no deben incorporarlas
+sin una necesidad de recorrido real.
 
 ## Proceso De Trabajo
 
