@@ -28,7 +28,8 @@ docs/ui/
 │  └─ mobile-responsive-redesign.md
 ├─ patterns/
 │  ├─ data-table.md
-│  └─ resource-form.md
+│  ├─ resource-form.md
+│  └─ table-filter-dialog.md
 ├─ recipes/
 │  ├─ resource-form.md
 │  └─ toasts.md
@@ -58,6 +59,8 @@ docs/ui/
   adopción sin acoplar presentación con transporte HTTP.
 - `patterns/resource-form.md`: composición neutral para detalle editable,
   secciones, acciones y la política de ruta u overlay de formularios nuevos.
+- `patterns/table-filter-dialog.md`: contrato para filtros complejos de tabla
+  con borrador explícito, selectores configurables y un único período activo.
 - `recipes/`: combinaciones aprobadas de contratos existentes para acelerar
   adopciones sin introducir presets o componentes nuevos.
 - `recipes/resource-form.md`: recetas reutilizables de composición para

@@ -5,6 +5,8 @@
 - Name: `table-filter-dialog-foundation`
 - Date: `2026-09-22`
 - Definition status: `completed`
+- Implementation status: `completed`
+- Spec status: `completed`
 - Implementation ready: `yes`
 
 ## Problem
@@ -62,8 +64,9 @@ Registros de servicio.
   ordenamiento.
 - Filtros multiselección en Registros de servicio: la base los soportará, pero
   este primer consumidor solo usa selección única.
-- Chips externos de filtros aplicados; el contexto se conserva dentro del
-  diálogo y en cada selector.
+- Chips externos con el detalle de filtros aplicados. La primera adopción
+  muestra únicamente un conteo compacto por categorías activas junto al
+  trigger, sin exponer chips en la toolbar.
 - Adopción de bloques del Component Lab o dependencias nuevas.
 
 ## Constraints
@@ -179,6 +182,6 @@ o usar `Limpiar filtros` para quitarlos deliberadamente.
 
 ## Definition Closure
 
-No quedan decisiones críticas abiertas. La implementación puede comenzar con
-el registro de artefactos aprobado y debe actualizarlo antes de cualquier
-desviación.
+No quedan decisiones críticas ni tareas de implementación abiertas. La
+fundación, su primera adopción, la documentación viva y la mejora de conteo y
+limpieza rápida fueron validadas el 2026-09-22.

@@ -88,7 +88,42 @@
     "customerDeliveryAt": "Compromiso con cliente",
     "providerReturnAt": "Retorno de proveedor",
     "from": "Desde",
-    "to": "Hasta"
+    "to": "Hasta",
+    "dialog": {
+      "trigger": "Filtros",
+      "appliedCount": "{{count}} filtros aplicados",
+      "title": "Filtros",
+      "clear": "Limpiar filtros",
+      "cancel": "Cancelar",
+      "apply": "Aplicar filtros",
+      "showAll": "Mostrar todos",
+      "searchOptions": "Buscar opciones...",
+      "classification": {
+        "title": "Clasificación",
+        "description": "Delimita el tipo de servicio y las partes involucradas."
+      },
+      "serviceType": "Tipo de servicio",
+      "customer": "Cliente",
+      "operationalStatus": "Estado operativo",
+      "provider": "Proveedor",
+      "hasProvider": "Proveedor asignado",
+      "period": {
+        "title": "Período",
+        "description": "Aplica un solo rango a uno de los campos de fecha disponibles.",
+        "field": "Campo de fecha",
+        "fieldPlaceholder": "Selecciona un campo",
+        "clear": "Limpiar período",
+        "clearDate": "Limpiar fecha",
+        "openCalendar": "Abrir calendario",
+        "previousWeek": "Semana pasada",
+        "currentWeek": "Esta semana",
+        "nextWeek": "Próxima semana",
+        "previousMonth": "Mes pasado",
+        "currentMonth": "Este mes",
+        "nextMonth": "Próximo mes",
+        "legacyNotice": "Este enlace conserva varios períodos heredados. Selecciona un período para reemplazarlos o limpia los filtros."
+      }
+    }
   },
   "statuses": {
     "pending": "Pendiente",

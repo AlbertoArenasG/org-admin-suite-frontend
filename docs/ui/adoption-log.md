@@ -49,6 +49,15 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-22 - Tabla Administrativa de Registros de Servicio
+
+- Alcance: `/dashboard/customer-service-records`.
+- Adopción: `TableFilterDialog` con cinco selectores configurables, un período
+  multicampo de aplicación exclusiva y confirmación explícita de borrador.
+- Spec: `table-filter-dialog-foundation`.
+- Compatibilidad temporal: URLs históricas con varios períodos se conservan
+  hasta que una confirmación explícita las sustituye por un único período.
+
 ### 2026-09-09 - Seguimiento de Servicios del Portal
 
 - Alcance: `/dashboard/portal/services`.

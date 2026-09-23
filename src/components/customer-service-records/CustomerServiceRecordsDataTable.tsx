@@ -45,26 +45,7 @@ interface CustomerServiceRecordsDataTableProps {
     previous: string;
     next: string;
     searchPlaceholder: string;
-    serviceTypePlaceholder: string;
-    customerPlaceholder: string;
-    providerPlaceholder: string;
-    statusPlaceholder: string;
-    providerStatePlaceholder: string;
-    providerStateYes: string;
-    providerStateNo: string;
-    dateFilters: string;
-    requestedAt: string;
-    receivedAt: string;
-    customerDeliveryAt: string;
-    providerReturnAt: string;
-    from: string;
-    to: string;
     manageColumns: string;
-    allStatuses: string;
-    pending: string;
-    inProgress: string;
-    completed: string;
-    cancelled: string;
   };
 }
 

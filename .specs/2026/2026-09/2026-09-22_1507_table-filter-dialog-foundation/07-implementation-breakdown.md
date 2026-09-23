@@ -11,6 +11,8 @@ servicio.
 
 ## Slice 2. Customer Service Records Adoption
 
+Status: `done`.
+
 - Montar trigger y diálogo desde la toolbar.
 - Traducir las cinco selecciones y el período único a
   `CustomerServiceRecordsListFilters`.
@@ -23,6 +25,10 @@ resetea la página.
 
 ## Slice 3. Quality And Promotion
 
+Status: `done`.
+
 - Validar estados de borrador, clear, close, errores de opciones y fechas.
 - Validar desktop, móvil, teclado, foco, tema y textos `es/en`.
 - Documentar el patrón en `docs/ui/` solo tras aprobación de su forma final.
+- Revalidar el conteo compacto y la limpieza rápida añadidos tras el cierre
+  inicial.

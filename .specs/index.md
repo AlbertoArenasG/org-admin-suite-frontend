@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [table-filter-dialog-foundation](./2026/2026-09/2026-09-22_1507_table-filter-dialog-foundation/00-definition.md) - definition completed; diálogo de filtros reutilizable y primera adopción en Registros de servicio
+- [table-filter-dialog-foundation](./2026/2026-09/2026-09-22_1507_table-filter-dialog-foundation/00-definition.md) - completed; diálogo de filtros reutilizable validado y primera adopción en Registros de servicio
 - [user-editable-detail-migration](./2026/2026-09/2026-09-14_1558_user-editable-detail-migration/00-definition.md) - completed; migración de detalle editable de Usuario validada en Next Dashboard
 - [editable-resource-form-foundation](./2026/2026-09/2026-09-10_2202_editable-resource-form-foundation/00-definition.md) - completed; fundación de formularios y patrón de detalle editable validados para migraciones futuras
 - [user-role-options-consumer-migration](./2026/2026-09/2026-09-10_1130_user-role-options-consumer-migration/00-definition.md) - completed; consumidores migrados al lookup transversal de roles

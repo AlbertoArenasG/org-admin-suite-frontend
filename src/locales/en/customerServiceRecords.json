@@ -88,7 +88,42 @@
     "customerDeliveryAt": "Customer commitment",
     "providerReturnAt": "Provider return",
     "from": "From",
-    "to": "To"
+    "to": "To",
+    "dialog": {
+      "trigger": "Filters",
+      "appliedCount": "{{count}} filters applied",
+      "title": "Filters",
+      "clear": "Clear filters",
+      "cancel": "Cancel",
+      "apply": "Apply filters",
+      "showAll": "Show all",
+      "searchOptions": "Search options...",
+      "classification": {
+        "title": "Classification",
+        "description": "Limit the service type and parties involved."
+      },
+      "serviceType": "Service type",
+      "customer": "Customer",
+      "operationalStatus": "Operational status",
+      "provider": "Provider",
+      "hasProvider": "Assigned provider",
+      "period": {
+        "title": "Period",
+        "description": "Apply one range to one of the available date fields.",
+        "field": "Date field",
+        "fieldPlaceholder": "Select a field",
+        "clear": "Clear period",
+        "clearDate": "Clear date",
+        "openCalendar": "Open calendar",
+        "previousWeek": "Previous week",
+        "currentWeek": "This week",
+        "nextWeek": "Next week",
+        "previousMonth": "Previous month",
+        "currentMonth": "This month",
+        "nextMonth": "Next month",
+        "legacyNotice": "This link preserves several legacy periods. Select a period to replace them or clear the filters."
+      }
+    }
   },
   "statuses": {
     "pending": "Pending",
