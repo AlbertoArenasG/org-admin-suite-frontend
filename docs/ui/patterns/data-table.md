@@ -27,6 +27,18 @@ La vista puede declarar una altura numérica o `stickyHeader: { maxHeight:
 el borde inferior del scroller de página, descontando su padding inferior; no
 usa una resta fija ligada al shell.
 
+## Resaltado De Búsqueda
+
+`searchHighlight` es una capacidad visual de `DataTable`. La vista le entrega
+el término aplicado y, opcionalmente, los `columnIds` que deben resaltar; sus
+celdas lo reciben mediante `context.highlight(value)`. No filtra datos ni
+conoce el origen de la búsqueda.
+
+La comparación ignora mayúsculas y acentos, pero el marcado conserva el texto
+original. Por ejemplo, una búsqueda `traccion` resalta `tracción`. Las vistas
+que adopten una búsqueda remota con esa semántica deben reutilizar este
+contrato en lugar de implementar su propio resaltado.
+
 ## Altura de filas
 
 Solo existen dos alturas estandar: `compact` y `comfortable`. Las filas con
