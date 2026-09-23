@@ -27,12 +27,21 @@ DataTable
   |    `- DataTableContent
   |         |- DataTableColumnHeaders
   |         `- DataTableBody
+  |              |- DataTableLoadingRows
+  |              |- DataTableRow
+  |              `- DataTableEmptyState
+  |- DataTableErrorState
   `- DataTablePagination
 ```
 
 Los subcomponentes no crean instancias de TanStack, no hacen HTTP, no conocen
 permisos ni interpretan el dominio de una vista. Las vistas continuan
 consumiendo exclusivamente `@/components/data-table`.
+
+`dataTableColumns.ts` concentra la transformacion pura desde el contrato de
+columnas hacia TanStack y `dataTableLayout.ts` los calculos puros de layout,
+anchos y clases. Los efectos de navegador, refs, fullscreen y estado React se
+mantienen en `DataTable`.
 
 ## Celdas reutilizables
 

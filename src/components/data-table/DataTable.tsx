@@ -2,13 +2,20 @@
 
 import * as React from 'react';
 import { Expand, Shrink } from 'lucide-react';
-import { tableFeatures, useTable, type ColumnDef, type RowData } from '@tanstack/react-table';
+import { tableFeatures, useTable, type RowData } from '@tanstack/react-table';
 
 import { DataTableChrome } from './DataTableChrome';
 import { DataTableContent } from './DataTableContent';
+import { DataTableErrorState } from './DataTableErrorState';
 import { DataTablePagination } from './DataTablePagination';
 import { DataTableResultsRegion } from './DataTableResultsRegion';
-import { highlightText } from './dataTableHighlight';
+import { createDataTableColumns, getVisibleDataTableColumns } from './dataTableColumns';
+import {
+  clampDataTableColumnWidth,
+  getDataTableColumnHeadersClassName,
+  getDataTableResultsClassName,
+  getDataTableRowPadding,
+} from './dataTableLayout';
 import { defaultDataTableLabels } from './DataTable.types';
 import type { DataTableColumn, DataTableProps } from './DataTable.types';
 
@@ -57,39 +64,21 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   const [fallbackFullscreen, setFallbackFullscreen] = React.useState(false);
   const [columnWidths, setColumnWidths] = React.useState<Record<string, number>>({});
   const [availableResultsHeight, setAvailableResultsHeight] = React.useState<number | null>(null);
-  const visibleColumns = settings?.columnVisibility
-    ? columns.filter((column) => settings.columnVisibility?.visibleColumnIds.includes(column.id))
-    : columns;
-  const tableColumns = React.useMemo<ColumnDef<typeof features, T>[]>(
-    () =>
-      visibleColumns.map((column) => {
-        const shouldHighlight =
-          Boolean(searchHighlight?.query.trim()) &&
-          (!searchHighlight?.columnIds || searchHighlight.columnIds.includes(column.id));
-        const highlight = (value: string) =>
-          shouldHighlight ? highlightText(value, searchHighlight?.query) : value;
-
-        return {
-          id: column.id,
-          header: () => column.header,
-          accessorFn: column.accessor,
-          cell: ({ row }) =>
-            column.cell?.(row.original, { highlight }) ??
-            highlight(String(column.accessor(row.original) ?? '')),
-        };
-      }),
-    [visibleColumns, searchHighlight?.columnIds, searchHighlight?.query]
+  const searchQuery = searchHighlight?.query;
+  const searchHighlightColumnIds = searchHighlight?.columnIds;
+  const visibleColumns = getVisibleDataTableColumns(columns, settings);
+  const tableColumns = React.useMemo(
+    () => createDataTableColumns(visibleColumns, searchQuery, searchHighlightColumnIds),
+    [visibleColumns, searchHighlightColumnIds, searchQuery]
   );
   const table = useTable({ features, data: rows, columns: tableColumns, getRowId });
   const isFullscreen = nativeFullscreen || fallbackFullscreen;
   const sticky = typeof stickyHeader === 'object' ? stickyHeader : undefined;
-  const scrollRegionDesktopOnly = Boolean(scrollRegion?.desktopOnly);
-  const stickyDesktopOnly = sticky?.desktopOnly ?? scrollRegionDesktopOnly;
   const usesAvailableHeight = scrollRegion?.maxHeight === 'available';
   const hasDetails = Boolean(renderDetail && expansion);
   const totalColumnCount =
     visibleColumns.length + (selection ? 1 : 0) + (hasDetails ? 1 : 0) + (getRowActions ? 1 : 0);
-  const padding = rowLayout === 'multiline' ? 'py-4' : density === 'compact' ? 'py-2' : 'py-4';
+  const padding = getDataTableRowPadding(rowLayout, density);
 
   React.useEffect(() => {
     const syncFullscreen = () => {
@@ -123,11 +112,9 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   };
 
   const setWidth = (column: DataTableColumn<T>, width: number) => {
-    const min = column.width?.min ?? 80;
-    const max = column.width?.max ?? 960;
     setColumnWidths((current) => ({
       ...current,
-      [column.id]: Math.min(max, Math.max(min, width)),
+      [column.id]: clampDataTableColumnWidth(column, width),
     }));
   };
   const toggleExpansion = (rowId: string) =>
@@ -146,26 +133,12 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     scrollRegion?.maxHeight === 'available'
       ? (availableResultsHeight ?? undefined)
       : scrollRegion?.maxHeight;
-  const scrollRegionOverscrollClass =
-    scrollRegion?.overscrollBehavior === 'none' ? 'overscroll-y-none' : 'overscroll-y-contain';
-  const scrollRegionDesktopOverscrollClass =
-    scrollRegion?.overscrollBehavior === 'none'
-      ? 'md:overscroll-y-none'
-      : 'md:overscroll-y-contain';
-  const resultsClassName = isFullscreen
-    ? 'flex-1 overflow-auto overscroll-y-contain'
-    : scrollRegion
-      ? scrollRegionDesktopOnly
-        ? `overflow-x-auto md:overflow-auto ${scrollRegionDesktopOverscrollClass} md:max-h-(--data-table-results-max-height)`
-        : `overflow-auto ${scrollRegionOverscrollClass}`
-      : 'overflow-x-auto';
-  const tableHeaderClassName = isFullscreen
-    ? 'sticky top-0 z-10 bg-muted/95 backdrop-blur'
-    : stickyHeader
-      ? stickyDesktopOnly
-        ? 'bg-muted/70 md:sticky md:top-0 md:z-10 md:bg-muted/95 md:backdrop-blur'
-        : 'sticky top-0 z-10 bg-muted/95 backdrop-blur'
-      : 'bg-muted/70';
+  const resultsClassName = getDataTableResultsClassName({ isFullscreen, scrollRegion });
+  const tableHeaderClassName = getDataTableColumnHeadersClassName({
+    isFullscreen,
+    stickyHeader,
+    scrollRegion,
+  });
 
   React.useLayoutEffect(() => {
     if (!usesAvailableHeight || isFullscreen) {
@@ -249,16 +222,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
           {selection.bulkActions}
         </div>
       ) : null}
-      {error ? (
-        <div className="m-4 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm">
-          <p className="font-medium">{error.message}</p>
-          {error.onRetry ? (
-            <button type="button" onClick={error.onRetry} className="mt-2 underline">
-              Retry
-            </button>
-          ) : null}
-        </div>
-      ) : null}
+      {error ? <DataTableErrorState error={error} /> : null}
       {loading && loadingContent ? (
         <div aria-live="polite" aria-label={labels.loadingResults}>
           {loadingContent}
@@ -269,7 +233,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
           className={resultsClassName}
           style={
             scrollRegion && !isFullscreen
-              ? scrollRegionDesktopOnly
+              ? scrollRegion.desktopOnly
                 ? ({
                     '--data-table-results-max-height':
                       scrollRegionMaxHeight === undefined
