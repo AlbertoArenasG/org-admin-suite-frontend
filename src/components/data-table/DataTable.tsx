@@ -7,17 +7,11 @@ import {
   ArrowUp,
   ArrowUpDown,
   ChevronDown,
-  ChevronLeft,
   ChevronRight,
   Expand,
   Info,
   MessageSquareText,
-  RefreshCw,
-  Search,
-  Settings2,
   Shrink,
-  SlidersHorizontal,
-  X,
 } from 'lucide-react';
 import {
   flexRender,
@@ -26,105 +20,17 @@ import {
   type ColumnDef,
   type RowData,
 } from '@tanstack/react-table';
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { DataTableChrome } from './DataTableChrome';
+import { DataTablePagination } from './DataTablePagination';
+import { DataTableResultsRegion } from './DataTableResultsRegion';
 import { highlightText } from './dataTableHighlight';
-import { getPageNumbers } from './dataTablePagination';
 import { defaultDataTableLabels } from './DataTable.types';
-import type { DataTableColumn, DataTableLabels, DataTableProps } from './DataTable.types';
+import type { DataTableColumn, DataTableProps } from './DataTable.types';
 
 export type { DataTableColumn, DataTableProps } from './DataTable.types';
 
 const features = tableFeatures({});
-
-function DataTableSettingsMenu<T extends RowData>({
-  settings,
-  rowLayout,
-  columns,
-  labels,
-}: {
-  settings: DataTableProps<T>['settings'];
-  rowLayout: DataTableProps<T>['rowLayout'];
-  columns: DataTableColumn<T>[];
-  labels: DataTableLabels;
-}) {
-  if (!settings?.density && !settings?.columnVisibility) return null;
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          type="button"
-          aria-label={labels.settings}
-          title={labels.settings}
-          className="inline-flex size-9 items-center justify-center rounded-md border"
-        >
-          <Settings2 className="size-4" />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-64">
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>{labels.settings}</DropdownMenuLabel>
-        </DropdownMenuGroup>
-        {settings.density && rowLayout === 'single-line' ? (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuRadioGroup
-              value={settings.density.value}
-              onValueChange={(value) =>
-                settings.density?.onChange(value as 'compact' | 'comfortable')
-              }
-            >
-              <DropdownMenuLabel className="text-xs text-muted-foreground">
-                {labels.density}
-              </DropdownMenuLabel>
-              <DropdownMenuRadioItem value="compact">{labels.compact}</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="comfortable">
-                {labels.comfortable}
-              </DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </>
-        ) : null}
-        {settings.columnVisibility ? (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="text-xs text-muted-foreground">
-                {labels.displayColumns}
-              </DropdownMenuLabel>
-              {columns.map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  checked={settings.columnVisibility?.visibleColumnIds.includes(column.id)}
-                  disabled={column.visibility?.hideable === false}
-                  onCheckedChange={(checked) => {
-                    const current = settings.columnVisibility?.visibleColumnIds ?? [];
-                    settings.columnVisibility?.onChange(
-                      checked ? [...current, column.id] : current.filter((id) => id !== column.id)
-                    );
-                  }}
-                >
-                  {column.ariaLabel ??
-                    (typeof column.header === 'string' ? column.header : column.id)}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuGroup>
-          </>
-        ) : null}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
 
 export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   const {
@@ -259,7 +165,6 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   const allSelected =
     selectableRows.length > 0 &&
     selectableRows.every((row) => selection?.selectedRowIds.includes(row.id));
-  const pageNumbers = pagination ? getPageNumbers(pagination.page, pagination.totalPages) : [];
   const scrollRegionMaxHeight =
     scrollRegion?.maxHeight === 'available'
       ? (availableResultsHeight ?? undefined)
@@ -333,95 +238,34 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
       ref={rootRef}
       className={`w-full rounded-xl border border-border bg-card shadow-sm ${isFullscreen ? 'fixed inset-0 z-50 flex h-dvh flex-col rounded-none' : ''}`}
     >
-      {header?.title || header?.actions || fullscreen || toolbar ? (
-        <div ref={chromeRef}>
-          {header?.title || header?.actions || fullscreen ? (
-            <div className="flex min-h-14 items-center gap-3 border-b px-4 py-3">
-              {header?.title ? (
-                <div className="flex items-center gap-2">
-                  <div className="text-sm font-medium">{header.title}</div>
-                  {loading ? (
-                    <RefreshCw
-                      aria-label={labels.loading}
-                      className="size-4 animate-spin text-muted-foreground"
-                    />
-                  ) : null}
-                </div>
-              ) : null}
-              <div className="ml-auto flex items-center gap-2">
-                {header?.actions}
-                {settingsPlacement === 'header' ? (
-                  <DataTableSettingsMenu
-                    settings={settings}
-                    rowLayout={rowLayout}
-                    columns={columns}
-                    labels={labels}
-                  />
-                ) : null}
-                {fullscreen ? (
-                  <button
-                    ref={triggerRef}
-                    type="button"
-                    aria-label={isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
-                    title={isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
-                    onClick={toggleFullscreen}
-                    className="inline-flex size-9 items-center justify-center rounded-md border"
-                  >
-                    <span className="sr-only">
-                      {isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
-                    </span>
-                    {isFullscreen ? <Shrink className="size-4" /> : <Expand className="size-4" />}
-                  </button>
-                ) : null}
-              </div>
-            </div>
-          ) : null}
-          {toolbar ? (
-            <div
-              className={`flex flex-wrap items-center gap-3 border-b ${toolbar.compact ? 'p-2' : 'p-4'}`}
+      <DataTableChrome
+        ref={chromeRef}
+        header={header}
+        toolbar={toolbar}
+        loading={loading}
+        settings={settings}
+        settingsPlacement={settingsPlacement}
+        rowLayout={rowLayout}
+        columns={columns}
+        labels={labels}
+        fullscreenControl={
+          fullscreen ? (
+            <button
+              ref={triggerRef}
+              type="button"
+              aria-label={isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
+              title={isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
+              onClick={toggleFullscreen}
+              className="inline-flex size-9 items-center justify-center rounded-md border"
             >
-              {toolbar.leading}
-              {toolbar.search ? (
-                <div className="flex min-w-52 flex-1 items-center gap-2 rounded-md border bg-background px-3 py-2">
-                  <Search className="size-4 text-muted-foreground" />
-                  <input
-                    value={toolbar.search.value}
-                    onChange={(event) => toolbar.search?.onChange(event.target.value)}
-                    placeholder={toolbar.search.placeholder}
-                    aria-label={toolbar.search.ariaLabel ?? toolbar.search.placeholder}
-                    className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-                  />
-                  {toolbar.search.value ? (
-                    <button
-                      type="button"
-                      onClick={() => toolbar.search?.onChange('')}
-                      className="rounded-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      aria-label={labels.clearSearch}
-                    >
-                      <X className="size-4" />
-                    </button>
-                  ) : null}
-                </div>
-              ) : null}
-              {toolbar.filters ? (
-                <div className="flex items-center gap-2">
-                  <SlidersHorizontal className="size-4 text-muted-foreground" />
-                  {toolbar.filters}
-                </div>
-              ) : null}
-              {toolbar.trailing}
-              {settingsPlacement === 'toolbar' ? (
-                <DataTableSettingsMenu
-                  settings={settings}
-                  rowLayout={rowLayout}
-                  columns={columns}
-                  labels={labels}
-                />
-              ) : null}
-            </div>
-          ) : null}
-        </div>
-      ) : null}
+              <span className="sr-only">
+                {isFullscreen ? fullscreen.exitLabel : fullscreen.enterLabel}
+              </span>
+              {isFullscreen ? <Shrink className="size-4" /> : <Expand className="size-4" />}
+            </button>
+          ) : undefined
+        }
+      />
       {selection?.selectedRowIds.length && selection.bulkActions ? (
         <div className="flex items-center gap-3 border-b bg-muted/40 px-4 py-2 text-sm">
           <span>{selection.selectedRowIds.length} selected</span>
@@ -443,9 +287,9 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
           {loadingContent}
         </div>
       ) : (
-        <div
+        <DataTableResultsRegion
           ref={resultsRef}
-          className={`min-h-0 ${resultsClassName}`}
+          className={resultsClassName}
           style={
             scrollRegion && !isFullscreen
               ? scrollRegionDesktopOnly
@@ -459,8 +303,6 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
                 : { maxHeight: scrollRegionMaxHeight, scrollMarginTop: sticky?.offset }
               : undefined
           }
-          aria-label="Data table results"
-          tabIndex={0}
         >
           <table className="w-full min-w-[44rem] table-fixed text-left text-sm">
             <colgroup>
@@ -775,80 +617,10 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
               )}
             </tbody>
           </table>
-        </div>
+        </DataTableResultsRegion>
       )}
       {pagination && !loading ? (
-        <nav
-          ref={paginationRef}
-          aria-label={labels.pagination}
-          className="flex flex-col gap-4 border-t px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between"
-        >
-          <div className="flex flex-wrap items-center gap-3 text-muted-foreground">
-            {pagination.onPerPageChange ? (
-              <label className="flex items-center gap-2">
-                {labels.rowsPerPage}
-                <select
-                  aria-label={labels.rowsPerPage}
-                  value={pagination.perPage}
-                  onChange={(event) => pagination.onPerPageChange?.(Number(event.target.value))}
-                  className="h-8 rounded-md border bg-background px-2 text-foreground"
-                >
-                  {(pagination.pageSizes ?? [10, 20, 50, 100]).map((size) => (
-                    <option key={size} value={size}>
-                      {size}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            ) : null}
-            <span>
-              {labels.paginationSummary({
-                from: Math.min((pagination.page - 1) * pagination.perPage + 1, pagination.total),
-                to: Math.min(pagination.page * pagination.perPage, pagination.total),
-                total: pagination.total,
-              })}
-            </span>
-          </div>
-          <div className="flex flex-wrap items-center justify-center gap-1">
-            <button
-              type="button"
-              aria-label={labels.previousPage}
-              disabled={pagination.page <= 1}
-              onClick={() => pagination.onChange(pagination.page - 1)}
-              className="inline-flex h-8 items-center gap-1 rounded-md border px-2 disabled:opacity-50"
-            >
-              <ChevronLeft className="size-4" />
-              <span className="hidden sm:inline">{labels.previousPage}</span>
-            </button>
-            {pageNumbers.map((item, index) =>
-              item === 'ellipsis' ? (
-                <span key={`ellipsis-${index}`} className="px-2 text-muted-foreground">
-                  ...
-                </span>
-              ) : (
-                <button
-                  key={item}
-                  type="button"
-                  aria-current={item === pagination.page ? 'page' : undefined}
-                  onClick={() => pagination.onChange(item)}
-                  className={`size-8 rounded-md border ${item === pagination.page ? 'border-primary bg-primary text-primary-foreground' : 'bg-background'}`}
-                >
-                  {item}
-                </button>
-              )
-            )}
-            <button
-              type="button"
-              aria-label={labels.nextPage}
-              disabled={pagination.page >= pagination.totalPages}
-              onClick={() => pagination.onChange(pagination.page + 1)}
-              className="inline-flex h-8 items-center gap-1 rounded-md border px-2 disabled:opacity-50"
-            >
-              <span className="hidden sm:inline">{labels.nextPage}</span>
-              <ChevronRight className="size-4" />
-            </button>
-          </div>
-        </nav>
+        <DataTablePagination ref={paginationRef} pagination={pagination} labels={labels} />
       ) : null}
     </section>
   );

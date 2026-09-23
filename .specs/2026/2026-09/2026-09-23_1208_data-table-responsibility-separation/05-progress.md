@@ -20,9 +20,27 @@
 - Se completo Slice 1:
   - `DataTable.types.ts` concentra contrato, labels y defaults.
   - `dataTableHighlight.tsx` concentra el resaltado sin distincion de acentos.
-  - `dataTablePagination.ts` concentra el calculo puro de paginas.
+  - `dataTablePageNumbers.ts` concentra el calculo puro de paginas.
   - `DataTable.tsx` reexporta los mismos tipos y conserva el barrel publico.
   - No se modificaron consumidores, rutas, estado ni comportamiento visible.
   - `eslint` dirigido y `npm run typecheck` exitosos.
 - Siguiente paso: ejecutar Slice 2 para separar chrome, region de resultados y
   paginacion.
+- Se implemento Slice 2:
+  - `DataTableChrome` compone header superior, toolbar y settings.
+  - `DataTableHeader`, `DataTableToolbar` y `DataTableSettingsMenu` preservan
+    sus condiciones de montaje, copy, clases y placements actuales.
+  - `DataTableResultsRegion` conserva la region scrollable, sus atributos
+    accesibles, ref y estilos derivados por el coordinador.
+  - `DataTablePagination` conserva paginacion, filas por pagina y numeros con
+    elipsis.
+  - La utilidad se renombro a `dataTablePageNumbers.ts` para evitar una
+    colision de mayusculas/minusculas con `DataTablePagination.tsx` en macOS.
+  - No se modificaron vistas consumidoras ni la tabla semantica.
+  - Lint dirigido, `npm run typecheck`, `npm run build` y `git diff --check`
+    exitosos. El build conserva dos warnings preexistentes fuera de alcance.
+- Pendiente para cerrar Slice 2: validacion manual de Component Lab,
+  Seguimiento y Registros administrativos para toolbar, settings, fullscreen,
+  scroll y paginacion.
+- Siguiente paso: validar manualmente Slice 2 o continuar con Slice 3 bajo
+  validacion integral al final.
