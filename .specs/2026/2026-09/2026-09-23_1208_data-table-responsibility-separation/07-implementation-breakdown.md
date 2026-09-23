@@ -4,6 +4,8 @@
 
 Task reference: `Cerrar contratos y utilidades puras del catalogo data-table`.
 
+Status: `completed`
+
 ### Objective
 
 Separar tipos, labels, highlight y calculo de paginas sin alterar el barrel ni

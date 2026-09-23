@@ -1,7 +1,7 @@
 # Task List: DataTable Responsibility Separation
 
-- [ ] Cerrar contratos y utilidades puras del catalogo `data-table`.
-      Status: pending
+- [x] Cerrar contratos y utilidades puras del catalogo `data-table`.
+      Status: done
       Dependency: definicion tecnica aprobada.
       Closure: tipos, labels, highlight y calculo de paginas se separan sin
       cambiar el barrel ni la API publica.

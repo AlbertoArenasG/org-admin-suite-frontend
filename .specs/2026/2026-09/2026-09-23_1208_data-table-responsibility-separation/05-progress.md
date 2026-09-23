@@ -17,4 +17,12 @@
   productivos, Component Lab y la guia de specs. Se precisaron artefactos con
   rutas exactas, dependencias y superficies no aplicables; no hay decisiones
   criticas abiertas.
-- Siguiente paso: comenzar Slice 1 tras revisar la definicion completa.
+- Se completo Slice 1:
+  - `DataTable.types.ts` concentra contrato, labels y defaults.
+  - `dataTableHighlight.tsx` concentra el resaltado sin distincion de acentos.
+  - `dataTablePagination.ts` concentra el calculo puro de paginas.
+  - `DataTable.tsx` reexporta los mismos tipos y conserva el barrel publico.
+  - No se modificaron consumidores, rutas, estado ni comportamiento visible.
+  - `eslint` dirigido y `npm run typecheck` exitosos.
+- Siguiente paso: ejecutar Slice 2 para separar chrome, region de resultados y
+  paginacion.
