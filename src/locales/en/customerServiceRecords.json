@@ -5,7 +5,13 @@
     "readRestricted": "You do not have permission to view service records.",
     "summary": "{{total}} records",
     "loading": "Loading service records...",
-    "empty": "No records match the current filters."
+    "empty": "No records match the current filters.",
+    "emptyTitle": "There are no service records to display",
+    "emptyDescription": "Service records will appear here when they are available.",
+    "emptyFilteredTitle": "No results match the active criteria",
+    "emptyFilteredDescription": "Try other criteria or clear them to view all service records.",
+    "clearCriteria": "Clear criteria",
+    "clearSearch": "Clear search"
   },
   "create": {
     "title": "New service record",
@@ -65,13 +71,31 @@
       "serviceNumber": "Record",
       "serviceType": "Service type",
       "customer": "Customer",
+      "serviceAndAssets": "Equipment and service",
       "asset": "Asset",
       "status": "Status",
-      "customerDelivery": "Customer commitment",
+      "customerDelivery": "Tracking",
+      "receivedAt": "Collection",
+      "deliveryAt": "Delivery",
+      "equipmentDetails": "Equipment details",
+      "providerTracking": "Provider tracking",
       "providerReturn": "Provider return",
       "requestedAt": "Request",
       "updatedAt": "Updated"
-    }
+    },
+    "values": {
+      "estimated": "Estimated",
+      "delivered": "Delivered"
+    },
+    "loadingResults": "Loading service record results",
+    "settings": "Table settings",
+    "displayColumns": "Display columns",
+    "resizeColumn": "Resize {{column}} column",
+    "pagination": "Service record pagination",
+    "rowsPerPage": "Rows per page",
+    "paginationSummary": "Showing {{from}}-{{to}} of {{total}}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page"
   },
   "filters": {
     "searchPlaceholder": "Search by record, customer, asset, or provider...",
@@ -124,6 +148,11 @@
         "legacyNotice": "This link preserves several legacy periods. Select a period to replace them or clear the filters."
       }
     }
+  },
+  "expansion": {
+    "ariaLabel": "Show observations",
+    "generalObservations": "General observations",
+    "assetObservations": "Equipment observations"
   },
   "statuses": {
     "pending": "Pending",

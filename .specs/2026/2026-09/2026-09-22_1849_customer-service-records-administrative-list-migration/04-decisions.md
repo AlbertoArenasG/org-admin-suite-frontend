@@ -4,33 +4,36 @@
 
 ### Context
 
-La tabla vigente distribuye datos administrativos en muchas columnas y no
-comparte la composición del `DataTable` canónico. La migración necesita una
-jerarquía que conserve contexto operativo sin expansión de filas ni un menú de
-acciones todavía.
+La tabla administrativa debe adoptar la misma composición visual y de celdas
+de Seguimiento de servicios. Añade al final los datos de proveedor disponibles
+en el listado y conserva su despliegue de observaciones cuando existan.
 
 ### Options
 
-1. Replicar cada columna vigente como una columna independiente.
-2. Adoptar una fila multilínea que agrupe los datos relacionados y priorice las
-   fechas operativas.
+1. Diseñar una jerarquía administrativa específica.
+2. Replicar la composición de Seguimiento de servicios y añadir proveedor al
+   final.
 
 ### Decision Final
 
-Se aprueba la opción 2. La tabla administrativa usará `DataTable` con fila
-multilínea, sin expansión, con esta jerarquía inicial:
+Se aprueba la opción 2. La tabla administrativa usará `DataTable` con la misma
+fila multilínea, densidad, anchos y celdas de Seguimiento de servicios, con
+expansión de observaciones, con esta jerarquía:
 
 1. Folio.
-2. Cliente y activo.
-3. Tipo de servicio.
-4. Estado operativo.
-5. Compromiso con cliente y su semáforo.
-6. Proveedor y retorno estimado con su semáforo.
-7. Solicitud o actualización.
+2. Equipo y servicio.
+3. Estado operativo.
+4. Seguimiento.
+5. Recolección.
+6. Entrega.
+7. Detalles de equipo.
+8. Cliente.
+9. Seguimiento con proveedor.
+10. Retorno de proveedor.
 
-La configuración de columnas podrá ocultar columnas secundarias según el
-contrato existente de `DataTable`. Acciones de fila, overflow y clic secundario
-no forman parte de esta decisión.
+Las dos últimas columnas se mantienen al final aunque requieran scroll
+horizontal. Acciones de fila, overflow y clic secundario no forman parte de
+esta decisión.
 
 ### Status
 
@@ -87,9 +90,11 @@ conserva interacción local y Redux conserva la colección remota.
 ### Decision Final
 
 La tabla administrativa adopta el mismo patrón. Su store de Zustand existente
-se conserva y se ajusta al contrato local de `DataTable`; Redux slice y thunks
-no cambian. No se crea otra capa de estado ni se modifica Seguimiento de
-servicios, que ya cumple esta separación.
+se conserva y se ajusta al contrato local de `DataTable`. El slice y el ciclo
+remoto Redux no cambian; el mapper del thunk de listado solamente expone los
+campos que el endpoint ya entrega para Recolección y Detalles de equipo. No se
+crea otra capa de estado ni se modifica Seguimiento de servicios, que ya cumple
+esta separación.
 
 ### Status
 

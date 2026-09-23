@@ -67,17 +67,28 @@ export interface FetchCustomerServiceRecordsParams {
 export interface CustomerServiceRecordListItem {
   customerServiceRecordId: string;
   serviceNumber: string;
+  observations: string | null;
   serviceType: { serviceTypeCode: string; name: string };
   requestedAt: string;
   customer: { customerId: string; name: string };
-  assets: Array<{ assetId: string; name: string; identifier: string }>;
+  assets: Array<{
+    assetId: string;
+    name: string;
+    identifier: string;
+    brand: string;
+    model: string;
+    serialNumber: string;
+    observations: string | null;
+  }>;
   operationalStatus: {
     code: CustomerServiceRecordOperationalStatus;
     name: string;
     nameKey: string;
   };
   customerDelivery: {
+    receivedAt: string | null;
     estimatedDeliveryAt: string | null;
+    deliveredToCustomerAt: string | null;
     statusMaterialization: CustomerServiceRecordDerivedStatus | null;
   };
   provider: {

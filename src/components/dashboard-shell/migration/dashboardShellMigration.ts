@@ -29,6 +29,16 @@ const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [
     },
   },
   {
+    matches: (pathname) => pathname === '/dashboard/customer-service-records',
+    config: {
+      breadcrumbs: [
+        { label: 'Panel', labelKey: 'dashboard', href: '/dashboard', hideOnDesktop: true },
+        { label: 'Servicios a clientes', labelKey: 'customerServiceRecords' },
+      ],
+      scrollMode: 'table-workspace',
+    },
+  },
+  {
     matches: (pathname) => {
       const match = /^\/dashboard\/users\/([^/]+)$/.exec(pathname);
       const staticRoutes = ['create', 'invite', 'invitations'];

@@ -27,7 +27,6 @@ export interface CustomerServiceRecordsFilterDialogValue {
   providerId: string | null;
   hasProvider: boolean | null;
   dateRange: TableFilterDateRangeValue;
-  hasLegacyDateRanges: boolean;
 }
 
 const dateFieldKeys: Record<
@@ -110,7 +109,6 @@ export function toCustomerServiceRecordsFilterDialogValue(
     providerId: filters.providerId,
     hasProvider: filters.hasProvider,
     dateRange,
-    hasLegacyDateRanges: activeDateFields.length > 1,
   };
 }
 
@@ -128,7 +126,6 @@ export function createEmptyCustomerServiceRecordsFilterDialogValue(): CustomerSe
     providerId: null,
     hasProvider: null,
     dateRange: { fieldId: null, from: null, to: null },
-    hasLegacyDateRanges: false,
   };
 }
 
@@ -145,8 +142,6 @@ export function toCustomerServiceRecordsListFilters(
     hasProvider: value.hasProvider,
   };
 
-  if (value.hasLegacyDateRanges) return next;
-
   const normalized = clearDateFilters(next);
   const fieldId = value.dateRange.fieldId as CustomerServiceRecordsDateFieldId | null;
   if (!fieldId || (!value.dateRange.from && !value.dateRange.to)) return normalized;
@@ -161,15 +156,7 @@ export function areCustomerServiceRecordsFilterDialogValuesEqual(
   left: CustomerServiceRecordsFilterDialogValue,
   right: CustomerServiceRecordsFilterDialogValue
 ) {
-  const normalizeLegacySelection = (value: CustomerServiceRecordsFilterDialogValue) =>
-    value.hasLegacyDateRanges && !value.dateRange.from && !value.dateRange.to
-      ? { ...value, dateRange: { fieldId: null, from: null, to: null } }
-      : value;
-
-  return (
-    JSON.stringify(normalizeLegacySelection(left)) ===
-    JSON.stringify(normalizeLegacySelection(right))
-  );
+  return JSON.stringify(left) === JSON.stringify(right);
 }
 
 export function hasCustomerServiceRecordsFilterCriteria(
@@ -181,7 +168,6 @@ export function hasCustomerServiceRecordsFilterCriteria(
       value.operationalStatus ||
       value.providerId ||
       value.hasProvider !== null ||
-      value.hasLegacyDateRanges ||
       value.dateRange.from ||
       value.dateRange.to
   );

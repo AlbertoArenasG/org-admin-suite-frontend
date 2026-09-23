@@ -255,8 +255,6 @@ export function CustomerServiceRecordsFilterDialog({
                   setDraft((current) => ({
                     ...current,
                     dateRange,
-                    hasLegacyDateRanges:
-                      current.hasLegacyDateRanges && !dateRange.from && !dateRange.to,
                   }))
                 }
                 presets={[
@@ -275,9 +273,6 @@ export function CustomerServiceRecordsFilterDialog({
                   clearPeriod: t('filters.dialog.period.clear'),
                   clearDate: t('filters.dialog.period.clearDate'),
                   openCalendar: t('filters.dialog.period.openCalendar'),
-                  legacyNotice: draft.hasLegacyDateRanges
-                    ? t('filters.dialog.period.legacyNotice')
-                    : undefined,
                 }}
                 calendarLocale={es}
               />

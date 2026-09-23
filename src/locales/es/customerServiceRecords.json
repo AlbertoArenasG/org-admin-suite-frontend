@@ -5,7 +5,13 @@
     "readRestricted": "No tienes permiso para consultar registros de servicio.",
     "summary": "{{total}} registros",
     "loading": "Cargando registros de servicio...",
-    "empty": "No hay registros que coincidan con los filtros."
+    "empty": "No hay registros que coincidan con los filtros.",
+    "emptyTitle": "No hay registros para mostrar",
+    "emptyDescription": "Los registros de servicio aparecerán aquí cuando estén disponibles.",
+    "emptyFilteredTitle": "No hay resultados para los criterios activos",
+    "emptyFilteredDescription": "Prueba con otros criterios o límpialos para ver todos los registros.",
+    "clearCriteria": "Limpiar criterios",
+    "clearSearch": "Limpiar búsqueda"
   },
   "create": {
     "title": "Nuevo registro de servicio",
@@ -65,13 +71,31 @@
       "serviceNumber": "Folio",
       "serviceType": "Tipo de servicio",
       "customer": "Cliente",
+      "serviceAndAssets": "Equipo y servicio",
       "asset": "Equipo",
       "status": "Estado",
-      "customerDelivery": "Compromiso con cliente",
+      "customerDelivery": "Seguimiento",
+      "receivedAt": "Recolección",
+      "deliveryAt": "Entrega",
+      "equipmentDetails": "Detalles de equipo",
+      "providerTracking": "Seguimiento proveedor",
       "providerReturn": "Retorno de proveedor",
       "requestedAt": "Solicitud",
       "updatedAt": "Actualizado"
-    }
+    },
+    "values": {
+      "estimated": "Estimada",
+      "delivered": "Entregada"
+    },
+    "loadingResults": "Cargando resultados de registros de servicio",
+    "settings": "Configuración de tabla",
+    "displayColumns": "Mostrar columnas",
+    "resizeColumn": "Cambiar ancho de columna {{column}}",
+    "pagination": "Paginación de registros de servicio",
+    "rowsPerPage": "Filas por página",
+    "paginationSummary": "Mostrando {{from}}-{{to}} de {{total}}",
+    "previousPage": "Página anterior",
+    "nextPage": "Página siguiente"
   },
   "filters": {
     "searchPlaceholder": "Buscar por folio, cliente, equipo o proveedor...",
@@ -124,6 +148,11 @@
         "legacyNotice": "Este enlace conserva varios períodos heredados. Selecciona un período para reemplazarlos o limpia los filtros."
       }
     }
+  },
+  "expansion": {
+    "ariaLabel": "Mostrar observaciones",
+    "generalObservations": "Observaciones generales",
+    "assetObservations": "Observaciones del equipo"
   },
   "statuses": {
     "pending": "Pendiente",

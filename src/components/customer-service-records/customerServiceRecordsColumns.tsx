@@ -1,0 +1,251 @@
+import Link from 'next/link';
+import { Ban, Check, ClockFading, Hammer } from 'lucide-react';
+import type { DataTableColumn } from '@/components/data-table';
+import { BadgeCell, DateWithRelativeTimeCell } from '@/components/data-table/cells';
+import type { CustomerServiceRecordListItem } from '@/features/customer-service-records';
+
+type CustomerServiceRecordsColumnLabels = {
+  serviceNumber: string;
+  serviceAndAssets: string;
+  equipmentDetails: string;
+  customer: string;
+  operationalStatus: string;
+  customerCommitment: string;
+  receivedAt: string;
+  deliveryAt: string;
+  providerTracking: string;
+  providerReturn: string;
+  noDate: string;
+  noStatus: string;
+  noProvider: string;
+  estimated: string;
+  delivered: string;
+};
+
+function formatAssets(row: CustomerServiceRecordListItem) {
+  return row.assets
+    .map((asset) =>
+      [asset.name, asset.identifier ? `(${asset.identifier})` : ''].filter(Boolean).join(' ')
+    )
+    .join(', ');
+}
+
+function formatEquipmentDetails(row: CustomerServiceRecordListItem) {
+  const brandAndModel = row.assets
+    .map((asset) => [asset.brand, asset.model].filter(Boolean).join(' · '))
+    .filter(Boolean)
+    .join(', ');
+  const serialNumbers = row.assets
+    .map((asset) => asset.serialNumber)
+    .filter(Boolean)
+    .join(', ');
+
+  return { brandAndModel, serialNumbers };
+}
+
+function getOperationalStatusIcon(code: string) {
+  const className = 'size-3';
+  if (code === 'PENDING') return <ClockFading className={className} />;
+  if (code === 'IN_PROGRESS') return <Hammer className={className} />;
+  if (code === 'COMPLETED') return <Check className={className} />;
+  if (code === 'CANCELLED') return <Ban className={className} />;
+  return null;
+}
+
+export function createCustomerServiceRecordsColumns({
+  labels,
+  dateFormatter,
+}: {
+  labels: CustomerServiceRecordsColumnLabels;
+  dateFormatter: Intl.DateTimeFormat;
+}): DataTableColumn<CustomerServiceRecordListItem>[] {
+  return [
+    {
+      id: 'serviceNumber',
+      header: labels.serviceNumber,
+      ariaLabel: labels.serviceNumber,
+      accessor: (row) => row.serviceNumber,
+      cell: (row, { highlight }) => (
+        <Link
+          href={`/dashboard/customer-service-records/${row.customerServiceRecordId}`}
+          className="font-mono font-normal text-muted-foreground hover:text-foreground hover:underline"
+        >
+          {highlight(row.serviceNumber)}
+        </Link>
+      ),
+      sorting: { enabled: true, apiField: 'service_number' },
+      width: { initial: 80, min: 80, max: 160, resizable: true },
+      visibility: { hideable: false },
+    },
+    {
+      id: 'serviceAndAssets',
+      header: labels.serviceAndAssets,
+      ariaLabel: labels.serviceAndAssets,
+      accessor: (row) =>
+        [row.serviceType.name, ...row.assets.map((asset) => `${asset.name} ${asset.identifier}`)]
+          .filter(Boolean)
+          .join(' '),
+      cell: (row, { highlight }) => {
+        const assets = formatAssets(row);
+        return (
+          <div className="min-w-56 space-y-1">
+            <p className="font-medium text-foreground">
+              {row.assets.length
+                ? row.assets.map((asset, index) => (
+                    <span key={asset.assetId}>
+                      {index ? ', ' : null}
+                      {highlight(asset.name)}
+                      {asset.identifier ? (
+                        <span className="font-mono text-xs font-normal text-muted-foreground">
+                          {' '}
+                          [{highlight(asset.identifier)}]
+                        </span>
+                      ) : null}
+                    </span>
+                  ))
+                : highlight(assets || row.serviceType.name)}
+            </p>
+            <p className="text-xs text-muted-foreground">{highlight(row.serviceType.name)}</p>
+          </div>
+        );
+      },
+      textBehavior: 'wrap',
+      width: { initial: 360, min: 260, max: 580, resizable: true },
+    },
+    {
+      id: 'operationalStatus',
+      header: labels.operationalStatus,
+      ariaLabel: labels.operationalStatus,
+      accessor: (row) => row.operationalStatus.name,
+      cell: (row) => (
+        <BadgeCell
+          label={row.operationalStatus.name}
+          icon={getOperationalStatusIcon(row.operationalStatus.code)}
+          variant="outline"
+        />
+      ),
+      width: { initial: 148, min: 148, max: 240, resizable: true },
+    },
+    {
+      id: 'customerCommitment',
+      header: labels.customerCommitment,
+      ariaLabel: labels.customerCommitment,
+      accessor: (row) => row.customerDelivery.statusMaterialization?.name ?? labels.noStatus,
+      cell: (row) => (
+        <BadgeCell
+          label={row.customerDelivery.statusMaterialization?.name ?? labels.noStatus}
+          color={row.customerDelivery.statusMaterialization?.colorHex}
+          variant="subtle"
+        />
+      ),
+      width: { initial: 164, min: 164, max: 280, resizable: true },
+    },
+    {
+      id: 'receivedAt',
+      header: labels.receivedAt,
+      ariaLabel: labels.receivedAt,
+      accessor: (row) => row.customerDelivery.receivedAt ?? '',
+      cell: (row) => (
+        <DateWithRelativeTimeCell
+          value={row.customerDelivery.receivedAt}
+          dateFormatter={dateFormatter}
+          emptyLabel={labels.noDate}
+        />
+      ),
+      sorting: { enabled: true, apiField: 'received_at' },
+      width: { initial: 146, min: 132, max: 190, resizable: true },
+    },
+    {
+      id: 'estimatedDeliveryAt',
+      header: labels.deliveryAt,
+      ariaLabel: labels.deliveryAt,
+      accessor: (row) =>
+        row.customerDelivery.deliveredToCustomerAt ??
+        row.customerDelivery.estimatedDeliveryAt ??
+        '',
+      cell: (row) => {
+        const deliveredAt = row.customerDelivery.deliveredToCustomerAt;
+        const value = deliveredAt ?? row.customerDelivery.estimatedDeliveryAt;
+        return (
+          <DateWithRelativeTimeCell
+            value={value}
+            dateFormatter={dateFormatter}
+            emptyLabel={labels.noDate}
+            label={value ? (deliveredAt ? labels.delivered : labels.estimated) : undefined}
+          />
+        );
+      },
+      sorting: { enabled: true, apiField: 'estimated_customer_delivery_at' },
+      width: { initial: 170, min: 148, max: 220, resizable: true },
+    },
+    {
+      id: 'equipmentDetails',
+      header: labels.equipmentDetails,
+      ariaLabel: labels.equipmentDetails,
+      accessor: (row) => {
+        const { brandAndModel, serialNumbers } = formatEquipmentDetails(row);
+        return [brandAndModel, serialNumbers].filter(Boolean).join(' ');
+      },
+      cell: (row, { highlight }) => {
+        const { brandAndModel, serialNumbers } = formatEquipmentDetails(row);
+        return (
+          <div className="min-w-48 space-y-1">
+            <p className="truncate" title={brandAndModel || undefined}>
+              {highlight(brandAndModel || '—')}
+            </p>
+            <p
+              className="truncate font-mono text-xs font-normal text-muted-foreground"
+              title={serialNumbers || undefined}
+            >
+              {highlight(serialNumbers || '—')}
+            </p>
+          </div>
+        );
+      },
+      textBehavior: 'wrap',
+      width: { initial: 240, min: 200, max: 360, resizable: true },
+    },
+    {
+      id: 'customer',
+      header: labels.customer,
+      ariaLabel: labels.customer,
+      accessor: (row) => row.customer.name,
+      cell: (row) => (
+        <span className="block truncate" title={row.customer.name}>
+          {row.customer.name}
+        </span>
+      ),
+      textBehavior: 'truncate',
+      width: { initial: 280, min: 180, max: 420, resizable: true },
+    },
+    {
+      id: 'providerTracking',
+      header: <span className="whitespace-nowrap">{labels.providerTracking}</span>,
+      ariaLabel: labels.providerTracking,
+      accessor: (row) => row.provider?.statusMaterialization?.name ?? labels.noProvider,
+      cell: (row) => (
+        <BadgeCell
+          label={row.provider?.statusMaterialization?.name ?? labels.noProvider}
+          color={row.provider?.statusMaterialization?.colorHex}
+          variant="subtle"
+        />
+      ),
+      width: { initial: 220, min: 200, max: 320, resizable: true },
+    },
+    {
+      id: 'providerReturn',
+      header: <span className="whitespace-nowrap">{labels.providerReturn}</span>,
+      ariaLabel: labels.providerReturn,
+      accessor: (row) => row.provider?.estimatedReturnAt ?? '',
+      cell: (row) => (
+        <DateWithRelativeTimeCell
+          value={row.provider?.estimatedReturnAt}
+          dateFormatter={dateFormatter}
+          emptyLabel={labels.noDate}
+        />
+      ),
+      sorting: { enabled: true, apiField: 'provider_estimated_return_at' },
+      width: { initial: 220, min: 200, max: 320, resizable: true },
+    },
+  ];
+}

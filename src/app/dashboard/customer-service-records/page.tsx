@@ -1,32 +1,25 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
-import { CustomerServiceRecordsTableContainer } from '@/components/customer-service-records/CustomerServiceRecordsTableContainer';
-import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
+import { CustomerServiceRecordsContainer } from '@/components/customer-service-records/CustomerServiceRecordsContainer';
+import { DashboardTableWorkspace } from '@/components/dashboard-shell';
 import { useAuthorization } from '@/features/auth';
 
 export default function CustomerServiceRecordsPage() {
-  const { t } = useTranslation(['customerServiceRecords', 'breadcrumbs']);
+  const { t } = useTranslation('customerServiceRecords');
   const { hasPermission } = useAuthorization();
   const canRead = hasPermission('CUSTOMER_SERVICE_RECORDS', 'READ');
 
   return (
-    <div className="flex flex-1 flex-col gap-6">
-      <DashboardPageHeader
-        segments={[
-          { label: t('breadcrumbs:dashboard'), href: '/dashboard', hideOnDesktop: true },
-          { label: t('breadcrumbs:customerServiceRecords') },
-        ]}
-      />
-
+    <DashboardTableWorkspace contentClassName="mx-auto max-w-[1600px]">
       {canRead ? (
-        <CustomerServiceRecordsTableContainer />
+        <CustomerServiceRecordsContainer />
       ) : (
-        <section className="rounded-3xl border border-border/60 bg-card p-6">
+        <section className="rounded-xl border border-destructive/30 bg-destructive/5 p-6 text-sm">
           <h1 className="text-xl font-semibold">{t('list.title')}</h1>
           <p className="mt-2 text-muted-foreground">{t('list.readRestricted')}</p>
         </section>
       )}
-    </div>
+    </DashboardTableWorkspace>
   );
 }

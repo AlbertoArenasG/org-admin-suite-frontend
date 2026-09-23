@@ -24,7 +24,7 @@ compatibilidad de interacción de la vista anterior.
 - El contenedor conserva su propiedad sobre Zustand, URL, thunks, paginación,
   búsqueda, ordenamiento, filtros y permisos.
 - La toolbar conserva búsqueda global, diálogo de filtros, conteo, limpieza
-  rápida, columnas y acción de crear.
+  rápida y columnas.
 - Las filas exponen navegación explícita al detalle, semáforos y datos
   operativos con la jerarquía aprobada.
 
@@ -60,16 +60,18 @@ compatibilidad de interacción de la vista anterior.
 - La URL actual bajo `/dashboard/customer-service-records` se conserva.
 - El contenedor nuevo mantiene la coordinación remota y no traslada HTTP a
   componentes de presentación.
-- Redux conserva slice, thunks y colección remota sin cambios. Zustand
-  conserva el estado local de interacción de esta vista y se ajusta a un único
-  orden y a visibilidad de columnas por IDs.
+- Redux conserva slice y ciclo remoto; el mapper del thunk proyecta campos ya
+  entregados por el endpoint para las celdas y observaciones. Zustand conserva
+  el estado local de interacción de esta vista y se ajusta a un único orden,
+  visibilidad de columnas por IDs y expansión de observaciones.
 - La migración usa `DataTable` y primitives canónicas; no crea una tabla
   paralela ni modifica primitives globales por necesidades del módulo.
 - La tabla usa fila multilínea y densidad `comfortable`. El encabezado sticky y
   la región de scroll pertenecen al `DataTable` en escritorio; móvil conserva
   el scroll de página.
 - El folio es la navegación explícita al detalle. No se hace navegable toda la
-  fila mientras no exista el contrato de acciones diferido.
+  fila mientras no exista el contrato de acciones diferido; las observaciones
+  se despliegan únicamente desde el control de expansión existente.
 - La nueva vista admite un único orden activo. El parser acepta como máximo un
   criterio válido y el serializer emite uno; los parámetros adicionales se
   descartan al sincronizar la vista nueva.

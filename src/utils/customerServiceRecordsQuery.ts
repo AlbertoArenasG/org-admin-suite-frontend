@@ -1,22 +1,28 @@
-import type { SortingState } from '@tanstack/react-table-v8';
 import type {
   CustomerServiceRecordsListFilters,
   CustomerServiceRecordsListSort,
   CustomerServiceRecordSortField,
 } from '@/features/customer-service-records';
 
-const SORT_COLUMN_FIELD_MAP: Record<string, CustomerServiceRecordSortField> = {
+const SORT_FIELDS = {
   serviceNumber: 'service_number',
-  requestedAt: 'requested_at',
-  customerDeliveryAt: 'estimated_customer_delivery_at',
-  providerReturnAt: 'provider_estimated_return_at',
-  operationalStatus: 'operational_status',
-  createdAt: 'created_at',
-};
+  receivedAt: 'received_at',
+  estimatedDeliveryAt: 'estimated_customer_delivery_at',
+  providerReturn: 'provider_estimated_return_at',
+} as const satisfies Record<string, CustomerServiceRecordSortField>;
 
-const FIELD_COLUMN_MAP = Object.fromEntries(
-  Object.entries(SORT_COLUMN_FIELD_MAP).map(([column, field]) => [field, column])
-);
+const COLUMN_BY_FIELD = Object.fromEntries(
+  Object.entries(SORT_FIELDS).map(([columnId, field]) => [field, columnId])
+) as Record<string, keyof typeof SORT_FIELDS>;
+
+const DATE_FILTER_FIELDS = [
+  ['requestedAtFrom', 'requestedAtTo'],
+  ['receivedAtFrom', 'receivedAtTo'],
+  ['estimatedCustomerDeliveryAtFrom', 'estimatedCustomerDeliveryAtTo'],
+  ['providerEstimatedReturnAtFrom', 'providerEstimatedReturnAtTo'],
+] as const satisfies ReadonlyArray<
+  readonly [keyof CustomerServiceRecordsListFilters, keyof CustomerServiceRecordsListFilters]
+>;
 
 const FILTER_PARAM_MAP: Record<keyof CustomerServiceRecordsListFilters, string> = {
   operationalStatus: 'operational_status',
@@ -34,106 +40,118 @@ const FILTER_PARAM_MAP: Record<keyof CustomerServiceRecordsListFilters, string> 
   providerEstimatedReturnAtTo: 'provider_estimated_return_at_to',
 };
 
-export function mapCustomerServiceRecordsSortingToApi(
-  sorting: SortingState
-): CustomerServiceRecordsListSort[] {
-  return sorting.flatMap((sort) => {
-    const field = SORT_COLUMN_FIELD_MAP[sort.id];
-    return field ? [{ field, direction: sort.desc ? 'desc' : 'asc' }] : [];
-  });
+export type CustomerServiceRecordsTableSorting = {
+  columnId: keyof typeof SORT_FIELDS;
+  direction: 'asc' | 'desc';
+};
+
+function normalizePositiveInteger(value: string | null, fallback: number, max: number) {
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed > 0 ? Math.min(parsed, max) : fallback;
 }
 
-export function parseCustomerServiceRecordsSortingFromParams(
+function emptyFilters(): CustomerServiceRecordsListFilters {
+  return {
+    operationalStatus: null,
+    serviceTypeCode: null,
+    customerId: null,
+    providerId: null,
+    hasProvider: null,
+    requestedAtFrom: null,
+    requestedAtTo: null,
+    receivedAtFrom: null,
+    receivedAtTo: null,
+    estimatedCustomerDeliveryAtFrom: null,
+    estimatedCustomerDeliveryAtTo: null,
+    providerEstimatedReturnAtFrom: null,
+    providerEstimatedReturnAtTo: null,
+  };
+}
+
+export function getCustomerServiceRecordsInitialPagination(params: URLSearchParams) {
+  return {
+    page: normalizePositiveInteger(params.get('page'), 1, 10000),
+    limit: normalizePositiveInteger(params.get('limit'), 10, 100),
+  };
+}
+
+export function parseCustomerServiceRecordsSorting(
   params: URLSearchParams
-): SortingState {
-  const buckets = new Map<number, { field?: string; direction?: string }>();
+): CustomerServiceRecordsTableSorting | null {
+  const field = params.get('sort[0][field]');
+  const direction = params.get('sort[0][direction]');
+  const columnId = field ? COLUMN_BY_FIELD[field] : undefined;
 
-  for (const [key, value] of params.entries()) {
-    const match = key.match(/^sort\[(\d+)\]\[(field|direction)\]$/);
-    if (!match) continue;
+  return columnId && (direction === 'asc' || direction === 'desc') ? { columnId, direction } : null;
+}
 
-    const index = Number(match[1]);
-    const property = match[2] as 'field' | 'direction';
-    const bucket = buckets.get(index) ?? {};
-    bucket[property] = value;
-    buckets.set(index, bucket);
-  }
-
-  return Array.from(buckets.entries())
-    .sort(([left], [right]) => left - right)
-    .flatMap(([, bucket]) => {
-      const columnId = bucket.field ? FIELD_COLUMN_MAP[bucket.field] : null;
-      return columnId ? [{ id: columnId, desc: bucket.direction === 'desc' }] : [];
-    });
+export function mapCustomerServiceRecordsSortingToApi(
+  sorting: CustomerServiceRecordsTableSorting | null
+): CustomerServiceRecordsListSort[] {
+  return sorting ? [{ field: SORT_FIELDS[sorting.columnId], direction: sorting.direction }] : [];
 }
 
 export function parseCustomerServiceRecordsFiltersFromParams(
   params: URLSearchParams
 ): CustomerServiceRecordsListFilters {
   const operationalStatus = params.get('operational_status');
-  return {
-    operationalStatus:
-      operationalStatus === 'PENDING' ||
-      operationalStatus === 'IN_PROGRESS' ||
-      operationalStatus === 'COMPLETED' ||
-      operationalStatus === 'CANCELLED'
-        ? operationalStatus
-        : null,
-    serviceTypeCode: params.get('service_type_code'),
-    customerId: params.get('customer_id'),
-    providerId: params.get('provider_id'),
-    hasProvider:
-      params.get('has_provider') === 'true'
-        ? true
-        : params.get('has_provider') === 'false'
-          ? false
-          : null,
-    requestedAtFrom: params.get('requested_at_from'),
-    requestedAtTo: params.get('requested_at_to'),
-    receivedAtFrom: params.get('received_at_from'),
-    receivedAtTo: params.get('received_at_to'),
-    estimatedCustomerDeliveryAtFrom: params.get('estimated_customer_delivery_at_from'),
-    estimatedCustomerDeliveryAtTo: params.get('estimated_customer_delivery_at_to'),
-    providerEstimatedReturnAtFrom: params.get('provider_estimated_return_at_from'),
-    providerEstimatedReturnAtTo: params.get('provider_estimated_return_at_to'),
-  };
+  const filters = emptyFilters();
+  filters.operationalStatus =
+    operationalStatus === 'PENDING' ||
+    operationalStatus === 'IN_PROGRESS' ||
+    operationalStatus === 'COMPLETED' ||
+    operationalStatus === 'CANCELLED'
+      ? operationalStatus
+      : null;
+  filters.serviceTypeCode = params.get('service_type_code');
+  filters.customerId = params.get('customer_id');
+  filters.providerId = params.get('provider_id');
+  filters.hasProvider =
+    params.get('has_provider') === 'true'
+      ? true
+      : params.get('has_provider') === 'false'
+        ? false
+        : null;
+
+  const activeDateFields = DATE_FILTER_FIELDS.filter(([fromKey, toKey]) => {
+    const from = params.get(FILTER_PARAM_MAP[fromKey]);
+    const to = params.get(FILTER_PARAM_MAP[toKey]);
+    return Boolean(from || to);
+  });
+  const [fromKey, toKey] = activeDateFields[0] ?? [];
+  if (fromKey && toKey) {
+    filters[fromKey] = params.get(FILTER_PARAM_MAP[fromKey]);
+    filters[toKey] = params.get(FILTER_PARAM_MAP[toKey]);
+  }
+
+  return filters;
 }
 
-export function buildCustomerServiceRecordsQuery(input: {
-  pageIndex: number;
-  pageSize: number;
+export function buildCustomerServiceRecordsQuery(value: {
+  page: number;
+  limit: number;
   search: string;
-  sorting: SortingState;
+  sorting: CustomerServiceRecordsTableSorting | null;
   filters: CustomerServiceRecordsListFilters;
-  baseParams: URLSearchParams;
 }) {
-  const params = new URLSearchParams(input.baseParams.toString());
-  params.set('page', String(input.pageIndex + 1));
-  params.set('limit', String(input.pageSize));
-
-  if (input.search.trim()) params.set('search', input.search.trim());
-  else params.delete('search');
+  const params = new URLSearchParams({ page: String(value.page), limit: String(value.limit) });
+  if (value.search.trim()) params.set('search', value.search.trim());
 
   (Object.keys(FILTER_PARAM_MAP) as Array<keyof CustomerServiceRecordsListFilters>).forEach(
     (key) => {
-      const parameter = FILTER_PARAM_MAP[key];
-      const value = input.filters[key];
-      if (value === null || value === '') params.delete(parameter);
-      else params.set(parameter, String(value));
+      const filterValue = value.filters[key];
+      if (filterValue !== null && filterValue !== '') {
+        params.set(FILTER_PARAM_MAP[key], String(filterValue));
+      }
     }
   );
 
-  Array.from(params.keys())
-    .filter((key) => key.startsWith('sort['))
-    .forEach((key) => params.delete(key));
-  params.delete('sorting');
-  params.delete('sort_strategy');
-  const sorts = mapCustomerServiceRecordsSortingToApi(input.sorting);
-  sorts.forEach((sort, index) => {
-    params.set(`sort[${index}][field]`, sort.field);
-    params.set(`sort[${index}][direction]`, sort.direction);
-  });
-  if (!sorts.length) params.set('sort_strategy', 'work_priority');
+  if (value.sorting) {
+    params.set('sort[0][field]', SORT_FIELDS[value.sorting.columnId]);
+    params.set('sort[0][direction]', value.sorting.direction);
+  } else {
+    params.set('sort_strategy', 'work_priority');
+  }
 
   return params;
 }

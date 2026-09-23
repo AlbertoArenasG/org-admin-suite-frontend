@@ -2,43 +2,60 @@
 
 import { create } from 'zustand';
 import type {
-  PaginationState,
-  SortingState,
-  Updater,
-  VisibilityState,
-} from '@tanstack/react-table-v8';
-import type { CustomerServiceRecordsListFilters } from '@/features/customer-service-records';
+  CustomerServiceRecordsListFilters,
+  CustomerServiceRecordSortDirection,
+} from '@/features/customer-service-records';
+import type { CustomerServiceRecordsTableSorting } from '@/utils/customerServiceRecordsQuery';
 
-type StringUpdater = string | ((current: string) => string);
-type FiltersUpdater =
-  | CustomerServiceRecordsListFilters
-  | ((current: CustomerServiceRecordsListFilters) => CustomerServiceRecordsListFilters);
+type Updater<T> = T | ((current: T) => T);
 
-interface CustomerServiceRecordsTableStore {
-  pagination: PaginationState;
-  sorting: SortingState;
-  columnVisibility: VisibilityState;
-  globalFilter: string;
-  debouncedFilter: string;
+type CustomerServiceRecordsTableState = {
+  page: number;
+  limit: number;
+  search: string;
+  appliedSearch: string;
+  sorting: CustomerServiceRecordsTableSorting | null;
+  visibleColumnIds: string[];
+  expandedRowIds: string[];
   filters: CustomerServiceRecordsListFilters;
   initialized: boolean;
-  setPagination: (updater: Updater<PaginationState>) => void;
-  setSorting: (updater: Updater<SortingState>) => void;
-  setColumnVisibility: (updater: Updater<VisibilityState>) => void;
-  setGlobalFilter: (updater: StringUpdater) => void;
-  setDebouncedFilter: (value: string) => void;
-  setFilters: (updater: FiltersUpdater) => void;
+  setPage: (updater: Updater<number>) => void;
+  setLimit: (updater: Updater<number>) => void;
+  setSearch: (updater: Updater<string>) => void;
+  setAppliedSearch: (value: string) => void;
+  setSorting: (
+    value: {
+      columnId: CustomerServiceRecordsTableSorting['columnId'];
+      direction: CustomerServiceRecordSortDirection;
+    } | null
+  ) => void;
+  setVisibleColumnIds: (value: string[]) => void;
+  setExpandedRowIds: (value: string[]) => void;
+  setFilters: (updater: Updater<CustomerServiceRecordsListFilters>) => void;
   syncFromUrl: (value: {
-    pagination: PaginationState;
-    sorting: SortingState;
-    globalFilter: string;
-    debouncedFilter: string;
+    page: number;
+    limit: number;
+    search: string;
+    sorting: CustomerServiceRecordsTableSorting | null;
     filters: CustomerServiceRecordsListFilters;
   }) => void;
   reset: () => void;
-}
+};
 
-const initialFilters: CustomerServiceRecordsListFilters = {
+const DEFAULT_VISIBLE_COLUMNS = [
+  'serviceNumber',
+  'serviceAndAssets',
+  'operationalStatus',
+  'customerCommitment',
+  'receivedAt',
+  'estimatedDeliveryAt',
+  'equipmentDetails',
+  'customer',
+  'providerTracking',
+  'providerReturn',
+];
+
+const EMPTY_FILTERS: CustomerServiceRecordsListFilters = {
   operationalStatus: null,
   serviceTypeCode: null,
   customerId: null,
@@ -54,60 +71,63 @@ const initialFilters: CustomerServiceRecordsListFilters = {
   providerEstimatedReturnAtTo: null,
 };
 
-function createInitialState() {
+function initialState() {
   return {
-    pagination: { pageIndex: 0, pageSize: 10 },
-    sorting: [{ id: 'createdAt', desc: true }] as SortingState,
-    columnVisibility: {},
-    globalFilter: '',
-    debouncedFilter: '',
-    filters: initialFilters,
+    page: 1,
+    limit: 10,
+    search: '',
+    appliedSearch: '',
+    sorting: null,
+    visibleColumnIds: DEFAULT_VISIBLE_COLUMNS,
+    expandedRowIds: [],
+    filters: EMPTY_FILTERS,
     initialized: false,
   };
 }
 
-function valuesEqual(left: unknown, right: unknown) {
+function resolve<T>(updater: Updater<T>, current: T) {
+  return typeof updater === 'function' ? (updater as (value: T) => T)(current) : updater;
+}
+
+function equal(left: unknown, right: unknown) {
   return JSON.stringify(left) === JSON.stringify(right);
 }
 
-export const useCustomerServiceRecordsTableStore = create<CustomerServiceRecordsTableStore>(
+export const useCustomerServiceRecordsTableStore = create<CustomerServiceRecordsTableState>(
   (set) => ({
-    ...createInitialState(),
-    setPagination: (updater) =>
-      set((state) => ({
-        pagination: typeof updater === 'function' ? updater(state.pagination) : updater,
-      })),
-    setSorting: (updater) =>
-      set((state) => ({
-        sorting: typeof updater === 'function' ? updater(state.sorting) : updater,
-      })),
-    setColumnVisibility: (updater) =>
-      set((state) => ({
-        columnVisibility: typeof updater === 'function' ? updater(state.columnVisibility) : updater,
-      })),
-    setGlobalFilter: (updater) =>
-      set((state) => ({
-        globalFilter: typeof updater === 'function' ? updater(state.globalFilter) : updater,
-      })),
-    setDebouncedFilter: (value) => set({ debouncedFilter: value }),
-    setFilters: (updater) =>
-      set((state) => ({
-        filters: typeof updater === 'function' ? updater(state.filters) : updater,
-      })),
-    syncFromUrl: (value) =>
+    ...initialState(),
+    setPage: (updater) => set((state) => ({ page: resolve(updater, state.page) })),
+    setLimit: (updater) => set((state) => ({ limit: resolve(updater, state.limit) })),
+    setSearch: (updater) => set((state) => ({ search: resolve(updater, state.search) })),
+    setAppliedSearch: (appliedSearch) => set({ appliedSearch }),
+    setSorting: (sorting) => set({ sorting }),
+    setVisibleColumnIds: (visibleColumnIds) => set({ visibleColumnIds }),
+    setExpandedRowIds: (expandedRowIds) => set({ expandedRowIds }),
+    setFilters: (updater) => set((state) => ({ filters: resolve(updater, state.filters) })),
+    syncFromUrl: ({ page, limit, search, sorting, filters }) =>
       set((state) => {
-        if (
-          valuesEqual(state.pagination, value.pagination) &&
-          valuesEqual(state.sorting, value.sorting) &&
-          state.globalFilter === value.globalFilter &&
-          state.debouncedFilter === value.debouncedFilter &&
-          valuesEqual(state.filters, value.filters) &&
-          state.initialized
-        ) {
-          return state;
-        }
-        return { ...value, initialized: true };
+        const unchanged =
+          state.page === page &&
+          state.limit === limit &&
+          state.search === search &&
+          state.appliedSearch === search.trim() &&
+          equal(state.sorting, sorting) &&
+          equal(state.filters, filters) &&
+          state.initialized;
+
+        return unchanged
+          ? state
+          : {
+              ...state,
+              page,
+              limit,
+              search,
+              appliedSearch: search.trim(),
+              sorting,
+              filters,
+              initialized: true,
+            };
       }),
-    reset: () => set(createInitialState()),
+    reset: () => set(initialState()),
   })
 );

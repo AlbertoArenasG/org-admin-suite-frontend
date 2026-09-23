@@ -36,13 +36,24 @@ interface ApiCustomerServiceRecordListItem {
   customer_service_record_id: string;
   service_number: number;
   service_number_display: string;
+  observations: string | null;
   service_type: { service_type_code: string; name: string };
   requested_at: string;
   customer: { customer_id: string; name: string };
-  assets: Array<{ asset_id: string; name: string; identifier: string }>;
+  assets: Array<{
+    asset_id: string;
+    name: string;
+    identifier: string;
+    brand: string;
+    model: string;
+    serial_number: string;
+    observations: string | null;
+  }>;
   operational_status: ApiLocalizedValue;
   customer_delivery: {
+    received_at: string | null;
     estimated_delivery_at: string | null;
+    delivered_to_customer_at: string | null;
     status_materialization: ApiMaterialization | null;
   };
   provider: {
@@ -137,6 +148,7 @@ function mapListItem(value: ApiCustomerServiceRecordListItem): CustomerServiceRe
   return {
     customerServiceRecordId: value.customer_service_record_id,
     serviceNumber: value.service_number_display,
+    observations: value.observations ?? null,
     serviceType: {
       serviceTypeCode: value.service_type.service_type_code,
       name: value.service_type.name,
@@ -147,6 +159,10 @@ function mapListItem(value: ApiCustomerServiceRecordListItem): CustomerServiceRe
       assetId: asset.asset_id,
       name: asset.name,
       identifier: asset.identifier,
+      brand: asset.brand,
+      model: asset.model,
+      serialNumber: asset.serial_number,
+      observations: asset.observations ?? null,
     })),
     operationalStatus: {
       code: value.operational_status
@@ -155,7 +171,9 @@ function mapListItem(value: ApiCustomerServiceRecordListItem): CustomerServiceRe
       nameKey: value.operational_status.name_key ?? '',
     },
     customerDelivery: {
+      receivedAt: value.customer_delivery.received_at,
       estimatedDeliveryAt: value.customer_delivery.estimated_delivery_at,
+      deliveredToCustomerAt: value.customer_delivery.delivered_to_customer_at,
       statusMaterialization: mapMaterialization(value.customer_delivery.status_materialization),
     },
     provider: value.provider

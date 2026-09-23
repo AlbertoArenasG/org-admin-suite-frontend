@@ -8,7 +8,7 @@
       Status: done
 - [x] Cerrar plan técnico y desglose de implementación.
       Status: done
-- [ ] Construir y sustituir la superficie administrativa con `DataTable`.
-      Status: pending
-- [ ] Verificar comportamiento, responsive, accesibilidad y documentación.
-      Status: pending
+- [x] Construir y sustituir la superficie administrativa con `DataTable`.
+      Status: done
+- [x] Verificar comportamiento, responsive, accesibilidad y documentación.
+      Status: done

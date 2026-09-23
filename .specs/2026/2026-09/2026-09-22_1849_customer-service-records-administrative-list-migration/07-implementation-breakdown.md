@@ -3,12 +3,15 @@
 ## Slice 1. Local State And Columns
 
 - Ajustar store y query existentes al patrón de `DataTable` de Seguimiento.
-- Implementar `DataTableColumn` con la jerarquía administrativa aprobada.
-- Preservar formato de fechas, semáforos, folio y campos de sorting API.
+- Implementar `DataTableColumn` con la composición aprobada de Seguimiento y
+  las columnas finales de proveedor.
+- Preservar formato de fechas, semáforos, folio, observaciones y campos de
+  sorting API.
 
-**Closure:** Redux permanece sin cambios; el store de Zustand conserva estado
-local neutral y la vista nueva no depende de componentes de presentación
-anteriores.
+**Closure:** Redux conserva slice y ciclo remoto; el mapper del thunk expone
+campos del endpoint requeridos por las celdas y observaciones. El store de
+Zustand conserva estado local neutral y la vista nueva no depende de
+componentes de presentación anteriores.
 
 ## Slice 2. DataTable Adoption
 
