@@ -5,7 +5,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { DataTable } from '@/components/data-table';
 import { DashboardContentReveal } from '@/components/dashboard-shell';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useAuthorization } from '@/features/auth';
 import {
   fetchClientAccessCustomerServiceRecords,
   type ClientAccessCustomerServiceRecord,
@@ -26,8 +25,6 @@ import {
 } from './ClientAccessObservationsDetail';
 import { useClientAccessServicesTableStore } from './useClientAccessServicesTableStore';
 
-const CLIENT_ACCESS_PERMISSION = 'CUSTOMER_SERVICE_RECORDS_CLIENT_ACCESS';
-
 function loadingCell(columnId: string) {
   const width =
     columnId === 'serviceAndAssets'
@@ -46,7 +43,6 @@ export function ClientAccessServicesContainer() {
   const searchParams = useSearchParams();
   const searchParamsString = searchParams.toString();
   const pendingLocalQueriesRef = useRef(new Set<string>());
-  const { hasPermission, isReady } = useAuthorization();
   const list = useAppSelector((state) => state.customerServiceRecordsClientAccess.list);
 
   const page = useClientAccessServicesTableStore((state) => state.page);
@@ -69,7 +65,6 @@ export function ClientAccessServicesContainer() {
   const syncFromUrl = useClientAccessServicesTableStore((state) => state.syncFromUrl);
   const reset = useClientAccessServicesTableStore((state) => state.reset);
 
-  const canRead = hasPermission(CLIENT_ACCESS_PERMISSION, 'READ');
   const sortStrategy = sorting ? null : 'work_priority';
 
   useEffect(
@@ -100,7 +95,7 @@ export function ClientAccessServicesContainer() {
   }, [search, setAppliedSearch]);
 
   useEffect(() => {
-    if (!canRead || !initialized) return;
+    if (!initialized) return;
     void dispatch(
       fetchClientAccessCustomerServiceRecords({
         page,
@@ -110,7 +105,7 @@ export function ClientAccessServicesContainer() {
         sortStrategy,
       })
     );
-  }, [appliedSearch, canRead, dispatch, initialized, limit, page, sortStrategy, sorting]);
+  }, [appliedSearch, dispatch, initialized, limit, page, sortStrategy, sorting]);
 
   useEffect(() => {
     if (!initialized) return;
@@ -169,17 +164,6 @@ export function ClientAccessServicesContainer() {
       })
     );
   };
-
-  if (!isReady) return null;
-
-  if (!canRead) {
-    return (
-      <section className="rounded-xl border border-destructive/30 bg-destructive/5 p-6 text-sm">
-        <h1 className="font-semibold">{t('restricted.title')}</h1>
-        <p className="mt-1 text-muted-foreground">{t('restricted.description')}</p>
-      </section>
-    );
-  }
 
   return (
     <DashboardContentReveal>

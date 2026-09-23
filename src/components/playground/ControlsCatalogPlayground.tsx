@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CalendarRange, Filter, Search } from 'lucide-react';
+import { CalendarRange, Filter } from 'lucide-react';
 
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
 import { Button } from '@/components/ui/button';
@@ -11,13 +11,6 @@ const controls = [
     href: '/dashboard-playground/catalog/controls/filter-menu',
     action: 'Revisar filtros',
     icon: Filter,
-  },
-  {
-    title: 'Lookup con búsqueda',
-    description: 'Selección única de catálogos extensos antes de componer filtros de una tabla.',
-    href: '/dashboard-playground/catalog/controls/searchable-dropdown',
-    action: 'Revisar lookup',
-    icon: Search,
   },
   {
     title: 'Rango de fechas',

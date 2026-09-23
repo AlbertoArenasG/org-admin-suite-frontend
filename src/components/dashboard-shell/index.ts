@@ -18,3 +18,7 @@ export { DashboardWorkspaceCanvas } from '@/components/dashboard-shell/Dashboard
 export { DashboardWorkspaceAccountMenu } from '@/components/dashboard-shell/DashboardWorkspaceAccountMenu';
 export { DashboardWorkspaceHeader } from '@/components/dashboard-shell/DashboardWorkspaceHeader';
 export { DashboardWorkspaceToolbar } from '@/components/dashboard-shell/DashboardWorkspaceToolbar';
+export {
+  DashboardViewAccessBoundary,
+  useDashboardViewAccess,
+} from '@/components/dashboard-shell/DashboardViewAccessBoundary';

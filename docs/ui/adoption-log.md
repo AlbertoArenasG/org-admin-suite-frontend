@@ -49,6 +49,18 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-23 - Fundamento de Acceso de Vistas Next Dashboard
+
+- Alcance: `/dashboard/portal/services`, `/dashboard/customer-service-records`
+  y `/dashboard/users/[userId]`.
+- Adopción: `DashboardViewAccessBoundary` declara el permiso `READ` de entrada
+  y `useDashboardViewAccess` resuelve capacidades internas del mismo módulo.
+- Guideline: [`dashboard-shell/guidelines.md`](./dashboard-shell/guidelines.md),
+  sección `Acceso De Vista`.
+- Spec: `next-dashboard-view-access-foundation`.
+- Compatibilidad temporal: las rutas legacy permanecen fuera del patrón hasta
+  adoptar Next Dashboard de forma explícita.
+
 ### 2026-09-22 - Tabla Administrativa de Registros de Servicio
 
 - Alcance: `/dashboard/customer-service-records`.

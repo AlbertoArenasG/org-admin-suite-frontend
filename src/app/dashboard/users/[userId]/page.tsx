@@ -10,6 +10,8 @@ import {
   DashboardContentReveal,
   DashboardPageComposition,
   DashboardPageContentScroller,
+  DashboardViewAccessBoundary,
+  useDashboardViewAccess,
 } from '@/components/dashboard-shell';
 import {
   ResourceFormRoute,
@@ -17,7 +19,6 @@ import {
   type ResourceFormMode,
 } from '@/components/resource-form';
 import { fetchCustomerOptions, type CustomerOption } from '@/features/customers';
-import { useAuthorization } from '@/features/auth';
 import type { AuthSystemRole } from '@/features/auth/types';
 import { canManageSystemRole } from '@/features/users/roles';
 import { fetchAssignableUserRoles, fetchUserById, updateUser } from '@/features/users/usersThunks';
@@ -27,9 +28,17 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 
 export default function UserDetailPage() {
+  return (
+    <DashboardViewAccessBoundary module="USERS" requiredOperation="READ">
+      <UserDetailContent />
+    </DashboardViewAccessBoundary>
+  );
+}
+
+function UserDetailContent() {
   const params = useParams<{ userId: string }>();
   const dispatch = useAppDispatch();
-  const { hasPermission } = useAuthorization();
+  const { can } = useDashboardViewAccess();
   const { t } = useTranslationHydrated('users');
   const [mode, setMode] = useState<ResourceFormMode>('read');
   const [passwordOpen, setPasswordOpen] = useState(false);
@@ -41,8 +50,8 @@ export default function UserDetailPage() {
   const detailState = useAppSelector((state) => state.users.detail);
   const rolesState = useAppSelector((state) => state.users.roles);
   const customerOptions = useAppSelector((state) => state.customers.options);
-  const canUpdateUsers = hasPermission('USERS', 'UPDATE');
-  const canUpdatePasswords = hasPermission('USERS', 'UPDATE_PASSWORD');
+  const canUpdateUsers = can('UPDATE');
+  const canUpdatePasswords = can('UPDATE_PASSWORD');
 
   useEffect(() => {
     if (params.userId && authHydrated) {

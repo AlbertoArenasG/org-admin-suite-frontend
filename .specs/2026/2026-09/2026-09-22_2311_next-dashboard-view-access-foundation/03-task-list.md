@@ -7,9 +7,9 @@
       Status: done
 - [x] Cerrar definición técnica, plan y desglose de implementación.
       Status: done
-- [ ] Construir la fundación compartida y adoptar las tres primeras vistas Next
+- [x] Construir la fundación compartida y adoptar las tres primeras vistas Next
       Dashboard.
-      Status: pending
-- [ ] Validar autorización, redirección, capacidades, regresiones y
+      Status: done
+- [x] Validar autorización, redirección, capacidades, regresiones y
       documentación viva.
-      Status: pending
+      Status: done

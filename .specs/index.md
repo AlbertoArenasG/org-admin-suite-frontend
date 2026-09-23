@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [next-dashboard-view-access-foundation](./2026/2026-09/2026-09-22_2311_next-dashboard-view-access-foundation/00-definition.md) - definition completed; patrón transversal de acceso para vistas Next Dashboard
+- [next-dashboard-view-access-foundation](./2026/2026-09/2026-09-22_2311_next-dashboard-view-access-foundation/00-definition.md) - completed; patrón transversal de acceso para vistas Next Dashboard validado
 - [customer-service-records-administrative-list-migration](./2026/2026-09/2026-09-22_1849_customer-service-records-administrative-list-migration/00-definition.md) - completed; listado administrativo migrado y validado con DataTable
 - [table-filter-dialog-foundation](./2026/2026-09/2026-09-22_1507_table-filter-dialog-foundation/00-definition.md) - completed; diálogo de filtros reutilizable validado y primera adopción en Registros de servicio
 - [user-editable-detail-migration](./2026/2026-09/2026-09-14_1558_user-editable-detail-migration/00-definition.md) - completed; migración de detalle editable de Usuario validada en Next Dashboard

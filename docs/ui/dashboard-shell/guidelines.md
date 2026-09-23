@@ -22,6 +22,32 @@ este modelo y a módulos migrados de forma explícita. La interfaz existente
 mantiene compatibilidad temporal hasta que una spec o una iniciativa de
 migración indique su adopción.
 
+## Acceso De Vista
+
+Toda ruta nueva o migrada a Next Dashboard debe declarar su permiso de entrada
+con `DashboardViewAccessBoundary`, antes de montar su workspace, composición o
+contenido de negocio.
+
+- La ruta declara un único `module` y `requiredOperation`. La primera versión
+  no admite políticas compuestas ni múltiples módulos; esos casos requieren una
+  spec que amplíe el contrato.
+- `AuthGuard` conserva autenticación, sesión e hidratación global. El boundary
+  no duplica esa espera ni reemplaza la autorización efectiva del API.
+- Sin permiso, el boundary no monta `children`, fallbacks locales ni feedback,
+  y ejecuta `router.replace('/dashboard')`. No se configuran destinos de
+  redirección por vista.
+- Las acciones internas consumen `useDashboardViewAccess().can(operation)`.
+  No vuelven a implementar la política de entrada de la ruta ni consultan
+  permisos de otro módulo.
+- El hook solo puede consumirse bajo su boundary; fuera de él debe fallar de
+  forma descriptiva para exponer un error de integración.
+- Los códigos de módulo y operación derivan de `AuthPermissionAccess`; no se
+  crean enums o catálogos locales paralelos al contrato de autorización.
+
+Este patrón es transversal a tablas, formularios, detalles y cualquier otra
+superficie de Next Dashboard. Las rutas legacy no se migran por esta regla hasta
+que una iniciativa de adopción las incorpore explícitamente.
+
 ## App Shell
 
 ### Responsabilidad

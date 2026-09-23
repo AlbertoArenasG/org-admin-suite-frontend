@@ -7,7 +7,6 @@
 @import '../styles/dashboard/page-header.css';
 @import '../styles/dashboard/page-composition.css';
 @import '../components/data-table/DataTable.theme.css';
-@import '../components/vendor/smoothui/searchable-dropdown/DashboardLookupDropdown.css';
 @import '../components/dashboard/dashboard-welcome-hero/DashboardWelcomeHero.theme.css';
 @import 'tailwindcss';
 @import 'tw-animate-css';
