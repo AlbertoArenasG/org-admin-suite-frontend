@@ -2,10 +2,10 @@
 
 ## Technical Checks
 
-- [ ] `npm run typecheck`
-- [ ] Lint dirigido a los artefactos modificados.
-- [ ] `npm run build`
-- [ ] `git diff --check`
+- [x] `npm run typecheck`
+- [x] Lint dirigido a los artefactos modificados.
+- [x] `npm run build`
+- [x] `git diff --check`
 
 ## Component Lab
 

@@ -10,6 +10,30 @@ la respuesta, mantiene query y preferencias locales, y entrega filas,
 columnas y callbacks controlados al componente. `DataTable` no ejecuta HTTP,
 no interpreta permisos ni guarda colecciones remotas.
 
+## Estructura Interna
+
+`DataTable` es el coordinador del patron: crea la instancia TanStack, conserva
+efectos, refs y estado derivado, y entrega props ya resueltas a superficies de
+presentacion. La separacion interna es intencional y no modifica el contrato
+publico del barrel:
+
+```text
+DataTable
+  |- DataTableChrome
+  |    |- DataTableHeader
+  |    |- DataTableToolbar
+  |    `- DataTableSettingsMenu
+  |- DataTableResultsRegion
+  |    `- DataTableContent
+  |         |- DataTableColumnHeaders
+  |         `- DataTableBody
+  `- DataTablePagination
+```
+
+Los subcomponentes no crean instancias de TanStack, no hacen HTTP, no conocen
+permisos ni interpretan el dominio de una vista. Las vistas continuan
+consumiendo exclusivamente `@/components/data-table`.
+
 ## Celdas reutilizables
 
 `src/components/data-table/cells/` concentra contenido de celda que no conoce

@@ -42,5 +42,16 @@
 - Pendiente para cerrar Slice 2: validacion manual de Component Lab,
   Seguimiento y Registros administrativos para toolbar, settings, fullscreen,
   scroll y paginacion.
-- Siguiente paso: validar manualmente Slice 2 o continuar con Slice 3 bajo
-  validacion integral al final.
+- Se implemento Slice 3:
+  - `DataTableContent` compone la tabla semantica y el `colgroup`.
+  - `DataTableColumnHeaders` concentra seleccion total, sorting y resize.
+  - `DataTableBody` concentra loading, estados vacios, filas, indicadores,
+    seleccion y expansion con reduced motion.
+  - `DataTable` conserva la instancia TanStack, efectos, refs, medicion de
+    altura, estado derivado y callbacks controlados.
+  - No se modificaron consumidores, rutas, estado, permisos ni contratos
+    publicos.
+  - Lint dirigido, `npm run typecheck`, `npm run build` y `git diff --check`
+    exitosos. El build conserva dos warnings preexistentes fuera de alcance.
+- Pendiente: ejecutar una sola validacion manual integral de las tres slices
+  en Component Lab, Seguimiento y Registros administrativos.

@@ -84,6 +84,8 @@ de consumo.
 
 Task reference: `Separar tabla semantica, recomponer el coordinador y validar todos los consumidores actuales`.
 
+Status: `implemented_pending_manual_validation`
+
 ### Objective
 
 Separar contenido de tabla, encabezados de columnas y cuerpo, y dejar
