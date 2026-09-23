@@ -40,7 +40,7 @@ Los helpers dejan de vivir en el componente raiz y la API publica no cambia.
 
 Task reference: `Separar superficies superiores y region de resultados sin alterar su comportamiento`.
 
-Status: `implemented_pending_manual_validation`
+Status: `completed`
 
 ### Objective
 
@@ -84,7 +84,7 @@ de consumo.
 
 Task reference: `Separar tabla semantica, recomponer el coordinador y validar todos los consumidores actuales`.
 
-Status: `implemented_pending_manual_validation`
+Status: `completed`
 
 ### Objective
 

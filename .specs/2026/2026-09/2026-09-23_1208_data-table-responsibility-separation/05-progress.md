@@ -39,9 +39,8 @@
   - No se modificaron vistas consumidoras ni la tabla semantica.
   - Lint dirigido, `npm run typecheck`, `npm run build` y `git diff --check`
     exitosos. El build conserva dos warnings preexistentes fuera de alcance.
-- Pendiente para cerrar Slice 2: validacion manual de Component Lab,
-  Seguimiento y Registros administrativos para toolbar, settings, fullscreen,
-  scroll y paginacion.
+- La validacion manual de Slice 2 se integro a la matriz integral final de
+  Component Lab, Seguimiento y Registros administrativos.
 - Se implemento Slice 3:
   - `DataTableContent` compone la tabla semantica y el `colgroup`.
   - `DataTableColumnHeaders` concentra seleccion total, sorting y resize.
@@ -53,5 +52,9 @@
     publicos.
   - Lint dirigido, `npm run typecheck`, `npm run build` y `git diff --check`
     exitosos. El build conserva dos warnings preexistentes fuera de alcance.
-- Pendiente: ejecutar una sola validacion manual integral de las tres slices
-  en Component Lab, Seguimiento y Registros administrativos.
+- Se completo la validacion manual integral en Component Lab, Seguimiento y
+  Registros administrativos. Toolbar, settings, fullscreen, scroll,
+  paginacion, sorting, resize, seleccion, estados, expansion y responsive se
+  conservan sin regresiones reportadas.
+- La spec queda completada: todas las tareas, slices, documentacion viva y
+  evidencia de validacion estan cerradas.

@@ -9,25 +9,25 @@
 
 ## Component Lab
 
-- [ ] Toolbar con busqueda, limpiar busqueda, filtros, leading y trailing.
-- [ ] Header con titulo, acciones, loading, settings y fullscreen.
-- [ ] Settings en header y toolbar, con densidad y visibilidad de columnas.
-- [ ] Sorting, resize por puntero y teclado, seleccion y acciones masivas.
-- [ ] Loading, error con retry, vacio y vacio filtrado.
-- [ ] Expansion con cada trigger y reduced motion.
-- [ ] Paginacion, filas por pagina y elipsis.
+- [x] Toolbar con busqueda, limpiar busqueda, filtros, leading y trailing.
+- [x] Header con titulo, acciones, loading, settings y fullscreen.
+- [x] Settings en header y toolbar, con densidad y visibilidad de columnas.
+- [x] Sorting, resize por puntero y teclado, seleccion y acciones masivas.
+- [x] Loading, error con retry, vacio y vacio filtrado.
+- [x] Expansion con cada trigger y reduced motion.
+- [x] Paginacion, filas por pagina y elipsis.
 
 ## Seguimiento De Servicios
 
-- [ ] Busqueda remota y highlight, incluida coincidencia sin acento.
-- [ ] Dialogo de filtros, toolbar compacta, scroll disponible y sticky header.
-- [ ] Observaciones expandibles, paginacion y mobile con scroll horizontal.
+- [x] Busqueda remota y highlight, incluida coincidencia sin acento.
+- [x] Dialogo de filtros, toolbar compacta, scroll disponible y sticky header.
+- [x] Observaciones expandibles, paginacion y mobile con scroll horizontal.
 
 ## Registros Administrativos
 
-- [ ] Busqueda remota y highlight, incluida coincidencia sin acento.
-- [ ] Dialogo de filtros, toolbar compacta, scroll disponible y sticky header.
-- [ ] Observaciones expandibles, columnas de proveedor, paginacion y mobile
+- [x] Busqueda remota y highlight, incluida coincidencia sin acento.
+- [x] Dialogo de filtros, toolbar compacta, scroll disponible y sticky header.
+- [x] Observaciones expandibles, columnas de proveedor, paginacion y mobile
       con scroll horizontal.
 
 ## Non-Applicable
