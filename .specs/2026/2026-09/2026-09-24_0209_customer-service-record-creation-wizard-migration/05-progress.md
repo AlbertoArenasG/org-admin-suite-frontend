@@ -17,4 +17,9 @@
 - Slices reordenadas: Slice 1 retira por completo la creacion legacy; Slice 2
   crea contratos compartidos; Slice 3 reintroduce solo el boundary minimo de
   create; Slice 4 adopta el wizard Next Dashboard; Slice 5 valida y cierra.
-- Siguiente: Slice 1, retiro legacy verificable antes de crear reemplazo.
+- Slice 1 implementada: se retiraron la ruta `/new`, acceso lateral, ramas de
+  alta del formulario legacy, thunk y estado exclusivos de create. Edicion,
+  PATCH y delete se preservaron.
+- Verificacion de Slice 1: lint dirigido, `npm run typecheck`, busqueda de
+  referencias y `git diff --check` completados sin errores.
+- Siguiente: Slice 2, contratos compartidos de toolbar y fecha de formulario.

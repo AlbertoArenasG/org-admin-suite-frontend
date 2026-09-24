@@ -28,7 +28,6 @@ export type SidebarNavigationEntryId =
   | 'internalAssetControlCreate'
   | 'customerServiceRecords'
   | 'customerServiceRecordsList'
-  | 'customerServiceRecordsCreate'
   | 'contacts'
   | 'recipientGroups'
   | 'customers'

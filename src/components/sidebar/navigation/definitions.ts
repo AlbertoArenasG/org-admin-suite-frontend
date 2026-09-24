@@ -86,13 +86,6 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
             href: '/dashboard/customer-service-records',
             matchesPathname: isExactPath('/dashboard/customer-service-records'),
           },
-          {
-            id: 'customerServiceRecordsCreate',
-            labelKey: 'customerServiceRecordsCreate',
-            href: '/dashboard/customer-service-records/new',
-            icon: PlusCircle,
-            matchesPathname: isExactPath('/dashboard/customer-service-records/new'),
-          },
         ],
       },
       {

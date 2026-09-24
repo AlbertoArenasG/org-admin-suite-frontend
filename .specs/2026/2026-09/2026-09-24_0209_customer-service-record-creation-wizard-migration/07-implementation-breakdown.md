@@ -3,6 +3,7 @@
 ## Slice 1: Legacy Creation Retirement
 
 - Phase: 1.
+- Status: implementada y verificada estaticamente.
 - Goal: retirar toda entrada y ejecucion legacy de creacion antes de construir
   el reemplazo Next Dashboard.
 - Artifacts: ruta `/new`, navegacion lateral, `CustomerServiceRecordFormPageContainer`,

@@ -8,7 +8,6 @@ import { DashboardPageHeader } from '@/components/shared/DashboardPageHeader';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { fetchCustomerOptions } from '@/features/customers';
 import {
-  createCustomerServiceRecord,
   fetchCustomerServiceRecordById,
   fetchCustomerServiceRecordOptions,
   updateCustomerServiceRecord,
@@ -23,8 +22,7 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 
 interface CustomerServiceRecordFormPageContainerProps {
-  mode: 'create' | 'edit';
-  recordId?: string;
+  recordId: string;
 }
 
 function dateOnly(value: string | null) {
@@ -83,7 +81,6 @@ function buildUpdatePayload(
 }
 
 export function CustomerServiceRecordFormPageContainer({
-  mode,
   recordId,
 }: CustomerServiceRecordFormPageContainerProps) {
   const { t } = useTranslation(['customerServiceRecords', 'breadcrumbs']);
@@ -100,8 +97,7 @@ export function CustomerServiceRecordFormPageContainer({
   const relatedUserOptions = useAppSelector(
     (state) => state.userCustomerRelationships.relatedOptions
   );
-  // Creation must never inherit the last record viewed from the shared detail state.
-  const record = mode === 'edit' ? feature.detail.item : null;
+  const record = feature.detail.item;
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -117,10 +113,10 @@ export function CustomerServiceRecordFormPageContainer({
   }, [customerOptions.status, dispatch, feature.options.status, recipientGroups.status]);
 
   useEffect(() => {
-    if (mode === 'edit' && recordId && feature.detail.currentRecordId !== recordId) {
+    if (feature.detail.currentRecordId !== recordId) {
       void dispatch(fetchCustomerServiceRecordById({ recordId }));
     }
-  }, [dispatch, feature.detail.currentRecordId, mode, recordId]);
+  }, [dispatch, feature.detail.currentRecordId, recordId]);
 
   const loadCustomerUsers = useCallback(
     (customerId: string | null) => {
@@ -145,15 +141,6 @@ export function CustomerServiceRecordFormPageContainer({
 
   const submit = async (payload: CustomerServiceRecordMutationPayload) => {
     try {
-      if (mode === 'create') {
-        const result = await dispatch(createCustomerServiceRecord(payload)).unwrap();
-        showSnackbar({ message: result.message ?? t('feedback.created'), severity: 'success' });
-        router.replace(
-          `/dashboard/customer-service-records/${result.record.customerServiceRecordId}`
-        );
-        return;
-      }
-      if (!recordId) return;
       if (!record) return;
       const updatePayload = buildUpdatePayload(record, payload);
       if (Object.keys(updatePayload).length === 0) {
@@ -175,8 +162,8 @@ export function CustomerServiceRecordFormPageContainer({
     }
   };
 
-  const isLoadingRecord = mode === 'edit' && feature.detail.status === 'loading';
-  const recordReady = mode === 'create' || (feature.detail.status === 'succeeded' && record);
+  const isLoadingRecord = feature.detail.status === 'loading';
+  const recordReady = feature.detail.status === 'succeeded' && record;
 
   return (
     <div className="flex flex-1 flex-col gap-6">
@@ -187,19 +174,18 @@ export function CustomerServiceRecordFormPageContainer({
             label: t('breadcrumbs:customerServiceRecords'),
             href: '/dashboard/customer-service-records',
           },
-          { label: mode === 'create' ? t('create.title') : t('edit.title') },
+          { label: t('edit.title') },
         ]}
       />
       {isLoadingRecord ? (
         <p className="text-sm text-muted-foreground">{t('form.loading')}</p>
       ) : null}
-      {mode === 'edit' && feature.detail.error ? (
+      {feature.detail.error ? (
         <p className="text-sm text-destructive">{feature.detail.error}</p>
       ) : null}
       {recordReady ? (
         <CustomerServiceRecordForm
-          key={record?.customerServiceRecordId ?? 'create'}
-          mode={mode}
+          key={record.customerServiceRecordId}
           record={record}
           serviceTypes={feature.options.serviceTypes}
           customers={customerOptions.items.map((item) => ({
@@ -227,10 +213,7 @@ export function CustomerServiceRecordFormPageContainer({
           onCustomerChange={loadCustomerUsers}
           onSubmit={submit}
           onCancel={() => router.back()}
-          isSubmitting={
-            feature.mutations.createStatus === 'loading' ||
-            feature.mutations.updateStatus === 'loading'
-          }
+          isSubmitting={feature.mutations.updateStatus === 'loading'}
           labels={{
             general: t('form.sections.general'),
             serviceType: t('form.labels.serviceType'),
@@ -275,7 +258,6 @@ export function CustomerServiceRecordFormPageContainer({
             completed: t('statuses.completed'),
             cancelled: t('statuses.cancelled'),
             cancel: t('form.actions.cancel'),
-            create: t('form.actions.create'),
             save: t('form.actions.save'),
           }}
         />

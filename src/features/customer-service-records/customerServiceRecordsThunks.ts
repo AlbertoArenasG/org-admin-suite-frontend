@@ -479,32 +479,6 @@ export const fetchCustomerServiceRecordById = createAsyncThunk<
   }
 });
 
-export const createCustomerServiceRecord = createAsyncThunk<
-  { record: CustomerServiceRecordDetail; message: string | null },
-  CustomerServiceRecordMutationPayload,
-  { state: RootState; rejectValue: string }
->('customerServiceRecords/create', async (payload, thunkAPI) => {
-  const token = getAuthToken(thunkAPI.getState());
-  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
-
-  try {
-    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
-      '/v1/customer-service-records',
-      {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: buildMutationBody(payload),
-        token,
-      }
-    );
-    return { record: mapDetail(response.data), message: response.successMessage };
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error instanceof Error ? error.message : 'No fue posible crear el registro de servicio'
-    );
-  }
-});
-
 export const updateCustomerServiceRecord = createAsyncThunk<
   { record: CustomerServiceRecordDetail; message: string | null },
   { recordId: string; payload: Partial<CustomerServiceRecordMutationPayload> },

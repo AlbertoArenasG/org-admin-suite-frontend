@@ -14,5 +14,5 @@ export default function CustomerServiceRecordEditPage() {
     return <p className="text-sm text-muted-foreground">{t('edit.restricted')}</p>;
   }
 
-  return <CustomerServiceRecordFormPageContainer mode="edit" recordId={recordId} />;
+  return <CustomerServiceRecordFormPageContainer recordId={recordId} />;
 }

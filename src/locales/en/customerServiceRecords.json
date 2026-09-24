@@ -13,10 +13,6 @@
     "clearCriteria": "Clear criteria",
     "clearSearch": "Clear search"
   },
-  "create": {
-    "title": "New service record",
-    "restricted": "You do not have permission to create service records."
-  },
   "detail": {
     "title": "Service record",
     "restricted": "You do not have permission to view this record.",
@@ -244,7 +240,6 @@
       "addRule": "Add follow-up rule",
       "removeRule": "Remove rule",
       "cancel": "Cancel",
-      "create": "Create record",
       "save": "Save changes"
     }
   }

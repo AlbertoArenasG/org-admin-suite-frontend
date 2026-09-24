@@ -197,12 +197,10 @@ export interface CustomerServiceRecordsState {
     currentRecordId: string | null;
   };
   mutations: {
-    createStatus: CustomerServiceRecordRequestStatus;
     updateStatus: CustomerServiceRecordRequestStatus;
     deleteStatus: CustomerServiceRecordRequestStatus;
     error: string | null;
     message: string | null;
-    lastCreatedRecordId: string | null;
     currentRecordId: string | null;
   };
 }

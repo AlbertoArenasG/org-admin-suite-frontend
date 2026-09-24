@@ -2,7 +2,7 @@
 
 ## Phase 1: Legacy Creation Retirement
 
-- [ ] Eliminar por completo el flujo legacy de creacion antes de construir su
+- [x] Eliminar por completo el flujo legacy de creacion antes de construir su
       reemplazo Next Dashboard.
   - Depends on: definition approval.
   - Includes: ruta `/new`, entrada lateral, ramas `mode="create"`, thunk y

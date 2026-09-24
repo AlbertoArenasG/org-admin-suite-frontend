@@ -25,8 +25,7 @@ interface FormValues extends CustomerServiceRecordMutationPayload {
 }
 
 interface CustomerServiceRecordFormProps {
-  mode: 'create' | 'edit';
-  record?: CustomerServiceRecordDetail | null;
+  record: CustomerServiceRecordDetail;
   serviceTypes: ComboboxOption[];
   customers: ComboboxOption[];
   customerUsers: ComboboxOption[];
@@ -56,15 +55,6 @@ function toDate(value?: string | null) {
   return value?.slice(0, 10) ?? '';
 }
 
-function todayInMexicoCity() {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'America/Mexico_City',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  }).format(new Date());
-}
-
 function calculateDateFromInterval(
   baseDate: string | null | undefined,
   interval: CustomerServiceRecordInterval
@@ -85,15 +75,28 @@ function safeIntervalValue(value: number | undefined): number {
   return typeof value === 'number' && Number.isFinite(value) ? value : 0;
 }
 
-function initialValues(record?: CustomerServiceRecordDetail | null): FormValues {
-  const asset = record?.assets[0];
+function emptyProviderValues() {
   return {
-    serviceTypeCode: record?.serviceType.serviceTypeCode ?? '',
-    requestedAt: toDate(record?.requestedAt) || todayInMexicoCity(),
-    observations: record?.observations ?? '',
+    providerId: '',
+    deliveredToProviderAt: '',
+    estimatedReturnInterval: { ...EMPTY_INTERVAL },
+    estimatedReturnAt: '',
+    returnedFromProviderAt: '',
+    statusPolicyId: '',
+    notificationPolicyId: '',
+    followUp: { enabled: false, rules: [] },
+  };
+}
+
+function initialValues(record: CustomerServiceRecordDetail): FormValues {
+  const asset = record.assets[0];
+  return {
+    serviceTypeCode: record.serviceType.serviceTypeCode,
+    requestedAt: toDate(record.requestedAt),
+    observations: record.observations ?? '',
     customer: {
-      customerId: record?.customer.customerId ?? '',
-      customerUserIds: record?.customer.users.map((user) => user.userId) ?? [],
+      customerId: record.customer.customerId,
+      customerUserIds: record.customer.users.map((user) => user.userId),
     },
     assets: [
       {
@@ -106,12 +109,12 @@ function initialValues(record?: CustomerServiceRecordDetail | null): FormValues 
       },
     ],
     customerDelivery: {
-      receivedAt: toDate(record?.customerDelivery.receivedAt),
-      estimatedDeliveryInterval: cloneInterval(record?.customerDelivery.estimatedDeliveryInterval),
-      estimatedDeliveryAt: toDate(record?.customerDelivery.estimatedDeliveryAt),
-      deliveredToCustomerAt: toDate(record?.customerDelivery.deliveredToCustomerAt),
-      statusPolicyId: record?.customerDelivery.statusPolicyId ?? '',
-      notificationPolicyId: record?.customerDelivery.notificationPolicyId ?? '',
+      receivedAt: toDate(record.customerDelivery.receivedAt),
+      estimatedDeliveryInterval: cloneInterval(record.customerDelivery.estimatedDeliveryInterval),
+      estimatedDeliveryAt: toDate(record.customerDelivery.estimatedDeliveryAt),
+      deliveredToCustomerAt: toDate(record.customerDelivery.deliveredToCustomerAt),
+      statusPolicyId: record.customerDelivery.statusPolicyId ?? '',
+      notificationPolicyId: record.customerDelivery.notificationPolicyId ?? '',
     },
     provider: record?.provider
       ? {
@@ -124,18 +127,9 @@ function initialValues(record?: CustomerServiceRecordDetail | null): FormValues 
           notificationPolicyId: record.provider.notificationPolicyId ?? '',
           followUp: record.provider.followUp,
         }
-      : {
-          providerId: '',
-          deliveredToProviderAt: '',
-          estimatedReturnInterval: { ...EMPTY_INTERVAL },
-          estimatedReturnAt: '',
-          returnedFromProviderAt: '',
-          statusPolicyId: '',
-          notificationPolicyId: '',
-          followUp: { enabled: false, rules: [] },
-        },
-    operationalStatus: record?.operationalStatus.code ?? 'PENDING',
-    useProvider: Boolean(record?.provider),
+      : emptyProviderValues(),
+    operationalStatus: record.operationalStatus.code,
+    useProvider: Boolean(record.provider),
   };
 }
 
@@ -165,7 +159,6 @@ function IntervalFields({
 }
 
 export function CustomerServiceRecordForm({
-  mode,
   record,
   serviceTypes,
   customers,
@@ -446,7 +439,7 @@ export function CustomerServiceRecordForm({
               {...register('useProvider')}
               onChange={(event) => {
                 setValue('useProvider', event.target.checked);
-                if (!event.target.checked) setValue('provider', initialValues(null).provider);
+                if (!event.target.checked) setValue('provider', emptyProviderValues());
               }}
             />
             {labels.useProvider}
@@ -611,7 +604,7 @@ export function CustomerServiceRecordForm({
           {labels.cancel}
         </Button>
         <Button type="submit" disabled={isSubmitting}>
-          {mode === 'create' ? labels.create : labels.save}
+          {labels.save}
         </Button>
       </div>
     </form>
