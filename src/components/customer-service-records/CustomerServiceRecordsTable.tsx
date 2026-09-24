@@ -223,7 +223,7 @@ export function CustomerServiceRecordsTable({
       }}
       searchHighlight={{
         query: appliedSearch,
-        columnIds: ['serviceNumber', 'serviceAndAssets', 'equipmentDetails'],
+        columnIds: ['serviceNumber', 'serviceAndAssets', 'equipmentDetails', 'customer'],
       }}
       rowActions={rowActions}
       labels={{

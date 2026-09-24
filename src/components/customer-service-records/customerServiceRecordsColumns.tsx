@@ -210,9 +210,9 @@ export function createCustomerServiceRecordsColumns({
       header: labels.customer,
       ariaLabel: labels.customer,
       accessor: (row) => row.customer.name,
-      cell: (row) => (
+      cell: (row, { highlight }) => (
         <span className="block truncate" title={row.customer.name}>
-          {row.customer.name}
+          {highlight(row.customer.name)}
         </span>
       ),
       textBehavior: 'truncate',
