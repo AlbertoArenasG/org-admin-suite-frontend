@@ -24,6 +24,7 @@ DataTable
   |    |- DataTableToolbar
   |    `- DataTableSettingsMenu
   |- DataTableResultsRegion
+  |    |- DataTableScrollControls
   |    `- DataTableContent
   |         |- DataTableColumnHeaders
   |         `- DataTableBody
@@ -98,6 +99,17 @@ La comparación ignora mayúsculas y acentos, pero el marcado conserva el texto
 original. Por ejemplo, una búsqueda `traccion` resalta `tracción`. Las vistas
 que adopten una búsqueda remota con esa semántica deben reutilizar este
 contrato en lugar de implementar su propio resaltado.
+
+## Desplazamiento
+
+Cuando el viewport de resultados tiene overflow horizontal o vertical,
+`DataTable` conserva las barras nativas y agrega controles compactos en un
+overlay adyacente a ellas, en sus extremos. En escritorio, las flechas aparecen
+solo en el eje con contenido oculto, se deshabilitan en cada límite y desplazan
+una fracción visible del viewport con animación suave. El overlay no reserva
+una columna, riel ni franja adicional: no reduce el área útil de encabezados,
+filas o paginación. En móvil se ocultan: el gesto táctil y las barras nativas
+son el mecanismo de desplazamiento.
 
 ## Altura de filas
 
