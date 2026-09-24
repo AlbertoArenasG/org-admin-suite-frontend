@@ -9,13 +9,16 @@ payload ni el feedback legacy de creacion.
 
 ## Execution Order
 
-1. Extender el slot generico de acciones primarias de `DataTableToolbar` y
+1. Retirar completamente la creacion legacy: ruta, navegacion, modos de
+   formulario, thunk y estado exclusivo de alta. Conservar las piezas
+   compartidas solo para edicion.
+2. Extender el slot generico de acciones primarias de `DataTableToolbar` y
    documentar las superficies permitidas sin prescribir cual usar por caso.
-2. Crear el campo de fecha de formularios, separado de filtros.
-3. Separar tipo, schema y builder de creacion del contrato de actualizacion.
-4. Implementar dialogo, pasos, resumen, descarte y submit.
-5. Conectar permisos, opciones remotas, toolbar, toast y navegacion.
-6. Retirar acceso legacy de creacion y ejecutar validacion manual completa.
+3. Crear el campo de fecha de formularios, separado de filtros.
+4. Declarar tipo, schema, estado y builder de creacion nuevos, sin reutilizar
+   el contrato de actualizacion.
+5. Implementar dialogo, pasos, resumen, descarte, submit y adopcion en tabla.
+6. Ejecutar validacion manual completa y barrido de retiro legacy.
 
 ## Deferred Work
 

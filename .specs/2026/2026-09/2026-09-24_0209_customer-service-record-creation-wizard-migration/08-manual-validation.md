@@ -16,6 +16,8 @@
 - [ ] La fecha permite elegir un dia en calendario y escribir `dd/mm/aaaa`;
       las diagonales se agregan tras dia y mes.
 - [ ] Usuarios relacionados no se muestran sin cliente.
+- [ ] Los comboboxes de tipo, cliente y usuarios abren sin parpadeo ni cierre
+      del dialogo; las listas extensas permiten scroll interno.
 - [ ] Cambiar cliente limpia usuarios previos y carga solo usuarios del nuevo
       cliente.
 - [ ] Es posible continuar sin seleccionar usuarios.
@@ -49,7 +51,12 @@
 
 - [ ] No existe acceso lateral a `Nuevo registro` ni ruta productiva
       `/dashboard/customer-service-records/new`.
-- [ ] No se invoca `SnackbarProvider` o `useSnackbar` desde el flujo nuevo.
+- [ ] `CustomerServiceRecordFormPageContainer` y
+      `CustomerServiceRecordForm` no exponen ni usan `mode="create"`.
+- [ ] El flujo nuevo no invoca `SnackbarProvider` ni `useSnackbar`; solo usa
+      `showToast` tras el exito.
+- [ ] El barrido de referencias no encuentra ruta, entrada lateral, ramas,
+      payload ni feedback legacy de creacion fuera del wizard Next Dashboard.
 
 ## Static Verification
 

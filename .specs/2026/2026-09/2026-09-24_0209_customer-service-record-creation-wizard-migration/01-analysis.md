@@ -13,6 +13,10 @@
   `src/app/dashboard/customer-service-records/new/page.tsx`, usa
   `CustomerServiceRecordFormPageContainer` y conserva patrones legacy,
   incluido `useSnackbar`.
+- `CustomerServiceRecordFormPageContainer` y `CustomerServiceRecordForm`
+  comparten creacion y edicion mediante `mode`. Como edicion queda fuera de
+  alcance, la migracion retira solo su rama `create`; ambos archivos quedan
+  limitados a `edit` y no se eliminan.
 - La navegacion lateral aun enlaza la ruta legacy mediante
   `customerServiceRecordsCreate`.
 
@@ -63,8 +67,12 @@ desaparecer al confirmar descarte o creacion.
 - `Stepper` es controlado y neutral: no posee formulario, dialogo ni
   persistencia. Es apto para los tres pasos.
 - `FormField` ya ofrece `orientation="responsive"`, que conserva etiqueta a
-  la izquierda en escritorio y apila en movil.
+  la izquierda en escritorio y apila en movil cuando sus campos viven dentro
+  de `FieldGroup`, su contenedor de queries responsivas.
 - `FormCombobox` y `FormMultiSelect` cubren catalogos y usuarios relacionados.
+  Antes de adoptarlos en el dialogo se valida que su lista conserve scroll y
+  no altere el estado del overlay; cualquier correccion pertenece al control
+  compartido, no a un workaround especifico del wizard.
 - `TableFilterDateInput` tiene el comportamiento de fecha requerido, pero es
   un componente de filtros. No se modifica ni se usa como dependencia de
   formularios. Se creara un campo hermano para formularios.
@@ -72,14 +80,15 @@ desaparecer al confirmar descarte o creacion.
 
 ## Risks And Mitigations
 
-| Riesgo                                    | Mitigacion                                                                                             |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Reintroducir el payload legacy en el POST | Tipo y builder exclusivos de creacion; update conserva su builder actual.                              |
-| Draft residual al reabrir                 | `reset` solo tras descarte confirmado o exito; nueva apertura parte de defaults.                       |
-| Usuarios de otro cliente en el payload    | Cambio de cliente limpia `customerUserIds` antes de cargar nuevas opciones.                            |
-| Cierre accidental                         | Confirmacion in-place solo cuando `isDirty`; dialogo se bloquea durante mutacion.                      |
-| Dialogo demasiado alto en movil           | Pasos individuales, campos apilados y contenido con scroll propio solo cuando lo requiera el viewport. |
-| Regresion de la tabla                     | Slot toolbar opcional, sin alterar consumidores que no lo usen.                                        |
+| Riesgo                                    | Mitigacion                                                                                                              |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| Reintroducir el payload legacy en el POST | Tipo y builder exclusivos de creacion; update conserva su builder actual.                                               |
+| Draft residual al reabrir                 | `reset` solo tras descarte confirmado o exito; nueva apertura parte de defaults.                                        |
+| Usuarios de otro cliente en el payload    | Cambio de cliente limpia `customerUserIds` antes de cargar nuevas opciones.                                             |
+| Cierre accidental                         | Confirmacion in-place solo cuando `isDirty`; dialogo se bloquea durante mutacion.                                       |
+| Dialogo demasiado alto en movil           | Pasos individuales, campos apilados y contenido con scroll propio solo cuando lo requiera el viewport.                  |
+| Combobox inestable dentro de dialogo      | Validar apertura, foco y scroll con listas largas antes de integrar el wizard; corregir el control compartido si falla. |
+| Regresion de la tabla                     | Slot toolbar opcional, sin alterar consumidores que no lo usen.                                                         |
 
 ## Compatibility
 
@@ -93,3 +102,6 @@ desaparecer al confirmar descarte o creacion.
   la de detalle es el destino temporal de una creacion exitosa.
 - La ruta y enlace legacy exclusivos de creacion se retiran, pues la nueva
   interaccion los sustituye; no se agrega redirect ni compatibilidad historica.
+- El barrido de cierre verifica que no sobrevivan `mode="create"`,
+  `createCustomerServiceRecord` ni `useSnackbar` dentro de los componentes
+  legacy retirados de creacion.

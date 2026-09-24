@@ -63,6 +63,8 @@ que cambios futuros de edicion alteren el POST de alta.
 
 ## 2026-09-24: Legacy Replacement
 
-La ruta `/dashboard/customer-service-records/new` y la entrada lateral que la
-abre se eliminan; no se conserva redirect. La ruta `/[recordId]` sigue siendo
-el destino temporal de exito hasta la siguiente migracion de detalle/edicion.
+La ruta `/dashboard/customer-service-records/new`, la entrada lateral que la
+abre y las ramas `mode="create"` de los formularios legacy se eliminan; no se
+conserva redirect. Esos componentes compartidos quedan con contrato exclusivo
+de edicion. La ruta `/[recordId]` sigue siendo el destino temporal de exito
+hasta la siguiente migracion de detalle/edicion.

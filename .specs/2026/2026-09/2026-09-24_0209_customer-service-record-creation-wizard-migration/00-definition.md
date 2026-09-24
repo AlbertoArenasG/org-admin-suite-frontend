@@ -22,6 +22,38 @@ datos requeridos por el POST vigente, crea exactamente un equipo y, al tener
 exito, informa con `showToast` y navega a la actual ruta legacy de detalle del
 registro creado.
 
+## Mandato De Migracion
+
+Esta spec sustituye totalmente la funcionalidad de **creacion** legacy de
+registros de servicio a clientes. No conserva su ruta, entrada de navegacion,
+modo de formulario, payload, feedback ni componentes de creacion. No se
+agregan redirects, wrappers, adaptadores ni compatibilidad con la entrada
+legacy.
+
+Los archivos legacy que tambien sirven a la edicion no se eliminan como
+archivos: se les retira exclusivamente la rama de creacion y quedan con
+contrato de edicion. La ruta de detalle y la de edicion son excepciones
+explicitas, fuera de esta migracion, y permanecen sin adoptar sus patrones para
+la funcionalidad nueva.
+
+| Retiro legacy obligatorio                                              | Sustitucion Next Dashboard                                            |
+| ---------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `/dashboard/customer-service-records/new`                              | Boton `Nuevo registro` en `DataTableToolbar.primaryActions`.          |
+| Entrada lateral `customerServiceRecordsCreate`                         | Ninguna; el toolbar es la unica entrada de alta.                      |
+| Rama `mode="create"` de `CustomerServiceRecordFormPageContainer`       | `CustomerServiceRecordCreateDialog` con wizard local.                 |
+| Rama `mode="create"` de `CustomerServiceRecordForm`                    | Tres pasos propios del wizard y resumen de solo lectura.              |
+| `CustomerServiceRecordMutationPayload` y `buildMutationBody` para POST | `CreateCustomerServiceRecordPayload` y builder exclusivo de creacion. |
+| `useSnackbar` del alta legacy                                          | `showToast` tras creacion exitosa.                                    |
+
+Antes de codificar se debe contrastar esta tabla con el repositorio. Al cerrar,
+se debe buscar cada retiro listado y confirmar que no subsiste en el flujo de
+creacion.
+
+`CustomerServiceRecordMutationPayload` y el mapeo amplio sobreviven solo donde
+edicion legacy los requiere. El retiro obligatorio es su uso por el POST de
+creacion; no se elimina ni modifica la funcionalidad de actualizacion fuera de
+alcance.
+
 ## Included Scope
 
 - Agregar una accion primaria `Nuevo registro` al extremo derecho de la
@@ -39,8 +71,10 @@ registro creado.
   relacionados del cliente seleccionado.
 - Implementar validacion por paso, envio, error recuperable, descarte de draft
   y navegacion posterior a la creacion.
-- Retirar la ruta y el acceso lateral legacy de creacion del registro.
-- Actualizar los contratos vivos de acciones primarias y DataTable.
+- Retirar la ruta, acceso lateral y ramas `mode="create"` legacy de creacion;
+  los componentes compartidos permanecen solo para edicion.
+- Actualizar los contratos vivos de acciones primarias, DataTable y controles
+  de formularios.
 
 ## Excluded Scope
 
@@ -64,7 +98,11 @@ registro creado.
   modelo y numero de serie son obligatorios.
 - La tercera pantalla es solo resumen y confirmacion: no agrega campos.
 - Los campos de los dos pasos de captura usan orientacion horizontal en
-  escritorio y se apilan en movil.
+  escritorio y se apilan en movil. Cada grupo de campos usa `FieldGroup`, que
+  es el contenedor requerido por `FormField orientation="responsive"`.
+- Los comboboxes de tipo de servicio, cliente y usuarios relacionados abren de
+  forma estable dentro del dialogo y sus listas conservan scroll interno cuando
+  exceden la altura disponible.
 - El draft vive dentro del wizard mediante React Hook Form; no se persiste en
   Redux, Zustand, URL ni almacenamiento local.
 - Si el wizard esta vacio, X, Cancelar o clic exterior lo cierran sin preguntar.
@@ -73,8 +111,8 @@ registro creado.
 - Solo confirmar descarte o una creacion exitosa limpia draft, errores y paso
   activo. Un error remoto conserva los datos para reintentar.
 - Durante el POST no se puede cerrar, navegar ni enviar dos veces.
-- `showToast` es el feedback global de Next Dashboard. `SnackbarProvider` y
-  `useSnackbar` no participan.
+- `showToast` es el feedback global del flujo nuevo de Next Dashboard.
+  `SnackbarProvider` y `useSnackbar` no participan en la creacion migrada.
 - La ruta de detalle legacy permanece como destino temporal de exito hasta la
   siguiente spec de detalle/edicion.
 
@@ -87,6 +125,8 @@ registro creado.
   paso.
 - El input de fecha permite calendario y escritura valida en `dd/mm/aaaa`,
   incluida la insercion automatica de diagonales.
+- Los comboboxes no producen parpadeo, cierre ni desplazamiento competitivo
+  del dialogo; cliente y usuarios relacionados permiten recorrer listas largas.
 - Los usuarios relacionados aparecen solo despues de seleccionar cliente,
   cambian con el cliente y pueden quedar vacios.
 - El POST contiene exclusivamente `service_type_code`, `requested_at`,
@@ -100,6 +140,8 @@ registro` ejecuta una sola mutacion.
   descarte limpia el estado. Cerrar uno vacio no pregunta.
 - La ruta `/dashboard/customer-service-records/new` y su enlace lateral dejan
   de participar en la experiencia productiva.
+- `CustomerServiceRecordFormPageContainer` y `CustomerServiceRecordForm` no
+  conservan `mode="create"`, ni el flujo nuevo invoca `useSnackbar`.
 - Desktop, movil, teclado, foco, permisos, carga de opciones y errores remotos
   se validan manualmente. No se crean pruebas unitarias.
 
