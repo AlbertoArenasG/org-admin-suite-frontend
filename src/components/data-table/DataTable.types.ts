@@ -32,6 +32,19 @@ export type DataTableHeader = {
   actions?: ReactNode;
 };
 
+export type DataTableRowAction<T extends RowData> = {
+  id: string;
+  label: string;
+  icon?: ReactNode;
+  variant?: 'default' | 'destructive';
+  isPrimary?: boolean;
+  onSelect: (row: T) => void;
+};
+
+export type DataTableRowActions<T extends RowData> = {
+  getActions: (row: T) => DataTableRowAction<T>[];
+};
+
 export type DataTableLabels = {
   loading: string;
   loadingResults: string;
@@ -53,6 +66,7 @@ export type DataTableLabels = {
   previousPage: string;
   nextPage: string;
   clearSearch: string;
+  rowActions: string;
 };
 
 export const defaultDataTableLabels: DataTableLabels = {
@@ -76,6 +90,7 @@ export const defaultDataTableLabels: DataTableLabels = {
   previousPage: 'Previous page',
   nextPage: 'Next page',
   clearSearch: 'Clear search',
+  rowActions: 'Row actions',
 };
 
 export type DataTableProps<T extends RowData> = {
@@ -139,7 +154,7 @@ export type DataTableProps<T extends RowData> = {
     row: T
   ) => { indicatorClassName?: string; indicatorColor?: string; className?: string } | undefined;
   searchHighlight?: { query: string; columnIds?: string[] };
-  getRowActions?: (row: T) => ReactNode;
+  rowActions?: DataTableRowActions<T>;
   fullscreen?: { enterLabel: string; exitLabel: string; onChange?: (active: boolean) => void };
   labels?: Partial<DataTableLabels>;
 };

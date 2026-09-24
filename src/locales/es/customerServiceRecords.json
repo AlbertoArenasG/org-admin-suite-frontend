@@ -95,7 +95,8 @@
     "rowsPerPage": "Filas por página",
     "paginationSummary": "Mostrando {{from}}-{{to}} de {{total}}",
     "previousPage": "Página anterior",
-    "nextPage": "Página siguiente"
+    "nextPage": "Página siguiente",
+    "rowActions": "Acciones del registro"
   },
   "filters": {
     "searchPlaceholder": "Buscar por folio, cliente, equipo o proveedor...",

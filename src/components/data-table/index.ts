@@ -1,1 +1,7 @@
-export { DataTable, type DataTableColumn, type DataTableProps } from './DataTable';
+export {
+  DataTable,
+  type DataTableColumn,
+  type DataTableProps,
+  type DataTableRowAction,
+  type DataTableRowActions,
+} from './DataTable';

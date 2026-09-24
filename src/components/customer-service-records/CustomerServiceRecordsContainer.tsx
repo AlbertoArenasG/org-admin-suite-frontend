@@ -1,14 +1,23 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { DataTable } from '@/components/data-table';
-import { DashboardContentReveal } from '@/components/dashboard-shell';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
+import {
+  DataTable,
+  type DataTableRowAction,
+  type DataTableRowActions,
+} from '@/components/data-table';
+import { DashboardContentReveal, useDashboardViewAccess } from '@/components/dashboard-shell';
+import { DestructiveConfirmationDialog } from '@/components/shared/DestructiveConfirmationDialog';
+import { showToast } from '@/components/toast';
 import { Skeleton } from '@/components/ui/skeleton';
 import { fetchCustomerOptions } from '@/features/customers';
 import {
+  deleteCustomerServiceRecord,
   fetchCustomerServiceRecordOptions,
   fetchCustomerServiceRecords,
+  type CustomerServiceRecordListItem,
 } from '@/features/customer-service-records';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
@@ -59,6 +68,7 @@ function loadingCell(columnId: string) {
 export function CustomerServiceRecordsContainer() {
   const { t, hydrated, i18n } = useTranslationHydrated('customerServiceRecords');
   const dispatch = useAppDispatch();
+  const { can } = useDashboardViewAccess();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -67,6 +77,9 @@ export function CustomerServiceRecordsContainer() {
   const list = useAppSelector((state) => state.customerServiceRecords.list);
   const options = useAppSelector((state) => state.customerServiceRecords.options);
   const customerOptions = useAppSelector((state) => state.customers.options);
+  const mutations = useAppSelector((state) => state.customerServiceRecords.mutations);
+  const [recordPendingDeletion, setRecordPendingDeletion] =
+    useState<CustomerServiceRecordListItem | null>(null);
 
   const page = useCustomerServiceRecordsTableStore((state) => state.page);
   const limit = useCustomerServiceRecordsTableStore((state) => state.limit);
@@ -91,6 +104,8 @@ export function CustomerServiceRecordsContainer() {
   const reset = useCustomerServiceRecordsTableStore((state) => state.reset);
 
   const sortStrategy = sorting ? null : 'work_priority';
+  const canUpdate = can('UPDATE');
+  const canDelete = can('DELETE');
 
   useEffect(
     () => () => {
@@ -172,6 +187,55 @@ export function CustomerServiceRecordsContainer() {
     if (page > lastPage) setPage(lastPage);
   }, [initialized, list.status, list.totalPages, page, setPage]);
 
+  useEffect(() => {
+    if (
+      !recordPendingDeletion ||
+      mutations.currentRecordId !== recordPendingDeletion.customerServiceRecordId
+    ) {
+      return;
+    }
+
+    if (mutations.deleteStatus === 'succeeded') {
+      setRecordPendingDeletion(null);
+      showToast({
+        duration: 4000,
+        title: mutations.message ?? t('delete.success'),
+        type: 'success',
+      });
+      void dispatch(
+        fetchCustomerServiceRecords({
+          page,
+          limit,
+          itemsPerPage: limit,
+          search: appliedSearch,
+          filters,
+          sorts: mapCustomerServiceRecordsSortingToApi(sorting),
+          sortStrategy,
+        })
+      );
+      return;
+    }
+
+    if (mutations.deleteStatus === 'failed') {
+      showToast({
+        duration: 5000,
+        title: mutations.error ?? t('delete.error'),
+        type: 'error',
+      });
+    }
+  }, [
+    appliedSearch,
+    dispatch,
+    filters,
+    limit,
+    mutations,
+    page,
+    recordPendingDeletion,
+    sortStrategy,
+    sorting,
+    t,
+  ]);
+
   const dateFormatter = useMemo(() => {
     const fallback = i18n.options.fallbackLng;
     const language = hydrated
@@ -207,6 +271,45 @@ export function CustomerServiceRecordsContainer() {
     [dateFormatter, t]
   );
 
+  const rowActions = useMemo<DataTableRowActions<CustomerServiceRecordListItem>>(
+    () => ({
+      getActions: (row) => {
+        const recordUrl = `/dashboard/customer-service-records/${row.customerServiceRecordId}`;
+        const actions: DataTableRowAction<CustomerServiceRecordListItem>[] = [
+          {
+            id: 'view',
+            label: t('actions.view'),
+            icon: <Eye />,
+            isPrimary: true,
+            onSelect: () => router.push(recordUrl),
+          },
+        ];
+
+        if (canUpdate) {
+          actions.push({
+            id: 'edit',
+            label: t('actions.edit'),
+            icon: <Pencil />,
+            onSelect: () => router.push(`${recordUrl}/edit`),
+          });
+        }
+
+        if (canDelete) {
+          actions.push({
+            id: 'delete',
+            label: t('actions.delete'),
+            icon: <Trash2 />,
+            variant: 'destructive',
+            onSelect: () => setRecordPendingDeletion(row),
+          });
+        }
+
+        return actions;
+      },
+    }),
+    [canDelete, canUpdate, router, t]
+  );
+
   const retry = () => {
     void dispatch(
       fetchCustomerServiceRecords({
@@ -226,146 +329,175 @@ export function CustomerServiceRecordsContainer() {
 
   return (
     <DashboardContentReveal>
-      <DataTable
-        rows={list.items}
-        columns={columns}
-        getRowId={(row) => row.customerServiceRecordId}
-        loading={list.status === 'loading'}
-        renderLoading={(columnId) => loadingCell(columnId)}
-        error={
-          list.status === 'failed' && list.error
-            ? { message: list.error, onRetry: retry }
-            : undefined
-        }
-        hasActiveCriteria={hasActiveCriteria}
-        onClearCriteria={() => {
-          setSearch('');
-          setAppliedSearch('');
-          setFilters((current) => clearCustomerServiceRecordsListFilters(current));
-          setPage(1);
-        }}
-        renderEmpty={({ filtered, onClearCriteria }) => (
-          <div className="mx-auto max-w-sm space-y-2">
-            <p className="font-medium text-foreground">
-              {filtered ? t('list.emptyFilteredTitle') : t('list.emptyTitle')}
-            </p>
-            <p>{filtered ? t('list.emptyFilteredDescription') : t('list.emptyDescription')}</p>
-            {filtered && onClearCriteria ? (
-              <button
-                type="button"
-                className="font-medium text-primary underline"
-                onClick={onClearCriteria}
-              >
-                {t('list.clearCriteria')}
-              </button>
-            ) : null}
-          </div>
-        )}
-        toolbar={{
-          compact: true,
-          search: {
-            value: search,
-            onChange: (value) => {
-              setSearch(value);
-              if (!value) setAppliedSearch('');
+      <>
+        <DataTable
+          rows={list.items}
+          columns={columns}
+          getRowId={(row) => row.customerServiceRecordId}
+          loading={list.status === 'loading'}
+          renderLoading={(columnId) => loadingCell(columnId)}
+          error={
+            list.status === 'failed' && list.error
+              ? { message: list.error, onRetry: retry }
+              : undefined
+          }
+          hasActiveCriteria={hasActiveCriteria}
+          onClearCriteria={() => {
+            setSearch('');
+            setAppliedSearch('');
+            setFilters((current) => clearCustomerServiceRecordsListFilters(current));
+            setPage(1);
+          }}
+          renderEmpty={({ filtered, onClearCriteria }) => (
+            <div className="mx-auto max-w-sm space-y-2">
+              <p className="font-medium text-foreground">
+                {filtered ? t('list.emptyFilteredTitle') : t('list.emptyTitle')}
+              </p>
+              <p>{filtered ? t('list.emptyFilteredDescription') : t('list.emptyDescription')}</p>
+              {filtered && onClearCriteria ? (
+                <button
+                  type="button"
+                  className="font-medium text-primary underline"
+                  onClick={onClearCriteria}
+                >
+                  {t('list.clearCriteria')}
+                </button>
+              ) : null}
+            </div>
+          )}
+          toolbar={{
+            compact: true,
+            search: {
+              value: search,
+              onChange: (value) => {
+                setSearch(value);
+                if (!value) setAppliedSearch('');
+                setPage(1);
+              },
+              placeholder: t('filters.searchPlaceholder'),
+              ariaLabel: t('filters.searchPlaceholder'),
+            },
+            trailing: (
+              <CustomerServiceRecordsFilterDialog
+                filters={filters}
+                serviceTypes={options.serviceTypes}
+                customers={customerOptions.items.map((item) => ({
+                  value: item.id,
+                  label: item.companyName,
+                }))}
+                providers={options.providers}
+                loadingOptions={
+                  options.status === 'loading' || customerOptions.status === 'loading'
+                }
+                onFiltersChange={(nextFilters) => {
+                  setFilters(nextFilters);
+                  setPage(1);
+                }}
+              />
+            ),
+          }}
+          settings={{
+            columnVisibility: { visibleColumnIds, onChange: setVisibleColumnIds },
+          }}
+          settingsPlacement="toolbar"
+          scrollRegion={{ maxHeight: 'available', desktopOnly: true, overscrollBehavior: 'none' }}
+          stickyHeader={{ desktopOnly: true }}
+          rowLayout="multiline"
+          sorting={{
+            columnId: sorting?.columnId,
+            direction: sorting?.direction,
+            onChange: (next) => {
+              if (!next) {
+                setSorting(null);
+                setPage(1);
+                return;
+              }
+              if (!isSortableColumnId(next.columnId)) return;
+              setSorting({ columnId: next.columnId, direction: next.direction });
               setPage(1);
             },
-            placeholder: t('filters.searchPlaceholder'),
-            ariaLabel: t('filters.searchPlaceholder'),
-          },
-          trailing: (
-            <CustomerServiceRecordsFilterDialog
-              filters={filters}
-              serviceTypes={options.serviceTypes}
-              customers={customerOptions.items.map((item) => ({
-                value: item.id,
-                label: item.companyName,
-              }))}
-              providers={options.providers}
-              loadingOptions={options.status === 'loading' || customerOptions.status === 'loading'}
-              onFiltersChange={(nextFilters) => {
-                setFilters(nextFilters);
-                setPage(1);
+          }}
+          pagination={{
+            page,
+            perPage: limit,
+            total: list.total,
+            totalPages: list.totalPages,
+            onChange: setPage,
+            onPerPageChange: (nextLimit) => {
+              setLimit(nextLimit);
+              setPage(1);
+            },
+            pageSizes: [10, 25, 50],
+          }}
+          expansion={{
+            expandedRowIds,
+            onChange: setExpandedRowIds,
+            isRowExpandable: hasCustomerServiceRecordObservations,
+            trigger: 'feedback',
+            ariaLabel: t('expansion.ariaLabel'),
+          }}
+          renderDetail={(row) => (
+            <CustomerServiceRecordsObservationsDetail
+              row={row}
+              labels={{
+                general: t('expansion.generalObservations'),
+                assets: t('expansion.assetObservations'),
               }}
             />
-          ),
-        }}
-        settings={{
-          columnVisibility: { visibleColumnIds, onChange: setVisibleColumnIds },
-        }}
-        settingsPlacement="toolbar"
-        scrollRegion={{ maxHeight: 'available', desktopOnly: true, overscrollBehavior: 'none' }}
-        stickyHeader={{ desktopOnly: true }}
-        rowLayout="multiline"
-        sorting={{
-          columnId: sorting?.columnId,
-          direction: sorting?.direction,
-          onChange: (next) => {
-            if (!next) {
-              setSorting(null);
-              setPage(1);
-              return;
-            }
-            if (!isSortableColumnId(next.columnId)) return;
-            setSorting({ columnId: next.columnId, direction: next.direction });
-            setPage(1);
-          },
-        }}
-        pagination={{
-          page,
-          perPage: limit,
-          total: list.total,
-          totalPages: list.totalPages,
-          onChange: setPage,
-          onPerPageChange: (nextLimit) => {
-            setLimit(nextLimit);
-            setPage(1);
-          },
-          pageSizes: [10, 25, 50],
-        }}
-        expansion={{
-          expandedRowIds,
-          onChange: setExpandedRowIds,
-          isRowExpandable: hasCustomerServiceRecordObservations,
-          trigger: 'feedback',
-          ariaLabel: t('expansion.ariaLabel'),
-        }}
-        renderDetail={(row) => (
-          <CustomerServiceRecordsObservationsDetail
-            row={row}
-            labels={{
-              general: t('expansion.generalObservations'),
-              assets: t('expansion.assetObservations'),
-            }}
-          />
-        )}
-        getRowVisual={(row) => {
-          const color = row.customerDelivery.statusMaterialization?.colorHex;
-          return color ? { indicatorColor: color } : undefined;
-        }}
-        searchHighlight={{
-          query: appliedSearch,
-          columnIds: ['serviceNumber', 'serviceAndAssets', 'equipmentDetails'],
-        }}
-        labels={{
-          loading: t('list.loading'),
-          loadingResults: t('table.loadingResults'),
-          settings: t('table.settings'),
-          displayColumns: t('table.displayColumns'),
-          resizeColumn: (column) => t('table.resizeColumn', { column }),
-          additionalDetails: t('expansion.ariaLabel'),
-          noResults: t('list.emptyTitle'),
-          noResultsForCriteria: t('list.emptyFilteredTitle'),
-          clearCriteria: t('list.clearCriteria'),
-          pagination: t('table.pagination'),
-          rowsPerPage: t('table.rowsPerPage'),
-          paginationSummary: ({ from, to, total }) =>
-            t('table.paginationSummary', { from, to, total }),
-          previousPage: t('table.previousPage'),
-          nextPage: t('table.nextPage'),
-          clearSearch: t('list.clearSearch'),
-        }}
-      />
+          )}
+          getRowVisual={(row) => {
+            const color = row.customerDelivery.statusMaterialization?.colorHex;
+            return color ? { indicatorColor: color } : undefined;
+          }}
+          searchHighlight={{
+            query: appliedSearch,
+            columnIds: ['serviceNumber', 'serviceAndAssets', 'equipmentDetails'],
+          }}
+          rowActions={rowActions}
+          labels={{
+            loading: t('list.loading'),
+            loadingResults: t('table.loadingResults'),
+            settings: t('table.settings'),
+            displayColumns: t('table.displayColumns'),
+            resizeColumn: (column) => t('table.resizeColumn', { column }),
+            additionalDetails: t('expansion.ariaLabel'),
+            noResults: t('list.emptyTitle'),
+            noResultsForCriteria: t('list.emptyFilteredTitle'),
+            clearCriteria: t('list.clearCriteria'),
+            pagination: t('table.pagination'),
+            rowsPerPage: t('table.rowsPerPage'),
+            paginationSummary: ({ from, to, total }) =>
+              t('table.paginationSummary', { from, to, total }),
+            previousPage: t('table.previousPage'),
+            nextPage: t('table.nextPage'),
+            clearSearch: t('list.clearSearch'),
+            rowActions: t('table.rowActions'),
+          }}
+        />
+        <DestructiveConfirmationDialog
+          open={Boolean(recordPendingDeletion)}
+          onOpenChange={(open) => {
+            if (!open) setRecordPendingDeletion(null);
+          }}
+          title={t('delete.title')}
+          description={t('delete.description')}
+          subject={recordPendingDeletion?.serviceNumber}
+          cancelLabel={t('delete.cancel')}
+          confirmLabel={t('delete.confirm')}
+          isPending={
+            mutations.deleteStatus === 'loading' &&
+            mutations.currentRecordId === recordPendingDeletion?.customerServiceRecordId
+          }
+          onConfirm={() => {
+            if (!recordPendingDeletion) return;
+            void dispatch(
+              deleteCustomerServiceRecord({
+                recordId: recordPendingDeletion.customerServiceRecordId,
+              })
+            );
+          }}
+        />
+      </>
     </DashboardContentReveal>
   );
 }

@@ -5,7 +5,12 @@ import { flexRender } from '@tanstack/react-table';
 import type { Row, RowData, TableFeatures } from '@tanstack/table-core';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { DataTableRowActions } from './DataTableRowActions';
+import { DataTableRowContextMenu } from './DataTableRowContextMenu';
 import type { DataTableColumn, DataTableLabels, DataTableProps } from './DataTable.types';
+
+const interactiveTargetSelector =
+  'a, button, input, select, textarea, [role="button"], [role="menuitem"], [data-data-table-interactive]';
 
 type DataTableRowProps<T extends RowData, TFeatures extends TableFeatures> = {
   row: Row<TFeatures, T>;
@@ -15,7 +20,7 @@ type DataTableRowProps<T extends RowData, TFeatures extends TableFeatures> = {
   expansion?: DataTableProps<T>['expansion'];
   renderDetail?: DataTableProps<T>['renderDetail'];
   getRowVisual?: DataTableProps<T>['getRowVisual'];
-  getRowActions?: DataTableProps<T>['getRowActions'];
+  rowActions?: DataTableProps<T>['rowActions'];
   totalColumnCount: number;
   labels: DataTableLabels;
   padding: string;
@@ -31,7 +36,7 @@ export function DataTableRow<T extends RowData, TFeatures extends TableFeatures>
   expansion,
   renderDetail,
   getRowVisual,
-  getRowActions,
+  rowActions,
   totalColumnCount,
   labels,
   padding,
@@ -42,108 +47,129 @@ export function DataTableRow<T extends RowData, TFeatures extends TableFeatures>
   const visual = getRowVisual?.(row.original);
   const isExpandable = hasDetails && (expansion?.isRowExpandable?.(row.original) ?? true);
   const isExpanded = expansion?.expandedRowIds.includes(row.id) ?? false;
+  const actions = rowActions?.getActions(row.original) ?? [];
+  const primaryAction = actions.find((action) => action.isPrimary);
+
+  const handleDoubleClick = (event: React.MouseEvent<HTMLTableRowElement>) => {
+    if (!primaryAction || !(event.target instanceof Element)) return;
+    if (event.target.closest(interactiveTargetSelector)) return;
+    primaryAction.onSelect(row.original);
+  };
+
+  const tableRow = (
+    <tr
+      className={`border-b hover:bg-muted/40 ${visual?.className ?? ''}`}
+      onDoubleClick={primaryAction ? handleDoubleClick : undefined}
+    >
+      {selection ? (
+        <td className="relative px-3">
+          {visual?.indicatorClassName || visual?.indicatorColor ? (
+            <span
+              aria-hidden
+              className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
+              style={visual.indicatorColor ? { backgroundColor: visual.indicatorColor } : undefined}
+            />
+          ) : null}
+          <input
+            aria-label={labels.selectRow(row.id)}
+            type="checkbox"
+            disabled={!(selection.isRowSelectable?.(row.original) ?? true)}
+            checked={selection.selectedRowIds.includes(row.id)}
+            onChange={(event) => onSelectionChange(row.id, event.target.checked)}
+          />
+        </td>
+      ) : null}
+      {hasDetails ? (
+        <td className="relative px-3">
+          {(visual?.indicatorClassName || visual?.indicatorColor) && !selection ? (
+            <span
+              aria-hidden
+              className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
+              style={visual.indicatorColor ? { backgroundColor: visual.indicatorColor } : undefined}
+            />
+          ) : null}
+          {isExpandable ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  aria-expanded={isExpanded}
+                  aria-controls={`detail-${row.id}`}
+                  aria-label={expansion?.ariaLabel ?? labels.additionalDetails}
+                  onClick={() => onExpansionChange(row.id)}
+                  className={
+                    expansion?.trigger === 'feedback'
+                      ? 'relative inline-flex size-8 cursor-pointer items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
+                      : undefined
+                  }
+                >
+                  {expansion?.trigger === 'information' ? (
+                    <Info className="size-4" />
+                  ) : expansion?.trigger === 'feedback' ? (
+                    <>
+                      <MessageSquareText className="size-4" />
+                      {!isExpanded ? (
+                        <span
+                          aria-hidden
+                          className="absolute right-1 top-1 size-1.5 rounded-full bg-primary"
+                        />
+                      ) : null}
+                    </>
+                  ) : isExpanded ? (
+                    <ChevronDown className="size-4" />
+                  ) : (
+                    <ChevronRight className="size-4" />
+                  )}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="right">
+                {expansion?.ariaLabel ?? labels.additionalDetails}
+              </TooltipContent>
+            </Tooltip>
+          ) : null}
+        </td>
+      ) : null}
+      {row.getAllCells().map((cell) => {
+        const column = visibleColumns.find((item) => item.id === cell.column.id);
+        const isFirstDataCell = cell.column.id === visibleColumns[0]?.id;
+        return (
+          <td
+            key={cell.id}
+            className={`relative px-4 ${padding} align-top ${column?.align === 'end' ? 'text-right' : column?.align === 'center' ? 'text-center' : 'text-left'} ${column?.textBehavior === 'wrap' ? 'break-words whitespace-normal' : column?.textBehavior === 'truncate' ? 'truncate whitespace-nowrap' : 'whitespace-nowrap'}`}
+          >
+            {(visual?.indicatorClassName || visual?.indicatorColor) &&
+            !selection &&
+            !hasDetails &&
+            isFirstDataCell ? (
+              <span
+                aria-hidden
+                className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
+                style={
+                  visual.indicatorColor ? { backgroundColor: visual.indicatorColor } : undefined
+                }
+              />
+            ) : null}
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          </td>
+        );
+      })}
+      {rowActions ? (
+        <td className="px-3 text-right">
+          <DataTableRowActions row={row.original} actions={actions} labels={labels} />
+        </td>
+      ) : null}
+    </tr>
+  );
 
   return (
     <React.Fragment>
-      <tr className={`border-b hover:bg-muted/40 ${visual?.className ?? ''}`}>
-        {selection ? (
-          <td className="relative px-3">
-            {visual?.indicatorClassName || visual?.indicatorColor ? (
-              <span
-                aria-hidden
-                className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
-                style={
-                  visual.indicatorColor ? { backgroundColor: visual.indicatorColor } : undefined
-                }
-              />
-            ) : null}
-            <input
-              aria-label={labels.selectRow(row.id)}
-              type="checkbox"
-              disabled={!(selection.isRowSelectable?.(row.original) ?? true)}
-              checked={selection.selectedRowIds.includes(row.id)}
-              onChange={(event) => onSelectionChange(row.id, event.target.checked)}
-            />
-          </td>
-        ) : null}
-        {hasDetails ? (
-          <td className="relative px-3">
-            {(visual?.indicatorClassName || visual?.indicatorColor) && !selection ? (
-              <span
-                aria-hidden
-                className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
-                style={
-                  visual.indicatorColor ? { backgroundColor: visual.indicatorColor } : undefined
-                }
-              />
-            ) : null}
-            {isExpandable ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    type="button"
-                    aria-expanded={isExpanded}
-                    aria-controls={`detail-${row.id}`}
-                    aria-label={expansion?.ariaLabel ?? labels.additionalDetails}
-                    onClick={() => onExpansionChange(row.id)}
-                    className={
-                      expansion?.trigger === 'feedback'
-                        ? 'relative inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
-                        : undefined
-                    }
-                  >
-                    {expansion?.trigger === 'information' ? (
-                      <Info className="size-4" />
-                    ) : expansion?.trigger === 'feedback' ? (
-                      <>
-                        <MessageSquareText className="size-4" />
-                        {!isExpanded ? (
-                          <span
-                            aria-hidden
-                            className="absolute right-1 top-1 size-1.5 rounded-full bg-primary"
-                          />
-                        ) : null}
-                      </>
-                    ) : isExpanded ? (
-                      <ChevronDown className="size-4" />
-                    ) : (
-                      <ChevronRight className="size-4" />
-                    )}
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent side="right">
-                  {expansion?.ariaLabel ?? labels.additionalDetails}
-                </TooltipContent>
-              </Tooltip>
-            ) : null}
-          </td>
-        ) : null}
-        {row.getAllCells().map((cell) => {
-          const column = visibleColumns.find((item) => item.id === cell.column.id);
-          const isFirstDataCell = cell.column.id === visibleColumns[0]?.id;
-          return (
-            <td
-              key={cell.id}
-              className={`relative px-4 ${padding} align-top ${column?.align === 'end' ? 'text-right' : column?.align === 'center' ? 'text-center' : 'text-left'} ${column?.textBehavior === 'wrap' ? 'break-words whitespace-normal' : column?.textBehavior === 'truncate' ? 'truncate whitespace-nowrap' : 'whitespace-nowrap'}`}
-            >
-              {(visual?.indicatorClassName || visual?.indicatorColor) &&
-              !selection &&
-              !hasDetails &&
-              isFirstDataCell ? (
-                <span
-                  aria-hidden
-                  className={`absolute inset-y-0 left-0 w-1 ${visual.indicatorClassName}`}
-                  style={
-                    visual.indicatorColor ? { backgroundColor: visual.indicatorColor } : undefined
-                  }
-                />
-              ) : null}
-              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-            </td>
-          );
-        })}
-        {getRowActions ? <td className="px-3 text-right">{getRowActions(row.original)}</td> : null}
-      </tr>
+      {actions.length ? (
+        <DataTableRowContextMenu row={row.original} actions={actions}>
+          {tableRow}
+        </DataTableRowContextMenu>
+      ) : (
+        tableRow
+      )}
       {hasDetails ? (
         <tr id={`detail-${row.id}`}>
           <td colSpan={totalColumnCount} className={isExpanded ? 'border-b bg-muted p-0' : 'p-0'}>

@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [data-table-row-actions](./2026/2026-09/2026-09-23_1603_data-table-row-actions/00-definition.md) - definition completed; implementacion pendiente del patron generico de acciones por fila con primera adopcion administrativa
+- [data-table-row-actions](./2026/2026-09/2026-09-23_1603_data-table-row-actions/00-definition.md) - completed; patron generico de acciones por fila validado con primera adopcion administrativa
 - [data-table-responsibility-separation](./2026/2026-09/2026-09-23_1208_data-table-responsibility-separation/00-definition.md) - completed; separacion interna de DataTable validada sin regresiones en sus consumidores
 - [next-dashboard-view-access-foundation](./2026/2026-09/2026-09-22_2311_next-dashboard-view-access-foundation/00-definition.md) - completed; patrón transversal de acceso para vistas Next Dashboard validado
 - [customer-service-records-administrative-list-migration](./2026/2026-09/2026-09-22_1849_customer-service-records-administrative-list-migration/00-definition.md) - completed; listado administrativo migrado y validado con DataTable

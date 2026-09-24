@@ -16,7 +16,7 @@ type DataTableBodyProps<T extends RowData, TFeatures extends TableFeatures> = {
   expansion?: DataTableProps<T>['expansion'];
   renderDetail?: DataTableProps<T>['renderDetail'];
   getRowVisual?: DataTableProps<T>['getRowVisual'];
-  getRowActions?: DataTableProps<T>['getRowActions'];
+  rowActions?: DataTableProps<T>['rowActions'];
   totalColumnCount: number;
   hasActiveCriteria: boolean;
   renderEmpty?: DataTableProps<T>['renderEmpty'];
@@ -37,7 +37,7 @@ export function DataTableBody<T extends RowData, TFeatures extends TableFeatures
   expansion,
   renderDetail,
   getRowVisual,
-  getRowActions,
+  rowActions,
   totalColumnCount,
   hasActiveCriteria,
   renderEmpty,
@@ -56,7 +56,7 @@ export function DataTableBody<T extends RowData, TFeatures extends TableFeatures
           visibleColumns={visibleColumns}
           selection={selection}
           hasDetails={hasDetails}
-          getRowActions={getRowActions}
+          rowActions={rowActions}
           renderLoading={renderLoading}
         />
       ) : tableRows.length ? (
@@ -70,7 +70,7 @@ export function DataTableBody<T extends RowData, TFeatures extends TableFeatures
             expansion={expansion}
             renderDetail={renderDetail}
             getRowVisual={getRowVisual}
-            getRowActions={getRowActions}
+            rowActions={rowActions}
             totalColumnCount={totalColumnCount}
             labels={labels}
             padding={padding}

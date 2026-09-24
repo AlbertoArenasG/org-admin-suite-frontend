@@ -9,7 +9,7 @@ type DataTableColumnHeadersProps<T extends RowData, TFeatures extends TableFeatu
   visibleColumns: DataTableColumn<T>[];
   selection?: DataTableProps<T>['selection'];
   hasDetails: boolean;
-  getRowActions?: DataTableProps<T>['getRowActions'];
+  rowActions?: DataTableProps<T>['rowActions'];
   sorting?: DataTableProps<T>['sorting'];
   labels: DataTableLabels;
   columnWidths: Record<string, number>;
@@ -22,7 +22,7 @@ export function DataTableColumnHeaders<T extends RowData, TFeatures extends Tabl
   visibleColumns,
   selection,
   hasDetails,
-  getRowActions,
+  rowActions,
   sorting,
   labels,
   columnWidths,
@@ -138,7 +138,7 @@ export function DataTableColumnHeaders<T extends RowData, TFeatures extends Tabl
               </th>
             );
           })}
-        {getRowActions ? <th className="border-b" /> : null}
+        {rowActions ? <th className="border-b" /> : null}
       </tr>
     </thead>
   );

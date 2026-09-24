@@ -11,7 +11,7 @@ type DataTableContentProps<T extends RowData, TFeatures extends TableFeatures> =
   columnWidths: Record<string, number>;
   selection?: DataTableProps<T>['selection'];
   hasDetails: boolean;
-  getRowActions?: DataTableProps<T>['getRowActions'];
+  rowActions?: DataTableProps<T>['rowActions'];
   sorting?: DataTableProps<T>['sorting'];
   labels: DataTableLabels;
   tableHeaderClassName: string;
@@ -36,7 +36,7 @@ export function DataTableContent<T extends RowData, TFeatures extends TableFeatu
   columnWidths,
   selection,
   hasDetails,
-  getRowActions,
+  rowActions,
   sorting,
   labels,
   tableHeaderClassName,
@@ -65,14 +65,14 @@ export function DataTableContent<T extends RowData, TFeatures extends TableFeatu
             style={{ width: columnWidths[column.id] ?? column.width?.initial }}
           />
         ))}
-        {getRowActions ? <col className="w-14" /> : null}
+        {rowActions ? <col className="w-14" /> : null}
       </colgroup>
       <DataTableColumnHeaders
         table={table}
         visibleColumns={visibleColumns}
         selection={selection}
         hasDetails={hasDetails}
-        getRowActions={getRowActions}
+        rowActions={rowActions}
         sorting={sorting}
         labels={labels}
         columnWidths={columnWidths}
@@ -89,7 +89,7 @@ export function DataTableContent<T extends RowData, TFeatures extends TableFeatu
         expansion={expansion}
         renderDetail={renderDetail}
         getRowVisual={getRowVisual}
-        getRowActions={getRowActions}
+        rowActions={rowActions}
         totalColumnCount={totalColumnCount}
         hasActiveCriteria={hasActiveCriteria}
         renderEmpty={renderEmpty}

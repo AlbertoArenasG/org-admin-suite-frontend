@@ -28,7 +28,9 @@ DataTable
   |         |- DataTableColumnHeaders
   |         `- DataTableBody
   |              |- DataTableLoadingRows
-  |              |- DataTableRow
+  |              `- DataTableRow
+  |                   |- DataTableRowActions
+  |                   `- DataTableRowContextMenu
   |              `- DataTableEmptyState
   |- DataTableErrorState
   `- DataTablePagination
@@ -42,6 +44,31 @@ consumiendo exclusivamente `@/components/data-table`.
 columnas hacia TanStack y `dataTableLayout.ts` los calculos puros de layout,
 anchos y clases. Los efectos de navegador, refs, fullscreen y estado React se
 mantienen en `DataTable`.
+
+## Acciones Por Fila
+
+`rowActions` es un contrato opcional y tipado. La vista resuelve para cada
+registro la lista ya autorizada de `DataTableRowAction`; `DataTable` no conoce
+recursos, rutas, permisos ni mutaciones. Si no se entrega `rowActions`, no se
+agrega una columna, trigger, menu contextual ni atajo de doble clic.
+
+Cuando existe, la misma lista alimenta el dropdown de tres puntos y el menu
+contextual de clic derecho. El trigger permanece visible, tiene `aria-label` y
+tooltip, mientras que los labels, iconos, handlers y variante destructiva
+pertenecen a la vista. Una fila puede resolver una lista vacia: conserva la
+columna, pero no muestra trigger ni menu.
+
+La vista puede marcar una sola accion con `isPrimary`. Esa accion se ejecuta
+con doble clic solo sobre zonas no interactivas de la fila. Un clic simple no
+navega y la fila no usa `cursor-pointer`; enlaces, botones, inputs, controles
+de expansion y el menu de acciones excluyen el doble clic. El menu explicito
+es siempre la via descubrible y accesible.
+
+Las mutaciones destructivas se confirman mediante
+`DestructiveConfirmationDialog`, componente compartido de Next Dashboard. El
+dialogo compone la primitive visual, foco y estado pendiente; la vista es duena
+del sujeto, copy, mutacion y feedback. No reutilizar Sheets legacy para nuevas
+migraciones.
 
 ## Celdas reutilizables
 

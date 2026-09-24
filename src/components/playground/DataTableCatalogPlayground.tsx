@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { MoreHorizontal } from 'lucide-react';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
 import { DataTable } from '@/components/data-table';
 import { DashboardPlaygroundFrame } from '@/components/playground/DashboardPlaygroundFrame';
 import { Button } from '@/components/ui/button';
@@ -56,6 +56,7 @@ export function DataTableCatalogPlayground() {
   const [expandedRowIds, setExpandedRowIds] = useState<string[]>([]);
   const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
   const [sorting, setSorting] = useState<DemoSorting>(null);
+  const [lastAction, setLastAction] = useState<string | null>(null);
   const [visibleColumnIds, setVisibleColumnIds] = useState([
     'record',
     'client',
@@ -204,15 +205,34 @@ export function DataTableCatalogPlayground() {
                   ? { indicatorClassName: 'bg-[var(--warning-500)]' }
                   : undefined
             }
-            getRowActions={() => (
-              <button
-                aria-label="Abrir acciones de fila"
-                type="button"
-                className="rounded p-1 hover:bg-muted"
-              >
-                <MoreHorizontal className="size-4" />
-              </button>
-            )}
+            rowActions={{
+              getActions: (row) => {
+                if (row.status === 'En tiempo') return [];
+
+                return [
+                  {
+                    id: 'view',
+                    label: 'Ver detalle',
+                    icon: <Eye />,
+                    isPrimary: true,
+                    onSelect: (selectedRow) => setLastAction(`Ver detalle: ${selectedRow.id}`),
+                  },
+                  {
+                    id: 'edit',
+                    label: 'Editar',
+                    icon: <Pencil />,
+                    onSelect: (selectedRow) => setLastAction(`Editar: ${selectedRow.id}`),
+                  },
+                  {
+                    id: 'delete',
+                    label: 'Eliminar',
+                    icon: <Trash2 />,
+                    variant: 'destructive',
+                    onSelect: (selectedRow) => setLastAction(`Eliminar: ${selectedRow.id}`),
+                  },
+                ];
+              },
+            }}
             columns={[
               {
                 id: 'record',
@@ -253,6 +273,9 @@ export function DataTableCatalogPlayground() {
               },
             ]}
           />
+          <p aria-live="polite" className="sr-only">
+            {lastAction}
+          </p>
         </div>
       </section>
     </DashboardPlaygroundFrame>

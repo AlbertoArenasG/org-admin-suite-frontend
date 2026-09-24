@@ -19,7 +19,12 @@ import {
 import { defaultDataTableLabels } from './DataTable.types';
 import type { DataTableColumn, DataTableProps } from './DataTable.types';
 
-export type { DataTableColumn, DataTableProps } from './DataTable.types';
+export type {
+  DataTableColumn,
+  DataTableProps,
+  DataTableRowAction,
+  DataTableRowActions,
+} from './DataTable.types';
 
 const features = tableFeatures({});
 
@@ -50,7 +55,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
     expansion,
     getRowVisual,
     searchHighlight,
-    getRowActions,
+    rowActions,
     fullscreen,
     labels: labelsOverride,
   } = props;
@@ -77,7 +82,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
   const usesAvailableHeight = scrollRegion?.maxHeight === 'available';
   const hasDetails = Boolean(renderDetail && expansion);
   const totalColumnCount =
-    visibleColumns.length + (selection ? 1 : 0) + (hasDetails ? 1 : 0) + (getRowActions ? 1 : 0);
+    visibleColumns.length + (selection ? 1 : 0) + (hasDetails ? 1 : 0) + (rowActions ? 1 : 0);
   const padding = getDataTableRowPadding(rowLayout, density);
 
   React.useEffect(() => {
@@ -251,7 +256,7 @@ export function DataTable<T extends RowData>(props: DataTableProps<T>) {
             columnWidths={columnWidths}
             selection={selection}
             hasDetails={hasDetails}
-            getRowActions={getRowActions}
+            rowActions={rowActions}
             sorting={sorting}
             labels={labels}
             tableHeaderClassName={tableHeaderClassName}

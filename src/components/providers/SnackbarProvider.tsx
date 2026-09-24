@@ -5,6 +5,11 @@ import { useTheme } from 'next-themes';
 import { sileo, Toaster } from 'sileo';
 import { useSnackbarStore } from '@/components/providers/useSnackbarStore';
 
+/**
+ * Legacy compatibility bridge. Do not use this provider in new views or Next
+ * Dashboard migrations; use the shared toast component instead. Remove it
+ * once the remaining legacy views have been migrated.
+ */
 export function SnackbarProvider({ children }: { children: ReactNode }) {
   const { theme } = useTheme();
   const open = useSnackbarStore((state) => state.open);

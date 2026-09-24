@@ -6,7 +6,7 @@ type DataTableLoadingRowsProps<T extends RowData> = {
   visibleColumns: DataTableColumn<T>[];
   selection?: DataTableProps<T>['selection'];
   hasDetails: boolean;
-  getRowActions?: DataTableProps<T>['getRowActions'];
+  rowActions?: DataTableProps<T>['rowActions'];
   renderLoading?: DataTableProps<T>['renderLoading'];
 };
 
@@ -14,7 +14,7 @@ export function DataTableLoadingRows<T extends RowData>({
   visibleColumns,
   selection,
   hasDetails,
-  getRowActions,
+  rowActions,
   renderLoading,
 }: DataTableLoadingRowsProps<T>) {
   return Array.from({ length: 5 }).map((_, index) => (
@@ -28,7 +28,7 @@ export function DataTableLoadingRows<T extends RowData>({
           )}
         </td>
       ))}
-      {getRowActions ? <td /> : null}
+      {rowActions ? <td /> : null}
     </tr>
   ));
 }
