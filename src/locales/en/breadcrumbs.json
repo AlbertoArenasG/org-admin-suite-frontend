@@ -13,6 +13,7 @@
   "contacts": "Contacts",
   "internalAssetControl": "Asset control and payments",
   "customerServiceRecords": "Customer services",
+  "customerServiceRecordDetail": "Service record",
   "expirationStatusPolicies": "Expiration status policies",
   "expirationNotificationPolicies": "Expiration notification policies",
   "recipientGroups": "Recipient groups",

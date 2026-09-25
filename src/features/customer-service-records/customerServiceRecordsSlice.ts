@@ -3,8 +3,11 @@ import type { CustomerServiceRecordsState } from './types';
 import {
   createCustomerServiceRecord,
   deleteCustomerServiceRecord,
+  fetchCustomerServiceRecordDetail,
+  fetchCustomerServiceRecordDetailOptions,
   fetchCustomerServiceRecordOptions,
   fetchCustomerServiceRecords,
+  updateCustomerServiceRecordDetails,
 } from './customerServiceRecordsThunks';
 
 const initialState: CustomerServiceRecordsState = {
@@ -23,6 +26,17 @@ const initialState: CustomerServiceRecordsState = {
     status: 'idle',
     error: null,
   },
+  detail: {
+    record: null,
+    status: 'idle',
+    error: null,
+    currentRecordId: null,
+  },
+  detailOptions: {
+    serviceTypes: [],
+    status: 'idle',
+    error: null,
+  },
   mutations: {
     createStatus: 'idle',
     deleteStatus: 'idle',
@@ -30,6 +44,8 @@ const initialState: CustomerServiceRecordsState = {
     message: null,
     lastCreatedRecordId: null,
     currentRecordId: null,
+    updateDetailsStatus: 'idle',
+    updateDetailsError: null,
   },
 };
 const customerServiceRecordsSlice = createSlice({
@@ -41,6 +57,12 @@ const customerServiceRecordsSlice = createSlice({
       state.mutations.error = null;
       state.mutations.message = null;
       state.mutations.lastCreatedRecordId = null;
+    },
+    resetCustomerServiceRecordDetail: (state) => {
+      state.detail = initialState.detail;
+      state.detailOptions = initialState.detailOptions;
+      state.mutations.updateDetailsStatus = 'idle';
+      state.mutations.updateDetailsError = null;
     },
   },
   extraReducers: (builder) => {
@@ -80,6 +102,38 @@ const customerServiceRecordsSlice = createSlice({
           action.error.message ??
           'No fue posible obtener las opciones del listado';
       })
+      .addCase(fetchCustomerServiceRecordDetail.pending, (state, action) => {
+        state.detail.status = 'loading';
+        state.detail.error = null;
+        state.detail.currentRecordId = action.meta.arg.recordId;
+        state.detail.record = null;
+      })
+      .addCase(fetchCustomerServiceRecordDetail.fulfilled, (state, action) => {
+        state.detail.status = 'succeeded';
+        state.detail.record = action.payload;
+      })
+      .addCase(fetchCustomerServiceRecordDetail.rejected, (state, action) => {
+        state.detail.status = 'failed';
+        state.detail.error =
+          action.payload ??
+          action.error.message ??
+          'No fue posible obtener el registro de servicio';
+      })
+      .addCase(fetchCustomerServiceRecordDetailOptions.pending, (state) => {
+        state.detailOptions.status = 'loading';
+        state.detailOptions.error = null;
+      })
+      .addCase(fetchCustomerServiceRecordDetailOptions.fulfilled, (state, action) => {
+        state.detailOptions.status = 'succeeded';
+        state.detailOptions.serviceTypes = action.payload.serviceTypes;
+      })
+      .addCase(fetchCustomerServiceRecordDetailOptions.rejected, (state, action) => {
+        state.detailOptions.status = 'failed';
+        state.detailOptions.error =
+          action.payload ??
+          action.error.message ??
+          'No fue posible obtener las opciones de detalles';
+      })
       .addCase(createCustomerServiceRecord.pending, (state) => {
         state.mutations.createStatus = 'loading';
         state.mutations.error = null;
@@ -112,8 +166,22 @@ const customerServiceRecordsSlice = createSlice({
         state.mutations.deleteStatus = 'failed';
         state.mutations.error =
           action.payload ?? action.error.message ?? 'No fue posible eliminar el registro';
+      })
+      .addCase(updateCustomerServiceRecordDetails.pending, (state) => {
+        state.mutations.updateDetailsStatus = 'loading';
+        state.mutations.updateDetailsError = null;
+      })
+      .addCase(updateCustomerServiceRecordDetails.fulfilled, (state, action) => {
+        state.mutations.updateDetailsStatus = 'succeeded';
+        state.detail.record = action.payload.record;
+      })
+      .addCase(updateCustomerServiceRecordDetails.rejected, (state, action) => {
+        state.mutations.updateDetailsStatus = 'failed';
+        state.mutations.updateDetailsError =
+          action.payload ?? action.error.message ?? 'No fue posible actualizar el registro';
       });
   },
 });
-export const { resetCustomerServiceRecordCreateMutation } = customerServiceRecordsSlice.actions;
+export const { resetCustomerServiceRecordCreateMutation, resetCustomerServiceRecordDetail } =
+  customerServiceRecordsSlice.actions;
 export default customerServiceRecordsSlice.reducer;

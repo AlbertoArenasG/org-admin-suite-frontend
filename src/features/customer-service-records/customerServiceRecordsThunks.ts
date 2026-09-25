@@ -1,11 +1,17 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
+import {
+  mapCustomerServiceRecordDetail,
+  type ApiCustomerServiceRecordDetail,
+} from './customerServiceRecordMappers';
 import type {
   CustomerServiceRecordDerivedStatus,
   CustomerServiceRecordListItem,
   CreateCustomerServiceRecordPayload,
   CustomerServiceRecordOption,
+  CustomerServiceRecordDetail,
+  UpdateCustomerServiceRecordDetailsPayload,
   FetchCustomerServiceRecordsParams,
 } from './types';
 
@@ -278,6 +284,86 @@ export const fetchCustomerServiceRecordOptions = createAsyncThunk<
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible obtener las opciones del listado'
+    );
+  }
+});
+
+export const fetchCustomerServiceRecordDetail = createAsyncThunk<
+  CustomerServiceRecordDetail,
+  { recordId: string },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/fetchDetail', async ({ recordId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+      `/v1/customer-service-records/${recordId}`,
+      { method: 'GET', headers: { Accept: 'application/json' }, token }
+    );
+    return mapCustomerServiceRecordDetail(response.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible obtener el registro de servicio'
+    );
+  }
+});
+
+export const fetchCustomerServiceRecordDetailOptions = createAsyncThunk<
+  { serviceTypes: CustomerServiceRecordOption[] },
+  void,
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/fetchDetailOptions', async (_, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<Array<{ code: string; name: string }>>(
+      '/v1/customer-service-record-service-types/options',
+      { method: 'GET', headers: { Accept: 'application/json' }, token }
+    );
+    return {
+      serviceTypes: Array.isArray(response.data)
+        ? response.data.map((item) => ({ value: item.code, label: item.name }))
+        : [],
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible obtener las opciones de detalles'
+    );
+  }
+});
+
+export const updateCustomerServiceRecordDetails = createAsyncThunk<
+  { record: CustomerServiceRecordDetail; message: string | null },
+  { recordId: string; payload: UpdateCustomerServiceRecordDetailsPayload },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/updateDetails', async ({ payload, recordId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+      `/v1/customer-service-records/${recordId}/details`,
+      {
+        method: 'PUT',
+        headers: { Accept: 'application/json' },
+        body: {
+          service_type_code: payload.serviceTypeCode,
+          requested_at: payload.requestedAt,
+          observations: payload.observations,
+          operational_status: payload.operationalStatus,
+        },
+        token,
+      }
+    );
+    return {
+      record: mapCustomerServiceRecordDetail(response.data),
+      message: response.successMessage,
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible actualizar el registro de servicio'
     );
   }
 });

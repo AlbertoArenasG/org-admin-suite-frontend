@@ -16,6 +16,7 @@ type FormDateInputProps = {
   value: string;
   onValueChange: (value: string) => void;
   disabled?: boolean;
+  invalid?: boolean;
   placeholder?: string;
   openCalendarLabel: string;
   invalidDateMessage: string;
@@ -60,6 +61,7 @@ export function FormDateInput({
   className,
   disabled = false,
   id,
+  invalid: externalInvalid = false,
   invalidDateMessage,
   onValueChange,
   openCalendarLabel,
@@ -111,7 +113,7 @@ export function FormDateInput({
           autoComplete="off"
           disabled={disabled}
           placeholder={placeholder}
-          aria-invalid={invalid || undefined}
+          aria-invalid={externalInvalid || invalid || undefined}
           onChange={(event) => handleChange(event.target.value)}
           onBlur={handleBlur}
           className="pr-10"

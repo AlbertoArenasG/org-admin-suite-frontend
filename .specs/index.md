@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [customer-service-record-general-details-migration](./2026/2026-09/2026-09-25_1451_customer-service-record-general-details-migration/00-definition.md) - completed; primer bloque de detalle y edición de registros de servicio en Next Dashboard
 - [customer-service-record-creation-wizard-migration](./2026/2026-09/2026-09-24_0209_customer-service-record-creation-wizard-migration/00-definition.md) - defined; migracion de creacion a dialogo wizard en Next Dashboard
 - [data-table-row-actions](./2026/2026-09/2026-09-23_1603_data-table-row-actions/00-definition.md) - completed; patron generico de acciones por fila validado con primera adopcion administrativa
 - [data-table-responsibility-separation](./2026/2026-09/2026-09-23_1208_data-table-responsibility-separation/00-definition.md) - completed; separacion interna de DataTable validada sin regresiones en sus consumidores

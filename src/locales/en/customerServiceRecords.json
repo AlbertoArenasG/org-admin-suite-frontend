@@ -133,6 +133,32 @@
     "updated": "Service record updated successfully.",
     "error": "Unable to save the service record."
   },
+  "detail": {
+    "breadcrumb": "Record {{folio}}",
+    "notFound": "The service record was not found.",
+    "searchOptions": "Search options...",
+    "general": {
+      "title": "General details",
+      "description": "Review and update the record's general information."
+    },
+    "labels": {
+      "generalObservations": "General observations"
+    },
+    "placeholders": {
+      "serviceType": "Select a service type",
+      "operationalStatus": "Select an operational status"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "invalidDate": "Enter a valid date."
+    },
+    "feedback": {
+      "saving": "Saving changes",
+      "success": "Changes saved",
+      "errorTitle": "Unable to save changes",
+      "errorGuidance": "Review the information and try again."
+    }
+  },
   "createWizard": {
     "title": "New service record",
     "description": "Provide the minimum information to create a service record.",

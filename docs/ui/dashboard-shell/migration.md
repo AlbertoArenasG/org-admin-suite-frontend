@@ -46,6 +46,12 @@ Una ruta adoptada debe tener un único dueño para cada capa de host:
 - Un `Page Header` nuevo, cuando aplique, contiene únicamente jerarquía y
   acciones propias del contenido; no replica breadcrumbs del shell.
 
+Cuando el último segmento depende de datos obtenidos por la ruta, el contenido
+puede actualizar temporalmente los segmentos mediante el contexto de
+breadcrumbs de `NextDashboardShell`. El `Workspace Header` conserva el render
+y la propiedad visual; la ruta restablece los segmentos estáticos al
+desmontarse. No se agrega un breadcrumb duplicado dentro de `Page Composition`.
+
 No se permiten imports de componentes legacy de host o layout en una ruta que
 resuelva a `next`. Si existe duda sobre la clasificación de una pieza, se
 inspecciona antes de reutilizarla; la reutilización no es el comportamiento por

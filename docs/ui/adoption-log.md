@@ -49,6 +49,17 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-25 - Detalles Generales de Registro de Servicio
+
+- Alcance: `/dashboard/customer-service-records/[recordId]`.
+- Adopción: `Next Dashboard` con boundary de acceso, breadcrumb global
+  dinámico de folio y `ResourceForm` para el bloque independiente de detalles
+  generales en lectura y edición.
+- Specs: `customer-service-record-general-details-migration`,
+  `editable-resource-form-foundation` y `next-dashboard-view-access-foundation`.
+- Compatibilidad temporal: los bloques de cliente, proveedor, equipos y
+  documentos se migrarán de forma incremental en specs posteriores.
+
 ### 2026-09-23 - Fundamento de Acceso de Vistas Next Dashboard
 
 - Alcance: `/dashboard/portal/services`, `/dashboard/customer-service-records`

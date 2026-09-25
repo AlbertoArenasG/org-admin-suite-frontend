@@ -133,6 +133,32 @@
     "updated": "Registro de servicio actualizado correctamente.",
     "error": "No fue posible guardar el registro de servicio."
   },
+  "detail": {
+    "breadcrumb": "Registro {{folio}}",
+    "notFound": "No se encontró el registro de servicio.",
+    "searchOptions": "Buscar opciones...",
+    "general": {
+      "title": "Detalles generales",
+      "description": "Consulta y actualiza los datos generales del registro."
+    },
+    "labels": {
+      "generalObservations": "Observaciones generales"
+    },
+    "placeholders": {
+      "serviceType": "Selecciona un tipo de servicio",
+      "operationalStatus": "Selecciona un estado operativo"
+    },
+    "errors": {
+      "required": "Este campo es obligatorio.",
+      "invalidDate": "Ingresa una fecha válida."
+    },
+    "feedback": {
+      "saving": "Guardando cambios",
+      "success": "Cambios guardados",
+      "errorTitle": "No fue posible guardar los cambios",
+      "errorGuidance": "Revisa los datos e inténtalo nuevamente."
+    }
+  },
   "createWizard": {
     "title": "Nuevo registro de servicio",
     "description": "Captura los datos mínimos para crear un registro de servicio.",

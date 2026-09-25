@@ -28,6 +28,88 @@ export interface CustomerServiceRecordOption {
   label: string;
 }
 
+export interface CustomerServiceRecordLocalizedValue {
+  code: string;
+  name: string;
+  nameKey: string | null;
+}
+
+export interface CustomerServiceRecordAttachment {
+  fileId: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  downloadUrl: string;
+  previewUrl: string;
+}
+
+export interface CustomerServiceRecordDetail {
+  customerServiceRecordId: string;
+  serviceNumber: string;
+  serviceType: { serviceTypeCode: string; name: string };
+  requestedAt: string;
+  observations: string | null;
+  operationalStatus: CustomerServiceRecordLocalizedValue & {
+    code: CustomerServiceRecordOperationalStatus;
+  };
+  customer: {
+    customerId: string;
+    name: string;
+    users: Array<{ userId: string; name: string; email: string }>;
+  };
+  assets: Array<{
+    assetId: string;
+    name: string;
+    identifier: string;
+    brand: string;
+    model: string;
+    serialNumber: string;
+    observations: string | null;
+    intakeConditionFiles: CustomerServiceRecordAttachment[];
+    deliveryConditionFiles: CustomerServiceRecordAttachment[];
+    reports: CustomerServiceRecordAttachment[];
+  }>;
+  customerDelivery: {
+    receivedAt: string | null;
+    estimatedDeliveryInterval: string | null;
+    estimatedDeliveryAt: string | null;
+    deliveredToCustomerAt: string | null;
+    statusPolicyId: string | null;
+    notificationPolicyId: string | null;
+    statusMaterialization: CustomerServiceRecordDerivedStatus | null;
+    notificationMaterialization: unknown | null;
+  };
+  provider: {
+    providerId: string;
+    name: string;
+    workOrderReference: string | null;
+    deliveredToProviderAt: string | null;
+    estimatedReturnInterval: string | null;
+    estimatedReturnAt: string | null;
+    returnedFromProviderAt: string | null;
+    statusPolicyId: string | null;
+    notificationPolicyId: string | null;
+    followUp: boolean;
+    statusMaterialization: CustomerServiceRecordDerivedStatus | null;
+    notificationMaterialization: unknown | null;
+    followUpMaterialization: unknown[];
+  } | null;
+  attachmentsCount: number;
+  quotation: { referenceNumber: string | null; files: CustomerServiceRecordAttachment[] };
+  purchaseOrder: { referenceNumber: string | null; files: CustomerServiceRecordAttachment[] };
+  invoice: { referenceNumber: string | null; files: CustomerServiceRecordAttachment[] };
+  otherFiles: CustomerServiceRecordAttachment[];
+  createdAt: string | null;
+  updatedAt: string | null;
+}
+
+export interface UpdateCustomerServiceRecordDetailsPayload {
+  serviceTypeCode: string;
+  requestedAt: string;
+  observations: string | null;
+  operationalStatus: CustomerServiceRecordOperationalStatus;
+}
+
 export interface CustomerServiceRecordsListFilters {
   operationalStatus: CustomerServiceRecordOperationalStatus | null;
   serviceTypeCode: string | null;
@@ -139,6 +221,17 @@ export interface CustomerServiceRecordsState {
     status: CustomerServiceRecordRequestStatus;
     error: string | null;
   };
+  detail: {
+    record: CustomerServiceRecordDetail | null;
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
+    currentRecordId: string | null;
+  };
+  detailOptions: {
+    serviceTypes: CustomerServiceRecordOption[];
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
+  };
   mutations: {
     createStatus: CustomerServiceRecordRequestStatus;
     deleteStatus: CustomerServiceRecordRequestStatus;
@@ -146,5 +239,7 @@ export interface CustomerServiceRecordsState {
     message: string | null;
     lastCreatedRecordId: string | null;
     currentRecordId: string | null;
+    updateDetailsStatus: CustomerServiceRecordRequestStatus;
+    updateDetailsError: string | null;
   };
 }
