@@ -109,12 +109,19 @@ export function CustomerServiceRecordCreateDialog({
     dispatch(resetCustomerServiceRecordCreateMutation());
   };
 
+  const clearEmptyWizardFeedback = () => {
+    form.clearErrors();
+    setActiveStep('request');
+    setSubmitError(null);
+  };
+
   const requestClose = () => {
     if (isSubmitting || discardConfirmation) return;
     if (isDraftDirty) {
       setDiscardConfirmation(true);
       return;
     }
+    clearEmptyWizardFeedback();
     onOpenChange(false);
   };
 
