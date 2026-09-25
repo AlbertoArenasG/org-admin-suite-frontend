@@ -3,10 +3,8 @@ import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type {
   CustomerServiceRecordDerivedStatus,
-  CustomerServiceRecordDetail,
   CustomerServiceRecordListItem,
   CreateCustomerServiceRecordPayload,
-  CustomerServiceRecordMutationPayload,
   CustomerServiceRecordOption,
   FetchCustomerServiceRecordsParams,
 } from './types';
@@ -67,57 +65,6 @@ interface ApiCustomerServiceRecordListItem {
 interface ApiProviderOption {
   provider_id: string;
   name: string;
-}
-
-interface ApiDetailCustomerUser {
-  user_id: string;
-  name: string | null;
-  email: string | null;
-}
-
-interface ApiDetailAsset {
-  asset_id: string;
-  name: string;
-  identifier: string;
-  brand: string;
-  model: string;
-  serial_number: string;
-  observations: string | null;
-}
-
-interface ApiFollowUpRule {
-  interval: CustomerServiceRecordDetail['customerDelivery']['estimatedDeliveryInterval'];
-  recipient_group_ids: string[];
-  cc_recipient_group_ids: string[];
-}
-
-interface ApiCustomerServiceRecordDetail
-  extends Omit<
-    ApiCustomerServiceRecordListItem,
-    'customer' | 'assets' | 'customer_delivery' | 'provider'
-  > {
-  observations: string | null;
-  customer: ApiCustomerServiceRecordListItem['customer'] & { users: ApiDetailCustomerUser[] };
-  assets: ApiDetailAsset[];
-  customer_delivery: ApiCustomerServiceRecordListItem['customer_delivery'] & {
-    received_at: string | null;
-    estimated_delivery_interval: CustomerServiceRecordDetail['customerDelivery']['estimatedDeliveryInterval'];
-    delivered_to_customer_at: string | null;
-    status_policy_id: string | null;
-    notification_policy_id: string | null;
-  };
-  provider:
-    | (NonNullable<ApiCustomerServiceRecordListItem['provider']> & {
-        provider_id: string;
-        name: string;
-        delivered_to_provider_at: string | null;
-        estimated_return_interval: CustomerServiceRecordDetail['customerDelivery']['estimatedDeliveryInterval'];
-        returned_from_provider_at: string | null;
-        status_policy_id: string | null;
-        notification_policy_id: string | null;
-        follow_up: { enabled: boolean; rules: ApiFollowUpRule[] };
-      })
-    | null;
 }
 
 function getAuthToken(state: RootState) {
@@ -187,107 +134,6 @@ function mapListItem(value: ApiCustomerServiceRecordListItem): CustomerServiceRe
   };
 }
 
-function mapDetail(value: ApiCustomerServiceRecordDetail): CustomerServiceRecordDetail {
-  const base = mapListItem(value);
-  return {
-    ...base,
-    observations: value.observations ?? null,
-    customer: {
-      ...base.customer,
-      users: (value.customer.users ?? []).map((user) => ({
-        userId: user.user_id,
-        name: user.name ?? null,
-        email: user.email ?? null,
-      })),
-    },
-    assets: value.assets.map((asset) => ({
-      assetId: asset.asset_id,
-      name: asset.name,
-      identifier: asset.identifier,
-      brand: asset.brand,
-      model: asset.model,
-      serialNumber: asset.serial_number,
-      observations: asset.observations ?? null,
-    })),
-    customerDelivery: {
-      ...base.customerDelivery,
-      receivedAt: value.customer_delivery.received_at ?? null,
-      estimatedDeliveryInterval: value.customer_delivery.estimated_delivery_interval,
-      deliveredToCustomerAt: value.customer_delivery.delivered_to_customer_at ?? null,
-      statusPolicyId: value.customer_delivery.status_policy_id ?? null,
-      notificationPolicyId: value.customer_delivery.notification_policy_id ?? null,
-    },
-    provider: value.provider
-      ? {
-          ...base.provider!,
-          providerId: value.provider.provider_id,
-          name: value.provider.name,
-          deliveredToProviderAt: value.provider.delivered_to_provider_at ?? null,
-          estimatedReturnInterval: value.provider.estimated_return_interval,
-          returnedFromProviderAt: value.provider.returned_from_provider_at ?? null,
-          statusPolicyId: value.provider.status_policy_id ?? null,
-          notificationPolicyId: value.provider.notification_policy_id ?? null,
-          followUp: {
-            enabled: value.provider.follow_up?.enabled ?? false,
-            rules: (value.provider.follow_up?.rules ?? []).map((rule) => ({
-              interval: rule.interval,
-              recipientGroupIds: rule.recipient_group_ids ?? [],
-              ccRecipientGroupIds: rule.cc_recipient_group_ids ?? [],
-            })),
-          },
-        }
-      : null,
-  };
-}
-
-function buildMutationBody(payload: CustomerServiceRecordMutationPayload) {
-  return {
-    service_type_code: payload.serviceTypeCode,
-    requested_at: payload.requestedAt,
-    observations: payload.observations,
-    customer: {
-      customer_id: payload.customer.customerId,
-      customer_user_ids: payload.customer.customerUserIds,
-    },
-    assets: payload.assets.map((asset) => ({
-      name: asset.name,
-      identifier: asset.identifier,
-      brand: asset.brand,
-      model: asset.model,
-      serial_number: asset.serialNumber,
-      observations: asset.observations,
-    })),
-    customer_delivery: {
-      received_at: payload.customerDelivery.receivedAt,
-      estimated_delivery_interval: payload.customerDelivery.estimatedDeliveryInterval,
-      estimated_delivery_at: payload.customerDelivery.estimatedDeliveryAt,
-      delivered_to_customer_at: payload.customerDelivery.deliveredToCustomerAt,
-      status_policy_id: payload.customerDelivery.statusPolicyId,
-      notification_policy_id: payload.customerDelivery.notificationPolicyId,
-    },
-    provider: payload.provider
-      ? {
-          provider_id: payload.provider.providerId,
-          delivered_to_provider_at: payload.provider.deliveredToProviderAt,
-          estimated_return_interval: payload.provider.estimatedReturnInterval,
-          estimated_return_at: payload.provider.estimatedReturnAt,
-          returned_from_provider_at: payload.provider.returnedFromProviderAt,
-          status_policy_id: payload.provider.statusPolicyId,
-          notification_policy_id: payload.provider.notificationPolicyId,
-          follow_up: {
-            enabled: payload.provider.followUp.enabled,
-            rules: payload.provider.followUp.rules.map((rule) => ({
-              interval: rule.interval,
-              recipient_group_ids: rule.recipientGroupIds,
-              cc_recipient_group_ids: rule.ccRecipientGroupIds,
-            })),
-          },
-        }
-      : null,
-    operational_status: payload.operationalStatus,
-  };
-}
-
 function buildCreateCustomerServiceRecordBody(payload: CreateCustomerServiceRecordPayload) {
   return {
     service_type_code: payload.serviceTypeCode,
@@ -306,49 +152,6 @@ function buildCreateCustomerServiceRecordBody(payload: CreateCustomerServiceReco
       observations: null,
     })),
   };
-}
-
-function buildUpdateBody(payload: Partial<CustomerServiceRecordMutationPayload>) {
-  const body: Record<string, unknown> = {};
-  if (payload.serviceTypeCode !== undefined) body.service_type_code = payload.serviceTypeCode;
-  if (payload.requestedAt !== undefined) body.requested_at = payload.requestedAt;
-  if (payload.observations !== undefined) body.observations = payload.observations;
-  if (payload.customer !== undefined) {
-    body.customer = {
-      customer_id: payload.customer.customerId,
-      customer_user_ids: payload.customer.customerUserIds,
-    };
-  }
-  if (payload.assets !== undefined) {
-    body.assets = payload.assets.map((asset) => ({
-      name: asset.name,
-      identifier: asset.identifier,
-      brand: asset.brand,
-      model: asset.model,
-      serial_number: asset.serialNumber,
-      observations: asset.observations,
-    }));
-  }
-  if (payload.customerDelivery !== undefined) {
-    body.customer_delivery = {
-      received_at: payload.customerDelivery.receivedAt,
-      estimated_delivery_interval: payload.customerDelivery.estimatedDeliveryInterval,
-      estimated_delivery_at: payload.customerDelivery.estimatedDeliveryAt,
-      delivered_to_customer_at: payload.customerDelivery.deliveredToCustomerAt,
-      status_policy_id: payload.customerDelivery.statusPolicyId,
-      notification_policy_id: payload.customerDelivery.notificationPolicyId,
-    };
-  }
-  if (payload.provider !== undefined) {
-    body.provider = payload.provider
-      ? buildMutationBody({
-          ...payload,
-          provider: payload.provider,
-        } as CustomerServiceRecordMutationPayload).provider
-      : null;
-  }
-  if (payload.operationalStatus !== undefined) body.operational_status = payload.operationalStatus;
-  return body;
 }
 
 export const fetchCustomerServiceRecords = createAsyncThunk<
@@ -479,29 +282,8 @@ export const fetchCustomerServiceRecordOptions = createAsyncThunk<
   }
 });
 
-export const fetchCustomerServiceRecordById = createAsyncThunk<
-  { record: CustomerServiceRecordDetail },
-  { recordId: string },
-  { state: RootState; rejectValue: string }
->('customerServiceRecords/fetchById', async ({ recordId }, thunkAPI) => {
-  const token = getAuthToken(thunkAPI.getState());
-  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
-
-  try {
-    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
-      `/v1/customer-service-records/${recordId}`,
-      { method: 'GET', headers: { Accept: 'application/json' }, token }
-    );
-    return { record: mapDetail(response.data) };
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error instanceof Error ? error.message : 'No fue posible obtener el registro de servicio'
-    );
-  }
-});
-
 export const createCustomerServiceRecord = createAsyncThunk<
-  { record: CustomerServiceRecordDetail; message: string | null },
+  { record: { customerServiceRecordId: string }; message: string | null },
   CreateCustomerServiceRecordPayload,
   { state: RootState; rejectValue: string }
 >('customerServiceRecords/create', async (payload, thunkAPI) => {
@@ -509,7 +291,7 @@ export const createCustomerServiceRecord = createAsyncThunk<
   if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
 
   try {
-    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+    const response = await jsonRequest<{ customer_service_record_id: string }>(
       '/v1/customer-service-records',
       {
         method: 'POST',
@@ -518,36 +300,13 @@ export const createCustomerServiceRecord = createAsyncThunk<
         token,
       }
     );
-    return { record: mapDetail(response.data), message: response.successMessage };
+    return {
+      record: { customerServiceRecordId: response.data.customer_service_record_id },
+      message: response.successMessage,
+    };
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible crear el registro de servicio'
-    );
-  }
-});
-
-export const updateCustomerServiceRecord = createAsyncThunk<
-  { record: CustomerServiceRecordDetail; message: string | null },
-  { recordId: string; payload: Partial<CustomerServiceRecordMutationPayload> },
-  { state: RootState; rejectValue: string }
->('customerServiceRecords/update', async ({ recordId, payload }, thunkAPI) => {
-  const token = getAuthToken(thunkAPI.getState());
-  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
-
-  try {
-    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
-      `/v1/customer-service-records/${recordId}`,
-      {
-        method: 'PATCH',
-        headers: { Accept: 'application/json' },
-        body: buildUpdateBody(payload),
-        token,
-      }
-    );
-    return { record: mapDetail(response.data), message: response.successMessage };
-  } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error instanceof Error ? error.message : 'No fue posible actualizar el registro de servicio'
     );
   }
 });

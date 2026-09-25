@@ -13,55 +13,6 @@
     "clearCriteria": "Clear criteria",
     "clearSearch": "Clear search"
   },
-  "detail": {
-    "title": "Service record",
-    "restricted": "You do not have permission to view this record.",
-    "notFound": "The service record could not be found.",
-    "sections": {
-      "general": "General information",
-      "customer": "Customer and related users",
-      "asset": "Asset",
-      "customerCommitment": "Customer commitment",
-      "provider": "Provider",
-      "followUp": "Provider follow-up"
-    },
-    "fields": {
-      "serviceType": "Service type",
-      "operationalStatus": "Operational status",
-      "requestedAt": "Request or record date",
-      "observations": "Notes",
-      "customer": "Customer",
-      "customerUsers": "Customer users",
-      "assetName": "Asset",
-      "identifier": "Identifier",
-      "brand": "Brand",
-      "model": "Model",
-      "serialNumber": "Serial number",
-      "assetObservations": "Asset notes",
-      "receivedAt": "Reception or collection date",
-      "estimatedDeliveryAt": "Estimated customer delivery date",
-      "deliveryInterval": "Estimated delivery lead time",
-      "deliveredToCustomerAt": "Actual customer delivery date",
-      "estimatedInterval": "Estimated lead time",
-      "customerSemaphore": "Customer tracking",
-      "provider": "Provider",
-      "deliveredToProviderAt": "Delivered to provider date",
-      "estimatedReturnAt": "Estimated return date",
-      "returnInterval": "Estimated return lead time",
-      "returnedFromProviderAt": "Actual return date",
-      "providerSemaphore": "Provider tracking",
-      "followUp": "Follow-up enabled",
-      "followUpRules": "Configured rules",
-      "followUpInterval": "Interval",
-      "recipients": "Recipient groups",
-      "copyRecipients": "Copy groups"
-    },
-    "rule": "Rule {{index}}"
-  },
-  "edit": {
-    "title": "Edit service record",
-    "restricted": "You do not have permission to edit this record."
-  },
   "table": {
     "columns": {
       "serviceNumber": "Record",
