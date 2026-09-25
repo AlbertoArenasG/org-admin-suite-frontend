@@ -5,6 +5,7 @@ export { TableFilterSection } from './TableFilterSection';
 export { TableFilterSelect } from './TableFilterSelect';
 export type {
   TableFilterDateField,
+  TableFilterControlOrientation,
   TableFilterDatePreset,
   TableFilterDatePresetId,
   TableFilterDateRangeValue,

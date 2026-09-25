@@ -7,7 +7,11 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 
-import type { TableFilterOption, TableFilterSelection } from './types';
+import type {
+  TableFilterControlOrientation,
+  TableFilterOption,
+  TableFilterSelection,
+} from './types';
 
 interface TableFilterSelectProps {
   label: string;
@@ -15,6 +19,7 @@ interface TableFilterSelectProps {
   selectedValues: string[];
   onSelectedValuesChange: (values: string[]) => void;
   selection?: TableFilterSelection;
+  orientation?: TableFilterControlOrientation;
   placeholder: string;
   searchable?: boolean;
   searchPlaceholder?: string;
@@ -33,6 +38,7 @@ export function TableFilterSelect({
   selectedValues,
   onSelectedValuesChange,
   selection = 'single',
+  orientation = 'vertical',
   placeholder,
   searchable = false,
   searchPlaceholder,
@@ -93,10 +99,24 @@ export function TableFilterSelect({
   };
 
   return (
-    <div className={cn('grid gap-1.5', className)}>
-      <span className="text-sm font-medium text-foreground">{label}</span>
+    <div
+      className={cn(
+        'grid gap-1.5',
+        orientation === 'responsive' &&
+          'md:grid-cols-[var(--table-filter-label-width,14rem)_minmax(0,1fr)] md:items-start',
+        className
+      )}
+    >
+      <span
+        className={cn(
+          'text-sm font-medium text-foreground',
+          orientation === 'responsive' && 'md:pt-2.5'
+        )}
+      >
+        {label}
+      </span>
       <Popover open={open} onOpenChange={updateOpen}>
-        <div className="relative">
+        <div className="relative min-w-0">
           <PopoverTrigger asChild>
             <button
               type="button"

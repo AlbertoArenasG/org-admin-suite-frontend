@@ -54,6 +54,15 @@ columnas hacia TanStack y `dataTableLayout.ts` los calculos puros de layout,
 anchos y clases. Los efectos de navegador, refs, fullscreen y estado React se
 mantienen en `DataTable`.
 
+## Filtros En Dialogo
+
+`TableFilterDialogContent` concentra el ancho, padding y overflow del patron
+de filtros; no se incorporan esas reglas al dialogo base. `TableFilterSelect`
+conserva orientacion `vertical` por defecto y admite `responsive` para mostrar
+etiqueta a la izquierda y control a la derecha desde escritorio. Cada dialogo
+de filtros decide si adopta esa orientacion; no se fuerza sobre otros
+consumidores.
+
 ## Acciones Por Fila
 
 `rowActions` es un contrato opcional y tipado. La vista resuelve para cada

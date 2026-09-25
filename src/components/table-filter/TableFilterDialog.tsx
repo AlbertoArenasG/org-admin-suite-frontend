@@ -4,15 +4,9 @@ import { Filter, RotateCcw } from 'lucide-react';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
+import { Dialog, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
+import { TableFilterDialogContent } from './TableFilterDialogContent';
 import type { TableFilterDialogLabels, TableFilterRenderState } from './types';
 
 interface TableFilterDialogProps<TValue> {
@@ -67,12 +61,7 @@ export function TableFilterDialog<TValue>({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={cn(
-          'flex max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] max-w-3xl flex-col gap-0 overflow-hidden p-0 sm:w-full',
-          className
-        )}
-      >
+      <TableFilterDialogContent className={className}>
         <DialogHeader className="shrink-0 space-y-0 px-4 pb-3 pt-4 text-left sm:px-5 sm:pt-5">
           <DialogTitle className="flex items-center gap-2 text-base">
             <Filter className="size-4" aria-hidden="true" />
@@ -113,7 +102,7 @@ export function TableFilterDialog<TValue>({
             </Button>
           </div>
         </DialogFooter>
-      </DialogContent>
+      </TableFilterDialogContent>
     </Dialog>
   );
 }

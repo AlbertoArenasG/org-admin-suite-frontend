@@ -22,6 +22,7 @@ import { TableFilterDateInput } from './TableFilterDateInput';
 import { TableFilterSelect } from './TableFilterSelect';
 import type {
   TableFilterDateField,
+  TableFilterControlOrientation,
   TableFilterDatePreset,
   TableFilterDatePresetId,
   TableFilterDateRangeValue,
@@ -46,6 +47,7 @@ interface TableFilterDateRangeProps {
   labels: TableFilterDateRangeLabels;
   calendarLocale?: ComponentProps<typeof Calendar>['locale'];
   disabled?: boolean;
+  orientation?: TableFilterControlOrientation;
 }
 
 export function getTableFilterDatePresetRange(
@@ -104,6 +106,7 @@ export function TableFilterDateRange({
   labels,
   calendarLocale,
   disabled = false,
+  orientation = 'vertical',
 }: TableFilterDateRangeProps) {
   const hasMultipleFields = fields.length > 1;
   const selectedFieldId = value.fieldId ?? (fields.length === 1 ? fields[0].id : null);
@@ -129,6 +132,7 @@ export function TableFilterDateRange({
             onValueChange({ fieldId: values[0] ?? null, from: null, to: null })
           }
           placeholder={labels.fieldPlaceholder}
+          orientation={orientation}
           disabled={disabled}
           clearable
         />

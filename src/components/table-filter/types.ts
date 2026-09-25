@@ -8,6 +8,8 @@ export interface TableFilterOption {
 
 export type TableFilterSelection = 'single' | 'multiple';
 
+export type TableFilterControlOrientation = 'vertical' | 'responsive';
+
 export type TableFilterSectionLayout = 'one-column' | 'two-columns';
 
 export interface TableFilterDateField {

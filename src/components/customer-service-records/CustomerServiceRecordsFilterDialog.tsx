@@ -184,6 +184,7 @@ export function CustomerServiceRecordsFilterDialog({
                   setDraft((current) => ({ ...current, serviceTypeCode: values[0] ?? null }))
                 }
                 placeholder={t('filters.serviceTypePlaceholder')}
+                orientation="responsive"
                 searchable
                 searchPlaceholder={t('filters.dialog.searchOptions')}
                 loading={loadingOptions}
@@ -196,6 +197,7 @@ export function CustomerServiceRecordsFilterDialog({
                   setDraft((current) => ({ ...current, customerId: values[0] ?? null }))
                 }
                 placeholder={t('filters.customerPlaceholder')}
+                orientation="responsive"
                 searchable
                 searchPlaceholder={t('filters.dialog.searchOptions')}
                 loading={loadingOptions}
@@ -214,6 +216,7 @@ export function CustomerServiceRecordsFilterDialog({
                   }))
                 }
                 placeholder={t('filters.statusPlaceholder')}
+                orientation="responsive"
               />
               <TableFilterSelect
                 label={t('filters.dialog.provider')}
@@ -223,6 +226,7 @@ export function CustomerServiceRecordsFilterDialog({
                   setDraft((current) => ({ ...current, providerId: values[0] ?? null }))
                 }
                 placeholder={t('filters.providerPlaceholder')}
+                orientation="responsive"
                 searchable
                 searchPlaceholder={t('filters.dialog.searchOptions')}
                 loading={loadingOptions}
@@ -241,6 +245,7 @@ export function CustomerServiceRecordsFilterDialog({
                   }))
                 }
                 placeholder={t('filters.providerStatePlaceholder')}
+                orientation="responsive"
               />
             </TableFilterSection>
 
@@ -275,6 +280,7 @@ export function CustomerServiceRecordsFilterDialog({
                   openCalendar: t('filters.dialog.period.openCalendar'),
                 }}
                 calendarLocale={es}
+                orientation="responsive"
               />
             </TableFilterSection>
           </>

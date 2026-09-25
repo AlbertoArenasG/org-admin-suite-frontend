@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { WizardDialogContent } from '@/components/ui/wizard-dialog';
 import {
   Stepper,
   type StepperNavigationContext,
@@ -192,13 +193,12 @@ export function CustomerServiceRecordCreateDialog({
       open={open}
       onOpenChange={(nextOpen) => (nextOpen ? onOpenChange(true) : requestClose())}
     >
-      <DialogContent
-        className="flex max-h-[calc(100dvh-2rem)] max-w-3xl flex-col overflow-hidden p-0"
-        onEscapeKeyDown={preventDirtyDraftDismissal}
-        onPointerDownOutside={preventDirtyDraftDismissal}
-        showCloseButton={!discardConfirmation}
-      >
-        {discardConfirmation ? (
+      {discardConfirmation ? (
+        <DialogContent
+          onEscapeKeyDown={preventDirtyDraftDismissal}
+          onPointerDownOutside={preventDirtyDraftDismissal}
+          showCloseButton={false}
+        >
           <>
             <DialogHeader className="p-6 pb-0">
               <DialogTitle>{t('createWizard.discard.title')}</DialogTitle>
@@ -220,7 +220,12 @@ export function CustomerServiceRecordCreateDialog({
               </Button>
             </DialogFooter>
           </>
-        ) : (
+        </DialogContent>
+      ) : (
+        <WizardDialogContent
+          onEscapeKeyDown={preventDirtyDraftDismissal}
+          onPointerDownOutside={preventDirtyDraftDismissal}
+        >
           <form className="flex min-h-0 flex-1 flex-col" onSubmit={handleFormSubmit}>
             <DialogHeader className="p-6 pb-2">
               <DialogTitle>{t('createWizard.title')}</DialogTitle>
@@ -349,8 +354,8 @@ export function CustomerServiceRecordCreateDialog({
               </div>
             </DialogFooter>
           </form>
-        )}
-      </DialogContent>
+        </WizardDialogContent>
+      )}
     </Dialog>
   );
 }
