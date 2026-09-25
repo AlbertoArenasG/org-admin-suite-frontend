@@ -29,6 +29,7 @@
 ## Slice 2: Toolbar And Form Date Field
 
 - Phase: 2.
+- Status: implementada y verificada estaticamente.
 - Goal: habilitar una accion primaria opcional en toolbar y un campo de fecha
   exclusivo de formularios, sin cambiar filtros existentes.
 - Artifacts: `DataTable.types`, `DataTableToolbar`, `FormDateInput`, barrel de
@@ -47,6 +48,7 @@
 ## Slice 3: Creation Contract
 
 - Phase: 3.
+- Status: implementada y verificada estaticamente.
 - Goal: separar valores/schema/payload de creacion del contrato de edicion.
 - Artifacts: types, thunk y schema de creacion.
 - Steps:
@@ -63,6 +65,7 @@
 ## Slice 4: Wizard Dialog And Module Adoption
 
 - Phase: 4.
+- Status: implementada y validada manualmente.
 - Goal: crear el flujo Next Dashboard sobre los contratos ya reemplazados.
 - Artifacts: tres componentes de paso, dialogo, tabla, contenedor y
   traducciones.
@@ -87,6 +90,7 @@
 ## Slice 5: Manual Validation And Closure
 
 - Phase: 5.
+- Status: completada.
 - Goal: registrar evidencia y cerrar documentos.
 - Artifacts: `05-progress`, `08-manual-validation`, definition, task list,
   decisions e indice.

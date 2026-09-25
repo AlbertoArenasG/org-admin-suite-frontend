@@ -3,6 +3,8 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from 'cn';
 import { Slot } from 'radix-ui';
 
+import { Spinner } from '@/components/ui/spinner';
+
 const buttonVariants = cva(
   "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
@@ -36,14 +38,20 @@ const buttonVariants = cva(
 );
 
 function Button({
+  children,
   className,
   variant = 'default',
   size = 'default',
   asChild = false,
+  disabled,
+  loading = false,
+  loadingLabel,
   ...props
 }: React.ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
+    loading?: boolean;
+    loadingLabel?: React.ReactNode;
   }) {
   const Comp = asChild ? Slot.Root : 'button';
 
@@ -52,9 +60,21 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
+      data-state={loading ? 'loading' : 'idle'}
+      aria-busy={loading || undefined}
+      disabled={disabled || loading}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {loading ? (
+        <>
+          <Spinner aria-hidden="true" />
+          {loadingLabel ?? children}
+        </>
+      ) : (
+        children
+      )}
+    </Comp>
   );
 }
 

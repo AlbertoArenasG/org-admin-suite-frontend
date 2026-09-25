@@ -41,6 +41,14 @@ Los subcomponentes no crean instancias de TanStack, no hacen HTTP, no conocen
 permisos ni interpretan el dominio de una vista. Las vistas continuan
 consumiendo exclusivamente `@/components/data-table`.
 
+## Toolbar
+
+`DataTableToolbar` admite `primaryActions?: ReactNode` como slot opcional al
+extremo derecho, despues de configuracion de columnas. La vista decide si
+entrega acciones y resuelve sus permisos; una toolbar sin el slot conserva su
+composicion actual. El contrato no prescribe que una accion primaria deba vivir
+en la toolbar: una vista puede elegir otra superficie aprobada por su spec.
+
 `dataTableColumns.ts` concentra la transformacion pura desde el contrato de
 columnas hacia TanStack y `dataTableLayout.ts` los calculos puros de layout,
 anchos y clases. Los efectos de navegador, refs, fullscreen y estado React se

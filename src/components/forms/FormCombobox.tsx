@@ -71,8 +71,11 @@ export function FormCombobox({
           <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className="w-[var(--radix-popover-trigger-width)] min-w-64 p-0">
-        <Command className="flex w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
+      <PopoverContent
+        align="start"
+        className="flex max-h-[var(--radix-popover-content-available-height)] w-[var(--radix-popover-trigger-width)] min-w-64 flex-col overflow-hidden p-0"
+      >
+        <Command className="flex min-h-0 w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground">
           <div className="flex items-center gap-2 border-b px-3">
             <Search aria-hidden className="size-4 shrink-0 text-muted-foreground" />
             <Command.Input
@@ -80,7 +83,10 @@ export function FormCombobox({
               placeholder={searchPlaceholder}
             />
           </div>
-          <Command.List className="max-h-64 overflow-y-auto p-1">
+          <Command.List
+            className="min-h-0 max-h-64 flex-1 overflow-y-auto overscroll-contain p-1"
+            onWheelCapture={(event) => event.stopPropagation()}
+          >
             <Command.Empty className="py-6 text-center text-sm text-muted-foreground">
               {emptyMessage}
             </Command.Empty>

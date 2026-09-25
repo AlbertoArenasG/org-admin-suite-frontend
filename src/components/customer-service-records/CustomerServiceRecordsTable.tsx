@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import type { ReactNode } from 'react';
 
 import { DataTable, type DataTableRowActions } from '@/components/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -41,10 +42,12 @@ function loadingCell(columnId: string) {
 type CustomerServiceRecordsTableProps = {
   controller: CustomerServiceRecordsListController;
   rowActions: DataTableRowActions<CustomerServiceRecordListItem>;
+  primaryActions?: ReactNode;
 };
 
 export function CustomerServiceRecordsTable({
   controller,
+  primaryActions,
   rowActions,
 }: CustomerServiceRecordsTableProps) {
   const { t, hydrated, i18n } = useTranslationHydrated('customerServiceRecords');
@@ -167,6 +170,7 @@ export function CustomerServiceRecordsTable({
             }}
           />
         ),
+        primaryActions,
       }}
       settings={{
         columnVisibility: { visibleColumnIds, onChange: setVisibleColumnIds },

@@ -142,6 +142,11 @@ El overlay (`Dialog` o `Drawer`) se reserva para recursos breves de una sola
 sección. Un recurso multi-sección, con navegación intraformulario o scroll
 prolongado usa `ResourceFormRoute` en una ruta dedicada.
 
+Un wizard breve y controlado puede usar `Dialog` cuando su spec defina pasos,
+dueño de scroll, descarte de draft, foco y bloqueo de mutación. Sus valores
+pertenecen a su formulario local; no se guardan en el estado compartido de la
+colección.
+
 No se implementan overlays extensos, viewport interno ni regiones sticky sin
 una spec futura de un recurso que justifique esas necesidades y defina dueño de
 scroll, foco y comportamiento responsive.
@@ -171,6 +176,12 @@ de selección buscable viven en `src/components/forms/` y se construyen sobre
 Redux ni transporte remoto. `PhoneInput` de la misma familia usa
 `react-phone-number-input`, limita sus países al consumidor y preserva el
 contrato telefónico del backend.
+
+`FormDateInput` es el control compartido para fechas de formularios. Conserva
+un valor controlado ISO `yyyy-MM-dd`, permite captura localizada
+`dd/mm/aaaa` con diagonales automáticas y ofrece calendario de selección única.
+Es independiente de `TableFilterDateInput`: las necesidades futuras de filtros
+no modifican el contrato de formularios.
 
 No se usa un vendor de Shark/Ark UI ni se sustituyen primitives canónicas o
 tokens globales para estos controles. Una adopción futura de otra familia debe

@@ -182,6 +182,38 @@
     "updated": "Service record updated successfully.",
     "error": "Unable to save the service record."
   },
+  "createWizard": {
+    "title": "New service record",
+    "description": "Provide the minimum information to create a service record.",
+    "stepperLabel": "Service record creation progress",
+    "steps": {
+      "request": "Request",
+      "asset": "Asset",
+      "summary": "Confirm"
+    },
+    "placeholders": {
+      "serviceType": "Select a service type",
+      "customer": "Select a customer",
+      "customerUsers": "Select related users"
+    },
+    "searchOptions": "Search options...",
+    "openCalendar": "Open calendar",
+    "none": "No selection",
+    "cancel": "Cancel",
+    "confirm": "Create record",
+    "creating": "Creating record...",
+    "errors": {
+      "required": "This field is required.",
+      "invalidDate": "Enter a valid date.",
+      "submit": "Unable to create the service record."
+    },
+    "discard": {
+      "title": "Discard record",
+      "description": "You will lose the data entered for this record.",
+      "continue": "Keep editing",
+      "confirm": "Discard changes"
+    }
+  },
   "delete": {
     "title": "Delete service record",
     "description": "This will remove the record and it cannot be undone from the application.",

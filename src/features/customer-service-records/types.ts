@@ -174,6 +174,38 @@ export interface CustomerServiceRecordMutationPayload {
   } | null;
   operationalStatus: CustomerServiceRecordOperationalStatus;
 }
+
+export interface CustomerServiceRecordCreateValues {
+  serviceTypeCode: string;
+  requestedAt: string;
+  customerId: string;
+  customerUserIds: string[];
+  asset: {
+    name: string;
+    identifier: string;
+    brand: string;
+    model: string;
+    serialNumber: string;
+  };
+}
+
+export interface CreateCustomerServiceRecordPayload {
+  serviceTypeCode: string;
+  requestedAt: string;
+  observations: null;
+  customer: { customerId: string; customerUserIds: string[] };
+  assets: [
+    {
+      name: string;
+      identifier: string;
+      brand: string;
+      model: string;
+      serialNumber: string;
+      observations: null;
+    },
+  ];
+}
+
 export interface CustomerServiceRecordsState {
   list: {
     items: CustomerServiceRecordListItem[];
@@ -197,10 +229,12 @@ export interface CustomerServiceRecordsState {
     currentRecordId: string | null;
   };
   mutations: {
+    createStatus: CustomerServiceRecordRequestStatus;
     updateStatus: CustomerServiceRecordRequestStatus;
     deleteStatus: CustomerServiceRecordRequestStatus;
     error: string | null;
     message: string | null;
+    lastCreatedRecordId: string | null;
     currentRecordId: string | null;
   };
 }

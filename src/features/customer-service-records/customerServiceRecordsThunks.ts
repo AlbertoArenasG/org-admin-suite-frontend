@@ -5,6 +5,7 @@ import type {
   CustomerServiceRecordDerivedStatus,
   CustomerServiceRecordDetail,
   CustomerServiceRecordListItem,
+  CreateCustomerServiceRecordPayload,
   CustomerServiceRecordMutationPayload,
   CustomerServiceRecordOption,
   FetchCustomerServiceRecordsParams,
@@ -287,6 +288,26 @@ function buildMutationBody(payload: CustomerServiceRecordMutationPayload) {
   };
 }
 
+function buildCreateCustomerServiceRecordBody(payload: CreateCustomerServiceRecordPayload) {
+  return {
+    service_type_code: payload.serviceTypeCode,
+    requested_at: payload.requestedAt,
+    observations: null,
+    customer: {
+      customer_id: payload.customer.customerId,
+      customer_user_ids: payload.customer.customerUserIds,
+    },
+    assets: payload.assets.map((asset) => ({
+      name: asset.name,
+      identifier: asset.identifier,
+      brand: asset.brand,
+      model: asset.model,
+      serial_number: asset.serialNumber,
+      observations: null,
+    })),
+  };
+}
+
 function buildUpdateBody(payload: Partial<CustomerServiceRecordMutationPayload>) {
   const body: Record<string, unknown> = {};
   if (payload.serviceTypeCode !== undefined) body.service_type_code = payload.serviceTypeCode;
@@ -475,6 +496,32 @@ export const fetchCustomerServiceRecordById = createAsyncThunk<
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible obtener el registro de servicio'
+    );
+  }
+});
+
+export const createCustomerServiceRecord = createAsyncThunk<
+  { record: CustomerServiceRecordDetail; message: string | null },
+  CreateCustomerServiceRecordPayload,
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/create', async (payload, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+      '/v1/customer-service-records',
+      {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: buildCreateCustomerServiceRecordBody(payload),
+        token,
+      }
+    );
+    return { record: mapDetail(response.data), message: response.successMessage };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible crear el registro de servicio'
     );
   }
 });

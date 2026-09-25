@@ -22,4 +22,19 @@
   PATCH y delete se preservaron.
 - Verificacion de Slice 1: lint dirigido, `npm run typecheck`, busqueda de
   referencias y `git diff --check` completados sin errores.
-- Siguiente: Slice 2, contratos compartidos de toolbar y fecha de formulario.
+- Slices 2 y 3 implementadas: `DataTableToolbar.primaryActions`,
+  `FormDateInput`, contrato de create, schema, body HTTP exclusivo y estado
+  remoto de la mutacion ya estan separados de la edicion legacy.
+- Slice 4 implementada: el wizard Next Dashboard abre desde la tabla segun
+  `CREATE`, maneja sus tres pasos, draft local, descarte in-place, toast y
+  navegacion al detalle legacy despues del POST exitoso.
+- Verificacion previa a pruebas manuales: JSON de traducciones, lint dirigido,
+  `npm run typecheck`, `npm run build` y `git diff --check` completados sin
+  fallas de esta migracion.
+- Validacion manual completada por el usuario para toda la matriz de `08`.
+  El comportamiento responsive se acepta con seguimiento tecnico separado para
+  la composicion compartida de `Field`/`FormField`.
+- Slice 5 completada: `npm run build` finaliza correctamente. Conserva dos
+  warnings preexistentes y ajenos a esta spec en
+  `CustomerUsersSection` y `UserRegistrationInvitationTableRowActions`.
+- Spec cerrada: tareas, slices, validacion y documentos vivos consistentes.

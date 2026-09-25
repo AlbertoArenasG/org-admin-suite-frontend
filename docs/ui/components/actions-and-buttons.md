@@ -20,14 +20,20 @@ invitación` desde el listado de invitaciones.
 
 ## Alcance
 
-- `Page Header` admite cero o una acción `primary` y hasta dos `secondary`,
-  únicamente cuando afectan el propósito completo de la página y no dependen de
-  una tabla, filtro, card o entidad seleccionada.
-- `Page Content` contiene filtros, tabs, búsqueda, comandos de tabla y acciones
-  masivas. `Administrar columnas`, por ejemplo, pertenece a la barra de su
-  tabla, no al `Page Header`.
-- Las acciones de fila o entidad pertenecen al registro, tarjeta o detalle que
-  afectan.
+Una vista con tabla puede ubicar acciones primarias en cualquiera de estas
+tres superficies: `Page Header`, encabezado de tabla o toolbar de tabla. La
+spec de cada vista decide la superficie y la composición; esta guía no asigna
+casos de uso ni prioridad a una ubicación específica.
+
+Las acciones de fila o entidad permanecen en el registro, tarjeta o detalle
+que afectan.
+
+## Mutaciones Pendientes
+
+`Button` admite `loading` y `loadingLabel` para mutaciones asíncronas. Mientras
+está pendiente, se deshabilita, comunica `aria-busy` y muestra un spinner
+animado junto al copy transitorio. Las vistas deben usar este contrato en vez
+de ensamblar spinners locales o adoptar controles legados.
 
 `Overflow` y `Destructive` no pertenecen al `Page Header` inicial. El primero
 solo se incorporará mediante un caso de alcance de página que justifique su

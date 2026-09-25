@@ -47,6 +47,7 @@ export function DataTableToolbar({ toolbar, labels, settingsMenu }: DataTableToo
       ) : null}
       {toolbar.trailing}
       {settingsMenu}
+      {toolbar.primaryActions}
     </div>
   );
 }

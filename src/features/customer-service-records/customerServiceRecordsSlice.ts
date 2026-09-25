@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { CustomerServiceRecordsState } from './types';
 import {
+  createCustomerServiceRecord,
   deleteCustomerServiceRecord,
   fetchCustomerServiceRecordById,
   fetchCustomerServiceRecordOptions,
@@ -26,17 +27,26 @@ const initialState: CustomerServiceRecordsState = {
   },
   detail: { item: null, status: 'idle', error: null, currentRecordId: null },
   mutations: {
+    createStatus: 'idle',
     updateStatus: 'idle',
     deleteStatus: 'idle',
     error: null,
     message: null,
+    lastCreatedRecordId: null,
     currentRecordId: null,
   },
 };
 const customerServiceRecordsSlice = createSlice({
   name: 'customerServiceRecords',
   initialState,
-  reducers: {},
+  reducers: {
+    resetCustomerServiceRecordCreateMutation: (state) => {
+      state.mutations.createStatus = 'idle';
+      state.mutations.error = null;
+      state.mutations.message = null;
+      state.mutations.lastCreatedRecordId = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchCustomerServiceRecords.pending, (state) => {
@@ -95,6 +105,22 @@ const customerServiceRecordsSlice = createSlice({
         state.detail.error =
           action.payload ?? action.error.message ?? 'No fue posible obtener el registro';
       })
+      .addCase(createCustomerServiceRecord.pending, (state) => {
+        state.mutations.createStatus = 'loading';
+        state.mutations.error = null;
+        state.mutations.message = null;
+        state.mutations.lastCreatedRecordId = null;
+      })
+      .addCase(createCustomerServiceRecord.fulfilled, (state, action) => {
+        state.mutations.createStatus = 'succeeded';
+        state.mutations.message = action.payload.message;
+        state.mutations.lastCreatedRecordId = action.payload.record.customerServiceRecordId;
+      })
+      .addCase(createCustomerServiceRecord.rejected, (state, action) => {
+        state.mutations.createStatus = 'failed';
+        state.mutations.error =
+          action.payload ?? action.error.message ?? 'No fue posible crear el registro';
+      })
       .addCase(updateCustomerServiceRecord.pending, (state, action) => {
         state.mutations.updateStatus = 'loading';
         state.mutations.error = null;
@@ -132,4 +158,5 @@ const customerServiceRecordsSlice = createSlice({
       });
   },
 });
+export const { resetCustomerServiceRecordCreateMutation } = customerServiceRecordsSlice.actions;
 export default customerServiceRecordsSlice.reducer;

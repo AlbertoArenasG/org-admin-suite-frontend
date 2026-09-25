@@ -15,7 +15,7 @@
 
 ## Phase 2: Shared Contracts
 
-- [ ] Definir slot opcional de acciones primarias en `DataTableToolbar` y
+- [x] Definir slot opcional de acciones primarias en `DataTableToolbar` y
       crear el campo de fecha para formularios.
   - Depends on: Phase 1.
   - Close when: ambos contratos son reutilizables, no cambian filtros ni las
@@ -23,14 +23,14 @@
 
 ## Phase 3: Creation Boundary
 
-- [ ] Separar contrato de creacion, schema y body HTTP del payload de edicion.
+- [x] Separar contrato de creacion, schema y body HTTP del payload de edicion.
   - Depends on: Phase 2.
   - Close when: el POST de creacion no puede incluir campos legacy y Redux
     conserva sus responsabilidades remotas actuales.
 
 ## Phase 4: Wizard And Adoption
 
-- [ ] Implementar el dialogo wizard, los tres pasos, descarte, permisos,
+- [x] Implementar el dialogo wizard, los tres pasos, descarte, permisos,
       submit, toast y navegacion sobre el reemplazo Next Dashboard.
   - Depends on: Phase 3.
   - Close when: el flujo nuevo queda implementado y todos sus criterios estan
@@ -40,7 +40,7 @@
 
 ## Phase 5: Closure
 
-- [ ] Ejecutar verificacion estatica, validacion manual y cerrar artefactos de
+- [x] Ejecutar verificacion estatica, validacion manual y cerrar artefactos de
       la spec.
   - Depends on: Phase 4.
   - Close when: no hay tareas pendientes, documentos vivos actualizados y

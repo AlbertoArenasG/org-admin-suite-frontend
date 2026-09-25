@@ -24,6 +24,7 @@ export type DataTableToolbar = {
   filters?: ReactNode;
   leading?: ReactNode;
   trailing?: ReactNode;
+  primaryActions?: ReactNode;
   compact?: boolean;
 };
 

@@ -1,5 +1,7 @@
 export { FormCombobox } from '@/components/forms/FormCombobox';
 export type { FormComboboxProps, FormSelectOption } from '@/components/forms/FormCombobox';
+export { FormDateInput } from '@/components/forms/FormDateInput';
+export type { FormDateInputProps } from '@/components/forms/FormDateInput';
 export { FormField, FormReadValue, FormValueChips } from '@/components/forms/FormField';
 export type {
   FormFieldProps,

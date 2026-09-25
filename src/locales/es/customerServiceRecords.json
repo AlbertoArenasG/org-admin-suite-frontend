@@ -182,6 +182,38 @@
     "updated": "Registro de servicio actualizado correctamente.",
     "error": "No fue posible guardar el registro de servicio."
   },
+  "createWizard": {
+    "title": "Nuevo registro de servicio",
+    "description": "Captura los datos mínimos para crear un registro de servicio.",
+    "stepperLabel": "Progreso de creación del registro de servicio",
+    "steps": {
+      "request": "Solicitud",
+      "asset": "Equipo",
+      "summary": "Confirmar"
+    },
+    "placeholders": {
+      "serviceType": "Selecciona un tipo de servicio",
+      "customer": "Selecciona un cliente",
+      "customerUsers": "Selecciona usuarios relacionados"
+    },
+    "searchOptions": "Buscar opciones...",
+    "openCalendar": "Abrir calendario",
+    "none": "Sin selección",
+    "cancel": "Cancelar",
+    "confirm": "Crear registro",
+    "creating": "Creando registro...",
+    "errors": {
+      "required": "Este campo es obligatorio.",
+      "invalidDate": "Ingresa una fecha válida.",
+      "submit": "No fue posible crear el registro de servicio."
+    },
+    "discard": {
+      "title": "Descartar registro",
+      "description": "Perderás los datos capturados en este registro.",
+      "continue": "Seguir capturando",
+      "confirm": "Descartar cambios"
+    }
+  },
   "delete": {
     "title": "Eliminar registro de servicio",
     "description": "Esta acción dará de baja el registro y no se podrá deshacer desde la aplicación.",
