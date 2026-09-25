@@ -19,6 +19,8 @@ docs/technical-debt/
    └─ user-form-flow-coupling.md
 └─ system-role-type-ownership/
    └─ system-role-type-ownership.md
+└─ customer-service-records-list-filter-options/
+   └─ list-filter-options-boundary.md
 ```
 
 ## Mantenimiento
@@ -37,3 +39,4 @@ docs/technical-debt/
 - [Inconsistencia de la capability de roles asignables](user-role-assignment-options/role-options-capability-inconsistency.md)
 - [Acoplamiento de flujos en el formulario de usuario legacy](user-form-boundary/user-form-flow-coupling.md)
 - [Propiedad inconsistente del tipo de rol de sistema](system-role-type-ownership/system-role-type-ownership.md)
+- [Frontera fragmentada de opciones del listado de registros de servicio](customer-service-records-list-filter-options/list-filter-options-boundary.md)
