@@ -49,6 +49,16 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-25 - Equipo de Registro de Servicio
+
+- Alcance: `/dashboard/customer-service-records/[recordId]`.
+- Adopción: tercer bloque independiente de `ResourceForm`, con navegación
+  semántica por anclas, edición local de un único equipo y mutación propiedad
+  de `customer-service-records` que preserva adjuntos fuera de la interfaz.
+- Spec: `customer-service-record-equipment-migration`.
+- Compatibilidad temporal: adjuntos y documentos mantienen una migración
+  posterior; la interfaz no habilita múltiples equipos.
+
 ### 2026-09-25 - Cliente y Compromiso de Entrega de Registro de Servicio
 
 - Alcance: `/dashboard/customer-service-records/[recordId]`.

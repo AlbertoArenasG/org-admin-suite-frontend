@@ -21,13 +21,16 @@ import {
   resetCustomerServiceRecordDetail,
   updateCustomerServiceRecordCustomerDelivery,
   updateCustomerServiceRecordDetails,
+  updateCustomerServiceRecordAsset,
   type UpdateCustomerServiceRecordCustomerDeliveryPayload,
   type UpdateCustomerServiceRecordDetailsPayload,
+  type UpdateCustomerServiceRecordAssetPayload,
 } from '@/features/customer-service-records';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { CustomerServiceRecordGeneralDetailsForm } from './CustomerServiceRecordGeneralDetailsForm';
 import { CustomerServiceRecordCustomerDeliveryForm } from './CustomerServiceRecordCustomerDeliveryForm';
+import { CustomerServiceRecordEquipmentForm } from './CustomerServiceRecordEquipmentForm';
 import { CustomerServiceRecordSectionNavigation } from './CustomerServiceRecordSectionNavigation';
 
 export function CustomerServiceRecordDetailPage() {
@@ -106,6 +109,13 @@ export function CustomerServiceRecordDetailPage() {
     return { message: result.message };
   };
 
+  const updateAsset = async (payload: UpdateCustomerServiceRecordAssetPayload) => {
+    const result = await dispatch(
+      updateCustomerServiceRecordAsset({ recordId: params.recordId, payload })
+    ).unwrap();
+    return { message: result.message };
+  };
+
   return (
     <DashboardPageComposition>
       <DashboardPageContentScroller padding="default">
@@ -145,6 +155,7 @@ export function CustomerServiceRecordDetailPage() {
                   items={[
                     { id: 'general-details', label: t('detail.general.title') },
                     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
+                    { id: 'equipment', label: t('detail.equipment.title') },
                   ]}
                 />
                 <section className="scroll-mt-24" id="general-details" tabIndex={-1}>
@@ -181,6 +192,22 @@ export function CustomerServiceRecordDetailPage() {
                     record={detail.record}
                     statusPolicies={customerDeliveryOptions.statusPolicies}
                   />
+                </section>
+                <section className="scroll-mt-24" id="equipment" tabIndex={-1}>
+                  {detail.record.assets[0] ? (
+                    <CustomerServiceRecordEquipmentForm
+                      asset={detail.record.assets[0]}
+                      canUpdate={canUpdate}
+                      onSubmit={updateAsset}
+                    />
+                  ) : (
+                    <div className="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">
+                      <h2 className="font-semibold text-foreground">
+                        {t('detail.equipment.title')}
+                      </h2>
+                      <p className="mt-2">{t('detail.equipment.unavailable')}</p>
+                    </div>
+                  )}
                 </section>
               </ResourceFormRoute>
             </DashboardContentReveal>

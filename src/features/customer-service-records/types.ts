@@ -132,6 +132,19 @@ export interface UpdateCustomerServiceRecordCustomerDeliveryPayload {
   };
 }
 
+export interface UpdateCustomerServiceRecordAssetPayload {
+  assetId: string;
+  name: string;
+  identifier: string;
+  brand: string;
+  model: string;
+  serialNumber: string;
+  observations: string | null;
+  intakeConditionFileIds: string[];
+  deliveryConditionFileIds: string[];
+  reportFileIds: string[];
+}
+
 export interface CustomerServiceRecordsListFilters {
   operationalStatus: CustomerServiceRecordOperationalStatus | null;
   serviceTypeCode: string | null;
@@ -278,5 +291,7 @@ export interface CustomerServiceRecordsState {
     updateDetailsError: string | null;
     updateCustomerDeliveryStatus: CustomerServiceRecordRequestStatus;
     updateCustomerDeliveryError: string | null;
+    updateAssetStatus: CustomerServiceRecordRequestStatus;
+    updateAssetError: string | null;
   };
 }

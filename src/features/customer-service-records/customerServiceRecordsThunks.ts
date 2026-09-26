@@ -13,6 +13,7 @@ import type {
   CustomerServiceRecordDetail,
   UpdateCustomerServiceRecordDetailsPayload,
   UpdateCustomerServiceRecordCustomerDeliveryPayload,
+  UpdateCustomerServiceRecordAssetPayload,
   FetchCustomerServiceRecordsParams,
 } from './types';
 
@@ -523,6 +524,45 @@ export const updateCustomerServiceRecordCustomerDelivery = createAsyncThunk<
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible actualizar cliente y entrega'
+    );
+  }
+});
+
+export const updateCustomerServiceRecordAsset = createAsyncThunk<
+  { record: CustomerServiceRecordDetail; message: string | null },
+  { recordId: string; payload: UpdateCustomerServiceRecordAssetPayload },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/updateAsset', async ({ payload, recordId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+      `/v1/customer-service-records/${recordId}/assets/${payload.assetId}`,
+      {
+        method: 'PUT',
+        headers: { Accept: 'application/json' },
+        body: {
+          name: payload.name,
+          identifier: payload.identifier,
+          brand: payload.brand,
+          model: payload.model,
+          serial_number: payload.serialNumber,
+          observations: payload.observations,
+          intake_condition_file_ids: payload.intakeConditionFileIds,
+          delivery_condition_file_ids: payload.deliveryConditionFileIds,
+          report_file_ids: payload.reportFileIds,
+        },
+        token,
+      }
+    );
+    return {
+      record: mapCustomerServiceRecordDetail(response.data),
+      message: response.successMessage,
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible actualizar el equipo'
     );
   }
 });

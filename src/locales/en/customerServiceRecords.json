@@ -149,6 +149,11 @@
       "deliveryTitle": "Delivery commitment",
       "interval": "Estimated delivery lead time"
     },
+    "equipment": {
+      "title": "Equipment",
+      "description": "Review and update the record's equipment information.",
+      "unavailable": "This record does not have equipment available to edit."
+    },
     "labels": {
       "generalObservations": "General observations"
     },
@@ -158,7 +163,8 @@
       "customer": "Select a customer",
       "customerUsers": "Select related users",
       "statusPolicy": "Select a status policy",
-      "notificationPolicy": "Select a notification policy"
+      "notificationPolicy": "Select a notification policy",
+      "assetObservations": "Optional equipment observations"
     },
     "errors": {
       "required": "This field is required.",

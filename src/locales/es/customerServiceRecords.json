@@ -149,6 +149,11 @@
       "deliveryTitle": "Compromiso de entrega",
       "interval": "Plazo estimado de entrega"
     },
+    "equipment": {
+      "title": "Equipo",
+      "description": "Consulta y actualiza los datos del equipo del registro.",
+      "unavailable": "Este registro no tiene un equipo disponible para editar."
+    },
     "labels": {
       "generalObservations": "Observaciones generales"
     },
@@ -158,7 +163,8 @@
       "customer": "Selecciona un cliente",
       "customerUsers": "Selecciona usuarios relacionados",
       "statusPolicy": "Selecciona una política de estatus",
-      "notificationPolicy": "Selecciona una política de notificación"
+      "notificationPolicy": "Selecciona una política de notificación",
+      "assetObservations": "Observaciones opcionales del equipo"
     },
     "errors": {
       "required": "Este campo es obligatorio.",

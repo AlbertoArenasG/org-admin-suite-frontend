@@ -11,6 +11,7 @@ import {
   fetchCustomerServiceRecords,
   updateCustomerServiceRecordDetails,
   updateCustomerServiceRecordCustomerDelivery,
+  updateCustomerServiceRecordAsset,
 } from './customerServiceRecordsThunks';
 
 const initialState: CustomerServiceRecordsState = {
@@ -64,6 +65,8 @@ const initialState: CustomerServiceRecordsState = {
     updateDetailsError: null,
     updateCustomerDeliveryStatus: 'idle',
     updateCustomerDeliveryError: null,
+    updateAssetStatus: 'idle',
+    updateAssetError: null,
   },
 };
 const customerServiceRecordsSlice = createSlice({
@@ -85,6 +88,8 @@ const customerServiceRecordsSlice = createSlice({
       state.mutations.updateDetailsError = null;
       state.mutations.updateCustomerDeliveryStatus = 'idle';
       state.mutations.updateCustomerDeliveryError = null;
+      state.mutations.updateAssetStatus = 'idle';
+      state.mutations.updateAssetError = null;
     },
   },
   extraReducers: (builder) => {
@@ -250,6 +255,19 @@ const customerServiceRecordsSlice = createSlice({
         state.mutations.updateCustomerDeliveryStatus = 'failed';
         state.mutations.updateCustomerDeliveryError =
           action.payload ?? action.error.message ?? 'No fue posible actualizar cliente y entrega';
+      })
+      .addCase(updateCustomerServiceRecordAsset.pending, (state) => {
+        state.mutations.updateAssetStatus = 'loading';
+        state.mutations.updateAssetError = null;
+      })
+      .addCase(updateCustomerServiceRecordAsset.fulfilled, (state, action) => {
+        state.mutations.updateAssetStatus = 'succeeded';
+        state.detail.record = action.payload.record;
+      })
+      .addCase(updateCustomerServiceRecordAsset.rejected, (state, action) => {
+        state.mutations.updateAssetStatus = 'failed';
+        state.mutations.updateAssetError =
+          action.payload ?? action.error.message ?? 'No fue posible actualizar el equipo';
       });
   },
 });

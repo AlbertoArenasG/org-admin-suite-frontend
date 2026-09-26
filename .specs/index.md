@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [customer-service-record-equipment-migration](./2026/2026-09/2026-09-25_1902_customer-service-record-equipment-migration/00-definition.md) - completed; tercer bloque de detalle y edicion de registros de servicio en Next Dashboard
 - [customer-service-record-customer-delivery-migration](./2026/2026-09/2026-09-25_1834_customer-service-record-customer-delivery-migration/00-definition.md) - completed; segundo bloque de detalle y edición de registros de servicio en Next Dashboard
 - [customer-service-record-general-details-migration](./2026/2026-09/2026-09-25_1451_customer-service-record-general-details-migration/00-definition.md) - completed; primer bloque de detalle y edición de registros de servicio en Next Dashboard
 - [customer-service-record-creation-wizard-migration](./2026/2026-09/2026-09-24_0209_customer-service-record-creation-wizard-migration/00-definition.md) - defined; migracion de creacion a dialogo wizard en Next Dashboard

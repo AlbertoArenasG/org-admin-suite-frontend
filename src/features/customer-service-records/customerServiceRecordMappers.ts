@@ -5,6 +5,7 @@ import type {
   CustomerServiceRecordLocalizedValue,
   CustomerServiceRecordOperationalStatus,
   CustomerServiceRecordInterval,
+  UpdateCustomerServiceRecordAssetPayload,
 } from './types';
 
 type ApiLocalizedValue = {
@@ -203,5 +204,26 @@ export function mapCustomerServiceRecordDetail(
     otherFiles: value.other_files.map(mapAttachment),
     createdAt: value.created_at,
     updatedAt: value.updated_at,
+  };
+}
+
+export function buildCustomerServiceRecordAssetUpdatePayload(
+  asset: CustomerServiceRecordDetail['assets'][number],
+  values: Pick<
+    UpdateCustomerServiceRecordAssetPayload,
+    'name' | 'identifier' | 'brand' | 'model' | 'serialNumber' | 'observations'
+  >
+): UpdateCustomerServiceRecordAssetPayload {
+  return {
+    assetId: asset.assetId,
+    name: values.name.trim(),
+    identifier: values.identifier.trim(),
+    brand: values.brand.trim(),
+    model: values.model.trim(),
+    serialNumber: values.serialNumber.trim(),
+    observations: values.observations?.trim() || null,
+    intakeConditionFileIds: asset.intakeConditionFiles.map((file) => file.fileId),
+    deliveryConditionFileIds: asset.deliveryConditionFiles.map((file) => file.fileId),
+    reportFileIds: asset.reports.map((file) => file.fileId),
   };
 }
