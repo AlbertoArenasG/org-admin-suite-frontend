@@ -12,6 +12,8 @@ import {
   updateCustomerServiceRecordDetails,
   updateCustomerServiceRecordCustomerDelivery,
   updateCustomerServiceRecordAsset,
+  fetchCustomerServiceRecordProviderOptions,
+  updateCustomerServiceRecordProvider,
 } from './customerServiceRecordsThunks';
 
 const initialState: CustomerServiceRecordsState = {
@@ -54,6 +56,14 @@ const initialState: CustomerServiceRecordsState = {
     status: 'idle',
     error: null,
   },
+  detailProviderOptions: {
+    providers: [],
+    statusPolicies: [],
+    notificationPolicies: [],
+    recipientGroups: [],
+    status: 'idle',
+    error: null,
+  },
   mutations: {
     createStatus: 'idle',
     deleteStatus: 'idle',
@@ -67,6 +77,8 @@ const initialState: CustomerServiceRecordsState = {
     updateCustomerDeliveryError: null,
     updateAssetStatus: 'idle',
     updateAssetError: null,
+    updateProviderStatus: 'idle',
+    updateProviderError: null,
   },
 };
 const customerServiceRecordsSlice = createSlice({
@@ -84,12 +96,15 @@ const customerServiceRecordsSlice = createSlice({
       state.detailOptions = initialState.detailOptions;
       state.detailCustomerDeliveryOptions = initialState.detailCustomerDeliveryOptions;
       state.detailCustomerUsers = initialState.detailCustomerUsers;
+      state.detailProviderOptions = initialState.detailProviderOptions;
       state.mutations.updateDetailsStatus = 'idle';
       state.mutations.updateDetailsError = null;
       state.mutations.updateCustomerDeliveryStatus = 'idle';
       state.mutations.updateCustomerDeliveryError = null;
       state.mutations.updateAssetStatus = 'idle';
       state.mutations.updateAssetError = null;
+      state.mutations.updateProviderStatus = 'idle';
+      state.mutations.updateProviderError = null;
     },
   },
   extraReducers: (builder) => {
@@ -268,6 +283,39 @@ const customerServiceRecordsSlice = createSlice({
         state.mutations.updateAssetStatus = 'failed';
         state.mutations.updateAssetError =
           action.payload ?? action.error.message ?? 'No fue posible actualizar el equipo';
+      })
+      .addCase(fetchCustomerServiceRecordProviderOptions.pending, (state) => {
+        state.detailProviderOptions.status = 'loading';
+        state.detailProviderOptions.error = null;
+      })
+      .addCase(fetchCustomerServiceRecordProviderOptions.fulfilled, (state, action) => {
+        state.detailProviderOptions.status = 'succeeded';
+        state.detailProviderOptions.providers = action.payload.providers;
+        state.detailProviderOptions.statusPolicies = action.payload.statusPolicies;
+        state.detailProviderOptions.notificationPolicies = action.payload.notificationPolicies;
+        state.detailProviderOptions.recipientGroups = action.payload.recipientGroups;
+      })
+      .addCase(fetchCustomerServiceRecordProviderOptions.rejected, (state, action) => {
+        state.detailProviderOptions.status = 'failed';
+        state.detailProviderOptions.error =
+          action.payload ??
+          action.error.message ??
+          'No fue posible obtener las opciones de proveedor';
+      })
+      .addCase(updateCustomerServiceRecordProvider.pending, (state) => {
+        state.mutations.updateProviderStatus = 'loading';
+        state.mutations.updateProviderError = null;
+      })
+      .addCase(updateCustomerServiceRecordProvider.fulfilled, (state, action) => {
+        state.mutations.updateProviderStatus = 'succeeded';
+        state.detail.record = action.payload.record;
+      })
+      .addCase(updateCustomerServiceRecordProvider.rejected, (state, action) => {
+        state.mutations.updateProviderStatus = 'failed';
+        state.mutations.updateProviderError =
+          action.payload ??
+          action.error.message ??
+          'No fue posible actualizar proveedor y seguimiento';
       });
   },
 });

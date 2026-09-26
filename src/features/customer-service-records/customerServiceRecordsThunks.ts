@@ -14,6 +14,7 @@ import type {
   UpdateCustomerServiceRecordDetailsPayload,
   UpdateCustomerServiceRecordCustomerDeliveryPayload,
   UpdateCustomerServiceRecordAssetPayload,
+  UpdateCustomerServiceRecordProviderPayload,
   FetchCustomerServiceRecordsParams,
 } from './types';
 
@@ -95,6 +96,11 @@ interface ApiExpirationStatusPolicyOption {
 
 interface ApiExpirationNotificationPolicyOption {
   expiration_notification_policy_id: string;
+  name: string;
+}
+
+interface ApiRecipientGroupOption {
+  recipient_group_id: string;
   name: string;
 }
 
@@ -563,6 +569,129 @@ export const updateCustomerServiceRecordAsset = createAsyncThunk<
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible actualizar el equipo'
+    );
+  }
+});
+
+export const fetchCustomerServiceRecordProviderOptions = createAsyncThunk<
+  {
+    providers: CustomerServiceRecordOption[];
+    statusPolicies: CustomerServiceRecordOption[];
+    notificationPolicies: CustomerServiceRecordOption[];
+    recipientGroups: CustomerServiceRecordOption[];
+  },
+  void,
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/fetchProviderOptions', async (_, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const [
+      providersResponse,
+      statusPoliciesResponse,
+      notificationPoliciesResponse,
+      groupsResponse,
+    ] = await Promise.all([
+      jsonRequest<ApiProviderOption[]>('/v1/providers/options', {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        token,
+      }),
+      jsonRequest<ApiExpirationStatusPolicyOption[]>('/v1/expiration-status-policies/options', {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        token,
+      }),
+      jsonRequest<ApiExpirationNotificationPolicyOption[]>(
+        '/v1/expiration-notification-policies/options',
+        {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+          token,
+        }
+      ),
+      jsonRequest<ApiRecipientGroupOption[]>('/v1/recipient-groups/options', {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        token,
+      }),
+    ]);
+
+    return {
+      providers: Array.isArray(providersResponse.data)
+        ? providersResponse.data.map((item) => ({ value: item.provider_id, label: item.name }))
+        : [],
+      statusPolicies: Array.isArray(statusPoliciesResponse.data)
+        ? statusPoliciesResponse.data.map((item) => ({
+            value: item.expiration_status_policy_id,
+            label: item.name,
+          }))
+        : [],
+      notificationPolicies: Array.isArray(notificationPoliciesResponse.data)
+        ? notificationPoliciesResponse.data.map((item) => ({
+            value: item.expiration_notification_policy_id,
+            label: item.name,
+          }))
+        : [],
+      recipientGroups: Array.isArray(groupsResponse.data)
+        ? groupsResponse.data.map((item) => ({ value: item.recipient_group_id, label: item.name }))
+        : [],
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible obtener las opciones de proveedor'
+    );
+  }
+});
+
+export const updateCustomerServiceRecordProvider = createAsyncThunk<
+  { record: CustomerServiceRecordDetail; message: string | null },
+  { recordId: string; payload: UpdateCustomerServiceRecordProviderPayload },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/updateProvider', async ({ payload, recordId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const provider = payload.provider;
+    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+      `/v1/customer-service-records/${recordId}/provider`,
+      {
+        method: 'PUT',
+        headers: { Accept: 'application/json' },
+        body: {
+          provider: provider
+            ? {
+                provider_id: provider.providerId,
+                work_order_reference: provider.workOrderReference,
+                delivered_to_provider_at: provider.deliveredToProviderAt,
+                estimated_return_interval: provider.estimatedReturnInterval,
+                estimated_return_at: provider.estimatedReturnAt,
+                returned_from_provider_at: provider.returnedFromProviderAt,
+                status_policy_id: provider.statusPolicyId,
+                notification_policy_id: provider.notificationPolicyId,
+                follow_up: {
+                  enabled: provider.followUp.enabled,
+                  rules: provider.followUp.rules.map((rule) => ({
+                    interval: rule.interval,
+                    recipient_group_ids: rule.recipientGroupIds,
+                    cc_recipient_group_ids: rule.ccRecipientGroupIds,
+                  })),
+                },
+              }
+            : null,
+        },
+        token,
+      }
+    );
+    return {
+      record: mapCustomerServiceRecordDetail(response.data),
+      message: response.successMessage,
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible actualizar proveedor y seguimiento'
     );
   }
 });

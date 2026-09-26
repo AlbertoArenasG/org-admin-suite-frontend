@@ -154,6 +154,17 @@
       "description": "Consulta y actualiza los datos del equipo del registro.",
       "unavailable": "Este registro no tiene un equipo disponible para editar."
     },
+    "provider": {
+      "title": "Proveedor y seguimiento",
+      "description": "Administra el proveedor, el retorno y sus reglas de seguimiento.",
+      "providerTitle": "Proveedor y retorno",
+      "followUpTitle": "Seguimiento al proveedor",
+      "interval": "Plazo estimado de retorno",
+      "none": "Este servicio no requiere proveedor.",
+      "noRules": "No hay reglas de seguimiento configuradas.",
+      "rule": "Regla {{index}}",
+      "ruleInterval": "Intervalo de seguimiento"
+    },
     "labels": {
       "generalObservations": "Observaciones generales"
     },
@@ -164,7 +175,10 @@
       "customerUsers": "Selecciona usuarios relacionados",
       "statusPolicy": "Selecciona una política de estatus",
       "notificationPolicy": "Selecciona una política de notificación",
-      "assetObservations": "Observaciones opcionales del equipo"
+      "assetObservations": "Observaciones opcionales del equipo",
+      "provider": "Selecciona un proveedor",
+      "policy": "Selecciona una política",
+      "recipientGroups": "Selecciona grupos destinatarios"
     },
     "errors": {
       "required": "Este campo es obligatorio.",
@@ -251,6 +265,8 @@
       "estimatedReturnAt": "Fecha estimada de retorno",
       "returnedFromProviderAt": "Fecha real de retorno",
       "followUp": "Habilitar seguimiento al proveedor",
+      "providerFollowUpEnabled": "Habilitar seguimiento al proveedor",
+      "workOrderReference": "Referencia de orden de trabajo",
       "recipients": "Grupos destinatarios",
       "copyRecipients": "Grupos en copia",
       "years": "Años",

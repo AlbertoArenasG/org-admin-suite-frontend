@@ -4,7 +4,7 @@
 
 - Name: `customer-service-record-provider-follow-up-migration`
 - Date: `2026-09-25`
-- Definition status: `defined`
+- Definition status: `completed`
 - Implementation ready: `yes`
 
 ## Problem

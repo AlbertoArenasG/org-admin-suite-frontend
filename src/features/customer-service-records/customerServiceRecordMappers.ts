@@ -5,6 +5,7 @@ import type {
   CustomerServiceRecordLocalizedValue,
   CustomerServiceRecordOperationalStatus,
   CustomerServiceRecordInterval,
+  CustomerServiceRecordProviderFollowUp,
   UpdateCustomerServiceRecordAssetPayload,
 } from './types';
 
@@ -76,7 +77,7 @@ export type ApiCustomerServiceRecordDetail = {
     returned_from_provider_at: string | null;
     status_policy_id: string | null;
     notification_policy_id: string | null;
-    follow_up: boolean;
+    follow_up: CustomerServiceRecordProviderFollowUp;
     status_materialization: ApiMaterialization | null;
     notification_materialization: unknown | null;
     follow_up_materialization: unknown[];

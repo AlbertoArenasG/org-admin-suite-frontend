@@ -49,6 +49,16 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-25 - Proveedor y Seguimiento de Registro de Servicio
+
+- Alcance: `/dashboard/customer-service-records/[recordId]`.
+- Adopción: cuarto bloque independiente de `ResourceForm`, con proveedor
+  opcional, retorno, fecha estimada calculada y reglas repetibles de seguimiento
+  persistidas en la mutación propia de `customer-service-records`.
+- Spec: `customer-service-record-provider-follow-up-migration`.
+- Compatibilidad temporal: adjuntos y documentos mantienen una migración
+  posterior; no hay dependencia de features de proveedores o grupos.
+
 ### 2026-09-25 - Equipo de Registro de Servicio
 
 - Alcance: `/dashboard/customer-service-records/[recordId]`.

@@ -154,6 +154,17 @@
       "description": "Review and update the record's equipment information.",
       "unavailable": "This record does not have equipment available to edit."
     },
+    "provider": {
+      "title": "Provider and follow-up",
+      "description": "Manage the provider, return, and follow-up rules.",
+      "providerTitle": "Provider and return",
+      "followUpTitle": "Provider follow-up",
+      "interval": "Estimated return lead time",
+      "none": "This service does not require a provider.",
+      "noRules": "There are no follow-up rules configured.",
+      "rule": "Rule {{index}}",
+      "ruleInterval": "Follow-up interval"
+    },
     "labels": {
       "generalObservations": "General observations"
     },
@@ -164,7 +175,10 @@
       "customerUsers": "Select related users",
       "statusPolicy": "Select a status policy",
       "notificationPolicy": "Select a notification policy",
-      "assetObservations": "Optional equipment observations"
+      "assetObservations": "Optional equipment observations",
+      "provider": "Select a provider",
+      "policy": "Select a policy",
+      "recipientGroups": "Select recipient groups"
     },
     "errors": {
       "required": "This field is required.",
@@ -251,6 +265,8 @@
       "estimatedReturnAt": "Estimated return date",
       "returnedFromProviderAt": "Actual return date",
       "followUp": "Enable provider follow-up",
+      "providerFollowUpEnabled": "Enable provider follow-up",
+      "workOrderReference": "Work order reference",
       "recipients": "Recipient groups",
       "copyRecipients": "Copy groups",
       "years": "Years",

@@ -18,19 +18,23 @@ import {
   fetchCustomerServiceRecordDetailOptions,
   fetchCustomerServiceRecordCustomerDeliveryOptions,
   fetchCustomerServiceRecordCustomerUsers,
+  fetchCustomerServiceRecordProviderOptions,
   resetCustomerServiceRecordDetail,
   updateCustomerServiceRecordCustomerDelivery,
   updateCustomerServiceRecordDetails,
   updateCustomerServiceRecordAsset,
+  updateCustomerServiceRecordProvider,
   type UpdateCustomerServiceRecordCustomerDeliveryPayload,
   type UpdateCustomerServiceRecordDetailsPayload,
   type UpdateCustomerServiceRecordAssetPayload,
+  type UpdateCustomerServiceRecordProviderPayload,
 } from '@/features/customer-service-records';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { CustomerServiceRecordGeneralDetailsForm } from './CustomerServiceRecordGeneralDetailsForm';
 import { CustomerServiceRecordCustomerDeliveryForm } from './CustomerServiceRecordCustomerDeliveryForm';
 import { CustomerServiceRecordEquipmentForm } from './CustomerServiceRecordEquipmentForm';
+import { CustomerServiceRecordProviderFollowUpForm } from './CustomerServiceRecordProviderFollowUpForm';
 import { CustomerServiceRecordSectionNavigation } from './CustomerServiceRecordSectionNavigation';
 
 export function CustomerServiceRecordDetailPage() {
@@ -46,6 +50,9 @@ export function CustomerServiceRecordDetailPage() {
     (state) => state.customerServiceRecords.detailCustomerDeliveryOptions
   );
   const customerUsers = useAppSelector((state) => state.customerServiceRecords.detailCustomerUsers);
+  const providerOptions = useAppSelector(
+    (state) => state.customerServiceRecords.detailProviderOptions
+  );
   const canUpdate = can('UPDATE');
   const synchronizeBreadcrumb = useCallback(
     (serviceNumber: string) => {
@@ -67,6 +74,7 @@ export function CustomerServiceRecordDetailPage() {
     void dispatch(fetchCustomerServiceRecordDetail({ recordId: params.recordId }));
     void dispatch(fetchCustomerServiceRecordDetailOptions());
     void dispatch(fetchCustomerServiceRecordCustomerDeliveryOptions());
+    void dispatch(fetchCustomerServiceRecordProviderOptions());
   }, [authHydrated, dispatch, params.recordId]);
 
   useEffect(
@@ -116,6 +124,13 @@ export function CustomerServiceRecordDetailPage() {
     return { message: result.message };
   };
 
+  const updateProvider = async (payload: UpdateCustomerServiceRecordProviderPayload) => {
+    const result = await dispatch(
+      updateCustomerServiceRecordProvider({ recordId: params.recordId, payload })
+    ).unwrap();
+    return { message: result.message };
+  };
+
   return (
     <DashboardPageComposition>
       <DashboardPageContentScroller padding="default">
@@ -156,6 +171,7 @@ export function CustomerServiceRecordDetailPage() {
                     { id: 'general-details', label: t('detail.general.title') },
                     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
                     { id: 'equipment', label: t('detail.equipment.title') },
+                    { id: 'provider-follow-up', label: t('detail.provider.title') },
                   ]}
                 />
                 <section className="scroll-mt-24" id="general-details" tabIndex={-1}>
@@ -208,6 +224,22 @@ export function CustomerServiceRecordDetailPage() {
                       <p className="mt-2">{t('detail.equipment.unavailable')}</p>
                     </div>
                   )}
+                </section>
+                <section className="scroll-mt-24" id="provider-follow-up" tabIndex={-1}>
+                  <CustomerServiceRecordProviderFollowUpForm
+                    canUpdate={canUpdate}
+                    notificationPolicies={providerOptions.notificationPolicies}
+                    onRetryOptions={() =>
+                      void dispatch(fetchCustomerServiceRecordProviderOptions())
+                    }
+                    onSubmit={updateProvider}
+                    optionsError={providerOptions.error}
+                    optionsLoading={providerOptions.status === 'loading'}
+                    providers={providerOptions.providers}
+                    recipientGroups={providerOptions.recipientGroups}
+                    record={detail.record}
+                    statusPolicies={providerOptions.statusPolicies}
+                  />
                 </section>
               </ResourceFormRoute>
             </DashboardContentReveal>

@@ -50,6 +50,17 @@ export interface CustomerServiceRecordAttachment {
   previewUrl: string;
 }
 
+export interface CustomerServiceRecordProviderFollowUpRule {
+  interval: CustomerServiceRecordInterval;
+  recipientGroupIds: string[];
+  ccRecipientGroupIds: string[];
+}
+
+export interface CustomerServiceRecordProviderFollowUp {
+  enabled: boolean;
+  rules: CustomerServiceRecordProviderFollowUpRule[];
+}
+
 export interface CustomerServiceRecordDetail {
   customerServiceRecordId: string;
   serviceNumber: string;
@@ -96,7 +107,7 @@ export interface CustomerServiceRecordDetail {
     returnedFromProviderAt: string | null;
     statusPolicyId: string | null;
     notificationPolicyId: string | null;
-    followUp: boolean;
+    followUp: CustomerServiceRecordProviderFollowUp;
     statusMaterialization: CustomerServiceRecordDerivedStatus | null;
     notificationMaterialization: unknown | null;
     followUpMaterialization: unknown[];
@@ -143,6 +154,20 @@ export interface UpdateCustomerServiceRecordAssetPayload {
   intakeConditionFileIds: string[];
   deliveryConditionFileIds: string[];
   reportFileIds: string[];
+}
+
+export interface UpdateCustomerServiceRecordProviderPayload {
+  provider: {
+    providerId: string;
+    workOrderReference: string | null;
+    deliveredToProviderAt: string | null;
+    estimatedReturnInterval: CustomerServiceRecordInterval;
+    estimatedReturnAt: string | null;
+    returnedFromProviderAt: string | null;
+    statusPolicyId: string | null;
+    notificationPolicyId: string | null;
+    followUp: CustomerServiceRecordProviderFollowUp;
+  } | null;
 }
 
 export interface CustomerServiceRecordsListFilters {
@@ -280,6 +305,14 @@ export interface CustomerServiceRecordsState {
     status: CustomerServiceRecordRequestStatus;
     error: string | null;
   };
+  detailProviderOptions: {
+    providers: CustomerServiceRecordOption[];
+    statusPolicies: CustomerServiceRecordOption[];
+    notificationPolicies: CustomerServiceRecordOption[];
+    recipientGroups: CustomerServiceRecordOption[];
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
+  };
   mutations: {
     createStatus: CustomerServiceRecordRequestStatus;
     deleteStatus: CustomerServiceRecordRequestStatus;
@@ -293,5 +326,7 @@ export interface CustomerServiceRecordsState {
     updateCustomerDeliveryError: string | null;
     updateAssetStatus: CustomerServiceRecordRequestStatus;
     updateAssetError: string | null;
+    updateProviderStatus: CustomerServiceRecordRequestStatus;
+    updateProviderError: string | null;
   };
 }
