@@ -3,11 +3,11 @@
 ## Provenance
 
 - Source: BeUI `@beui/attachment-upload` registry block.
+- Source URL: `https://beui.dev/components/blocks/file-upload`.
 - Download command: `npx shadcn add @beui/attachment-upload`.
 - Downloaded: 2026-09-25.
 - Registry author: Saurabh (`saurabh10102@gmail.com`).
-- License: the downloaded registry manifest does not declare one; verify it
-  before promoting this family beyond the approved product adoption.
+- License: MIT. Preserve the BeUI source attribution in copied files.
 
 ## Boundary
 
