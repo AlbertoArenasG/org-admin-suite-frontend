@@ -165,6 +165,49 @@
       "rule": "Regla {{index}}",
       "ruleInterval": "Intervalo de seguimiento"
     },
+    "documents": {
+      "title": "Documentos",
+      "description": "Consulta y administra los documentos relacionados con este registro.",
+      "referenceNumber": "Número de referencia",
+      "referencePlaceholder": "Ingresa un número de referencia",
+      "files": "Archivos",
+      "empty": "No hay archivos adjuntos.",
+      "pendingFiles": "Archivos pendientes",
+      "addFiles": "Agregar archivos",
+      "remove": "Quitar",
+      "download": "Descargar",
+      "previousImage": "Imagen anterior",
+      "nextImage": "Imagen siguiente",
+      "dialog": {
+        "title": "Agregar archivos",
+        "description": "Selecciona los archivos que deseas agregar al registro.",
+        "uploadTitle": "Arrastra archivos o selecciónalos",
+        "uploadDescription": "Los archivos se cargarán cuando guardes los cambios del documento.",
+        "attachmentsLabel": "Archivos seleccionados",
+        "cancel": "Cancelar",
+        "confirm": "Agregar al documento",
+        "confirmEmpty": "Selecciona archivos",
+        "maxFiles": "Puedes seleccionar hasta {{count}} archivos por carga.",
+        "maxFileSize": "Cada archivo debe ser de máximo {{megabytes}} MB.",
+        "galleryTitle": "Vista previa de archivos"
+      },
+      "quotation": {
+        "title": "Cotización",
+        "description": "Administra la referencia y los archivos de la cotización."
+      },
+      "purchaseOrder": {
+        "title": "Orden de compra",
+        "description": "Administra la referencia y los archivos de la orden de compra."
+      },
+      "invoice": {
+        "title": "Factura",
+        "description": "Administra la referencia y los archivos de la factura."
+      },
+      "otherFiles": {
+        "title": "Otros archivos",
+        "description": "Administra otros archivos relacionados con este registro."
+      }
+    },
     "labels": {
       "generalObservations": "Observaciones generales"
     },

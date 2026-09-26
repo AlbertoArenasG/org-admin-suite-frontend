@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { API_BASE_URL } from '@/config/env';
 import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import {
@@ -15,6 +16,8 @@ import type {
   UpdateCustomerServiceRecordCustomerDeliveryPayload,
   UpdateCustomerServiceRecordAssetPayload,
   UpdateCustomerServiceRecordProviderPayload,
+  UpdateCustomerServiceRecordDocumentPayload,
+  UploadedCustomerServiceRecordFile,
   FetchCustomerServiceRecordsParams,
 } from './types';
 
@@ -692,6 +695,90 @@ export const updateCustomerServiceRecordProvider = createAsyncThunk<
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible actualizar proveedor y seguimiento'
+    );
+  }
+});
+
+type ApiUploadedFile = {
+  id: string;
+  original_name: string;
+  mime_type: string;
+  size: number;
+};
+
+export const uploadCustomerServiceRecordFiles = createAsyncThunk<
+  UploadedCustomerServiceRecordFile[],
+  { files: File[] },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/uploadFiles', async ({ files }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+  if (!files.length) return [];
+
+  const formData = new FormData();
+  files.forEach((file) => formData.append('files', file));
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/v1/files`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+        'x-user-lang':
+          typeof document !== 'undefined'
+            ? (document.documentElement.getAttribute('lang') ?? 'es')
+            : 'es',
+      },
+      body: formData,
+    });
+    const body = (await response.json()) as {
+      data?: ApiUploadedFile[];
+      error_details?: { message?: string };
+    };
+    if (!response.ok) {
+      throw new Error(body.error_details?.message ?? 'No fue posible subir los archivos');
+    }
+
+    return (body.data ?? []).map((file) => ({
+      fileId: file.id,
+      originalName: file.original_name,
+      mimeType: file.mime_type,
+      size: file.size,
+    }));
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible subir los archivos'
+    );
+  }
+});
+
+export const updateCustomerServiceRecordDocument = createAsyncThunk<
+  { record: CustomerServiceRecordDetail; message: string | null },
+  { recordId: string; payload: UpdateCustomerServiceRecordDocumentPayload },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/updateDocument', async ({ payload, recordId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  const body: { file_ids: string[]; reference_number?: string | null } = {
+    file_ids: payload.fileIds,
+  };
+  if (payload.documentType !== 'other-files') {
+    body.reference_number = payload.referenceNumber ?? null;
+  }
+
+  try {
+    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+      `/v1/customer-service-records/${recordId}/documents/${payload.documentType}`,
+      { method: 'PUT', headers: { Accept: 'application/json' }, body, token }
+    );
+    return {
+      record: mapCustomerServiceRecordDetail(response.data),
+      message: response.successMessage,
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible actualizar los documentos'
     );
   }
 });

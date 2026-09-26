@@ -170,6 +170,25 @@ export interface UpdateCustomerServiceRecordProviderPayload {
   } | null;
 }
 
+export type CustomerServiceRecordDocumentType =
+  | 'quotation'
+  | 'purchase-order'
+  | 'invoice'
+  | 'other-files';
+
+export interface UpdateCustomerServiceRecordDocumentPayload {
+  documentType: CustomerServiceRecordDocumentType;
+  fileIds: string[];
+  referenceNumber?: string | null;
+}
+
+export interface UploadedCustomerServiceRecordFile {
+  fileId: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+}
+
 export interface CustomerServiceRecordsListFilters {
   operationalStatus: CustomerServiceRecordOperationalStatus | null;
   serviceTypeCode: string | null;
@@ -328,5 +347,7 @@ export interface CustomerServiceRecordsState {
     updateAssetError: string | null;
     updateProviderStatus: CustomerServiceRecordRequestStatus;
     updateProviderError: string | null;
+    updateDocumentStatus: CustomerServiceRecordRequestStatus;
+    updateDocumentError: string | null;
   };
 }

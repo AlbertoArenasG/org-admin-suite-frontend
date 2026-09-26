@@ -11,13 +11,16 @@
 
 ## Boundary
 
-This directory is the isolated BeUI attachment-upload family. Its motion,
-tooltip, and overlay helpers remain private dependencies of the block; they do
-not replace or modify primitives in `src/components/ui`.
+This directory is the isolated BeUI attachment-upload family. Its motion and
+tooltip helpers remain private dependencies of the block; they do not replace
+or modify primitives in `src/components/ui`.
 
-The block owns only file-selection presentation, local attachment rows, and
-preview interaction. Product modules own upload timing, remote mutations,
-permissions, localization, and domain validation.
+The block owns only animated file-selection presentation, local attachment
+rows, local selection-progress feedback, and preview interaction. It is
+consumed through a generic product dialog that keeps `File` objects in memory
+and never calls remote endpoints. Product modules own dialog confirmation,
+upload timing, remote mutations, permissions, localization, and domain
+validation.
 
 ## Dependencies
 
@@ -28,8 +31,8 @@ permissions, localization, and domain validation.
 
 ## Consumers
 
-No business view consumes this family yet. Its first intended adoption is the
-customer-service-record documents section.
+- `CustomerServiceRecordDocumentForm` consumes the product-level
+  `AttachmentUploadDialog`; it does not import this family directly.
 
 ## Update Procedure
 

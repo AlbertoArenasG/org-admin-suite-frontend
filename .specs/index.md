@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [customer-service-record-documents-migration](./2026/2026-09/2026-09-26_0133_customer-service-record-documents-migration/00-definition.md) - defined; documentos y galeria reutilizable para el detalle de registros de servicio
+- [customer-service-record-documents-migration](./2026/2026-09/2026-09-26_0133_customer-service-record-documents-migration/00-definition.md) - completed; documentos, dialogo de adjuntos y galeria reutilizable para el detalle de registros de servicio
 - [customer-service-record-provider-follow-up-migration](./2026/2026-09/2026-09-25_1936_customer-service-record-provider-follow-up-migration/00-definition.md) - completed; cuarto bloque de detalle y edición de registros de servicio en Next Dashboard
 - [customer-service-record-equipment-migration](./2026/2026-09/2026-09-25_1902_customer-service-record-equipment-migration/00-definition.md) - completed; tercer bloque de detalle y edicion de registros de servicio en Next Dashboard
 - [customer-service-record-customer-delivery-migration](./2026/2026-09/2026-09-25_1834_customer-service-record-customer-delivery-migration/00-definition.md) - completed; segundo bloque de detalle y edición de registros de servicio en Next Dashboard

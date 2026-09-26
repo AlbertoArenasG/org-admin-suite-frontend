@@ -24,6 +24,9 @@ import {
   updateCustomerServiceRecordDetails,
   updateCustomerServiceRecordAsset,
   updateCustomerServiceRecordProvider,
+  updateCustomerServiceRecordDocument,
+  uploadCustomerServiceRecordFiles,
+  type CustomerServiceRecordDocumentType,
   type UpdateCustomerServiceRecordCustomerDeliveryPayload,
   type UpdateCustomerServiceRecordDetailsPayload,
   type UpdateCustomerServiceRecordAssetPayload,
@@ -35,6 +38,7 @@ import { CustomerServiceRecordGeneralDetailsForm } from './CustomerServiceRecord
 import { CustomerServiceRecordCustomerDeliveryForm } from './CustomerServiceRecordCustomerDeliveryForm';
 import { CustomerServiceRecordEquipmentForm } from './CustomerServiceRecordEquipmentForm';
 import { CustomerServiceRecordProviderFollowUpForm } from './CustomerServiceRecordProviderFollowUpForm';
+import { CustomerServiceRecordDocumentsSection } from './CustomerServiceRecordDocumentsSection';
 import { CustomerServiceRecordSectionNavigation } from './CustomerServiceRecordSectionNavigation';
 
 export function CustomerServiceRecordDetailPage() {
@@ -131,6 +135,30 @@ export function CustomerServiceRecordDetailPage() {
     return { message: result.message };
   };
 
+  const updateDocument = async ({
+    documentType,
+    existingFileIds,
+    files,
+    referenceNumber,
+  }: {
+    documentType: CustomerServiceRecordDocumentType;
+    existingFileIds: string[];
+    files: File[];
+    referenceNumber?: string | null;
+  }) => {
+    const uploadedFiles = await dispatch(uploadCustomerServiceRecordFiles({ files })).unwrap();
+    return dispatch(
+      updateCustomerServiceRecordDocument({
+        recordId: params.recordId,
+        payload: {
+          documentType,
+          fileIds: [...existingFileIds, ...uploadedFiles.map((file) => file.fileId)],
+          ...(documentType !== 'other-files' ? { referenceNumber: referenceNumber ?? null } : {}),
+        },
+      })
+    ).unwrap();
+  };
+
   return (
     <DashboardPageComposition>
       <DashboardPageContentScroller padding="default">
@@ -172,6 +200,7 @@ export function CustomerServiceRecordDetailPage() {
                     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
                     { id: 'equipment', label: t('detail.equipment.title') },
                     { id: 'provider-follow-up', label: t('detail.provider.title') },
+                    { id: 'documents', label: t('detail.documents.title') },
                   ]}
                 />
                 <section className="scroll-mt-24" id="general-details" tabIndex={-1}>
@@ -239,6 +268,13 @@ export function CustomerServiceRecordDetailPage() {
                     recipientGroups={providerOptions.recipientGroups}
                     record={detail.record}
                     statusPolicies={providerOptions.statusPolicies}
+                  />
+                </section>
+                <section className="scroll-mt-24" id="documents" tabIndex={-1}>
+                  <CustomerServiceRecordDocumentsSection
+                    canUpdate={canUpdate}
+                    onSubmit={updateDocument}
+                    record={detail.record}
                   />
                 </section>
               </ResourceFormRoute>

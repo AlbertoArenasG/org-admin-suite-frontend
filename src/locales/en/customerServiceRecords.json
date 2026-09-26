@@ -165,6 +165,49 @@
       "rule": "Rule {{index}}",
       "ruleInterval": "Follow-up interval"
     },
+    "documents": {
+      "title": "Documents",
+      "description": "Review and manage the documents related to this record.",
+      "referenceNumber": "Reference number",
+      "referencePlaceholder": "Enter a reference number",
+      "files": "Files",
+      "empty": "There are no attached files.",
+      "pendingFiles": "Pending files",
+      "addFiles": "Add files",
+      "remove": "Remove",
+      "download": "Download",
+      "previousImage": "Previous image",
+      "nextImage": "Next image",
+      "dialog": {
+        "title": "Add files",
+        "description": "Select the files to add to the record.",
+        "uploadTitle": "Drag files or select them",
+        "uploadDescription": "Files will upload when you save the document changes.",
+        "attachmentsLabel": "Selected files",
+        "cancel": "Cancel",
+        "confirm": "Add to document",
+        "confirmEmpty": "Select files",
+        "maxFiles": "You can select up to {{count}} files per upload.",
+        "maxFileSize": "Each file must be at most {{megabytes}} MB.",
+        "galleryTitle": "File preview"
+      },
+      "quotation": {
+        "title": "Quotation",
+        "description": "Manage the quotation reference and files."
+      },
+      "purchaseOrder": {
+        "title": "Purchase order",
+        "description": "Manage the purchase order reference and files."
+      },
+      "invoice": {
+        "title": "Invoice",
+        "description": "Manage the invoice reference and files."
+      },
+      "otherFiles": {
+        "title": "Other files",
+        "description": "Manage other files related to this record."
+      }
+    },
     "labels": {
       "generalObservations": "General observations"
     },

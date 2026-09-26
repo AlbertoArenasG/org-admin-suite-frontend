@@ -2,8 +2,10 @@
 
 ## Slice 1: Shared Attachment Foundation
 
-- Exponer una API de producto acotada sobre el selector BeUI, sin simulacion de
-  carga ni preview interno.
+- Crear un dialogo generico de adjuntos que encapsule el selector animado de
+  BeUI, con progreso visual local de seleccion y sin preview interno.
+- El dialogo devuelve archivos en memoria al consumidor; no recibe endpoints ni
+  ejecuta cargas.
 - Crear `AttachmentImageGalleryDialog` reusable con navegacion, descarga y
   accesibilidad.
 

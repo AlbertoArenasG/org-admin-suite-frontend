@@ -12,11 +12,13 @@ de referencia y coleccion canonica. Cada instancia monta su propio
 
 ## Shared Components
 
-La adaptacion de BeUI expone seleccion, listado local, retiro, limites y estado
-visual, pero no thunks ni URLs de API. Desactiva la simulacion de carga propia
-del bloque: los archivos seleccionados permanecen `pending` hasta que el
-formulario inicia Guardar. Tambien delega el click de imagen a la galeria de
-producto en lugar de abrir su preview individual.
+`AttachmentUploadDialog` es el componente de producto generico que abre el
+selector animado de BeUI. Expone seleccion, listado local, retiro, limites y
+estado visual, pero no thunks ni URLs de API. Devuelve `File` al consumidor y
+los conserva `pending` en memoria; no ejecuta ninguna carga. Desactiva la
+semantica de carga propia del bloque: el progreso visual comunica la
+preparacion local y no una transferencia. Delega el click de imagen a la
+galeria de producto en lugar de abrir su preview individual.
 
 ```ts
 type AttachmentImage = {
@@ -39,10 +41,11 @@ El feature agrega carga propia para `POST /v1/files` y mutacion generica:
 PUT /v1/customer-service-records/:recordId/documents/:documentType
 ```
 
-Al enviar, el panel carga archivos nuevos, combina sus IDs con existentes no
-retirados y persiste el documento. Los tres tipos con referencia mandan texto
-recortado o `null`; `other-files` omite la propiedad. Todos mandan `file_ids`.
-La respuesta reemplaza el detalle canonico.
+Al confirmar Guardar, el panel consumidor toma los `File` en memoria del
+dialogo, carga solo los nuevos, combina sus IDs con existentes no retirados y
+persiste el documento. Los tres tipos con referencia mandan texto recortado o
+`null`; `other-files` omite la propiedad. Todos mandan `file_ids`. La respuesta
+reemplaza el detalle canonico.
 
 La carga usa `FormData` y `fetch` autenticado en el thunk del feature, porque
 `jsonRequest` no transporta objetos `File`. Los archivos seleccionados se

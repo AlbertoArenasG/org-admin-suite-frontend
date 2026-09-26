@@ -163,10 +163,16 @@ declara el offset del header. Esta capacidad no aplica a `Dialog` ni `Drawer`.
 
 ## Adjuntos
 
-La carga de archivos y la persistencia de sus referencias no forman parte de
-este contrato. Requieren una spec posterior que defina backend, permisos,
-progreso, errores, reintentos, eliminación y el flujo para recursos todavía no
-creados.
+La carga de archivos y la persistencia de sus referencias se definen por la
+spec del recurso: esa spec declara backend, permisos, progreso, errores,
+reintentos, eliminación y el flujo para recursos todavía no creados.
+
+Cuando una spec adopte selección de archivos, la interacción genérica ocurre en
+un diálogo de adjuntos: conserva `File` y su estado visual únicamente en
+memoria, no conoce endpoints y no ejecuta cargas. El formulario o vista
+consumidora decide cuándo confirmar y entonces llama su propia operación remota.
+El diálogo puede mostrar progreso visual local para comunicar la preparación de
+archivos; no representa una transferencia ni adelanta la operación remota.
 
 ## Controles De Formulario
 

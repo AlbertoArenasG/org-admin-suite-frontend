@@ -2,26 +2,27 @@
 
 ## Slice 1: Shared Attachment Foundation
 
-- [ ] Exponer el selector local de BeUI con una API de producto.
-- [ ] Desactivar su simulacion de carga y redirigir su accion de imagen a la
-      galeria compartida.
-- [ ] Crear la galeria reusable de adjuntos de imagen.
-- [ ] Validar foco, teclado, swipe, descarga y comportamiento movil.
+- [x] Crear el dialogo generico de adjuntos sobre el selector animado de BeUI.
+- [x] Hacer que el dialogo entregue `File` en memoria, sin endpoints ni carga remota.
+- [x] Mantener un progreso visual local de seleccion, sin carga remota, y
+      redirigir su accion de imagen a la galeria compartida.
+- [x] Crear la galeria reusable de adjuntos de imagen.
+- [x] Validar foco, teclado, swipe, descarga y comportamiento movil.
 
 ## Slice 2: Feature Document Contract
 
-- [ ] Definir payloads, serializacion y estado remoto documental.
-- [ ] Implementar thunks propios de carga y mutacion.
-- [ ] Reemplazar el detalle canonico tras cada PUT exitoso.
+- [x] Definir payloads, serializacion y estado remoto documental.
+- [x] Implementar thunks propios de carga y mutacion.
+- [x] Reemplazar el detalle canonico tras cada PUT exitoso.
 
 ## Slice 3: Documents Section Adoption
 
-- [ ] Crear cuatro formularios independientes y su cuadrícula.
-- [ ] Implementar draft local, carga diferida, retiro local y recuperacion.
-- [ ] Extender anclas, permisos y traducciones ES/EN.
+- [x] Crear cuatro formularios independientes y su cuadrícula.
+- [x] Implementar draft local, carga diferida, retiro local y recuperacion.
+- [x] Extender anclas, permisos y traducciones ES/EN.
 
 ## Slice 4: Verification And Closure
 
-- [ ] Ejecutar typecheck, lint focalizado y verificacion de diff.
-- [ ] Registrar validacion manual.
-- [ ] Documentar adopcion, actualizar indice y cerrar la spec.
+- [x] Ejecutar typecheck, lint focalizado y verificacion de diff.
+- [x] Registrar validacion manual.
+- [x] Documentar adopcion, actualizar indice y cerrar la spec.

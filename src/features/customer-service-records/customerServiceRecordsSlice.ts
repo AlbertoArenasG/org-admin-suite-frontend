@@ -14,6 +14,7 @@ import {
   updateCustomerServiceRecordAsset,
   fetchCustomerServiceRecordProviderOptions,
   updateCustomerServiceRecordProvider,
+  updateCustomerServiceRecordDocument,
 } from './customerServiceRecordsThunks';
 
 const initialState: CustomerServiceRecordsState = {
@@ -79,6 +80,8 @@ const initialState: CustomerServiceRecordsState = {
     updateAssetError: null,
     updateProviderStatus: 'idle',
     updateProviderError: null,
+    updateDocumentStatus: 'idle',
+    updateDocumentError: null,
   },
 };
 const customerServiceRecordsSlice = createSlice({
@@ -105,6 +108,8 @@ const customerServiceRecordsSlice = createSlice({
       state.mutations.updateAssetError = null;
       state.mutations.updateProviderStatus = 'idle';
       state.mutations.updateProviderError = null;
+      state.mutations.updateDocumentStatus = 'idle';
+      state.mutations.updateDocumentError = null;
     },
   },
   extraReducers: (builder) => {
@@ -316,6 +321,19 @@ const customerServiceRecordsSlice = createSlice({
           action.payload ??
           action.error.message ??
           'No fue posible actualizar proveedor y seguimiento';
+      })
+      .addCase(updateCustomerServiceRecordDocument.pending, (state) => {
+        state.mutations.updateDocumentStatus = 'loading';
+        state.mutations.updateDocumentError = null;
+      })
+      .addCase(updateCustomerServiceRecordDocument.fulfilled, (state, action) => {
+        state.mutations.updateDocumentStatus = 'succeeded';
+        state.detail.record = action.payload.record;
+      })
+      .addCase(updateCustomerServiceRecordDocument.rejected, (state, action) => {
+        state.mutations.updateDocumentStatus = 'failed';
+        state.mutations.updateDocumentError =
+          action.payload ?? action.error.message ?? 'No fue posible actualizar los documentos';
       });
   },
 });

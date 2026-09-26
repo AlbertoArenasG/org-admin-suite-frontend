@@ -3,8 +3,9 @@
 ## Slice 1. Shared Attachment Foundation
 
 - Goal: superficies reutilizables sin reglas de negocio.
-- Work: adaptar BeUI y crear galeria con carrusel, swipe, miniaturas, descarga,
-  foco y teclado.
+- Work: crear el dialogo generico que adapta BeUI para seleccion animada y
+  progreso visual local en memoria, y la galeria con carrusel, swipe,
+  miniaturas, descarga, foco y teclado.
 - Limits: sin endpoints, Redux, permisos ni formularios documentales.
 - Close: contrato neutral y verificacion estatica.
 
@@ -19,8 +20,8 @@
 ## Slice 3. Documents Section Adoption
 
 - Goal: leer y editar cuatro documentos dentro de la ruta.
-- Work: ancla, cuadrícula, formularios, drafts, carga al guardar, galeria,
-  permisos y copy.
+- Work: ancla, cuadrícula, formularios, apertura del dialogo de adjuntos,
+  drafts, carga al guardar, galeria, permisos y copy.
 - Limits: sin adjuntos del equipo, huerfanos ni preview no visual.
 - Close: cuatro contratos aislados y receta `ResourceForm` respetada.
 

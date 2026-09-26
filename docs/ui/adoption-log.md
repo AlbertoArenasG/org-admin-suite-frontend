@@ -49,6 +49,16 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-26 - Documentos de Registro de Servicio
+
+- Alcance: `/dashboard/customer-service-records/[recordId]`.
+- Adopción: quinta sección con cuatro `ResourceForm` independientes, diálogo
+  genérico de selección de adjuntos en memoria, progreso visual local, carga al
+  guardar cada panel y galería reutilizable de imágenes por documento.
+- Spec: `customer-service-record-documents-migration`.
+- Compatibilidad temporal: los adjuntos de equipo, limpieza de huérfanos y
+  preview de formatos no visuales permanecen fuera de este alcance.
+
 ### 2026-09-25 - Proveedor y Seguimiento de Registro de Servicio
 
 - Alcance: `/dashboard/customer-service-records/[recordId]`.

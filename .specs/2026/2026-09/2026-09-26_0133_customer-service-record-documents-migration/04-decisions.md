@@ -7,8 +7,13 @@ tipo con un PUT diferente. No existe guardado global ni formularios anidados.
 
 ## Deferred Upload
 
-Seleccionar y retirar archivos solo modifica memoria local. La carga ocurre al
-Guardar, antes del PUT del panel. La limpieza de huerfanos no es alcance.
+La seleccion y el retiro ocurren dentro de un dialogo generico y solo modifican
+memoria local. Ese dialogo no conoce endpoints ni puede cargar archivos. La
+vista consumidora carga al confirmar Guardar, antes del PUT de su panel. La
+limpieza de huerfanos no es alcance.
+
+El dialogo puede comunicar la seleccion con progreso visual local por archivo.
+Ese estado no representa transporte ni modifica el momento de carga remota.
 
 ## Backend Validation
 
@@ -23,4 +28,5 @@ imagenes neutrales, sin conocer endpoints, permisos ni documentos.
 ## Vendor And Feature Boundaries
 
 BeUI queda aislado bajo `vendor/beui/attachment-upload` y solo resuelve la UX
-local de archivos. La carga, mapeo y mutacion son de `customer-service-records`.
+animada de seleccion local dentro del dialogo generico. La carga, mapeo y
+mutacion son responsabilidad del feature consumidor.
