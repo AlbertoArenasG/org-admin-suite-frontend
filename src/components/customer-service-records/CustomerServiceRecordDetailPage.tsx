@@ -16,13 +16,19 @@ import { ResourceFormRoute, ResourceFormSkeleton } from '@/components/resource-f
 import {
   fetchCustomerServiceRecordDetail,
   fetchCustomerServiceRecordDetailOptions,
+  fetchCustomerServiceRecordCustomerDeliveryOptions,
+  fetchCustomerServiceRecordCustomerUsers,
   resetCustomerServiceRecordDetail,
+  updateCustomerServiceRecordCustomerDelivery,
   updateCustomerServiceRecordDetails,
+  type UpdateCustomerServiceRecordCustomerDeliveryPayload,
   type UpdateCustomerServiceRecordDetailsPayload,
 } from '@/features/customer-service-records';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { CustomerServiceRecordGeneralDetailsForm } from './CustomerServiceRecordGeneralDetailsForm';
+import { CustomerServiceRecordCustomerDeliveryForm } from './CustomerServiceRecordCustomerDeliveryForm';
+import { CustomerServiceRecordSectionNavigation } from './CustomerServiceRecordSectionNavigation';
 
 export function CustomerServiceRecordDetailPage() {
   const params = useParams<{ recordId: string }>();
@@ -33,6 +39,10 @@ export function CustomerServiceRecordDetailPage() {
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
   const detail = useAppSelector((state) => state.customerServiceRecords.detail);
   const detailOptions = useAppSelector((state) => state.customerServiceRecords.detailOptions);
+  const customerDeliveryOptions = useAppSelector(
+    (state) => state.customerServiceRecords.detailCustomerDeliveryOptions
+  );
+  const customerUsers = useAppSelector((state) => state.customerServiceRecords.detailCustomerUsers);
   const canUpdate = can('UPDATE');
   const synchronizeBreadcrumb = useCallback(
     (serviceNumber: string) => {
@@ -53,6 +63,7 @@ export function CustomerServiceRecordDetailPage() {
 
     void dispatch(fetchCustomerServiceRecordDetail({ recordId: params.recordId }));
     void dispatch(fetchCustomerServiceRecordDetailOptions());
+    void dispatch(fetchCustomerServiceRecordCustomerDeliveryOptions());
   }, [authHydrated, dispatch, params.recordId]);
 
   useEffect(
@@ -82,6 +93,15 @@ export function CustomerServiceRecordDetailPage() {
   const updateDetails = async (payload: UpdateCustomerServiceRecordDetailsPayload) => {
     const result = await dispatch(
       updateCustomerServiceRecordDetails({ recordId: params.recordId, payload })
+    ).unwrap();
+    return { message: result.message };
+  };
+
+  const updateCustomerDelivery = async (
+    payload: UpdateCustomerServiceRecordCustomerDeliveryPayload
+  ) => {
+    const result = await dispatch(
+      updateCustomerServiceRecordCustomerDelivery({ recordId: params.recordId, payload })
     ).unwrap();
     return { message: result.message };
   };
@@ -120,17 +140,48 @@ export function CustomerServiceRecordDetailPage() {
           {!isLoading && !loadError && detail.record ? (
             <DashboardContentReveal>
               <ResourceFormRoute className="mx-auto w-full max-w-4xl">
-                <CustomerServiceRecordGeneralDetailsForm
-                  canUpdate={canUpdate}
-                  onSubmit={updateDetails}
-                  record={detail.record}
-                  onRetryServiceTypes={() =>
-                    void dispatch(fetchCustomerServiceRecordDetailOptions())
-                  }
-                  serviceTypes={detailOptions.serviceTypes}
-                  serviceTypesError={detailOptions.error}
-                  serviceTypesLoading={detailOptions.status === 'loading'}
+                <CustomerServiceRecordSectionNavigation
+                  ariaLabel={t('detail.navigationLabel')}
+                  items={[
+                    { id: 'general-details', label: t('detail.general.title') },
+                    { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
+                  ]}
                 />
+                <section className="scroll-mt-24" id="general-details" tabIndex={-1}>
+                  <CustomerServiceRecordGeneralDetailsForm
+                    canUpdate={canUpdate}
+                    onSubmit={updateDetails}
+                    record={detail.record}
+                    onRetryServiceTypes={() =>
+                      void dispatch(fetchCustomerServiceRecordDetailOptions())
+                    }
+                    serviceTypes={detailOptions.serviceTypes}
+                    serviceTypesError={detailOptions.error}
+                    serviceTypesLoading={detailOptions.status === 'loading'}
+                  />
+                </section>
+                <section className="scroll-mt-24" id="customer-delivery" tabIndex={-1}>
+                  <CustomerServiceRecordCustomerDeliveryForm
+                    canUpdate={canUpdate}
+                    customerUsers={customerUsers.users}
+                    customerUsersCustomerId={customerUsers.customerId}
+                    customerUsersError={customerUsers.error}
+                    customerUsersLoading={customerUsers.status === 'loading'}
+                    customers={customerDeliveryOptions.customers}
+                    notificationPolicies={customerDeliveryOptions.notificationPolicies}
+                    onCustomerUsersRequired={(customerId) =>
+                      void dispatch(fetchCustomerServiceRecordCustomerUsers({ customerId }))
+                    }
+                    onRetryOptions={() =>
+                      void dispatch(fetchCustomerServiceRecordCustomerDeliveryOptions())
+                    }
+                    onSubmit={updateCustomerDelivery}
+                    optionsError={customerDeliveryOptions.error}
+                    optionsLoading={customerDeliveryOptions.status === 'loading'}
+                    record={detail.record}
+                    statusPolicies={customerDeliveryOptions.statusPolicies}
+                  />
+                </section>
               </ResourceFormRoute>
             </DashboardContentReveal>
           ) : null}

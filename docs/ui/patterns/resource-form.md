@@ -183,6 +183,11 @@ un valor controlado ISO `yyyy-MM-dd`, permite captura localizada
 Es independiente de `TableFilterDateInput`: las necesidades futuras de filtros
 no modifican el contrato de formularios.
 
+Los campos de fecha opcionales declaran `allowEmpty`; al limpiar el control
+propagan una cadena vacía al formulario para que su adaptador de dominio la
+normalice según el contrato remoto. El comportamiento por defecto permanece
+estricto para fechas obligatorias.
+
 No se usa un vendor de Shark/Ark UI ni se sustituyen primitives canónicas o
 tokens globales para estos controles. Una adopción futura de otra familia debe
 evaluarse por artefacto y no modifica esta composición por sí sola.

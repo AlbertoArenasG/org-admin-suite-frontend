@@ -136,21 +136,34 @@
   "detail": {
     "breadcrumb": "Registro {{folio}}",
     "notFound": "No se encontró el registro de servicio.",
+    "navigationLabel": "Secciones del registro de servicio",
     "searchOptions": "Buscar opciones...",
     "general": {
       "title": "Detalles generales",
       "description": "Consulta y actualiza los datos generales del registro."
+    },
+    "customerDelivery": {
+      "title": "Cliente y compromiso de entrega",
+      "description": "Administra el cliente, las fechas de entrega y las políticas del compromiso.",
+      "customerTitle": "Cliente",
+      "deliveryTitle": "Compromiso de entrega",
+      "interval": "Plazo estimado de entrega"
     },
     "labels": {
       "generalObservations": "Observaciones generales"
     },
     "placeholders": {
       "serviceType": "Selecciona un tipo de servicio",
-      "operationalStatus": "Selecciona un estado operativo"
+      "operationalStatus": "Selecciona un estado operativo",
+      "customer": "Selecciona un cliente",
+      "customerUsers": "Selecciona usuarios relacionados",
+      "statusPolicy": "Selecciona una política de estatus",
+      "notificationPolicy": "Selecciona una política de notificación"
     },
     "errors": {
       "required": "Este campo es obligatorio.",
-      "invalidDate": "Ingresa una fecha válida."
+      "invalidDate": "Ingresa una fecha válida.",
+      "invalidInterval": "Ingresa un entero igual o mayor a cero."
     },
     "feedback": {
       "saving": "Guardando cambios",

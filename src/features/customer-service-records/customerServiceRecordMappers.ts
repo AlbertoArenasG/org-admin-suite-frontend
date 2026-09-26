@@ -4,6 +4,7 @@ import type {
   CustomerServiceRecordDetail,
   CustomerServiceRecordLocalizedValue,
   CustomerServiceRecordOperationalStatus,
+  CustomerServiceRecordInterval,
 } from './types';
 
 type ApiLocalizedValue = {
@@ -56,7 +57,7 @@ export type ApiCustomerServiceRecordDetail = {
   }>;
   customer_delivery: {
     received_at: string | null;
-    estimated_delivery_interval: string | null;
+    estimated_delivery_interval: CustomerServiceRecordInterval;
     estimated_delivery_at: string | null;
     delivered_to_customer_at: string | null;
     status_policy_id: string | null;
@@ -69,7 +70,7 @@ export type ApiCustomerServiceRecordDetail = {
     name: string;
     work_order_reference: string | null;
     delivered_to_provider_at: string | null;
-    estimated_return_interval: string | null;
+    estimated_return_interval: CustomerServiceRecordInterval;
     estimated_return_at: string | null;
     returned_from_provider_at: string | null;
     status_policy_id: string | null;

@@ -12,6 +12,7 @@ import type {
   CustomerServiceRecordOption,
   CustomerServiceRecordDetail,
   UpdateCustomerServiceRecordDetailsPayload,
+  UpdateCustomerServiceRecordCustomerDeliveryPayload,
   FetchCustomerServiceRecordsParams,
 } from './types';
 
@@ -70,6 +71,29 @@ interface ApiCustomerServiceRecordListItem {
 
 interface ApiProviderOption {
   provider_id: string;
+  name: string;
+}
+
+interface ApiCustomerOption {
+  customer_id: string;
+  company_name: string;
+}
+
+interface ApiCustomerRelatedUserOption {
+  id: string;
+  name: string;
+  lastname: string;
+  full_name?: string;
+  email: string;
+}
+
+interface ApiExpirationStatusPolicyOption {
+  expiration_status_policy_id: string;
+  name: string;
+}
+
+interface ApiExpirationNotificationPolicyOption {
+  expiration_notification_policy_id: string;
   name: string;
 }
 
@@ -364,6 +388,141 @@ export const updateCustomerServiceRecordDetails = createAsyncThunk<
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible actualizar el registro de servicio'
+    );
+  }
+});
+
+export const fetchCustomerServiceRecordCustomerDeliveryOptions = createAsyncThunk<
+  {
+    customers: CustomerServiceRecordOption[];
+    statusPolicies: CustomerServiceRecordOption[];
+    notificationPolicies: CustomerServiceRecordOption[];
+  },
+  void,
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/fetchCustomerDeliveryOptions', async (_, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const [customersResponse, statusPoliciesResponse, notificationPoliciesResponse] =
+      await Promise.all([
+        jsonRequest<ApiCustomerOption[]>('/v1/customers/options', {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+          token,
+        }),
+        jsonRequest<ApiExpirationStatusPolicyOption[]>('/v1/expiration-status-policies/options', {
+          method: 'GET',
+          headers: { Accept: 'application/json' },
+          token,
+        }),
+        jsonRequest<ApiExpirationNotificationPolicyOption[]>(
+          '/v1/expiration-notification-policies/options',
+          {
+            method: 'GET',
+            headers: { Accept: 'application/json' },
+            token,
+          }
+        ),
+      ]);
+
+    return {
+      customers: Array.isArray(customersResponse.data)
+        ? customersResponse.data.map((item) => ({
+            value: item.customer_id,
+            label: item.company_name,
+          }))
+        : [],
+      statusPolicies: Array.isArray(statusPoliciesResponse.data)
+        ? statusPoliciesResponse.data.map((item) => ({
+            value: item.expiration_status_policy_id,
+            label: item.name,
+          }))
+        : [],
+      notificationPolicies: Array.isArray(notificationPoliciesResponse.data)
+        ? notificationPoliciesResponse.data.map((item) => ({
+            value: item.expiration_notification_policy_id,
+            label: item.name,
+          }))
+        : [],
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error
+        ? error.message
+        : 'No fue posible obtener las opciones de cliente y entrega'
+    );
+  }
+});
+
+export const fetchCustomerServiceRecordCustomerUsers = createAsyncThunk<
+  { customerId: string; users: CustomerServiceRecordOption[] },
+  { customerId: string },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/fetchCustomerUsers', async ({ customerId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<ApiCustomerRelatedUserOption[]>(
+      `/v1/customers/${customerId}/users/options`,
+      { method: 'GET', headers: { Accept: 'application/json' }, token }
+    );
+    return {
+      customerId,
+      users: Array.isArray(response.data)
+        ? response.data.map((user) => ({
+            value: user.id,
+            label: user.full_name ?? [user.name, user.lastname].filter(Boolean).join(' '),
+          }))
+        : [],
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible obtener los usuarios relacionados'
+    );
+  }
+});
+
+export const updateCustomerServiceRecordCustomerDelivery = createAsyncThunk<
+  { record: CustomerServiceRecordDetail; message: string | null },
+  { recordId: string; payload: UpdateCustomerServiceRecordCustomerDeliveryPayload },
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/updateCustomerDelivery', async ({ payload, recordId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+      `/v1/customer-service-records/${recordId}/customer`,
+      {
+        method: 'PUT',
+        headers: { Accept: 'application/json' },
+        body: {
+          customer: {
+            customer_id: payload.customer.customerId,
+            customer_user_ids: payload.customer.customerUserIds,
+          },
+          customer_delivery: {
+            received_at: payload.customerDelivery.receivedAt,
+            estimated_delivery_interval: payload.customerDelivery.estimatedDeliveryInterval,
+            estimated_delivery_at: payload.customerDelivery.estimatedDeliveryAt,
+            delivered_to_customer_at: payload.customerDelivery.deliveredToCustomerAt,
+            status_policy_id: payload.customerDelivery.statusPolicyId,
+            notification_policy_id: payload.customerDelivery.notificationPolicyId,
+          },
+        },
+        token,
+      }
+    );
+    return {
+      record: mapCustomerServiceRecordDetail(response.data),
+      message: response.successMessage,
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible actualizar cliente y entrega'
     );
   }
 });

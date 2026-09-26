@@ -5,9 +5,12 @@ import {
   deleteCustomerServiceRecord,
   fetchCustomerServiceRecordDetail,
   fetchCustomerServiceRecordDetailOptions,
+  fetchCustomerServiceRecordCustomerDeliveryOptions,
+  fetchCustomerServiceRecordCustomerUsers,
   fetchCustomerServiceRecordOptions,
   fetchCustomerServiceRecords,
   updateCustomerServiceRecordDetails,
+  updateCustomerServiceRecordCustomerDelivery,
 } from './customerServiceRecordsThunks';
 
 const initialState: CustomerServiceRecordsState = {
@@ -37,6 +40,19 @@ const initialState: CustomerServiceRecordsState = {
     status: 'idle',
     error: null,
   },
+  detailCustomerDeliveryOptions: {
+    customers: [],
+    statusPolicies: [],
+    notificationPolicies: [],
+    status: 'idle',
+    error: null,
+  },
+  detailCustomerUsers: {
+    customerId: null,
+    users: [],
+    status: 'idle',
+    error: null,
+  },
   mutations: {
     createStatus: 'idle',
     deleteStatus: 'idle',
@@ -46,6 +62,8 @@ const initialState: CustomerServiceRecordsState = {
     currentRecordId: null,
     updateDetailsStatus: 'idle',
     updateDetailsError: null,
+    updateCustomerDeliveryStatus: 'idle',
+    updateCustomerDeliveryError: null,
   },
 };
 const customerServiceRecordsSlice = createSlice({
@@ -61,8 +79,12 @@ const customerServiceRecordsSlice = createSlice({
     resetCustomerServiceRecordDetail: (state) => {
       state.detail = initialState.detail;
       state.detailOptions = initialState.detailOptions;
+      state.detailCustomerDeliveryOptions = initialState.detailCustomerDeliveryOptions;
+      state.detailCustomerUsers = initialState.detailCustomerUsers;
       state.mutations.updateDetailsStatus = 'idle';
       state.mutations.updateDetailsError = null;
+      state.mutations.updateCustomerDeliveryStatus = 'idle';
+      state.mutations.updateCustomerDeliveryError = null;
     },
   },
   extraReducers: (builder) => {
@@ -179,6 +201,55 @@ const customerServiceRecordsSlice = createSlice({
         state.mutations.updateDetailsStatus = 'failed';
         state.mutations.updateDetailsError =
           action.payload ?? action.error.message ?? 'No fue posible actualizar el registro';
+      })
+      .addCase(fetchCustomerServiceRecordCustomerDeliveryOptions.pending, (state) => {
+        state.detailCustomerDeliveryOptions.status = 'loading';
+        state.detailCustomerDeliveryOptions.error = null;
+      })
+      .addCase(fetchCustomerServiceRecordCustomerDeliveryOptions.fulfilled, (state, action) => {
+        state.detailCustomerDeliveryOptions.status = 'succeeded';
+        state.detailCustomerDeliveryOptions.customers = action.payload.customers;
+        state.detailCustomerDeliveryOptions.statusPolicies = action.payload.statusPolicies;
+        state.detailCustomerDeliveryOptions.notificationPolicies =
+          action.payload.notificationPolicies;
+      })
+      .addCase(fetchCustomerServiceRecordCustomerDeliveryOptions.rejected, (state, action) => {
+        state.detailCustomerDeliveryOptions.status = 'failed';
+        state.detailCustomerDeliveryOptions.error =
+          action.payload ??
+          action.error.message ??
+          'No fue posible obtener las opciones de cliente y entrega';
+      })
+      .addCase(fetchCustomerServiceRecordCustomerUsers.pending, (state, action) => {
+        state.detailCustomerUsers.status = 'loading';
+        state.detailCustomerUsers.error = null;
+        state.detailCustomerUsers.customerId = action.meta.arg.customerId;
+        state.detailCustomerUsers.users = [];
+      })
+      .addCase(fetchCustomerServiceRecordCustomerUsers.fulfilled, (state, action) => {
+        state.detailCustomerUsers.status = 'succeeded';
+        state.detailCustomerUsers.customerId = action.payload.customerId;
+        state.detailCustomerUsers.users = action.payload.users;
+      })
+      .addCase(fetchCustomerServiceRecordCustomerUsers.rejected, (state, action) => {
+        state.detailCustomerUsers.status = 'failed';
+        state.detailCustomerUsers.error =
+          action.payload ??
+          action.error.message ??
+          'No fue posible obtener los usuarios relacionados';
+      })
+      .addCase(updateCustomerServiceRecordCustomerDelivery.pending, (state) => {
+        state.mutations.updateCustomerDeliveryStatus = 'loading';
+        state.mutations.updateCustomerDeliveryError = null;
+      })
+      .addCase(updateCustomerServiceRecordCustomerDelivery.fulfilled, (state, action) => {
+        state.mutations.updateCustomerDeliveryStatus = 'succeeded';
+        state.detail.record = action.payload.record;
+      })
+      .addCase(updateCustomerServiceRecordCustomerDelivery.rejected, (state, action) => {
+        state.mutations.updateCustomerDeliveryStatus = 'failed';
+        state.mutations.updateCustomerDeliveryError =
+          action.payload ?? action.error.message ?? 'No fue posible actualizar cliente y entrega';
       });
   },
 });

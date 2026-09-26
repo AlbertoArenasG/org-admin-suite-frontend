@@ -136,21 +136,34 @@
   "detail": {
     "breadcrumb": "Record {{folio}}",
     "notFound": "The service record was not found.",
+    "navigationLabel": "Service record sections",
     "searchOptions": "Search options...",
     "general": {
       "title": "General details",
       "description": "Review and update the record's general information."
+    },
+    "customerDelivery": {
+      "title": "Customer and delivery commitment",
+      "description": "Manage the customer, delivery dates, and commitment policies.",
+      "customerTitle": "Customer",
+      "deliveryTitle": "Delivery commitment",
+      "interval": "Estimated delivery lead time"
     },
     "labels": {
       "generalObservations": "General observations"
     },
     "placeholders": {
       "serviceType": "Select a service type",
-      "operationalStatus": "Select an operational status"
+      "operationalStatus": "Select an operational status",
+      "customer": "Select a customer",
+      "customerUsers": "Select related users",
+      "statusPolicy": "Select a status policy",
+      "notificationPolicy": "Select a notification policy"
     },
     "errors": {
       "required": "This field is required.",
-      "invalidDate": "Enter a valid date."
+      "invalidDate": "Enter a valid date.",
+      "invalidInterval": "Enter an integer greater than or equal to zero."
     },
     "feedback": {
       "saving": "Saving changes",

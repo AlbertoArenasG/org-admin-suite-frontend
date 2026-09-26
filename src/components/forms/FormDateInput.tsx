@@ -17,6 +17,7 @@ type FormDateInputProps = {
   onValueChange: (value: string) => void;
   disabled?: boolean;
   invalid?: boolean;
+  allowEmpty?: boolean;
   placeholder?: string;
   openCalendarLabel: string;
   invalidDateMessage: string;
@@ -57,6 +58,7 @@ function parseLocalizedDate(input: string) {
 }
 
 export function FormDateInput({
+  allowEmpty = false,
   calendarLocale,
   className,
   disabled = false,
@@ -89,6 +91,11 @@ export function FormDateInput({
 
   const handleBlur = () => {
     if (!displayValue) {
+      if (allowEmpty) {
+        setInvalid(false);
+        onValueChange('');
+        return;
+      }
       setInvalid(true);
       return;
     }

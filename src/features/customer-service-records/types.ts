@@ -28,6 +28,13 @@ export interface CustomerServiceRecordOption {
   label: string;
 }
 
+export interface CustomerServiceRecordInterval {
+  years: number;
+  months: number;
+  weeks: number;
+  days: number;
+}
+
 export interface CustomerServiceRecordLocalizedValue {
   code: string;
   name: string;
@@ -71,7 +78,7 @@ export interface CustomerServiceRecordDetail {
   }>;
   customerDelivery: {
     receivedAt: string | null;
-    estimatedDeliveryInterval: string | null;
+    estimatedDeliveryInterval: CustomerServiceRecordInterval;
     estimatedDeliveryAt: string | null;
     deliveredToCustomerAt: string | null;
     statusPolicyId: string | null;
@@ -84,7 +91,7 @@ export interface CustomerServiceRecordDetail {
     name: string;
     workOrderReference: string | null;
     deliveredToProviderAt: string | null;
-    estimatedReturnInterval: string | null;
+    estimatedReturnInterval: CustomerServiceRecordInterval;
     estimatedReturnAt: string | null;
     returnedFromProviderAt: string | null;
     statusPolicyId: string | null;
@@ -108,6 +115,21 @@ export interface UpdateCustomerServiceRecordDetailsPayload {
   requestedAt: string;
   observations: string | null;
   operationalStatus: CustomerServiceRecordOperationalStatus;
+}
+
+export interface UpdateCustomerServiceRecordCustomerDeliveryPayload {
+  customer: {
+    customerId: string;
+    customerUserIds: string[];
+  };
+  customerDelivery: {
+    receivedAt: string | null;
+    estimatedDeliveryInterval: CustomerServiceRecordInterval;
+    estimatedDeliveryAt: string | null;
+    deliveredToCustomerAt: string | null;
+    statusPolicyId: string | null;
+    notificationPolicyId: string | null;
+  };
 }
 
 export interface CustomerServiceRecordsListFilters {
@@ -232,6 +254,19 @@ export interface CustomerServiceRecordsState {
     status: CustomerServiceRecordRequestStatus;
     error: string | null;
   };
+  detailCustomerDeliveryOptions: {
+    customers: CustomerServiceRecordOption[];
+    statusPolicies: CustomerServiceRecordOption[];
+    notificationPolicies: CustomerServiceRecordOption[];
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
+  };
+  detailCustomerUsers: {
+    customerId: string | null;
+    users: CustomerServiceRecordOption[];
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
+  };
   mutations: {
     createStatus: CustomerServiceRecordRequestStatus;
     deleteStatus: CustomerServiceRecordRequestStatus;
@@ -241,5 +276,7 @@ export interface CustomerServiceRecordsState {
     currentRecordId: string | null;
     updateDetailsStatus: CustomerServiceRecordRequestStatus;
     updateDetailsError: string | null;
+    updateCustomerDeliveryStatus: CustomerServiceRecordRequestStatus;
+    updateCustomerDeliveryError: string | null;
   };
 }

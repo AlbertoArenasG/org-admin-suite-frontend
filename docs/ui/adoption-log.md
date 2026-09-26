@@ -49,6 +49,16 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-25 - Cliente y Compromiso de Entrega de Registro de Servicio
+
+- Alcance: `/dashboard/customer-service-records/[recordId]`.
+- Adopción: segundo bloque independiente de `ResourceForm`, con navegación
+  semántica por anclas y scroll spy, permisos locales de edición, y opciones y
+  mutación propiedad de `customer-service-records`.
+- Spec: `customer-service-record-customer-delivery-migration`.
+- Compatibilidad temporal: los refinamientos visuales se evaluarán en una spec
+  posterior; proveedor, equipos y documentos conservan su migración incremental.
+
 ### 2026-09-25 - Detalles Generales de Registro de Servicio
 
 - Alcance: `/dashboard/customer-service-records/[recordId]`.
