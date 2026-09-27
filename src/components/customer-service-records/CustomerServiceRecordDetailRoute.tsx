@@ -7,12 +7,14 @@ import { ResourceFormRoute } from '@/components/resource-form';
 
 type CustomerServiceRecordDetailRouteProps = {
   children: React.ReactNode;
+  loading?: boolean;
   scrollContainerRef: RefObject<HTMLElement | null>;
 };
 
 /** Owns the record navigation while ResourceFormRoute owns layout and scroll behavior. */
 export function CustomerServiceRecordDetailRoute({
   children,
+  loading = false,
   scrollContainerRef,
 }: CustomerServiceRecordDetailRouteProps) {
   const { t } = useTranslation('customerServiceRecords');
@@ -29,6 +31,7 @@ export function CustomerServiceRecordDetailRoute({
           { id: 'provider-follow-up', label: t('detail.provider.title') },
           { id: 'documents', label: t('detail.documents.title') },
         ],
+        loading,
         scrollContainerRef,
         sticky: true,
         variant: { base: 'tabs', md: 'sidebar' },

@@ -165,15 +165,16 @@ export function CustomerServiceRecordDetailPage() {
       <DashboardPageContentScroller padding="default" ref={pageContentScrollerRef}>
         <div className="flex w-full min-w-0 flex-col gap-6">
           {isLoading ? (
-            <ResourceFormSkeleton
-              className="mx-auto max-w-4xl"
-              contentSurface={{ base: 'bare', md: 'inset' }}
-              density={{ base: 'compact', md: 'comfortable' }}
-              dividers="hidden"
-              groups={[{ fields: 4, orientation: 'responsive' }]}
-              headerActions={1}
-              surface={{ base: 'bare', md: 'card' }}
-            />
+            <CustomerServiceRecordDetailRoute loading scrollContainerRef={pageContentScrollerRef}>
+              <ResourceFormSkeleton
+                contentSurface={{ base: 'bare', md: 'inset' }}
+                density={{ base: 'compact', md: 'comfortable' }}
+                dividers="hidden"
+                groups={[{ fields: 4, orientation: 'responsive' }]}
+                headerActions={1}
+                surface={{ base: 'bare', md: 'card' }}
+              />
+            </CustomerServiceRecordDetailRoute>
           ) : null}
           {loadError ? (
             <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive">

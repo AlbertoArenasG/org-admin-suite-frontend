@@ -22,10 +22,14 @@ export type { ResourceFormOverlayProps } from '@/components/resource-form/Resour
 export { ResourceFormRoute } from '@/components/resource-form/ResourceFormRoute';
 export type { ResourceFormRouteProps } from '@/components/resource-form/ResourceFormRoute';
 
-export { ResourceFormNavigation } from '@/components/resource-form/ResourceFormNavigation';
+export {
+  ResourceFormNavigation,
+  ResourceFormNavigationSkeleton,
+} from '@/components/resource-form/ResourceFormNavigation';
 export type {
   ResourceFormNavigationItem,
   ResourceFormNavigationProps,
+  ResourceFormNavigationSkeletonProps,
   ResourceFormNavigationVariant,
 } from '@/components/resource-form/ResourceFormNavigation';
 

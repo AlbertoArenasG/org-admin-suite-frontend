@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import {
   ResourceFormNavigation,
+  ResourceFormNavigationSkeleton,
   type ResourceFormNavigationItem,
   type ResourceFormNavigationVariant,
 } from '@/components/resource-form/ResourceFormNavigation';
@@ -21,6 +22,7 @@ type ResourceFormRouteProps = React.ComponentProps<'div'> & {
     className?: string;
     sticky?: boolean;
     stickyOffset?: string;
+    loading?: boolean;
   };
   header?: React.ReactNode;
   footer?: React.ReactNode;
@@ -75,12 +77,23 @@ function ResourceFormRoute({
               'md:grid md:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] md:items-start'
           )}
         >
-          <ResourceFormNavigation
-            {...navigation}
-            stickyOffset={
-              stickyHeader && navigation.sticky ? stickyHeaderOffset : navigation.stickyOffset
-            }
-          />
+          {navigation.loading ? (
+            <ResourceFormNavigationSkeleton
+              itemCount={navigation.items.length}
+              sticky={navigation.sticky}
+              stickyOffset={
+                stickyHeader && navigation.sticky ? stickyHeaderOffset : navigation.stickyOffset
+              }
+              variant={navigation.variant}
+            />
+          ) : (
+            <ResourceFormNavigation
+              {...navigation}
+              stickyOffset={
+                stickyHeader && navigation.sticky ? stickyHeaderOffset : navigation.stickyOffset
+              }
+            />
+          )}
           <div className="min-w-0">{children}</div>
         </div>
       ) : (

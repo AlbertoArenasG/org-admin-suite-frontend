@@ -6,6 +6,7 @@ import {
   responsiveClasses,
   type ResourceFormResponsiveValue,
 } from '@/components/resource-form/resource-form-presentation';
+import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
 export type ResourceFormNavigationVariant = 'tabs' | 'sidebar';
@@ -22,6 +23,14 @@ type ResourceFormNavigationProps = {
   variant?: ResourceFormResponsiveValue<ResourceFormNavigationVariant>;
   scrollContainerRef?: React.RefObject<HTMLElement | null>;
   ariaLabel?: string;
+  className?: string;
+  sticky?: boolean;
+  stickyOffset?: string;
+};
+
+type ResourceFormNavigationSkeletonProps = {
+  itemCount: number;
+  variant?: ResourceFormResponsiveValue<ResourceFormNavigationVariant>;
   className?: string;
   sticky?: boolean;
   stickyOffset?: string;
@@ -94,17 +103,7 @@ function ResourceFormNavigation({
     };
   }, [items, scrollContainerRef]);
 
-  const navigationClasses = responsiveClasses(variant, 'tabs', {
-    base: {
-      tabs: 'flex-row overflow-x-auto border-b border-border pb-2',
-      sidebar: 'flex-col rounded-xl border border-border/80 bg-card p-2',
-    },
-    md: {
-      tabs: 'md:flex-row md:overflow-x-auto md:border-b md:pb-2',
-      sidebar:
-        'md:flex-col md:overflow-visible md:rounded-xl md:border md:border-border/80 md:bg-card md:p-2',
-    },
-  });
+  const navigationClasses = getNavigationClasses(variant);
 
   const handleNavigate = (id: string) => {
     const target = document.getElementById(id);
@@ -160,5 +159,48 @@ function ResourceFormNavigation({
   );
 }
 
-export { ResourceFormNavigation };
-export type { ResourceFormNavigationProps };
+function ResourceFormNavigationSkeleton({
+  className,
+  itemCount,
+  sticky = false,
+  stickyOffset = '0px',
+  variant = { base: 'tabs', md: 'sidebar' },
+}: ResourceFormNavigationSkeletonProps) {
+  return (
+    <div
+      aria-hidden="true"
+      className={cn(
+        'flex min-w-0 gap-1',
+        sticky && 'sticky top-0 z-20 bg-background py-2',
+        getNavigationClasses(variant),
+        className
+      )}
+      data-slot="resource-form-navigation-skeleton"
+      style={sticky ? { top: stickyOffset } : undefined}
+    >
+      {Array.from({ length: itemCount }, (_, index) => (
+        <Skeleton
+          className={cn('h-9 shrink-0 rounded-lg', index % 3 === 0 ? 'w-36' : 'w-28')}
+          key={index}
+        />
+      ))}
+    </div>
+  );
+}
+
+function getNavigationClasses(variant: ResourceFormResponsiveValue<ResourceFormNavigationVariant>) {
+  return responsiveClasses(variant, 'tabs', {
+    base: {
+      tabs: 'flex-row overflow-x-auto border-b border-border pb-2',
+      sidebar: 'flex-col rounded-xl border border-border/80 bg-card p-2',
+    },
+    md: {
+      tabs: 'md:flex-row md:overflow-x-auto md:border-b md:pb-2',
+      sidebar:
+        'md:flex-col md:overflow-visible md:rounded-xl md:border md:border-border/80 md:bg-card md:p-2',
+    },
+  });
+}
+
+export { ResourceFormNavigation, ResourceFormNavigationSkeleton };
+export type { ResourceFormNavigationProps, ResourceFormNavigationSkeletonProps };
