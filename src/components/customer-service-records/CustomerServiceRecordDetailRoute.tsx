@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import type { RefObject } from 'react';
 
 import { ResourceFormRoute } from '@/components/resource-form';
+import { CustomerServiceRecordCompactNavigation } from './CustomerServiceRecordCompactNavigation';
 
 type CustomerServiceRecordDetailRouteProps = {
   children: React.ReactNode;
@@ -20,20 +21,30 @@ export function CustomerServiceRecordDetailRoute({
   scrollContainerRef,
 }: CustomerServiceRecordDetailRouteProps) {
   const { t } = useTranslation('customerServiceRecords');
+  const navigationItems = [
+    { id: 'general-details', label: t('detail.general.title') },
+    { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
+    { id: 'equipment', label: t('detail.equipment.title') },
+    { id: 'provider-follow-up', label: t('detail.provider.title') },
+    { id: 'documents', label: t('detail.documents.title') },
+  ];
+  const navigationLabel = t('detail.navigationLabel');
 
   return (
     <ResourceFormRoute
       className="mx-auto w-full max-w-[90rem]"
+      compactNavigation={
+        <CustomerServiceRecordCompactNavigation
+          ariaLabel={navigationLabel}
+          items={navigationItems}
+          scrollContainerRef={scrollContainerRef}
+        />
+      }
       navigationSupplement={navigationSupplement}
       navigation={{
-        ariaLabel: t('detail.navigationLabel'),
-        items: [
-          { id: 'general-details', label: t('detail.general.title') },
-          { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
-          { id: 'equipment', label: t('detail.equipment.title') },
-          { id: 'provider-follow-up', label: t('detail.provider.title') },
-          { id: 'documents', label: t('detail.documents.title') },
-        ],
+        ariaLabel: navigationLabel,
+        className: 'md:hidden lg:flex',
+        items: navigationItems,
         loading,
         scrollContainerRef,
         sticky: true,

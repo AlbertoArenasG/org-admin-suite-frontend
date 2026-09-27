@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 
 type ResourceFormRouteProps = React.ComponentProps<'div'> & {
   children: React.ReactNode;
+  compactNavigation?: React.ReactNode;
   navigationSupplement?: React.ReactNode;
   navigation?: {
     items: readonly ResourceFormNavigationItem[];
@@ -35,6 +36,7 @@ type ResourceFormRouteProps = React.ComponentProps<'div'> & {
 function ResourceFormRoute({
   children,
   className,
+  compactNavigation,
   footer,
   header,
   navigation,
@@ -47,6 +49,7 @@ function ResourceFormRoute({
 }: ResourceFormRouteProps) {
   const navigationVariant = resolveResponsiveValue(navigation?.variant, 'tabs');
   const usesSidebarAtDesktop = navigationVariant.md === 'sidebar';
+  const usesCompactNavigation = Boolean(compactNavigation && !navigation?.loading);
   const scrollOffset = stickyHeader ? '10rem' : '6rem';
   const desktopScrollOffset = stickyHeader ? stickyHeaderOffset : '0px';
   const navigationStickyOffset =
@@ -56,14 +59,14 @@ function ResourceFormRoute({
     navigation.loading ? (
       <ResourceFormNavigationSkeleton
         itemCount={navigation.items.length}
-        sticky={navigationSupplement ? false : navigation.sticky}
+        sticky={navigationSupplement || usesCompactNavigation ? false : navigation.sticky}
         stickyOffset={navigationStickyOffset}
         variant={navigation.variant}
       />
     ) : (
       <ResourceFormNavigation
         {...navigation}
-        sticky={navigationSupplement ? false : navigation.sticky}
+        sticky={navigationSupplement || usesCompactNavigation ? false : navigation.sticky}
         stickyOffset={navigationStickyOffset}
       />
     )
@@ -95,10 +98,13 @@ function ResourceFormRoute({
           className={cn(
             'flex min-w-0 flex-col gap-6',
             usesSidebarAtDesktop &&
-              'md:grid md:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] md:items-start'
+              !usesCompactNavigation &&
+              'md:grid md:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] md:items-start',
+            usesCompactNavigation &&
+              'md:grid md:grid-cols-[2.5rem_minmax(0,1fr)] md:items-start lg:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)]'
           )}
         >
-          {navigationSupplement ? (
+          {navigationSupplement || usesCompactNavigation ? (
             <div
               className={cn(
                 'min-w-0',
@@ -109,6 +115,7 @@ function ResourceFormRoute({
               style={navigation.sticky ? { top: navigationStickyOffset } : undefined}
             >
               {navigationContent}
+              {usesCompactNavigation ? compactNavigation : null}
               <div
                 className="mt-10 hidden lg:block lg:pl-5"
                 data-slot="resource-form-navigation-supplement"
