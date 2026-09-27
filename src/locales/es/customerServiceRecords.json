@@ -123,6 +123,7 @@
     "neutral": "Sin fecha o seguimiento",
     "noDate": "Sin fecha",
     "notConfigured": "No configurado",
+    "no": "No",
     "yes": "Sí"
   },
   "errors": {
@@ -304,6 +305,7 @@
       "statusPolicy": "Política de estatus",
       "notificationPolicy": "Política de notificación",
       "useProvider": "El servicio requiere proveedor",
+      "provider": "Proveedor",
       "deliveredToProviderAt": "Fecha de entrega al proveedor",
       "estimatedReturnAt": "Fecha estimada de retorno",
       "returnedFromProviderAt": "Fecha real de retorno",

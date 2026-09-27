@@ -123,6 +123,7 @@
     "neutral": "No date or tracking",
     "noDate": "No date",
     "notConfigured": "Not configured",
+    "no": "No",
     "yes": "Yes"
   },
   "errors": {
@@ -304,6 +305,7 @@
       "statusPolicy": "Status policy",
       "notificationPolicy": "Notification policy",
       "useProvider": "This service requires a provider",
+      "provider": "Provider",
       "deliveredToProviderAt": "Delivered to provider date",
       "estimatedReturnAt": "Estimated return date",
       "returnedFromProviderAt": "Actual return date",

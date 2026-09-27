@@ -53,17 +53,14 @@ function ResourceFormNavigation({
     const targets = items
       .map((item) => document.getElementById(item.id))
       .filter((target): target is HTMLElement => target !== null);
-    const container = scrollContainerRef?.current;
+    const container = scrollContainerRef?.current ?? null;
 
     if (targets.length === 0) {
       return;
     }
 
     const updateActiveItem = () => {
-      const containerOwnsScroll =
-        container &&
-        container.scrollHeight > container.clientHeight &&
-        ['auto', 'scroll', 'overlay'].includes(window.getComputedStyle(container).overflowY);
+      const containerOwnsScroll = isScrollContainer(container);
       const referenceTop = containerOwnsScroll ? container.getBoundingClientRect().top : 0;
       const pendingId = pendingNavigationIdRef.current;
 
@@ -114,6 +111,20 @@ function ResourceFormNavigation({
 
     pendingNavigationIdRef.current = id;
     setActiveId(id);
+
+    const container = scrollContainerRef?.current ?? null;
+    if (isScrollContainer(container)) {
+      const targetMargin = Number.parseFloat(window.getComputedStyle(target).scrollMarginTop) || 0;
+      const targetTop =
+        container.scrollTop +
+        target.getBoundingClientRect().top -
+        container.getBoundingClientRect().top -
+        targetMargin;
+
+      container.scrollTo({ behavior: 'smooth', top: Math.max(0, targetTop) });
+      return;
+    }
+
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
@@ -156,6 +167,16 @@ function ResourceFormNavigation({
         );
       })}
     </nav>
+  );
+}
+
+function isScrollContainer(container: HTMLElement | null): container is HTMLElement {
+  if (!container) return false;
+
+  const overflowY = window.getComputedStyle(container).overflowY;
+  return (
+    container.scrollHeight > container.clientHeight &&
+    ['auto', 'scroll', 'overlay'].includes(overflowY)
   );
 }
 

@@ -26,6 +26,8 @@ import { showToast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
 import { FieldGroup } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
 import type {
   CustomerServiceRecordDetail,
   CustomerServiceRecordOption,
@@ -210,27 +212,22 @@ export function CustomerServiceRecordProviderFollowUpForm({
         surface={{ base: 'bare', md: 'card' }}
         title={t('detail.provider.title')}
       >
-        <ResourceFormSection surface="bare" title={t('detail.provider.providerTitle')}>
+        <ResourceFormSection surface="bare">
           <FieldGroup>
             <Controller
               control={form.control}
               name="hasProvider"
               render={({ field }) => (
                 <FormField label={t('form.labels.useProvider')} orientation="responsive">
-                  {isReadOnly ? (
-                    <FormReadValue>{field.value ? t('labels.yes') : t('labels.no')}</FormReadValue>
-                  ) : (
-                    <label className="flex min-h-10 items-center gap-3 rounded-md border border-input px-3 text-sm">
-                      <input
-                        checked={field.value}
-                        className="size-4 accent-primary"
-                        disabled={isMutationLocked}
-                        onChange={(event) => field.onChange(event.target.checked)}
-                        type="checkbox"
-                      />
-                      {t('form.labels.useProvider')}
-                    </label>
-                  )}
+                  <Switch
+                    aria-label={t('form.labels.useProvider')}
+                    aria-readonly={isReadOnly || undefined}
+                    checked={field.value}
+                    className="disabled:opacity-100"
+                    disabled={isMutationLocked}
+                    onCheckedChange={isReadOnly ? undefined : field.onChange}
+                    tabIndex={isReadOnly ? -1 : undefined}
+                  />
                 </FormField>
               )}
             />
@@ -324,50 +321,46 @@ export function CustomerServiceRecordProviderFollowUpForm({
           </FieldGroup>
         </ResourceFormSection>
         {(isReadOnly ? Boolean(provider) : hasProvider) ? (
-          <ResourceFormSection surface="bare" title={t('detail.provider.followUpTitle')}>
-            <FieldGroup>
-              <Controller
-                control={form.control}
-                name="followUpEnabled"
-                render={({ field }) => (
-                  <FormField
-                    label={t('form.labels.providerFollowUpEnabled')}
-                    orientation="responsive"
-                  >
-                    {isReadOnly ? (
-                      <FormReadValue>
-                        {field.value ? t('labels.yes') : t('labels.no')}
-                      </FormReadValue>
-                    ) : (
-                      <label className="flex min-h-10 items-center gap-3 rounded-md border border-input px-3 text-sm">
-                        <input
-                          checked={field.value}
-                          className="size-4 accent-primary"
-                          disabled={isMutationLocked}
-                          onChange={(event) => field.onChange(event.target.checked)}
-                          type="checkbox"
-                        />
-                        {t('form.labels.providerFollowUpEnabled')}
-                      </label>
-                    )}
-                  </FormField>
-                )}
-              />
-              {(isReadOnly ? provider?.followUp.enabled : followUpEnabled) ? (
-                <FollowUpRules
-                  disabled={isMutationLocked || optionsLoading || Boolean(optionsError)}
-                  fields={fields}
-                  form={form}
-                  isReadOnly={isReadOnly}
-                  onAdd={() => append(emptyCustomerServiceRecordProviderFollowUpRule)}
-                  onRemove={remove}
-                  optionError={optionError}
-                  recipientGroups={recipientGroups}
-                  t={t}
+          <>
+            <Separator />
+            <ResourceFormSection surface="bare">
+              <FieldGroup>
+                <Controller
+                  control={form.control}
+                  name="followUpEnabled"
+                  render={({ field }) => (
+                    <FormField
+                      label={t('form.labels.providerFollowUpEnabled')}
+                      orientation="responsive"
+                    >
+                      <Switch
+                        aria-label={t('form.labels.providerFollowUpEnabled')}
+                        aria-readonly={isReadOnly || undefined}
+                        checked={field.value}
+                        className="disabled:opacity-100"
+                        disabled={isMutationLocked}
+                        onCheckedChange={isReadOnly ? undefined : field.onChange}
+                        tabIndex={isReadOnly ? -1 : undefined}
+                      />
+                    </FormField>
+                  )}
                 />
-              ) : null}
-            </FieldGroup>
-          </ResourceFormSection>
+                {(isReadOnly ? provider?.followUp.enabled : followUpEnabled) ? (
+                  <FollowUpRules
+                    disabled={isMutationLocked || optionsLoading || Boolean(optionsError)}
+                    fields={fields}
+                    form={form}
+                    isReadOnly={isReadOnly}
+                    onAdd={() => append(emptyCustomerServiceRecordProviderFollowUpRule)}
+                    onRemove={remove}
+                    optionError={optionError}
+                    recipientGroups={recipientGroups}
+                    t={t}
+                  />
+                ) : null}
+              </FieldGroup>
+            </ResourceFormSection>
+          </>
         ) : null}
       </ResourceFormFrame>
     </form>
