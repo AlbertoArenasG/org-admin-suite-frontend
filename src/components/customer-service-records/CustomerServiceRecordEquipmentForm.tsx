@@ -165,7 +165,7 @@ export function CustomerServiceRecordEquipmentForm({
         title={t('detail.equipment.title')}
       >
         <ResourceFormSection surface="bare">
-          <FieldGroup>
+          <FieldGroup className="md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-7">
             {fields.map(({ id, label, name }) => (
               <Controller
                 control={form.control}
@@ -176,7 +176,7 @@ export function CustomerServiceRecordEquipmentForm({
                     error={fieldState.error?.message}
                     htmlFor={isReadOnly ? undefined : id}
                     label={label}
-                    orientation="responsive"
+                    orientation="vertical"
                   >
                     {isReadOnly ? (
                       <FormReadValue>{field.value}</FormReadValue>
@@ -202,7 +202,7 @@ export function CustomerServiceRecordEquipmentForm({
                     isReadOnly ? undefined : 'customer-service-record-equipment-observations'
                   }
                   label={t('form.labels.assetObservations')}
-                  orientation="responsive"
+                  orientation="vertical"
                 >
                   {isReadOnly ? (
                     <FormReadValue>{field.value.trim() || '—'}</FormReadValue>
