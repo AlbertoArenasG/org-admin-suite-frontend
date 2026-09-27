@@ -196,7 +196,7 @@ export function CustomerServiceRecordDetailPage() {
           {!isLoading && !loadError && detail.record ? (
             <DashboardContentReveal>
               <CustomerServiceRecordDetailRoute
-                aside={<CustomerServiceRecordTimeline record={detail.record} />}
+                navigationSupplement={<CustomerServiceRecordTimeline record={detail.record} />}
                 scrollContainerRef={pageContentScrollerRef}
               >
                 <section className="scroll-mt-24 md:scroll-mt-5" id="general-details" tabIndex={-1}>

@@ -6,25 +6,25 @@ import type { RefObject } from 'react';
 import { ResourceFormRoute } from '@/components/resource-form';
 
 type CustomerServiceRecordDetailRouteProps = {
-  aside?: React.ReactNode;
   children: React.ReactNode;
   loading?: boolean;
+  navigationSupplement?: React.ReactNode;
   scrollContainerRef: RefObject<HTMLElement | null>;
 };
 
 /** Owns the record navigation while ResourceFormRoute owns layout and scroll behavior. */
 export function CustomerServiceRecordDetailRoute({
-  aside,
   children,
   loading = false,
+  navigationSupplement,
   scrollContainerRef,
 }: CustomerServiceRecordDetailRouteProps) {
   const { t } = useTranslation('customerServiceRecords');
 
   return (
     <ResourceFormRoute
-      aside={aside}
       className="mx-auto w-full max-w-[90rem]"
+      navigationSupplement={navigationSupplement}
       navigation={{
         ariaLabel: t('detail.navigationLabel'),
         items: [

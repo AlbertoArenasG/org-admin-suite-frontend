@@ -13,8 +13,8 @@ import {
 import { cn } from '@/lib/utils';
 
 type ResourceFormRouteProps = React.ComponentProps<'div'> & {
-  aside?: React.ReactNode;
   children: React.ReactNode;
+  navigationSupplement?: React.ReactNode;
   navigation?: {
     items: readonly ResourceFormNavigationItem[];
     variant?: ResourceFormResponsiveValue<ResourceFormNavigationVariant>;
@@ -33,12 +33,12 @@ type ResourceFormRouteProps = React.ComponentProps<'div'> & {
 };
 
 function ResourceFormRoute({
-  aside,
   children,
   className,
   footer,
   header,
   navigation,
+  navigationSupplement,
   stickyFooter = false,
   stickyHeader = false,
   stickyHeaderOffset = '0px',
@@ -49,6 +49,25 @@ function ResourceFormRoute({
   const usesSidebarAtDesktop = navigationVariant.md === 'sidebar';
   const scrollOffset = stickyHeader ? '10rem' : '6rem';
   const desktopScrollOffset = stickyHeader ? stickyHeaderOffset : '0px';
+  const navigationStickyOffset =
+    stickyHeader && navigation?.sticky ? stickyHeaderOffset : navigation?.stickyOffset;
+
+  const navigationContent = navigation ? (
+    navigation.loading ? (
+      <ResourceFormNavigationSkeleton
+        itemCount={navigation.items.length}
+        sticky={navigationSupplement ? false : navigation.sticky}
+        stickyOffset={navigationStickyOffset}
+        variant={navigation.variant}
+      />
+    ) : (
+      <ResourceFormNavigation
+        {...navigation}
+        sticky={navigationSupplement ? false : navigation.sticky}
+        stickyOffset={navigationStickyOffset}
+      />
+    )
+  ) : null;
 
   return (
     <div
@@ -76,36 +95,31 @@ function ResourceFormRoute({
           className={cn(
             'flex min-w-0 flex-col gap-6',
             usesSidebarAtDesktop &&
-              'md:grid md:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] md:items-start',
-            aside && 'xl:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)_minmax(12rem,15rem)]'
+              'md:grid md:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] md:items-start'
           )}
         >
-          {navigation.loading ? (
-            <ResourceFormNavigationSkeleton
-              itemCount={navigation.items.length}
-              sticky={navigation.sticky}
-              stickyOffset={
-                stickyHeader && navigation.sticky ? stickyHeaderOffset : navigation.stickyOffset
-              }
-              variant={navigation.variant}
-            />
+          {navigationSupplement ? (
+            <div
+              className={cn(
+                'min-w-0',
+                navigation.sticky &&
+                  'sticky top-0 z-20 bg-background py-2 md:bg-transparent md:py-0'
+              )}
+              data-slot="resource-form-navigation-stack"
+              style={navigation.sticky ? { top: navigationStickyOffset } : undefined}
+            >
+              {navigationContent}
+              <div
+                className="mt-10 hidden lg:block lg:pl-5"
+                data-slot="resource-form-navigation-supplement"
+              >
+                {navigationSupplement}
+              </div>
+            </div>
           ) : (
-            <ResourceFormNavigation
-              {...navigation}
-              stickyOffset={
-                stickyHeader && navigation.sticky ? stickyHeaderOffset : navigation.stickyOffset
-              }
-            />
+            navigationContent
           )}
           <div className="min-w-0">{children}</div>
-          {aside ? (
-            <aside
-              className="hidden min-w-0 self-start xl:sticky xl:top-5 xl:block"
-              data-slot="resource-form-route-aside"
-            >
-              {aside}
-            </aside>
-          ) : null}
         </div>
       ) : (
         children
