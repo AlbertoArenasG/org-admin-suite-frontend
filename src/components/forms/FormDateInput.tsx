@@ -42,6 +42,22 @@ function toLocalizedDate(isoDate: string) {
 }
 
 function maskDateInput(input: string) {
+  if (input.includes('/')) {
+    const [rawDay = '', rawMonth = '', rawYear = ''] = input.split('/');
+    const day = rawDay.replace(/\D/g, '').slice(0, 2);
+    const month = rawMonth.replace(/\D/g, '').slice(0, 2);
+    const year = rawYear.replace(/\D/g, '').slice(0, 4);
+    const hasMonthSegment = input.split('/').length > 1;
+    const hasYearSegment = input.split('/').length > 2;
+
+    let masked = day;
+    if (hasMonthSegment || day.length === 2) masked += '/';
+    if (hasMonthSegment) masked += month;
+    if (hasYearSegment || month.length === 2) masked += '/';
+    if (hasYearSegment) masked += year;
+    return masked;
+  }
+
   const digits = input.replace(/\D/g, '').slice(0, 8);
   if (digits.length <= 2) return digits.length === 2 ? `${digits}/` : digits;
   if (digits.length <= 4) {

@@ -15,6 +15,7 @@ import {
   FormMultiSelect,
   FormReadValue,
   FormValueChips,
+  type FormFieldOrientation,
 } from '@/components/forms';
 import {
   ResourceFormActions,
@@ -289,33 +290,61 @@ export function CustomerServiceRecordProviderFollowUpForm({
                     </FormField>
                   )}
                 />
-                <ProviderDateFields
-                  form={form}
-                  isMutationLocked={isMutationLocked}
-                  isReadOnly={isReadOnly}
-                  onEstimatedReturnChange={(value) => setEstimatedReturnIsExplicit(Boolean(value))}
-                  t={t}
-                />
-                <IntervalField
-                  disabled={isMutationLocked}
-                  form={form}
-                  isMutationLocked={isMutationLocked}
-                  isReadOnly={isReadOnly}
-                  label={t('detail.provider.interval')}
-                  name="estimatedReturnInterval"
-                  t={t}
-                />
-                <ProviderPolicies
-                  form={form}
-                  isMutationLocked={isMutationLocked}
-                  isReadOnly={isReadOnly}
-                  notificationPolicies={notificationPolicies}
-                  optionError={optionError}
-                  optionsError={Boolean(optionsError)}
-                  optionsLoading={optionsLoading}
-                  statusPolicies={statusPolicies}
-                  t={t}
-                />
+                <Separator />
+                <div className="grid gap-7 md:grid-cols-2 md:gap-x-8 md:gap-y-7">
+                  <ProviderDateField
+                    form={form}
+                    isMutationLocked={isMutationLocked}
+                    isReadOnly={isReadOnly}
+                    label={t('form.labels.deliveredToProviderAt')}
+                    name="deliveredToProviderAt"
+                    orientation="vertical"
+                    t={t}
+                  />
+                  <IntervalField
+                    disabled={isMutationLocked}
+                    form={form}
+                    isMutationLocked={isMutationLocked}
+                    isReadOnly={isReadOnly}
+                    label={t('detail.provider.interval')}
+                    name="estimatedReturnInterval"
+                    orientation="vertical"
+                    t={t}
+                  />
+                  <ProviderDateField
+                    form={form}
+                    isMutationLocked={isMutationLocked}
+                    isReadOnly={isReadOnly}
+                    label={t('form.labels.estimatedReturnAt')}
+                    name="estimatedReturnAt"
+                    onEstimatedReturnChange={(value) =>
+                      setEstimatedReturnIsExplicit(Boolean(value))
+                    }
+                    orientation="vertical"
+                    t={t}
+                  />
+                  <ProviderDateField
+                    form={form}
+                    isMutationLocked={isMutationLocked}
+                    isReadOnly={isReadOnly}
+                    label={t('form.labels.returnedFromProviderAt')}
+                    name="returnedFromProviderAt"
+                    orientation="vertical"
+                    t={t}
+                  />
+                  <ProviderPolicies
+                    form={form}
+                    isMutationLocked={isMutationLocked}
+                    isReadOnly={isReadOnly}
+                    notificationPolicies={notificationPolicies}
+                    optionError={optionError}
+                    optionsError={Boolean(optionsError)}
+                    optionsLoading={optionsLoading}
+                    orientation="vertical"
+                    statusPolicies={statusPolicies}
+                    t={t}
+                  />
+                </div>
               </>
             ) : null}
           </FieldGroup>
@@ -374,29 +403,27 @@ type FormProps = {
   t: (key: string, options?: Record<string, unknown>) => string;
 };
 
-function ProviderDateFields({
+function ProviderDateField({
   form,
   isMutationLocked,
   isReadOnly,
+  label,
+  name,
   onEstimatedReturnChange,
+  orientation = 'responsive',
   t,
-}: FormProps & { onEstimatedReturnChange: (value: string) => void }) {
-  const dateFields: Array<{
-    name: 'deliveredToProviderAt' | 'estimatedReturnAt' | 'returnedFromProviderAt';
-    label: string;
-  }> = [
-    { name: 'deliveredToProviderAt', label: t('form.labels.deliveredToProviderAt') },
-    { name: 'estimatedReturnAt', label: t('form.labels.estimatedReturnAt') },
-    { name: 'returnedFromProviderAt', label: t('form.labels.returnedFromProviderAt') },
-  ];
-
-  return dateFields.map(({ label, name }) => (
+}: FormProps & {
+  label: string;
+  name: 'deliveredToProviderAt' | 'estimatedReturnAt' | 'returnedFromProviderAt';
+  onEstimatedReturnChange?: (value: string) => void;
+  orientation?: FormFieldOrientation;
+}) {
+  return (
     <Controller
       control={form.control}
-      key={name}
       name={name}
       render={({ field, fieldState }) => (
-        <FormField error={fieldState.error?.message} label={label} orientation="responsive">
+        <FormField error={fieldState.error?.message} label={label} orientation={orientation}>
           {isReadOnly ? (
             <FormReadValue>{formatDate(field.value)}</FormReadValue>
           ) : (
@@ -406,7 +433,7 @@ function ProviderDateFields({
               invalid={fieldState.invalid}
               invalidDateMessage={t('detail.errors.invalidDate')}
               onValueChange={(value) => {
-                if (name === 'estimatedReturnAt') onEstimatedReturnChange(value);
+                if (name === 'estimatedReturnAt') onEstimatedReturnChange?.(value);
                 field.onChange(value);
               }}
               openCalendarLabel={t('createWizard.openCalendar')}
@@ -416,7 +443,7 @@ function ProviderDateFields({
         </FormField>
       )}
     />
-  ));
+  );
 }
 
 function IntervalField({
@@ -425,11 +452,13 @@ function IntervalField({
   isReadOnly,
   label,
   name,
+  orientation = 'responsive',
   t,
 }: FormProps & {
   disabled: boolean;
   label: string;
   name: 'estimatedReturnInterval' | `followUpRules.${number}.interval`;
+  orientation?: FormFieldOrientation;
 }) {
   const interval = form.getValues(name);
   const ruleIndex = name.startsWith('followUpRules.') ? Number(name.split('.')[1]) : null;
@@ -445,7 +474,7 @@ function IntervalField({
   };
 
   return (
-    <FormField label={label} orientation="responsive">
+    <FormField label={label} orientation={orientation}>
       {isReadOnly ? (
         <FormReadValue>
           <FormIntervalDisplay labels={intervalLabels} value={interval} />
@@ -479,6 +508,7 @@ function ProviderPolicies({
   optionError,
   optionsError,
   optionsLoading,
+  orientation = 'responsive',
   statusPolicies,
   t,
 }: FormProps & {
@@ -486,6 +516,7 @@ function ProviderPolicies({
   optionError: React.ReactNode;
   optionsError: boolean;
   optionsLoading: boolean;
+  orientation?: FormFieldOrientation;
   statusPolicies: readonly CustomerServiceRecordOption[];
 }) {
   return (
@@ -497,6 +528,7 @@ function ProviderPolicies({
         label={t('form.labels.statusPolicy')}
         name="statusPolicyId"
         optionError={optionError}
+        orientation={orientation}
         options={statusPolicies}
         t={t}
       />
@@ -507,6 +539,7 @@ function ProviderPolicies({
         label={t('form.labels.notificationPolicy')}
         name="notificationPolicyId"
         optionError={optionError}
+        orientation={orientation}
         options={notificationPolicies}
         t={t}
       />
@@ -522,6 +555,7 @@ function PolicyField({
   name,
   optionError,
   options,
+  orientation = 'responsive',
   t,
 }: {
   disabled: boolean;
@@ -531,6 +565,7 @@ function PolicyField({
   name: 'statusPolicyId' | 'notificationPolicyId';
   optionError: React.ReactNode;
   options: readonly CustomerServiceRecordOption[];
+  orientation?: FormFieldOrientation;
   t: FormProps['t'];
 }) {
   return (
@@ -538,7 +573,7 @@ function PolicyField({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormField description={optionError} label={label} orientation="responsive">
+        <FormField description={optionError} label={label} orientation={orientation}>
           {isReadOnly ? (
             <FormReadValue>
               {options.find((option) => option.value === field.value)?.label ?? '—'}
