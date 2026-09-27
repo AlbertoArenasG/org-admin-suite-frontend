@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { Input } from '@/components/ui/input';
 
@@ -42,6 +42,13 @@ function FormIntervalInput({
   onValueChange,
   value,
 }: FormIntervalInputProps) {
+  const [inputValues, setInputValues] = useState(() => toInputValues(value));
+  const valueKey = intervalUnits.map((unit) => value[unit]).join(',');
+
+  useEffect(() => {
+    setInputValues(toInputValues(value));
+  }, [valueKey, value]);
+
   return (
     <div className="grid max-w-xl grid-cols-2 gap-2 sm:grid-cols-4" data-slot="form-interval-input">
       {intervalUnits.map((unit) => {
@@ -53,17 +60,37 @@ function FormIntervalInput({
             <label className="relative block" htmlFor={id}>
               <Input
                 aria-invalid={Boolean(error) || undefined}
-                className="h-9 pr-12 text-center tabular-nums"
+                className="h-9 px-2 pr-12 text-left tabular-nums [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 disabled={disabled}
                 id={id}
                 min={0}
+                onBlur={() => {
+                  if (inputValues[unit] !== '') return;
+
+                  setInputValues((currentValues) => ({ ...currentValues, [unit]: '0' }));
+                  onValueChange({ ...value, [unit]: 0 });
+                }}
                 onChange={(event) => {
-                  const amount = Number(event.target.value) || 0;
-                  onValueChange({ ...value, [unit]: Math.max(0, amount) });
+                  const nextInputValue = event.target.value;
+                  setInputValues((currentValues) => ({
+                    ...currentValues,
+                    [unit]: nextInputValue,
+                  }));
+
+                  if (nextInputValue === '') return;
+
+                  const amount = Math.max(0, Number(nextInputValue));
+                  if (!Number.isFinite(amount)) return;
+
+                  setInputValues((currentValues) => ({
+                    ...currentValues,
+                    [unit]: String(amount),
+                  }));
+                  onValueChange({ ...value, [unit]: amount });
                 }}
                 step={1}
                 type="number"
-                value={value[unit]}
+                value={inputValues[unit]}
               />
               <span
                 aria-hidden="true"
@@ -78,6 +105,13 @@ function FormIntervalInput({
       })}
     </div>
   );
+}
+
+function toInputValues(value: FormIntervalValue) {
+  return Object.fromEntries(intervalUnits.map((unit) => [unit, String(value[unit])])) as Record<
+    FormIntervalUnit,
+    string
+  >;
 }
 
 export { FormIntervalDisplay, FormIntervalInput };

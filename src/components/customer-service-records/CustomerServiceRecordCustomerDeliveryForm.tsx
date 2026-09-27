@@ -309,7 +309,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
         </ResourceFormSection>
         <Separator />
         <ResourceFormSection surface="bare">
-          <FieldGroup>
+          <FieldGroup className="md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-7">
             <Controller
               control={form.control}
               name="receivedAt"
@@ -317,7 +317,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
                 <FormField
                   error={fieldState.error?.message}
                   label={t('form.labels.receivedAt')}
-                  orientation="responsive"
+                  orientation="vertical"
                 >
                   {isReadOnly ? (
                     <FormReadValue>{formatDate(field.value)}</FormReadValue>
@@ -327,7 +327,10 @@ export function CustomerServiceRecordCustomerDeliveryForm({
                       disabled={isMutationLocked}
                       invalid={fieldState.invalid}
                       invalidDateMessage={t('detail.errors.invalidDate')}
-                      onValueChange={field.onChange}
+                      onValueChange={(value) => {
+                        setEstimatedDateIsExplicit(false);
+                        field.onChange(value);
+                      }}
                       openCalendarLabel={t('createWizard.openCalendar')}
                       value={field.value}
                     />
@@ -335,7 +338,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
                 </FormField>
               )}
             />
-            <FormField label={t('detail.customerDelivery.interval')} orientation="responsive">
+            <FormField label={t('detail.customerDelivery.interval')} orientation="vertical">
               {isReadOnly ? (
                 <FormReadValue>
                   <FormIntervalDisplay labels={intervalLabels} value={interval} />
@@ -351,12 +354,13 @@ export function CustomerServiceRecordCustomerDeliveryForm({
                   }}
                   idPrefix="customer-service-record-delivery-interval"
                   labels={intervalLabels}
-                  onValueChange={(value) =>
+                  onValueChange={(value) => {
+                    setEstimatedDateIsExplicit(false);
                     form.setValue('estimatedDeliveryInterval', value, {
                       shouldDirty: true,
                       shouldValidate: true,
-                    })
-                  }
+                    });
+                  }}
                   value={interval}
                 />
               )}
@@ -368,7 +372,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
                 <FormField
                   error={fieldState.error?.message}
                   label={t('form.labels.estimatedDeliveryAt')}
-                  orientation="responsive"
+                  orientation="vertical"
                 >
                   {isReadOnly ? (
                     <FormReadValue>{formatDate(field.value)}</FormReadValue>
@@ -396,7 +400,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
                 <FormField
                   error={fieldState.error?.message}
                   label={t('form.labels.deliveredToCustomerAt')}
-                  orientation="responsive"
+                  orientation="vertical"
                 >
                   {isReadOnly ? (
                     <FormReadValue>{formatDate(field.value)}</FormReadValue>
@@ -421,7 +425,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
                 <FormField
                   description={optionError}
                   label={t('form.labels.statusPolicy')}
-                  orientation="responsive"
+                  orientation="vertical"
                 >
                   {isReadOnly ? (
                     <FormReadValue>{getOptionLabel(statusPolicies, field.value)}</FormReadValue>
@@ -447,7 +451,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
                 <FormField
                   description={optionError}
                   label={t('form.labels.notificationPolicy')}
-                  orientation="responsive"
+                  orientation="vertical"
                 >
                   {isReadOnly ? (
                     <FormReadValue>
