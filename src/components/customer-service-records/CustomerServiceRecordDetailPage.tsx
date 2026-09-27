@@ -12,7 +12,7 @@ import {
   useDashboardViewAccess,
 } from '@/components/dashboard-shell';
 import { useNextDashboardBreadcrumbs } from '@/components/dashboard-shell/migration';
-import { ResourceFormRoute, ResourceFormSkeleton } from '@/components/resource-form';
+import { ResourceFormSkeleton } from '@/components/resource-form';
 import {
   fetchCustomerServiceRecordDetail,
   fetchCustomerServiceRecordDetailOptions,
@@ -39,7 +39,7 @@ import { CustomerServiceRecordCustomerDeliveryForm } from './CustomerServiceReco
 import { CustomerServiceRecordEquipmentForm } from './CustomerServiceRecordEquipmentForm';
 import { CustomerServiceRecordProviderFollowUpForm } from './CustomerServiceRecordProviderFollowUpForm';
 import { CustomerServiceRecordDocumentsSection } from './CustomerServiceRecordDocumentsSection';
-import { CustomerServiceRecordSectionNavigation } from './CustomerServiceRecordSectionNavigation';
+import { CustomerServiceRecordDetailRoute } from './CustomerServiceRecordDetailRoute';
 
 export function CustomerServiceRecordDetailPage() {
   const params = useParams<{ recordId: string }>();
@@ -192,18 +192,8 @@ export function CustomerServiceRecordDetailPage() {
           ) : null}
           {!isLoading && !loadError && detail.record ? (
             <DashboardContentReveal>
-              <ResourceFormRoute className="mx-auto w-full max-w-4xl">
-                <CustomerServiceRecordSectionNavigation
-                  ariaLabel={t('detail.navigationLabel')}
-                  items={[
-                    { id: 'general-details', label: t('detail.general.title') },
-                    { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
-                    { id: 'equipment', label: t('detail.equipment.title') },
-                    { id: 'provider-follow-up', label: t('detail.provider.title') },
-                    { id: 'documents', label: t('detail.documents.title') },
-                  ]}
-                />
-                <section className="scroll-mt-24" id="general-details" tabIndex={-1}>
+              <CustomerServiceRecordDetailRoute>
+                <section className="scroll-mt-24 md:scroll-mt-0" id="general-details" tabIndex={-1}>
                   <CustomerServiceRecordGeneralDetailsForm
                     canUpdate={canUpdate}
                     onSubmit={updateDetails}
@@ -216,7 +206,11 @@ export function CustomerServiceRecordDetailPage() {
                     serviceTypesLoading={detailOptions.status === 'loading'}
                   />
                 </section>
-                <section className="scroll-mt-24" id="customer-delivery" tabIndex={-1}>
+                <section
+                  className="scroll-mt-24 md:scroll-mt-0"
+                  id="customer-delivery"
+                  tabIndex={-1}
+                >
                   <CustomerServiceRecordCustomerDeliveryForm
                     canUpdate={canUpdate}
                     customerUsers={customerUsers.users}
@@ -238,7 +232,7 @@ export function CustomerServiceRecordDetailPage() {
                     statusPolicies={customerDeliveryOptions.statusPolicies}
                   />
                 </section>
-                <section className="scroll-mt-24" id="equipment" tabIndex={-1}>
+                <section className="scroll-mt-24 md:scroll-mt-0" id="equipment" tabIndex={-1}>
                   {detail.record.assets[0] ? (
                     <CustomerServiceRecordEquipmentForm
                       asset={detail.record.assets[0]}
@@ -254,7 +248,11 @@ export function CustomerServiceRecordDetailPage() {
                     </div>
                   )}
                 </section>
-                <section className="scroll-mt-24" id="provider-follow-up" tabIndex={-1}>
+                <section
+                  className="scroll-mt-24 md:scroll-mt-0"
+                  id="provider-follow-up"
+                  tabIndex={-1}
+                >
                   <CustomerServiceRecordProviderFollowUpForm
                     canUpdate={canUpdate}
                     notificationPolicies={providerOptions.notificationPolicies}
@@ -270,14 +268,14 @@ export function CustomerServiceRecordDetailPage() {
                     statusPolicies={providerOptions.statusPolicies}
                   />
                 </section>
-                <section className="scroll-mt-24" id="documents" tabIndex={-1}>
+                <section className="scroll-mt-24 md:scroll-mt-0" id="documents" tabIndex={-1}>
                   <CustomerServiceRecordDocumentsSection
                     canUpdate={canUpdate}
                     onSubmit={updateDocument}
                     record={detail.record}
                   />
                 </section>
-              </ResourceFormRoute>
+              </CustomerServiceRecordDetailRoute>
             </DashboardContentReveal>
           ) : null}
           {!isLoading && !loadError && !detail.record ? (
