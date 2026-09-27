@@ -40,6 +40,7 @@ import { CustomerServiceRecordEquipmentForm } from './CustomerServiceRecordEquip
 import { CustomerServiceRecordProviderFollowUpForm } from './CustomerServiceRecordProviderFollowUpForm';
 import { CustomerServiceRecordDocumentsSection } from './CustomerServiceRecordDocumentsSection';
 import { CustomerServiceRecordDetailRoute } from './CustomerServiceRecordDetailRoute';
+import { CustomerServiceRecordTimeline } from './CustomerServiceRecordTimeline';
 
 export function CustomerServiceRecordDetailPage() {
   const params = useParams<{ recordId: string }>();
@@ -194,7 +195,10 @@ export function CustomerServiceRecordDetailPage() {
           ) : null}
           {!isLoading && !loadError && detail.record ? (
             <DashboardContentReveal>
-              <CustomerServiceRecordDetailRoute scrollContainerRef={pageContentScrollerRef}>
+              <CustomerServiceRecordDetailRoute
+                aside={<CustomerServiceRecordTimeline record={detail.record} />}
+                scrollContainerRef={pageContentScrollerRef}
+              >
                 <section className="scroll-mt-24 md:scroll-mt-5" id="general-details" tabIndex={-1}>
                   <CustomerServiceRecordGeneralDetailsForm
                     canUpdate={canUpdate}

@@ -13,6 +13,7 @@ import {
 import { cn } from '@/lib/utils';
 
 type ResourceFormRouteProps = React.ComponentProps<'div'> & {
+  aside?: React.ReactNode;
   children: React.ReactNode;
   navigation?: {
     items: readonly ResourceFormNavigationItem[];
@@ -32,6 +33,7 @@ type ResourceFormRouteProps = React.ComponentProps<'div'> & {
 };
 
 function ResourceFormRoute({
+  aside,
   children,
   className,
   footer,
@@ -74,7 +76,8 @@ function ResourceFormRoute({
           className={cn(
             'flex min-w-0 flex-col gap-6',
             usesSidebarAtDesktop &&
-              'md:grid md:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] md:items-start'
+              'md:grid md:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)] md:items-start',
+            aside && 'xl:grid-cols-[minmax(12rem,16rem)_minmax(0,1fr)_minmax(12rem,15rem)]'
           )}
         >
           {navigation.loading ? (
@@ -95,6 +98,14 @@ function ResourceFormRoute({
             />
           )}
           <div className="min-w-0">{children}</div>
+          {aside ? (
+            <aside
+              className="hidden min-w-0 self-start xl:sticky xl:top-5 xl:block"
+              data-slot="resource-form-route-aside"
+            >
+              {aside}
+            </aside>
+          ) : null}
         </div>
       ) : (
         children

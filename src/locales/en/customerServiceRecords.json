@@ -138,6 +138,15 @@
     "breadcrumb": "Record {{folio}}",
     "notFound": "The service record was not found.",
     "navigationLabel": "Service record sections",
+    "timeline": {
+      "label": "Service timeline",
+      "noDate": "No date",
+      "requested": "Request",
+      "receivedFromCustomer": "Received",
+      "deliveredToProvider": "Delivered to provider",
+      "providerReturn": "Provider return",
+      "customerDelivery": "Customer delivery"
+    },
     "searchOptions": "Search options...",
     "general": {
       "title": "General details",

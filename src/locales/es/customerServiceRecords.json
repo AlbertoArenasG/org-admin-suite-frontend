@@ -138,6 +138,15 @@
     "breadcrumb": "Registro {{folio}}",
     "notFound": "No se encontró el registro de servicio.",
     "navigationLabel": "Secciones del registro de servicio",
+    "timeline": {
+      "label": "Línea de tiempo del servicio",
+      "noDate": "Sin fecha",
+      "requested": "Solicitud",
+      "receivedFromCustomer": "Recepción",
+      "deliveredToProvider": "Entrega a proveedor",
+      "providerReturn": "Retorno de proveedor",
+      "customerDelivery": "Entrega al cliente"
+    },
     "searchOptions": "Buscar opciones...",
     "general": {
       "title": "Detalles generales",
