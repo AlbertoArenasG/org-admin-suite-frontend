@@ -193,7 +193,7 @@ export function CustomerServiceRecordDetailPage() {
           {!isLoading && !loadError && detail.record ? (
             <DashboardContentReveal>
               <CustomerServiceRecordDetailRoute>
-                <section className="scroll-mt-24 md:scroll-mt-0" id="general-details" tabIndex={-1}>
+                <section className="scroll-mt-24 md:scroll-mt-5" id="general-details" tabIndex={-1}>
                   <CustomerServiceRecordGeneralDetailsForm
                     canUpdate={canUpdate}
                     onSubmit={updateDetails}
@@ -207,7 +207,7 @@ export function CustomerServiceRecordDetailPage() {
                   />
                 </section>
                 <section
-                  className="scroll-mt-24 md:scroll-mt-0"
+                  className="scroll-mt-24 md:scroll-mt-5"
                   id="customer-delivery"
                   tabIndex={-1}
                 >
@@ -232,7 +232,7 @@ export function CustomerServiceRecordDetailPage() {
                     statusPolicies={customerDeliveryOptions.statusPolicies}
                   />
                 </section>
-                <section className="scroll-mt-24 md:scroll-mt-0" id="equipment" tabIndex={-1}>
+                <section className="scroll-mt-24 md:scroll-mt-5" id="equipment" tabIndex={-1}>
                   {detail.record.assets[0] ? (
                     <CustomerServiceRecordEquipmentForm
                       asset={detail.record.assets[0]}
@@ -249,7 +249,7 @@ export function CustomerServiceRecordDetailPage() {
                   )}
                 </section>
                 <section
-                  className="scroll-mt-24 md:scroll-mt-0"
+                  className="scroll-mt-24 md:scroll-mt-5"
                   id="provider-follow-up"
                   tabIndex={-1}
                 >
@@ -268,7 +268,7 @@ export function CustomerServiceRecordDetailPage() {
                     statusPolicies={providerOptions.statusPolicies}
                   />
                 </section>
-                <section className="scroll-mt-24 md:scroll-mt-0" id="documents" tabIndex={-1}>
+                <section className="scroll-mt-24 md:scroll-mt-5" id="documents" tabIndex={-1}>
                   <CustomerServiceRecordDocumentsSection
                     canUpdate={canUpdate}
                     onSubmit={updateDocument}

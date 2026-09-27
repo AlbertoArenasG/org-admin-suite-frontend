@@ -30,7 +30,7 @@ export function CustomerServiceRecordDetailRoute({
         variant: { base: 'tabs', md: 'sidebar' },
       }}
     >
-      <div className="space-y-4">{children}</div>
+      <div className="space-y-5">{children}</div>
     </ResourceFormRoute>
   );
 }
