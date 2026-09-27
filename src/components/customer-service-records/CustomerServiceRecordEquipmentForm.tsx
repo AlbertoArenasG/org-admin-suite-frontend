@@ -135,6 +135,7 @@ export function CustomerServiceRecordEquipmentForm({
       <ResourceFormFrame
         contentSurface={{ base: 'bare', md: 'inset' }}
         density={{ base: 'compact', md: 'comfortable' }}
+        headerDensity="compact"
         dividers="hidden"
         headerActions={
           canUpdate ? (
@@ -162,7 +163,6 @@ export function CustomerServiceRecordEquipmentForm({
         status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
         surface={{ base: 'bare', md: 'card' }}
         title={t('detail.equipment.title')}
-        description={t('detail.equipment.description')}
       >
         <ResourceFormSection surface="bare">
           <FieldGroup>

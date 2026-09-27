@@ -180,6 +180,7 @@ export function CustomerServiceRecordProviderFollowUpForm({
       <ResourceFormFrame
         contentSurface={{ base: 'bare', md: 'inset' }}
         density={{ base: 'compact', md: 'comfortable' }}
+        headerDensity="compact"
         dividers="hidden"
         headerActions={
           canUpdate ? (
@@ -207,7 +208,6 @@ export function CustomerServiceRecordProviderFollowUpForm({
         status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
         surface={{ base: 'bare', md: 'card' }}
         title={t('detail.provider.title')}
-        description={t('detail.provider.description')}
       >
         <ResourceFormSection surface="bare" title={t('detail.provider.providerTitle')}>
           <FieldGroup>

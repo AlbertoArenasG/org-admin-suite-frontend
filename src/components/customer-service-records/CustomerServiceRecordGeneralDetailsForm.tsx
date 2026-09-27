@@ -148,6 +148,7 @@ export function CustomerServiceRecordGeneralDetailsForm({
       <ResourceFormFrame
         contentSurface={{ base: 'bare', md: 'inset' }}
         density={{ base: 'compact', md: 'comfortable' }}
+        headerDensity="compact"
         dividers="hidden"
         headerActions={
           canUpdate ? (
@@ -175,7 +176,6 @@ export function CustomerServiceRecordGeneralDetailsForm({
         status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
         surface={{ base: 'bare', md: 'card' }}
         title={t('detail.general.title')}
-        description={t('detail.general.description')}
       >
         <ResourceFormSection surface="bare">
           <FieldGroup>

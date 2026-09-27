@@ -29,12 +29,10 @@ export function CustomerServiceRecordDocumentsSection({
     <div className="space-y-4">
       <div>
         <h2 className="text-lg font-semibold">{t('detail.documents.title')}</h2>
-        <p className="text-sm text-muted-foreground">{t('detail.documents.description')}</p>
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         <CustomerServiceRecordDocumentForm
           canUpdate={canUpdate}
-          description={t('detail.documents.quotation.description')}
           documentType="quotation"
           files={record.quotation.files}
           hasReferenceNumber
@@ -44,7 +42,6 @@ export function CustomerServiceRecordDocumentsSection({
         />
         <CustomerServiceRecordDocumentForm
           canUpdate={canUpdate}
-          description={t('detail.documents.purchaseOrder.description')}
           documentType="purchase-order"
           files={record.purchaseOrder.files}
           hasReferenceNumber
@@ -54,7 +51,6 @@ export function CustomerServiceRecordDocumentsSection({
         />
         <CustomerServiceRecordDocumentForm
           canUpdate={canUpdate}
-          description={t('detail.documents.invoice.description')}
           documentType="invoice"
           files={record.invoice.files}
           hasReferenceNumber
@@ -64,7 +60,6 @@ export function CustomerServiceRecordDocumentsSection({
         />
         <CustomerServiceRecordDocumentForm
           canUpdate={canUpdate}
-          description={t('detail.documents.otherFiles.description')}
           documentType="other-files"
           files={record.otherFiles}
           hasReferenceNumber={false}

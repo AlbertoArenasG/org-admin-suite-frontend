@@ -20,6 +20,7 @@ type ResourceFormFrameProps = Omit<React.ComponentProps<typeof Card>, 'title'> &
   status?: ResourceFormStatus;
   surface?: ResourceFormResponsiveValue<ResourceFormSurface>;
   density?: ResourceFormResponsiveValue<ResourceFormDensity>;
+  headerDensity?: ResourceFormResponsiveValue<ResourceFormDensity>;
   contentSurface?: ResourceFormResponsiveValue<ResourceFormContentSurface>;
   dividers?: ResourceFormDividers;
   title?: React.ReactNode;
@@ -38,6 +39,7 @@ function ResourceFormFrame({
   description,
   feedback,
   footerActions,
+  headerDensity,
   headerActions,
   mode,
   density = 'comfortable',
@@ -49,6 +51,7 @@ function ResourceFormFrame({
   const isBusy = status === 'loading' || status === 'saving';
   const hasHeader = Boolean(title || description || headerActions);
   const resolvedDensity = resolveResponsiveValue(density, 'comfortable');
+  const resolvedHeaderDensity = resolveResponsiveValue(headerDensity ?? density, 'comfortable');
   const resolvedSurface = resolveResponsiveValue(surface, 'card');
   const resolvedContentSurface = resolveResponsiveValue(contentSurface, 'bare');
   const contentSpacing = {
@@ -88,7 +91,7 @@ function ResourceFormFrame({
         none: 'md:px-0 md:py-0',
       },
     }),
-    header: responsiveClasses(density, 'comfortable', {
+    header: responsiveClasses(headerDensity ?? density, 'comfortable', {
       base: {
         comfortable: 'gap-1 px-6 py-5',
         compact: 'gap-1 px-4 py-3',
@@ -142,6 +145,8 @@ function ResourceFormFrame({
       className={cn('gap-0 p-0', surfaceClasses, className)}
       data-density={resolvedDensity.base}
       data-density-md={resolvedDensity.md}
+      data-header-density={resolvedHeaderDensity.base}
+      data-header-density-md={resolvedHeaderDensity.md}
       data-content-surface={resolvedContentSurface.base}
       data-content-surface-md={resolvedContentSurface.md}
       data-dividers={dividers}

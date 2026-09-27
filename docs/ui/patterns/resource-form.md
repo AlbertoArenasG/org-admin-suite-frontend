@@ -63,6 +63,10 @@ footer sin alterar el borde exterior del frame. Su valor por defecto es
 `"visible"`; `"hidden"` se usa cuando un inset continuo ya establece la
 separación visual del contenido.
 
+`ResourceFormFrame.headerDensity` puede compactar solo el encabezado y acepta
+el mismo valor responsive que `density`. Si se omite, hereda `density`; el
+contenido y footer conservan su propia densidad.
+
 Las combinaciones aprobadas de estos contratos se catalogan en
 [`../recipes/resource-form.md`](../recipes/resource-form.md).
 

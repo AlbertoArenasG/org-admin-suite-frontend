@@ -183,6 +183,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
       <ResourceFormFrame
         contentSurface={{ base: 'bare', md: 'inset' }}
         density={{ base: 'compact', md: 'comfortable' }}
+        headerDensity="compact"
         dividers="hidden"
         headerActions={
           canUpdate ? (
@@ -210,7 +211,6 @@ export function CustomerServiceRecordCustomerDeliveryForm({
         status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
         surface={{ base: 'bare', md: 'card' }}
         title={t('detail.customerDelivery.title')}
-        description={t('detail.customerDelivery.description')}
       >
         <ResourceFormSection surface="bare" title={t('detail.customerDelivery.customerTitle')}>
           <FieldGroup>

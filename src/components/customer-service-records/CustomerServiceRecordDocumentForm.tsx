@@ -32,7 +32,6 @@ const MAX_PENDING_FILES = 10;
 
 type CustomerServiceRecordDocumentFormProps = {
   canUpdate: boolean;
-  description: string;
   documentType: CustomerServiceRecordDocumentType;
   files: CustomerServiceRecordAttachment[];
   hasReferenceNumber: boolean;
@@ -48,7 +47,6 @@ type CustomerServiceRecordDocumentFormProps = {
 
 export function CustomerServiceRecordDocumentForm({
   canUpdate,
-  description,
   documentType,
   files,
   hasReferenceNumber,
@@ -164,7 +162,7 @@ export function CustomerServiceRecordDocumentForm({
       <ResourceFormFrame
         contentSurface={{ base: 'bare', md: 'inset' }}
         density={{ base: 'compact', md: 'comfortable' }}
-        description={description}
+        headerDensity="compact"
         dividers="hidden"
         footerActions={
           !isReadOnly ? (

@@ -25,6 +25,7 @@ tener su propia superficie, acciones o persistencia.
 <ResourceFormFrame
   contentSurface={{ base: 'bare', md: 'inset' }}
   density={{ base: 'compact', md: 'comfortable' }}
+  headerDensity={{ base: 'compact', md: 'compact' }}
   dividers="hidden"
   footerActions={isEditing ? <ResourceFormActions {...actions} /> : null}
   headerActions={<GlobalActions />}
