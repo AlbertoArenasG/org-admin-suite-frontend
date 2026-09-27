@@ -24,6 +24,7 @@ import { showToast } from '@/components/toast';
 import { FieldGroup, FieldLabel } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import type {
   CustomerServiceRecordDetail,
   CustomerServiceRecordOption,
@@ -212,7 +213,7 @@ export function CustomerServiceRecordCustomerDeliveryForm({
         surface={{ base: 'bare', md: 'card' }}
         title={t('detail.customerDelivery.title')}
       >
-        <ResourceFormSection surface="bare" title={t('detail.customerDelivery.customerTitle')}>
+        <ResourceFormSection surface="bare">
           <FieldGroup>
             <Controller
               control={form.control}
@@ -299,7 +300,8 @@ export function CustomerServiceRecordCustomerDeliveryForm({
             />
           </FieldGroup>
         </ResourceFormSection>
-        <ResourceFormSection surface="bare" title={t('detail.customerDelivery.deliveryTitle')}>
+        <Separator />
+        <ResourceFormSection surface="bare">
           <FieldGroup>
             <Controller
               control={form.control}
