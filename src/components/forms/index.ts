@@ -9,6 +9,14 @@ export type {
   FormReadValueProps,
   FormValueChipsProps,
 } from '@/components/forms/FormField';
+export { FormIntervalDisplay, FormIntervalInput } from '@/components/forms/FormInterval';
+export type {
+  FormIntervalDisplayProps,
+  FormIntervalInputProps,
+  FormIntervalLabels,
+  FormIntervalUnit,
+  FormIntervalValue,
+} from '@/components/forms/FormInterval';
 export { FormMultiSelect } from '@/components/forms/FormMultiSelect';
 export type { FormMultiSelectProps } from '@/components/forms/FormMultiSelect';
 export { PhoneInput } from '@/components/forms/PhoneInput';

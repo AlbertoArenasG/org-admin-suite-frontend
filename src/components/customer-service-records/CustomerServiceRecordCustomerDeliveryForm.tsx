@@ -10,6 +10,8 @@ import {
   FormCombobox,
   FormDateInput,
   FormField,
+  FormIntervalDisplay,
+  FormIntervalInput,
   FormMultiSelect,
   FormReadValue,
   FormValueChips,
@@ -21,8 +23,7 @@ import {
   type ResourceFormMode,
 } from '@/components/resource-form';
 import { showToast } from '@/components/toast';
-import { FieldGroup, FieldLabel } from '@/components/ui/field';
-import { Input } from '@/components/ui/input';
+import { FieldGroup } from '@/components/ui/field';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import type {
@@ -104,6 +105,12 @@ export function CustomerServiceRecordCustomerDeliveryForm({
   const isMutationLocked =
     mutationFeedback?.status === 'saving' || mutationFeedback?.status === 'success';
   const availableCustomerUsers = customerUsersCustomerId === customerId ? customerUsers : [];
+  const intervalLabels = {
+    years: t('form.labels.years'),
+    months: t('form.labels.months'),
+    weeks: t('form.labels.weeks'),
+    days: t('form.labels.days'),
+  };
 
   useEffect(() => {
     form.reset(getCustomerServiceRecordCustomerDeliveryDefaultValues(record));
@@ -330,32 +337,28 @@ export function CustomerServiceRecordCustomerDeliveryForm({
             />
             <FormField label={t('detail.customerDelivery.interval')} orientation="responsive">
               {isReadOnly ? (
-                <FormReadValue>{formatInterval(interval, t)}</FormReadValue>
+                <FormReadValue>
+                  <FormIntervalDisplay labels={intervalLabels} value={interval} />
+                </FormReadValue>
               ) : (
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  {(['years', 'months', 'weeks', 'days'] as const).map((unit) => {
-                    const error = form.formState.errors.estimatedDeliveryInterval?.[unit]?.message;
-                    return (
-                      <div className="grid gap-1" key={unit}>
-                        <FieldLabel htmlFor={`customer-service-record-delivery-${unit}`}>
-                          {t(`form.labels.${unit}`)}
-                        </FieldLabel>
-                        <Input
-                          aria-invalid={Boolean(error) || undefined}
-                          disabled={isMutationLocked}
-                          id={`customer-service-record-delivery-${unit}`}
-                          min={0}
-                          step={1}
-                          type="number"
-                          {...form.register(`estimatedDeliveryInterval.${unit}`, {
-                            valueAsNumber: true,
-                          })}
-                        />
-                        {error ? <p className="text-xs text-destructive">{error}</p> : null}
-                      </div>
-                    );
-                  })}
-                </div>
+                <FormIntervalInput
+                  disabled={isMutationLocked}
+                  errors={{
+                    years: form.formState.errors.estimatedDeliveryInterval?.years?.message,
+                    months: form.formState.errors.estimatedDeliveryInterval?.months?.message,
+                    weeks: form.formState.errors.estimatedDeliveryInterval?.weeks?.message,
+                    days: form.formState.errors.estimatedDeliveryInterval?.days?.message,
+                  }}
+                  idPrefix="customer-service-record-delivery-interval"
+                  labels={intervalLabels}
+                  onValueChange={(value) =>
+                    form.setValue('estimatedDeliveryInterval', value, {
+                      shouldDirty: true,
+                      shouldValidate: true,
+                    })
+                  }
+                  value={interval}
+                />
               )}
             </FormField>
             <Controller
@@ -475,15 +478,6 @@ export function CustomerServiceRecordCustomerDeliveryForm({
 function formatDate(value: string) {
   const [year, month, day] = value.split('-');
   return year && month && day ? `${day}/${month}/${year}` : '—';
-}
-
-function formatInterval(
-  interval: CustomerServiceRecordCustomerDeliveryValues['estimatedDeliveryInterval'],
-  t: (key: string) => string
-) {
-  return `${interval.years} ${t('form.labels.years')}, ${interval.months} ${t(
-    'form.labels.months'
-  )}, ${interval.weeks} ${t('form.labels.weeks')}, ${interval.days} ${t('form.labels.days')}`;
 }
 
 function getOptionLabel(options: readonly CustomerServiceRecordOption[], value: string) {

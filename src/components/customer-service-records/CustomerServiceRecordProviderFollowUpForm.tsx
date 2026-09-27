@@ -10,6 +10,8 @@ import {
   FormCombobox,
   FormDateInput,
   FormField,
+  FormIntervalDisplay,
+  FormIntervalInput,
   FormMultiSelect,
   FormReadValue,
   FormValueChips,
@@ -22,11 +24,10 @@ import {
 } from '@/components/resource-form';
 import { showToast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
-import { FieldGroup, FieldLabel } from '@/components/ui/field';
+import { FieldGroup } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import type {
   CustomerServiceRecordDetail,
-  CustomerServiceRecordInterval,
   CustomerServiceRecordOption,
   UpdateCustomerServiceRecordProviderPayload,
 } from '@/features/customer-service-records';
@@ -443,35 +444,35 @@ function IntervalField({
     ruleIndex === null
       ? form.formState.errors.estimatedReturnInterval
       : form.formState.errors.followUpRules?.[ruleIndex]?.interval;
+  const intervalLabels = {
+    years: t('form.labels.years'),
+    months: t('form.labels.months'),
+    weeks: t('form.labels.weeks'),
+    days: t('form.labels.days'),
+  };
 
   return (
     <FormField label={label} orientation="responsive">
       {isReadOnly ? (
-        <FormReadValue>{formatInterval(interval, t)}</FormReadValue>
+        <FormReadValue>
+          <FormIntervalDisplay labels={intervalLabels} value={interval} />
+        </FormReadValue>
       ) : (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {(['years', 'months', 'weeks', 'days'] as const).map((unit) => {
-            const fieldName = `${name}.${unit}` as const;
-            const message = error?.[unit]?.message;
-            return (
-              <div className="grid gap-1" key={unit}>
-                <FieldLabel htmlFor={`customer-service-record-provider-${fieldName}`}>
-                  {t(`form.labels.${unit}`)}
-                </FieldLabel>
-                <Input
-                  aria-invalid={Boolean(message) || undefined}
-                  disabled={disabled}
-                  id={`customer-service-record-provider-${fieldName}`}
-                  min={0}
-                  step={1}
-                  type="number"
-                  {...form.register(fieldName, { valueAsNumber: true })}
-                />
-                {message ? <p className="text-xs text-destructive">{message}</p> : null}
-              </div>
-            );
-          })}
-        </div>
+        <FormIntervalInput
+          disabled={disabled}
+          errors={{
+            years: error?.years?.message,
+            months: error?.months?.message,
+            weeks: error?.weeks?.message,
+            days: error?.days?.message,
+          }}
+          idPrefix={`customer-service-record-provider-${name.replaceAll('.', '-')}`}
+          labels={intervalLabels}
+          onValueChange={(value) =>
+            form.setValue(name, value, { shouldDirty: true, shouldValidate: true })
+          }
+          value={interval}
+        />
       )}
     </FormField>
   );
@@ -708,9 +709,6 @@ function RuleGroupField({
 function formatDate(value: string) {
   const [year, month, day] = value.split('-');
   return year && month && day ? `${day}/${month}/${year}` : '—';
-}
-function formatInterval(value: CustomerServiceRecordInterval, t: FormProps['t']) {
-  return `${value.years} ${t('form.labels.years')}, ${value.months} ${t('form.labels.months')}, ${value.weeks} ${t('form.labels.weeks')}, ${value.days} ${t('form.labels.days')}`;
 }
 function getMutationErrorMessage(error: unknown, fallback: string) {
   if (typeof error === 'string') return error;
