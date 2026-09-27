@@ -51,7 +51,11 @@ function ResourceFormNavigation({
     }
 
     const updateActiveItem = () => {
-      const referenceTop = container ? container.getBoundingClientRect().top : 0;
+      const containerOwnsScroll =
+        container &&
+        container.scrollHeight > container.clientHeight &&
+        ['auto', 'scroll', 'overlay'].includes(window.getComputedStyle(container).overflowY);
+      const referenceTop = containerOwnsScroll ? container.getBoundingClientRect().top : 0;
       const pendingId = pendingNavigationIdRef.current;
 
       if (pendingId) {
@@ -78,13 +82,14 @@ function ResourceFormNavigation({
       setActiveId((passed.at(-1) ?? targets[0]).id);
     };
 
-    const scrollTarget: EventTarget = container ?? window;
     updateActiveItem();
-    scrollTarget.addEventListener('scroll', updateActiveItem, { passive: true });
+    container?.addEventListener('scroll', updateActiveItem, { passive: true });
+    window.addEventListener('scroll', updateActiveItem, { passive: true });
     window.addEventListener('resize', updateActiveItem);
 
     return () => {
-      scrollTarget.removeEventListener('scroll', updateActiveItem);
+      container?.removeEventListener('scroll', updateActiveItem);
+      window.removeEventListener('scroll', updateActiveItem);
       window.removeEventListener('resize', updateActiveItem);
     };
   }, [items, scrollContainerRef]);

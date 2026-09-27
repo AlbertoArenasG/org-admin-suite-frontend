@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
@@ -44,6 +44,7 @@ import { CustomerServiceRecordDetailRoute } from './CustomerServiceRecordDetailR
 export function CustomerServiceRecordDetailPage() {
   const params = useParams<{ recordId: string }>();
   const dispatch = useAppDispatch();
+  const pageContentScrollerRef = useRef<HTMLDivElement>(null);
   const { can } = useDashboardViewAccess();
   const { resetSegments, setSegments } = useNextDashboardBreadcrumbs();
   const { t } = useTranslation(['customerServiceRecords', 'breadcrumbs']);
@@ -161,7 +162,7 @@ export function CustomerServiceRecordDetailPage() {
 
   return (
     <DashboardPageComposition>
-      <DashboardPageContentScroller padding="default">
+      <DashboardPageContentScroller padding="default" ref={pageContentScrollerRef}>
         <div className="flex w-full min-w-0 flex-col gap-6">
           {isLoading ? (
             <ResourceFormSkeleton
@@ -192,7 +193,7 @@ export function CustomerServiceRecordDetailPage() {
           ) : null}
           {!isLoading && !loadError && detail.record ? (
             <DashboardContentReveal>
-              <CustomerServiceRecordDetailRoute>
+              <CustomerServiceRecordDetailRoute scrollContainerRef={pageContentScrollerRef}>
                 <section className="scroll-mt-24 md:scroll-mt-5" id="general-details" tabIndex={-1}>
                   <CustomerServiceRecordGeneralDetailsForm
                     canUpdate={canUpdate}

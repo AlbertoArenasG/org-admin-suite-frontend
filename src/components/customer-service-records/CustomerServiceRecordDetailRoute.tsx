@@ -1,16 +1,19 @@
 'use client';
 
 import { useTranslation } from 'react-i18next';
+import type { RefObject } from 'react';
 
 import { ResourceFormRoute } from '@/components/resource-form';
 
 type CustomerServiceRecordDetailRouteProps = {
   children: React.ReactNode;
+  scrollContainerRef: RefObject<HTMLElement | null>;
 };
 
 /** Owns the record navigation while ResourceFormRoute owns layout and scroll behavior. */
 export function CustomerServiceRecordDetailRoute({
   children,
+  scrollContainerRef,
 }: CustomerServiceRecordDetailRouteProps) {
   const { t } = useTranslation('customerServiceRecords');
 
@@ -26,6 +29,7 @@ export function CustomerServiceRecordDetailRoute({
           { id: 'provider-follow-up', label: t('detail.provider.title') },
           { id: 'documents', label: t('detail.documents.title') },
         ],
+        scrollContainerRef,
         sticky: true,
         variant: { base: 'tabs', md: 'sidebar' },
       }}

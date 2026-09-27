@@ -1,6 +1,6 @@
 'use client';
 
-import type { ComponentPropsWithoutRef } from 'react';
+import { forwardRef, type ComponentPropsWithoutRef } from 'react';
 import { useDashboardShellScrollMode } from '@/components/dashboard-shell/DashboardShellContext';
 import { cn } from '@/lib/utils';
 
@@ -8,16 +8,15 @@ type DashboardPageContentScrollerProps = ComponentPropsWithoutRef<'div'> & {
   padding?: 'none' | 'default';
 };
 
-export function DashboardPageContentScroller({
-  children,
-  className,
-  padding = 'none',
-  ...props
-}: DashboardPageContentScrollerProps) {
+export const DashboardPageContentScroller = forwardRef<
+  HTMLDivElement,
+  DashboardPageContentScrollerProps
+>(function DashboardPageContentScroller({ children, className, padding = 'none', ...props }, ref) {
   const scrollMode = useDashboardShellScrollMode();
 
   return (
     <div
+      ref={ref}
       data-dashboard-page-content={scrollMode}
       data-dashboard-page-content-padding={padding}
       data-dashboard-scroll-owner={scrollMode === 'page-content' ? 'page-content' : undefined}
@@ -38,4 +37,4 @@ export function DashboardPageContentScroller({
       {children}
     </div>
   );
-}
+});
