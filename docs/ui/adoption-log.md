@@ -52,12 +52,14 @@ Las futuras entradas deben incluir:
 ### 2026-09-26 - Documentos de Registro de Servicio
 
 - Alcance: `/dashboard/customer-service-records/[recordId]`.
-- Adopción: quinta sección con cuatro `ResourceForm` independientes, diálogo
-  genérico de selección de adjuntos en memoria, progreso visual local, carga al
-  guardar cada panel y galería reutilizable de imágenes por documento.
+- Adopción: quinta sección con un `ResourceFormFrame` y cuatro
+  `ResourceFormSection` `bare` para las colecciones documentales. Cada sección
+  conserva su formulario, acciones, diálogo genérico de selección de adjuntos
+  en memoria, progreso visual local, carga al guardar y galería reutilizable de
+  imágenes por documento.
 - Spec: `customer-service-record-documents-migration`.
-- Compatibilidad temporal: los adjuntos de equipo, limpieza de huérfanos y
-  preview de formatos no visuales permanecen fuera de este alcance.
+- Compatibilidad temporal: limpieza de huérfanos y preview de formatos no
+  visuales permanecen fuera de este alcance.
 
 ### 2026-09-25 - Proveedor y Seguimiento de Registro de Servicio
 
@@ -72,12 +74,13 @@ Las futuras entradas deben incluir:
 ### 2026-09-25 - Equipo de Registro de Servicio
 
 - Alcance: `/dashboard/customer-service-records/[recordId]`.
-- Adopción: tercer bloque independiente de `ResourceForm`, con navegación
-  semántica por anclas, edición local de un único equipo y mutación propiedad
-  de `customer-service-records` que preserva adjuntos fuera de la interfaz.
+- Adopción: un único `ResourceFormFrame` con cuatro formularios y
+  `ResourceFormSection` hermanos: datos principales, evidencia de recepción,
+  evidencia de entrega y reportes. Cada subsección conserva estado, acciones y
+  mutación parcial propios; las colecciones usan `DocumentCollectionList` para
+  evitar frames anidados.
 - Spec: `customer-service-record-equipment-migration`.
-- Compatibilidad temporal: adjuntos y documentos mantienen una migración
-  posterior; la interfaz no habilita múltiples equipos.
+- Compatibilidad temporal: la interfaz no habilita múltiples equipos.
 
 ### 2026-09-25 - Cliente y Compromiso de Entrega de Registro de Servicio
 

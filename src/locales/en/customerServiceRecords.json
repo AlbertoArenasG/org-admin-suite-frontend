@@ -162,7 +162,13 @@
     "equipment": {
       "title": "Equipment",
       "description": "Review and update the record's equipment information.",
-      "unavailable": "This record does not have equipment available to edit."
+      "unavailable": "This record does not have equipment available to edit.",
+      "documents": {
+        "title": "Equipment documents",
+        "intakeCondition": "Intake evidence",
+        "deliveryCondition": "Delivery evidence",
+        "reports": "Reports"
+      }
     },
     "provider": {
       "title": "Provider and follow-up",

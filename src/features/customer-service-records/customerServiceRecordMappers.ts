@@ -33,6 +33,13 @@ type ApiAttachment = {
   preview_url: string;
 };
 
+type CustomerServiceRecordAssetDetailsInput = Required<
+  Pick<
+    UpdateCustomerServiceRecordAssetPayload,
+    'name' | 'identifier' | 'brand' | 'model' | 'serialNumber' | 'observations'
+  >
+>;
+
 export type ApiCustomerServiceRecordDetail = {
   customer_service_record_id: string;
   service_number_display: string;
@@ -210,10 +217,7 @@ export function mapCustomerServiceRecordDetail(
 
 export function buildCustomerServiceRecordAssetUpdatePayload(
   asset: CustomerServiceRecordDetail['assets'][number],
-  values: Pick<
-    UpdateCustomerServiceRecordAssetPayload,
-    'name' | 'identifier' | 'brand' | 'model' | 'serialNumber' | 'observations'
-  >
+  values: CustomerServiceRecordAssetDetailsInput
 ): UpdateCustomerServiceRecordAssetPayload {
   return {
     assetId: asset.assetId,
@@ -223,8 +227,5 @@ export function buildCustomerServiceRecordAssetUpdatePayload(
     model: values.model.trim(),
     serialNumber: values.serialNumber.trim(),
     observations: values.observations?.trim() || null,
-    intakeConditionFileIds: asset.intakeConditionFiles.map((file) => file.fileId),
-    deliveryConditionFileIds: asset.deliveryConditionFiles.map((file) => file.fileId),
-    reportFileIds: asset.reports.map((file) => file.fileId),
   };
 }

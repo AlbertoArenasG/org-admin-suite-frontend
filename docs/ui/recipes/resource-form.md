@@ -70,6 +70,52 @@ el header, footer, acciones, secciones y campos según su modo, permisos y
 operaciones disponibles. Los grids, la cantidad de secciones y el contenido de
 cada una siguen siendo responsabilidad del recurso.
 
+## Colección Documental Compacta
+
+### Cuándo Usarla
+
+Usar cuando un recurso necesita mostrar varias colecciones documentales dentro de
+un único contexto visual, pero cada colección conserva su propia interacción de
+lectura o edición. Mantiene una lista compacta sin convertir cada colección en
+una card independiente.
+
+### Composición
+
+```tsx
+<ResourceFormFrame
+  contentSurface={{ base: 'bare', md: 'inset' }}
+  density={{ base: 'compact', md: 'comfortable' }}
+  dividers="hidden"
+  headerDensity="compact"
+  mode="read"
+  surface={{ base: 'bare', md: 'card' }}
+  title={title}
+>
+  <DocumentCollectionList>
+    <form>
+      <ResourceFormSection density="none" surface="bare">
+        <DocumentCollectionItem />
+      </ResourceFormSection>
+    </form>
+  </DocumentCollectionList>
+</ResourceFormFrame>
+```
+
+### Reglas
+
+- Cada colección vive en un `ResourceFormSection`; no usar elementos `section`
+  manuales como sustituto de la primitive.
+- Los formularios de colecciones son hermanos y nunca se anidan dentro del
+  formulario de otra colección.
+- `surface="bare"` y `density="none"` conservan la geometría de lista; los
+  divisores pertenecen al contenedor de la colección.
+- La respuesta responsive de la fila pertenece a `DocumentCollection` y usa
+  una container query de `42rem`: arriba muestra metadata en una fila; abajo la
+  apila. No depende del viewport ni del estado del sidebar.
+- `DocumentCollection` envuelve la lista en un frame propio para una seccion
+  documental raiz. Dentro de un frame ya existente, usar `DocumentCollectionList`
+  directamente para no anidar frames.
+
 ## Skeleton Estructural
 
 Usar mientras se carga un detalle o edición que adopta `ResourceForm*`. La

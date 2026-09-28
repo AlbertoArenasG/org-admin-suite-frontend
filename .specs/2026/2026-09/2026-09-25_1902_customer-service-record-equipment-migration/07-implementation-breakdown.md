@@ -4,8 +4,7 @@
 
 - Extender `customerServiceRecords.types.ts` con el input de actualización de
   equipo.
-- Añadir serialización del payload en el mapper del feature, incluidos los IDs
-  de adjuntos.
+- Añadir serialización de payloads PATCH parciales en el feature.
 - Añadir `updateCustomerServiceRecordAsset` a
   `customerServiceRecordsThunks.ts`.
 - Añadir estado y manejo de error independientes al slice.
@@ -18,6 +17,8 @@
 - Extender `CustomerServiceRecordDetailPage.tsx` con la sección de equipo y el
   tercer destino de navegación.
 - Añadir un camino de renderizado no editable cuando falte el primer equipo.
+- Componer un único `ResourceFormFrame` con cuatro `ResourceFormSection` y
+  formularios hermanos.
 
 ## Locale Layer
 
@@ -28,6 +29,5 @@
 
 - No crear componente de múltiples equipos, editor de arreglos ni alta de
   equipo.
-- No crear controles de adjuntos ni modificar archivos.
 - No importar desde features de clientes, proveedores, control de activos o
   legacy.

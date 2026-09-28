@@ -5,13 +5,18 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { Transition } from 'motion/react';
 import type { ReactNode } from 'react';
 
-import { ResourceFormFrame } from '@/components/resource-form';
+import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-form';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
 type DocumentCollectionProps = {
   children: ReactNode;
   title: ReactNode;
+};
+
+type DocumentCollectionListProps = {
+  children: ReactNode;
+  className?: string;
 };
 
 type DocumentCollectionItemProps = {
@@ -41,9 +46,14 @@ function DocumentCollection({ children, title }: DocumentCollectionProps) {
       surface={{ base: 'bare', md: 'card' }}
       title={title}
     >
-      <div className="@container divide-y divide-border/70">{children}</div>
+      <DocumentCollectionList>{children}</DocumentCollectionList>
     </ResourceFormFrame>
   );
+}
+
+/** The document-row host for use inside an existing ResourceFormFrame. */
+function DocumentCollectionList({ children, className }: DocumentCollectionListProps) {
+  return <div className={cn('@container divide-y divide-border/70', className)}>{children}</div>;
 }
 
 function DocumentCollectionItem({
@@ -67,74 +77,64 @@ function DocumentCollectionItem({
     : { duration: 0.24, ease: [0.22, 1, 0.36, 1] as const };
 
   return (
-    <section className={cn('transition-colors', expanded && 'bg-muted/20')}>
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 px-3 py-2.5 sm:px-4 @[42rem]:grid-cols-[minmax(0,1fr)_9rem_9rem_auto] @[42rem]:gap-x-5">
+    <ResourceFormSection
+      className={cn('transition-colors', expanded && 'bg-muted/20')}
+      density="none"
+      surface="bare"
+    >
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 px-3 py-2.5 sm:px-4">
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               aria-controls={attachmentsId}
               aria-expanded={expanded}
-              className="group flex min-w-0 cursor-pointer items-center gap-3 rounded-lg px-1.5 py-1.5 text-left transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              className="group/document-row relative grid min-w-0 cursor-pointer grid-cols-1 gap-y-1 rounded-lg px-1.5 py-1.5 pr-10 text-left transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 @[42rem]:grid-cols-[minmax(0,1fr)_9rem_9rem] @[42rem]:gap-x-5"
               onClick={() => onExpandedChange(!expanded)}
               type="button"
             >
-              <DocumentFolder expanded={expanded} />
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-semibold text-foreground">
-                  {title}
+              <span className="flex min-w-0 items-center gap-3">
+                <DocumentFolder expanded={expanded} />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-sm font-semibold text-foreground">
+                    {title}
+                  </span>
                 </span>
               </span>
+              <span className="flex min-w-0 items-center gap-2 px-1.5 text-xs text-muted-foreground @[42rem]:px-0">
+                {referenceNumber ? (
+                  <span className="flex min-w-0 items-center gap-1.5">
+                    {referenceLabel ? <span>{referenceLabel}</span> : null}
+                    <span className="truncate font-mono text-xs font-normal text-foreground">
+                      {referenceNumber}
+                    </span>
+                  </span>
+                ) : null}
+              </span>
+              <span className="flex min-w-0 items-center px-1.5 @[42rem]:px-0">
+                <span
+                  className={cn(
+                    'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium',
+                    hasFiles
+                      ? 'border border-border/70 bg-muted/50 text-foreground'
+                      : 'border border-dashed border-border/80 text-muted-foreground'
+                  )}
+                >
+                  {hasFiles ? <Paperclip aria-hidden="true" className="size-3" /> : null}
+                  {fileSummary}
+                </span>
+              </span>
+              <ChevronDown
+                aria-hidden="true"
+                className={cn(
+                  'absolute top-1/2 right-3 size-4 -translate-y-1/2 text-muted-foreground transition-transform duration-200',
+                  expanded && 'rotate-180'
+                )}
+              />
             </button>
           </TooltipTrigger>
           <TooltipContent>{toggleLabel}</TooltipContent>
         </Tooltip>
-        <div className="flex items-center justify-end gap-1 @[42rem]:col-start-4 @[42rem]:row-start-1">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                aria-controls={attachmentsId}
-                aria-expanded={expanded}
-                className="grid size-8 cursor-pointer place-items-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                onClick={() => onExpandedChange(!expanded)}
-                type="button"
-              >
-                <ChevronDown
-                  aria-hidden="true"
-                  className={cn(
-                    'size-4 transition-transform duration-200',
-                    expanded && 'rotate-180'
-                  )}
-                />
-                <span className="sr-only">{toggleLabel}</span>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>{toggleLabel}</TooltipContent>
-          </Tooltip>
-          {action}
-        </div>
-        <div className="col-span-2 flex min-w-0 items-center gap-2 px-1.5 text-xs text-muted-foreground @[42rem]:col-span-1 @[42rem]:col-start-2 @[42rem]:row-start-1 @[42rem]:px-0">
-          {referenceNumber ? (
-            <span className="flex min-w-0 items-center gap-1.5">
-              {referenceLabel ? <span>{referenceLabel}</span> : null}
-              <span className="truncate font-mono text-xs font-normal text-foreground">
-                {referenceNumber}
-              </span>
-            </span>
-          ) : null}
-        </div>
-        <div className="col-span-2 flex min-w-0 items-center px-1.5 @[42rem]:col-span-1 @[42rem]:col-start-3 @[42rem]:row-start-1 @[42rem]:px-0">
-          <span
-            className={cn(
-              'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium',
-              hasFiles
-                ? 'border border-border/70 bg-muted/50 text-foreground'
-                : 'border border-dashed border-border/80 text-muted-foreground'
-            )}
-          >
-            {hasFiles ? <Paperclip aria-hidden="true" className="size-3" /> : null}
-            {fileSummary}
-          </span>
-        </div>
+        {action ? <div className="flex items-center justify-end">{action}</div> : null}
       </div>
       <AnimatePresence initial={false}>
         {expanded ? (
@@ -157,7 +157,7 @@ function DocumentCollectionItem({
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </section>
+    </ResourceFormSection>
   );
 }
 
@@ -175,7 +175,7 @@ function DocumentFolder({ expanded }: { expanded: boolean }) {
           'absolute size-6 transition-all duration-200 ease-out',
           expanded
             ? '-translate-y-1 -rotate-6 scale-90 opacity-0'
-            : 'group-hover:-translate-y-0.5 group-hover:scale-105'
+            : 'group-hover/document-row:-translate-y-0.5 group-hover/document-row:scale-105'
         )}
       />
       <FolderOpen
@@ -188,5 +188,5 @@ function DocumentFolder({ expanded }: { expanded: boolean }) {
   );
 }
 
-export { DocumentCollection, DocumentCollectionItem };
-export type { DocumentCollectionItemProps, DocumentCollectionProps };
+export { DocumentCollection, DocumentCollectionItem, DocumentCollectionList };
+export type { DocumentCollectionItemProps, DocumentCollectionListProps, DocumentCollectionProps };

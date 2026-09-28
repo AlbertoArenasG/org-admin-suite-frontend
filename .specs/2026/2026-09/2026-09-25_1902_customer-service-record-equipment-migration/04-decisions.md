@@ -7,12 +7,13 @@ La interfaz muestra y permite editar únicamente el primer equipo de
 equipos. El arreglo en backend existe para una posible necesidad futura y no
 define la experiencia actual.
 
-## Attachments Are Preserved, Not Migrated
+## Attachments Are Independent Equipment Subsections
 
-El endpoint exige tres arreglos de IDs de adjuntos. Este bloque los reconstruye
-desde el detalle canónico para conservarlos durante una actualización de datos,
-pero no presenta UI de adjuntos. La experiencia de archivos tendrá una spec
-independiente.
+El frame de Equipo contiene cuatro formularios y `ResourceFormSection`
+hermanos: datos principales, evidencia de recepción, evidencia de entrega y
+reportes. Cada colección usa `DocumentCollectionList`, conserva sus propias
+acciones y envía solo su arreglo de IDs mediante PATCH. No se reconstruyen ni
+se fusionan payloads de otras subsecciones.
 
 ## Independent Form And Mutation
 
@@ -23,7 +24,7 @@ generales ni cliente/entrega.
 ## Missing Equipment Is Not Creatable Here
 
 Sin `assets[0]` se muestra un estado no editable. No se improvisa una operación
-de creación ni se emite un PUT sin `assetId`.
+de creación ni se emite un PATCH sin `assetId`.
 
 ## Navigation Remains Anchors
 

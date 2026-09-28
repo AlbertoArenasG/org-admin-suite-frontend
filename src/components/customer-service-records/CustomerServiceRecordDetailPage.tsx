@@ -12,7 +12,7 @@ import {
   useDashboardViewAccess,
 } from '@/components/dashboard-shell';
 import { useNextDashboardBreadcrumbs } from '@/components/dashboard-shell/migration';
-import { ResourceFormSkeleton } from '@/components/resource-form';
+import { ResourceFormFrame, ResourceFormSkeleton } from '@/components/resource-form';
 import {
   fetchCustomerServiceRecordDetail,
   fetchCustomerServiceRecordDetailOptions,
@@ -26,6 +26,7 @@ import {
   updateCustomerServiceRecordProvider,
   updateCustomerServiceRecordDocument,
   uploadCustomerServiceRecordFiles,
+  type CustomerServiceRecordDetail,
   type CustomerServiceRecordDocumentType,
   type UpdateCustomerServiceRecordCustomerDeliveryPayload,
   type UpdateCustomerServiceRecordDetailsPayload,
@@ -37,6 +38,10 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { CustomerServiceRecordGeneralDetailsForm } from './CustomerServiceRecordGeneralDetailsForm';
 import { CustomerServiceRecordCustomerDeliveryForm } from './CustomerServiceRecordCustomerDeliveryForm';
 import { CustomerServiceRecordEquipmentForm } from './CustomerServiceRecordEquipmentForm';
+import {
+  CustomerServiceRecordAssetDocumentsSection,
+  type CustomerServiceRecordAssetDocumentType,
+} from './CustomerServiceRecordAssetDocumentsSection';
 import { CustomerServiceRecordProviderFollowUpForm } from './CustomerServiceRecordProviderFollowUpForm';
 import { CustomerServiceRecordDocumentsSection } from './CustomerServiceRecordDocumentsSection';
 import { CustomerServiceRecordDetailRoute } from './CustomerServiceRecordDetailRoute';
@@ -128,6 +133,34 @@ export function CustomerServiceRecordDetailPage() {
       updateCustomerServiceRecordAsset({ recordId: params.recordId, payload })
     ).unwrap();
     return { message: result.message };
+  };
+
+  const updateAssetDocument = async ({
+    asset,
+    documentType,
+    existingFileIds,
+    files,
+  }: {
+    asset: CustomerServiceRecordDetail['assets'][number];
+    documentType: CustomerServiceRecordAssetDocumentType;
+    existingFileIds: string[];
+    files: File[];
+  }) => {
+    const uploadedFiles = await dispatch(uploadCustomerServiceRecordFiles({ files })).unwrap();
+    const fileIds = [...existingFileIds, ...uploadedFiles.map((file) => file.fileId)];
+    const result = await dispatch(
+      updateCustomerServiceRecordAsset({
+        recordId: params.recordId,
+        payload: {
+          assetId: asset.assetId,
+          intakeConditionFileIds: documentType === 'intake-condition' ? fileIds : undefined,
+          deliveryConditionFileIds: documentType === 'delivery-condition' ? fileIds : undefined,
+          reportFileIds: documentType === 'reports' ? fileIds : undefined,
+        },
+      })
+    ).unwrap();
+
+    return { message: result.message, record: result.record };
   };
 
   const updateProvider = async (payload: UpdateCustomerServiceRecordProviderPayload) => {
@@ -240,11 +273,27 @@ export function CustomerServiceRecordDetailPage() {
                 </section>
                 <section className="scroll-mt-24 md:scroll-mt-5" id="equipment" tabIndex={-1}>
                   {detail.record.assets[0] ? (
-                    <CustomerServiceRecordEquipmentForm
-                      asset={detail.record.assets[0]}
-                      canUpdate={canUpdate}
-                      onSubmit={updateAsset}
-                    />
+                    <ResourceFormFrame
+                      contentSurface={{ base: 'bare', md: 'inset' }}
+                      density={{ base: 'compact', md: 'comfortable' }}
+                      description={t('detail.equipment.description')}
+                      dividers="hidden"
+                      headerDensity="compact"
+                      mode="read"
+                      surface={{ base: 'bare', md: 'card' }}
+                      title={t('detail.equipment.title')}
+                    >
+                      <CustomerServiceRecordEquipmentForm
+                        asset={detail.record.assets[0]}
+                        canUpdate={canUpdate}
+                        onSubmit={updateAsset}
+                      />
+                      <CustomerServiceRecordAssetDocumentsSection
+                        asset={detail.record.assets[0]}
+                        canUpdate={canUpdate}
+                        onSubmit={updateAssetDocument}
+                      />
+                    </ResourceFormFrame>
                   ) : (
                     <div className="rounded-xl border border-border bg-card p-6 text-sm text-muted-foreground">
                       <h2 className="font-semibold text-foreground">

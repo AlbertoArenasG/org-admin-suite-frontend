@@ -145,15 +145,15 @@ export interface UpdateCustomerServiceRecordCustomerDeliveryPayload {
 
 export interface UpdateCustomerServiceRecordAssetPayload {
   assetId: string;
-  name: string;
-  identifier: string;
-  brand: string;
-  model: string;
-  serialNumber: string;
-  observations: string | null;
-  intakeConditionFileIds: string[];
-  deliveryConditionFileIds: string[];
-  reportFileIds: string[];
+  name?: string;
+  identifier?: string;
+  brand?: string;
+  model?: string;
+  serialNumber?: string;
+  observations?: string | null;
+  intakeConditionFileIds?: string[];
+  deliveryConditionFileIds?: string[];
+  reportFileIds?: string[];
 }
 
 export interface UpdateCustomerServiceRecordProviderPayload {

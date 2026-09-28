@@ -22,15 +22,16 @@
 ## Contract Integrity
 
 - [x] La petición apunta al ID del primer equipo mostrado.
-- [x] La petición contiene los seis valores editables con nombres backend.
-- [x] Los tres arreglos de IDs de adjuntos se envían sin cambios desde el
-      detalle canónico.
+- [x] La petición de datos contiene solo los seis valores editables con nombres
+      backend.
+- [x] Cada colección documental envía exclusivamente su propio arreglo de IDs.
 - [x] La respuesta exitosa actualiza los valores canónicos sin GET adicional.
 
 ## Boundaries
 
 - [x] La interfaz no muestra más de un equipo ni acciones para agregar otro.
-- [x] No existen controles para cargar, eliminar o visualizar adjuntos.
-- [x] Un registro sin primer equipo muestra estado seguro y no emite PUT.
+- [x] Las colecciones permiten cargar, eliminar, previsualizar y descargar sus
+      adjuntos mediante la receta documental compartida.
+- [x] Un registro sin primer equipo muestra estado seguro y no emite PATCH.
 - [x] Los campos son horizontales en escritorio y apilados, utilizables, en
       móvil.

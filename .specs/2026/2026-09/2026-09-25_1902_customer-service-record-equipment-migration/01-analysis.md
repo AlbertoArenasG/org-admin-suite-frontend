@@ -48,14 +48,14 @@ interacción actual.
 El backend recibe el identificador del registro y del equipo en la ruta:
 
 ```text
-PUT /v1/customer-service-records/:recordId/assets/:assetId
+PATCH /v1/customer-service-records/:recordId/assets/:assetId
 ```
 
-Su body exige tanto los campos del equipo como los arreglos de IDs de adjuntos.
-Aunque adjuntos no forman parte de esta spec, omitirlos alteraría la relación
-existente. Por ello se derivan del detalle canónico y se envían sin cambios.
-La respuesta es el registro canónico completo, apropiado para reemplazar el
-detalle presente en el feature.
+Su body acepta solo las propiedades administradas por la subsección que guarda.
+Los datos principales y cada colección documental mantienen estados, acciones y
+payloads independientes; no se reconstruyen arreglos ajenos. La respuesta es
+el registro canónico completo, apropiado para reemplazar el detalle presente en
+el feature.
 
 ## Form Composition
 

@@ -549,18 +549,24 @@ export const updateCustomerServiceRecordAsset = createAsyncThunk<
     const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
       `/v1/customer-service-records/${recordId}/assets/${payload.assetId}`,
       {
-        method: 'PUT',
+        method: 'PATCH',
         headers: { Accept: 'application/json' },
         body: {
-          name: payload.name,
-          identifier: payload.identifier,
-          brand: payload.brand,
-          model: payload.model,
-          serial_number: payload.serialNumber,
-          observations: payload.observations,
-          intake_condition_file_ids: payload.intakeConditionFileIds,
-          delivery_condition_file_ids: payload.deliveryConditionFileIds,
-          report_file_ids: payload.reportFileIds,
+          ...(payload.name === undefined ? {} : { name: payload.name }),
+          ...(payload.identifier === undefined ? {} : { identifier: payload.identifier }),
+          ...(payload.brand === undefined ? {} : { brand: payload.brand }),
+          ...(payload.model === undefined ? {} : { model: payload.model }),
+          ...(payload.serialNumber === undefined ? {} : { serial_number: payload.serialNumber }),
+          ...(payload.observations === undefined ? {} : { observations: payload.observations }),
+          ...(payload.intakeConditionFileIds === undefined
+            ? {}
+            : { intake_condition_file_ids: payload.intakeConditionFileIds }),
+          ...(payload.deliveryConditionFileIds === undefined
+            ? {}
+            : { delivery_condition_file_ids: payload.deliveryConditionFileIds }),
+          ...(payload.reportFileIds === undefined
+            ? {}
+            : { report_file_ids: payload.reportFileIds }),
         },
         token,
       }

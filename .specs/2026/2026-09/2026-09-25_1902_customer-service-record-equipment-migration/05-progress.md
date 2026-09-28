@@ -7,7 +7,7 @@
 ## Completed
 
 - [x] Delimitar el bloque a datos de un solo equipo.
-- [x] Excluir adjuntos de interfaz y definir su preservación contractual.
+- [x] Integrar tres colecciones documentales independientes en el frame de Equipo.
 - [x] Definir formulario, permisos, navegación y estados de ausencia.
 - [x] Definir slices de implementación y validación.
 - [x] Implementar contrato, thunk y estado de mutación de equipo.
@@ -26,7 +26,7 @@
 
 - Los detalles visuales pendientes de bloques anteriores no forman parte de
   esta iniciativa.
-- La futura migración de adjuntos deberá usar los datos preservados por este
-  bloque como punto de partida, sin ampliar el alcance actual.
+- Las colecciones documentales comparten la receta reusable de documentos y
+  guardan mediante el PATCH parcial del asset.
 - La validación manual confirmó lectura, edición, persistencia y navegación del
   bloque Equipo.

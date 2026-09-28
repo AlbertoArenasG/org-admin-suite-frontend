@@ -36,47 +36,87 @@ export function CustomerServiceRecordDocumentsSection({
       setExpandedDocumentType(expanded ? documentType : null),
   });
 
+  const submitDocument =
+    (documentType: CustomerServiceRecordDocumentType) =>
+    async ({
+      existingFileIds,
+      files,
+      referenceNumber,
+    }: {
+      existingFileIds: string[];
+      files: File[];
+      referenceNumber?: string | null;
+    }) => {
+      const result = await onSubmit({ documentType, existingFileIds, files, referenceNumber });
+      const document = getDocument(record, result.record, documentType);
+
+      return {
+        files: document.files,
+        message: result.message,
+        referenceNumber: document.referenceNumber,
+      };
+    };
+
   return (
     <DocumentCollection title={t('detail.documents.title')}>
       <CustomerServiceRecordDocumentForm
         canUpdate={canUpdate}
-        documentType="quotation"
+        collectionId="quotation"
         {...documentFormProps('quotation')}
         files={record.quotation.files}
         hasReferenceNumber
-        onSubmit={onSubmit}
+        onSubmit={submitDocument('quotation')}
         referenceNumber={record.quotation.referenceNumber}
         title={t('detail.documents.quotation.title')}
       />
       <CustomerServiceRecordDocumentForm
         canUpdate={canUpdate}
-        documentType="purchase-order"
+        collectionId="purchase-order"
         {...documentFormProps('purchase-order')}
         files={record.purchaseOrder.files}
         hasReferenceNumber
-        onSubmit={onSubmit}
+        onSubmit={submitDocument('purchase-order')}
         referenceNumber={record.purchaseOrder.referenceNumber}
         title={t('detail.documents.purchaseOrder.title')}
       />
       <CustomerServiceRecordDocumentForm
         canUpdate={canUpdate}
-        documentType="invoice"
+        collectionId="invoice"
         {...documentFormProps('invoice')}
         files={record.invoice.files}
         hasReferenceNumber
-        onSubmit={onSubmit}
+        onSubmit={submitDocument('invoice')}
         referenceNumber={record.invoice.referenceNumber}
         title={t('detail.documents.invoice.title')}
       />
       <CustomerServiceRecordDocumentForm
         canUpdate={canUpdate}
-        documentType="other-files"
+        collectionId="other-files"
         {...documentFormProps('other-files')}
         files={record.otherFiles}
         hasReferenceNumber={false}
-        onSubmit={onSubmit}
+        onSubmit={submitDocument('other-files')}
         title={t('detail.documents.otherFiles.title')}
       />
     </DocumentCollection>
   );
+}
+
+function getDocument(
+  fallbackRecord: CustomerServiceRecordDetail,
+  record: CustomerServiceRecordDetail,
+  documentType: CustomerServiceRecordDocumentType
+) {
+  const source = record ?? fallbackRecord;
+
+  switch (documentType) {
+    case 'quotation':
+      return source.quotation;
+    case 'purchase-order':
+      return source.purchaseOrder;
+    case 'invoice':
+      return source.invoice;
+    case 'other-files':
+      return { files: source.otherFiles, referenceNumber: null };
+  }
 }

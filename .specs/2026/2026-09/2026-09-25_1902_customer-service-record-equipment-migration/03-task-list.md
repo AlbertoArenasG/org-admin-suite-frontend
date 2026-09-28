@@ -11,7 +11,7 @@
 
 - [x] Crear schema con cinco campos obligatorios y observaciones opcionales.
 - [x] Crear formulario independiente con la receta `ResourceForm`.
-- [x] Preservar IDs de adjuntos sin presentar controles de archivos.
+- [x] Implementar tres colecciones documentales con acciones y PATCH propios.
 - [x] Añadir estado no editable de equipo no disponible.
 - [x] Montar la sección y la tercera ancla de navegación.
 - [x] Añadir traducciones ES/EN.

@@ -162,7 +162,13 @@
     "equipment": {
       "title": "Equipo",
       "description": "Consulta y actualiza los datos del equipo del registro.",
-      "unavailable": "Este registro no tiene un equipo disponible para editar."
+      "unavailable": "Este registro no tiene un equipo disponible para editar.",
+      "documents": {
+        "title": "Documentos del equipo",
+        "intakeCondition": "Evidencia de recepción",
+        "deliveryCondition": "Evidencia de entrega",
+        "reports": "Reportes"
+      }
     },
     "provider": {
       "title": "Proveedor y seguimiento",

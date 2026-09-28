@@ -9,7 +9,6 @@ import type { MutationFeedback, MutationRecovery } from '@/components/feedback';
 import { FormField, FormReadValue } from '@/components/forms';
 import {
   ResourceFormActions,
-  ResourceFormFrame,
   ResourceFormSection,
   type ResourceFormMode,
 } from '@/components/resource-form';
@@ -132,19 +131,7 @@ export function CustomerServiceRecordEquipmentForm({
 
   return (
     <form onSubmit={form.handleSubmit(submit)}>
-      <ResourceFormFrame
-        contentSurface={{ base: 'bare', md: 'inset' }}
-        density={{ base: 'compact', md: 'comfortable' }}
-        headerDensity="compact"
-        dividers="hidden"
-        headerActions={
-          canUpdate ? (
-            <Button disabled={!isReadOnly} onClick={() => setMode('edit')} size="sm" type="button">
-              <Pencil aria-hidden="true" className="size-4" />
-              {t('actions.edit')}
-            </Button>
-          ) : null
-        }
+      <ResourceFormSection
         footerActions={
           !isReadOnly ? (
             <ResourceFormActions
@@ -159,68 +146,69 @@ export function CustomerServiceRecordEquipmentForm({
             />
           ) : null
         }
-        mode={mode}
-        status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
-        surface={{ base: 'bare', md: 'card' }}
-        title={t('detail.equipment.title')}
+        headerActions={
+          canUpdate ? (
+            <Button disabled={!isReadOnly} onClick={() => setMode('edit')} size="sm" type="button">
+              <Pencil aria-hidden="true" className="size-4" />
+              {t('actions.edit')}
+            </Button>
+          ) : null
+        }
+        surface="bare"
       >
-        <ResourceFormSection surface="bare">
-          <FieldGroup className="md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-7">
-            {fields.map(({ id, label, name }) => (
-              <Controller
-                control={form.control}
-                key={name}
-                name={name}
-                render={({ field, fieldState }) => (
-                  <FormField
-                    error={fieldState.error?.message}
-                    htmlFor={isReadOnly ? undefined : id}
-                    label={label}
-                    orientation="vertical"
-                  >
-                    {isReadOnly ? (
-                      <FormReadValue>{field.value}</FormReadValue>
-                    ) : (
-                      <Input
-                        aria-invalid={fieldState.invalid || undefined}
-                        disabled={isMutationLocked}
-                        id={id}
-                        {...field}
-                      />
-                    )}
-                  </FormField>
-                )}
-              />
-            ))}
+        <FieldGroup className="md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-7">
+          {fields.map(({ id, label, name }) => (
             <Controller
               control={form.control}
-              name="observations"
+              key={name}
+              name={name}
               render={({ field, fieldState }) => (
                 <FormField
                   error={fieldState.error?.message}
-                  htmlFor={
-                    isReadOnly ? undefined : 'customer-service-record-equipment-observations'
-                  }
-                  label={t('form.labels.assetObservations')}
+                  htmlFor={isReadOnly ? undefined : id}
+                  label={label}
                   orientation="vertical"
                 >
                   {isReadOnly ? (
-                    <FormReadValue>{field.value.trim() || '—'}</FormReadValue>
+                    <FormReadValue>{field.value}</FormReadValue>
                   ) : (
-                    <Textarea
+                    <Input
                       aria-invalid={fieldState.invalid || undefined}
                       disabled={isMutationLocked}
-                      id="customer-service-record-equipment-observations"
-                      placeholder={t('detail.placeholders.assetObservations')}
+                      id={id}
                       {...field}
                     />
                   )}
                 </FormField>
               )}
             />
-          </FieldGroup>
-        </ResourceFormSection>
-      </ResourceFormFrame>
+          ))}
+          <Controller
+            control={form.control}
+            name="observations"
+            render={({ field, fieldState }) => (
+              <FormField
+                error={fieldState.error?.message}
+                htmlFor={isReadOnly ? undefined : 'customer-service-record-equipment-observations'}
+                label={t('form.labels.assetObservations')}
+                orientation="vertical"
+              >
+                {isReadOnly ? (
+                  <FormReadValue>{field.value.trim() || '—'}</FormReadValue>
+                ) : (
+                  <Textarea
+                    aria-invalid={fieldState.invalid || undefined}
+                    disabled={isMutationLocked}
+                    id="customer-service-record-equipment-observations"
+                    placeholder={t('detail.placeholders.assetObservations')}
+                    {...field}
+                  />
+                )}
+              </FormField>
+            )}
+          />
+        </FieldGroup>
+      </ResourceFormSection>
     </form>
   );
 }

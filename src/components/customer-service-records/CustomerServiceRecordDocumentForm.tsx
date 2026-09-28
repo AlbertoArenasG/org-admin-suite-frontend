@@ -16,11 +16,7 @@ import { showToast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import type {
-  CustomerServiceRecordAttachment,
-  CustomerServiceRecordDetail,
-  CustomerServiceRecordDocumentType,
-} from '@/features/customer-service-records';
+import type { CustomerServiceRecordAttachment } from '@/features/customer-service-records';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { cn } from '@/lib/utils';
 
@@ -29,24 +25,27 @@ const MAX_PENDING_FILES = 10;
 
 type CustomerServiceRecordDocumentFormProps = {
   canUpdate: boolean;
-  documentType: CustomerServiceRecordDocumentType;
+  collectionId: string;
   expanded: boolean;
   files: CustomerServiceRecordAttachment[];
   hasReferenceNumber: boolean;
   onExpandedChange: (expanded: boolean) => void;
   onSubmit: (input: {
-    documentType: CustomerServiceRecordDocumentType;
     existingFileIds: string[];
     files: File[];
     referenceNumber?: string | null;
-  }) => Promise<{ message: string | null; record: CustomerServiceRecordDetail }>;
+  }) => Promise<{
+    files: CustomerServiceRecordAttachment[];
+    message: string | null;
+    referenceNumber?: string | null;
+  }>;
   referenceNumber?: string | null;
   title: string;
 };
 
 export function CustomerServiceRecordDocumentForm({
   canUpdate,
-  documentType,
+  collectionId,
   expanded: parentExpanded,
   files,
   hasReferenceNumber,
@@ -70,7 +69,7 @@ export function CustomerServiceRecordDocumentForm({
   const isMutationLocked =
     mutationFeedback?.status === 'saving' || mutationFeedback?.status === 'success';
   const attachmentCount = currentFiles.length + pendingFiles.length;
-  const attachmentsId = `${documentType}-attachments`;
+  const attachmentsId = `${collectionId}-attachments`;
   const attachmentSummary = attachmentCount
     ? t('detail.documents.fileCount', { count: attachmentCount })
     : t('detail.documents.emptyFolder');
@@ -115,19 +114,6 @@ export function CustomerServiceRecordDocumentForm({
     setMode('read');
   };
 
-  const getCanonicalDocument = (record: CustomerServiceRecordDetail) => {
-    switch (documentType) {
-      case 'quotation':
-        return record.quotation;
-      case 'purchase-order':
-        return record.purchaseOrder;
-      case 'invoice':
-        return record.invoice;
-      case 'other-files':
-        return { files: record.otherFiles, referenceNumber: null };
-    }
-  };
-
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMutationRecovery(undefined);
@@ -135,14 +121,12 @@ export function CustomerServiceRecordDocumentForm({
 
     try {
       const result = await onSubmit({
-        documentType,
         existingFileIds: currentFiles.map((file) => file.fileId),
         files: pendingFiles,
         ...(hasReferenceNumber ? { referenceNumber: referenceNumber.trim() || null } : {}),
       });
-      const canonical = getCanonicalDocument(result.record);
-      setCurrentFiles(canonical.files);
-      setReferenceNumber(canonical.referenceNumber ?? '');
+      setCurrentFiles(result.files);
+      setReferenceNumber(result.referenceNumber ?? '');
       setPendingFiles([]);
       setMutationFeedback({ status: 'success', title: t('detail.feedback.success') });
       showToast({
@@ -205,13 +189,13 @@ export function CustomerServiceRecordDocumentForm({
       >
         {!isReadOnly && hasReferenceNumber ? (
           <div className="flex flex-wrap items-center gap-2">
-            <label className="text-sm font-medium" htmlFor={`${documentType}-reference-number`}>
+            <label className="text-sm font-medium" htmlFor={`${collectionId}-reference-number`}>
               {t('detail.documents.referenceNumber')}
             </label>
             <Input
               className="h-9 w-40"
               disabled={isMutationLocked}
-              id={`${documentType}-reference-number`}
+              id={`${collectionId}-reference-number`}
               onChange={(event) => setReferenceNumber(event.target.value)}
               placeholder={t('detail.documents.referencePlaceholder')}
               value={referenceNumber}
