@@ -14,7 +14,7 @@
       Status: done
 - [x] Reutilizar la presentacion documental de lectura sin acciones de mutacion.
       Status: done
-- [ ] Verificar permisos, estados remotos, responsive, documentos y traducciones.
-      Status: pending
-- [ ] Actualizar documentacion viva y cerrar la spec.
-      Status: pending
+- [x] Verificar permisos, estados remotos, responsive, documentos y traducciones.
+      Status: done
+- [x] Actualizar documentacion viva y cerrar la spec.
+      Status: done

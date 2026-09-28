@@ -31,3 +31,7 @@
 - Se extrajo `DocumentCollectionReadOnlyItem` para reutilizar la presentacion
   documental de lectura en Client Access y en la rama administrativa de solo
   lectura, sin mezclar uploader, eliminacion ni guardado.
+- Se validaron permisos, estados de carga y error, navegacion responsive,
+  timeline, colecciones documentales, traducciones y accesibilidad descritos
+  en la matriz de validacion manual.
+- Se actualizaron los documentos vivos afectados y se cerro la spec.

@@ -1,12 +1,12 @@
 # Frontend Specs Index
 
-- [customer-service-record-client-access-detail](./2026/2026-09/2026-09-27_1130_customer-service-record-client-access-detail/00-definition.md) - ready; detalle de solo lectura de registros de servicio en Client Access
+- [customer-service-record-client-access-detail](./2026/2026-09/2026-09-27_1130_customer-service-record-client-access-detail/00-definition.md) - completed; detalle de solo lectura de registros de servicio en Client Access
 - [customer-service-record-documents-migration](./2026/2026-09/2026-09-26_0133_customer-service-record-documents-migration/00-definition.md) - completed; documentos, dialogo de adjuntos y galeria reutilizable para el detalle de registros de servicio
 - [customer-service-record-provider-follow-up-migration](./2026/2026-09/2026-09-25_1936_customer-service-record-provider-follow-up-migration/00-definition.md) - completed; cuarto bloque de detalle y edición de registros de servicio en Next Dashboard
 - [customer-service-record-equipment-migration](./2026/2026-09/2026-09-25_1902_customer-service-record-equipment-migration/00-definition.md) - completed; tercer bloque de detalle y edicion de registros de servicio en Next Dashboard
 - [customer-service-record-customer-delivery-migration](./2026/2026-09/2026-09-25_1834_customer-service-record-customer-delivery-migration/00-definition.md) - completed; segundo bloque de detalle y edición de registros de servicio en Next Dashboard
 - [customer-service-record-general-details-migration](./2026/2026-09/2026-09-25_1451_customer-service-record-general-details-migration/00-definition.md) - completed; primer bloque de detalle y edición de registros de servicio en Next Dashboard
-- [customer-service-record-creation-wizard-migration](./2026/2026-09/2026-09-24_0209_customer-service-record-creation-wizard-migration/00-definition.md) - defined; migracion de creacion a dialogo wizard en Next Dashboard
+- [customer-service-record-creation-wizard-migration](./2026/2026-09/2026-09-24_0209_customer-service-record-creation-wizard-migration/00-definition.md) - completed; migracion de creacion a dialogo wizard en Next Dashboard
 - [data-table-row-actions](./2026/2026-09/2026-09-23_1603_data-table-row-actions/00-definition.md) - completed; patron generico de acciones por fila validado con primera adopcion administrativa
 - [data-table-responsibility-separation](./2026/2026-09/2026-09-23_1208_data-table-responsibility-separation/00-definition.md) - completed; separacion interna de DataTable validada sin regresiones en sus consumidores
 - [next-dashboard-view-access-foundation](./2026/2026-09/2026-09-22_2311_next-dashboard-view-access-foundation/00-definition.md) - completed; patrón transversal de acceso para vistas Next Dashboard validado
