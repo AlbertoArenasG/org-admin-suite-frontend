@@ -41,7 +41,7 @@ function DocumentCollection({ children, title }: DocumentCollectionProps) {
       surface={{ base: 'bare', md: 'card' }}
       title={title}
     >
-      <div className="divide-y divide-border/70">{children}</div>
+      <div className="@container divide-y divide-border/70">{children}</div>
     </ResourceFormFrame>
   );
 }
@@ -68,7 +68,7 @@ function DocumentCollectionItem({
 
   return (
     <section className={cn('transition-colors', expanded && 'bg-muted/20')}>
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 px-3 py-2.5 sm:px-4 lg:grid-cols-[minmax(0,1fr)_9rem_9rem_auto] lg:gap-x-5">
+      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 px-3 py-2.5 sm:px-4 @[42rem]:grid-cols-[minmax(0,1fr)_9rem_9rem_auto] @[42rem]:gap-x-5">
         <Tooltip>
           <TooltipTrigger asChild>
             <button
@@ -88,7 +88,7 @@ function DocumentCollectionItem({
           </TooltipTrigger>
           <TooltipContent>{toggleLabel}</TooltipContent>
         </Tooltip>
-        <div className="flex items-center justify-end gap-1 lg:col-start-4 lg:row-start-1">
+        <div className="flex items-center justify-end gap-1 @[42rem]:col-start-4 @[42rem]:row-start-1">
           <Tooltip>
             <TooltipTrigger asChild>
               <button
@@ -112,7 +112,7 @@ function DocumentCollectionItem({
           </Tooltip>
           {action}
         </div>
-        <div className="col-span-2 flex min-w-0 items-center gap-2 px-1.5 text-xs text-muted-foreground lg:col-span-1 lg:col-start-2 lg:row-start-1 lg:px-0">
+        <div className="col-span-2 flex min-w-0 items-center gap-2 px-1.5 text-xs text-muted-foreground @[42rem]:col-span-1 @[42rem]:col-start-2 @[42rem]:row-start-1 @[42rem]:px-0">
           {referenceNumber ? (
             <span className="flex min-w-0 items-center gap-1.5">
               {referenceLabel ? <span>{referenceLabel}</span> : null}
@@ -122,7 +122,7 @@ function DocumentCollectionItem({
             </span>
           ) : null}
         </div>
-        <div className="col-span-2 flex min-w-0 items-center px-1.5 lg:col-span-1 lg:col-start-3 lg:row-start-1 lg:px-0">
+        <div className="col-span-2 flex min-w-0 items-center px-1.5 @[42rem]:col-span-1 @[42rem]:col-start-3 @[42rem]:row-start-1 @[42rem]:px-0">
           <span
             className={cn(
               'inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-medium',
