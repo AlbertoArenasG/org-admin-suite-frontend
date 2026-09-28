@@ -1,10 +1,16 @@
+import Link from 'next/link';
+
 import type { DataTableColumn } from '@/components/data-table';
 import { BadgeCell, DateWithRelativeTimeCell } from '@/components/data-table/cells';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { ClientAccessCustomerServiceRecord } from '@/features/customer-service-records-client-access';
-import { Ban, Check, ClockFading, Hammer } from 'lucide-react';
+import { Ban, Check, ClockFading, Eye, Hammer } from 'lucide-react';
 
 type ClientAccessServicesLabels = {
   serviceNumber: string;
+  detail: string;
+  viewDetail: string;
   serviceAndAssets: string;
   equipmentDetails: string;
   customer: string;
@@ -62,12 +68,41 @@ export function createClientAccessServicesColumns({
       ariaLabel: labels.serviceNumber,
       accessor: (row) => row.serviceNumberDisplay,
       cell: (row, { highlight }) => (
-        <span className="font-mono font-normal text-muted-foreground">
-          {highlight(row.serviceNumberDisplay)}
-        </span>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link
+              className="font-mono font-normal text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              href={`/dashboard/portal/services/${row.id}`}
+            >
+              {highlight(row.serviceNumberDisplay)}
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent>{labels.viewDetail}</TooltipContent>
+        </Tooltip>
       ),
       sorting: { enabled: true, apiField: 'service_number' },
       width: { initial: 80, min: 80, max: 160, resizable: true },
+      visibility: { hideable: false },
+    },
+    {
+      id: 'detail',
+      header: labels.detail,
+      ariaLabel: labels.detail,
+      accessor: (row) => row.serviceNumberDisplay,
+      cell: (row) => (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button asChild size="sm" type="button" variant="ghost">
+              <Link href={`/dashboard/portal/services/${row.id}`}>
+                <Eye aria-hidden="true" />
+                {labels.viewDetail}
+              </Link>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>{labels.viewDetail}</TooltipContent>
+        </Tooltip>
+      ),
+      width: { initial: 126, min: 116, max: 160, resizable: true },
       visibility: { hideable: false },
     },
     {

@@ -35,6 +35,7 @@ type ClientAccessServicesTableState = {
 
 const DEFAULT_VISIBLE_COLUMNS = [
   'serviceNumber',
+  'detail',
   'serviceAndAssets',
   'operationalStatus',
   'customerCommitment',

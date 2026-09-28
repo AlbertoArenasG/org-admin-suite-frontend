@@ -1,5 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchClientAccessCustomerServiceRecords } from './customerServiceRecordsClientAccessThunks';
+import {
+  fetchClientAccessCustomerServiceRecordDetail,
+  fetchClientAccessCustomerServiceRecords,
+} from './customerServiceRecordsClientAccessThunks';
 import type { ClientAccessCustomerServiceRecordsState } from './types';
 
 const initialState: ClientAccessCustomerServiceRecordsState = {
@@ -13,12 +16,23 @@ const initialState: ClientAccessCustomerServiceRecordsState = {
     totalPages: 0,
     activeRequestId: null,
   },
+  detail: {
+    record: null,
+    status: 'idle',
+    error: null,
+    currentRecordId: null,
+    activeRequestId: null,
+  },
 };
 
 const customerServiceRecordsClientAccessSlice = createSlice({
   name: 'customerServiceRecordsClientAccess',
   initialState,
-  reducers: {},
+  reducers: {
+    resetClientAccessCustomerServiceRecordDetail: (state) => {
+      state.detail = initialState.detail;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchClientAccessCustomerServiceRecords.pending, (state, action) => {
@@ -42,8 +56,30 @@ const customerServiceRecordsClientAccessSlice = createSlice({
         state.list.error =
           action.payload ?? action.error.message ?? 'No fue posible obtener los servicios';
         state.list.activeRequestId = null;
+      })
+      .addCase(fetchClientAccessCustomerServiceRecordDetail.pending, (state, action) => {
+        state.detail.status = 'loading';
+        state.detail.error = null;
+        state.detail.currentRecordId = action.meta.arg.recordId;
+        state.detail.activeRequestId = action.meta.requestId;
+        state.detail.record = null;
+      })
+      .addCase(fetchClientAccessCustomerServiceRecordDetail.fulfilled, (state, action) => {
+        if (state.detail.activeRequestId !== action.meta.requestId) return;
+        state.detail.status = 'succeeded';
+        state.detail.record = action.payload;
+        state.detail.activeRequestId = null;
+      })
+      .addCase(fetchClientAccessCustomerServiceRecordDetail.rejected, (state, action) => {
+        if (state.detail.activeRequestId !== action.meta.requestId) return;
+        state.detail.status = 'failed';
+        state.detail.error =
+          action.payload ?? action.error.message ?? 'No fue posible obtener el servicio';
+        state.detail.activeRequestId = null;
       });
   },
 });
 
+export const { resetClientAccessCustomerServiceRecordDetail } =
+  customerServiceRecordsClientAccessSlice.actions;
 export default customerServiceRecordsClientAccessSlice.reducer;

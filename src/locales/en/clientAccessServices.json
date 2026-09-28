@@ -2,6 +2,7 @@
   "title": "Service tracking",
   "columns": {
     "serviceNumber": "Service number",
+    "detail": "Details",
     "serviceAndAssets": "Equipment and service",
     "equipmentDetails": "Equipment details",
     "customer": "Customer",
@@ -19,6 +20,75 @@
   "search": {
     "placeholder": "Search by service number, service, or equipment",
     "ariaLabel": "Search services"
+  },
+  "actions": {
+    "viewDetail": "View details",
+    "retry": "Retry"
+  },
+  "detail": {
+    "breadcrumb": "Record {{folio}}",
+    "navigationLabel": "Record navigation",
+    "sections": {
+      "general": "General details",
+      "customerDelivery": "Customer and delivery commitment",
+      "equipment": "Equipment",
+      "documents": "Documents"
+    },
+    "fields": {
+      "serviceType": "Service type",
+      "operationalStatus": "Operational status",
+      "observations": "Observations",
+      "customer": "Customer",
+      "customerUsers": "Customer users",
+      "receivedAt": "Reception or collection date",
+      "estimatedDeliveryInterval": "Estimated delivery period",
+      "estimatedDeliveryAt": "Estimated customer delivery date",
+      "deliveredToCustomerAt": "Actual customer delivery date",
+      "assetName": "Equipment",
+      "identifier": "Identifier",
+      "brand": "Brand",
+      "model": "Model",
+      "serialNumber": "Serial number",
+      "assetObservations": "Equipment observations"
+    },
+    "interval": {
+      "years": "Years",
+      "months": "Months",
+      "weeks": "Weeks",
+      "days": "Days"
+    },
+    "equipment": {
+      "detailsTitle": "Equipment primary details",
+      "unavailable": "This record has no available equipment.",
+      "documents": {
+        "intakeCondition": "Reception evidence",
+        "deliveryCondition": "Delivery evidence",
+        "reports": "Reports"
+      }
+    },
+    "documents": {
+      "quotation": "Quotation",
+      "purchaseOrder": "Purchase order",
+      "invoice": "Invoice",
+      "otherFiles": "Other files",
+      "reference": "Reference",
+      "empty": "There are no attached files.",
+      "emptyFolder": "No attachments",
+      "fileCount_one": "{{count}} attachment",
+      "fileCount_other": "{{count}} attachments",
+      "openFiles": "Open files",
+      "closeFiles": "Close files",
+      "preview": "Preview",
+      "download": "Download",
+      "previousImage": "Previous image",
+      "nextImage": "Next image"
+    },
+    "timeline": {
+      "label": "Service timeline",
+      "noDate": "No date",
+      "receivedFromCustomer": "Reception",
+      "customerDelivery": "Customer delivery"
+    }
   },
   "empty": {
     "title": "There are no services to display",

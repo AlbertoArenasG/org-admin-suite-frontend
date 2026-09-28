@@ -138,6 +138,8 @@ export function ClientAccessServicesContainer() {
         dateFormatter,
         labels: {
           serviceNumber: t('columns.serviceNumber'),
+          detail: t('columns.detail'),
+          viewDetail: t('actions.viewDetail'),
           serviceAndAssets: t('columns.serviceAndAssets'),
           equipmentDetails: t('columns.equipmentDetails'),
           customer: t('columns.customer'),

@@ -3,12 +3,14 @@
 import { useTranslation } from 'react-i18next';
 import type { RefObject } from 'react';
 
-import { ResourceFormRoute } from '@/components/resource-form';
+import { ResourceFormRoute, type ResourceFormNavigationItem } from '@/components/resource-form';
 import { CustomerServiceRecordCompactNavigation } from './CustomerServiceRecordCompactNavigation';
 
 type CustomerServiceRecordDetailRouteProps = {
   children: React.ReactNode;
   loading?: boolean;
+  navigationItems?: readonly ResourceFormNavigationItem[];
+  navigationLabel?: string;
   navigationSupplement?: React.ReactNode;
   scrollContainerRef: RefObject<HTMLElement | null>;
 };
@@ -17,18 +19,21 @@ type CustomerServiceRecordDetailRouteProps = {
 export function CustomerServiceRecordDetailRoute({
   children,
   loading = false,
+  navigationItems: navigationItemsProp,
+  navigationLabel: navigationLabelProp,
   navigationSupplement,
   scrollContainerRef,
 }: CustomerServiceRecordDetailRouteProps) {
   const { t } = useTranslation('customerServiceRecords');
-  const navigationItems = [
+  const defaultNavigationItems = [
     { id: 'general-details', label: t('detail.general.title') },
     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
     { id: 'equipment', label: t('detail.equipment.title') },
     { id: 'documents', label: t('detail.documents.title') },
     { id: 'provider-follow-up', label: t('detail.provider.title') },
   ];
-  const navigationLabel = t('detail.navigationLabel');
+  const navigationItems = navigationItemsProp ?? defaultNavigationItems;
+  const navigationLabel = navigationLabelProp ?? t('detail.navigationLabel');
 
   return (
     <ResourceFormRoute

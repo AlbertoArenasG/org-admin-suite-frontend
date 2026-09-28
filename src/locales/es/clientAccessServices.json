@@ -2,6 +2,7 @@
   "title": "Seguimiento de servicios",
   "columns": {
     "serviceNumber": "Folio",
+    "detail": "Detalle",
     "serviceAndAssets": "Equipo y servicio",
     "equipmentDetails": "Detalles de equipo",
     "customer": "Cliente",
@@ -19,6 +20,75 @@
   "search": {
     "placeholder": "Buscar por folio, servicio o equipo",
     "ariaLabel": "Buscar servicios"
+  },
+  "actions": {
+    "viewDetail": "Ver detalle",
+    "retry": "Reintentar"
+  },
+  "detail": {
+    "breadcrumb": "Registro {{folio}}",
+    "navigationLabel": "Navegacion del registro",
+    "sections": {
+      "general": "Detalles generales",
+      "customerDelivery": "Cliente y compromiso de entrega",
+      "equipment": "Equipo",
+      "documents": "Documentos"
+    },
+    "fields": {
+      "serviceType": "Tipo de servicio",
+      "operationalStatus": "Estado operativo",
+      "observations": "Observaciones",
+      "customer": "Cliente",
+      "customerUsers": "Usuarios del cliente",
+      "receivedAt": "Fecha de recepción o recolección",
+      "estimatedDeliveryInterval": "Plazo estimado de entrega",
+      "estimatedDeliveryAt": "Fecha estimada de entrega al cliente",
+      "deliveredToCustomerAt": "Fecha de entrega real al cliente",
+      "assetName": "Equipo",
+      "identifier": "Identificación",
+      "brand": "Marca",
+      "model": "Modelo",
+      "serialNumber": "Serie",
+      "assetObservations": "Observaciones del equipo"
+    },
+    "interval": {
+      "years": "Años",
+      "months": "Meses",
+      "weeks": "Semanas",
+      "days": "Días"
+    },
+    "equipment": {
+      "detailsTitle": "Datos principales del equipo",
+      "unavailable": "Este registro no tiene un equipo disponible.",
+      "documents": {
+        "intakeCondition": "Evidencia de recepción",
+        "deliveryCondition": "Evidencia de entrega",
+        "reports": "Reportes"
+      }
+    },
+    "documents": {
+      "quotation": "Cotización",
+      "purchaseOrder": "Orden de compra",
+      "invoice": "Factura",
+      "otherFiles": "Otros archivos",
+      "reference": "Referencia",
+      "empty": "No hay archivos adjuntos.",
+      "emptyFolder": "Sin adjuntos",
+      "fileCount_one": "{{count}} adjunto",
+      "fileCount_other": "{{count}} adjuntos",
+      "openFiles": "Abrir archivos",
+      "closeFiles": "Cerrar archivos",
+      "preview": "Previsualizar",
+      "download": "Descargar",
+      "previousImage": "Imagen anterior",
+      "nextImage": "Imagen siguiente"
+    },
+    "timeline": {
+      "label": "Línea de tiempo del servicio",
+      "noDate": "Sin fecha",
+      "receivedFromCustomer": "Recepción",
+      "customerDelivery": "Entrega al cliente"
+    }
   },
   "empty": {
     "title": "No hay servicios para mostrar",

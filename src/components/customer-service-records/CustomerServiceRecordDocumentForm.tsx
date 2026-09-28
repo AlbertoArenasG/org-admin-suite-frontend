@@ -10,6 +10,7 @@ import {
   type AttachmentImage,
 } from '@/components/attachments';
 import { DocumentCollectionItem } from '@/components/documents/DocumentCollection';
+import { DocumentCollectionReadOnlyItem } from '@/components/documents/DocumentCollectionReadOnlyItem';
 import type { MutationFeedback, MutationRecovery } from '@/components/feedback';
 import { ResourceFormActions, type ResourceFormMode } from '@/components/resource-form';
 import { showToast } from '@/components/toast';
@@ -148,41 +149,67 @@ export function CustomerServiceRecordDocumentForm({
     }
   };
 
+  const editAction = canUpdate ? (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          aria-label={`${t('actions.edit')}: ${title}`}
+          disabled={!isReadOnly}
+          onClick={() => {
+            onExpandedChange(true);
+            setMode('edit');
+          }}
+          size="icon-sm"
+          type="button"
+          variant="ghost"
+        >
+          <Pencil aria-hidden="true" />
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{t('actions.edit')}</TooltipContent>
+    </Tooltip>
+  ) : null;
+
+  if (isReadOnly) {
+    return (
+      <DocumentCollectionReadOnlyItem
+        action={editAction}
+        collectionId={collectionId}
+        copy={{
+          closeFiles: t('detail.documents.closeFiles'),
+          download: t('detail.documents.download'),
+          empty: t('detail.documents.empty'),
+          emptyFolder: t('detail.documents.emptyFolder'),
+          fileCount: (count) => t('detail.documents.fileCount', { count }),
+          nextImage: t('detail.documents.nextImage'),
+          openFiles: t('detail.documents.openFiles'),
+          previousImage: t('detail.documents.previousImage'),
+          preview: t('detail.documents.preview'),
+        }}
+        expanded={parentExpanded}
+        files={currentFiles}
+        onExpandedChange={onExpandedChange}
+        referenceLabel={t('detail.documents.reference')}
+        referenceNumber={hasReferenceNumber ? referenceNumber || '—' : undefined}
+        title={title}
+      />
+    );
+  }
+
   return (
     <form
       className={cn(mutationFeedback?.status === 'saving' && 'pointer-events-none opacity-70')}
       onSubmit={submit}
     >
       <DocumentCollectionItem
-        action={
-          canUpdate ? (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  aria-label={`${t('actions.edit')}: ${title}`}
-                  disabled={!isReadOnly}
-                  onClick={() => {
-                    onExpandedChange(true);
-                    setMode('edit');
-                  }}
-                  size="icon-sm"
-                  type="button"
-                  variant="ghost"
-                >
-                  <Pencil aria-hidden="true" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{t('actions.edit')}</TooltipContent>
-            </Tooltip>
-          ) : null
-        }
+        action={editAction}
         attachmentsId={attachmentsId}
         closeLabel={t('detail.documents.closeFiles')}
         expanded={expanded}
         fileSummary={attachmentSummary}
         hasFiles={attachmentCount > 0}
         openLabel={t('detail.documents.openFiles')}
-        onExpandedChange={(nextExpanded) => onExpandedChange(isReadOnly ? nextExpanded : true)}
+        onExpandedChange={() => onExpandedChange(true)}
         referenceLabel={t('detail.documents.reference')}
         referenceNumber={hasReferenceNumber ? referenceNumber || '—' : undefined}
         title={title}
