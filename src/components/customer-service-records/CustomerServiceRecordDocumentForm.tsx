@@ -1,6 +1,7 @@
 'use client';
 
-import { Download, Paperclip, Pencil, Plus, Trash2 } from 'lucide-react';
+import { Eye, Paperclip, Pencil, Plus, Trash2 } from 'lucide-react';
+import { DownloadIcon } from 'lucide-animated';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
@@ -8,24 +9,20 @@ import {
   AttachmentUploadDialog,
   type AttachmentImage,
 } from '@/components/attachments';
+import { DocumentCollectionItem } from '@/components/documents/DocumentCollection';
 import type { MutationFeedback, MutationRecovery } from '@/components/feedback';
-import { FormField, FormReadValue } from '@/components/forms';
-import {
-  ResourceFormActions,
-  ResourceFormFrame,
-  ResourceFormSection,
-  type ResourceFormMode,
-} from '@/components/resource-form';
+import { ResourceFormActions, type ResourceFormMode } from '@/components/resource-form';
 import { showToast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
-import { FieldGroup } from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type {
   CustomerServiceRecordAttachment,
   CustomerServiceRecordDetail,
   CustomerServiceRecordDocumentType,
 } from '@/features/customer-service-records';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
+import { cn } from '@/lib/utils';
 
 const SUCCESS_FEEDBACK_DURATION_MS = 800;
 const MAX_PENDING_FILES = 10;
@@ -33,8 +30,10 @@ const MAX_PENDING_FILES = 10;
 type CustomerServiceRecordDocumentFormProps = {
   canUpdate: boolean;
   documentType: CustomerServiceRecordDocumentType;
+  expanded: boolean;
   files: CustomerServiceRecordAttachment[];
   hasReferenceNumber: boolean;
+  onExpandedChange: (expanded: boolean) => void;
   onSubmit: (input: {
     documentType: CustomerServiceRecordDocumentType;
     existingFileIds: string[];
@@ -48,8 +47,10 @@ type CustomerServiceRecordDocumentFormProps = {
 export function CustomerServiceRecordDocumentForm({
   canUpdate,
   documentType,
+  expanded: parentExpanded,
   files,
   hasReferenceNumber,
+  onExpandedChange,
   onSubmit,
   referenceNumber: initialReferenceNumber = null,
   title,
@@ -65,8 +66,14 @@ export function CustomerServiceRecordDocumentForm({
   const [mutationRecovery, setMutationRecovery] = useState<MutationRecovery>();
   const successTimeoutRef = useRef<number | null>(null);
   const isReadOnly = mode === 'read';
+  const expanded = parentExpanded || !isReadOnly;
   const isMutationLocked =
     mutationFeedback?.status === 'saving' || mutationFeedback?.status === 'success';
+  const attachmentCount = currentFiles.length + pendingFiles.length;
+  const attachmentsId = `${documentType}-attachments`;
+  const attachmentSummary = attachmentCount
+    ? t('detail.documents.fileCount', { count: attachmentCount })
+    : t('detail.documents.emptyFolder');
 
   useEffect(() => {
     if (!isReadOnly) return;
@@ -158,14 +165,97 @@ export function CustomerServiceRecordDocumentForm({
   };
 
   return (
-    <form onSubmit={submit}>
-      <ResourceFormFrame
-        contentSurface={{ base: 'bare', md: 'inset' }}
-        density={{ base: 'compact', md: 'comfortable' }}
-        headerDensity="compact"
-        dividers="hidden"
-        footerActions={
-          !isReadOnly ? (
+    <form
+      className={cn(mutationFeedback?.status === 'saving' && 'pointer-events-none opacity-70')}
+      onSubmit={submit}
+    >
+      <DocumentCollectionItem
+        action={
+          canUpdate ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  aria-label={`${t('actions.edit')}: ${title}`}
+                  disabled={!isReadOnly}
+                  onClick={() => {
+                    onExpandedChange(true);
+                    setMode('edit');
+                  }}
+                  size="icon-sm"
+                  type="button"
+                  variant="ghost"
+                >
+                  <Pencil aria-hidden="true" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{t('actions.edit')}</TooltipContent>
+            </Tooltip>
+          ) : null
+        }
+        attachmentsId={attachmentsId}
+        closeLabel={t('detail.documents.closeFiles')}
+        expanded={expanded}
+        fileSummary={attachmentSummary}
+        hasFiles={attachmentCount > 0}
+        openLabel={t('detail.documents.openFiles')}
+        onExpandedChange={(nextExpanded) => onExpandedChange(isReadOnly ? nextExpanded : true)}
+        referenceLabel={t('detail.documents.reference')}
+        referenceNumber={hasReferenceNumber ? referenceNumber || '—' : undefined}
+        title={title}
+      >
+        {!isReadOnly && hasReferenceNumber ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <label className="text-sm font-medium" htmlFor={`${documentType}-reference-number`}>
+              {t('detail.documents.referenceNumber')}
+            </label>
+            <Input
+              className="h-9 w-40"
+              disabled={isMutationLocked}
+              id={`${documentType}-reference-number`}
+              onChange={(event) => setReferenceNumber(event.target.value)}
+              placeholder={t('detail.documents.referencePlaceholder')}
+              value={referenceNumber}
+            />
+          </div>
+        ) : null}
+        <ExistingAttachmentList
+          downloadLabel={t('detail.documents.download')}
+          emptyLabel={t('detail.documents.empty')}
+          files={currentFiles}
+          onImageOpen={setGalleryIndex}
+          onRemove={
+            isReadOnly || isMutationLocked
+              ? undefined
+              : (fileId) =>
+                  setCurrentFiles((items) => items.filter((file) => file.fileId !== fileId))
+          }
+          previewLabel={t('detail.documents.preview')}
+          removeLabel={t('detail.documents.remove')}
+        />
+        {!isReadOnly && pendingFiles.length ? (
+          <PendingAttachmentList
+            files={pendingFiles}
+            onRemove={(index) =>
+              setPendingFiles((items) => items.filter((_, itemIndex) => itemIndex !== index))
+            }
+            removeLabel={t('detail.documents.remove')}
+            title={t('detail.documents.pendingFiles')}
+          />
+        ) : null}
+        {!isReadOnly ? (
+          <Button
+            disabled={isMutationLocked || pendingFiles.length >= MAX_PENDING_FILES}
+            onClick={() => setAttachmentDialogOpen(true)}
+            size="sm"
+            type="button"
+            variant="outline"
+          >
+            <Plus aria-hidden="true" />
+            {t('detail.documents.addFiles')}
+          </Button>
+        ) : null}
+        {!isReadOnly ? (
+          <div className="border-t border-border/70 pt-3">
             <ResourceFormActions
               cancelAction={{ label: t('form.actions.cancel'), onClick: resetDraft }}
               mutationFeedback={mutationFeedback}
@@ -176,86 +266,9 @@ export function CustomerServiceRecordDocumentForm({
               }}
               status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
             />
-          ) : null
-        }
-        headerActions={
-          canUpdate ? (
-            <Button disabled={!isReadOnly} onClick={() => setMode('edit')} size="sm" type="button">
-              <Pencil aria-hidden="true" className="size-4" />
-              {t('actions.edit')}
-            </Button>
-          ) : null
-        }
-        mode={mode}
-        status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
-        surface={{ base: 'bare', md: 'card' }}
-        title={title}
-      >
-        <ResourceFormSection surface="bare">
-          <FieldGroup>
-            {hasReferenceNumber ? (
-              <FormField
-                htmlFor={isReadOnly ? undefined : `${documentType}-reference-number`}
-                label={t('detail.documents.referenceNumber')}
-                orientation="responsive"
-              >
-                {isReadOnly ? (
-                  <FormReadValue>{referenceNumber || '—'}</FormReadValue>
-                ) : (
-                  <Input
-                    disabled={isMutationLocked}
-                    id={`${documentType}-reference-number`}
-                    onChange={(event) => setReferenceNumber(event.target.value)}
-                    placeholder={t('detail.documents.referencePlaceholder')}
-                    value={referenceNumber}
-                  />
-                )}
-              </FormField>
-            ) : null}
-            <FormField label={t('detail.documents.files')} orientation="responsive">
-              <div className="space-y-3">
-                <ExistingAttachmentList
-                  downloadLabel={t('detail.documents.download')}
-                  emptyLabel={t('detail.documents.empty')}
-                  files={currentFiles}
-                  onImageOpen={setGalleryIndex}
-                  onRemove={
-                    isReadOnly || isMutationLocked
-                      ? undefined
-                      : (fileId) =>
-                          setCurrentFiles((items) => items.filter((file) => file.fileId !== fileId))
-                  }
-                  removeLabel={t('detail.documents.remove')}
-                />
-                {!isReadOnly && pendingFiles.length ? (
-                  <PendingAttachmentList
-                    files={pendingFiles}
-                    onRemove={(index) =>
-                      setPendingFiles((items) =>
-                        items.filter((_, itemIndex) => itemIndex !== index)
-                      )
-                    }
-                    removeLabel={t('detail.documents.remove')}
-                    title={t('detail.documents.pendingFiles')}
-                  />
-                ) : null}
-                {!isReadOnly ? (
-                  <Button
-                    disabled={isMutationLocked || pendingFiles.length >= MAX_PENDING_FILES}
-                    onClick={() => setAttachmentDialogOpen(true)}
-                    size="sm"
-                    type="button"
-                    variant="outline"
-                  >
-                    <Plus aria-hidden="true" />
-                    {t('detail.documents.addFiles')}
-                  </Button>
-                ) : null}
-              </div>
-            </FormField>
-          </FieldGroup>
-        </ResourceFormSection>
-      </ResourceFormFrame>
+          </div>
+        ) : null}
+      </DocumentCollectionItem>
       <AttachmentUploadDialog
         copy={{
           attachmentsLabel: t('detail.documents.dialog.attachmentsLabel'),
@@ -304,6 +317,7 @@ function ExistingAttachmentList({
   files,
   onImageOpen,
   onRemove,
+  previewLabel,
   removeLabel,
 }: {
   downloadLabel: string;
@@ -311,6 +325,7 @@ function ExistingAttachmentList({
   files: readonly CustomerServiceRecordAttachment[];
   onImageOpen: (index: number) => void;
   onRemove?: (fileId: string) => void;
+  previewLabel: string;
   removeLabel: string;
 }) {
   if (!files.length) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
@@ -325,37 +340,64 @@ function ExistingAttachmentList({
 
         return (
           <li
-            className="flex min-w-0 items-center gap-3 rounded-lg border bg-muted/30 p-2"
+            className={cn(
+              'group relative flex min-w-0 items-center gap-3 rounded-lg border bg-muted/30 p-2 transition-colors',
+              isImage && 'cursor-pointer hover:bg-muted/60'
+            )}
             key={file.fileId}
           >
             {isImage ? (
-              <button
-                aria-label={file.originalName}
-                className="size-10 shrink-0 overflow-hidden rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                onClick={() => onImageOpen(currentImageIndex)}
-                type="button"
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element -- Preview URLs are backend-controlled and dynamic. */}
-                <img alt="" className="size-full object-cover" src={file.previewUrl} />
-              </button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    aria-label={`${previewLabel}: ${file.originalName}`}
+                    className="absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    onClick={() => onImageOpen(currentImageIndex)}
+                    type="button"
+                  />
+                </TooltipTrigger>
+                <TooltipContent>{previewLabel}</TooltipContent>
+              </Tooltip>
             ) : (
-              <span className="grid size-10 shrink-0 place-items-center rounded-md bg-muted text-muted-foreground">
+              <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-md bg-muted text-muted-foreground">
                 <Paperclip aria-hidden="true" className="size-4" />
               </span>
             )}
-            <span className="min-w-0 flex-1 truncate text-sm font-medium">{file.originalName}</span>
-            <Button asChild size="icon-sm" variant="ghost">
-              <a
-                aria-label={`${downloadLabel}: ${file.originalName}`}
-                download
-                href={file.downloadUrl}
-              >
-                <Download aria-hidden="true" />
-              </a>
-            </Button>
+            {isImage ? (
+              <span className="relative z-10 size-10 shrink-0 overflow-hidden rounded-md pointer-events-none">
+                {/* eslint-disable-next-line @next/next/no-img-element -- Preview URLs are backend-controlled and dynamic. */}
+                <img alt="" className="size-full object-cover" src={file.previewUrl} />
+                <span className="absolute inset-0 grid place-items-center bg-background/75 text-foreground opacity-0 transition-opacity group-hover:opacity-100">
+                  <Eye aria-hidden="true" className="size-4" />
+                </span>
+              </span>
+            ) : null}
+            <span className="relative z-10 min-w-0 flex-1 truncate text-sm font-medium pointer-events-none">
+              {file.originalName}
+            </span>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  asChild
+                  className="relative z-10 hover:bg-primary/10 hover:text-primary"
+                  size="icon-sm"
+                  variant="ghost"
+                >
+                  <a
+                    aria-label={`${downloadLabel}: ${file.originalName}`}
+                    download
+                    href={file.downloadUrl}
+                  >
+                    <DownloadIcon animateOnHover aria-hidden="true" size={16} />
+                  </a>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>{downloadLabel}</TooltipContent>
+            </Tooltip>
             {onRemove ? (
               <Button
                 aria-label={`${removeLabel}: ${file.originalName}`}
+                className="relative z-10"
                 onClick={() => onRemove(file.fileId)}
                 size="icon-sm"
                 type="button"

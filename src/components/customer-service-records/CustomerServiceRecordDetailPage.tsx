@@ -254,6 +254,13 @@ export function CustomerServiceRecordDetailPage() {
                     </div>
                   )}
                 </section>
+                <section className="scroll-mt-24 md:scroll-mt-5" id="documents" tabIndex={-1}>
+                  <CustomerServiceRecordDocumentsSection
+                    canUpdate={canUpdate}
+                    onSubmit={updateDocument}
+                    record={detail.record}
+                  />
+                </section>
                 <section
                   className="scroll-mt-24 md:scroll-mt-5"
                   id="provider-follow-up"
@@ -272,13 +279,6 @@ export function CustomerServiceRecordDetailPage() {
                     recipientGroups={providerOptions.recipientGroups}
                     record={detail.record}
                     statusPolicies={providerOptions.statusPolicies}
-                  />
-                </section>
-                <section className="scroll-mt-24 md:scroll-mt-5" id="documents" tabIndex={-1}>
-                  <CustomerServiceRecordDocumentsSection
-                    canUpdate={canUpdate}
-                    onSubmit={updateDocument}
-                    record={detail.record}
                   />
                 </section>
               </CustomerServiceRecordDetailRoute>

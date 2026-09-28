@@ -25,8 +25,8 @@ export function CustomerServiceRecordDetailRoute({
     { id: 'general-details', label: t('detail.general.title') },
     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
     { id: 'equipment', label: t('detail.equipment.title') },
-    { id: 'provider-follow-up', label: t('detail.provider.title') },
     { id: 'documents', label: t('detail.documents.title') },
+    { id: 'provider-follow-up', label: t('detail.provider.title') },
   ];
   const navigationLabel = t('detail.navigationLabel');
 
