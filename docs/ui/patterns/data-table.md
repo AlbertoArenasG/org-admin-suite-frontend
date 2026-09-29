@@ -98,7 +98,13 @@ estado y el color; el componente no codifica semaforos ni reglas de negocio.
 Las tablas legacy continúan importando exclusivamente
 `@tanstack/react-table-v8`. No se migran ni se cambian sus contratos al añadir
 una tabla nueva. La densidad global vive en
-`useDataTablePreferencesStore`; los anchos de columna no se persisten en v1.
+`useDataTablePreferencesStore`. Las adopciones que declaren selector de filas
+por pagina pueden persistir solo ese valor global por `userId`; por ahora la
+preferencia se adopta exclusivamente en las tablas Next Dashboard autorizadas.
+Filtros, busqueda, pagina, orden y columnas siguen siendo estado de la vista o
+de la URL. Una URL con `limit` explicito prevalece sobre la preferencia para
+conservar enlaces compartibles deterministas. Los anchos de columna no se
+persisten en v1.
 
 La vista puede declarar una altura numérica o `stickyHeader: { maxHeight:
 'available' }`. El modo `available` mide el espacio real desde las filas hasta

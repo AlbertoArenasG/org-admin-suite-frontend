@@ -203,7 +203,7 @@ export function CustomerServiceRecordsTable({
           setLimit(nextLimit);
           setPage(1);
         },
-        pageSizes: [10, 25, 50],
+        pageSizes: [10, 25, 50, 75],
       }}
       expansion={{
         expandedRowIds,

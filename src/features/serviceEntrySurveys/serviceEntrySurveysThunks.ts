@@ -161,7 +161,7 @@ export const fetchServiceEntrySurveyList = createAsyncThunk<
   }
 
   query.set('page', String(params.page ?? 1));
-  query.set('per_page', String(params.perPage ?? 10));
+  query.set('limit', String(params.perPage ?? 10));
 
   if (params.templateId) {
     query.set('template_id', params.templateId);

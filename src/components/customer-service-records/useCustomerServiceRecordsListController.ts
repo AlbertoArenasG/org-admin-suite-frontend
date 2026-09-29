@@ -10,6 +10,7 @@ import {
 } from '@/features/customer-service-records';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
+import { useDataTablePreferencesStore } from '@/stores/useDataTablePreferencesStore';
 import {
   buildCustomerServiceRecordsQuery,
   getCustomerServiceRecordsInitialPagination,
@@ -33,6 +34,14 @@ export function useCustomerServiceRecordsListController() {
   const list = useAppSelector((state) => state.customerServiceRecords.list);
   const options = useAppSelector((state) => state.customerServiceRecords.options);
   const customerOptions = useAppSelector((state) => state.customers.options);
+  const userId = useAppSelector((state) => state.auth.user?.id ?? null);
+  const preferencesHydrated = useDataTablePreferencesStore((state) => state.hasHydrated);
+  const preferredLimit = useDataTablePreferencesStore((state) =>
+    userId ? (state.pageSizeByUser[userId] ?? 10) : 10
+  );
+  const setPreferredPageSize = useDataTablePreferencesStore((state) => state.setPageSize);
+  const preferredLimitRef = useRef(preferredLimit);
+  preferredLimitRef.current = preferredLimit;
 
   const page = useCustomerServiceRecordsTableStore((state) => state.page);
   const limit = useCustomerServiceRecordsTableStore((state) => state.limit);
@@ -81,17 +90,28 @@ export function useCustomerServiceRecordsListController() {
   );
 
   useEffect(() => {
+    if (!preferencesHydrated) return;
     const params = new URLSearchParams(searchParamsString);
     const isLocalQueryUpdate = pendingLocalQueriesRef.current.delete(searchParamsString);
     if (isLocalQueryUpdate && initialized) return;
 
     syncFromUrl({
-      ...getCustomerServiceRecordsInitialPagination(params),
+      ...getCustomerServiceRecordsInitialPagination(params, preferredLimitRef.current),
       search: params.get('search') ?? '',
       sorting: parseCustomerServiceRecordsSorting(params),
       filters: parseCustomerServiceRecordsFiltersFromParams(params),
     });
-  }, [initialized, searchParamsString, syncFromUrl]);
+  }, [initialized, preferencesHydrated, searchParamsString, syncFromUrl, userId]);
+
+  const setPreferredLimit = useCallback(
+    (nextLimit: number) => {
+      setLimit(nextLimit);
+      if (userId) {
+        setPreferredPageSize(userId, nextLimit);
+      }
+    },
+    [setLimit, setPreferredPageSize, userId]
+  );
 
   useEffect(() => {
     const timer = window.setTimeout(() => setAppliedSearch(search.trim()), 350);
@@ -155,7 +175,7 @@ export function useCustomerServiceRecordsListController() {
     expandedRowIds,
     filters,
     setPage,
-    setLimit,
+    setLimit: setPreferredLimit,
     setSearch,
     setAppliedSearch,
     setSorting,

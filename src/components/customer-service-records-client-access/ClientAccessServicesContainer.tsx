@@ -12,6 +12,7 @@ import {
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
+import { useDataTablePreferencesStore } from '@/stores/useDataTablePreferencesStore';
 import {
   buildClientAccessQuery,
   getClientAccessInitialPagination,
@@ -44,6 +45,14 @@ export function ClientAccessServicesContainer() {
   const searchParamsString = searchParams.toString();
   const pendingLocalQueriesRef = useRef(new Set<string>());
   const list = useAppSelector((state) => state.customerServiceRecordsClientAccess.list);
+  const userId = useAppSelector((state) => state.auth.user?.id ?? null);
+  const preferencesHydrated = useDataTablePreferencesStore((state) => state.hasHydrated);
+  const preferredLimit = useDataTablePreferencesStore((state) =>
+    userId ? (state.pageSizeByUser[userId] ?? 10) : 10
+  );
+  const setPreferredPageSize = useDataTablePreferencesStore((state) => state.setPageSize);
+  const preferredLimitRef = useRef(preferredLimit);
+  preferredLimitRef.current = preferredLimit;
 
   const page = useClientAccessServicesTableStore((state) => state.page);
   const limit = useClientAccessServicesTableStore((state) => state.limit);
@@ -76,8 +85,9 @@ export function ClientAccessServicesContainer() {
   );
 
   useEffect(() => {
+    if (!preferencesHydrated) return;
     const params = new URLSearchParams(searchParamsString);
-    const pagination = getClientAccessInitialPagination(params);
+    const pagination = getClientAccessInitialPagination(params, preferredLimitRef.current);
     const isLocalQueryUpdate = pendingLocalQueriesRef.current.delete(searchParamsString);
     syncFromUrl(
       {
@@ -87,7 +97,14 @@ export function ClientAccessServicesContainer() {
       },
       { ignoreIfInitialized: isLocalQueryUpdate }
     );
-  }, [searchParamsString, syncFromUrl]);
+  }, [preferencesHydrated, searchParamsString, syncFromUrl, userId]);
+
+  const handleLimitChange = (nextLimit: number) => {
+    setLimit(nextLimit);
+    if (userId) {
+      setPreferredPageSize(userId, nextLimit);
+    }
+  };
 
   useEffect(() => {
     const timer = window.setTimeout(() => setAppliedSearch(search.trim()), 350);
@@ -251,10 +268,10 @@ export function ClientAccessServicesContainer() {
           totalPages: list.totalPages,
           onChange: setPage,
           onPerPageChange: (nextLimit) => {
-            setLimit(nextLimit);
+            handleLimitChange(nextLimit);
             setPage(1);
           },
-          pageSizes: [10, 25, 50],
+          pageSizes: [10, 25, 50, 75],
         }}
         expansion={{
           expandedRowIds,

@@ -68,10 +68,13 @@ function emptyFilters(): CustomerServiceRecordsListFilters {
   };
 }
 
-export function getCustomerServiceRecordsInitialPagination(params: URLSearchParams) {
+export function getCustomerServiceRecordsInitialPagination(
+  params: URLSearchParams,
+  fallbackLimit = 10
+) {
   return {
     page: normalizePositiveInteger(params.get('page'), 1, 10000),
-    limit: normalizePositiveInteger(params.get('limit'), 10, 100),
+    limit: normalizePositiveInteger(params.get('limit'), fallbackLimit, 100),
   };
 }
 
