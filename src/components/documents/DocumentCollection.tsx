@@ -1,12 +1,13 @@
 'use client';
 
-import { ChevronDown, Folder, FolderOpen, Paperclip } from 'lucide-react';
+import { ChevronDown, Paperclip } from 'lucide-react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { Transition } from 'motion/react';
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-form';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { ReactBitsFolder } from '@/components/vendor/react-bits/folder/ReactBitsFolder';
 import { cn } from '@/lib/utils';
 
 type DocumentCollectionProps = {
@@ -21,8 +22,10 @@ type DocumentCollectionListProps = {
 
 type DocumentCollectionItemProps = {
   action?: ReactNode;
+  animateInitialExpansion?: boolean;
   attachmentsId: string;
   children?: ReactNode;
+  exposeFolderContents?: boolean;
   expanded: boolean;
   hasFiles: boolean;
   fileSummary: ReactNode;
@@ -58,8 +61,10 @@ function DocumentCollectionList({ children, className }: DocumentCollectionListP
 
 function DocumentCollectionItem({
   action,
+  animateInitialExpansion = false,
   attachmentsId,
   children,
+  exposeFolderContents = false,
   expanded,
   hasFiles,
   fileSummary,
@@ -70,15 +75,30 @@ function DocumentCollectionItem({
   closeLabel,
   openLabel,
 }: DocumentCollectionItemProps) {
+  const [folderHovered, setFolderHovered] = useState(false);
+  const [deferInitialExpansion, setDeferInitialExpansion] = useState(
+    animateInitialExpansion && expanded
+  );
   const toggleLabel = expanded ? closeLabel : openLabel;
   const prefersReducedMotion = useReducedMotion();
   const contentTransition: Transition = prefersReducedMotion
     ? { duration: 0 }
     : { duration: 0.24, ease: [0.22, 1, 0.36, 1] as const };
+  const animatedExpanded = expanded && !deferInitialExpansion;
+
+  useEffect(() => {
+    if (!deferInitialExpansion) return;
+
+    const frame = window.requestAnimationFrame(() => setDeferInitialExpansion(false));
+    return () => window.cancelAnimationFrame(frame);
+  }, [deferInitialExpansion]);
 
   return (
     <ResourceFormSection
-      className={cn('transition-colors', expanded && 'bg-muted/20')}
+      className={cn(
+        'document-collection-item transition-colors',
+        animatedExpanded && 'bg-muted/20'
+      )}
       density="none"
       surface="bare"
     >
@@ -89,11 +109,20 @@ function DocumentCollectionItem({
               aria-controls={attachmentsId}
               aria-expanded={expanded}
               className="group/document-row relative grid min-w-0 cursor-pointer grid-cols-1 gap-y-1 rounded-lg px-1.5 py-1.5 pr-10 text-left transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 @[42rem]:grid-cols-[minmax(0,1fr)_9rem_9rem] @[42rem]:gap-x-5"
+              onBlur={() => setFolderHovered(false)}
               onClick={() => onExpandedChange(!expanded)}
+              onFocus={() => setFolderHovered(true)}
+              onMouseEnter={() => setFolderHovered(true)}
+              onMouseLeave={() => setFolderHovered(false)}
               type="button"
             >
               <span className="flex min-w-0 items-center gap-3">
-                <DocumentFolder expanded={expanded} />
+                <DocumentFolder
+                  expanded={animatedExpanded}
+                  exposeContents={exposeFolderContents}
+                  hasFiles={hasFiles}
+                  hovered={folderHovered}
+                />
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-semibold text-foreground">
                     {title}
@@ -137,7 +166,7 @@ function DocumentCollectionItem({
         {action ? <div className="flex items-center justify-end">{action}</div> : null}
       </div>
       <AnimatePresence initial={false}>
-        {expanded ? (
+        {animatedExpanded ? (
           <motion.div
             animate={{ height: 'auto', opacity: 1 }}
             className="overflow-hidden border-t border-border/70"
@@ -161,28 +190,30 @@ function DocumentCollectionItem({
   );
 }
 
-function DocumentFolder({ expanded }: { expanded: boolean }) {
+function DocumentFolder({
+  expanded,
+  exposeContents,
+  hasFiles,
+  hovered,
+}: {
+  expanded: boolean;
+  exposeContents: boolean;
+  hasFiles: boolean;
+  hovered: boolean;
+}) {
   return (
     <span
       aria-hidden="true"
       className={cn(
-        'relative grid size-12 shrink-0 place-items-center rounded-xl transition-colors',
-        expanded ? 'bg-primary/10 text-primary' : 'bg-muted text-muted-foreground'
+        'grid size-12 shrink-0 place-items-center rounded-xl bg-muted transition-transform duration-200 ease-out',
+        hovered && !expanded && '-translate-y-0.5 scale-105'
       )}
     >
-      <Folder
-        className={cn(
-          'absolute size-6 transition-all duration-200 ease-out',
-          expanded
-            ? '-translate-y-1 -rotate-6 scale-90 opacity-0'
-            : 'group-hover/document-row:-translate-y-0.5 group-hover/document-row:scale-105'
-        )}
-      />
-      <FolderOpen
-        className={cn(
-          'absolute size-6 translate-y-1 -rotate-6 scale-90 opacity-0 transition-all duration-200 ease-out',
-          expanded && 'translate-y-0 rotate-0 scale-100 opacity-100'
-        )}
+      <ReactBitsFolder
+        exposeContents={exposeContents}
+        hasContents={hasFiles}
+        open={expanded}
+        showContents={hasFiles && expanded}
       />
     </span>
   );

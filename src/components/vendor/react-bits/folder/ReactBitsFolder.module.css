@@ -1,0 +1,121 @@
+.root {
+  display: block;
+  height: var(--react-bits-folder-height);
+  transform-origin: center bottom;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  width: var(--react-bits-folder-width);
+}
+
+.root[data-open='true'] {
+  transform: translateY(-3px);
+}
+
+.back {
+  background: var(--document-collection-folder-back);
+  border-radius: 0 0.35rem 0.35rem 0.35rem;
+  display: block;
+  height: 100%;
+  isolation: isolate;
+  position: relative;
+  width: 100%;
+}
+
+.tab {
+  background: var(--document-collection-folder-back);
+  border-radius: 0.25rem 0.25rem 0 0;
+  bottom: calc(100% - 1px);
+  display: block;
+  height: 13%;
+  left: 0;
+  position: absolute;
+  transform-origin: left bottom;
+  transition:
+    opacity 180ms ease-out,
+    transform 180ms ease-out;
+  width: 30%;
+  z-index: 0;
+}
+
+.paper {
+  background: var(--card);
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+  border-radius: 0.25rem;
+  bottom: 10%;
+  display: block;
+  left: 50%;
+  position: absolute;
+  opacity: 0;
+  transform: translate(-50%, 10%);
+  transform-origin: center bottom;
+  transition:
+    opacity 180ms ease-out,
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    height 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+
+.paperFirst {
+  background: color-mix(in srgb, var(--card) 88%, var(--muted));
+  height: 80%;
+  width: 70%;
+}
+
+.paperSecond {
+  background: color-mix(in srgb, var(--card) 94%, var(--muted));
+  height: 70%;
+  width: 80%;
+}
+
+.paperThird {
+  height: 60%;
+  width: 90%;
+}
+
+.front,
+.frontRight {
+  background: var(--document-collection-folder-front);
+  bottom: 0;
+  display: block;
+  height: 100%;
+  position: absolute;
+  transform-origin: bottom;
+  transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  width: 100%;
+  z-index: 2;
+}
+
+.front {
+  border-radius: 0.2rem 0.35rem 0.35rem;
+  left: 0;
+}
+
+.frontRight {
+  border-radius: 0.35rem 0.2rem 0.35rem 0.35rem;
+  right: 0;
+}
+
+.root[data-show-contents='true'] .paper {
+  opacity: 1;
+}
+
+.root[data-expose-contents='true'] .paper {
+  bottom: 26%;
+  transform: translate(-50%, -52%);
+}
+
+.root[data-open='true'] .front {
+  transform: skew(15deg) scaleY(0.6);
+}
+
+.root[data-open='true'] .frontRight {
+  transform: skew(-15deg) scaleY(0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root,
+  .paper,
+  .front,
+  .frontRight {
+    transition-duration: 0ms;
+  }
+}

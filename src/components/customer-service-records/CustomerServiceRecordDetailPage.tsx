@@ -44,6 +44,7 @@ import {
 } from './CustomerServiceRecordAssetDocumentsSection';
 import { CustomerServiceRecordProviderFollowUpForm } from './CustomerServiceRecordProviderFollowUpForm';
 import { CustomerServiceRecordDocumentsSection } from './CustomerServiceRecordDocumentsSection';
+import type { CustomerServiceRecordDocumentSubmissionItem } from './CustomerServiceRecordDocumentForm';
 import { CustomerServiceRecordDetailRoute } from './CustomerServiceRecordDetailRoute';
 import { CustomerServiceRecordTimeline } from './CustomerServiceRecordTimeline';
 
@@ -135,19 +136,30 @@ export function CustomerServiceRecordDetailPage() {
     return { message: result.message };
   };
 
+  const resolveDocumentItemFileIds = async (
+    items: CustomerServiceRecordDocumentSubmissionItem[]
+  ) => {
+    const pendingFiles = items.flatMap((item) => (item.kind === 'pending' ? [item.file] : []));
+    const uploadedFiles = pendingFiles.length
+      ? await dispatch(uploadCustomerServiceRecordFiles({ files: pendingFiles })).unwrap()
+      : [];
+    let pendingIndex = 0;
+
+    return items.map((item) =>
+      item.kind === 'existing' ? item.fileId : uploadedFiles[pendingIndex++].fileId
+    );
+  };
+
   const updateAssetDocument = async ({
     asset,
     documentType,
-    existingFileIds,
-    files,
+    items,
   }: {
     asset: CustomerServiceRecordDetail['assets'][number];
     documentType: CustomerServiceRecordAssetDocumentType;
-    existingFileIds: string[];
-    files: File[];
+    items: CustomerServiceRecordDocumentSubmissionItem[];
   }) => {
-    const uploadedFiles = await dispatch(uploadCustomerServiceRecordFiles({ files })).unwrap();
-    const fileIds = [...existingFileIds, ...uploadedFiles.map((file) => file.fileId)];
+    const fileIds = await resolveDocumentItemFileIds(items);
     const result = await dispatch(
       updateCustomerServiceRecordAsset({
         recordId: params.recordId,
@@ -172,22 +184,20 @@ export function CustomerServiceRecordDetailPage() {
 
   const updateDocument = async ({
     documentType,
-    existingFileIds,
-    files,
+    items,
     referenceNumber,
   }: {
     documentType: CustomerServiceRecordDocumentType;
-    existingFileIds: string[];
-    files: File[];
+    items: CustomerServiceRecordDocumentSubmissionItem[];
     referenceNumber?: string | null;
   }) => {
-    const uploadedFiles = await dispatch(uploadCustomerServiceRecordFiles({ files })).unwrap();
+    const fileIds = await resolveDocumentItemFileIds(items);
     return dispatch(
       updateCustomerServiceRecordDocument({
         recordId: params.recordId,
         payload: {
           documentType,
-          fileIds: [...existingFileIds, ...uploadedFiles.map((file) => file.fileId)],
+          fileIds,
           ...(documentType !== 'other-files' ? { referenceNumber: referenceNumber ?? null } : {}),
         },
       })

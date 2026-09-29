@@ -37,6 +37,7 @@ export type DocumentCollectionReadOnlyCopy = {
 
 type DocumentCollectionReadOnlyItemProps = {
   action?: ReactNode;
+  animateInitialExpansion?: boolean;
   collectionId: string;
   copy: DocumentCollectionReadOnlyCopy;
   expanded: boolean;
@@ -50,6 +51,7 @@ type DocumentCollectionReadOnlyItemProps = {
 /** Read-only document collection with expansion, image preview, and download actions. */
 export function DocumentCollectionReadOnlyItem({
   action,
+  animateInitialExpansion,
   collectionId,
   copy,
   expanded,
@@ -78,6 +80,7 @@ export function DocumentCollectionReadOnlyItem({
     <>
       <DocumentCollectionItem
         action={action}
+        animateInitialExpansion={animateInitialExpansion}
         attachmentsId={`${collectionId}-attachments`}
         closeLabel={copy.closeFiles}
         expanded={expanded}

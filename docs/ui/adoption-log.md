@@ -58,6 +58,23 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-28 - Carpetas Animadas en Colecciones Documentales
+
+- Alcance: detalle administrativo y portal de acceso a cliente de registros de
+  servicio, incluidas sus colecciones de equipo.
+- Adopción: carpeta visual controlada de React Bits dentro de
+  `DocumentCollectionItem`; el hover y foco desplazan sutilmente la carpeta,
+  mientras que el estado expandido la abre y muestra dentro sus adjuntos cuando
+  existen. La interacción, tooltip y semántica siguen perteneciendo al
+  activador de la colección.
+- Extensión: en modo edición, DnD Kit ordena una secuencia única de adjuntos
+  existentes y pendientes mediante handle; al guardar conserva esa secuencia
+  al resolver los nuevos IDs cargados.
+- Refinamiento: en edición y con adjuntos, la carpeta expone sus papeles; en
+  lectura se mantienen dentro de la carpeta abierta.
+- Iniciativa: refinamiento visual de adjuntos.
+- Compatibilidad temporal: ninguna.
+
 ### 2026-09-26 - Documentos de Registro de Servicio
 
 - Alcance: `/dashboard/customer-service-records/[recordId]`.

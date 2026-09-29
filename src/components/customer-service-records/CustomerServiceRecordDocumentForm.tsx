@@ -1,7 +1,24 @@
 'use client';
 
-import { Eye, FileText, Paperclip, Pencil, Plus, Trash2 } from 'lucide-react';
+import { Eye, FileText, GripVertical, Paperclip, Pencil, Plus, Trash2 } from 'lucide-react';
 import { DownloadIcon } from 'lucide-animated';
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
@@ -26,6 +43,14 @@ import { cn } from '@/lib/utils';
 const SUCCESS_FEEDBACK_DURATION_MS = 800;
 const MAX_PENDING_FILES = 10;
 
+export type CustomerServiceRecordDocumentSubmissionItem =
+  | { kind: 'existing'; fileId: string }
+  | { file: File; kind: 'pending' };
+
+type CustomerServiceRecordDocumentDraftItem =
+  | { attachment: CustomerServiceRecordAttachment; id: string; kind: 'existing' }
+  | { file: File; id: string; kind: 'pending' };
+
 type CustomerServiceRecordDocumentFormProps = {
   canUpdate: boolean;
   collectionId: string;
@@ -34,8 +59,7 @@ type CustomerServiceRecordDocumentFormProps = {
   hasReferenceNumber: boolean;
   onExpandedChange: (expanded: boolean) => void;
   onSubmit: (input: {
-    existingFileIds: string[];
-    files: File[];
+    items: CustomerServiceRecordDocumentSubmissionItem[];
     referenceNumber?: string | null;
   }) => Promise<{
     files: CustomerServiceRecordAttachment[];
@@ -59,9 +83,11 @@ export function CustomerServiceRecordDocumentForm({
 }: CustomerServiceRecordDocumentFormProps) {
   const { t } = useTranslationHydrated('customerServiceRecords');
   const [mode, setMode] = useState<ResourceFormMode>('read');
+  const [animateReadTransition, setAnimateReadTransition] = useState(false);
   const [referenceNumber, setReferenceNumber] = useState(initialReferenceNumber ?? '');
-  const [currentFiles, setCurrentFiles] = useState(files);
-  const [pendingFiles, setPendingFiles] = useState<File[]>([]);
+  const [attachmentItems, setAttachmentItems] = useState<CustomerServiceRecordDocumentDraftItem[]>(
+    () => createExistingAttachmentItems(files)
+  );
   const [attachmentDialogOpen, setAttachmentDialogOpen] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
   const [pdfPreview, setPdfPreview] = useState<AttachmentPdf | null>(null);
@@ -72,7 +98,8 @@ export function CustomerServiceRecordDocumentForm({
   const expanded = parentExpanded || !isReadOnly;
   const isMutationLocked =
     mutationFeedback?.status === 'saving' || mutationFeedback?.status === 'success';
-  const attachmentCount = currentFiles.length + pendingFiles.length;
+  const attachmentCount = attachmentItems.length;
+  const pendingAttachmentCount = attachmentItems.filter((item) => item.kind === 'pending').length;
   const attachmentsId = `${collectionId}-attachments`;
   const attachmentSummary = attachmentCount
     ? t('detail.documents.fileCount', { count: attachmentCount })
@@ -80,9 +107,8 @@ export function CustomerServiceRecordDocumentForm({
 
   useEffect(() => {
     if (!isReadOnly) return;
-    setCurrentFiles(files);
+    setAttachmentItems(createExistingAttachmentItems(files));
     setReferenceNumber(initialReferenceNumber ?? '');
-    setPendingFiles([]);
   }, [files, initialReferenceNumber, isReadOnly]);
 
   useEffect(() => {
@@ -98,23 +124,31 @@ export function CustomerServiceRecordDocumentForm({
 
   const images = useMemo<AttachmentImage[]>(
     () =>
-      currentFiles
-        .filter((file) => file.mimeType.startsWith('image/'))
-        .map((file) => ({
-          id: file.fileId,
-          name: file.originalName,
-          previewUrl: file.previewUrl,
-          downloadUrl: file.downloadUrl,
+      attachmentItems
+        .filter(
+          (item): item is Extract<CustomerServiceRecordDocumentDraftItem, { kind: 'existing' }> =>
+            item.kind === 'existing'
+        )
+        .filter((item) => item.attachment.mimeType.startsWith('image/'))
+        .map((item) => ({
+          id: item.attachment.fileId,
+          name: item.attachment.originalName,
+          previewUrl: item.attachment.previewUrl,
+          downloadUrl: item.attachment.downloadUrl,
         })),
-    [currentFiles]
+    [attachmentItems]
+  );
+  const existingFiles = useMemo(
+    () => attachmentItems.flatMap((item) => (item.kind === 'existing' ? [item.attachment] : [])),
+    [attachmentItems]
   );
 
   const resetDraft = () => {
-    setCurrentFiles(files);
+    setAttachmentItems(createExistingAttachmentItems(files));
     setReferenceNumber(initialReferenceNumber ?? '');
-    setPendingFiles([]);
     setMutationFeedback(undefined);
     setMutationRecovery(undefined);
+    setAnimateReadTransition(true);
     setMode('read');
   };
 
@@ -125,13 +159,15 @@ export function CustomerServiceRecordDocumentForm({
 
     try {
       const result = await onSubmit({
-        existingFileIds: currentFiles.map((file) => file.fileId),
-        files: pendingFiles,
+        items: attachmentItems.map((item) =>
+          item.kind === 'existing'
+            ? { fileId: item.attachment.fileId, kind: 'existing' }
+            : { file: item.file, kind: 'pending' }
+        ),
         ...(hasReferenceNumber ? { referenceNumber: referenceNumber.trim() || null } : {}),
       });
-      setCurrentFiles(result.files);
+      setAttachmentItems(createExistingAttachmentItems(result.files));
       setReferenceNumber(result.referenceNumber ?? '');
-      setPendingFiles([]);
       setMutationFeedback({ status: 'success', title: t('detail.feedback.success') });
       showToast({
         duration: 4000,
@@ -139,6 +175,7 @@ export function CustomerServiceRecordDocumentForm({
         type: 'success',
       });
       successTimeoutRef.current = window.setTimeout(() => {
+        setAnimateReadTransition(true);
         setMode('read');
         setMutationFeedback(undefined);
       }, SUCCESS_FEEDBACK_DURATION_MS);
@@ -160,6 +197,7 @@ export function CustomerServiceRecordDocumentForm({
           disabled={!isReadOnly}
           onClick={() => {
             onExpandedChange(true);
+            setAnimateReadTransition(false);
             setMode('edit');
           }}
           size="icon-sm"
@@ -177,6 +215,7 @@ export function CustomerServiceRecordDocumentForm({
     return (
       <DocumentCollectionReadOnlyItem
         action={editAction}
+        animateInitialExpansion={animateReadTransition}
         collectionId={collectionId}
         copy={{
           closeFiles: t('detail.documents.closeFiles'),
@@ -190,7 +229,7 @@ export function CustomerServiceRecordDocumentForm({
           preview: t('detail.documents.preview'),
         }}
         expanded={parentExpanded}
-        files={currentFiles}
+        files={existingFiles}
         onExpandedChange={onExpandedChange}
         referenceLabel={t('detail.documents.reference')}
         referenceNumber={hasReferenceNumber ? referenceNumber || '—' : undefined}
@@ -206,9 +245,11 @@ export function CustomerServiceRecordDocumentForm({
     >
       <DocumentCollectionItem
         action={editAction}
+        animateInitialExpansion
         attachmentsId={attachmentsId}
         closeLabel={t('detail.documents.closeFiles')}
         expanded={expanded}
+        exposeFolderContents
         fileSummary={attachmentSummary}
         hasFiles={attachmentCount > 0}
         openLabel={t('detail.documents.openFiles')}
@@ -232,10 +273,11 @@ export function CustomerServiceRecordDocumentForm({
             />
           </div>
         ) : null}
-        <ExistingAttachmentList
+        <SortableAttachmentList
+          disabled={isMutationLocked}
           downloadLabel={t('detail.documents.download')}
           emptyLabel={t('detail.documents.empty')}
-          files={currentFiles}
+          items={attachmentItems}
           onImageOpen={setGalleryIndex}
           onPdfOpen={(file) =>
             setPdfPreview({
@@ -244,28 +286,18 @@ export function CustomerServiceRecordDocumentForm({
               previewUrl: file.previewUrl,
             })
           }
-          onRemove={
-            isReadOnly || isMutationLocked
-              ? undefined
-              : (fileId) =>
-                  setCurrentFiles((items) => items.filter((file) => file.fileId !== fileId))
+          onItemsChange={setAttachmentItems}
+          onRemove={(itemId) =>
+            setAttachmentItems((items) => items.filter((item) => item.id !== itemId))
           }
+          pendingLabel={t('detail.documents.pending')}
           previewLabel={t('detail.documents.preview')}
           removeLabel={t('detail.documents.remove')}
+          reorderLabel={t('detail.documents.reorder')}
         />
-        {!isReadOnly && pendingFiles.length ? (
-          <PendingAttachmentList
-            files={pendingFiles}
-            onRemove={(index) =>
-              setPendingFiles((items) => items.filter((_, itemIndex) => itemIndex !== index))
-            }
-            removeLabel={t('detail.documents.remove')}
-            title={t('detail.documents.pendingFiles')}
-          />
-        ) : null}
         {!isReadOnly ? (
           <Button
-            disabled={isMutationLocked || pendingFiles.length >= MAX_PENDING_FILES}
+            disabled={isMutationLocked || pendingAttachmentCount >= MAX_PENDING_FILES}
             onClick={() => setAttachmentDialogOpen(true)}
             size="sm"
             type="button"
@@ -309,8 +341,10 @@ export function CustomerServiceRecordDocumentForm({
           uploadDescription: t('detail.documents.dialog.uploadDescription'),
           uploadTitle: t('detail.documents.dialog.uploadTitle'),
         }}
-        maxFiles={MAX_PENDING_FILES - pendingFiles.length}
-        onConfirm={(nextFiles) => setPendingFiles((files) => [...files, ...nextFiles])}
+        maxFiles={MAX_PENDING_FILES - pendingAttachmentCount}
+        onConfirm={(nextFiles) =>
+          setAttachmentItems((items) => [...items, ...createPendingAttachmentItems(nextFiles)])
+        }
         onOpenChange={setAttachmentDialogOpen}
         open={attachmentDialogOpen}
       />
@@ -340,155 +374,249 @@ export function CustomerServiceRecordDocumentForm({
   );
 }
 
-function ExistingAttachmentList({
+function SortableAttachmentList({
+  disabled,
   downloadLabel,
   emptyLabel,
-  files,
+  items,
   onImageOpen,
+  onItemsChange,
   onPdfOpen,
   onRemove,
+  pendingLabel,
   previewLabel,
   removeLabel,
+  reorderLabel,
 }: {
+  disabled: boolean;
   downloadLabel: string;
   emptyLabel: string;
-  files: readonly CustomerServiceRecordAttachment[];
+  items: CustomerServiceRecordDocumentDraftItem[];
   onImageOpen: (index: number) => void;
+  onItemsChange: (items: CustomerServiceRecordDocumentDraftItem[]) => void;
   onPdfOpen: (file: CustomerServiceRecordAttachment) => void;
-  onRemove?: (fileId: string) => void;
+  onRemove: (itemId: string) => void;
+  pendingLabel: string;
   previewLabel: string;
   removeLabel: string;
+  reorderLabel: string;
 }) {
-  if (!files.length) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (!over || active.id === over.id) return;
+
+    const oldIndex = items.findIndex((item) => item.id === active.id);
+    const newIndex = items.findIndex((item) => item.id === over.id);
+    if (oldIndex < 0 || newIndex < 0) return;
+
+    onItemsChange(arrayMove(items, oldIndex, newIndex));
+  };
+
+  if (!items.length) return <p className="text-sm text-muted-foreground">{emptyLabel}</p>;
 
   let imageIndex = -1;
   return (
-    <ul className="space-y-2">
-      {files.map((file) => {
-        const isImage = file.mimeType.startsWith('image/');
-        const isPdf = file.mimeType.toLowerCase() === 'application/pdf';
-        const isPreviewable = isImage || isPdf;
-        if (isImage) imageIndex += 1;
-        const currentImageIndex = imageIndex;
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      sensors={disabled ? undefined : sensors}
+    >
+      <SortableContext items={items.map((item) => item.id)} strategy={verticalListSortingStrategy}>
+        <ul className="space-y-2">
+          {items.map((item) => {
+            const isImage =
+              item.kind === 'existing' && item.attachment.mimeType.startsWith('image/');
+            if (isImage) imageIndex += 1;
 
-        return (
-          <li
-            className={cn(
-              'group relative flex min-w-0 items-center gap-3 rounded-lg border bg-muted/30 p-2 transition-colors',
-              isPreviewable && 'cursor-pointer hover:bg-muted/60'
-            )}
-            key={file.fileId}
-          >
-            {isPreviewable ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    aria-label={`${previewLabel}: ${file.originalName}`}
-                    className="absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    onClick={() => (isImage ? onImageOpen(currentImageIndex) : onPdfOpen(file))}
-                    type="button"
-                  />
-                </TooltipTrigger>
-                <TooltipContent>{previewLabel}</TooltipContent>
-              </Tooltip>
-            ) : null}
-            {!isImage ? (
-              <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-md bg-muted text-muted-foreground">
-                {isPdf ? (
-                  <FileText aria-hidden="true" className="size-4" />
-                ) : (
-                  <Paperclip aria-hidden="true" className="size-4" />
-                )}
-              </span>
-            ) : null}
-            {isImage ? (
-              <span className="relative z-10 size-10 shrink-0 overflow-hidden rounded-md pointer-events-none">
-                {/* eslint-disable-next-line @next/next/no-img-element -- Preview URLs are backend-controlled and dynamic. */}
-                <img alt="" className="size-full object-cover" src={file.previewUrl} />
-                <span className="absolute inset-0 grid place-items-center bg-background/75 text-foreground opacity-0 transition-opacity group-hover:opacity-100">
-                  <Eye aria-hidden="true" className="size-4" />
-                </span>
-              </span>
-            ) : null}
-            <span className="relative z-10 min-w-0 flex-1 truncate text-sm font-medium pointer-events-none">
-              {file.originalName}
-            </span>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  asChild
-                  className="relative z-10 hover:bg-primary/10 hover:text-primary"
-                  size="icon-sm"
-                  variant="ghost"
-                >
-                  <a
-                    aria-label={`${downloadLabel}: ${file.originalName}`}
-                    download
-                    href={file.downloadUrl}
-                  >
-                    <DownloadIcon animateOnHover aria-hidden="true" size={16} />
-                  </a>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>{downloadLabel}</TooltipContent>
-            </Tooltip>
-            {onRemove ? (
-              <Button
-                aria-label={`${removeLabel}: ${file.originalName}`}
-                className="relative z-10"
-                onClick={() => onRemove(file.fileId)}
-                size="icon-sm"
-                type="button"
-                variant="ghost"
-              >
-                <Trash2 aria-hidden="true" />
-              </Button>
-            ) : null}
-          </li>
-        );
-      })}
-    </ul>
+            return (
+              <SortableAttachmentItem
+                disabled={disabled}
+                downloadLabel={downloadLabel}
+                imageIndex={isImage ? imageIndex : null}
+                item={item}
+                key={item.id}
+                onImageOpen={onImageOpen}
+                onPdfOpen={onPdfOpen}
+                onRemove={onRemove}
+                pendingLabel={pendingLabel}
+                previewLabel={previewLabel}
+                removeLabel={removeLabel}
+                reorderLabel={reorderLabel}
+              />
+            );
+          })}
+        </ul>
+      </SortableContext>
+    </DndContext>
   );
 }
 
-function PendingAttachmentList({
-  files,
+function SortableAttachmentItem({
+  disabled,
+  downloadLabel,
+  imageIndex,
+  item,
+  onImageOpen,
+  onPdfOpen,
   onRemove,
+  pendingLabel,
+  previewLabel,
   removeLabel,
-  title,
+  reorderLabel,
 }: {
-  files: readonly File[];
-  onRemove: (index: number) => void;
+  disabled: boolean;
+  downloadLabel: string;
+  imageIndex: number | null;
+  item: CustomerServiceRecordDocumentDraftItem;
+  onImageOpen: (index: number) => void;
+  onPdfOpen: (file: CustomerServiceRecordAttachment) => void;
+  onRemove: (itemId: string) => void;
+  pendingLabel: string;
+  previewLabel: string;
   removeLabel: string;
-  title: string;
+  reorderLabel: string;
 }) {
+  const {
+    attributes,
+    isDragging,
+    listeners,
+    setActivatorNodeRef,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ disabled, id: item.id });
+  const attachment = item.kind === 'existing' ? item.attachment : null;
+  const name = item.kind === 'existing' ? item.attachment.originalName : item.file.name;
+  const isImage = attachment?.mimeType.startsWith('image/') ?? false;
+  const isPdf = attachment?.mimeType.toLowerCase() === 'application/pdf';
+  const isPreviewable = Boolean(attachment && (isImage || isPdf));
+
   return (
-    <div className="space-y-2">
-      <p className="text-sm font-medium">{title}</p>
-      <ul className="space-y-2">
-        {files.map((file, index) => (
-          <li
-            className="flex min-w-0 items-center gap-3 rounded-lg border border-dashed bg-muted/30 p-2"
-            key={`${file.name}-${file.lastModified}-${index}`}
-          >
-            <span className="grid size-10 shrink-0 place-items-center rounded-md bg-muted text-muted-foreground">
-              <Paperclip aria-hidden="true" className="size-4" />
-            </span>
-            <span className="min-w-0 flex-1 truncate text-sm font-medium">{file.name}</span>
-            <Button
-              aria-label={`${removeLabel}: ${file.name}`}
-              onClick={() => onRemove(index)}
-              size="icon-sm"
+    <li
+      className={cn(
+        'group relative flex min-w-0 items-center gap-3 rounded-lg border bg-muted/30 p-2 transition-[background-color,box-shadow,transform] duration-200',
+        item.kind === 'pending' && 'border-dashed',
+        isPreviewable && 'cursor-pointer hover:bg-muted/60',
+        isDragging && 'z-20 bg-card shadow-lg ring-1 ring-ring/30'
+      )}
+      ref={setNodeRef}
+      style={{ transform: CSS.Transform.toString(transform), transition }}
+    >
+      {isPreviewable ? (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              aria-label={`${previewLabel}: ${name}`}
+              className="absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              onClick={() => {
+                if (isImage && imageIndex !== null) onImageOpen(imageIndex);
+                if (isPdf && attachment) onPdfOpen(attachment);
+              }}
               type="button"
+            />
+          </TooltipTrigger>
+          <TooltipContent>{previewLabel}</TooltipContent>
+        </Tooltip>
+      ) : null}
+      {!isImage ? (
+        <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-md bg-muted text-muted-foreground">
+          {isPdf ? (
+            <FileText aria-hidden="true" className="size-4" />
+          ) : (
+            <Paperclip aria-hidden="true" className="size-4" />
+          )}
+        </span>
+      ) : null}
+      {isImage && attachment ? (
+        <span className="relative z-10 size-10 shrink-0 overflow-hidden rounded-md pointer-events-none">
+          {/* eslint-disable-next-line @next/next/no-img-element -- Preview URLs are backend-controlled and dynamic. */}
+          <img alt="" className="size-full object-cover" src={attachment.previewUrl} />
+          <span className="absolute inset-0 grid place-items-center bg-background/75 text-foreground opacity-0 transition-opacity group-hover:opacity-100">
+            <Eye aria-hidden="true" className="size-4" />
+          </span>
+        </span>
+      ) : null}
+      <span className="relative z-10 min-w-0 flex-1 truncate text-sm font-medium pointer-events-none">
+        {name}
+      </span>
+      {item.kind === 'pending' ? (
+        <span className="relative z-10 rounded-full border border-dashed px-2 py-0.5 text-xs text-muted-foreground">
+          {pendingLabel}
+        </span>
+      ) : null}
+      {attachment ? (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              asChild
+              className="relative z-10 hover:bg-primary/10 hover:text-primary"
+              size="icon-sm"
               variant="ghost"
             >
-              <Trash2 aria-hidden="true" />
+              <a aria-label={`${downloadLabel}: ${name}`} download href={attachment.downloadUrl}>
+                <DownloadIcon animateOnHover aria-hidden="true" size={16} />
+              </a>
             </Button>
-          </li>
-        ))}
-      </ul>
-    </div>
+          </TooltipTrigger>
+          <TooltipContent>{downloadLabel}</TooltipContent>
+        </Tooltip>
+      ) : null}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            aria-label={`${reorderLabel}: ${name}`}
+            className="relative z-10 cursor-grab touch-none active:cursor-grabbing"
+            disabled={disabled}
+            ref={setActivatorNodeRef}
+            size="icon-sm"
+            type="button"
+            variant="ghost"
+            {...attributes}
+            {...listeners}
+          >
+            <GripVertical aria-hidden="true" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{reorderLabel}</TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            aria-label={`${removeLabel}: ${name}`}
+            className="relative z-10"
+            disabled={disabled}
+            onClick={() => onRemove(item.id)}
+            size="icon-sm"
+            type="button"
+            variant="ghost"
+          >
+            <Trash2 aria-hidden="true" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{removeLabel}</TooltipContent>
+      </Tooltip>
+    </li>
   );
+}
+
+function createExistingAttachmentItems(files: CustomerServiceRecordAttachment[]) {
+  return files.map((attachment, index) => ({
+    attachment,
+    id: `existing-${attachment.fileId}-${index}`,
+    kind: 'existing' as const,
+  }));
+}
+
+function createPendingAttachmentItems(files: File[]) {
+  return files.map((file) => ({
+    file,
+    id: `pending-${crypto.randomUUID()}`,
+    kind: 'pending' as const,
+  }));
 }
 
 function getMutationErrorMessage(error: unknown, fallback: string) {

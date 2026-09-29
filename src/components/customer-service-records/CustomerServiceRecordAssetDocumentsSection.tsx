@@ -8,7 +8,10 @@ import type {
   CustomerServiceRecordDetail,
 } from '@/features/customer-service-records';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
-import { CustomerServiceRecordDocumentForm } from './CustomerServiceRecordDocumentForm';
+import {
+  CustomerServiceRecordDocumentForm,
+  type CustomerServiceRecordDocumentSubmissionItem,
+} from './CustomerServiceRecordDocumentForm';
 
 type CustomerServiceRecordAsset = CustomerServiceRecordDetail['assets'][number];
 
@@ -20,8 +23,7 @@ type CustomerServiceRecordAssetDocumentsSectionProps = {
   onSubmit: (input: {
     asset: CustomerServiceRecordAsset;
     documentType: CustomerServiceRecordAssetDocumentType;
-    existingFileIds: string[];
-    files: File[];
+    items: CustomerServiceRecordDocumentSubmissionItem[];
   }) => Promise<{ message: string | null; record: CustomerServiceRecordDetail }>;
 };
 
@@ -42,8 +44,8 @@ export function CustomerServiceRecordAssetDocumentsSection({
 
   const submitDocument =
     (documentType: CustomerServiceRecordAssetDocumentType) =>
-    async ({ existingFileIds, files }: { existingFileIds: string[]; files: File[] }) => {
-      const result = await onSubmit({ asset, documentType, existingFileIds, files });
+    async ({ items }: { items: CustomerServiceRecordDocumentSubmissionItem[] }) => {
+      const result = await onSubmit({ asset, documentType, items });
       const updatedAsset = result.record.assets.find((item) => item.assetId === asset.assetId);
 
       return {

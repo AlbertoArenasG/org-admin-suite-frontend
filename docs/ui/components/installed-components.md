@@ -102,6 +102,23 @@ La familia soporta exclusivamente las variantes aprobadas `dither`, `bars` y
 `dot-matrix`. Su procedencia, licencia, dependencias y actualización viven en
 su [`README`](../../../src/components/vendor/beui/loader/README.md).
 
+### React Bits Folder
+
+`src/components/vendor/react-bits/folder/` es la familia visual aprobada para
+las carpetas animadas de colecciones documentales. Es un componente controlado
+y presentacional: `DocumentCollectionItem` conserva interacción, tooltip, foco
+y semántica de la fila para evitar controles interactivos anidados. Su
+procedencia, licencia, consumidores y actualización viven en su
+[`README`](../../../src/components/vendor/react-bits/folder/README.md).
+
+### DnD Kit Sortable
+
+`@dnd-kit/core`, `@dnd-kit/sortable` y `@dnd-kit/utilities` (MIT) están
+aprobados para ordenar adjuntos dentro de un borrador de colección documental.
+`CustomerServiceRecordDocumentForm` conserva el estado y la persistencia; la
+librería sólo resuelve sensores, accesibilidad por teclado y desplazamiento.
+No reemplaza las primitives de formularios ni define acciones de negocio.
+
 ## Variantes De Producto
 
 Cuando una primitive canónica no cubra un caso local, primero se elige una de

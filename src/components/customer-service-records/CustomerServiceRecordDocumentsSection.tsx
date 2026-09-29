@@ -8,14 +8,16 @@ import type {
   CustomerServiceRecordDocumentType,
 } from '@/features/customer-service-records';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
-import { CustomerServiceRecordDocumentForm } from './CustomerServiceRecordDocumentForm';
+import {
+  CustomerServiceRecordDocumentForm,
+  type CustomerServiceRecordDocumentSubmissionItem,
+} from './CustomerServiceRecordDocumentForm';
 
 type CustomerServiceRecordDocumentsSectionProps = {
   canUpdate: boolean;
   onSubmit: (input: {
     documentType: CustomerServiceRecordDocumentType;
-    existingFileIds: string[];
-    files: File[];
+    items: CustomerServiceRecordDocumentSubmissionItem[];
     referenceNumber?: string | null;
   }) => Promise<{ message: string | null; record: CustomerServiceRecordDetail }>;
   record: CustomerServiceRecordDetail;
@@ -39,15 +41,13 @@ export function CustomerServiceRecordDocumentsSection({
   const submitDocument =
     (documentType: CustomerServiceRecordDocumentType) =>
     async ({
-      existingFileIds,
-      files,
+      items,
       referenceNumber,
     }: {
-      existingFileIds: string[];
-      files: File[];
+      items: CustomerServiceRecordDocumentSubmissionItem[];
       referenceNumber?: string | null;
     }) => {
-      const result = await onSubmit({ documentType, existingFileIds, files, referenceNumber });
+      const result = await onSubmit({ documentType, items, referenceNumber });
       const document = getDocument(record, result.record, documentType);
 
       return {

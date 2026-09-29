@@ -115,6 +115,28 @@ una card independiente.
 - `DocumentCollection` envuelve la lista en un frame propio para una seccion
   documental raiz. Dentro de un frame ya existente, usar `DocumentCollectionList`
   directamente para no anidar frames.
+- `DocumentCollectionItem` es dueño de la interacción completa del renglón. La
+  carpeta React Bits es estrictamente visual: se desplaza sutilmente con hover
+  o foco, y sólo abre cuando la colección se expande. En ese estado muestra los
+  archivos dentro cuando los contiene; la acción de edición sigue aislada fuera
+  del activador.
+- `exposeFolderContents` es una variante exclusivamente visual para edición:
+  con adjuntos y la colección expandida, expone los papeles por encima de la
+  carpeta. La lectura conserva los papeles dentro.
+- El color de carpeta no usa `primary`, que se reserva para acciones. Los
+  tokens locales `--document-collection-folder-front` y
+  `--document-collection-folder-back` viven en archivos de tema co-localizados
+  con la colección y se resuelven para cada tema activo.
+- Si una transición de modo monta una colección ya expandida, usar
+  `animateInitialExpansion` para diferir un frame su presentación y conservar
+  la misma apertura de carpeta y contenido que una expansión iniciada por el
+  usuario. Aplica tanto al paso a edición como al retorno confirmado o
+  cancelado a lectura. No usarla en colecciones que ya existen en el árbol.
+- En edición, el borrador de adjuntos es una sola secuencia ordenable de
+  entradas existentes y pendientes. El handle es el único activador de arrastre;
+  previsualizar, descargar y quitar conservan acciones aisladas. Al guardar,
+  las pendientes se cargan y sus IDs sustituyen su posición original antes de
+  enviar el arreglo al endpoint.
 
 ## Skeleton Estructural
 
