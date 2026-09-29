@@ -13,10 +13,10 @@
 
 - [x] Incorporar contrato, mapper y estado individual del detalle.
       Status: done
-- [ ] Crear ruta, shell, navegación y frames de lectura no documentales.
-      Status: pending
-- [ ] Integrar colección documental de lectura y sus interacciones.
-      Status: pending
+- [x] Crear ruta, shell, navegación y frames de lectura no documentales.
+      Status: done
+- [x] Integrar colección documental de lectura y sus interacciones.
+      Status: done
 
 ## Cierre
 

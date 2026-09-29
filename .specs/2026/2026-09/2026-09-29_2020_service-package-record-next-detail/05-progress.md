@@ -15,3 +15,19 @@
 - Se incorporó el GET individual, errores tipados, reset y guards por `recordId` y `requestId` para ignorar respuestas obsoletas.
 - El listado y la eliminación conservan su flujo; solo migraron a su tipo explícito de item de tabla.
 - Verificado: `npm run typecheck` y `git diff --check` completaron correctamente.
+
+## 2026-09-29 - Slice 2: Ruta, Shell Y Frames De Lectura
+
+- Se agregó la ruta individual protegida con `SERVICE_PACKAGES/READ` y su entrada de shell `page-content`.
+- La página coordina fetch, reset, breadcrumb dinámico, carga, error recuperable y estado 404; no mezcla esos ciclos con las sections de presentación.
+- Se compusieron los frames de solo lectura para información general y equipo con `ResourceFormRoute`, `ResourceFormFrame`, `ResourceFormSection` y `FormReadValue`.
+- Se agregó navegación desktop, compacta y móvil para los anchors disponibles. **Archivos recolectados** se incorpora como tercer destino en la Slice 3, junto con su section, para no dejar una acción hacia un anchor inexistente.
+- Verificado: `npm run typecheck` y `git diff --check` completaron correctamente.
+
+## 2026-09-29 - Slice 3: Colección Documental
+
+- Se agregó una única colección **Archivos recolectados** con `DocumentCollection` y `DocumentCollectionReadOnlyItem`.
+- El adaptador filtra el JSON operativo y entrega los descriptores tipados a la colección reutilizable; no construye URLs ni incorpora preview, diálogo o CSS locales.
+- La colección reutiliza las interacciones vigentes: expansión, reduced motion, previsualización de imágenes/PDF y descarga mediante URLs protegidas.
+- Se incorporó el anchor y destino responsive de documentos junto con la section que lo resuelve.
+- Verificado: `npm run typecheck` y `git diff --check` completaron correctamente.

@@ -19,5 +19,6 @@
   "recipientGroups": "Recipient groups",
   "serviceEntries": "Certificate delivery",
   "serviceEntrySurveys": "Service surveys",
-  "servicePackagesRecords": "Reception, collection and delivery"
+  "servicePackagesRecords": "Reception, collection and delivery",
+  "servicePackageRecordDetail": "Package record"
 }

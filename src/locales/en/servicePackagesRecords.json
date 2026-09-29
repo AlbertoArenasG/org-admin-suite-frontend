@@ -23,7 +23,70 @@
   },
   "actions": {
     "openMenu": "Open actions",
-    "delete": "Delete package"
+    "delete": "Delete package",
+    "retry": "Retry"
+  },
+  "detail": {
+    "breadcrumb": "Record {{folio}}",
+    "navigationLabel": "Package record sections",
+    "notFound": "The package record was not found.",
+    "general": {
+      "title": "General information",
+      "contact": "Contact",
+      "serviceAndMetadata": "Service and metadata",
+      "signatures": "Signatures",
+      "observations": "Observations"
+    },
+    "equipment": {
+      "title": "Equipment",
+      "empty": "This record does not contain equipment."
+    },
+    "documents": {
+      "title": "Collected files",
+      "empty": "There are no collected files.",
+      "emptyFolder": "No files",
+      "fileCount_one": "{{count}} file",
+      "fileCount_other": "{{count}} files",
+      "openFiles": "Open files",
+      "closeFiles": "Close files",
+      "preview": "Preview",
+      "download": "Download",
+      "previousImage": "Previous image",
+      "nextImage": "Next image"
+    },
+    "fields": {
+      "company": "Company",
+      "contactPerson": "Contact person",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "serviceOrder": "Service order",
+      "packageId": "Package ID",
+      "originalFilename": "Original file",
+      "s3FolderKey": "S3 folder",
+      "visitDate": "Visit date",
+      "serviceType": "Service type",
+      "purpose": "Purpose",
+      "status": "Status",
+      "createdAt": "Created",
+      "updatedAt": "Updated",
+      "serviceTime": "Service time",
+      "synced": "Synchronized",
+      "collectorSignature": "Collector signature",
+      "clientSignature": "Client signature",
+      "observations": "Observations",
+      "number": "No.",
+      "equipment": "Equipment",
+      "brand": "Brand",
+      "model": "Model",
+      "identification": "Identification",
+      "serialNumber": "Serial number"
+    },
+    "values": {
+      "yes": "Yes",
+      "no": "No",
+      "empty": "—"
+    }
   },
   "delete": {
     "title": "Delete package",

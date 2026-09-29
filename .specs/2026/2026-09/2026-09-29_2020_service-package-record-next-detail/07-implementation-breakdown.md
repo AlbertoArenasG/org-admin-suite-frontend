@@ -12,23 +12,23 @@
 
 ## Slice 2: Ruta, Shell Y Frames De Lectura
 
-- **Estado:** pendiente.
+- **Estado:** completada el 2026-09-29.
 - **Objetivo:** montar la vista Next Dashboard con estados de pantalla y datos no documentales.
 - **Artefactos:** page, shell migration, breadcrumbs, página, route adapter, navegación compacta, sections y locales.
-- **Pasos:** agregar boundary READ, shell y breadcrumb dinámico; implementar carga, error/reintento, 404 y reset; componer frames de información general y equipo; aplicar navegación y tabla responsive.
+- **Pasos:** agregar boundary READ, shell y breadcrumb dinámico; implementar carga, error/reintento, 404 y reset; componer frames de información general y equipo; aplicar navegación y tabla responsive. El destino documental se difiere a la Slice 3, cuando exista su anchor.
 - **Límites:** no documentos, edición, enlace de tabla ni cambios compartidos.
 - **Validación:** typecheck, permisos, carga, error, 404, desktop, rango compacto, móvil, teclado, foco y anchors.
-- **Cierre:** un usuario autorizado consulta los datos no documentales con patrones Next Dashboard.
+- **Cierre:** completado. Un usuario autorizado consulta los datos no documentales con patrones Next Dashboard.
 
 ## Slice 3: Colección Documental
 
-- **Estado:** pendiente.
+- **Estado:** completada el 2026-09-29.
 - **Objetivo:** presentar archivos mediante componente reutilizable y contrato seguro.
 - **Artefactos:** sección documental y locales de módulo.
 - **Pasos:** filtrar JSON operativo, derivar adjuntos, implementar expansión, preview imagen/PDF y descarga por URLs backend.
 - **Límites:** no diálogo local, MUI, cambios a `DocumentCollection`, edición ni carga.
 - **Validación:** typecheck, vacío, archivos mixtos, expansión, preview, descarga, foco, teclado y reduced motion.
-- **Cierre:** no existe lógica documental local ni rutas de storage en la vista.
+- **Cierre:** completado. No existe lógica documental local ni rutas de storage en la vista.
 
 ## Slice 4: Validación Y Cierre
 

@@ -23,7 +23,70 @@
   },
   "actions": {
     "openMenu": "Abrir acciones",
-    "delete": "Eliminar registro"
+    "delete": "Eliminar registro",
+    "retry": "Reintentar"
+  },
+  "detail": {
+    "breadcrumb": "Registro {{folio}}",
+    "navigationLabel": "Secciones del registro de paquete",
+    "notFound": "No se encontró el registro de paquete.",
+    "general": {
+      "title": "Información general",
+      "contact": "Contacto",
+      "serviceAndMetadata": "Servicio y metadatos",
+      "signatures": "Firmas",
+      "observations": "Observaciones"
+    },
+    "equipment": {
+      "title": "Equipo",
+      "empty": "Este registro no contiene equipos."
+    },
+    "documents": {
+      "title": "Archivos recolectados",
+      "empty": "No hay archivos recolectados.",
+      "emptyFolder": "Sin archivos",
+      "fileCount_one": "{{count}} archivo",
+      "fileCount_other": "{{count}} archivos",
+      "openFiles": "Abrir archivos",
+      "closeFiles": "Cerrar archivos",
+      "preview": "Previsualizar",
+      "download": "Descargar",
+      "previousImage": "Imagen anterior",
+      "nextImage": "Imagen siguiente"
+    },
+    "fields": {
+      "company": "Empresa",
+      "contactPerson": "Persona de contacto",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "address": "Dirección",
+      "serviceOrder": "Orden de servicio",
+      "packageId": "ID del paquete",
+      "originalFilename": "Archivo original",
+      "s3FolderKey": "Carpeta S3",
+      "visitDate": "Fecha de visita",
+      "serviceType": "Tipo de servicio",
+      "purpose": "Propósito",
+      "status": "Estatus",
+      "createdAt": "Creado",
+      "updatedAt": "Actualizado",
+      "serviceTime": "Hora de servicio",
+      "synced": "Sincronizado",
+      "collectorSignature": "Firma del recolector",
+      "clientSignature": "Firma del cliente",
+      "observations": "Observaciones",
+      "number": "No.",
+      "equipment": "Equipo",
+      "brand": "Marca",
+      "model": "Modelo",
+      "identification": "Identificación",
+      "serialNumber": "Número de serie"
+    },
+    "values": {
+      "yes": "Sí",
+      "no": "No",
+      "empty": "—"
+    }
   },
   "delete": {
     "title": "Eliminar registro",
