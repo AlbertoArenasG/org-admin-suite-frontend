@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import type { ServicePackageRecord } from '@/features/servicePackagesRecords';
+import type { ServicePackageRecordListItem } from '@/features/servicePackagesRecords';
 
 export interface ServicePackagesRecordsTableRow {
   id: string;
@@ -13,7 +13,7 @@ export interface ServicePackagesRecordsTableRow {
   createdAt: string;
 }
 
-export function useServicePackagesRecordsTableData(records: ServicePackageRecord[]) {
+export function useServicePackagesRecordsTableData(records: ServicePackageRecordListItem[]) {
   return useMemo<ServicePackagesRecordsTableRow[]>(() => {
     return records.map((record) => ({
       id: record.id,

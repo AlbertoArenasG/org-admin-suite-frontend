@@ -16,10 +16,11 @@ detail: {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: { message: string; status: number } | null;
   currentRecordId: string | null;
+  activeRequestId: string | null;
 }
 ```
 
-`fetchServicePackageRecordDetail({ recordId })` consulta el GET individual y traduce `ApiError` a mensaje/status. `pending` guarda el id activo y limpia record/error. `fulfilled` y `rejected` ignoran acciones cuyo id no coincide; el reset restablece toda la rama. La página solo interpreta estados que coinciden con el parámetro activo y presenta not-found cuando el error tiene status `404`.
+`fetchServicePackageRecordDetail({ recordId })` consulta el GET individual y traduce `ApiError` a mensaje/status. `pending` guarda `recordId`, `requestId` y limpia record/error. `fulfilled` y `rejected` ignoran acciones cuyo `recordId` o `requestId` no coincide; el reset restablece toda la rama. La página solo interpreta estados que coinciden con el parámetro activo y presenta not-found cuando el error tiene status `404`.
 
 ## Composición
 

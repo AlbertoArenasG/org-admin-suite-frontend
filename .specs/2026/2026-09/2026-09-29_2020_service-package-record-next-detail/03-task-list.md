@@ -11,8 +11,8 @@
 
 ## Implementación
 
-- [ ] Incorporar contrato, mapper y estado individual del detalle.
-      Status: pending
+- [x] Incorporar contrato, mapper y estado individual del detalle.
+      Status: done
 - [ ] Crear ruta, shell, navegación y frames de lectura no documentales.
       Status: pending
 - [ ] Integrar colección documental de lectura y sus interacciones.

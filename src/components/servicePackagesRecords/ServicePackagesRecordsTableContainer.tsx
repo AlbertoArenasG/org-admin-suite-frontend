@@ -22,7 +22,7 @@ import { useServicePackagesRecordsTableColumns } from '@/components/servicePacka
 import { useServicePackagesRecordsTableStore } from '@/components/servicePackagesRecords/useServicePackagesRecordsTableStore';
 import { useSnackbar } from '@/components/providers/useSnackbarStore';
 import { resetServicePackageRecordDelete } from '@/features/servicePackagesRecords/servicePackagesRecordsSlice';
-import type { ServicePackageRecord } from '@/features/servicePackagesRecords';
+import type { ServicePackageRecordListItem } from '@/features/servicePackagesRecords';
 import { useAuthorization } from '@/features/auth';
 
 function getPaginationFromParams(params: URLSearchParams): PaginationState {
@@ -266,7 +266,7 @@ export function ServicePackagesRecordsTableContainer() {
     });
   }, [pagination, t]);
 
-  const deleteRecordSummary: ServicePackageRecord | undefined = entities.find(
+  const deleteRecordSummary: ServicePackageRecordListItem | undefined = entities.find(
     (record) => record.id === deleteTargetId
   );
 

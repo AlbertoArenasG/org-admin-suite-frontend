@@ -1,41 +1,27 @@
 'use client';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { jsonRequest } from '@/lib/api-client';
+import { ApiError, jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type {
-  ServicePackageRecord,
+  ServicePackageRecordDetail,
+  ServicePackageRecordDetailError,
+  ServicePackageRecordListItem,
   ServicePackagesRecordsPagination,
   ServicePackageRecordServiceTypeOption,
 } from '@/features/servicePackagesRecords/types';
-
-interface ApiRecord {
-  record_id: string;
-  service_order: string;
-  company: string;
-  collector_name: string;
-  visit_date: string;
-  service_type: string;
-  created_at: string;
-}
+import {
+  mapServicePackageRecordDetail,
+  mapServicePackageRecordListItem,
+  type ApiServicePackageRecordDetail,
+  type ApiServicePackageRecordListItem,
+} from '@/features/servicePackagesRecords/servicePackagesRecordsMappers';
 
 interface ApiPagination {
   page: number;
   per_page: number;
   total: number;
   total_pages: number;
-}
-
-function mapRecord(record: ApiRecord): ServicePackageRecord {
-  return {
-    id: record.record_id,
-    serviceOrder: record.service_order,
-    company: record.company,
-    collectorName: record.collector_name,
-    visitDate: record.visit_date,
-    serviceType: record.service_type,
-    createdAt: record.created_at,
-  };
 }
 
 export interface FetchServicePackagesRecordsParams {
@@ -46,7 +32,7 @@ export interface FetchServicePackagesRecordsParams {
 }
 
 export const fetchServicePackagesRecords = createAsyncThunk<
-  { records: ServicePackageRecord[]; pagination: ServicePackagesRecordsPagination },
+  { records: ServicePackageRecordListItem[]; pagination: ServicePackagesRecordsPagination },
   FetchServicePackagesRecordsParams | undefined,
   { state: RootState }
 >('servicePackagesRecords/fetchAll', async (params = {}, thunkAPI) => {
@@ -71,19 +57,19 @@ export const fetchServicePackagesRecords = createAsyncThunk<
     query.set('service_type', params.serviceType.trim());
   }
 
-  const response = await jsonRequest<ApiRecord[], { pagination?: ApiPagination }>(
-    `/v1/service-packages/records${query.toString() ? `?${query.toString()}` : ''}`,
-    {
-      method: 'GET',
-      headers: { Accept: 'application/json' },
-      token,
-    }
-  );
+  const response = await jsonRequest<
+    ApiServicePackageRecordListItem[],
+    { pagination?: ApiPagination }
+  >(`/v1/service-packages/records${query.toString() ? `?${query.toString()}` : ''}`, {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+    token,
+  });
 
   const pagination = response.meta?.pagination;
 
   return {
-    records: Array.isArray(response.data) ? response.data.map(mapRecord) : [],
+    records: Array.isArray(response.data) ? response.data.map(mapServicePackageRecordListItem) : [],
     pagination: {
       page: pagination?.page ?? params.page ?? 1,
       perPage: pagination?.per_page ?? params.limit ?? 10,
@@ -91,6 +77,42 @@ export const fetchServicePackagesRecords = createAsyncThunk<
       totalPages: pagination?.total_pages ?? 1,
     },
   };
+});
+
+export const fetchServicePackageRecordDetail = createAsyncThunk<
+  ServicePackageRecordDetail,
+  { recordId: string },
+  { state: RootState; rejectValue: ServicePackageRecordDetailError }
+>('servicePackagesRecords/fetchDetail', async ({ recordId }, thunkAPI) => {
+  const token = thunkAPI.getState().auth.token;
+
+  if (!token) {
+    return thunkAPI.rejectWithValue({
+      message: 'No hay token de autenticación',
+      status: 401,
+    });
+  }
+
+  try {
+    const response = await jsonRequest<ApiServicePackageRecordDetail>(
+      `/v1/service-packages/records/${recordId}`,
+      {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+        token,
+      }
+    );
+
+    return mapServicePackageRecordDetail(response.data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue({
+      message:
+        error instanceof Error && error.message
+          ? error.message
+          : 'No fue posible obtener el registro de servicio.',
+      status: error instanceof ApiError ? error.status : 0,
+    });
+  }
 });
 
 export const fetchServicePackageRecordServiceTypeOptions = createAsyncThunk<

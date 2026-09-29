@@ -3,31 +3,42 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type {
-  ServicePackageRecord,
+  ServicePackageRecordDetail,
+  ServicePackageRecordDetailError,
+  ServicePackageRecordListItem,
+  ServicePackageRecordRequestStatus,
   ServicePackagesRecordsPagination,
   ServicePackageRecordServiceTypeOption,
 } from '@/features/servicePackagesRecords/types';
 import {
   deleteServicePackageRecord,
+  fetchServicePackageRecordDetail,
   fetchServicePackagesRecords,
   fetchServicePackageRecordServiceTypeOptions,
 } from '@/features/servicePackagesRecords/servicePackagesRecordsThunks';
 
 export interface ServicePackagesRecordsState {
-  entities: ServicePackageRecord[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  entities: ServicePackageRecordListItem[];
+  status: ServicePackageRecordRequestStatus;
   error: string | null;
   pagination: ServicePackagesRecordsPagination | null;
   serviceTypeOptions: {
     items: ServicePackageRecordServiceTypeOption[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    status: ServicePackageRecordRequestStatus;
     error: string | null;
   };
   delete: {
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    status: ServicePackageRecordRequestStatus;
     error: string | null;
     targetId: string | null;
     message: string | null;
+  };
+  detail: {
+    record: ServicePackageRecordDetail | null;
+    status: ServicePackageRecordRequestStatus;
+    error: ServicePackageRecordDetailError | null;
+    currentRecordId: string | null;
+    activeRequestId: string | null;
   };
 }
 
@@ -47,13 +58,20 @@ const initialState: ServicePackagesRecordsState = {
     targetId: null,
     message: null,
   },
+  detail: {
+    record: null,
+    status: 'idle',
+    error: null,
+    currentRecordId: null,
+    activeRequestId: null,
+  },
 };
 
 const servicePackagesRecordsSlice = createSlice({
   name: 'servicePackagesRecords',
   initialState,
   reducers: {
-    addServicePackageRecord(state, action: PayloadAction<ServicePackageRecord>) {
+    addServicePackageRecord(state, action: PayloadAction<ServicePackageRecordListItem>) {
       state.entities.unshift(action.payload);
     },
     resetServicePackagesRecordsState() {
@@ -65,6 +83,15 @@ const servicePackagesRecordsSlice = createSlice({
         error: null,
         targetId: null,
         message: null,
+      };
+    },
+    resetServicePackageRecordDetail(state) {
+      state.detail = {
+        record: null,
+        status: 'idle',
+        error: null,
+        currentRecordId: null,
+        activeRequestId: null,
       };
     },
   },
@@ -86,6 +113,40 @@ const servicePackagesRecordsSlice = createSlice({
           (action.payload as string | undefined) ??
           action.error.message ??
           'No fue posible obtener los registros de servicio.';
+      })
+      .addCase(fetchServicePackageRecordDetail.pending, (state, action) => {
+        state.detail.status = 'loading';
+        state.detail.error = null;
+        state.detail.record = null;
+        state.detail.currentRecordId = action.meta.arg.recordId;
+        state.detail.activeRequestId = action.meta.requestId;
+      })
+      .addCase(fetchServicePackageRecordDetail.fulfilled, (state, action) => {
+        if (
+          state.detail.activeRequestId !== action.meta.requestId ||
+          state.detail.currentRecordId !== action.meta.arg.recordId
+        ) {
+          return;
+        }
+
+        state.detail.status = 'succeeded';
+        state.detail.record = action.payload;
+        state.detail.activeRequestId = null;
+      })
+      .addCase(fetchServicePackageRecordDetail.rejected, (state, action) => {
+        if (
+          state.detail.activeRequestId !== action.meta.requestId ||
+          state.detail.currentRecordId !== action.meta.arg.recordId
+        ) {
+          return;
+        }
+
+        state.detail.status = 'failed';
+        state.detail.error = action.payload ?? {
+          message: action.error.message ?? 'No fue posible obtener el registro de servicio.',
+          status: 0,
+        };
+        state.detail.activeRequestId = null;
       })
       .addCase(fetchServicePackageRecordServiceTypeOptions.pending, (state) => {
         state.serviceTypeOptions.status = 'loading';
@@ -127,6 +188,7 @@ export const {
   addServicePackageRecord,
   resetServicePackagesRecordsState,
   resetServicePackageRecordDelete,
+  resetServicePackageRecordDetail,
 } = servicePackagesRecordsSlice.actions;
 
 export default servicePackagesRecordsSlice.reducer;

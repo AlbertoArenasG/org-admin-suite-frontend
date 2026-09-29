@@ -2,13 +2,13 @@
 
 ## Slice 1: Contrato Y Estado Individual
 
-- **Estado:** pendiente.
+- **Estado:** completada el 2026-09-29.
 - **Objetivo:** introducir el modelo completo y su ciclo remoto aislado del listado.
 - **Artefactos:** `types.ts`, `servicePackagesRecordsMappers.ts`, thunks y slice del feature.
-- **Pasos:** separar tipos de lista/detalle; normalizar `details` y archivos; crear GET individual; agregar `detail.currentRecordId`, guards de respuestas obsoletas y reset.
+- **Pasos:** separar tipos de lista/detalle; normalizar `details` y archivos; crear GET individual; agregar `detail.currentRecordId`, `activeRequestId`, guards de respuestas obsoletas y reset.
 - **Límites:** no rutas, JSX, i18n, tabla ni componentes compartidos.
 - **Validación:** typecheck, inspección de URL/modelo/reducers y `git diff --check`.
-- **Cierre:** el feature carga, representa y limpia detalle tipado sin afectar listado o eliminación.
+- **Cierre:** completado. El feature carga, representa y limpia detalle tipado sin afectar listado o eliminación.
 
 ## Slice 2: Ruta, Shell Y Frames De Lectura
 
