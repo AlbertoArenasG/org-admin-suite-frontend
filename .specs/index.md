@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [service-package-record-next-detail](./2026/2026-09/2026-09-29_2020_service-package-record-next-detail/00-definition.md) - implementation ready; detalle administrativo Next Dashboard de recepción, recolección y entrega
 - [customer-service-record-client-access-detail](./2026/2026-09/2026-09-27_1130_customer-service-record-client-access-detail/00-definition.md) - completed; detalle de solo lectura de registros de servicio en Client Access
 - [customer-service-record-documents-migration](./2026/2026-09/2026-09-26_0133_customer-service-record-documents-migration/00-definition.md) - completed; documentos, dialogo de adjuntos y galeria reutilizable para el detalle de registros de servicio
 - [customer-service-record-provider-follow-up-migration](./2026/2026-09/2026-09-25_1936_customer-service-record-provider-follow-up-migration/00-definition.md) - completed; cuarto bloque de detalle y edición de registros de servicio en Next Dashboard
