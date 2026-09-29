@@ -45,7 +45,7 @@ function CustomerServiceRecordCompactNavigation({
               <button
                 aria-current={isActive ? 'location' : undefined}
                 className={cn(
-                  'flex size-10 items-center justify-center rounded-full border bg-background shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                  'flex size-10 cursor-pointer items-center justify-center rounded-full border bg-background shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                   isActive
                     ? 'bg-primary text-primary-foreground'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'

@@ -47,6 +47,15 @@ Las futuras entradas deben incluir:
 - Iniciativa: catálogo vivo de UI.
 - Compatibilidad temporal: ninguna.
 
+### 2026-09-28 - Loader de Navegación Global
+
+- Alcance: `RouteChangeLoader` en Next Dashboard.
+- Adopción: variante `dither` de BeUI dentro del overlay de navegación global;
+  conserva la barra de progreso, delay y tiempos mínimos ya establecidos.
+- Iniciativa: experiencia de carga global.
+- Compatibilidad temporal: `bars` y `dot-matrix` permanecen disponibles en la
+  frontera vendor, sin consumidores activos.
+
 ## Vistas De Negocio
 
 ### 2026-09-26 - Documentos de Registro de Servicio

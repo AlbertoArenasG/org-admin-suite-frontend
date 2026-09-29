@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Tailspin } from 'ldrs/react';
+
+import { BeuiLoader } from '@/components/vendor/beui/loader/loader';
 
 const MIN_VISIBLE_TIME_MS = 360;
 const COMPLETION_TIME_MS = 180;
@@ -159,7 +160,7 @@ export function RouteChangeLoader() {
               initial={{ opacity: 0, scale: 0.94, y: 8 }}
               transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Tailspin color="var(--primary-500)" size="34" speed="0.9" stroke="3" />
+              <BeuiLoader className="text-primary" label="Cargando contenido" size={34} />
             </motion.div>
           </motion.div>
         ) : null}

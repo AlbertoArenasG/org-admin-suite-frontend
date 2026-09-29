@@ -93,6 +93,15 @@ La procedencia, revisión, licencia, dependencias y actualización viven en su
 en un recurso de negocio exige seguir el patrón
 [`Resource Form`](../patterns/resource-form.md).
 
+### BeUI Motion Loader
+
+`src/components/vendor/beui/loader/` es la familia aprobada para indicadores de
+carga compactos con movimiento. No sustituye `Spinner` canónico ni controla
+estado remoto; el consumidor declara cuándo se muestra y su etiqueta accesible.
+La familia soporta exclusivamente las variantes aprobadas `dither`, `bars` y
+`dot-matrix`. Su procedencia, licencia, dependencias y actualización viven en
+su [`README`](../../../src/components/vendor/beui/loader/README.md).
+
 ## Variantes De Producto
 
 Cuando una primitive canónica no cubra un caso local, primero se elige una de
