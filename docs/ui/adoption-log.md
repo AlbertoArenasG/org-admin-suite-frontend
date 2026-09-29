@@ -55,11 +55,11 @@ Las futuras entradas deben incluir:
 - Adopción: quinta sección con un `ResourceFormFrame` y cuatro
   `ResourceFormSection` `bare` para las colecciones documentales. Cada sección
   conserva su formulario, acciones, diálogo genérico de selección de adjuntos
-  en memoria, progreso visual local, carga al guardar y galería reutilizable de
-  imágenes por documento.
+  en memoria, progreso visual local, carga al guardar, galería reutilizable de
+  imágenes y visor `inline` reutilizable para PDFs por documento.
 - Spec: `customer-service-record-documents-migration`.
-- Compatibilidad temporal: limpieza de huérfanos y preview de formatos no
-  visuales permanecen fuera de este alcance.
+- Compatibilidad temporal: limpieza de huérfanos y preview de formatos distintos
+  a imágenes y PDFs permanecen fuera de este alcance.
 
 ### 2026-09-25 - Proveedor y Seguimiento de Registro de Servicio
 

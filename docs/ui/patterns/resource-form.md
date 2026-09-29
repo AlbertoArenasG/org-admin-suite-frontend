@@ -178,6 +178,10 @@ consumidora decide cuándo confirmar y entonces llama su propia operación remot
 El diálogo puede mostrar progreso visual local para comunicar la preparación de
 archivos; no representa una transferencia ni adelanta la operación remota.
 
+Los adjuntos persistidos pueden previsualizar imágenes en galería y PDFs en un
+visor `inline` reutilizable. Ambos conservan una acción de descarga separada;
+otros formatos permanecen descargables sin ofrecer una previsualización.
+
 ## Controles De Formulario
 
 La composición no impone una familia visual externa. Los controles compartidos

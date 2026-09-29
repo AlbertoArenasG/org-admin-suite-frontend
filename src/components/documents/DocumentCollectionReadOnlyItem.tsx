@@ -1,10 +1,15 @@
 'use client';
 
-import { Eye, Paperclip } from 'lucide-react';
+import { Eye, FileText, Paperclip } from 'lucide-react';
 import { DownloadIcon } from 'lucide-animated';
 import { useMemo, useState, type ReactNode } from 'react';
 
-import { AttachmentImageGalleryDialog, type AttachmentImage } from '@/components/attachments';
+import {
+  AttachmentImageGalleryDialog,
+  AttachmentPdfPreviewDialog,
+  type AttachmentImage,
+  type AttachmentPdf,
+} from '@/components/attachments';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
@@ -55,6 +60,7 @@ export function DocumentCollectionReadOnlyItem({
   title,
 }: DocumentCollectionReadOnlyItemProps) {
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
+  const [pdfPreview, setPdfPreview] = useState<AttachmentPdf | null>(null);
   const images = useMemo<AttachmentImage[]>(
     () =>
       files
@@ -83,7 +89,12 @@ export function DocumentCollectionReadOnlyItem({
         referenceNumber={referenceNumber}
         title={title}
       >
-        <ReadOnlyAttachmentList copy={copy} files={files} onImageOpen={setGalleryIndex} />
+        <ReadOnlyAttachmentList
+          copy={copy}
+          files={files}
+          onImageOpen={setGalleryIndex}
+          onPdfOpen={setPdfPreview}
+        />
       </DocumentCollectionItem>
       <AttachmentImageGalleryDialog
         copy={{
@@ -99,6 +110,14 @@ export function DocumentCollectionReadOnlyItem({
         }}
         open={galleryIndex !== null}
       />
+      <AttachmentPdfPreviewDialog
+        attachment={pdfPreview}
+        copy={{ download: copy.download }}
+        onOpenChange={(open) => {
+          if (!open) setPdfPreview(null);
+        }}
+        open={pdfPreview !== null}
+      />
     </>
   );
 }
@@ -107,10 +126,12 @@ function ReadOnlyAttachmentList({
   copy,
   files,
   onImageOpen,
+  onPdfOpen,
 }: {
   copy: DocumentCollectionReadOnlyCopy;
   files: readonly DocumentCollectionReadOnlyAttachment[];
   onImageOpen: (index: number) => void;
+  onPdfOpen: (file: AttachmentPdf) => void;
 }) {
   if (!files.length) return <p className="text-sm text-muted-foreground">{copy.empty}</p>;
 
@@ -120,6 +141,8 @@ function ReadOnlyAttachmentList({
     <ul className="space-y-2">
       {files.map((file) => {
         const isImage = file.mimeType.startsWith('image/');
+        const isPdf = file.mimeType.toLowerCase() === 'application/pdf';
+        const isPreviewable = isImage || isPdf;
         if (isImage) imageIndex += 1;
         const currentImageIndex = imageIndex;
 
@@ -127,27 +150,40 @@ function ReadOnlyAttachmentList({
           <li
             className={cn(
               'group relative flex min-w-0 items-center gap-3 rounded-lg border bg-muted/30 p-2 transition-colors',
-              isImage && 'cursor-pointer hover:bg-muted/60'
+              isPreviewable && 'cursor-pointer hover:bg-muted/60'
             )}
             key={file.fileId}
           >
-            {isImage ? (
+            {isPreviewable ? (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
                     aria-label={`${copy.preview}: ${file.originalName}`}
                     className="absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    onClick={() => onImageOpen(currentImageIndex)}
+                    onClick={() =>
+                      isImage
+                        ? onImageOpen(currentImageIndex)
+                        : onPdfOpen({
+                            downloadUrl: file.downloadUrl,
+                            name: file.originalName,
+                            previewUrl: file.previewUrl,
+                          })
+                    }
                     type="button"
                   />
                 </TooltipTrigger>
                 <TooltipContent>{copy.preview}</TooltipContent>
               </Tooltip>
-            ) : (
+            ) : null}
+            {!isImage ? (
               <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-md bg-muted text-muted-foreground">
-                <Paperclip aria-hidden="true" className="size-4" />
+                {isPdf ? (
+                  <FileText aria-hidden="true" className="size-4" />
+                ) : (
+                  <Paperclip aria-hidden="true" className="size-4" />
+                )}
               </span>
-            )}
+            ) : null}
             {isImage ? (
               <span className="pointer-events-none relative z-10 size-10 shrink-0 overflow-hidden rounded-md">
                 {/* eslint-disable-next-line @next/next/no-img-element -- Preview URLs are backend-controlled and dynamic. */}

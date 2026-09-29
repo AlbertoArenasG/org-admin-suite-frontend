@@ -1,13 +1,15 @@
 'use client';
 
-import { Eye, Paperclip, Pencil, Plus, Trash2 } from 'lucide-react';
+import { Eye, FileText, Paperclip, Pencil, Plus, Trash2 } from 'lucide-react';
 import { DownloadIcon } from 'lucide-animated';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import {
   AttachmentImageGalleryDialog,
+  AttachmentPdfPreviewDialog,
   AttachmentUploadDialog,
   type AttachmentImage,
+  type AttachmentPdf,
 } from '@/components/attachments';
 import { DocumentCollectionItem } from '@/components/documents/DocumentCollection';
 import { DocumentCollectionReadOnlyItem } from '@/components/documents/DocumentCollectionReadOnlyItem';
@@ -62,6 +64,7 @@ export function CustomerServiceRecordDocumentForm({
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [attachmentDialogOpen, setAttachmentDialogOpen] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
+  const [pdfPreview, setPdfPreview] = useState<AttachmentPdf | null>(null);
   const [mutationFeedback, setMutationFeedback] = useState<MutationFeedback>();
   const [mutationRecovery, setMutationRecovery] = useState<MutationRecovery>();
   const successTimeoutRef = useRef<number | null>(null);
@@ -234,6 +237,13 @@ export function CustomerServiceRecordDocumentForm({
           emptyLabel={t('detail.documents.empty')}
           files={currentFiles}
           onImageOpen={setGalleryIndex}
+          onPdfOpen={(file) =>
+            setPdfPreview({
+              downloadUrl: file.downloadUrl,
+              name: file.originalName,
+              previewUrl: file.previewUrl,
+            })
+          }
           onRemove={
             isReadOnly || isMutationLocked
               ? undefined
@@ -318,6 +328,14 @@ export function CustomerServiceRecordDocumentForm({
         }}
         open={galleryIndex !== null}
       />
+      <AttachmentPdfPreviewDialog
+        attachment={pdfPreview}
+        copy={{ download: t('detail.documents.download') }}
+        onOpenChange={(open) => {
+          if (!open) setPdfPreview(null);
+        }}
+        open={pdfPreview !== null}
+      />
     </form>
   );
 }
@@ -327,6 +345,7 @@ function ExistingAttachmentList({
   emptyLabel,
   files,
   onImageOpen,
+  onPdfOpen,
   onRemove,
   previewLabel,
   removeLabel,
@@ -335,6 +354,7 @@ function ExistingAttachmentList({
   emptyLabel: string;
   files: readonly CustomerServiceRecordAttachment[];
   onImageOpen: (index: number) => void;
+  onPdfOpen: (file: CustomerServiceRecordAttachment) => void;
   onRemove?: (fileId: string) => void;
   previewLabel: string;
   removeLabel: string;
@@ -346,6 +366,8 @@ function ExistingAttachmentList({
     <ul className="space-y-2">
       {files.map((file) => {
         const isImage = file.mimeType.startsWith('image/');
+        const isPdf = file.mimeType.toLowerCase() === 'application/pdf';
+        const isPreviewable = isImage || isPdf;
         if (isImage) imageIndex += 1;
         const currentImageIndex = imageIndex;
 
@@ -353,27 +375,32 @@ function ExistingAttachmentList({
           <li
             className={cn(
               'group relative flex min-w-0 items-center gap-3 rounded-lg border bg-muted/30 p-2 transition-colors',
-              isImage && 'cursor-pointer hover:bg-muted/60'
+              isPreviewable && 'cursor-pointer hover:bg-muted/60'
             )}
             key={file.fileId}
           >
-            {isImage ? (
+            {isPreviewable ? (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
                     aria-label={`${previewLabel}: ${file.originalName}`}
                     className="absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    onClick={() => onImageOpen(currentImageIndex)}
+                    onClick={() => (isImage ? onImageOpen(currentImageIndex) : onPdfOpen(file))}
                     type="button"
                   />
                 </TooltipTrigger>
                 <TooltipContent>{previewLabel}</TooltipContent>
               </Tooltip>
-            ) : (
+            ) : null}
+            {!isImage ? (
               <span className="relative z-10 grid size-10 shrink-0 place-items-center rounded-md bg-muted text-muted-foreground">
-                <Paperclip aria-hidden="true" className="size-4" />
+                {isPdf ? (
+                  <FileText aria-hidden="true" className="size-4" />
+                ) : (
+                  <Paperclip aria-hidden="true" className="size-4" />
+                )}
               </span>
-            )}
+            ) : null}
             {isImage ? (
               <span className="relative z-10 size-10 shrink-0 overflow-hidden rounded-md pointer-events-none">
                 {/* eslint-disable-next-line @next/next/no-img-element -- Preview URLs are backend-controlled and dynamic. */}
