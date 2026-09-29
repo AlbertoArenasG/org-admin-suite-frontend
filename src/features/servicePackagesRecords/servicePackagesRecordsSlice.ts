@@ -9,7 +9,6 @@ import type {
 } from '@/features/servicePackagesRecords/types';
 import {
   deleteServicePackageRecord,
-  fetchServicePackageRecordById,
   fetchServicePackagesRecords,
   fetchServicePackageRecordServiceTypeOptions,
 } from '@/features/servicePackagesRecords/servicePackagesRecordsThunks';
@@ -21,11 +20,6 @@ export interface ServicePackagesRecordsState {
   pagination: ServicePackagesRecordsPagination | null;
   serviceTypeOptions: {
     items: ServicePackageRecordServiceTypeOption[];
-    status: 'idle' | 'loading' | 'succeeded' | 'failed';
-    error: string | null;
-  };
-  detail: {
-    record: ServicePackageRecord | null;
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
   };
@@ -47,11 +41,6 @@ const initialState: ServicePackagesRecordsState = {
     status: 'idle',
     error: null,
   },
-  detail: {
-    record: null,
-    status: 'idle',
-    error: null,
-  },
   delete: {
     status: 'idle',
     error: null,
@@ -69,13 +58,6 @@ const servicePackagesRecordsSlice = createSlice({
     },
     resetServicePackagesRecordsState() {
       return initialState;
-    },
-    resetServicePackageRecordDetail(state) {
-      state.detail = {
-        record: null,
-        status: 'idle',
-        error: null,
-      };
     },
     resetServicePackageRecordDelete(state) {
       state.delete = {
@@ -121,23 +103,6 @@ const servicePackagesRecordsSlice = createSlice({
           action.error.message ??
           'No fue posible obtener los tipos de servicio.';
       })
-      .addCase(fetchServicePackageRecordById.pending, (state) => {
-        state.detail.status = 'loading';
-        state.detail.error = null;
-      })
-      .addCase(fetchServicePackageRecordById.fulfilled, (state, action) => {
-        state.detail.status = 'succeeded';
-        state.detail.record = action.payload;
-        state.detail.error = null;
-      })
-      .addCase(fetchServicePackageRecordById.rejected, (state, action) => {
-        state.detail.status = 'failed';
-        state.detail.error =
-          (action.payload as string | undefined) ??
-          action.error.message ??
-          'No fue posible obtener el registro.';
-        state.detail.record = null;
-      })
       .addCase(deleteServicePackageRecord.pending, (state, action) => {
         state.delete.status = 'loading';
         state.delete.error = null;
@@ -161,7 +126,6 @@ const servicePackagesRecordsSlice = createSlice({
 export const {
   addServicePackageRecord,
   resetServicePackagesRecordsState,
-  resetServicePackageRecordDetail,
   resetServicePackageRecordDelete,
 } = servicePackagesRecordsSlice.actions;
 

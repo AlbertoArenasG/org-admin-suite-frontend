@@ -227,7 +227,6 @@ export function ServicePackagesRecordsTableContainer() {
     t,
     dateFormatter,
     canDelete,
-    onView: (id: string) => router.push(`/dashboard/service-packages-records/${id}`),
     onDelete: (id: string) => {
       if (!canDelete) {
         return;

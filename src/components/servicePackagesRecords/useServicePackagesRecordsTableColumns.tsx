@@ -22,7 +22,6 @@ interface UseServicePackagesRecordsTableColumnsParams {
   t: Translate;
   dateFormatter: Intl.DateTimeFormat;
   canDelete: boolean;
-  onView: (id: string) => void;
   onDelete: (id: string) => void;
 }
 
@@ -52,7 +51,6 @@ export function useServicePackagesRecordsTableColumns({
   t,
   dateFormatter,
   canDelete,
-  onView,
   onDelete,
 }: UseServicePackagesRecordsTableColumnsParams) {
   return useMemo<ColumnDef<ServicePackagesRecordsTableRow>[]>(
@@ -152,17 +150,15 @@ export function useServicePackagesRecordsTableColumns({
         cell: ({ row }) => (
           <RecordsRowActions
             canDelete={canDelete}
-            onView={() => onView(row.original.id)}
             onDelete={() => onDelete(row.original.id)}
             labels={{
               menu: t('actions.openMenu'),
-              view: t('actions.view'),
               delete: t('actions.delete'),
             }}
           />
         ),
       },
     ],
-    [canDelete, dateFormatter, onDelete, onView, t]
+    [canDelete, dateFormatter, onDelete, t]
   );
 }

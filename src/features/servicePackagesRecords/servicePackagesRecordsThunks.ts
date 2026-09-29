@@ -5,47 +5,18 @@ import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type {
   ServicePackageRecord,
-  ServicePackageRecordDetails,
-  ServicePackageRecordEquipment,
-  ServicePackageRecordFile,
   ServicePackagesRecordsPagination,
   ServicePackageRecordServiceTypeOption,
 } from '@/features/servicePackagesRecords/types';
 
-interface ApiFile {
-  file_id: string;
-  relative_path: string;
-  original_name: string;
-  s3_key: string;
-  size: number;
-  content_type: string;
-}
-
-interface ApiRecordDetails extends Omit<ServicePackageRecordDetails, 'equipment' | 'raw'> {
-  equipment?: ServicePackageRecordEquipment[];
-  raw?: Record<string, unknown>;
-}
-
 interface ApiRecord {
   record_id: string;
-  package_id: string;
   service_order: string;
-  original_filename: string;
-  s3_folder_key: string;
-  details?: ApiRecordDetails | null;
   company: string;
   collector_name: string;
-  contact_person: string;
-  email: string;
-  phone: string;
-  address: string;
   visit_date: string;
   service_type: string;
-  purpose: string;
-  status: string;
   created_at: string;
-  updated_at: string | null;
-  files?: ApiFile[];
 }
 
 interface ApiPagination {
@@ -55,44 +26,15 @@ interface ApiPagination {
   total_pages: number;
 }
 
-function mapFile(file: ApiFile): ServicePackageRecordFile {
-  return {
-    id: file.file_id,
-    relativePath: file.relative_path,
-    originalName: file.original_name,
-    url: file.s3_key,
-    size: file.size,
-    contentType: file.content_type,
-  };
-}
-
 function mapRecord(record: ApiRecord): ServicePackageRecord {
   return {
     id: record.record_id,
-    packageId: record.package_id,
     serviceOrder: record.service_order,
-    originalFilename: record.original_filename,
-    folderKey: record.s3_folder_key,
-    details: record.details
-      ? {
-          ...record.details,
-          observations: record.details.observations ?? null,
-          equipment: record.details.equipment ?? [],
-        }
-      : null,
     company: record.company,
     collectorName: record.collector_name,
-    contactPerson: record.contact_person,
-    email: record.email,
-    phone: record.phone,
-    address: record.address,
     visitDate: record.visit_date,
     serviceType: record.service_type,
-    purpose: record.purpose,
-    status: record.status,
     createdAt: record.created_at,
-    updatedAt: record.updated_at,
-    files: Array.isArray(record.files) ? record.files.map(mapFile) : [],
   };
 }
 
@@ -171,27 +113,6 @@ export const fetchServicePackageRecordServiceTypeOptions = createAsyncThunk<
   });
 
   return response.data.service_types ?? [];
-});
-
-export const fetchServicePackageRecordById = createAsyncThunk<
-  ServicePackageRecord,
-  { id: string },
-  { state: RootState }
->('servicePackagesRecords/fetchById', async ({ id }, thunkAPI) => {
-  const state = thunkAPI.getState();
-  const token = state.auth.token;
-
-  if (!token) {
-    return thunkAPI.rejectWithValue('No hay token de autenticación');
-  }
-
-  const response = await jsonRequest<ApiRecord>(`/v1/service-packages/records/${id}`, {
-    method: 'GET',
-    headers: { Accept: 'application/json' },
-    token,
-  });
-
-  return mapRecord(response.data);
 });
 
 export const deleteServicePackageRecord = createAsyncThunk<
