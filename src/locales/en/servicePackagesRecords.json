@@ -33,8 +33,9 @@
     "notFound": "The package record was not found.",
     "general": {
       "title": "General information",
-      "contact": "Contact details",
+      "contact": "Client information",
       "serviceAndMetadata": "Service information",
+      "additionalInformation": "Observations and files",
       "signatures": "Signatures"
     },
     "equipment": {
@@ -61,6 +62,7 @@
       "phone": "Phone",
       "address": "Address",
       "serviceOrder": "Service order",
+      "collector": "Collector",
       "visitDate": "Visit date",
       "serviceType": "Service type",
       "createdAt": "Created",

@@ -19,7 +19,7 @@ import {
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { ServicePackageRecordDetailRoute } from './ServicePackageRecordDetailRoute';
-import { ServicePackageRecordDocumentsSection } from './ServicePackageRecordDocumentsSection';
+import { ServicePackageRecordAdditionalInformationSection } from './ServicePackageRecordAdditionalInformationSection';
 import {
   ServicePackageRecordContactSection,
   ServicePackageRecordEquipmentSection,
@@ -28,10 +28,10 @@ import {
 } from './ServicePackageRecordReadOnlySections';
 
 const navigationIds = [
-  ['contact', 'general.contact'],
   ['service-information', 'general.serviceAndMetadata'],
+  ['contact', 'general.contact'],
   ['equipment', 'equipment.title'],
-  ['documents', 'documents.title'],
+  ['additional-information', 'general.additionalInformation'],
   ['signatures', 'general.signatures'],
 ] as const;
 
@@ -162,9 +162,6 @@ export function ServicePackageRecordDetailPage() {
                 scrollContainerRef={pageContentScrollerRef}
               >
                 <div className="space-y-5">
-                  <section className="scroll-mt-24 md:scroll-mt-5" id="contact" tabIndex={-1}>
-                    <ServicePackageRecordContactSection record={detail.record} />
-                  </section>
                   <section
                     className="scroll-mt-24 md:scroll-mt-5"
                     id="service-information"
@@ -172,12 +169,19 @@ export function ServicePackageRecordDetailPage() {
                   >
                     <ServicePackageRecordServiceInformationSection record={detail.record} />
                   </section>
+                  <section className="scroll-mt-24 md:scroll-mt-5" id="contact" tabIndex={-1}>
+                    <ServicePackageRecordContactSection record={detail.record} />
+                  </section>
                 </div>
                 <section className="scroll-mt-24 md:scroll-mt-5" id="equipment" tabIndex={-1}>
                   <ServicePackageRecordEquipmentSection record={detail.record} />
                 </section>
-                <section className="scroll-mt-24 md:scroll-mt-5" id="documents" tabIndex={-1}>
-                  <ServicePackageRecordDocumentsSection record={detail.record} />
+                <section
+                  className="scroll-mt-24 md:scroll-mt-5"
+                  id="additional-information"
+                  tabIndex={-1}
+                >
+                  <ServicePackageRecordAdditionalInformationSection record={detail.record} />
                 </section>
                 <section className="scroll-mt-24 md:scroll-mt-5" id="signatures" tabIndex={-1}>
                   <ServicePackageRecordSignaturesSection record={detail.record} />

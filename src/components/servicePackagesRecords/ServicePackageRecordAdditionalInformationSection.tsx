@@ -2,11 +2,14 @@
 
 import { useState } from 'react';
 
-import { DocumentCollection } from '@/components/documents/DocumentCollection';
+import { DocumentCollectionList } from '@/components/documents/DocumentCollection';
 import {
   DocumentCollectionReadOnlyItem,
   type DocumentCollectionReadOnlyCopy,
 } from '@/components/documents/DocumentCollectionReadOnlyItem';
+import { FormField, FormReadValue } from '@/components/forms';
+import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-form';
+import { Separator } from '@/components/ui/separator';
 import {
   isServicePackageRecordDocumentAttachment,
   type ServicePackageRecordAttachment,
@@ -14,28 +17,44 @@ import {
 } from '@/features/servicePackagesRecords';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 
-type ServicePackageRecordDocumentsSectionProps = {
+type ServicePackageRecordAdditionalInformationSectionProps = {
   record: ServicePackageRecordDetail;
 };
 
-export function ServicePackageRecordDocumentsSection({
+export function ServicePackageRecordAdditionalInformationSection({
   record,
-}: ServicePackageRecordDocumentsSectionProps) {
+}: ServicePackageRecordAdditionalInformationSectionProps) {
   const { t } = useTranslationHydrated('servicePackagesRecords');
   const [expanded, setExpanded] = useState(false);
   const files = record.files.filter(isServicePackageRecordDocumentAttachment);
 
   return (
-    <DocumentCollection title={t('detail.documents.title')}>
-      <DocumentCollectionReadOnlyItem
-        collectionId={`${record.id}-collected-files`}
-        copy={getDocumentCopy(t)}
-        expanded={expanded}
-        files={files.map(toReadOnlyAttachment)}
-        onExpandedChange={setExpanded}
-        title={t('detail.documents.title')}
-      />
-    </DocumentCollection>
+    <ResourceFormFrame
+      contentSurface={{ base: 'bare', md: 'inset' }}
+      density={{ base: 'compact', md: 'comfortable' }}
+      dividers="hidden"
+      headerDensity="compact"
+      mode="read"
+      surface={{ base: 'bare', md: 'card' }}
+      title={t('detail.general.additionalInformation')}
+    >
+      <ResourceFormSection surface="bare">
+        <FormField label={t('detail.fields.observations')}>
+          <FormReadValue>{record.details.observations?.trim() || '—'}</FormReadValue>
+        </FormField>
+      </ResourceFormSection>
+      <Separator />
+      <DocumentCollectionList>
+        <DocumentCollectionReadOnlyItem
+          collectionId={`${record.id}-collected-files`}
+          copy={getDocumentCopy(t)}
+          expanded={expanded}
+          files={files.map(toReadOnlyAttachment)}
+          onExpandedChange={setExpanded}
+          title={t('detail.documents.title')}
+        />
+      </DocumentCollectionList>
+    </ResourceFormFrame>
   );
 }
 

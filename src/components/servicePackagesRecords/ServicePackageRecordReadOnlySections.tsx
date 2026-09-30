@@ -2,7 +2,6 @@
 
 import { FormField, FormReadValue, type FormFieldOrientation } from '@/components/forms';
 import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-form';
-import { Separator } from '@/components/ui/separator';
 import { FieldGroup } from '@/components/ui/field';
 import {
   getServicePackageRecordSignatureAttachments,
@@ -31,33 +30,13 @@ export function ServicePackageRecordContactSection({
       title={t('detail.general.contact')}
     >
       <ResourceFormSection surface="bare">
-        <FieldGroup>
-          <ReadField
-            label={t('detail.fields.company')}
-            orientation="responsive"
-            value={record.company}
-          />
-          <ReadField
-            label={t('detail.fields.contactPerson')}
-            orientation="responsive"
-            value={record.contactPerson}
-          />
-          <ReadField
-            label={t('detail.fields.email')}
-            orientation="responsive"
-            value={record.email}
-          />
-          <ReadField
-            label={t('detail.fields.phone')}
-            orientation="responsive"
-            value={record.phone}
-          />
-          <ReadField
-            label={t('detail.fields.address')}
-            orientation="responsive"
-            value={record.address}
-          />
-        </FieldGroup>
+        <div className="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-7">
+          <ReadField label={t('detail.fields.company')} value={record.company} />
+          <ReadField label={t('detail.fields.contactPerson')} value={record.contactPerson} />
+          <ReadField label={t('detail.fields.email')} value={record.email} />
+          <ReadField label={t('detail.fields.phone')} value={record.phone} />
+          <ReadField label={t('detail.fields.address')} value={record.address} />
+        </div>
       </ResourceFormSection>
     </ResourceFormFrame>
   );
@@ -82,6 +61,7 @@ export function ServicePackageRecordServiceInformationSection({
       <ResourceFormSection surface="bare">
         <div className="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-7">
           <ReadField label={t('detail.fields.serviceOrder')} value={record.serviceOrder || empty} />
+          <ReadField label={t('detail.fields.collector')} value={record.collectorName} />
           <ReadField
             label={t('detail.fields.visitDate')}
             value={formatDate(record.visitDate, i18n.language, empty)}
@@ -92,15 +72,7 @@ export function ServicePackageRecordServiceInformationSection({
             label={t('detail.fields.createdAt')}
             value={formatDateTime(record.createdAt, i18n.language, empty)}
           />
-          <ReadField
-            label={t('detail.fields.updatedAt')}
-            value={formatDateTime(record.updatedAt, i18n.language, empty)}
-          />
         </div>
-      </ResourceFormSection>
-      <Separator />
-      <ResourceFormSection surface="bare">
-        <ReadField label={t('detail.fields.observations')} value={record.details.observations} />
       </ResourceFormSection>
     </ResourceFormFrame>
   );
@@ -127,11 +99,13 @@ export function ServicePackageRecordSignaturesSection({
         <FieldGroup>
           <SignatureReadField
             label={t('detail.fields.collectorSignature')}
+            name={record.collectorName}
             signature={signatures.collector}
             value={booleanValue(record.details.hasCollectorSignature)}
           />
           <SignatureReadField
             label={t('detail.fields.clientSignature')}
+            name={record.contactPerson}
             signature={signatures.client}
             value={booleanValue(record.details.hasClientSignature)}
           />
@@ -220,26 +194,29 @@ function ReadField({
 
 function SignatureReadField({
   label,
+  name,
   signature,
   value,
 }: {
   label: string;
+  name: string | null;
   signature: ServicePackageRecordAttachment | null;
   value: string;
 }) {
   return (
     <FormField label={label} orientation="responsive">
-      {signature ? (
-        <FormReadValue className="flex min-h-28 items-center bg-muted/30 p-3">
+      <FormReadValue className="space-y-3">
+        <p className="font-medium">{name?.trim() || '—'}</p>
+        {signature ? (
           <img
             alt={label}
             className="max-h-24 w-full max-w-72 object-contain object-left"
             src={signature.previewUrl}
           />
-        </FormReadValue>
-      ) : (
-        <FormReadValue>{value}</FormReadValue>
-      )}
+        ) : (
+          <p className="text-muted-foreground">{value}</p>
+        )}
+      </FormReadValue>
     </FormField>
   );
 }

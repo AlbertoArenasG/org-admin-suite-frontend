@@ -33,8 +33,9 @@
     "notFound": "No se encontró el registro de paquete.",
     "general": {
       "title": "Información general",
-      "contact": "Datos de contacto",
+      "contact": "Información del cliente",
       "serviceAndMetadata": "Información del servicio",
+      "additionalInformation": "Observaciones y archivos",
       "signatures": "Firmas"
     },
     "equipment": {
@@ -61,6 +62,7 @@
       "phone": "Teléfono",
       "address": "Dirección",
       "serviceOrder": "Orden de servicio",
+      "collector": "Recolector",
       "visitDate": "Fecha de visita",
       "serviceType": "Tipo de servicio",
       "createdAt": "Creado",
