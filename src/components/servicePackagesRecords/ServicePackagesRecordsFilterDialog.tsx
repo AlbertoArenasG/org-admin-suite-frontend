@@ -1,7 +1,7 @@
 'use client';
 
-import { Filter } from 'lucide-react';
-import { useState } from 'react';
+import { Filter, RotateCcw } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 import {
   TableFilterDialog,
@@ -9,6 +9,7 @@ import {
   TableFilterSelect,
 } from '@/components/table-filter';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type {
   ServicePackageRecordServiceTypeOption,
   ServicePackagesRecordsListFilters,
@@ -41,24 +42,86 @@ export function ServicePackagesRecordsFilterDialog({
 }: ServicePackagesRecordsFilterDialogProps) {
   const { t } = useTranslationHydrated('servicePackagesRecords');
   const [open, setOpen] = useState(false);
+  const [isClearing, setIsClearing] = useState(false);
+  const clearTimerRef = useRef<number | null>(null);
+  const appliedFilterCount = hasActiveCriteria(filters) ? 1 : 0;
+
+  useEffect(() => {
+    if (!appliedFilterCount) setIsClearing(false);
+  }, [appliedFilterCount]);
+
+  useEffect(
+    () => () => {
+      if (clearTimerRef.current !== null) window.clearTimeout(clearTimerRef.current);
+    },
+    []
+  );
+
+  const handleClearFilters = () => {
+    if (isClearing) return;
+
+    setIsClearing(true);
+    clearTimerRef.current = window.setTimeout(() => {
+      clearTimerRef.current = null;
+      onFiltersChange({ serviceType: null });
+    }, 160);
+  };
 
   return (
     <>
-      <Button type="button" variant="outline" size="sm" onClick={() => setOpen(true)}>
-        <Filter className="size-4" aria-hidden="true" />
-        {t('filters.trigger')}
-        {hasActiveCriteria(filters) ? (
-          <span
-            className="inline-flex size-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground"
-            aria-hidden="true"
-          >
-            1
-          </span>
+      <div className="inline-flex">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className={
+            appliedFilterCount
+              ? 'rounded-r-none transition-[border-radius,background-color,color,box-shadow] duration-150'
+              : undefined
+          }
+          onClick={() => setOpen(true)}
+        >
+          <Filter className="size-4" aria-hidden="true" />
+          {t('filters.trigger')}
+          {appliedFilterCount ? (
+            <>
+              <span
+                className={`inline-flex size-5 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground transition-[opacity,transform] duration-150 ${
+                  isClearing ? 'scale-75 opacity-0' : 'scale-100 opacity-100'
+                }`}
+                aria-hidden="true"
+              >
+                {appliedFilterCount}
+              </span>
+              <span className="sr-only">
+                {t('filters.appliedCount', { count: appliedFilterCount })}
+              </span>
+            </>
+          ) : null}
+        </Button>
+        {appliedFilterCount ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={isClearing}
+                className={`-ml-px rounded-l-none transition-[opacity,transform] duration-150 ${
+                  isClearing ? 'translate-x-1 opacity-0' : 'translate-x-0 opacity-100'
+                }`}
+                aria-label={t('filters.clear')}
+                onClick={handleClearFilters}
+              >
+                <RotateCcw className="size-4" aria-hidden="true" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom" sideOffset={6}>
+              {t('filters.clear')}
+            </TooltipContent>
+          </Tooltip>
         ) : null}
-        {hasActiveCriteria(filters) ? (
-          <span className="sr-only">{t('filters.appliedCount', { count: 1 })}</span>
-        ) : null}
-      </Button>
+      </div>
 
       <TableFilterDialog
         open={open}

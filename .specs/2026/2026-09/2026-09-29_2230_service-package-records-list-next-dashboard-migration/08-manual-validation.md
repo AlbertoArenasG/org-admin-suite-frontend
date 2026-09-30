@@ -27,6 +27,9 @@
 - [ ] La busqueda aplica tras debounce, reinicia pagina y se comparte por URL.
 - [ ] El filtro de tipo conserva borrador hasta aplicar; cancelar/Escape no
       modifica resultados ni URL.
+- [ ] Con tipo de servicio aplicado, el trigger muestra contador y boton
+      dividido de limpieza con tooltip; limpiarlo actualiza solo
+      `service_type` sin abrir el dialogo.
 - [ ] Limpiar filtros y limpiar criterios restablecen los resultados esperados.
 - [ ] `limit` de URL prevalece; sin `limit`, el page size global por usuario se
       restaura y cambiarlo persiste para las otras tablas Next Dashboard.

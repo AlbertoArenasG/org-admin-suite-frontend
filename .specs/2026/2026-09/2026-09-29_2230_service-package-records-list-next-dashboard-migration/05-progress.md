@@ -58,3 +58,10 @@
 - Verificado: `npm run typecheck`, `npm run build` y `git diff --check`
   completaron correctamente. El build conserva warnings preexistentes fuera de
   esta slice.
+
+## 2026-09-29 - Refinamiento De Filtro Durante Validacion
+
+- Se completó el trigger de filtro con el patron ya adoptado en Next Dashboard:
+  contador aplicado, boton dividido de limpieza inmediata, tooltip y transicion
+  breve. El dialogo conserva su contrato de borrador y aplicacion explicita.
+- Verificado: `npm run typecheck` y `git diff --check` completaron correctamente.

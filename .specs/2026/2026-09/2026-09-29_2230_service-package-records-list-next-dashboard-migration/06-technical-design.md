@@ -128,6 +128,11 @@ Abrir, cerrar, Escape o cancelar no modifican resultados; aplicar actualiza
 Zustand, URL y pagina. Limpiar elimina solo `service_type`; la limpieza global
 tambien borra busqueda.
 
+El trigger adopta el patron de filtro aplicado de Next Dashboard: cuando existe
+tipo de servicio, muestra contador y se convierte en boton dividido con una
+accion inmediata de limpiar, tooltip y transicion breve. Esa accion limpia solo
+el filtro aplicado y no abre ni modifica el borrador del dialogo.
+
 `useServicePackageRecordRowActions` resuelve:
 
 | Capacidad | Accion                                                                                          |
