@@ -43,5 +43,6 @@
   "usersInactive": "Inactive users",
   "services": "Services",
   "serviceEntries": "Certificate delivery",
-  "serviceEntrySurveys": "Service surveys"
+  "serviceEntrySurveys": "Service surveys",
+  "servicePackagesRecords": "Reception, collection and delivery"
 }

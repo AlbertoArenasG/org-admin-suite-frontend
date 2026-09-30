@@ -16,8 +16,8 @@
 - [x] Incorporar contrato de listado, mapper, thunks, slice y estado local aislado.
       Status: done
 
-- [ ] Crear DataTable, filtro, acciones, ruta, shell, sidebar y traducciones.
-      Status: pending
+- [x] Crear DataTable, filtro, ruta, shell, sidebar y traducciones.
+      Status: done
 
 - [ ] Integrar baja confirmada, feedback y revalidacion de la pagina activa.
       Status: pending

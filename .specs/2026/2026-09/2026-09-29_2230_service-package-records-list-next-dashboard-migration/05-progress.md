@@ -25,3 +25,20 @@
 - No se crearon ruta, tabla, filtro visual, acciones, sidebar ni JSX de la
   superficie; esos artefactos pertenecen a slices posteriores.
 - Verificado: `npm run typecheck` y `git diff --check` completaron correctamente.
+
+## 2026-09-29 - Slice 2: DataTable, Filtro Y Entrada De Modulo
+
+- Se creó la ruta base protegida por `SERVICE_PACKAGES/READ` con el workspace,
+  breadcrumb y scroll de tabla propios de Next Dashboard.
+- Se compusieron container, tabla, columnas y filtro de tipo de servicio sobre
+  los contratos compartidos; no se reutilizó ninguna superficie legacy.
+- La orden de servicio es un enlace explícito al detalle. La tabla mantiene
+  una sola línea, settings de columnas y la primera adopción de negocio de la
+  densidad global persistida.
+- Se restauró la entrada lateral visible solo con READ y el copy bilingüe de
+  navegación, tabla, filtro, estados y futura baja.
+- La superficie no entrega `rowActions`, menú contextual, doble clic ni
+  diálogo destructivo todavía; esos comportamientos permanecen en la Slice 3.
+- Verificado: JSON de locales, `npm run typecheck`, `npm run build` y
+  `git diff --check` completaron correctamente. El build conserva warnings
+  preexistentes fuera de esta slice.

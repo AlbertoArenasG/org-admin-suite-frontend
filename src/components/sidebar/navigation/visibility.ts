@@ -29,6 +29,7 @@ export function resolveSidebarNavigationVisibility(
     'CUSTOMER_SERVICE_RECORDS_CLIENT_ACCESS',
     'READ'
   );
+  const canReadServicePackages = authorization.hasPermission('SERVICE_PACKAGES', 'READ');
   const canCreateCustomerServiceRecords = authorization.hasPermission(
     'CUSTOMER_SERVICE_RECORDS',
     'CREATE'
@@ -70,5 +71,6 @@ export function resolveSidebarNavigationVisibility(
     services: true,
     serviceEntries: authorization.hasModule('SERVICE_ENTRIES'),
     serviceEntrySurveys: authorization.hasModule('SERVICE_ENTRY_SURVEYS'),
+    servicePackagesRecords: canReadServicePackages,
   };
 }

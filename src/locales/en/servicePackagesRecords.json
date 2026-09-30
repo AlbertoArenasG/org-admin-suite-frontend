@@ -1,6 +1,67 @@
 {
   "actions": {
-    "retry": "Retry"
+    "retry": "Retry",
+    "view": "View details",
+    "delete": "Delete record"
+  },
+  "labels": {
+    "empty": "—"
+  },
+  "list": {
+    "loading": "Loading reception, collection and delivery records...",
+    "emptyTitle": "There are no records to display.",
+    "emptyDescription": "There are no records available yet.",
+    "emptyFilteredTitle": "No records match the active criteria.",
+    "emptyFilteredDescription": "Try adjusting the search or filters.",
+    "clearCriteria": "Clear criteria"
+  },
+  "table": {
+    "columns": {
+      "serviceOrder": "Service order",
+      "serviceType": "Service type",
+      "company": "Company",
+      "collector": "Collector",
+      "visitDate": "Visit date",
+      "createdAt": "Created"
+    },
+    "loadingResults": "Loading table results",
+    "settings": "Table settings",
+    "density": "Density",
+    "compact": "Compact",
+    "comfortable": "Comfortable",
+    "displayColumns": "Display columns",
+    "resizeColumn": "Resize {{column}}",
+    "pagination": "Table pagination",
+    "rowsPerPage": "Rows per page",
+    "paginationSummary": "Showing {{from}}-{{to}} of {{total}} records",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "rowActions": "Row actions"
+  },
+  "filters": {
+    "trigger": "Filters",
+    "appliedCount": "{{count}} filter applied",
+    "title": "Filter records",
+    "clear": "Clear filters",
+    "cancel": "Cancel",
+    "apply": "Apply filters",
+    "showAll": "Show all",
+    "serviceTypeSectionTitle": "Service type",
+    "serviceTypeSectionDescription": "Limits records to the selected service type.",
+    "serviceType": "Service type",
+    "serviceTypePlaceholder": "All service types",
+    "searchOptions": "Search options...",
+    "loadingOptions": "Loading options...",
+    "emptyOptions": "No service types are available.",
+    "searchPlaceholder": "Search by order, company, or collector..."
+  },
+  "delete": {
+    "title": "Delete record",
+    "description": "This action will delete the record and its associated files.",
+    "cancel": "Cancel",
+    "confirm": "Delete",
+    "success": "Record deleted successfully.",
+    "error": "The record could not be deleted."
   },
   "detail": {
     "breadcrumb": "Record {{folio}}",

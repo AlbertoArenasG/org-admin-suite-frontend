@@ -19,6 +19,16 @@ export type DashboardShellResolution =
 
 const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [
   {
+    matches: (pathname) => pathname === '/dashboard/service-packages-records',
+    config: {
+      breadcrumbs: [
+        { label: 'Panel', labelKey: 'dashboard', href: '/dashboard', hideOnDesktop: true },
+        { label: 'Recepcion, Recoleccion y Entrega', labelKey: 'servicePackagesRecords' },
+      ],
+      scrollMode: 'table-workspace',
+    },
+  },
+  {
     matches: (pathname) => /^\/dashboard\/service-packages-records\/[^/]+$/.test(pathname),
     config: {
       breadcrumbs: [

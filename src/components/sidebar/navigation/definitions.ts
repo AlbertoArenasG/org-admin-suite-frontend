@@ -1,4 +1,5 @@
 import {
+  Archive,
   BookUser,
   CalendarClock,
   ChartColumn,
@@ -111,6 +112,13 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
             href: '/dashboard/service-entries/surveys',
             icon: ChartColumn,
             matchesPathname: startsWith('/dashboard/service-entries/surveys'),
+          },
+          {
+            id: 'servicePackagesRecords',
+            labelKey: 'servicePackagesRecords',
+            href: '/dashboard/service-packages-records',
+            icon: Archive,
+            matchesPathname: startsWith('/dashboard/service-packages-records'),
           },
         ],
       },
