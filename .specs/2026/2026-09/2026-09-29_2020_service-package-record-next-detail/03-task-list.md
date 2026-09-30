@@ -20,9 +20,9 @@
 
 ## Cierre
 
-- [ ] Ejecutar verificaciones estáticas acordadas.
-      Status: pending
-- [ ] Realizar y registrar validación manual.
-      Status: pending
-- [ ] Auditar documentos, estados y checks antes de cerrar la spec.
-      Status: pending
+- [x] Ejecutar verificaciones estáticas acordadas.
+      Status: done
+- [x] Realizar y registrar validación manual.
+      Status: done
+- [x] Auditar documentos, estados y checks antes de cerrar la spec.
+      Status: done

@@ -48,6 +48,14 @@ La página coordina params, fetch, reset, breadcrumbs, carga, 404, error y reint
 
 La sección filtra `application/json`, usa una sola colección **Archivos recolectados** y mantiene únicamente `expanded` local. `DocumentCollectionReadOnlyItem` resuelve interacción, carpeta, preview de imagen/PDF, descarga, foco y reduced motion. No se crea diálogo ni preview propio.
 
+## Contrato E Impacto Entre Repositorios
+
+- **Consumidor:** `servicePackagesRecords` obtiene el recurso individual con `GET /v1/service-packages/records/:recordId` y consume `files[]` de la misma respuesta.
+- **Contrato vigente:** el handoff [`service-package-record-file-delivery-handoff.md`](../../../../../org-admin-suite-api/docs/frontend/service-package-record-file-delivery-handoff.md) define el permiso `service_packages:READ`, errores estándar, y los descriptores `file_id`, `original_name`, `mime_type`, `size`, `download_url` y `preview_url`.
+- **Compatibilidad:** no se construyen URLs de S3 ni se conserva el preview legacy; frontend y contrato backend ya estaban alineados para desarrollo conjunto.
+- **Cambios backend:** no aplican. La implementación adapta el objeto `details` en el mapper del feature y no modifica dominio, persistencia, endpoint ni presenter.
+- **Responsable de validación:** la persona usuaria validó la ruta y sus documentos contra registros reales; el handoff del repositorio API permanece como referencia operativa.
+
 ## Registro De Artefactos
 
 | Artefacto                 | Tipo                     | Ubicación                                                                                                                            | Responsabilidad                                                                                                                                  | Dependencias                                      | Estado         |

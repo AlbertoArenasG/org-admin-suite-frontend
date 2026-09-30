@@ -23,6 +23,7 @@ interface UseServicePackagesRecordsTableColumnsParams {
   dateFormatter: Intl.DateTimeFormat;
   canDelete: boolean;
   onDelete: (id: string) => void;
+  onView: (id: string) => void;
 }
 
 function SortingHeader<TData>({
@@ -52,6 +53,7 @@ export function useServicePackagesRecordsTableColumns({
   dateFormatter,
   canDelete,
   onDelete,
+  onView,
 }: UseServicePackagesRecordsTableColumnsParams) {
   return useMemo<ColumnDef<ServicePackagesRecordsTableRow>[]>(
     () => [
@@ -151,14 +153,16 @@ export function useServicePackagesRecordsTableColumns({
           <RecordsRowActions
             canDelete={canDelete}
             onDelete={() => onDelete(row.original.id)}
+            onView={() => onView(row.original.id)}
             labels={{
               menu: t('actions.openMenu'),
               delete: t('actions.delete'),
+              view: t('actions.view'),
             }}
           />
         ),
       },
     ],
-    [canDelete, dateFormatter, onDelete, t]
+    [canDelete, dateFormatter, onDelete, onView, t]
   );
 }

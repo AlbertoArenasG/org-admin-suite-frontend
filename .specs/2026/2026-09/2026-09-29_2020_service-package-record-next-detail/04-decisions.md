@@ -8,7 +8,7 @@ La eliminación previa creó un límite claro: esta iniciativa añade artefactos
 
 ## D-02: Estado Individual Dentro Del Mismo Feature
 
-El detalle vive en una rama nueva de `servicePackagesRecords`, separada de listado, opciones y eliminación. Incluye `record`, `status`, `error` y `currentRecordId`; reducers fulfilled/rejected ignoran respuestas obsoletas.
+El detalle vive en una rama nueva de `servicePackagesRecords`, separada de listado, opciones y eliminación. Incluye `record`, `status`, `error`, `currentRecordId` y `activeRequestId`; reducers fulfilled/rejected ignoran respuestas obsoletas.
 
 No se crea un slice paralelo. El recurso remoto es el mismo y el feature ya es su dueño; separar la rama evita acoplar el ciclo individual a la tabla.
 

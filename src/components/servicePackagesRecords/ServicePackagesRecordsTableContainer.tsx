@@ -233,6 +233,7 @@ export function ServicePackagesRecordsTableContainer() {
       }
       setDeleteTargetId(id);
     },
+    onView: (id: string) => router.push(`/dashboard/service-packages-records/${id}`),
   });
 
   const table = useReactTable({

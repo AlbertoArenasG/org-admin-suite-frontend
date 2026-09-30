@@ -23,6 +23,7 @@
   },
   "actions": {
     "openMenu": "Abrir acciones",
+    "view": "Ver detalle",
     "delete": "Eliminar registro",
     "retry": "Reintentar"
   },

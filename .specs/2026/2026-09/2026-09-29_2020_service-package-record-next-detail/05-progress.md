@@ -31,3 +31,10 @@
 - La colección reutiliza las interacciones vigentes: expansión, reduced motion, previsualización de imágenes/PDF y descarga mediante URLs protegidas.
 - Se incorporó el anchor y destino responsive de documentos junto con la section que lo resuelve.
 - Verificado: `npm run typecheck` y `git diff --check` completaron correctamente.
+
+## 2026-09-29 - Slice 4: Validación Y Cierre
+
+- La persona usuaria validó funcionalmente la ruta con registros reales, incluyendo múltiples equipos, navegación, documentos, previsualización y descarga.
+- Se marcó la matriz manual como validada para el alcance de la iniciativa.
+- Verificado nuevamente: `npm run typecheck` y `git diff --check` completaron correctamente.
+- Se registró la adopción de UI en `docs/ui/adoption-log.md` y se auditó que no permanecen checks ni estados abiertos en la spec.

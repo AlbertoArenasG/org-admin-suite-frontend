@@ -23,6 +23,7 @@
   },
   "actions": {
     "openMenu": "Open actions",
+    "view": "View details",
     "delete": "Delete package",
     "retry": "Retry"
   },

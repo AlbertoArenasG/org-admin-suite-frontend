@@ -8,18 +8,20 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Trash } from 'lucide-react';
+import { Eye, MoreHorizontal, Trash } from 'lucide-react';
 
 interface RecordsRowActionsProps {
   canDelete: boolean;
   onDelete: () => void;
+  onView: () => void;
   labels: {
     menu: string;
     delete: string;
+    view: string;
   };
 }
 
-export function RecordsRowActions({ canDelete, onDelete, labels }: RecordsRowActionsProps) {
+export function RecordsRowActions({ canDelete, onDelete, onView, labels }: RecordsRowActionsProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -35,6 +37,10 @@ export function RecordsRowActions({ canDelete, onDelete, labels }: RecordsRowAct
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-44">
+        <DropdownMenuItem onClick={onView} className="gap-2">
+          <Eye className="size-4" />
+          {labels.view}
+        </DropdownMenuItem>
         <DropdownMenuItem
           onClick={onDelete}
           className="gap-2 text-destructive focus:text-destructive"

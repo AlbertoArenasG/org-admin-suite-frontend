@@ -32,10 +32,10 @@
 
 ## Slice 4: Validación Y Cierre
 
-- **Estado:** pendiente.
+- **Estado:** completada el 2026-09-29.
 - **Objetivo:** demostrar aceptación y cerrar la iniciativa con evidencia.
 - **Artefactos:** matriz `08`, task list, progreso, definición, índice y adoption log.
 - **Pasos:** ejecutar verificación estática, registrar validación manual, auditar checks/documentos y cerrar solo después de confirmación manual.
 - **Límites:** no agrega funcionalidad ni absorbe migración de tabla.
 - **Validación:** matriz manual completa, typecheck y `git diff --check`.
-- **Cierre:** no quedan tareas, artefactos ni documentación viva pendientes.
+- **Cierre:** completado. No quedan tareas, artefactos ni documentación viva pendientes para el alcance de esta spec.

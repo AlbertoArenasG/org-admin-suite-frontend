@@ -58,6 +58,14 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-29 - Detalle de Recepción, Recolección y Entrega
+
+- Alcance: `/dashboard/service-packages-records/[recordId]`.
+- Adopción: detalle administrativo de solo lectura con `DashboardViewAccessBoundary`, shell Next Dashboard, breadcrumb dinámico, `ResourceFormRoute` y tres frames navegables para información general, equipos y archivos recolectados.
+- Documentos: colección plana `DocumentCollection` con preview reutilizable de imágenes/PDF y descarga mediante URLs protegidas del contrato backend.
+- Spec: `service-package-record-next-detail`.
+- Compatibilidad temporal: ninguna dentro del alcance del detalle.
+
 ### 2026-09-28 - Carpetas Animadas en Colecciones Documentales
 
 - Alcance: detalle administrativo y portal de acceso a cliente de registros de
