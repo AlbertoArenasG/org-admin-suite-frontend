@@ -65,3 +65,13 @@
   contador aplicado, boton dividido de limpieza inmediata, tooltip y transicion
   breve. El dialogo conserva su contrato de borrador y aplicacion explicita.
 - Verificado: `npm run typecheck` y `git diff --check` completaron correctamente.
+
+## 2026-09-29 - Slice 4: Validacion Y Cierre
+
+- La persona usuaria validó el alcance funcional completo: acceso, navegación,
+  datos, estados remotos, criterios, URL, preferencias, permisos, baja,
+  responsive, tema y accesibilidad.
+- Se registró la adopción del listado en la documentación viva y se actualizó
+  el índice de specs.
+- Auditoría final: tareas y checks completados; no quedan estados pendientes ni
+  artefactos legacy dentro del alcance.

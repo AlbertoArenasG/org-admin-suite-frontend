@@ -58,6 +58,20 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-09-29 - Listado de Recepción, Recolección y Entrega
+
+- Alcance: `/dashboard/service-packages-records`.
+- Adopción: listado administrativo con `DashboardViewAccessBoundary`,
+  `DashboardTableWorkspace` y `DataTable` remoto de una sola línea. Integra
+  búsqueda por URL, `TableFilterDialog` para tipo de servicio, paginación,
+  preferencias globales persistidas de filas por página y densidad, y enlace
+  explícito de orden al detalle.
+- Acciones: el contrato compartido de tabla habilita `Ver detalle` mediante
+  menú, clic derecho y doble clic seguro; `Eliminar` aparece solo con
+  `SERVICE_PACKAGES/DELETE` y compone `DestructiveConfirmationDialog`.
+- Spec: `service-package-records-list-next-dashboard-migration`.
+- Compatibilidad temporal: ninguna.
+
 ### 2026-09-29 - Detalle de Recepción, Recolección y Entrega
 
 - Alcance: `/dashboard/service-packages-records/[recordId]`.

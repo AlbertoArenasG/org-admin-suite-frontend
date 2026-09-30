@@ -6,9 +6,9 @@
 - Date: `2026-09-29`
 - Definition status: `completed`
 - Implementation ready: `yes`
-- Implementation status: `not_started`
-- Validation status: `not_started`
-- Spec status: `implementation_ready`
+- Implementation status: `completed`
+- Validation status: `completed`
+- Spec status: `completed`
 
 ## Problema
 
@@ -85,6 +85,5 @@ feedback.
 
 ## Gate De Implementacion
 
-No quedan decisiones criticas abiertas. El analisis, plan, diseno tecnico,
-registro de artefactos, slices y matriz de validacion estan definidos; la
-implementacion puede comenzar por la Slice 1.
+La implementacion y la validacion manual aprobada completaron el alcance. No
+quedan decisiones criticas, tareas, checks ni artefactos legacy abiertos.

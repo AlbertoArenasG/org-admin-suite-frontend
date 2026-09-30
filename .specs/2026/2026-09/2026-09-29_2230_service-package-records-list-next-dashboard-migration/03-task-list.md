@@ -24,11 +24,11 @@
 
 ## Cierre
 
-- [ ] Ejecutar verificaciones estaticas acordadas.
-      Status: pending
+- [x] Ejecutar verificaciones estaticas acordadas.
+      Status: done
 
-- [ ] Realizar y registrar validacion manual.
-      Status: pending
+- [x] Realizar y registrar validacion manual.
+      Status: done
 
-- [ ] Actualizar adopcion viva y auditar checks, estados y artefactos antes del cierre.
-      Status: pending
+- [x] Actualizar adopcion viva y auditar checks, estados y artefactos antes del cierre.
+      Status: done
