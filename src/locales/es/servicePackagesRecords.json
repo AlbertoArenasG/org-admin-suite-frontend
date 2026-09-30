@@ -1,31 +1,67 @@
 {
-  "title": "Recepción, Recolección y Entrega",
+  "actions": {
+    "retry": "Reintentar",
+    "view": "Ver detalle",
+    "delete": "Eliminar registro"
+  },
+  "labels": {
+    "empty": "—"
+  },
+  "list": {
+    "loading": "Cargando registros de recepción, recolección y entrega...",
+    "emptyTitle": "No hay registros para mostrar.",
+    "emptyDescription": "Aún no hay registros disponibles.",
+    "emptyFilteredTitle": "No hay registros que coincidan con los criterios activos.",
+    "emptyFilteredDescription": "Prueba ajustando la búsqueda o los filtros.",
+    "clearCriteria": "Limpiar criterios"
+  },
   "table": {
-    "searchPlaceholder": "Buscar por servicio, empresa o recolector...",
-    "serviceTypePlaceholder": "Todos los tipos de servicio",
-    "columnLabel": "Columnas",
     "columns": {
       "serviceOrder": "Orden de servicio",
       "serviceType": "Tipo de servicio",
       "company": "Empresa",
       "collector": "Recolector",
       "visitDate": "Fecha de visita",
-      "status": "Estatus",
-      "createdAt": "Creado",
-      "actions": "Acciones"
+      "createdAt": "Creado"
     },
-    "noData": "No hay registros para mostrar.",
-    "summary": "Mostrando {{from}}-{{to}} de {{total}} registros",
-    "pagination": {
-      "previous": "Anterior",
-      "next": "Siguiente"
-    }
+    "loadingResults": "Cargando resultados de la tabla",
+    "settings": "Configuración de tabla",
+    "density": "Densidad",
+    "compact": "Compacta",
+    "comfortable": "Cómoda",
+    "displayColumns": "Mostrar columnas",
+    "resizeColumn": "Cambiar ancho de {{column}}",
+    "pagination": "Paginación de tabla",
+    "rowsPerPage": "Filas por página",
+    "paginationSummary": "Mostrando {{from}}-{{to}} de {{total}} registros",
+    "previousPage": "Página anterior",
+    "nextPage": "Página siguiente",
+    "rowActions": "Acciones de fila"
   },
-  "actions": {
-    "openMenu": "Abrir acciones",
-    "view": "Ver detalle",
-    "delete": "Eliminar registro",
-    "retry": "Reintentar"
+  "filters": {
+    "trigger": "Filtros",
+    "appliedCount": "{{count}} filtro aplicado",
+    "title": "Filtrar registros",
+    "clear": "Limpiar filtros",
+    "cancel": "Cancelar",
+    "apply": "Aplicar filtros",
+    "showAll": "Mostrar todos",
+    "serviceTypeSectionTitle": "Tipo de servicio",
+    "serviceTypeSectionDescription": "Limita los registros al tipo de servicio seleccionado.",
+    "serviceType": "Tipo de servicio",
+    "serviceTypePlaceholder": "Todos los tipos de servicio",
+    "searchOptions": "Buscar opciones...",
+    "loadingOptions": "Cargando opciones...",
+    "emptyOptions": "No hay tipos de servicio disponibles.",
+    "searchPlaceholder": "Buscar por orden, empresa o recolector..."
+  },
+  "delete": {
+    "title": "Eliminar registro",
+    "description": "Esta acción eliminará el registro y sus archivos asociados.",
+    "cancel": "Cancelar",
+    "confirm": "Eliminar",
+    "success": "Registro eliminado correctamente.",
+    "error": "No fue posible eliminar el registro."
   },
   "detail": {
     "breadcrumb": "Registro {{folio}}",
@@ -83,14 +119,5 @@
       "no": "No",
       "empty": "—"
     }
-  },
-  "delete": {
-    "title": "Eliminar registro",
-    "description": "Esta acción eliminará el registro y sus archivos asociados.",
-    "warning": "Confirma que deseas eliminar este registro",
-    "cancel": "Cancelar",
-    "confirm": "Eliminar",
-    "success": "Registro eliminado correctamente.",
-    "error": "No fue posible eliminar el registro."
   }
 }

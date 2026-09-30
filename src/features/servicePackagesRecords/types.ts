@@ -5,11 +5,27 @@ export type ServicePackageRecordRequestStatus = 'idle' | 'loading' | 'succeeded'
 export interface ServicePackageRecordListItem {
   id: string;
   serviceOrder: string;
-  company: string;
-  collectorName: string;
-  visitDate: string;
-  serviceType: string;
-  createdAt: string;
+  serviceType: string | null;
+  company: string | null;
+  collectorName: string | null;
+  visitDate: string | null;
+  createdAt: string | null;
+}
+
+export interface ServicePackageRecordServiceTypeOption {
+  value: string;
+  label: string;
+}
+
+export interface ServicePackagesRecordsListFilters {
+  serviceType: string | null;
+}
+
+export interface FetchServicePackagesRecordsParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  filters?: Partial<ServicePackagesRecordsListFilters>;
 }
 
 export interface ServicePackageRecordAttachment {
@@ -65,16 +81,4 @@ export interface ServicePackageRecordDetail {
 export interface ServicePackageRecordDetailError {
   message: string;
   status: number;
-}
-
-export interface ServicePackagesRecordsPagination {
-  page: number;
-  perPage: number;
-  total: number;
-  totalPages: number;
-}
-
-export interface ServicePackageRecordServiceTypeOption {
-  value: string;
-  label: string;
 }

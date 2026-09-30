@@ -6,16 +6,6 @@ import type {
   ServicePackageRecordListItem,
 } from '@/features/servicePackagesRecords/types';
 
-export type ApiServicePackageRecordListItem = {
-  record_id: string;
-  service_order: string | null;
-  company: string | null;
-  collector_name: string | null;
-  visit_date: string | null;
-  service_type: string | null;
-  created_at: string | null;
-};
-
 export type ApiServicePackageRecordDetail = {
   record_id: string;
   package_id: string;
@@ -37,6 +27,17 @@ export type ApiServicePackageRecordDetail = {
   updated_at: string | null;
   files: ApiServicePackageRecordAttachment[];
 };
+
+export type ApiServicePackageRecordListItem = Pick<
+  ApiServicePackageRecordDetail,
+  | 'record_id'
+  | 'service_order'
+  | 'service_type'
+  | 'company'
+  | 'collector_name'
+  | 'visit_date'
+  | 'created_at'
+>;
 
 type ApiServicePackageRecordAttachment = {
   file_id: string;
@@ -149,12 +150,12 @@ export function mapServicePackageRecordListItem(
 ): ServicePackageRecordListItem {
   return {
     id: value.record_id,
-    serviceOrder: value.service_order ?? '',
-    company: value.company ?? '',
-    collectorName: value.collector_name ?? '',
-    visitDate: value.visit_date ?? '',
-    serviceType: value.service_type ?? '',
-    createdAt: value.created_at ?? '',
+    serviceOrder: toNullableString(value.service_order) ?? '',
+    serviceType: toNullableString(value.service_type),
+    company: toNullableString(value.company),
+    collectorName: toNullableString(value.collector_name),
+    visitDate: toNullableString(value.visit_date),
+    createdAt: toNullableString(value.created_at),
   };
 }
 

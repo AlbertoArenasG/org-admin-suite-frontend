@@ -1,176 +1,97 @@
 'use client';
 
 import { create } from 'zustand';
-import type {
-  PaginationState,
-  SortingState,
-  Updater,
-  VisibilityState,
-} from '@tanstack/react-table-v8';
 
-type StringUpdater = string | ((prev: string) => string);
+import type { ServicePackagesRecordsListFilters } from '@/features/servicePackagesRecords';
 
-interface ServicePackagesRecordsTableStoreState {
-  pagination: PaginationState;
-  sorting: SortingState;
-  columnVisibility: VisibilityState;
-  globalFilter: string;
-  debouncedFilter: string;
-  serviceType: string | null;
-  deleteTargetId: string | null;
+type Updater<T> = T | ((current: T) => T);
+
+type ServicePackagesRecordsTableState = {
+  page: number;
+  limit: number;
+  search: string;
+  appliedSearch: string;
+  filters: ServicePackagesRecordsListFilters;
+  visibleColumnIds: string[];
   initialized: boolean;
-}
-
-interface ServicePackagesRecordsTableStoreActions {
-  setPagination: (updater: Updater<PaginationState>) => void;
-  setSorting: (updater: Updater<SortingState>) => void;
-  setColumnVisibility: (updater: Updater<VisibilityState>) => void;
-  setGlobalFilter: (updater: StringUpdater) => void;
-  setDebouncedFilter: (value: string) => void;
-  setServiceType: (value: string | null) => void;
-  setDeleteTargetId: (id: string | null) => void;
-  setInitialized: (value: boolean) => void;
-  syncFromUrl: (state: {
-    pagination: PaginationState;
-    sorting: SortingState;
-    globalFilter: string;
-    debouncedFilter: string;
-    serviceType: string | null;
+  setPage: (updater: Updater<number>) => void;
+  setLimit: (updater: Updater<number>) => void;
+  setSearch: (updater: Updater<string>) => void;
+  setAppliedSearch: (value: string) => void;
+  setFilters: (updater: Updater<ServicePackagesRecordsListFilters>) => void;
+  setVisibleColumnIds: (value: string[]) => void;
+  syncFromUrl: (value: {
+    page: number;
+    limit: number;
+    search: string;
+    filters: ServicePackagesRecordsListFilters;
   }) => void;
   reset: () => void;
+};
+
+const DEFAULT_VISIBLE_COLUMNS = [
+  'serviceOrder',
+  'serviceType',
+  'company',
+  'collectorName',
+  'visitDate',
+  'createdAt',
+];
+
+function initialState() {
+  return {
+    page: 1,
+    limit: 10,
+    search: '',
+    appliedSearch: '',
+    filters: { serviceType: null },
+    visibleColumnIds: DEFAULT_VISIBLE_COLUMNS,
+    initialized: false,
+  };
 }
 
-export type ServicePackagesRecordsTableStore = ServicePackagesRecordsTableStoreState &
-  ServicePackagesRecordsTableStoreActions;
-
-function applyUpdater<T>(updater: Updater<T>, current: T): T {
-  return typeof updater === 'function' ? (updater as (prev: T) => T)(current) : updater;
+function resolve<T>(updater: Updater<T>, current: T) {
+  return typeof updater === 'function' ? (updater as (value: T) => T)(current) : updater;
 }
 
-function applyStringUpdater(updater: StringUpdater, current: string): string {
-  return typeof updater === 'function' ? updater(current) : updater;
+function filtersEqual(
+  left: ServicePackagesRecordsListFilters,
+  right: ServicePackagesRecordsListFilters
+) {
+  return left.serviceType === right.serviceType;
 }
 
-const createInitialState = (): ServicePackagesRecordsTableStoreState => ({
-  pagination: { pageIndex: 0, pageSize: 10 },
-  sorting: [],
-  columnVisibility: {},
-  globalFilter: '',
-  debouncedFilter: '',
-  serviceType: null,
-  deleteTargetId: null,
-  initialized: false,
-});
-
-export const useServicePackagesRecordsTableStore = create<ServicePackagesRecordsTableStore>(
+export const useServicePackagesRecordsTableStore = create<ServicePackagesRecordsTableState>(
   (set) => ({
-    ...createInitialState(),
-    setPagination: (updater) =>
+    ...initialState(),
+    setPage: (updater) => set((state) => ({ page: resolve(updater, state.page) })),
+    setLimit: (updater) => set((state) => ({ limit: resolve(updater, state.limit) })),
+    setSearch: (updater) => set((state) => ({ search: resolve(updater, state.search) })),
+    setAppliedSearch: (appliedSearch) => set({ appliedSearch }),
+    setFilters: (updater) => set((state) => ({ filters: resolve(updater, state.filters) })),
+    setVisibleColumnIds: (visibleColumnIds) => set({ visibleColumnIds }),
+    syncFromUrl: ({ page, limit, search, filters }) =>
       set((state) => {
-        const next = applyUpdater(updater, state.pagination);
-        if (
-          state.pagination.pageIndex === next.pageIndex &&
-          state.pagination.pageSize === next.pageSize
-        ) {
-          return state;
-        }
-        return { pagination: next };
-      }),
-    setSorting: (updater) =>
-      set((state) => {
-        const next = applyUpdater(updater, state.sorting);
-        if (state.sorting === next) {
-          return state;
-        }
-        return { sorting: next };
-      }),
-    setColumnVisibility: (updater) =>
-      set((state) => {
-        const next = applyUpdater(updater, state.columnVisibility);
-        if (state.columnVisibility === next) {
-          return state;
-        }
-        return { columnVisibility: next };
-      }),
-    setGlobalFilter: (updater) =>
-      set((state) => {
-        const next = applyStringUpdater(updater, state.globalFilter);
-        if (state.globalFilter === next) {
-          return state;
-        }
-        return { globalFilter: next };
-      }),
-    setDebouncedFilter: (value) =>
-      set((state) => {
-        if (state.debouncedFilter === value) {
-          return state;
-        }
-        return { debouncedFilter: value };
-      }),
-    setServiceType: (value) =>
-      set((state) => {
-        if (state.serviceType === value) {
-          return state;
-        }
-        return {
-          serviceType: value,
-          pagination: { ...state.pagination, pageIndex: 0 },
-        };
-      }),
-    setDeleteTargetId: (id) =>
-      set((state) => {
-        if (state.deleteTargetId === id) {
-          return state;
-        }
-        return { deleteTargetId: id };
-      }),
-    setInitialized: (value) =>
-      set((state) => {
-        if (state.initialized === value) {
-          return state;
-        }
-        return { initialized: value };
-      }),
-    syncFromUrl: (nextState) =>
-      set((state) => {
-        const updates: Partial<ServicePackagesRecordsTableStoreState> = {};
+        const unchanged =
+          state.page === page &&
+          state.limit === limit &&
+          state.search === search &&
+          state.appliedSearch === search.trim() &&
+          filtersEqual(state.filters, filters) &&
+          state.initialized;
 
-        if (
-          state.pagination.pageIndex !== nextState.pagination.pageIndex ||
-          state.pagination.pageSize !== nextState.pagination.pageSize
-        ) {
-          updates.pagination = nextState.pagination;
-        }
-
-        if (
-          state.sorting.length !== nextState.sorting.length ||
-          state.sorting.some(
-            (sort, index) =>
-              sort.id !== nextState.sorting[index]?.id ||
-              sort.desc !== nextState.sorting[index]?.desc
-          )
-        ) {
-          updates.sorting = nextState.sorting;
-        }
-
-        if (state.globalFilter !== nextState.globalFilter) {
-          updates.globalFilter = nextState.globalFilter;
-        }
-
-        if (state.debouncedFilter !== nextState.debouncedFilter) {
-          updates.debouncedFilter = nextState.debouncedFilter;
-        }
-
-        if (state.serviceType !== nextState.serviceType) {
-          updates.serviceType = nextState.serviceType;
-        }
-
-        if (!state.initialized) {
-          updates.initialized = true;
-        }
-
-        return Object.keys(updates).length ? updates : state;
+        return unchanged
+          ? state
+          : {
+              ...state,
+              page,
+              limit,
+              search,
+              appliedSearch: search.trim(),
+              filters,
+              initialized: true,
+            };
       }),
-    reset: () => set(() => createInitialState()),
+    reset: () => set(initialState()),
   })
 );

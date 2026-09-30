@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [service-package-records-list-next-dashboard-migration](./2026/2026-09/2026-09-29_2230_service-package-records-list-next-dashboard-migration/00-definition.md) - completed; listado de recepcion, recoleccion y entrega migrado a DataTable de Next Dashboard
 - [service-package-record-next-detail](./2026/2026-09/2026-09-29_2020_service-package-record-next-detail/00-definition.md) - completed; detalle administrativo Next Dashboard de recepción, recolección y entrega validado
 - [customer-service-record-client-access-detail](./2026/2026-09/2026-09-27_1130_customer-service-record-client-access-detail/00-definition.md) - completed; detalle de solo lectura de registros de servicio en Client Access
 - [customer-service-record-documents-migration](./2026/2026-09/2026-09-26_0133_customer-service-record-documents-migration/00-definition.md) - completed; documentos, dialogo de adjuntos y galeria reutilizable para el detalle de registros de servicio

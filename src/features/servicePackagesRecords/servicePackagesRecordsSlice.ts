@@ -1,37 +1,41 @@
 'use client';
 
 import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
 import type {
   ServicePackageRecordDetail,
   ServicePackageRecordDetailError,
   ServicePackageRecordListItem,
   ServicePackageRecordRequestStatus,
-  ServicePackagesRecordsPagination,
   ServicePackageRecordServiceTypeOption,
 } from '@/features/servicePackagesRecords/types';
 import {
   deleteServicePackageRecord,
   fetchServicePackageRecordDetail,
-  fetchServicePackagesRecords,
   fetchServicePackageRecordServiceTypeOptions,
+  fetchServicePackagesRecords,
 } from '@/features/servicePackagesRecords/servicePackagesRecordsThunks';
 
 export interface ServicePackagesRecordsState {
-  entities: ServicePackageRecordListItem[];
-  status: ServicePackageRecordRequestStatus;
-  error: string | null;
-  pagination: ServicePackagesRecordsPagination | null;
-  serviceTypeOptions: {
-    items: ServicePackageRecordServiceTypeOption[];
+  list: {
+    items: ServicePackageRecordListItem[];
+    status: ServicePackageRecordRequestStatus;
+    error: string | null;
+    page: number;
+    perPage: number;
+    total: number;
+    totalPages: number;
+    activeRequestId: string | null;
+  };
+  options: {
+    serviceTypes: ServicePackageRecordServiceTypeOption[];
     status: ServicePackageRecordRequestStatus;
     error: string | null;
   };
-  delete: {
-    status: ServicePackageRecordRequestStatus;
+  mutations: {
+    deleteStatus: ServicePackageRecordRequestStatus;
     error: string | null;
-    targetId: string | null;
     message: string | null;
+    currentRecordId: string | null;
   };
   detail: {
     record: ServicePackageRecordDetail | null;
@@ -43,20 +47,26 @@ export interface ServicePackagesRecordsState {
 }
 
 const initialState: ServicePackagesRecordsState = {
-  entities: [],
-  status: 'idle',
-  error: null,
-  pagination: null,
-  serviceTypeOptions: {
+  list: {
     items: [],
     status: 'idle',
     error: null,
+    page: 1,
+    perPage: 10,
+    total: 0,
+    totalPages: 1,
+    activeRequestId: null,
   },
-  delete: {
+  options: {
+    serviceTypes: [],
     status: 'idle',
     error: null,
-    targetId: null,
+  },
+  mutations: {
+    deleteStatus: 'idle',
+    error: null,
     message: null,
+    currentRecordId: null,
   },
   detail: {
     record: null,
@@ -71,18 +81,12 @@ const servicePackagesRecordsSlice = createSlice({
   name: 'servicePackagesRecords',
   initialState,
   reducers: {
-    addServicePackageRecord(state, action: PayloadAction<ServicePackageRecordListItem>) {
-      state.entities.unshift(action.payload);
-    },
-    resetServicePackagesRecordsState() {
-      return initialState;
-    },
-    resetServicePackageRecordDelete(state) {
-      state.delete = {
-        status: 'idle',
+    resetServicePackageRecordDeleteMutation(state) {
+      state.mutations = {
+        deleteStatus: 'idle',
         error: null,
-        targetId: null,
         message: null,
+        currentRecordId: null,
       };
     },
     resetServicePackageRecordDetail(state) {
@@ -97,22 +101,62 @@ const servicePackagesRecordsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchServicePackagesRecords.pending, (state) => {
-        state.status = 'loading';
-        state.error = null;
+      .addCase(fetchServicePackagesRecords.pending, (state, action) => {
+        state.list.status = 'loading';
+        state.list.error = null;
+        state.list.activeRequestId = action.meta.requestId;
       })
       .addCase(fetchServicePackagesRecords.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.entities = action.payload.records;
-        state.pagination = action.payload.pagination;
-        state.error = null;
+        if (state.list.activeRequestId !== action.meta.requestId) return;
+
+        state.list.status = 'succeeded';
+        state.list.items = action.payload.items;
+        state.list.page = action.payload.page;
+        state.list.perPage = action.payload.perPage;
+        state.list.total = action.payload.total;
+        state.list.totalPages = action.payload.totalPages;
+        state.list.activeRequestId = null;
       })
       .addCase(fetchServicePackagesRecords.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error =
-          (action.payload as string | undefined) ??
+        if (state.list.activeRequestId !== action.meta.requestId) return;
+
+        state.list.status = 'failed';
+        state.list.error =
+          action.payload ??
           action.error.message ??
           'No fue posible obtener los registros de servicio.';
+        state.list.activeRequestId = null;
+      })
+      .addCase(fetchServicePackageRecordServiceTypeOptions.pending, (state) => {
+        state.options.status = 'loading';
+        state.options.error = null;
+      })
+      .addCase(fetchServicePackageRecordServiceTypeOptions.fulfilled, (state, action) => {
+        state.options.status = 'succeeded';
+        state.options.serviceTypes = action.payload;
+      })
+      .addCase(fetchServicePackageRecordServiceTypeOptions.rejected, (state, action) => {
+        state.options.status = 'failed';
+        state.options.error =
+          action.payload ?? action.error.message ?? 'No fue posible obtener los tipos de servicio.';
+      })
+      .addCase(deleteServicePackageRecord.pending, (state, action) => {
+        state.mutations.deleteStatus = 'loading';
+        state.mutations.error = null;
+        state.mutations.message = null;
+        state.mutations.currentRecordId = action.meta.arg.recordId;
+      })
+      .addCase(deleteServicePackageRecord.fulfilled, (state, action) => {
+        state.mutations.deleteStatus = 'succeeded';
+        state.mutations.message = action.payload.message;
+        state.list.items = state.list.items.filter(
+          (record) => record.id !== action.payload.recordId
+        );
+      })
+      .addCase(deleteServicePackageRecord.rejected, (state, action) => {
+        state.mutations.deleteStatus = 'failed';
+        state.mutations.error =
+          action.payload ?? action.error.message ?? 'No fue posible eliminar el registro.';
       })
       .addCase(fetchServicePackageRecordDetail.pending, (state, action) => {
         state.detail.status = 'loading';
@@ -147,48 +191,11 @@ const servicePackagesRecordsSlice = createSlice({
           status: 0,
         };
         state.detail.activeRequestId = null;
-      })
-      .addCase(fetchServicePackageRecordServiceTypeOptions.pending, (state) => {
-        state.serviceTypeOptions.status = 'loading';
-        state.serviceTypeOptions.error = null;
-      })
-      .addCase(fetchServicePackageRecordServiceTypeOptions.fulfilled, (state, action) => {
-        state.serviceTypeOptions.status = 'succeeded';
-        state.serviceTypeOptions.items = action.payload;
-        state.serviceTypeOptions.error = null;
-      })
-      .addCase(fetchServicePackageRecordServiceTypeOptions.rejected, (state, action) => {
-        state.serviceTypeOptions.status = 'failed';
-        state.serviceTypeOptions.error =
-          (action.payload as string | undefined) ??
-          action.error.message ??
-          'No fue posible obtener los tipos de servicio.';
-      })
-      .addCase(deleteServicePackageRecord.pending, (state, action) => {
-        state.delete.status = 'loading';
-        state.delete.error = null;
-        state.delete.targetId = action.meta.arg.id;
-      })
-      .addCase(deleteServicePackageRecord.fulfilled, (state, action) => {
-        state.delete.status = 'succeeded';
-        state.delete.message = action.payload.message;
-        state.entities = state.entities.filter((record) => record.id !== action.payload.id);
-      })
-      .addCase(deleteServicePackageRecord.rejected, (state, action) => {
-        state.delete.status = 'failed';
-        state.delete.error =
-          (action.payload as string | undefined) ??
-          action.error.message ??
-          'No fue posible eliminar el registro.';
       });
   },
 });
 
-export const {
-  addServicePackageRecord,
-  resetServicePackagesRecordsState,
-  resetServicePackageRecordDelete,
-  resetServicePackageRecordDetail,
-} = servicePackagesRecordsSlice.actions;
+export const { resetServicePackageRecordDeleteMutation, resetServicePackageRecordDetail } =
+  servicePackagesRecordsSlice.actions;
 
 export default servicePackagesRecordsSlice.reducer;
