@@ -3,6 +3,7 @@ import type {
   ServicePackageRecordDetail,
   ServicePackageRecordDetails,
   ServicePackageRecordEquipmentItem,
+  ServicePackageRecordListItem,
 } from '@/features/servicePackagesRecords/types';
 
 export type ApiServicePackageRecordDetail = {
@@ -26,6 +27,17 @@ export type ApiServicePackageRecordDetail = {
   updated_at: string | null;
   files: ApiServicePackageRecordAttachment[];
 };
+
+export type ApiServicePackageRecordListItem = Pick<
+  ApiServicePackageRecordDetail,
+  | 'record_id'
+  | 'service_order'
+  | 'service_type'
+  | 'company'
+  | 'collector_name'
+  | 'visit_date'
+  | 'created_at'
+>;
 
 type ApiServicePackageRecordAttachment = {
   file_id: string;
@@ -130,6 +142,20 @@ function mapAttachment(value: ApiServicePackageRecordAttachment): ServicePackage
     size: value.size,
     downloadUrl: value.download_url,
     previewUrl: value.preview_url,
+  };
+}
+
+export function mapServicePackageRecordListItem(
+  value: ApiServicePackageRecordListItem
+): ServicePackageRecordListItem {
+  return {
+    id: value.record_id,
+    serviceOrder: toNullableString(value.service_order) ?? '',
+    serviceType: toNullableString(value.service_type),
+    company: toNullableString(value.company),
+    collectorName: toNullableString(value.collector_name),
+    visitDate: toNullableString(value.visit_date),
+    createdAt: toNullableString(value.created_at),
   };
 }
 

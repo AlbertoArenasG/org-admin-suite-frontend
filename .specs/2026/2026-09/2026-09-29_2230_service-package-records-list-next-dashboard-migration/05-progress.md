@@ -10,3 +10,18 @@
   filtro por tipo, paginacion global por usuario y acciones por fila.
 - Se registraron los artefactos, limites de capa, slices y matriz manual.
 - La spec esta lista para iniciar por la Slice 1.
+
+## 2026-09-29 - Slice 1: Contrato, Estado Y URL
+
+- Se reincorporaron los modelos tipados de listado, opciones y filtros sin
+  modificar el contrato ni el ciclo de detalle existente.
+- El mapper proyecta exclusivamente las seis propiedades visibles de la
+  coleccion; no propaga `details`, archivos, package ID ni metadatos de S3.
+- Redux incorpora ramas independientes de lista, opciones y baja. La lista
+  protege sus resultados contra respuestas obsoletas por `requestId`.
+- Se agregaron query parser/serializer, store Zustand y controller para URL,
+  debounce, filtro, paginacion, preferencia global de limite y ajuste de
+  pagina fuera de rango.
+- No se crearon ruta, tabla, filtro visual, acciones, sidebar ni JSX de la
+  superficie; esos artefactos pertenecen a slices posteriores.
+- Verificado: `npm run typecheck` y `git diff --check` completaron correctamente.

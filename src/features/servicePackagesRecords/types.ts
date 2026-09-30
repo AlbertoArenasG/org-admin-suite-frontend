@@ -2,6 +2,32 @@
 
 export type ServicePackageRecordRequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
 
+export interface ServicePackageRecordListItem {
+  id: string;
+  serviceOrder: string;
+  serviceType: string | null;
+  company: string | null;
+  collectorName: string | null;
+  visitDate: string | null;
+  createdAt: string | null;
+}
+
+export interface ServicePackageRecordServiceTypeOption {
+  value: string;
+  label: string;
+}
+
+export interface ServicePackagesRecordsListFilters {
+  serviceType: string | null;
+}
+
+export interface FetchServicePackagesRecordsParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  filters?: Partial<ServicePackagesRecordsListFilters>;
+}
+
 export interface ServicePackageRecordAttachment {
   fileId: string;
   relativePath: string;

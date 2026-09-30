@@ -13,8 +13,8 @@
 
 ## Implementacion
 
-- [ ] Incorporar contrato de listado, mapper, thunks, slice y estado local aislado.
-      Status: pending
+- [x] Incorporar contrato de listado, mapper, thunks, slice y estado local aislado.
+      Status: done
 
 - [ ] Crear DataTable, filtro, acciones, ruta, shell, sidebar y traducciones.
       Status: pending
