@@ -33,10 +33,9 @@
     "notFound": "The package record was not found.",
     "general": {
       "title": "General information",
-      "contact": "Contact",
-      "serviceAndMetadata": "Service and metadata",
-      "signatures": "Signatures",
-      "observations": "Observations"
+      "contact": "Contact details",
+      "serviceAndMetadata": "Service information",
+      "signatures": "Signatures"
     },
     "equipment": {
       "title": "Equipment",
@@ -62,17 +61,11 @@
       "phone": "Phone",
       "address": "Address",
       "serviceOrder": "Service order",
-      "packageId": "Package ID",
-      "originalFilename": "Original file",
-      "s3FolderKey": "S3 folder",
       "visitDate": "Visit date",
       "serviceType": "Service type",
-      "purpose": "Purpose",
-      "status": "Status",
       "createdAt": "Created",
       "updatedAt": "Updated",
       "serviceTime": "Service time",
-      "synced": "Synchronized",
       "collectorSignature": "Collector signature",
       "clientSignature": "Client signature",
       "observations": "Observations",

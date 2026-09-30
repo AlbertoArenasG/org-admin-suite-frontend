@@ -33,10 +33,9 @@
     "notFound": "No se encontró el registro de paquete.",
     "general": {
       "title": "Información general",
-      "contact": "Contacto",
-      "serviceAndMetadata": "Servicio y metadatos",
-      "signatures": "Firmas",
-      "observations": "Observaciones"
+      "contact": "Datos de contacto",
+      "serviceAndMetadata": "Información del servicio",
+      "signatures": "Firmas"
     },
     "equipment": {
       "title": "Equipo",
@@ -62,17 +61,11 @@
       "phone": "Teléfono",
       "address": "Dirección",
       "serviceOrder": "Orden de servicio",
-      "packageId": "ID del paquete",
-      "originalFilename": "Archivo original",
-      "s3FolderKey": "Carpeta S3",
       "visitDate": "Fecha de visita",
       "serviceType": "Tipo de servicio",
-      "purpose": "Propósito",
-      "status": "Estatus",
       "createdAt": "Creado",
       "updatedAt": "Actualizado",
       "serviceTime": "Hora de servicio",
-      "synced": "Sincronizado",
       "collectorSignature": "Firma del recolector",
       "clientSignature": "Firma del cliente",
       "observations": "Observaciones",

@@ -4,19 +4,21 @@ import { FormField, FormReadValue, type FormFieldOrientation } from '@/component
 import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-form';
 import { Separator } from '@/components/ui/separator';
 import { FieldGroup } from '@/components/ui/field';
-import type { ServicePackageRecordDetail } from '@/features/servicePackagesRecords';
+import {
+  getServicePackageRecordSignatureAttachments,
+  type ServicePackageRecordAttachment,
+  type ServicePackageRecordDetail,
+} from '@/features/servicePackagesRecords';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 
-type ServicePackageRecordGeneralDetailsSectionProps = {
+type ServicePackageRecordReadOnlySectionProps = {
   record: ServicePackageRecordDetail;
 };
 
-export function ServicePackageRecordGeneralDetailsSection({
+export function ServicePackageRecordContactSection({
   record,
-}: ServicePackageRecordGeneralDetailsSectionProps) {
-  const { i18n, t } = useTranslationHydrated('servicePackagesRecords');
-  const empty = t('detail.values.empty');
-  const booleanValue = (value: boolean) => (value ? t('detail.values.yes') : t('detail.values.no'));
+}: ServicePackageRecordReadOnlySectionProps) {
+  const { t } = useTranslationHydrated('servicePackagesRecords');
 
   return (
     <ResourceFormFrame
@@ -26,9 +28,9 @@ export function ServicePackageRecordGeneralDetailsSection({
       headerDensity="compact"
       mode="read"
       surface={{ base: 'bare', md: 'card' }}
-      title={t('detail.general.title')}
+      title={t('detail.general.contact')}
     >
-      <ResourceFormSection surface="bare" title={t('detail.general.contact')}>
+      <ResourceFormSection surface="bare">
         <FieldGroup>
           <ReadField
             label={t('detail.fields.company')}
@@ -57,21 +59,35 @@ export function ServicePackageRecordGeneralDetailsSection({
           />
         </FieldGroup>
       </ResourceFormSection>
-      <Separator />
-      <ResourceFormSection surface="bare" title={t('detail.general.serviceAndMetadata')}>
+    </ResourceFormFrame>
+  );
+}
+
+export function ServicePackageRecordServiceInformationSection({
+  record,
+}: ServicePackageRecordReadOnlySectionProps) {
+  const { i18n, t } = useTranslationHydrated('servicePackagesRecords');
+  const empty = t('detail.values.empty');
+
+  return (
+    <ResourceFormFrame
+      contentSurface={{ base: 'bare', md: 'inset' }}
+      density={{ base: 'compact', md: 'comfortable' }}
+      dividers="hidden"
+      headerDensity="compact"
+      mode="read"
+      surface={{ base: 'bare', md: 'card' }}
+      title={t('detail.general.serviceAndMetadata')}
+    >
+      <ResourceFormSection surface="bare">
         <div className="grid gap-6 md:grid-cols-2 md:gap-x-8 md:gap-y-7">
           <ReadField label={t('detail.fields.serviceOrder')} value={record.serviceOrder || empty} />
-          <ReadField label={t('detail.fields.packageId')} value={record.packageId || empty} />
-          <ReadField label={t('detail.fields.originalFilename')} value={record.originalFilename} />
-          <ReadField label={t('detail.fields.s3FolderKey')} value={record.s3FolderKey || empty} />
           <ReadField
             label={t('detail.fields.visitDate')}
             value={formatDate(record.visitDate, i18n.language, empty)}
           />
           <ReadField label={t('detail.fields.serviceTime')} value={record.details.serviceTime} />
           <ReadField label={t('detail.fields.serviceType')} value={record.serviceType} />
-          <ReadField label={t('detail.fields.purpose')} value={record.purpose} />
-          <ReadField label={t('detail.fields.status')} value={record.status || empty} />
           <ReadField
             label={t('detail.fields.createdAt')}
             value={formatDateTime(record.createdAt, i18n.language, empty)}
@@ -83,28 +99,43 @@ export function ServicePackageRecordGeneralDetailsSection({
         </div>
       </ResourceFormSection>
       <Separator />
-      <ResourceFormSection surface="bare" title={t('detail.general.signatures')}>
+      <ResourceFormSection surface="bare">
+        <ReadField label={t('detail.fields.observations')} value={record.details.observations} />
+      </ResourceFormSection>
+    </ResourceFormFrame>
+  );
+}
+
+export function ServicePackageRecordSignaturesSection({
+  record,
+}: ServicePackageRecordReadOnlySectionProps) {
+  const { t } = useTranslationHydrated('servicePackagesRecords');
+  const booleanValue = (value: boolean) => (value ? t('detail.values.yes') : t('detail.values.no'));
+  const signatures = getServicePackageRecordSignatureAttachments(record.files);
+
+  return (
+    <ResourceFormFrame
+      contentSurface={{ base: 'bare', md: 'inset' }}
+      density={{ base: 'compact', md: 'comfortable' }}
+      dividers="hidden"
+      headerDensity="compact"
+      mode="read"
+      surface={{ base: 'bare', md: 'card' }}
+      title={t('detail.general.signatures')}
+    >
+      <ResourceFormSection surface="bare">
         <FieldGroup>
-          <ReadField
-            label={t('detail.fields.synced')}
-            orientation="responsive"
-            value={booleanValue(record.details.synced)}
-          />
-          <ReadField
+          <SignatureReadField
             label={t('detail.fields.collectorSignature')}
-            orientation="responsive"
+            signature={signatures.collector}
             value={booleanValue(record.details.hasCollectorSignature)}
           />
-          <ReadField
+          <SignatureReadField
             label={t('detail.fields.clientSignature')}
-            orientation="responsive"
+            signature={signatures.client}
             value={booleanValue(record.details.hasClientSignature)}
           />
         </FieldGroup>
-      </ResourceFormSection>
-      <Separator />
-      <ResourceFormSection surface="bare" title={t('detail.general.observations')}>
-        <ReadField label={t('detail.fields.observations')} value={record.details.observations} />
       </ResourceFormSection>
     </ResourceFormFrame>
   );
@@ -183,6 +214,32 @@ function ReadField({
   return (
     <FormField label={label} orientation={orientation}>
       <FormReadValue>{value?.trim() || '—'}</FormReadValue>
+    </FormField>
+  );
+}
+
+function SignatureReadField({
+  label,
+  signature,
+  value,
+}: {
+  label: string;
+  signature: ServicePackageRecordAttachment | null;
+  value: string;
+}) {
+  return (
+    <FormField label={label} orientation="responsive">
+      {signature ? (
+        <FormReadValue className="flex min-h-28 items-center bg-muted/30 p-3">
+          <img
+            alt={label}
+            className="max-h-24 w-full max-w-72 object-contain object-left"
+            src={signature.previewUrl}
+          />
+        </FormReadValue>
+      ) : (
+        <FormReadValue>{value}</FormReadValue>
+      )}
     </FormField>
   );
 }

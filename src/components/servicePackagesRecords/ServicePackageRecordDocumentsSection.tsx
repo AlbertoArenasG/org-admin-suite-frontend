@@ -7,9 +7,10 @@ import {
   DocumentCollectionReadOnlyItem,
   type DocumentCollectionReadOnlyCopy,
 } from '@/components/documents/DocumentCollectionReadOnlyItem';
-import type {
-  ServicePackageRecordAttachment,
-  ServicePackageRecordDetail,
+import {
+  isServicePackageRecordDocumentAttachment,
+  type ServicePackageRecordAttachment,
+  type ServicePackageRecordDetail,
 } from '@/features/servicePackagesRecords';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 
@@ -22,7 +23,7 @@ export function ServicePackageRecordDocumentsSection({
 }: ServicePackageRecordDocumentsSectionProps) {
   const { t } = useTranslationHydrated('servicePackagesRecords');
   const [expanded, setExpanded] = useState(false);
-  const files = record.files.filter((file) => file.mimeType.toLowerCase() !== 'application/json');
+  const files = record.files.filter(isServicePackageRecordDocumentAttachment);
 
   return (
     <DocumentCollection title={t('detail.documents.title')}>

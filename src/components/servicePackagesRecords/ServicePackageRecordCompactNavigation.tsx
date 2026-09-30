@@ -1,6 +1,6 @@
 'use client';
 
-import { ClipboardList, FolderOpen, Wrench } from 'lucide-react';
+import { ClipboardList, ContactRound, FileSignature, FolderOpen, Wrench } from 'lucide-react';
 import type { ReactNode, RefObject } from 'react';
 
 import type { ResourceFormNavigationItem } from '@/components/resource-form';
@@ -15,9 +15,11 @@ type ServicePackageRecordCompactNavigationProps = {
 };
 
 const itemIcons: Record<string, ReactNode> = {
+  contact: <ContactRound className="size-5" />,
   documents: <FolderOpen className="size-5" />,
   equipment: <Wrench className="size-5" />,
-  'general-details': <ClipboardList className="size-5" />,
+  signatures: <FileSignature className="size-5" />,
+  'service-information': <ClipboardList className="size-5" />,
 };
 
 export function ServicePackageRecordCompactNavigation({

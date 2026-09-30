@@ -21,14 +21,18 @@ import { useAppSelector } from '@/hooks/useAppSelector';
 import { ServicePackageRecordDetailRoute } from './ServicePackageRecordDetailRoute';
 import { ServicePackageRecordDocumentsSection } from './ServicePackageRecordDocumentsSection';
 import {
+  ServicePackageRecordContactSection,
   ServicePackageRecordEquipmentSection,
-  ServicePackageRecordGeneralDetailsSection,
+  ServicePackageRecordServiceInformationSection,
+  ServicePackageRecordSignaturesSection,
 } from './ServicePackageRecordReadOnlySections';
 
 const navigationIds = [
-  ['general-details', 'general.title'],
+  ['contact', 'general.contact'],
+  ['service-information', 'general.serviceAndMetadata'],
   ['equipment', 'equipment.title'],
   ['documents', 'documents.title'],
+  ['signatures', 'general.signatures'],
 ] as const;
 
 export function ServicePackageRecordDetailPage() {
@@ -107,9 +111,16 @@ export function ServicePackageRecordDetailPage() {
                 contentSurface={{ base: 'bare', md: 'inset' }}
                 density={{ base: 'compact', md: 'comfortable' }}
                 dividers="hidden"
+                groups={[{ fields: 5, orientation: 'responsive' }]}
+                surface={{ base: 'bare', md: 'card' }}
+              />
+              <ResourceFormSkeleton
+                contentSurface={{ base: 'bare', md: 'inset' }}
+                density={{ base: 'compact', md: 'comfortable' }}
+                dividers="hidden"
                 groups={[
-                  { fields: 5, orientation: 'responsive' },
-                  { fields: 6, orientation: 'vertical' },
+                  { fields: 11, orientation: 'vertical' },
+                  { fields: 1, orientation: 'vertical' },
                 ]}
                 surface={{ base: 'bare', md: 'card' }}
               />
@@ -117,7 +128,7 @@ export function ServicePackageRecordDetailPage() {
                 contentSurface={{ base: 'bare', md: 'inset' }}
                 density={{ base: 'compact', md: 'comfortable' }}
                 dividers="hidden"
-                groups={[{ fields: 6, orientation: 'vertical' }]}
+                groups={[{ fields: 3, orientation: 'responsive' }]}
                 surface={{ base: 'bare', md: 'card' }}
               />
             </ServicePackageRecordDetailRoute>
@@ -150,14 +161,26 @@ export function ServicePackageRecordDetailPage() {
                 navigationLabel={navigationLabel}
                 scrollContainerRef={pageContentScrollerRef}
               >
-                <section className="scroll-mt-24 md:scroll-mt-5" id="general-details" tabIndex={-1}>
-                  <ServicePackageRecordGeneralDetailsSection record={detail.record} />
-                </section>
+                <div className="space-y-5">
+                  <section className="scroll-mt-24 md:scroll-mt-5" id="contact" tabIndex={-1}>
+                    <ServicePackageRecordContactSection record={detail.record} />
+                  </section>
+                  <section
+                    className="scroll-mt-24 md:scroll-mt-5"
+                    id="service-information"
+                    tabIndex={-1}
+                  >
+                    <ServicePackageRecordServiceInformationSection record={detail.record} />
+                  </section>
+                </div>
                 <section className="scroll-mt-24 md:scroll-mt-5" id="equipment" tabIndex={-1}>
                   <ServicePackageRecordEquipmentSection record={detail.record} />
                 </section>
                 <section className="scroll-mt-24 md:scroll-mt-5" id="documents" tabIndex={-1}>
                   <ServicePackageRecordDocumentsSection record={detail.record} />
+                </section>
+                <section className="scroll-mt-24 md:scroll-mt-5" id="signatures" tabIndex={-1}>
+                  <ServicePackageRecordSignaturesSection record={detail.record} />
                 </section>
               </ServicePackageRecordDetailRoute>
             </DashboardContentReveal>
