@@ -62,6 +62,7 @@ export function ServicePackagesRecordsTable({
     () =>
       createServicePackagesRecordsColumns({
         dateFormatter,
+        density,
         labels: {
           serviceOrder: t('table.columns.serviceOrder'),
           serviceType: t('table.columns.serviceType'),
@@ -72,7 +73,7 @@ export function ServicePackagesRecordsTable({
           empty: t('labels.empty'),
         },
       }),
-    [dateFormatter, t]
+    [dateFormatter, density, t]
   );
 
   return (
