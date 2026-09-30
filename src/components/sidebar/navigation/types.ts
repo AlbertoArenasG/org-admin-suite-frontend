@@ -39,7 +39,6 @@ export type SidebarNavigationEntryId =
   | 'services'
   | 'serviceEntries'
   | 'serviceEntrySurveys'
-  | 'servicePackagesRecords'
   | 'portalServices';
 
 export interface SidebarNavigationAuthorization {

@@ -3,18 +3,7 @@ import type {
   ServicePackageRecordDetail,
   ServicePackageRecordDetails,
   ServicePackageRecordEquipmentItem,
-  ServicePackageRecordListItem,
 } from '@/features/servicePackagesRecords/types';
-
-export type ApiServicePackageRecordListItem = {
-  record_id: string;
-  service_order: string | null;
-  company: string | null;
-  collector_name: string | null;
-  visit_date: string | null;
-  service_type: string | null;
-  created_at: string | null;
-};
 
 export type ApiServicePackageRecordDetail = {
   record_id: string;
@@ -141,20 +130,6 @@ function mapAttachment(value: ApiServicePackageRecordAttachment): ServicePackage
     size: value.size,
     downloadUrl: value.download_url,
     previewUrl: value.preview_url,
-  };
-}
-
-export function mapServicePackageRecordListItem(
-  value: ApiServicePackageRecordListItem
-): ServicePackageRecordListItem {
-  return {
-    id: value.record_id,
-    serviceOrder: value.service_order ?? '',
-    company: value.company ?? '',
-    collectorName: value.collector_name ?? '',
-    visitDate: value.visit_date ?? '',
-    serviceType: value.service_type ?? '',
-    createdAt: value.created_at ?? '',
   };
 }
 

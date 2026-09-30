@@ -70,6 +70,5 @@ export function resolveSidebarNavigationVisibility(
     services: true,
     serviceEntries: authorization.hasModule('SERVICE_ENTRIES'),
     serviceEntrySurveys: authorization.hasModule('SERVICE_ENTRY_SURVEYS'),
-    servicePackagesRecords: authorization.hasModule('SERVICE_PACKAGES'),
   };
 }

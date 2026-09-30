@@ -1,30 +1,5 @@
 {
-  "title": "Reception, collection and delivery",
-  "table": {
-    "searchPlaceholder": "Search by order, company or collector...",
-    "serviceTypePlaceholder": "All service types",
-    "columnLabel": "Columns",
-    "columns": {
-      "serviceOrder": "Service order",
-      "serviceType": "Service type",
-      "company": "Company",
-      "collector": "Collector",
-      "visitDate": "Visit date",
-      "status": "Status",
-      "createdAt": "Created",
-      "actions": "Actions"
-    },
-    "noData": "No packages to display.",
-    "summary": "Showing {{from}}-{{to}} of {{total}} packages",
-    "pagination": {
-      "previous": "Previous",
-      "next": "Next"
-    }
-  },
   "actions": {
-    "openMenu": "Open actions",
-    "view": "View details",
-    "delete": "Delete package",
     "retry": "Retry"
   },
   "detail": {
@@ -83,14 +58,5 @@
       "no": "No",
       "empty": "—"
     }
-  },
-  "delete": {
-    "title": "Delete package",
-    "description": "This action deletes the package and its collected files.",
-    "warning": "Please confirm you want to delete this package",
-    "cancel": "Cancel",
-    "confirm": "Delete",
-    "success": "Package deleted successfully.",
-    "error": "We couldn't delete the package."
   }
 }

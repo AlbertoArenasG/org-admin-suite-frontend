@@ -2,16 +2,6 @@
 
 export type ServicePackageRecordRequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
 
-export interface ServicePackageRecordListItem {
-  id: string;
-  serviceOrder: string;
-  company: string;
-  collectorName: string;
-  visitDate: string;
-  serviceType: string;
-  createdAt: string;
-}
-
 export interface ServicePackageRecordAttachment {
   fileId: string;
   relativePath: string;
@@ -65,16 +55,4 @@ export interface ServicePackageRecordDetail {
 export interface ServicePackageRecordDetailError {
   message: string;
   status: number;
-}
-
-export interface ServicePackagesRecordsPagination {
-  page: number;
-  perPage: number;
-  total: number;
-  totalPages: number;
-}
-
-export interface ServicePackageRecordServiceTypeOption {
-  value: string;
-  label: string;
 }
