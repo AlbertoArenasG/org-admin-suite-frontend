@@ -2,8 +2,9 @@
 
 import { useMemo } from 'react';
 
-import { DataTable } from '@/components/data-table';
+import { DataTable, type DataTableRowActions } from '@/components/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
+import type { ServicePackageRecordListItem } from '@/features/servicePackagesRecords';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { useDataTablePreferencesStore } from '@/stores/useDataTablePreferencesStore';
 import { createServicePackagesRecordsColumns } from './servicePackagesRecordsColumns';
@@ -12,6 +13,7 @@ import type { ServicePackagesRecordsListController } from './useServicePackagesR
 
 type ServicePackagesRecordsTableProps = {
   controller: ServicePackagesRecordsListController;
+  rowActions: DataTableRowActions<ServicePackageRecordListItem>;
 };
 
 function loadingCell(columnId: string) {
@@ -19,7 +21,10 @@ function loadingCell(columnId: string) {
   return <Skeleton className={`h-5 ${width}`} />;
 }
 
-export function ServicePackagesRecordsTable({ controller }: ServicePackagesRecordsTableProps) {
+export function ServicePackagesRecordsTable({
+  controller,
+  rowActions,
+}: ServicePackagesRecordsTableProps) {
   const { t, hydrated, i18n } = useTranslationHydrated('servicePackagesRecords');
   const density = useDataTablePreferencesStore((state) => state.density);
   const setDensity = useDataTablePreferencesStore((state) => state.setDensity);
@@ -150,6 +155,7 @@ export function ServicePackagesRecordsTable({ controller }: ServicePackagesRecor
         query: appliedSearch,
         columnIds: ['serviceOrder', 'serviceType', 'company', 'collectorName'],
       }}
+      rowActions={rowActions}
       labels={{
         loading: t('list.loading'),
         loadingResults: t('table.loadingResults'),
@@ -169,6 +175,7 @@ export function ServicePackagesRecordsTable({ controller }: ServicePackagesRecor
         previousPage: t('table.previousPage'),
         nextPage: t('table.nextPage'),
         clearSearch: t('list.clearCriteria'),
+        rowActions: t('table.rowActions'),
       }}
     />
   );

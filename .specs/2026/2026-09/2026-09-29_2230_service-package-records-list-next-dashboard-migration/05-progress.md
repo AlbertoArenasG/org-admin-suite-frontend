@@ -42,3 +42,19 @@
 - Verificado: JSON de locales, `npm run typecheck`, `npm run build` y
   `git diff --check` completaron correctamente. El build conserva warnings
   preexistentes fuera de esta slice.
+
+## 2026-09-29 - Slice 3: Acciones Destructivas Y Revalidacion
+
+- Se creó `useServicePackageRecordRowActions` como frontera de modulo para
+  resolver READ/DELETE, navegacion, seleccion del registro y mutacion; la
+  tabla y los componentes compartidos no conocen esas reglas.
+- `Ver detalle` se declara como accion primaria y usa el contrato existente de
+  `DataTable` para menu de acciones, menu contextual y doble clic seguro. El
+  enlace de orden de servicio conserva su navegacion directa e independiente.
+- `Eliminar` solo se resuelve con DELETE y compone
+  `DestructiveConfirmationDialog`. Exito muestra toast, limpia la mutacion y
+  vuelve a solicitar la pagina; error conserva el dialogo y su contexto.
+- No se modificaron `DataTable` ni `DestructiveConfirmationDialog`.
+- Verificado: `npm run typecheck`, `npm run build` y `git diff --check`
+  completaron correctamente. El build conserva warnings preexistentes fuera de
+  esta slice.

@@ -19,8 +19,8 @@
 - [x] Crear DataTable, filtro, ruta, shell, sidebar y traducciones.
       Status: done
 
-- [ ] Integrar baja confirmada, feedback y revalidacion de la pagina activa.
-      Status: pending
+- [x] Integrar baja confirmada, feedback y revalidacion de la pagina activa.
+      Status: done
 
 ## Cierre
 
