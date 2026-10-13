@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 import { CustomerServiceRecordDetailRoute } from '@/components/customer-service-records/CustomerServiceRecordDetailRoute';
+import { CustomerServiceRecordAssetPageHeader } from '@/components/customer-service-records/CustomerServiceRecordAssetPageHeader';
 import {
   DashboardContentReveal,
   DashboardPageComposition,
@@ -90,6 +91,17 @@ export function ClientAccessCustomerServiceRecordDetailPage() {
 
   return (
     <DashboardPageComposition>
+      {!isLoading && !loadError && detail.record ? (
+        <CustomerServiceRecordAssetPageHeader
+          asset={detail.record.assets[0]}
+          labels={{
+            unnamedAsset: t('detail.assetContext.unnamedAsset'),
+            brand: t('detail.fields.brand'),
+            model: t('detail.fields.model'),
+            identifier: t('detail.fields.identifier'),
+          }}
+        />
+      ) : null}
       <DashboardPageContentScroller padding="default" ref={pageContentScrollerRef}>
         <div className="flex w-full min-w-0 flex-col gap-6">
           {isLoading ? (

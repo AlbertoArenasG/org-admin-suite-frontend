@@ -138,6 +138,9 @@
     "breadcrumb": "Record {{folio}}",
     "notFound": "The service record was not found.",
     "navigationLabel": "Service record sections",
+    "assetContext": {
+      "unnamedAsset": "Unnamed equipment"
+    },
     "timeline": {
       "label": "Service timeline",
       "noDate": "No date",

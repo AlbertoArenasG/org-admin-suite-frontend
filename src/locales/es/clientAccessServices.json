@@ -28,6 +28,9 @@
   "detail": {
     "breadcrumb": "Registro {{folio}}",
     "navigationLabel": "Navegacion del registro",
+    "assetContext": {
+      "unnamedAsset": "Equipo sin nombre"
+    },
     "sections": {
       "general": "Detalles generales",
       "customerDelivery": "Cliente y compromiso de entrega",

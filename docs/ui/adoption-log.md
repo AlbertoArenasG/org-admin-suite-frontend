@@ -58,6 +58,17 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-10-13 - Contexto de Equipo en Detalles de Registros de Servicio
+
+- Alcance: `/dashboard/customer-service-records/[recordId]` y
+  `/dashboard/portal/services/[recordId]`.
+- Adopción: `PageHeader` compacto dentro de `DashboardPageComposition`, antes
+  del `DashboardPageContentScroller`, para mantener visible la identidad del
+  equipo mientras se recorren las secciones del recurso.
+- Contenido: nombre del equipo como título y marca, modelo e identificación
+  como metadata; no contiene acciones ni estado local de edición.
+- Compatibilidad temporal: ninguna.
+
 ### 2026-09-29 - Listado de Recepción, Recolección y Entrega
 
 - Alcance: `/dashboard/service-packages-records`.

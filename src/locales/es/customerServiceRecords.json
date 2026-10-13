@@ -138,6 +138,9 @@
     "breadcrumb": "Registro {{folio}}",
     "notFound": "No se encontró el registro de servicio.",
     "navigationLabel": "Secciones del registro de servicio",
+    "assetContext": {
+      "unnamedAsset": "Equipo sin nombre"
+    },
     "timeline": {
       "label": "Línea de tiempo del servicio",
       "noDate": "Sin fecha",

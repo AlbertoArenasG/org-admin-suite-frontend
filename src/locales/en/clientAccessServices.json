@@ -28,6 +28,9 @@
   "detail": {
     "breadcrumb": "Record {{folio}}",
     "navigationLabel": "Record navigation",
+    "assetContext": {
+      "unnamedAsset": "Unnamed equipment"
+    },
     "sections": {
       "general": "General details",
       "customerDelivery": "Customer and delivery commitment",

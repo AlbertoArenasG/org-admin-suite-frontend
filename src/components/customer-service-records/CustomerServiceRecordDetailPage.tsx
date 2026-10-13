@@ -46,6 +46,7 @@ import { CustomerServiceRecordProviderFollowUpForm } from './CustomerServiceReco
 import { CustomerServiceRecordDocumentsSection } from './CustomerServiceRecordDocumentsSection';
 import type { CustomerServiceRecordDocumentSubmissionItem } from './CustomerServiceRecordDocumentForm';
 import { CustomerServiceRecordDetailRoute } from './CustomerServiceRecordDetailRoute';
+import { CustomerServiceRecordAssetPageHeader } from './CustomerServiceRecordAssetPageHeader';
 import { CustomerServiceRecordTimeline } from './CustomerServiceRecordTimeline';
 
 export function CustomerServiceRecordDetailPage() {
@@ -206,6 +207,17 @@ export function CustomerServiceRecordDetailPage() {
 
   return (
     <DashboardPageComposition>
+      {!isLoading && !loadError && detail.record ? (
+        <CustomerServiceRecordAssetPageHeader
+          asset={detail.record.assets[0]}
+          labels={{
+            unnamedAsset: t('detail.assetContext.unnamedAsset'),
+            brand: t('form.labels.brand'),
+            model: t('form.labels.model'),
+            identifier: t('form.labels.identifier'),
+          }}
+        />
+      ) : null}
       <DashboardPageContentScroller padding="default" ref={pageContentScrollerRef}>
         <div className="flex w-full min-w-0 flex-col gap-6">
           {isLoading ? (
