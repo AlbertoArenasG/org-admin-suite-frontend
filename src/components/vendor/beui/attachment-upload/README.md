@@ -17,10 +17,12 @@ or modify primitives in `src/components/ui`.
 
 The block owns only animated file-selection presentation, local attachment
 rows, local selection-progress feedback, and preview interaction. It is
-consumed through a generic product dialog that keeps `File` objects in memory
-and never calls remote endpoints. Product modules own dialog confirmation,
+normally consumed through a generic product dialog that keeps `File` objects
+in memory and never calls remote endpoints. The service-package ZIP upload
+dialog uses the selector directly because its result must remain visible
+while a remote mutation completes. Product modules own dialog confirmation,
 upload timing, remote mutations, permissions, localization, and domain
-validation.
+validation. Optional selector labels retain their original defaults.
 
 ## Dependencies
 
@@ -33,6 +35,8 @@ validation.
 
 - `CustomerServiceRecordDocumentForm` consumes the product-level
   `AttachmentUploadDialog`; it does not import this family directly.
+- `ServicePackageZipUploadDialog` consumes `AttachmentUpload` directly for its
+  specialized ZIP selection and upload flow.
 
 ## Update Procedure
 

@@ -8,11 +8,13 @@ import type {
   ServicePackageRecordRequestStatus,
   ServicePackageRecordServiceTypeOption,
 } from '@/features/servicePackagesRecords/types';
+import type { ServicePackageZipUploadOutcome } from '@/features/servicePackagesRecords/servicePackageZipUpload';
 import {
   deleteServicePackageRecord,
   fetchServicePackageRecordDetail,
   fetchServicePackageRecordServiceTypeOptions,
   fetchServicePackagesRecords,
+  uploadServicePackageZip,
 } from '@/features/servicePackagesRecords/servicePackagesRecordsThunks';
 
 export interface ServicePackagesRecordsState {
@@ -36,6 +38,11 @@ export interface ServicePackagesRecordsState {
     error: string | null;
     message: string | null;
     currentRecordId: string | null;
+  };
+  upload: {
+    status: 'idle' | 'loading' | 'settled';
+    outcome: ServicePackageZipUploadOutcome | null;
+    activeRequestId: string | null;
   };
   detail: {
     record: ServicePackageRecordDetail | null;
@@ -68,6 +75,11 @@ const initialState: ServicePackagesRecordsState = {
     message: null,
     currentRecordId: null,
   },
+  upload: {
+    status: 'idle',
+    outcome: null,
+    activeRequestId: null,
+  },
   detail: {
     record: null,
     status: 'idle',
@@ -97,6 +109,9 @@ const servicePackagesRecordsSlice = createSlice({
         currentRecordId: null,
         activeRequestId: null,
       };
+    },
+    resetServicePackageZipUpload(state) {
+      state.upload = { status: 'idle', outcome: null, activeRequestId: null };
     },
   },
   extraReducers: (builder) => {
@@ -158,6 +173,23 @@ const servicePackagesRecordsSlice = createSlice({
         state.mutations.error =
           action.payload ?? action.error.message ?? 'No fue posible eliminar el registro.';
       })
+      .addCase(uploadServicePackageZip.pending, (state, action) => {
+        state.upload.status = 'loading';
+        state.upload.outcome = null;
+        state.upload.activeRequestId = action.meta.requestId;
+      })
+      .addCase(uploadServicePackageZip.fulfilled, (state, action) => {
+        if (state.upload.activeRequestId !== action.meta.requestId) return;
+        state.upload.status = 'settled';
+        state.upload.outcome = action.payload;
+        state.upload.activeRequestId = null;
+      })
+      .addCase(uploadServicePackageZip.rejected, (state, action) => {
+        if (state.upload.activeRequestId !== action.meta.requestId) return;
+        state.upload.status = 'settled';
+        state.upload.outcome = action.payload ?? { kind: 'uncertain', reason: 'network' };
+        state.upload.activeRequestId = null;
+      })
       .addCase(fetchServicePackageRecordDetail.pending, (state, action) => {
         state.detail.status = 'loading';
         state.detail.error = null;
@@ -195,7 +227,10 @@ const servicePackagesRecordsSlice = createSlice({
   },
 });
 
-export const { resetServicePackageRecordDeleteMutation, resetServicePackageRecordDetail } =
-  servicePackagesRecordsSlice.actions;
+export const {
+  resetServicePackageRecordDeleteMutation,
+  resetServicePackageRecordDetail,
+  resetServicePackageZipUpload,
+} = servicePackagesRecordsSlice.actions;
 
 export default servicePackagesRecordsSlice.reducer;

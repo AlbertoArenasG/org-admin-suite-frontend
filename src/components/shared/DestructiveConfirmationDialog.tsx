@@ -21,6 +21,7 @@ type DestructiveConfirmationDialogProps = {
   subject?: ReactNode;
   cancelLabel: string;
   confirmLabel: string;
+  loadingLabel?: string;
   isPending?: boolean;
   onConfirm: () => void;
 };
@@ -33,6 +34,7 @@ export function DestructiveConfirmationDialog({
   subject,
   cancelLabel,
   confirmLabel,
+  loadingLabel,
   isPending = false,
   onConfirm,
 }: DestructiveConfirmationDialogProps) {
@@ -62,7 +64,13 @@ export function DestructiveConfirmationDialog({
           >
             {cancelLabel}
           </Button>
-          <Button type="button" variant="destructive" onClick={onConfirm} disabled={isPending}>
+          <Button
+            type="button"
+            variant="destructive"
+            onClick={onConfirm}
+            loading={isPending}
+            loadingLabel={loadingLabel ?? confirmLabel}
+          >
             {confirmLabel}
           </Button>
         </DialogFooter>

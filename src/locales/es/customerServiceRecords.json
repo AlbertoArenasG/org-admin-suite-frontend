@@ -301,6 +301,7 @@
     "warning": "Confirma que deseas eliminar este registro.",
     "cancel": "Cancelar",
     "confirm": "Eliminar registro",
+    "loading": "Eliminando registro...",
     "success": "Registro de servicio eliminado correctamente.",
     "error": "No fue posible eliminar el registro de servicio."
   },

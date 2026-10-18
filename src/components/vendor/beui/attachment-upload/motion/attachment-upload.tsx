@@ -82,6 +82,9 @@ export interface AttachmentUploadProps {
   title?: string;
   description?: string;
   attachmentsLabel?: string;
+  inputAriaLabel?: string;
+  maxReachedTitle?: string;
+  maxReachedDescription?: string;
   className?: string;
   classNames?: AttachmentUploadClassNames;
 }
@@ -578,6 +581,9 @@ export const AttachmentUpload = forwardRef<AttachmentUploadHandle, AttachmentUpl
       title = 'Drag and drop or browse files',
       description,
       attachmentsLabel = 'Attachments',
+      inputAriaLabel = 'Upload attachments',
+      maxReachedTitle = 'Attachment limit reached',
+      maxReachedDescription,
       className,
       classNames,
     },
@@ -713,7 +719,7 @@ export const AttachmentUpload = forwardRef<AttachmentUploadHandle, AttachmentUpl
             ref={inputRef}
             id={inputId}
             type="file"
-            aria-label="Upload attachments"
+            aria-label={inputAriaLabel}
             accept={accept}
             multiple={multiple}
             disabled={disabled || maxReached}
@@ -786,11 +792,11 @@ export const AttachmentUpload = forwardRef<AttachmentUploadHandle, AttachmentUpl
               <Upload className="size-[18px]" />
             </motion.span>
             <span className="text-sm font-semibold tracking-[-0.01em] text-foreground">
-              {maxReached ? 'Attachment limit reached' : title}
+              {maxReached ? maxReachedTitle : title}
             </span>
             <span className="mt-1 text-xs leading-5 text-muted-foreground">
               {maxReached
-                ? `${items.length} of ${maxFiles} attachments added`
+                ? (maxReachedDescription ?? `${items.length} of ${maxFiles} attachments added`)
                 : (description ?? `Maximum ${formatMaxSize(maxFileSize)} file size`)}
             </span>
           </motion.button>

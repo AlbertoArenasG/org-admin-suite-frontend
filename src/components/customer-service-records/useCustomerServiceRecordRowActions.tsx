@@ -113,6 +113,7 @@ export function useCustomerServiceRecordRowActions({
         subject={recordPendingDeletion?.serviceNumber}
         cancelLabel={t('delete.cancel')}
         confirmLabel={t('delete.confirm')}
+        loadingLabel={t('delete.loading')}
         isPending={
           mutations.deleteStatus === 'loading' &&
           mutations.currentRecordId === recordPendingDeletion?.customerServiceRecordId

@@ -23,15 +23,20 @@
   desde la lista de Next Dashboard.
 - Artefactos: `ServicePackageZipUploadDialog.tsx`,
   `ServicePackagesRecordsContainer.tsx`, `ServicePackagesRecordsTable.tsx`,
-  locales ES/EN; reuso de DataTable, Dialog, Button y AttachmentUpload.
+  textos opcionales de `AttachmentUpload` y locales ES/EN; reuso de DataTable,
+  Dialog y Button. `AttachmentUploadDialog` no se modifica.
 - Pasos: conectar `primaryActions`; mantener seleccion local del ZIP,
+  mostrar la fila y su preparacion animada mediante estado local del dialogo;
   despachar thunk y leer `upload` de Redux; bloquear cierre durante envio,
   mostrar resumen confirmado, warning de parcialidad e incertidumbre; invocar
   `refetch` una vez en exito, resetear al cerrar y traducir.
-- Limite: no ampliar contratos compartidos ni cambiar permisos/ruta/filtros.
-- Validacion: build/lint y recorrido local de estados; verificar teclado,
-  mobile y temas con matriz. Cierre: criterios 1-7 trazables y resultado
-  visible hasta cierre explicito.
+- Limite: salvo los textos opcionales del selector vendor, no ampliar
+  contratos compartidos ni cambiar permisos, ruta o filtros.
+- Validacion de implementacion: typecheck/lint y revision estatica de los
+  estados. El build y el recorrido con API, teclado, mobile y temas quedan
+  registrados en la Slice 3 si no pueden ejecutarse en este entorno. Cierre:
+  flujo implementado y resultado visible hasta cierre explicito, sin afirmar
+  que los criterios 1-7 ya pasaron la validacion manual.
 
 ## Slice 3: Evidencia Y Cierre (Fase 3)
 

@@ -13,6 +13,8 @@ export interface AuthState {
   token: string | null;
   successMessage: string | null;
   hydrated: boolean;
+  currentUserRequestId: string | null;
+  permissionsRequestId: string | null;
 }
 
 const initialState: AuthState = {
@@ -23,6 +25,8 @@ const initialState: AuthState = {
   token: null,
   successMessage: null,
   hydrated: false,
+  currentUserRequestId: null,
+  permissionsRequestId: null,
 };
 
 const authSlice = createSlice({
@@ -38,6 +42,8 @@ const authSlice = createSlice({
       state.error = null;
       state.successMessage = null;
       state.hydrated = true;
+      state.currentUserRequestId = null;
+      state.permissionsRequestId = null;
     },
     resetStatus(state) {
       state.status = 'idle';
@@ -62,6 +68,8 @@ const authSlice = createSlice({
       state.status = action.payload.token ? 'succeeded' : 'idle';
       state.error = null;
       state.successMessage = null;
+      state.currentUserRequestId = null;
+      state.permissionsRequestId = null;
     },
     markHydrated(state, action: PayloadAction<boolean | undefined>) {
       state.hydrated = action.payload ?? true;
@@ -83,6 +91,8 @@ const authSlice = createSlice({
         state.error = null;
         state.successMessage = action.payload.message ?? 'La sesión se inició correctamente';
         state.hydrated = true;
+        state.currentUserRequestId = null;
+        state.permissionsRequestId = null;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
@@ -95,18 +105,25 @@ const authSlice = createSlice({
         state.token = null;
         state.successMessage = null;
         state.hydrated = true;
+        state.currentUserRequestId = null;
+        state.permissionsRequestId = null;
         persistAuthSession(null, null);
       })
-      .addCase(fetchCurrentUser.pending, (state) => {
+      .addCase(fetchCurrentUser.pending, (state, action) => {
         state.status = 'loading';
+        state.currentUserRequestId = action.meta.requestId;
       })
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        if (!state.token || state.currentUserRequestId !== action.meta.requestId) return;
+        state.currentUserRequestId = null;
         state.status = 'succeeded';
         state.user = action.payload;
         state.error = null;
         persistAuthSession(state.token, action.payload);
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
+        if (!state.token || state.currentUserRequestId !== action.meta.requestId) return;
+        state.currentUserRequestId = null;
         state.status = 'failed';
         state.error =
           (action.payload as string | undefined) ??
@@ -115,17 +132,22 @@ const authSlice = createSlice({
         state.authorization = null;
         state.hydrated = true;
       })
-      .addCase(fetchMyPermissions.pending, (state) => {
+      .addCase(fetchMyPermissions.pending, (state, action) => {
         state.status = 'loading';
         state.error = null;
+        state.permissionsRequestId = action.meta.requestId;
       })
       .addCase(fetchMyPermissions.fulfilled, (state, action) => {
+        if (!state.token || state.permissionsRequestId !== action.meta.requestId) return;
+        state.permissionsRequestId = null;
         state.status = 'succeeded';
         state.authorization = action.payload;
         state.error = null;
         state.hydrated = true;
       })
       .addCase(fetchMyPermissions.rejected, (state, action) => {
+        if (!state.token || state.permissionsRequestId !== action.meta.requestId) return;
+        state.permissionsRequestId = null;
         state.status = 'failed';
         state.authorization = null;
         state.error =

@@ -59,9 +59,10 @@ backoffice contra API accesible.
 
 ## Dialogo Y Estado
 
-`ServicePackageZipUploadDialog` usa `Dialog`, `DialogContent`, `Button` y el
-control existente `AttachmentUpload` (no `AttachmentUploadDialog`, porque
-ese wrapper descarta el archivo y cierra al confirmar). El dialogo guarda
+`ServicePackageZipUploadDialog` usa `Dialog`, `DialogContent`, `Button` y
+directamente el control visual `AttachmentUpload` del vendor. No se usa
+`AttachmentUploadDialog` porque ese wrapper descarta el archivo y cierra al
+confirmar. El dialogo ZIP guarda
 localmente solo seleccion, rechazo de archivo y foco; obtiene `loading` y el
 resultado remoto de `servicePackagesRecords.upload`. La presentacion deriva
 `selecting | submitting | confirmed | server-error | uncertain` de ese
@@ -70,9 +71,14 @@ estado. `accept=".zip,application/zip"`,
 el default de 500 MB del vendor; pasar descripcion propia en lugar del texto
 de tamano maximo. Validar ademas extension `.zip` sin
 sensibilidad a mayusculas y tamaño mayor a cero antes de habilitar envio.
-No inspeccionar ni modificar el contenido del ZIP en navegador. El control
-compartido no cambia; el limite efectivo de infraestructura sigue sin
-confirmarse y no se promete tamano ilimitado extremo a extremo.
+No inspeccionar ni modificar el contenido del ZIP en navegador. El selector
+mantiene la fila visible y coordina localmente la misma animacion
+`uploading -> complete -> idle` del dialogo de adjuntos; el
+boton de envio se habilita al terminar. Esto no representa progreso del
+backend. El vendor solo recibe props opcionales para traducir el estado de
+limite y el nombre accesible del input; sus defaults existentes no cambian.
+El limite efectivo de infraestructura sigue sin confirmarse y no se promete
+tamano ilimitado extremo a extremo.
 
 Antes de enviar, mostrar nombre y tamaño del ZIP, descripcion clara de que
 puede contener varios registros y confirmacion explicita. Durante
@@ -93,7 +99,9 @@ criterios y preferencias. No navegar automaticamente: filtros activos pueden
 ocultar los nuevos registros. En `server-error`, mostrar status y mensaje
 legible, advirtiendo posible carga parcial. En `uncertain`, explicar que no
 se sabe si llego, se proceso o se perdio la respuesta; indicar revisar el
-listado antes de repetir. No usar toast como unico feedback.
+listado antes de repetir. En error e incertidumbre una accion `Verificar en el
+listado` cierra el dialogo y ejecuta `controller.refetch()` sin reenviar el
+ZIP. No usar toast como unico feedback.
 
 ## Accesibilidad, Responsive Y Tema
 
@@ -114,7 +122,8 @@ temas activos y objetivos tactiles. No se instala otro vendor ni dependencia.
 | Shell, breadcrumb y scroll   | Configuracion                 | `src/components/dashboard-shell/migration/dashboardShellMigration.ts`                               | Sin cambios de ruta ni scroll.                                                  | Dashboard shell.                                | not_applicable |
 | Contenedor de listado        | Componente de modulo          | `src/components/servicePackagesRecords/ServicePackagesRecordsContainer.tsx`                         | Compone accion, dialogo y refetch.                                              | List controller, table, dialog.                 | modify         |
 | Tabla de listado             | Componente de modulo          | `src/components/servicePackagesRecords/ServicePackagesRecordsTable.tsx`                             | Recibe `primaryActions` y lo pasa a toolbar.                                    | DataTable.                                      | modify         |
-| Dialogo ZIP                  | Componente de modulo          | `src/components/servicePackagesRecords/ServicePackageZipUploadDialog.tsx`                           | Seleccion local, despacho de thunk, feedback y accesibilidad.                   | Dialog, AttachmentUpload, Button, Redux upload. | new            |
+| Dialogo ZIP                  | Componente de modulo          | `src/components/servicePackagesRecords/ServicePackageZipUploadDialog.tsx`                           | Seleccion, animacion local, despacho de thunk, feedback y accesibilidad.        | Dialog, AttachmentUpload, Button, Redux upload. | new            |
+| Dialogo de adjuntos          | Componente compartido         | `src/components/attachments/AttachmentUploadDialog.tsx`, `index.ts`                                 | Conserva el flujo existente de seleccion local y confirmacion.                  | Sin cambios.                                    | reuse          |
 | Cliente ZIP                  | Cliente API del feature       | `src/features/servicePackagesRecords/servicePackageZipUpload.ts`                                    | POST multipart y clasificacion de respuesta.                                    | API_BASE_URL, handoff API.                      | new            |
 | Thunk de upload              | Thunk de feature              | `src/features/servicePackagesRecords/servicePackagesRecordsThunks.ts`                               | Coordina mutacion y resultado tipado.                                           | Cliente ZIP, `createAsyncThunk`.                | modify         |
 | Estado de upload             | Slice de feature              | `src/features/servicePackagesRecords/servicePackagesRecordsSlice.ts`                                | Rama serializable `upload`, requestId y reset.                                  | Thunk de upload.                                | modify         |
@@ -122,7 +131,7 @@ temas activos y objetivos tactiles. No se instala otro vendor ni dependencia.
 | Copia ES                     | i18n                          | `src/locales/es/servicePackagesRecords.json`                                                        | Mensajes del flujo en espanol.                                                  | Claves del dialogo.                             | modify         |
 | Copia EN                     | i18n                          | `src/locales/en/servicePackagesRecords.json`                                                        | Mensajes del flujo en ingles.                                                   | Claves del dialogo.                             | modify         |
 | DataTable y toolbar          | Componente compartido         | `src/components/data-table/DataTable.tsx`, `DataTableToolbar.tsx`, `DataTable.types.ts`             | Contrato `primaryActions` existente.                                            | Ninguna modificacion.                           | reuse          |
-| Selector                     | Componente vendor reutilizado | `src/components/vendor/beui/attachment-upload/motion/attachment-upload.tsx`                         | Seleccion local de un archivo.                                                  | Contrato de selector vigente.                   | reuse          |
+| Selector vendor              | Componente vendor reutilizado | `src/components/vendor/beui/attachment-upload/motion/attachment-upload.tsx`                         | Seleccion local; textos opcionales para el limite y accesibilidad.              | Defaults existentes conservados.                | modify         |
 | Dialog y botones             | Primitives UI                 | `src/components/ui/dialog.tsx`, `src/components/ui/button.tsx`                                      | Foco, modal y accion en carga.                                                  | Tokens semanticos.                              | reuse          |
 | Controller de lista          | Hook de modulo                | `src/components/servicePackagesRecords/useServicePackagesRecordsListController.ts`                  | `refetch` existente sin alterar criterios.                                      | Redux y tabla existentes.                       | reuse          |
 | Boundary de permisos         | Acceso existente              | `src/app/dashboard/service-packages-records/page.tsx`                                               | READ de la vista, no auth del POST.                                             | `SERVICE_PACKAGES.READ`.                        | reuse          |
@@ -134,9 +143,9 @@ temas activos y objetivos tactiles. No se instala otro vendor ni dependencia.
 | Legacy y limpieza diferida   | Compatibilidad                | Ninguna ruta nueva                                                                                  | No hay artefactos legacy a mantener ni limpiar.                                 | PWA sin cambios.                                | not_applicable |
 | Normas UI compartidas        | Documentacion viva            | `docs/ui/`                                                                                          | Sin cambio de contrato compartido; no actualizar por caso local.                | Guidelines vigentes.                            | not_applicable |
 
-No se crean schema, selector, cache, store, slice independiente, token, theme,
-asset ni capa de estado transversal. Si la implementacion requiere un archivo
-adicional, se actualiza este registro y `04-decisions.md` antes de crearlo.
+No se crean schema, cache, store, slice independiente, token, theme, asset ni
+capa de estado transversal. La coordinacion de la animacion del ZIP queda
+dentro de su dialogo especializado.
 
 ## Validacion Por Riesgo
 

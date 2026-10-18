@@ -16,6 +16,10 @@ import {
   type ApiServicePackageRecordDetail,
   type ApiServicePackageRecordListItem,
 } from '@/features/servicePackagesRecords/servicePackagesRecordsMappers';
+import {
+  sendServicePackageZip,
+  type ServicePackageZipUploadOutcome,
+} from '@/features/servicePackagesRecords/servicePackageZipUpload';
 
 type ApiPagination = {
   page: number;
@@ -140,6 +144,24 @@ export const deleteServicePackageRecord = createAsyncThunk<
     );
   }
 });
+
+export const uploadServicePackageZip = createAsyncThunk<
+  Extract<ServicePackageZipUploadOutcome, { kind: 'confirmed' }>,
+  { file: File },
+  {
+    state: RootState;
+    rejectValue: Exclude<ServicePackageZipUploadOutcome, { kind: 'confirmed' }>;
+  }
+>(
+  'servicePackagesRecords/uploadZip',
+  async ({ file }, thunkAPI) => {
+    const outcome = await sendServicePackageZip(file);
+    return outcome.kind === 'confirmed' ? outcome : thunkAPI.rejectWithValue(outcome);
+  },
+  {
+    condition: (_, { getState }) => getState().servicePackagesRecords.upload.status !== 'loading',
+  }
+);
 
 export const fetchServicePackageRecordDetail = createAsyncThunk<
   ServicePackageRecordDetail,

@@ -10,9 +10,13 @@ la PWA como parte de este alcance.
 ## D2. Dialogo Sin Stepper
 
 Un solo dialogo contiene seleccion, envio y resultado persistente. El usuario
-no navega pasos independientes. Se reutiliza `AttachmentUpload` y la
-primitive `Dialog`, no `AttachmentUploadDialog` tal cual porque esta cierra al
-confirmar. No se modifica contrato de los compartidos.
+no navega pasos independientes. Usa directamente el selector visual
+`AttachmentUpload` del vendor. `AttachmentUploadDialog` permanece intacto:
+su contrato es seleccionar archivos localmente y cerrar al confirmar, no
+realizar una mutacion remota. El dialogo ZIP maneja sus propios estados de
+preparacion local y envio; la animacion inicial no representa progreso del
+POST remoto. Solo se agregan textos opcionales al vendor para el caso ZIP,
+sin alterar los defaults de sus otros consumidores.
 
 ## D3. Una Carga Por Intento
 

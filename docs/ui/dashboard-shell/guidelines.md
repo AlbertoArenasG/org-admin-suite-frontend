@@ -31,7 +31,13 @@ contenido de negocio.
 - La ruta declara un único `module` y `requiredOperation`. La primera versión
   no admite políticas compuestas ni múltiples módulos; esos casos requieren una
   spec que amplíe el contrato.
-- `AuthGuard` conserva autenticación, sesión e hidratación global. El boundary
+- `AuthGuard` conserva la protección de rutas e hidratación global. La
+  hidratación descarta tokens ya expirados y consulta el perfil en
+  `GET /v1/users/me` cuando falta el usuario local; `AuthSessionMonitor` vigila
+  la expiración al enfocar o reactivar la pestaña. Un `401` de una petición
+  autenticada invalida solo la sesión que originó esa petición. Ante fallos de
+  red o servidor al recuperar usuario o permisos, el guard ofrece reintentar
+  sin borrar el token ni bloquear la vista en carga indefinida. El boundary
   no duplica esa espera ni reemplaza la autorización efectiva del API.
 - Sin permiso, el boundary no monta `children`, fallbacks locales ni feedback,
   y ejecuta `router.replace('/dashboard')`. No se configuran destinos de

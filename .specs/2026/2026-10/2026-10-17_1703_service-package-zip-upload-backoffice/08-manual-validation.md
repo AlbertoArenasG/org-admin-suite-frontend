@@ -1,41 +1,47 @@
 # Validacion Manual: Carga ZIP Desde Backoffice
 
-- Validation status: `pending`
+- Validation status: `completed`
 - Responsable: persona usuaria, con frontend y API accesibles.
-- Registrar por caso fecha, cuenta/rol, dispositivo, tema, resultado observado
-  y estado `confirmado | pendiente | bloqueado | riesgo residual`.
+- Fecha de confirmacion: 2026-10-17. El usuario confirmo haber cubierto todos
+  los escenarios de esta matriz, incluidos error HTTP, corte de red, permisos,
+  movil, temas y accesibilidad. No se proporcionaron identificadores de cuenta,
+  dispositivo o tema por caso; no se inventan resultados mas especificos.
 
 ## Contrato Y Resultado
 
-- [ ] Desde `/dashboard/service-packages-records`, una cuenta READ ve
+- [x] Desde `/dashboard/service-packages-records`, una cuenta READ ve
       `Cargar ZIP`; una cuenta sin READ no accede a la ruta.
-- [ ] Seleccionar un `.zip` de la PWA muestra nombre/tamano y solo permite
+- [x] Seleccionar un `.zip` de la PWA muestra nombre/tamano y solo permite
       uno; archivo vacio o no ZIP no habilita envio.
-- [ ] Confirmar hace un unico POST multipart `package` con
+- [x] La fila seleccionada conserva la animacion local de preparacion usada
+      en registros de servicio a cliente; `Enviar ZIP` se habilita al terminar.
+- [x] Confirmar hace un unico POST multipart `package` con
       `origin=backoffice`; no aparece `Content-Type` manual sin boundary.
-- [ ] Durante la solicitud el dialogo muestra progreso de procesamiento,
+- [x] Durante la solicitud el dialogo muestra progreso de procesamiento,
       evita segundo envio y no cierra por Escape, overlay o X.
-- [ ] Con respuesta 201 valida se ven ID de paquete, conteo y folios
+- [x] Con respuesta 201 valida se ven ID de paquete, conteo y folios
       confirmados; el dialogo sigue abierto hasta `Cerrar`.
-- [ ] Tras exito la tabla refresca conservando pagina, busqueda, filtros y
+- [x] Tras exito la tabla refresca conservando pagina, busqueda, filtros y
       preferencias; si un filtro oculta el resultado, el dialogo mantiene su
       detalle para que el usuario no dependa de encontrarlo en la tabla.
-- [ ] Ante HTTP con error se muestra el mensaje disponible y la advertencia
+- [x] Ante HTTP con error se muestra el mensaje disponible y la advertencia
       de posible carga parcial; no se reintenta automaticamente.
-- [ ] Ante corte de red o respuesta ilegible se muestra incertidumbre, no
+- [x] Ante corte de red o respuesta ilegible se muestra incertidumbre, no
       un fracaso afirmado; se invita a revisar el listado antes de repetir.
-- [ ] Cerrar y reabrir el dialogo inicia un intento limpio, sin arrastrar el
+- [x] En error o incertidumbre, `Verificar en el listado` cierra el dialogo y
+      refresca la tabla sin reenviar el ZIP.
+- [x] Cerrar y reabrir el dialogo inicia un intento limpio, sin arrastrar el
       resultado anterior ni volver a enviar por si solo.
 
 ## Experiencia Y Regresion
 
-- [ ] En escritorio y movil el dialogo no crea scroll competitivo; un ZIP
+- [x] En escritorio y movil el dialogo no crea scroll competitivo; un ZIP
       con muchos folios deja visible el control de cierre.
-- [ ] Teclado y lector de pantalla anuncian titulo, progreso y resultado;
+- [x] Teclado y lector de pantalla anuncian titulo, progreso y resultado;
       el foco vuelve al trigger despues de cerrar.
-- [ ] Temas activos conservan contraste de estados, botones y texto sin
+- [x] Temas activos conservan contraste de estados, botones y texto sin
       colores hardcodeados.
-- [ ] Listado, filtro, acciones por fila, detalle y eliminacion conservan su
+- [x] Listado, filtro, acciones por fila, detalle y eliminacion conservan su
       comportamiento anterior.
 
 ## Riesgos No Simulables

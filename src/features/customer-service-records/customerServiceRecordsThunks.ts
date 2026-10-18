@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { API_BASE_URL } from '@/config/env';
+import { invalidateAuthSessionIfCurrent } from '@/features/auth/sessionInvalidation';
 import { jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import {
@@ -737,6 +738,7 @@ export const uploadCustomerServiceRecordFiles = createAsyncThunk<
       },
       body: formData,
     });
+    if (response.status === 401) invalidateAuthSessionIfCurrent(token);
     const body = (await response.json()) as {
       data?: ApiUploadedFile[];
       error_details?: { message?: string };

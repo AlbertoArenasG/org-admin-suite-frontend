@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, type ReactNode } from 'react';
 
 import { DataTable, type DataTableRowActions } from '@/components/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -14,6 +14,7 @@ import type { ServicePackagesRecordsListController } from './useServicePackagesR
 type ServicePackagesRecordsTableProps = {
   controller: ServicePackagesRecordsListController;
   rowActions: DataTableRowActions<ServicePackageRecordListItem>;
+  primaryActions?: ReactNode;
 };
 
 function loadingCell(columnId: string) {
@@ -24,6 +25,7 @@ function loadingCell(columnId: string) {
 export function ServicePackagesRecordsTable({
   controller,
   rowActions,
+  primaryActions,
 }: ServicePackagesRecordsTableProps) {
   const { t, hydrated, i18n } = useTranslationHydrated('servicePackagesRecords');
   const density = useDataTablePreferencesStore((state) => state.density);
@@ -109,6 +111,7 @@ export function ServicePackagesRecordsTable({
       )}
       toolbar={{
         compact: true,
+        primaryActions,
         search: {
           value: search,
           onChange: (value) => {

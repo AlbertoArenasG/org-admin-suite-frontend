@@ -1,5 +1,5 @@
 import { API_BASE_URL } from '@/config/env';
-import { persistAuthSession } from '@/features/auth/persistence';
+import { invalidateAuthSessionIfCurrent } from '@/features/auth/sessionInvalidation';
 
 export interface ApiErrorDetails {
   message: string;
@@ -114,6 +114,10 @@ export async function jsonRequest<TResponse, TMeta = unknown>(
 
   const response = await fetch(`${API_BASE_URL}${path}`, requestInit);
 
+  if (response.status === 401 && token && !skipAuthRedirect) {
+    invalidateAuthSessionIfCurrent(token);
+  }
+
   const contentType = response.headers.get('Content-Type') ?? '';
   const expectsJson = contentType.includes('application/json');
 
@@ -157,7 +161,7 @@ export async function jsonRequest<TResponse, TMeta = unknown>(
   const status = parsedBody?.status_code ?? response.status;
 
   if (status === 401 && token && !skipAuthRedirect) {
-    handleUnauthorizedRedirect();
+    invalidateAuthSessionIfCurrent(token);
   }
 
   if (parsedBody && !parsedBody.success) {
@@ -166,12 +170,4 @@ export async function jsonRequest<TResponse, TMeta = unknown>(
   }
 
   throw new ApiError(response.statusText || 'Unexpected API error', status);
-}
-
-function handleUnauthorizedRedirect() {
-  if (typeof window === 'undefined') {
-    return;
-  }
-  persistAuthSession(null, null);
-  window.location.href = '/login';
 }

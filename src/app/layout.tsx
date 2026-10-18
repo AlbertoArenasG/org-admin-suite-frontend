@@ -1,18 +1,21 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import 'sileo/styles.css';
 import { AppProviders } from '@/components/providers/AppProviders';
 
-const geist = Geist({
+const geist = localFont({
+  src: '../assets/fonts/Geist-Variable.woff2',
   variable: '--font-geist',
-  subsets: ['latin'],
-  weight: 'variable',
+  weight: '100 900',
+  display: 'swap',
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: '../assets/fonts/GeistMono-Variable.woff2',
   variable: '--font-geist-mono',
-  subsets: ['latin'],
+  weight: '100 900',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {

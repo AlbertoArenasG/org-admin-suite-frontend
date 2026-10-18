@@ -6,10 +6,13 @@ import { store } from '@/store/store';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { I18nextProvider } from 'react-i18next';
 import { initI18n, LANGUAGE_STORAGE_KEY } from '@/lib/i18n';
-import { hydrateAuthFromStorage } from '@/features/auth/persistence';
+import { hydrateAuthFromStorage, readPersistedAuthToken } from '@/features/auth/persistence';
+import { logout } from '@/features/auth/authSlice';
+import { registerSessionInvalidator } from '@/features/auth/sessionInvalidation';
 import { SnackbarProvider } from '@/components/providers/SnackbarProvider';
 import { RouteChangeLoader } from '@/components/providers/RouteChangeLoader';
 import { MuiThemeProvider } from '@/components/providers/MuiThemeProvider';
+import { AuthSessionMonitor } from '@/components/auth/AuthSessionMonitor';
 
 const i18n = initI18n();
 
@@ -23,7 +26,13 @@ export function AppProviders({ children }: PropsWithChildren) {
       return;
     }
 
-    hydrateAuthFromStorage(store.dispatch);
+    const unregister = registerSessionInvalidator((token) => {
+      if (store.getState().auth.token === token && readPersistedAuthToken() === token) {
+        store.dispatch(logout());
+      }
+    });
+    void hydrateAuthFromStorage(store.dispatch);
+    return unregister;
   }, []);
 
   useEffect(() => {
@@ -60,6 +69,7 @@ export function AppProviders({ children }: PropsWithChildren) {
       >
         <MuiThemeProvider>
           <Provider store={store}>
+            <AuthSessionMonitor />
             <SnackbarProvider>
               <Suspense fallback={null}>
                 <RouteChangeLoader />

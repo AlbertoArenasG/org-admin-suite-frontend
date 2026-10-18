@@ -24,8 +24,8 @@ interface LoginResponseUser {
   role_id: string | null;
   status: string;
   cell_phone: null | {
-    country_code: string;
-    number: string;
+    country_code: string | null;
+    number: string | null;
   };
 }
 
@@ -94,12 +94,13 @@ function mapLoginUser(user: LoginResponseUser): AuthUser {
     systemRole: user.system_role,
     roleId: user.role_id,
     status: user.status,
-    cellPhone: user.cell_phone
-      ? {
-          countryCode: user.cell_phone.country_code,
-          number: user.cell_phone.number,
-        }
-      : null,
+    cellPhone:
+      user.cell_phone?.country_code && user.cell_phone.number
+        ? {
+            countryCode: user.cell_phone.country_code,
+            number: user.cell_phone.number,
+          }
+        : null,
   };
 }
 
@@ -193,7 +194,7 @@ export const fetchCurrentUser = createAsyncThunk<AuthUser, void, { state: RootSt
         return rejectWithValue('Sesión no encontrada');
       }
 
-      const { data } = await jsonRequest<LoginResponseUser>('/v1/auth/me', {
+      const { data } = await jsonRequest<LoginResponseUser>('/v1/users/me', {
         method: 'GET',
         token,
       });

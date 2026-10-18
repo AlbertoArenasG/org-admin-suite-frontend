@@ -5,9 +5,9 @@
 - Initiative: `service-package-zip-upload-backoffice`
 - Definition status: `completed`
 - Implementation ready: `yes`
-- Implementation status: `pending`
-- Validation status: `pending`
-- Spec status: `implementation pending`
+- Implementation status: `completed`
+- Validation status: `completed`
+- Spec status: `completed`
 
 ## Problema Y Resultado
 

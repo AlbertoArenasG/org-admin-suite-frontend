@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [service-package-zip-upload-backoffice](./2026/2026-10/2026-10-17_1703_service-package-zip-upload-backoffice/00-definition.md) - definition completed; lista para implementar carga ZIP desde la lista administrativa, validacion pendiente
+- [service-package-zip-upload-backoffice](./2026/2026-10/2026-10-17_1703_service-package-zip-upload-backoffice/00-definition.md) - completed; carga ZIP desde Next Dashboard validada
 - [service-package-records-list-next-dashboard-migration](./2026/2026-09/2026-09-29_2230_service-package-records-list-next-dashboard-migration/00-definition.md) - completed; listado de recepcion, recoleccion y entrega migrado a DataTable de Next Dashboard
 - [service-package-record-next-detail](./2026/2026-09/2026-09-29_2020_service-package-record-next-detail/00-definition.md) - completed; detalle administrativo Next Dashboard de recepción, recolección y entrega validado
 - [customer-service-record-client-access-detail](./2026/2026-09/2026-09-27_1130_customer-service-record-client-access-detail/00-definition.md) - completed; detalle de solo lectura de registros de servicio en Client Access

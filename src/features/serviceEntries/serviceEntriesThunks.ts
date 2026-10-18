@@ -9,6 +9,7 @@ import type {
   ServiceEntryFileMetadata,
 } from './serviceEntriesSlice';
 import { readPersistedAuthToken } from '@/features/auth/persistence';
+import { invalidateAuthSessionIfCurrent } from '@/features/auth/sessionInvalidation';
 import { API_BASE_URL } from '@/config/env';
 
 export interface FetchServiceEntriesParams {
@@ -388,6 +389,8 @@ export const uploadServiceEntryFiles = createAsyncThunk<
       },
       body: formData,
     });
+
+    if (response.status === 401) invalidateAuthSessionIfCurrent(token);
 
     if (!response.ok) {
       throw new Error('No fue posible subir los archivos');
