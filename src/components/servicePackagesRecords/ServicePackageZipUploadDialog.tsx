@@ -30,6 +30,8 @@ type ServicePackageZipUploadDialogProps = {
   onRefreshList: () => void;
 };
 
+const MAX_ZIP_SIZE_BYTES = 65_000_000;
+
 export function ServicePackageZipUploadDialog({
   open,
   onOpenChange,
@@ -146,7 +148,7 @@ export function ServicePackageZipUploadDialog({
                 accept=".zip,application/zip"
                 multiple={false}
                 maxFiles={1}
-                maxFileSize={Infinity}
+                maxFileSize={MAX_ZIP_SIZE_BYTES}
                 inputAriaLabel={t('upload.selectTitle')}
                 maxReachedTitle={t('upload.selectedFile')}
                 maxReachedDescription={t('upload.selectDescription')}
@@ -155,7 +157,7 @@ export function ServicePackageZipUploadDialog({
                 attachmentsLabel={t('upload.selectedFile')}
                 onFilesRejected={(_, reason) =>
                   setSelectionError(
-                    reason === 'max-files' ? t('upload.oneFileOnly') : t('upload.invalidFile')
+                    reason === 'max-files' ? t('upload.oneFileOnly') : t('upload.fileTooLarge')
                   )
                 }
                 onValueChange={(nextItems) => {
@@ -259,7 +261,7 @@ export function ServicePackageZipUploadDialog({
                       className="font-semibold text-foreground outline-none"
                     >
                       {outcome.kind === 'server-error'
-                        ? t('upload.serverErrorTitle')
+                        ? t('upload.serverErrorTitle', { status: outcome.status })
                         : t('upload.uncertainTitle')}
                     </h3>
                     <p className="text-sm text-foreground">
@@ -276,7 +278,9 @@ export function ServicePackageZipUploadDialog({
                 </div>
                 <p className="text-sm text-muted-foreground">
                   {outcome.kind === 'server-error'
-                    ? t('upload.partialWarning')
+                    ? outcome.status === 413
+                      ? t('upload.tooLargeNotProcessed')
+                      : t('upload.partialWarning')
                     : t('upload.checkBeforeRetry')}
                 </p>
               </div>

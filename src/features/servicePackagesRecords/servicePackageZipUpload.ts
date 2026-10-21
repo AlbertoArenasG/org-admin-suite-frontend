@@ -74,11 +74,19 @@ export async function sendServicePackageZip(file: File): Promise<ServicePackageZ
   } catch {
     return response.ok
       ? { kind: 'uncertain', reason: 'unreadable-response' }
-      : { kind: 'server-error', status: response.status, message: '' };
+      : {
+          kind: 'server-error',
+          status: response.status,
+          message: response.statusText.trim(),
+        };
   }
 
   if (!response.ok) {
-    return { kind: 'server-error', status: response.status, message: readErrorMessage(body) };
+    return {
+      kind: 'server-error',
+      status: response.status,
+      message: readErrorMessage(body) || response.statusText.trim(),
+    };
   }
 
   return readConfirmed(body) ?? { kind: 'uncertain', reason: 'unreadable-response' };
