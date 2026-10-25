@@ -33,3 +33,14 @@
 
 - Ejecutar typecheck, lint enfocado y build según el alcance del cambio; comprobar interacciones, permisos, temas y tamaños de pantalla cuando sean relevantes. No afirmar validación manual que no se hizo.
 - Antes de cerrar una spec, revisar tareas, estados, evidencia de validación y documentación viva aplicable. No marcar como completada una validación que no ocurrió.
+
+## Para afirmar que una spec está completada
+
+- Auditar la carpeta completa de la spec y `.specs/index.md` antes de decir al usuario que está cerrada o que no queda ningún check o estado abierto. Seguir `.specs/SPEC_WORKFLOW.md`; una revisión parcial o un build correcto no bastan.
+- **Definición:** comprobar en `00-definition.md` que `Definition status`, `Implementation status`, `Validation status` y `Spec status` estén en `completed`, y que el alcance y las decisiones abiertas estén resueltos. `Implementation ready: yes` solo autoriza iniciar; no equivale a completada.
+- **Implementación:** cotejar rutas, componentes, estado, contratos y demás artefactos de `06-technical-design.md` con las slices de `07-implementation-breakdown.md`. Confirmar que cada slice tiene su resultado y evidencia de cierre; revisar limpieza legacy y documentación de adopción cuando formen parte del alcance aprobado.
+- **Tareas:** revisar todo `03-task-list.md`. No debe quedar ningún `- [ ]` ni una tarea actual con `Status: pending` o `in_progress`; cada tarea completada debe usar `[x]` y `Status: done` o `completed`, según el formato de esa spec. No cerrar una tarea por suposición ni dejar contradicciones entre checkbox y estatus.
+- **Validación:** comprobar en `05-progress.md` y `08-manual-validation.md`, si existe, qué se ejecutó realmente, qué confirmó el usuario y qué límites tiene esa evidencia. Registrar typecheck, lint, build y validaciones manuales acordadas; no atribuir al usuario escenarios concretos que no haya confirmado.
+- **Documentación e índice:** verificar que decisiones, contratos y documentación viva aplicable en `docs/` reflejen la implementación; actualizar `.specs/index.md` para que la entrada diga completada y enlace a la spec correcta. La carpeta cerrada queda como historia, mientras `docs/` conserva los patrones vigentes.
+- Buscar marcas actuales sin cerrar (`[ ]`, `pending`, `in_progress`, `TODO` y equivalentes) en los documentos de la spec y resolver cada hallazgo. Distinguir tareas o estados vigentes de anotaciones históricas en `05-progress.md`; no reescribir el historial solo para eliminar coincidencias de texto. Si falta evidencia o queda una tarea, decir exactamente cuál y mantener el estado abierto.
+- El despliegue, la supervisión y otras tareas DevOps no son requisitos de cierre de una spec de desarrollo, salvo que el usuario los haya incluido expresamente en su alcance aprobado. Nunca añadirlos como condición por iniciativa propia.
