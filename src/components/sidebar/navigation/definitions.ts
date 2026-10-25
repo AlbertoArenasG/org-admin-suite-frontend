@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   Mail,
   PlusCircle,
+  Receipt,
   Send,
   Settings2,
   Scroll,
@@ -46,6 +47,20 @@ export const dashboardNavigationEntries = [
 ];
 
 export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
+  {
+    id: 'billing',
+    labelKey: 'billing',
+    icon: Receipt,
+    entries: [
+      {
+        id: 'billingCustomerServiceRecords',
+        labelKey: 'billingCustomerServiceRecords',
+        href: '/dashboard/billing/customer-service-records',
+        icon: Receipt,
+        matchesPathname: startsWith('/dashboard/billing/customer-service-records'),
+      },
+    ],
+  },
   {
     id: 'operation',
     labelKey: 'operation',

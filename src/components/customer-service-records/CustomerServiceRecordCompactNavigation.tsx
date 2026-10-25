@@ -6,7 +6,7 @@ import type { ReactNode, RefObject } from 'react';
 import type { ResourceFormNavigationItem } from '@/components/resource-form';
 import { useResourceFormNavigation } from '@/components/resource-form/useResourceFormNavigation';
 import { MonitorCogIcon } from '@/components/ui/monitor-cog';
-import { ReceiptText } from 'lucide-react';
+import { Receipt } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
@@ -17,7 +17,7 @@ type CustomerServiceRecordCompactNavigationProps = {
 };
 
 const itemIcons: Record<string, ReactNode> = {
-  billing: <ReceiptText size={19} aria-hidden="true" />,
+  billing: <Receipt size={19} aria-hidden="true" />,
   'customer-delivery': <UsersIcon animateOnHover size={19} />,
   documents: <AttachFileIcon animateOnHover size={19} />,
   equipment: <MonitorCogIcon size={19} />,

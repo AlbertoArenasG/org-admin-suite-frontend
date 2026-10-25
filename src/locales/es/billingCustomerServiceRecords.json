@@ -1,0 +1,58 @@
+{
+  "list": {
+    "loading": "Cargando registros para facturación...",
+    "emptyTitle": "No hay registros para facturación",
+    "emptyDescription": "Los registros enviados a facturación aparecerán aquí.",
+    "emptyFilteredTitle": "No hay resultados para los criterios activos",
+    "emptyFilteredDescription": "Prueba con otro estado o limpia los criterios.",
+    "clearCriteria": "Limpiar criterios"
+  },
+  "table": {
+    "columns": {
+      "serviceNumber": "Folio",
+      "customer": "Cliente",
+      "equipment": "Equipo",
+      "serviceType": "Tipo de servicio",
+      "billingStatus": "Facturación"
+    },
+    "noEquipment": "Sin equipo",
+    "loadingResults": "Cargando resultados de facturación",
+    "settings": "Configuración de tabla",
+    "displayColumns": "Mostrar columnas",
+    "resizeColumn": "Cambiar ancho de columna {{column}}",
+    "pagination": "Paginación de registros para facturación",
+    "rowsPerPage": "Filas por página",
+    "paginationSummary": "Mostrando {{from}}-{{to}} de {{total}}",
+    "previousPage": "Página anterior",
+    "nextPage": "Página siguiente",
+    "rowActions": "Acciones del registro"
+  },
+  "filters": {
+    "trigger": "Filtros",
+    "appliedCount": "{{count}} filtro aplicado",
+    "title": "Filtros",
+    "clear": "Limpiar filtros",
+    "cancel": "Cancelar",
+    "apply": "Aplicar filtros",
+    "showAll": "Mostrar todos",
+    "sectionTitle": "Facturación",
+    "sectionDescription": "Consulta registros enviados o ya facturados.",
+    "billingStatus": "Estado de facturación",
+    "placeholder": "Todos los estados",
+    "searchPlaceholder": "Buscar por folio, cliente o equipo...",
+    "loadingOptions": "Cargando estados...",
+    "emptyOptions": "No hay estados disponibles."
+  },
+  "actions": {
+    "view": "Ver detalle",
+    "retry": "Reintentar"
+  },
+  "detail": {
+    "summaryTitle": "Resumen del registro",
+    "customer": "Cliente",
+    "unnamedAsset": "Equipo sin nombre",
+    "brand": "Marca",
+    "model": "Modelo",
+    "identifier": "Identificador"
+  }
+}

@@ -19,6 +19,33 @@ export type DashboardShellResolution =
 
 const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [
   {
+    matches: (pathname) => pathname === '/dashboard/billing/customer-service-records',
+    config: {
+      breadcrumbs: [
+        { label: 'Panel', labelKey: 'dashboard', href: '/dashboard', hideOnDesktop: true },
+        { label: 'Facturación', labelKey: 'billing' },
+        { label: 'Registros de servicio a clientes', labelKey: 'billingCustomerServiceRecords' },
+      ],
+      scrollMode: 'table-workspace',
+    },
+  },
+  {
+    matches: (pathname) => /^\/dashboard\/billing\/customer-service-records\/[^/]+$/.test(pathname),
+    config: {
+      breadcrumbs: [
+        { label: 'Panel', labelKey: 'dashboard', href: '/dashboard', hideOnDesktop: true },
+        { label: 'Facturación', labelKey: 'billing' },
+        {
+          label: 'Registros de servicio a clientes',
+          labelKey: 'billingCustomerServiceRecords',
+          href: '/dashboard/billing/customer-service-records',
+        },
+        { label: 'Registro de servicio', labelKey: 'billingCustomerServiceRecordDetail' },
+      ],
+      scrollMode: 'page-content',
+    },
+  },
+  {
     matches: (pathname) => pathname === '/dashboard/service-packages-records',
     config: {
       breadcrumbs: [

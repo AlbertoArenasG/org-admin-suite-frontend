@@ -1,6 +1,9 @@
 {
   "home": "Inicio",
   "dashboard": "Panel",
+  "billing": "Facturación",
+  "billingCustomerServiceRecords": "Registros de servicio a clientes",
+  "billingCustomerServiceRecordDetail": "Registro de servicio",
   "portal": "Portal",
   "portalServices": "Seguimiento de servicios",
   "customers": "Clientes",

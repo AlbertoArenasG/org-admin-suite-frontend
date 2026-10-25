@@ -23,6 +23,7 @@ import expirationStatusPoliciesEn from '@/locales/en/expirationStatusPolicies.js
 import expirationNotificationPoliciesEn from '@/locales/en/expirationNotificationPolicies.json';
 import internalAssetControlEn from '@/locales/en/internalAssetControl.json';
 import customerServiceRecordsEn from '@/locales/en/customerServiceRecords.json';
+import billingCustomerServiceRecordsEn from '@/locales/en/billingCustomerServiceRecords.json';
 import userRegistrationInvitationsEn from '@/locales/en/userRegistrationInvitations.json';
 import clientAccessServicesEn from '@/locales/en/clientAccessServices.json';
 import commonEs from '@/locales/es/common.json';
@@ -47,6 +48,7 @@ import expirationStatusPoliciesEs from '@/locales/es/expirationStatusPolicies.js
 import expirationNotificationPoliciesEs from '@/locales/es/expirationNotificationPolicies.json';
 import internalAssetControlEs from '@/locales/es/internalAssetControl.json';
 import customerServiceRecordsEs from '@/locales/es/customerServiceRecords.json';
+import billingCustomerServiceRecordsEs from '@/locales/es/billingCustomerServiceRecords.json';
 import userRegistrationInvitationsEs from '@/locales/es/userRegistrationInvitations.json';
 import clientAccessServicesEs from '@/locales/es/clientAccessServices.json';
 
@@ -77,6 +79,7 @@ const resources = {
     expirationNotificationPolicies: expirationNotificationPoliciesEn,
     internalAssetControl: internalAssetControlEn,
     customerServiceRecords: customerServiceRecordsEn,
+    billingCustomerServiceRecords: billingCustomerServiceRecordsEn,
     userRegistrationInvitations: userRegistrationInvitationsEn,
     clientAccessServices: clientAccessServicesEn,
   },
@@ -103,6 +106,7 @@ const resources = {
     expirationNotificationPolicies: expirationNotificationPoliciesEs,
     internalAssetControl: internalAssetControlEs,
     customerServiceRecords: customerServiceRecordsEs,
+    billingCustomerServiceRecords: billingCustomerServiceRecordsEs,
     userRegistrationInvitations: userRegistrationInvitationsEs,
     clientAccessServices: clientAccessServicesEs,
   },
@@ -155,6 +159,7 @@ export function initI18n(): I18nInstance {
         'expirationNotificationPolicies',
         'internalAssetControl',
         'customerServiceRecords',
+        'billingCustomerServiceRecords',
         'userRegistrationInvitations',
         'clientAccessServices',
       ],

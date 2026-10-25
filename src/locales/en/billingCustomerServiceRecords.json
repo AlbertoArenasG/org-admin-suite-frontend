@@ -1,0 +1,58 @@
+{
+  "list": {
+    "loading": "Loading records for billing...",
+    "emptyTitle": "No billing records yet",
+    "emptyDescription": "Records sent to billing will appear here.",
+    "emptyFilteredTitle": "No results for the active criteria",
+    "emptyFilteredDescription": "Try another status or clear the criteria.",
+    "clearCriteria": "Clear criteria"
+  },
+  "table": {
+    "columns": {
+      "serviceNumber": "Record number",
+      "customer": "Customer",
+      "equipment": "Equipment",
+      "serviceType": "Service type",
+      "billingStatus": "Billing"
+    },
+    "noEquipment": "No equipment",
+    "loadingResults": "Loading billing results",
+    "settings": "Table settings",
+    "displayColumns": "Show columns",
+    "resizeColumn": "Resize column {{column}}",
+    "pagination": "Billing records pagination",
+    "rowsPerPage": "Rows per page",
+    "paginationSummary": "Showing {{from}}-{{to}} of {{total}}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page",
+    "rowActions": "Record actions"
+  },
+  "filters": {
+    "trigger": "Filters",
+    "appliedCount": "{{count}} filter applied",
+    "title": "Filters",
+    "clear": "Clear filters",
+    "cancel": "Cancel",
+    "apply": "Apply filters",
+    "showAll": "Show all",
+    "sectionTitle": "Billing",
+    "sectionDescription": "Browse submitted or invoiced records.",
+    "billingStatus": "Billing status",
+    "placeholder": "All statuses",
+    "searchPlaceholder": "Search by number, customer, or equipment...",
+    "loadingOptions": "Loading statuses...",
+    "emptyOptions": "No statuses available."
+  },
+  "actions": {
+    "view": "View details",
+    "retry": "Retry"
+  },
+  "detail": {
+    "summaryTitle": "Record summary",
+    "customer": "Customer",
+    "unnamedAsset": "Unnamed equipment",
+    "brand": "Brand",
+    "model": "Model",
+    "identifier": "Identifier"
+  }
+}

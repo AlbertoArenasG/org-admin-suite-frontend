@@ -26,9 +26,9 @@ Cada slice requiere revisar el `Registro de Artefactos` antes de editar; si camb
 
 ## Slice 3 — navegación y lista de facturación
 
-**Status:** pending.
+**Status:** completed.
 
-- Añadir grupo visual, enlace, breadcrumb, política central de shell/scroll, traducciones y route boundary con billing READ.
+- Añadir grupo visual, enlace, breadcrumb, política central de shell/scroll, traducciones y route boundary con billing READ. Montar una base de detalle de lectura para que los enlaces de la lista tengan un destino válido; la composición documental y la factura se completan en Slice 4.
 - Componer tabla DataTable con búsqueda, paginación, filtro SUBMITTED/INVOICED y enlace, menú, contexto y doble clic a detalle.
 - Resolver loading, vacío, error, permisos y reset/sync URL sin solicitudes administrativas ni sort.
 

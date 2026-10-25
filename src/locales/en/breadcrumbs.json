@@ -1,6 +1,9 @@
 {
   "home": "Home",
   "dashboard": "Dashboard",
+  "billing": "Billing",
+  "billingCustomerServiceRecords": "Customer service records",
+  "billingCustomerServiceRecordDetail": "Service record",
   "portal": "Portal",
   "portalServices": "Service tracking",
   "customers": "Customers",

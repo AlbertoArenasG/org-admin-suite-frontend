@@ -5,6 +5,8 @@
   "collapseNavigation": "Collapse navigation",
   "closeNavigation": "Close navigation",
   "operation": "Operations",
+  "billing": "Billing",
+  "billingCustomerServiceRecords": "Customer service records",
   "directory": "Directory",
   "communication": "Communication",
   "configuration": "Configuration",

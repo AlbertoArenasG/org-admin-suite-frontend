@@ -4,6 +4,7 @@ export type SidebarGroupId =
   | 'dashboard'
   | 'operation'
   | 'portal'
+  | 'billing'
   | 'directory'
   | 'communication'
   | 'configuration'
@@ -40,7 +41,8 @@ export type SidebarNavigationEntryId =
   | 'serviceEntries'
   | 'serviceEntrySurveys'
   | 'servicePackagesRecords'
-  | 'portalServices';
+  | 'portalServices'
+  | 'billingCustomerServiceRecords';
 
 export interface SidebarNavigationAuthorization {
   hasModule: (module: string) => boolean;

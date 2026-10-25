@@ -38,6 +38,10 @@ export function resolveSidebarNavigationVisibility(
   return {
     dashboard: true,
     dashboardPlayground: authorization.isMasterAdmin,
+    billingCustomerServiceRecords: authorization.hasPermission(
+      'BILLING_CUSTOMER_SERVICE_RECORDS',
+      'READ'
+    ),
     portalServices: canReadClientAccessServices,
     users: true,
     usersList: canReadUsers,
