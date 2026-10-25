@@ -7,6 +7,11 @@
 - Respetar las decisiones y el alcance aprobados. Para trabajo de una spec activa, seguir `.specs/SPEC_WORKFLOW.md`; un cambio solicitado fuera de la spec no se incorpora a ella por defecto.
 - Antes de ampliar el contrato de un componente genérico, revisar sus consumidores y discutir el cambio cuando implique una decisión arquitectónica o afecte otros módulos. Preferir una composición específica cuando el caso sea excepcional.
 
+## Antes de redactar una spec
+
+- Investigar el código y los contratos vigentes, conversar el alcance y resolver con el usuario las decisiones relevantes antes de crear los documentos de la spec. El propósito es evitar escribir como definitivas afirmaciones todavía provisionales que luego se repitan en varios documentos y deban corregirse. Buscar reducir esas incertidumbres, sin prohibir preguntas ni cambios posteriores.
+- Si una decisión cambia durante la redacción, actualizar todas sus referencias en definición, análisis, plan, decisiones, diseño técnico, tareas, slices y validación que correspondan. Revisar la carpeta completa antes de afirmar que la spec está lista, para no conservar premisas obsoletas o documentos contradictorios.
+
 ## Next Dashboard
 
 - Para rutas nuevas o migradas, consultar `docs/ui/dashboard-shell/guidelines.md` y las recetas de `docs/ui/`. Usar la composición vigente de shell, vistas, encabezados, formularios y acciones; no crear variantes locales por conveniencia.

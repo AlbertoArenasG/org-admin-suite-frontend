@@ -1,5 +1,6 @@
 # Frontend Specs Index
 
+- [customer-service-record-billing-frontend](./2026/2026-10/2026-10-24_1900_customer-service-record-billing-frontend/00-definition.md) - lista para implementación; código y validación pendientes
 - [service-package-zip-upload-backoffice](./2026/2026-10/2026-10-17_1703_service-package-zip-upload-backoffice/00-definition.md) - completed; carga ZIP desde Next Dashboard validada
 - [service-package-records-list-next-dashboard-migration](./2026/2026-09/2026-09-29_2230_service-package-records-list-next-dashboard-migration/00-definition.md) - completed; listado de recepcion, recoleccion y entrega migrado a DataTable de Next Dashboard
 - [service-package-record-next-detail](./2026/2026-09/2026-09-29_2020_service-package-record-next-detail/00-definition.md) - completed; detalle administrativo Next Dashboard de recepción, recolección y entrega validado
