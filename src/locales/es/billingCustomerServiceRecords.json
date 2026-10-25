@@ -53,6 +53,58 @@
     "unnamedAsset": "Equipo sin nombre",
     "brand": "Marca",
     "model": "Modelo",
-    "identifier": "Identificador"
+    "identifier": "Identificador",
+    "dashboard": "Inicio",
+    "list": "Registros de servicio a clientes",
+    "breadcrumb": "Folio {{folio}}",
+    "navigationLabel": "Secciones del registro para facturación",
+    "service": {
+      "title": "Información del servicio",
+      "operationalStatus": "Estado operativo",
+      "requestedAt": "Fecha solicitada",
+      "createdAt": "Creado",
+      "observations": "Observaciones"
+    },
+    "customerDelivery": {
+      "title": "Cliente y entrega",
+      "contacts": "Contactos",
+      "receivedAt": "Recibido",
+      "estimatedAt": "Entrega estimada",
+      "deliveredAt": "Entregado al cliente"
+    },
+    "equipment": {
+      "title": "Equipos",
+      "serialNumber": "Número de serie",
+      "intake": "Condición de recepción",
+      "delivery": "Condición de entrega",
+      "reports": "Reportes"
+    },
+    "documents": {
+      "title": "Documentos",
+      "quotation": "Cotización",
+      "purchaseOrder": "Orden de compra",
+      "otherFiles": "Otros archivos"
+    },
+    "billing": {
+      "title": "Facturación",
+      "status": "Estado de facturación",
+      "notification": "Aviso a facturación",
+      "lastNotice": "Último aviso",
+      "invoice": "Factura"
+    }
+  },
+  "invoice": {
+    "saveAndMark": "Guardar y marcar como facturado",
+    "savingAndMarking": "Guardando y marcando...",
+    "invoiced": "Factura confirmada y registro marcado como facturado.",
+    "savedButUnmarked": "La factura se guardó, pero no se pudo confirmar el cambio a facturado.",
+    "retryMarkGuidance": "Revisa el estado y reintenta solo el cambio de estado.",
+    "savedButUnverified": "La factura se guardó, pero no se pudo confirmar si cambió el estado.",
+    "verifyBeforeRetry": "Comprueba el registro antes de reintentar.",
+    "noPendingMark": "No hay un cambio de estado pendiente.",
+    "statusChanged": "El registro ya no está enviado a facturación.",
+    "invoiceChanged": "La factura cambió en el servidor desde que se guardó.",
+    "invoiceChangedGuidance": "Revisa la factura actual antes de intentar cambiar el estado.",
+    "savedAfterVerification": "Factura confirmada al consultar el registro."
   }
 }

@@ -59,7 +59,7 @@ const billingCustomerServiceRecordsSlice = createSlice({
       .addCase(fetchBillingCustomerServiceRecordDetail.pending, (state, action) => {
         state.detail.status = 'loading';
         state.detail.error = null;
-        state.detail.record = null;
+        if (state.detail.currentRecordId !== action.meta.arg.recordId) state.detail.record = null;
         state.detail.currentRecordId = action.meta.arg.recordId;
       })
       .addCase(fetchBillingCustomerServiceRecordDetail.fulfilled, (state, action) => {
@@ -68,8 +68,10 @@ const billingCustomerServiceRecordsSlice = createSlice({
       })
       .addCase(fetchBillingCustomerServiceRecordDetail.rejected, (state, action) => {
         state.detail.status = 'failed';
+        if (action.payload?.status === 404 || action.payload?.status === 403)
+          state.detail.record = null;
         state.detail.error =
-          action.payload ?? action.error.message ?? 'No fue posible obtener el registro';
+          action.payload?.message ?? action.error.message ?? 'No fue posible obtener el registro';
       })
       .addCase(fetchBillingCustomerServiceRecordStatusOptions.pending, (state) => {
         state.options.status = 'loading';
@@ -95,7 +97,7 @@ const billingCustomerServiceRecordsSlice = createSlice({
       .addCase(updateBillingCustomerServiceRecordInvoice.rejected, (state, action) => {
         state.mutations.invoiceStatus = 'failed';
         state.mutations.invoiceError =
-          action.payload ?? action.error.message ?? 'No fue posible guardar la factura';
+          action.payload?.message ?? action.error.message ?? 'No fue posible guardar la factura';
       })
       .addCase(markBillingCustomerServiceRecordInvoiced.pending, (state) => {
         state.mutations.billingStatus = 'loading';
@@ -115,7 +117,7 @@ const billingCustomerServiceRecordsSlice = createSlice({
       .addCase(markBillingCustomerServiceRecordInvoiced.rejected, (state, action) => {
         state.mutations.billingStatus = 'failed';
         state.mutations.billingError =
-          action.payload ?? action.error.message ?? 'No fue posible marcar como facturado';
+          action.payload?.message ?? action.error.message ?? 'No fue posible marcar como facturado';
       })
       .addCase(uploadBillingCustomerServiceRecordFiles.pending, (state) => {
         state.mutations.uploadStatus = 'loading';

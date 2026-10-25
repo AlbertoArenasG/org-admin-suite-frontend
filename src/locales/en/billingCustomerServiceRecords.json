@@ -53,6 +53,58 @@
     "unnamedAsset": "Unnamed equipment",
     "brand": "Brand",
     "model": "Model",
-    "identifier": "Identifier"
+    "identifier": "Identifier",
+    "dashboard": "Home",
+    "list": "Customer service records",
+    "breadcrumb": "Record {{folio}}",
+    "navigationLabel": "Billing record sections",
+    "service": {
+      "title": "Service information",
+      "operationalStatus": "Operational status",
+      "requestedAt": "Requested",
+      "createdAt": "Created",
+      "observations": "Observations"
+    },
+    "customerDelivery": {
+      "title": "Customer and delivery",
+      "contacts": "Contacts",
+      "receivedAt": "Received",
+      "estimatedAt": "Estimated delivery",
+      "deliveredAt": "Delivered to customer"
+    },
+    "equipment": {
+      "title": "Equipment",
+      "serialNumber": "Serial number",
+      "intake": "Intake condition",
+      "delivery": "Delivery condition",
+      "reports": "Reports"
+    },
+    "documents": {
+      "title": "Documents",
+      "quotation": "Quotation",
+      "purchaseOrder": "Purchase order",
+      "otherFiles": "Other files"
+    },
+    "billing": {
+      "title": "Billing",
+      "status": "Billing status",
+      "notification": "Billing notice",
+      "lastNotice": "Last notice",
+      "invoice": "Invoice"
+    }
+  },
+  "invoice": {
+    "saveAndMark": "Save and mark as invoiced",
+    "savingAndMarking": "Saving and marking...",
+    "invoiced": "Invoice confirmed and record marked as invoiced.",
+    "savedButUnmarked": "The invoice was saved, but the invoiced status could not be confirmed.",
+    "retryMarkGuidance": "Check the status and retry only the status change.",
+    "savedButUnverified": "The invoice was saved, but the status could not be verified.",
+    "verifyBeforeRetry": "Check the record before retrying.",
+    "noPendingMark": "There is no pending status change.",
+    "statusChanged": "The record is no longer submitted for billing.",
+    "invoiceChanged": "The invoice changed on the server after it was saved.",
+    "invoiceChangedGuidance": "Review the current invoice before trying to change the status.",
+    "savedAfterVerification": "Invoice confirmed after checking the record."
   }
 }

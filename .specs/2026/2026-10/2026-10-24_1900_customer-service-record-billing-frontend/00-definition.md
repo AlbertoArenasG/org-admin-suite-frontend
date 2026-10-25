@@ -5,7 +5,7 @@
 - Initiative: customer-service-record-billing-frontend
 - Definition status: completed
 - Implementation ready: yes
-- Implementation status: in_progress
+- Implementation status: completed
 - Validation status: pending
 - Spec status: in_progress
 

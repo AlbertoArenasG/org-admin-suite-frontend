@@ -10,7 +10,7 @@
 ## Estado actual
 
 - Definición: completada tras auditoría documental.
-- Implementación: Slices 1, 2 y 3 codificadas; Slice 4 pendiente.
+- Implementación: Slices 1 a 4 codificadas; validación y cierre de Slice 5 pendientes.
 - Validación: pendiente; Slice 5.
 - Documentación viva de adopción: pendiente hasta que exista implementación verificable.
 
@@ -28,3 +28,10 @@
 - Para que la navegación tenga destino real antes de Slice 4, el detalle abre una base de lectura del registro con carga, error/reintento, header de equipo y cliente, y resumen. Las secciones completas, documentos y edición de factura permanecen en Slice 4.
 - Verificación técnica de la slice: `npm run typecheck`, ESLint enfocado y `git diff --check` sin errores. La validación manual de roles, navegación, filtros, pantalla móvil y temas sigue pendiente de confirmación del usuario.
 - `npm run build` compiló el código, pero falló en `Collecting page data` con `PageNotFoundError` para rutas existentes de `dashboard-playground/catalog`. Durante la falla, `.next/server/app-paths-manifest.json` contenía solo cinco rutas visitadas, mientras los archivos de esas páginas sí existían en `src/app` y `.next/server/app`; esto apunta a interferencia con otra escritura en `.next`. No se considera build completo ni se modifica la configuración de Next para esta slice. La comprobación integral de build queda pendiente en Slice 5, cuando pueda ejecutarse sin procesos que compartan `.next`.
+
+## 2026-10-24 — implementación de Slice 4
+
+- El detalle de facturación usa el header compacto con cliente y ResourceFormRoute con navegación a servicio, cliente/entrega, equipos, documentos y factura. Muestra varios equipos, sus adjuntos, documentos del registro y el último aviso a facturación; omite el seguimiento al proveedor y no solicita opciones administrativas.
+- El editor documental específico de registros conserva la composición existente y separa el borrador en un hook. La factura de facturación permite guardar cambios o guardar y marcar como facturado con UPDATE; exige archivo para marcar y para editar un registro INVOICED. La coordinación del módulo sube pendientes, confirma PUT y luego PATCH. Tras fallo parcial consulta el detalle y permite reintentar solo PATCH, sin repetir la subida o el PUT. Ante 409 o respuesta incierta del PUT consulta el detalle antes de continuar. El GET conserva la vista durante una recarga del mismo registro y descarta datos obsoletos en 403/404.
+- Copys de detalle, navegación y recuperación agregados en español e inglés. Se emplean tokens y componentes existentes; no se amplió ninguna primitiva genérica.
+- Verificación técnica de la slice: `npm run typecheck`, ESLint enfocado y `git diff --check` sin errores. Build y matriz manual permanecen en Slice 5; no se atribuye todavía validación interactiva al usuario.

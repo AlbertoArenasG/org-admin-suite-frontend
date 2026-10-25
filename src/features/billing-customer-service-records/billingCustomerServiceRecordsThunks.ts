@@ -7,10 +7,11 @@ import {
   type ApiLocalizedValue,
 } from '@/features/customer-service-records/customerServiceRecordMappers';
 import { uploadCustomerServiceRecordFilesRequest } from '@/features/customer-service-records/customerServiceRecordFileUpload';
-import { jsonRequest } from '@/lib/api-client';
+import { ApiError, jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import type {
   BillingCustomerServiceRecord,
+  BillingCustomerServiceRecordMutationError,
   BillingCustomerServiceRecordOption,
   BillingCustomerServiceRecordRow,
   BillingUploadedFile,
@@ -72,10 +73,11 @@ export const fetchBillingCustomerServiceRecords = createAsyncThunk<
 export const fetchBillingCustomerServiceRecordDetail = createAsyncThunk<
   BillingCustomerServiceRecord,
   { recordId: string },
-  { state: RootState; rejectValue: string }
+  { state: RootState; rejectValue: BillingCustomerServiceRecordMutationError }
 >('billingCustomerServiceRecords/fetchDetail', async ({ recordId }, thunkAPI) => {
   const token = getAuthToken(thunkAPI.getState());
-  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+  if (!token)
+    return thunkAPI.rejectWithValue({ message: 'No hay token de autenticación', status: 401 });
 
   try {
     const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
@@ -84,9 +86,13 @@ export const fetchBillingCustomerServiceRecordDetail = createAsyncThunk<
     );
     return mapCustomerServiceRecordDetail(response.data);
   } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error instanceof Error ? error.message : 'No fue posible obtener el registro de facturación'
-    );
+    return thunkAPI.rejectWithValue({
+      message:
+        error instanceof Error
+          ? error.message
+          : 'No fue posible obtener el registro de facturación',
+      status: error instanceof ApiError ? error.status : null,
+    });
   }
 });
 
@@ -114,12 +120,13 @@ export const fetchBillingCustomerServiceRecordStatusOptions = createAsyncThunk<
 export const updateBillingCustomerServiceRecordInvoice = createAsyncThunk<
   { record: BillingCustomerServiceRecord; message: string | null },
   { recordId: string; referenceNumber: string | null; fileIds: string[] },
-  { state: RootState; rejectValue: string }
+  { state: RootState; rejectValue: BillingCustomerServiceRecordMutationError }
 >(
   'billingCustomerServiceRecords/updateInvoice',
   async ({ recordId, referenceNumber, fileIds }, thunkAPI) => {
     const token = getAuthToken(thunkAPI.getState());
-    if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+    if (!token)
+      return thunkAPI.rejectWithValue({ message: 'No hay token de autenticación', status: 401 });
 
     try {
       const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
@@ -136,9 +143,10 @@ export const updateBillingCustomerServiceRecordInvoice = createAsyncThunk<
         message: response.successMessage,
       };
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error instanceof Error ? error.message : 'No fue posible guardar la factura'
-      );
+      return thunkAPI.rejectWithValue({
+        message: error instanceof Error ? error.message : 'No fue posible guardar la factura',
+        status: error instanceof ApiError ? error.status : null,
+      });
     }
   }
 );
@@ -146,10 +154,11 @@ export const updateBillingCustomerServiceRecordInvoice = createAsyncThunk<
 export const markBillingCustomerServiceRecordInvoiced = createAsyncThunk<
   { record: BillingCustomerServiceRecord; message: string | null },
   { recordId: string },
-  { state: RootState; rejectValue: string }
+  { state: RootState; rejectValue: BillingCustomerServiceRecordMutationError }
 >('billingCustomerServiceRecords/markInvoiced', async ({ recordId }, thunkAPI) => {
   const token = getAuthToken(thunkAPI.getState());
-  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+  if (!token)
+    return thunkAPI.rejectWithValue({ message: 'No hay token de autenticación', status: 401 });
 
   try {
     const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
@@ -166,9 +175,10 @@ export const markBillingCustomerServiceRecordInvoiced = createAsyncThunk<
       message: response.successMessage,
     };
   } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error instanceof Error ? error.message : 'No fue posible marcar como facturado'
-    );
+    return thunkAPI.rejectWithValue({
+      message: error instanceof Error ? error.message : 'No fue posible marcar como facturado',
+      status: error instanceof ApiError ? error.status : null,
+    });
   }
 });
 

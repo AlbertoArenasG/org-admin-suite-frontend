@@ -12,6 +12,11 @@ export type BillingCustomerServiceRecordStatus = Exclude<
   'NOT_SUBMITTED'
 >;
 
+export type BillingCustomerServiceRecordMutationError = {
+  message: string;
+  status: number | null;
+};
+
 export interface FetchBillingCustomerServiceRecordsParams {
   page?: number;
   limit?: number;

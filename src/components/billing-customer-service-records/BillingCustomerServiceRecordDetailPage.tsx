@@ -1,20 +1,18 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 
+import { CustomerServiceRecordAssetPageHeader } from '@/components/customer-service-records/CustomerServiceRecordAssetPageHeader';
+import { CustomerServiceRecordDetailRoute } from '@/components/customer-service-records/CustomerServiceRecordDetailRoute';
 import {
   DashboardContentReveal,
   DashboardPageComposition,
   DashboardPageContentScroller,
+  useDashboardViewAccess,
 } from '@/components/dashboard-shell';
-import { CustomerServiceRecordAssetPageHeader } from '@/components/customer-service-records/CustomerServiceRecordAssetPageHeader';
-import { FormReadValue } from '@/components/forms';
-import {
-  ResourceFormFrame,
-  ResourceFormRoute,
-  ResourceFormSkeleton,
-} from '@/components/resource-form';
+import { useNextDashboardBreadcrumbs } from '@/components/dashboard-shell/migration';
+import { ResourceFormSkeleton } from '@/components/resource-form';
 import { Button } from '@/components/ui/button';
 import {
   fetchBillingCustomerServiceRecordDetail,
@@ -23,19 +21,38 @@ import {
 import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
+import { BillingCustomerServiceRecordInvoiceSection } from './BillingCustomerServiceRecordInvoiceSection';
+import { BillingCustomerServiceRecordReadOnlySections } from './BillingCustomerServiceRecordReadOnlySections';
 
 export function BillingCustomerServiceRecordDetailPage() {
   const params = useParams<{ recordId: string }>();
   const dispatch = useAppDispatch();
+  const { can } = useDashboardViewAccess();
+  const { resetSegments, setSegments } = useNextDashboardBreadcrumbs();
   const { t } = useTranslationHydrated('billingCustomerServiceRecords');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const authHydrated = useAppSelector((state) => state.auth.hydrated);
   const detail = useAppSelector((state) => state.billingCustomerServiceRecords.detail);
+  const record = detail.currentRecordId === params.recordId ? detail.record : null;
+  const loading =
+    !authHydrated ||
+    (!record && (detail.currentRecordId !== params.recordId || detail.status === 'loading'));
+  const loadError =
+    detail.status === 'failed' && detail.currentRecordId === params.recordId ? detail.error : null;
+  const synchronizeBreadcrumb = useCallback(
+    (serviceNumber: string) => {
+      setSegments([
+        { label: t('detail.dashboard'), href: '/dashboard', hideOnDesktop: true },
+        { label: t('detail.list'), href: '/dashboard/billing/customer-service-records' },
+        { label: t('detail.breadcrumb', { folio: serviceNumber }) },
+      ]);
+    },
+    [setSegments, t]
+  );
 
   useEffect(() => {
-    if (params.recordId && authHydrated) {
+    if (params.recordId && authHydrated)
       void dispatch(fetchBillingCustomerServiceRecordDetail({ recordId: params.recordId }));
-    }
   }, [authHydrated, dispatch, params.recordId]);
   useEffect(
     () => () => {
@@ -43,11 +60,19 @@ export function BillingCustomerServiceRecordDetailPage() {
     },
     [dispatch]
   );
+  useEffect(() => {
+    if (!record) return;
+    synchronizeBreadcrumb(record.serviceNumber);
+    return resetSegments;
+  }, [record, resetSegments, synchronizeBreadcrumb]);
 
-  const isLoading =
-    !authHydrated || detail.currentRecordId !== params.recordId || detail.status === 'loading';
-  const loadError = !isLoading && detail.status === 'failed' ? detail.error : null;
-  const record = !isLoading && !loadError ? detail.record : null;
+  const navigationItems = [
+    { id: 'general-details', label: t('detail.service.title') },
+    { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
+    { id: 'equipment', label: t('detail.equipment.title') },
+    { id: 'documents', label: t('detail.documents.title') },
+    { id: 'billing', label: t('detail.billing.title') },
+  ];
 
   return (
     <DashboardPageComposition>
@@ -65,8 +90,13 @@ export function BillingCustomerServiceRecordDetailPage() {
         />
       ) : null}
       <DashboardPageContentScroller padding="default" ref={scrollContainerRef}>
-        {isLoading ? (
-          <ResourceFormRoute>
+        {loading ? (
+          <CustomerServiceRecordDetailRoute
+            loading
+            navigationItems={navigationItems}
+            navigationLabel={t('detail.navigationLabel')}
+            scrollContainerRef={scrollContainerRef}
+          >
             <ResourceFormSkeleton
               contentSurface={{ base: 'bare', md: 'inset' }}
               density={{ base: 'compact', md: 'comfortable' }}
@@ -74,7 +104,7 @@ export function BillingCustomerServiceRecordDetailPage() {
               groups={[{ fields: 4, orientation: 'responsive' }]}
               surface={{ base: 'bare', md: 'card' }}
             />
-          </ResourceFormRoute>
+          </CustomerServiceRecordDetailRoute>
         ) : null}
         {loadError ? (
           <div className="rounded-xl border border-destructive/40 bg-destructive/10 p-6 text-sm text-destructive">
@@ -96,44 +126,17 @@ export function BillingCustomerServiceRecordDetailPage() {
         ) : null}
         {record ? (
           <DashboardContentReveal>
-            <ResourceFormRoute>
-              <ResourceFormFrame
-                contentSurface={{ base: 'bare', md: 'inset' }}
-                density={{ base: 'compact', md: 'comfortable' }}
-                dividers="hidden"
-                headerDensity="compact"
-                mode="read"
-                surface={{ base: 'bare', md: 'card' }}
-                title={t('detail.summaryTitle')}
-              >
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {t('table.columns.serviceNumber')}
-                    </p>
-                    <FormReadValue>{record.serviceNumber}</FormReadValue>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {t('table.columns.customer')}
-                    </p>
-                    <FormReadValue>{record.customer.name}</FormReadValue>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {t('table.columns.serviceType')}
-                    </p>
-                    <FormReadValue>{record.serviceType.name}</FormReadValue>
-                  </div>
-                  <div className="space-y-1">
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {t('table.columns.billingStatus')}
-                    </p>
-                    <FormReadValue>{record.billingStatus.name}</FormReadValue>
-                  </div>
-                </div>
-              </ResourceFormFrame>
-            </ResourceFormRoute>
+            <CustomerServiceRecordDetailRoute
+              navigationItems={navigationItems}
+              navigationLabel={t('detail.navigationLabel')}
+              scrollContainerRef={scrollContainerRef}
+            >
+              <BillingCustomerServiceRecordReadOnlySections record={record} />
+              <BillingCustomerServiceRecordInvoiceSection
+                canUpdate={can('UPDATE')}
+                record={record}
+              />
+            </CustomerServiceRecordDetailRoute>
           </DashboardContentReveal>
         ) : null}
       </DashboardPageContentScroller>

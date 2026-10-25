@@ -11,7 +11,7 @@
 - [x] Integrar contratos, mapeos y estado remoto/URL de ambos módulos según Slice 1. Status: done.
 - [x] Incorporar columna, filtro, envío y detalle administrativos según Slice 2. Status: done.
 - [x] Crear navegación y listado autorizados de facturación según Slice 3. Status: done.
-- [ ] Crear detalle y flujo de factura de facturación según Slice 4. Status: pending.
+- [x] Crear detalle y flujo de factura de facturación según Slice 4. Status: done.
 
 ## Validación y cierre
 

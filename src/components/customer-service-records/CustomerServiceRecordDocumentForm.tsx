@@ -19,7 +19,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import {
   AttachmentImageGalleryDialog,
@@ -30,8 +30,7 @@ import {
 } from '@/components/attachments';
 import { DocumentCollectionItem } from '@/components/documents/DocumentCollection';
 import { DocumentCollectionReadOnlyItem } from '@/components/documents/DocumentCollectionReadOnlyItem';
-import type { MutationFeedback, MutationRecovery } from '@/components/feedback';
-import { ResourceFormActions, type ResourceFormMode } from '@/components/resource-form';
+import { ResourceFormActions } from '@/components/resource-form';
 import { showToast } from '@/components/toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,17 +38,26 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import type { CustomerServiceRecordAttachment } from '@/features/customer-service-records';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { cn } from '@/lib/utils';
+import {
+  createPendingAttachmentItems,
+  useCustomerServiceRecordDocumentDraft,
+  type CustomerServiceRecordDocumentDraftItem,
+} from './useCustomerServiceRecordDocumentDraft';
 
-const SUCCESS_FEEDBACK_DURATION_MS = 800;
 const MAX_PENDING_FILES = 10;
 
 export type CustomerServiceRecordDocumentSubmissionItem =
   | { kind: 'existing'; fileId: string }
   | { file: File; kind: 'pending' };
 
-type CustomerServiceRecordDocumentDraftItem =
-  | { attachment: CustomerServiceRecordAttachment; id: string; kind: 'existing' }
-  | { file: File; id: string; kind: 'pending' };
+export type CustomerServiceRecordDocumentSubmitIntent = 'save' | 'save-and-mark';
+
+export type CustomerServiceRecordDocumentSubmitResult = {
+  files: CustomerServiceRecordAttachment[];
+  message: string | null;
+  referenceNumber?: string | null;
+  partial?: { message: string; guidance: string };
+};
 
 type CustomerServiceRecordDocumentFormProps = {
   canUpdate: boolean;
@@ -61,11 +69,10 @@ type CustomerServiceRecordDocumentFormProps = {
   onSubmit: (input: {
     items: CustomerServiceRecordDocumentSubmissionItem[];
     referenceNumber?: string | null;
-  }) => Promise<{
-    files: CustomerServiceRecordAttachment[];
-    message: string | null;
-    referenceNumber?: string | null;
-  }>;
+    intent: CustomerServiceRecordDocumentSubmitIntent;
+  }) => Promise<CustomerServiceRecordDocumentSubmitResult>;
+  markAction?: { label: string; loadingLabel: string };
+  onRetryPartial?: () => Promise<CustomerServiceRecordDocumentSubmitResult>;
   referenceNumber?: string | null;
   requireFile?: boolean;
   title: string;
@@ -79,50 +86,48 @@ export function CustomerServiceRecordDocumentForm({
   hasReferenceNumber,
   onExpandedChange,
   onSubmit,
+  markAction,
+  onRetryPartial,
   referenceNumber: initialReferenceNumber = null,
   requireFile = false,
   title,
 }: CustomerServiceRecordDocumentFormProps) {
   const { t } = useTranslationHydrated('customerServiceRecords');
-  const [mode, setMode] = useState<ResourceFormMode>('read');
-  const [animateReadTransition, setAnimateReadTransition] = useState(false);
-  const [referenceNumber, setReferenceNumber] = useState(initialReferenceNumber ?? '');
-  const [attachmentItems, setAttachmentItems] = useState<CustomerServiceRecordDocumentDraftItem[]>(
-    () => createExistingAttachmentItems(files)
-  );
-  const [attachmentDialogOpen, setAttachmentDialogOpen] = useState(false);
+  const {
+    isReadOnly,
+    animateReadTransition,
+    referenceNumber,
+    setReferenceNumber,
+    attachmentItems,
+    setAttachmentItems,
+    attachmentDialogOpen,
+    setAttachmentDialogOpen,
+    mutationFeedback,
+    setMutationFeedback,
+    mutationRecovery,
+    setMutationRecovery,
+    partialSaved,
+    setPartialSaved,
+    resetDraft,
+    beginEdit,
+    applyPersisted,
+    finishSuccess,
+  } = useCustomerServiceRecordDocumentDraft({
+    canUpdate,
+    files,
+    initialReferenceNumber,
+  });
   const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
   const [pdfPreview, setPdfPreview] = useState<AttachmentPdf | null>(null);
-  const [mutationFeedback, setMutationFeedback] = useState<MutationFeedback>();
-  const [mutationRecovery, setMutationRecovery] = useState<MutationRecovery>();
-  const successTimeoutRef = useRef<number | null>(null);
-  const isReadOnly = mode === 'read';
   const expanded = parentExpanded || !isReadOnly;
   const isMutationLocked =
-    mutationFeedback?.status === 'saving' || mutationFeedback?.status === 'success';
+    mutationFeedback?.status === 'saving' || mutationFeedback?.status === 'success' || partialSaved;
   const attachmentCount = attachmentItems.length;
   const pendingAttachmentCount = attachmentItems.filter((item) => item.kind === 'pending').length;
   const attachmentsId = `${collectionId}-attachments`;
   const attachmentSummary = attachmentCount
     ? t('detail.documents.fileCount', { count: attachmentCount })
     : t('detail.documents.emptyFolder');
-
-  useEffect(() => {
-    if (!isReadOnly) return;
-    setAttachmentItems(createExistingAttachmentItems(files));
-    setReferenceNumber(initialReferenceNumber ?? '');
-  }, [files, initialReferenceNumber, isReadOnly]);
-
-  useEffect(() => {
-    if (!canUpdate) setMode('read');
-  }, [canUpdate]);
-
-  useEffect(
-    () => () => {
-      if (successTimeoutRef.current) window.clearTimeout(successTimeoutRef.current);
-    },
-    []
-  );
 
   const images = useMemo<AttachmentImage[]>(
     () =>
@@ -145,19 +150,26 @@ export function CustomerServiceRecordDocumentForm({
     [attachmentItems]
   );
 
-  const resetDraft = () => {
-    setAttachmentItems(createExistingAttachmentItems(files));
-    setReferenceNumber(initialReferenceNumber ?? '');
-    setMutationFeedback(undefined);
-    setMutationRecovery(undefined);
-    setAnimateReadTransition(true);
-    setMode('read');
+  const handleSubmitResult = (result: CustomerServiceRecordDocumentSubmitResult) => {
+    applyPersisted(result);
+    if (result.partial) {
+      setPartialSaved(true);
+      setMutationFeedback(undefined);
+      setMutationRecovery({
+        title: t('detail.feedback.errorTitle'),
+        message: result.partial.message,
+        guidance: result.partial.guidance,
+      });
+      return;
+    }
+    finishSuccess(t('detail.feedback.success'));
+    showToast({ duration: 4000, title: result.message ?? t('feedback.updated'), type: 'success' });
   };
 
-  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const submit = async (intent: CustomerServiceRecordDocumentSubmitIntent) => {
+    if (isMutationLocked) return;
     setMutationRecovery(undefined);
-    if (requireFile && attachmentItems.length === 0) {
+    if ((requireFile || intent === 'save-and-mark') && attachmentItems.length === 0) {
       setMutationRecovery({
         title: t('detail.feedback.errorTitle'),
         message: t('billing.invoice.fileRequired'),
@@ -169,6 +181,7 @@ export function CustomerServiceRecordDocumentForm({
 
     try {
       const result = await onSubmit({
+        intent,
         items: attachmentItems.map((item) =>
           item.kind === 'existing'
             ? { fileId: item.attachment.fileId, kind: 'existing' }
@@ -176,19 +189,22 @@ export function CustomerServiceRecordDocumentForm({
         ),
         ...(hasReferenceNumber ? { referenceNumber: referenceNumber.trim() || null } : {}),
       });
-      setAttachmentItems(createExistingAttachmentItems(result.files));
-      setReferenceNumber(result.referenceNumber ?? '');
-      setMutationFeedback({ status: 'success', title: t('detail.feedback.success') });
-      showToast({
-        duration: 4000,
-        title: result.message ?? t('feedback.updated'),
-        type: 'success',
+      handleSubmitResult(result);
+    } catch (error) {
+      setMutationFeedback(undefined);
+      setMutationRecovery({
+        title: t('detail.feedback.errorTitle'),
+        message: getMutationErrorMessage(error, t('feedback.error')),
+        guidance: t('detail.feedback.errorGuidance'),
       });
-      successTimeoutRef.current = window.setTimeout(() => {
-        setAnimateReadTransition(true);
-        setMode('read');
-        setMutationFeedback(undefined);
-      }, SUCCESS_FEEDBACK_DURATION_MS);
+    }
+  };
+
+  const retryPartial = async () => {
+    if (!onRetryPartial || mutationFeedback?.status === 'saving') return;
+    setMutationFeedback({ status: 'saving', title: t('detail.feedback.saving') });
+    try {
+      handleSubmitResult(await onRetryPartial());
     } catch (error) {
       setMutationFeedback(undefined);
       setMutationRecovery({
@@ -207,8 +223,7 @@ export function CustomerServiceRecordDocumentForm({
           disabled={!isReadOnly}
           onClick={() => {
             onExpandedChange(true);
-            setAnimateReadTransition(false);
-            setMode('edit');
+            beginEdit();
           }}
           size="icon-sm"
           type="button"
@@ -251,7 +266,10 @@ export function CustomerServiceRecordDocumentForm({
   return (
     <form
       className={cn(mutationFeedback?.status === 'saving' && 'pointer-events-none opacity-70')}
-      onSubmit={submit}
+      onSubmit={(event) => {
+        event.preventDefault();
+        void submit(markAction ? 'save-and-mark' : 'save');
+      }}
     >
       <DocumentCollectionItem
         action={editAction}
@@ -323,9 +341,30 @@ export function CustomerServiceRecordDocumentForm({
               cancelAction={{ label: t('form.actions.cancel'), onClick: resetDraft }}
               mutationFeedback={mutationFeedback}
               mutationRecovery={mutationRecovery}
+              retryAction={
+                partialSaved && onRetryPartial
+                  ? {
+                      label: t('billing.invoice.retryMark'),
+                      onClick: () => void retryPartial(),
+                    }
+                  : undefined
+              }
+              secondaryActions={
+                markAction ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={isMutationLocked}
+                    onClick={() => void submit('save')}
+                  >
+                    {t('form.actions.save')}
+                  </Button>
+                ) : undefined
+              }
               primaryAction={{
-                label: t('form.actions.save'),
-                loadingLabel: t('detail.feedback.saving'),
+                label: markAction?.label ?? t('form.actions.save'),
+                loadingLabel: markAction?.loadingLabel ?? t('detail.feedback.saving'),
+                disabled: partialSaved,
               }}
               status={mutationFeedback?.status === 'saving' ? 'saving' : 'idle'}
             />
@@ -611,22 +650,6 @@ function SortableAttachmentItem({
       </Tooltip>
     </li>
   );
-}
-
-function createExistingAttachmentItems(files: CustomerServiceRecordAttachment[]) {
-  return files.map((attachment, index) => ({
-    attachment,
-    id: `existing-${attachment.fileId}-${index}`,
-    kind: 'existing' as const,
-  }));
-}
-
-function createPendingAttachmentItems(files: File[]) {
-  return files.map((file) => ({
-    file,
-    id: `pending-${crypto.randomUUID()}`,
-    kind: 'pending' as const,
-  }));
 }
 
 function getMutationErrorMessage(error: unknown, fallback: string) {

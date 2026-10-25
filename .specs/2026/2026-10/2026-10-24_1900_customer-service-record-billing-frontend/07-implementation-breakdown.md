@@ -36,7 +36,7 @@ Cada slice requiere revisar el `Registro de Artefactos` antes de editar; si camb
 
 ## Slice 4 — detalle y factura de facturación
 
-**Status:** pending.
+**Status:** done.
 
 - Crear detalle con ResourceFormRoute, secciones y documentos de lectura; omitir el bloque de seguimiento al proveedor, reglas, políticas y grupos, sin consultar sus opciones.
 - Reutilizar header compacto con cliente y editor documental especializado; mostrar estado de facturación y último aviso por correo a facturación, sin confundirlo con el seguimiento al proveedor.
