@@ -2,7 +2,7 @@
 
 ## Acuerdos de trabajo
 
-- Los mensajes de commit y las propuestas de `git commit` van en español. Si el usuario pide el comando, dar `git commit -m "..."` para ejecutarlo desde este repositorio, sin `git -C`.
+- Los mensajes de commit y las propuestas de `git commit` van en español y siguen Conventional Commits, exigido por `commitlint.config.js`: `tipo: descripción` (por ejemplo, `docs: aclarar criterio de validación`). Si el usuario pide el comando, dar `git commit -m "..."` para ejecutarlo desde este repositorio, sin `git -C`.
 - No agregar archivos al stage, crear commits ni hacer push salvo petición explícita. Una petición de mensaje de commit no autoriza esas operaciones.
 - Respetar las decisiones y el alcance aprobados. Para trabajo de una spec activa, seguir `.specs/SPEC_WORKFLOW.md`; un cambio solicitado fuera de la spec no se incorpora a ella por defecto.
 - Antes de ampliar el contrato de un componente genérico, revisar sus consumidores y discutir el cambio cuando implique una decisión arquitectónica o afecte otros módulos. Preferir una composición específica cuando el caso sea excepcional.
@@ -36,7 +36,7 @@
 
 ## Verificación
 
-- Ejecutar typecheck, lint enfocado y build según el alcance del cambio; comprobar interacciones, permisos, temas y tamaños de pantalla cuando sean relevantes. No afirmar validación manual que no se hizo.
+- Por agilidad y ahorro de tiempo, no añadir ni ejecutar pruebas unitarias, de integración o e2e por iniciativa propia; hacerlo cuando el usuario lo pida explícitamente y con el alcance acordado. Ejecutar typecheck, lint enfocado y build según el alcance del cambio; comprobar interacciones, permisos, temas y tamaños de pantalla cuando sean relevantes. No afirmar validación manual que no se hizo.
 - Antes de cerrar una spec, revisar tareas, estados, evidencia de validación y documentación viva aplicable. No marcar como completada una validación que no ocurrió.
 
 ## Para afirmar que una spec está completada
