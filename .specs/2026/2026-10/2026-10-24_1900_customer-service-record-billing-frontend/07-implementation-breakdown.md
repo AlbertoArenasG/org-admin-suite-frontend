@@ -47,7 +47,7 @@ Cada slice requiere revisar el `Registro de Artefactos` antes de editar; si camb
 
 ## Slice 5 — validación y documentación
 
-**Status:** pending.
+**Status:** done.
 
 - Ejecutar typecheck, lint enfocado y build; revisar la matriz de `08-manual-validation.md` con el usuario para los escenarios que exigen interacción real.
 - Corregir defectos encontrados, registrar evidencia en `05-progress.md` y actualizar `docs/ui/adoption-log.md`.

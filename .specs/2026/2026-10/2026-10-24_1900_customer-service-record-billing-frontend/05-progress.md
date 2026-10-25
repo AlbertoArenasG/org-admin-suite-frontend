@@ -10,9 +10,9 @@
 ## Estado actual
 
 - Definición: completada tras auditoría documental.
-- Implementación: Slices 1 a 4 codificadas; validación y cierre de Slice 5 pendientes.
-- Validación: pendiente; Slice 5.
-- Documentación viva de adopción: pendiente hasta que exista implementación verificable.
+- Implementación: Slices 1 a 4 codificadas; Slice 5 de validación y documentación completada.
+- Validación: completada con evidencia técnica y confirmación manual del usuario.
+- Documentación viva de adopción: actualizada en `docs/ui/adoption-log.md`.
 
 ## 2026-10-24 — implementación de Slices 1 y 2
 
@@ -35,3 +35,10 @@
 - El editor documental específico de registros conserva la composición existente y separa el borrador en un hook. La factura de facturación permite guardar cambios o guardar y marcar como facturado con UPDATE; exige archivo para marcar y para editar un registro INVOICED. La coordinación del módulo sube pendientes, confirma PUT y luego PATCH. Tras fallo parcial consulta el detalle y permite reintentar solo PATCH, sin repetir la subida o el PUT. Ante 409 o respuesta incierta del PUT consulta el detalle antes de continuar. El GET conserva la vista durante una recarga del mismo registro y descarta datos obsoletos en 403/404.
 - Copys de detalle, navegación y recuperación agregados en español e inglés. Se emplean tokens y componentes existentes; no se amplió ninguna primitiva genérica.
 - Verificación técnica de la slice: `npm run typecheck`, ESLint enfocado y `git diff --check` sin errores. Build y matriz manual permanecen en Slice 5; no se atribuye todavía validación interactiva al usuario.
+
+## 2026-10-24 — validación y cierre de Slice 5
+
+- `npm run typecheck` y ESLint enfocado en los componentes y features administrativos y de facturación: sin errores. `git diff --check`: sin errores. El diseño técnico enumera rutas y artefactos existentes; revisión automática de rutas `src/` del registro: cero archivos faltantes. Inspección focalizada de adaptadores URL: administración acepta tres estados y conserva `billing_status` al construir la consulta; facturación acepta solo SUBMITTED/INVOICED y no agrega ordenamiento.
+- El build sobre el directorio compartido `.next` compiló y pasó tipos, pero volvió a fallar durante `Collecting page data` por entradas faltantes de páginas existentes de Playground. Se repitió `NEXT_TELEMETRY_DISABLED=1 npm run build` en una copia temporal aislada del commit de implementación, con las mismas dependencias y configuración de entorno: terminó con código 0, generó 57 páginas e incluyó lista y detalle de facturación. La copia temporal se eliminó. Quedaron cinco warnings de lint en archivos ajenos al alcance de esta spec; ninguno bloqueó el build.
+- El usuario confirmó el 2026-10-24 que validó toda la matriz de `08-manual-validation.md`, incluidos permisos y casos de error. La evidencia es su confirmación; no se atribuyen capturas o trazas no entregadas.
+- Actualizado `docs/ui/adoption-log.md`, auditados los checks y estados de esta carpeta e indexado el cierre en `.specs/index.md`. La spec queda completada como trabajo de desarrollo; el despliegue no forma parte de su alcance.

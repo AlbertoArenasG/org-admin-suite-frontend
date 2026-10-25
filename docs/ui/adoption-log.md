@@ -58,6 +58,15 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-10-24 - Facturación de Registros de Servicio a Clientes
+
+- Alcance: listado y detalle administrativos de `/dashboard/customer-service-records`, y listado y detalle de `/dashboard/billing/customer-service-records`.
+- Adopción: grupo de navegación Facturación debajo de Operación, rutas con `DashboardViewAccessBoundary` y permisos independientes; listado nuevo con `DashboardTableWorkspace`, `DataTable`, `TableFilterDialog`, estado de tabla por módulo y paginación compartida.
+- Detalle: `DashboardPageComposition`, header compacto con equipo y cliente, `ResourceFormRoute` con navegación, frames de lectura y `DocumentCollection`. El editor de factura conserva `AttachmentUploadDialog` y sus previsualizadores; la coordinación específica de facturación guarda la factura y después cambia el estado cuando el usuario elige esa acción.
+- Administración: columna y filtro de estado de facturación, acción explícita de envío con confirmación y último aviso en el detalle. El portal externo conserva su presentación.
+- Spec: `customer-service-record-billing-frontend`.
+- Compatibilidad temporal: ninguna.
+
 ### 2026-10-13 - Contexto de Equipo en Detalles de Registros de Servicio
 
 - Alcance: `/dashboard/customer-service-records/[recordId]` y

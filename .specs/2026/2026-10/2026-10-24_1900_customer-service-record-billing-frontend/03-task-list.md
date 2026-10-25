@@ -15,5 +15,5 @@
 
 ## Validación y cierre
 
-- [ ] Ejecutar verificaciones de código y matriz manual de Slice 5; registrar resultados reales. Status: pending.
-- [ ] Actualizar `docs/ui/adoption-log.md`, auditar artefactos, tareas y estados e indexar el cierre. Status: pending.
+- [x] Ejecutar verificaciones de código y matriz manual de Slice 5; registrar resultados reales. Status: done.
+- [x] Actualizar `docs/ui/adoption-log.md`, auditar artefactos, tareas y estados e indexar el cierre. Status: done.
