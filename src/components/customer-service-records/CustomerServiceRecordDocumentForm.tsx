@@ -67,6 +67,7 @@ type CustomerServiceRecordDocumentFormProps = {
     referenceNumber?: string | null;
   }>;
   referenceNumber?: string | null;
+  requireFile?: boolean;
   title: string;
 };
 
@@ -79,6 +80,7 @@ export function CustomerServiceRecordDocumentForm({
   onExpandedChange,
   onSubmit,
   referenceNumber: initialReferenceNumber = null,
+  requireFile = false,
   title,
 }: CustomerServiceRecordDocumentFormProps) {
   const { t } = useTranslationHydrated('customerServiceRecords');
@@ -155,6 +157,14 @@ export function CustomerServiceRecordDocumentForm({
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setMutationRecovery(undefined);
+    if (requireFile && attachmentItems.length === 0) {
+      setMutationRecovery({
+        title: t('detail.feedback.errorTitle'),
+        message: t('billing.invoice.fileRequired'),
+        guidance: t('billing.invoice.fileRequiredGuidance'),
+      });
+      return;
+    }
     setMutationFeedback({ status: 'saving', title: t('detail.feedback.saving') });
 
     try {

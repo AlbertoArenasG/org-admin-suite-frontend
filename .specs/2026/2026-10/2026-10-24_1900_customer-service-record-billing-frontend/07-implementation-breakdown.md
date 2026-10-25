@@ -4,7 +4,7 @@ Cada slice requiere revisar el `Registro de Artefactos` antes de editar; si camb
 
 ## Slice 1 — contratos y estado
 
-**Status:** pending.
+**Status:** completed.
 
 - Extender tipos y mapeos compartidos de fila/detalle para estado y último aviso; preservar valores localizados del API.
 - Extraer el transporte de archivos sin cambiar su contrato. Mantener thunks y slices separados entre administración y facturación; registrar el nuevo reducer.
@@ -15,7 +15,7 @@ Cada slice requiere revisar el `Registro de Artefactos` antes de editar; si camb
 
 ## Slice 2 — administración
 
-**Status:** pending.
+**Status:** completed.
 
 - Añadir columna de estado y filtro de tres valores en el diálogo existente, con contador y limpieza.
 - Añadir acción de fila y detalle «Enviar a facturación» solo con NOT_SUBMITTED y UPDATE; confirmar correo y reflejar carga, éxito, 502 y conflicto.

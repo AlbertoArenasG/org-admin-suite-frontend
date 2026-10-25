@@ -1,7 +1,10 @@
 import type {
   CustomerServiceRecordAttachment,
+  CustomerServiceRecordBillingStatus,
+  CustomerServiceRecordBillingNotification,
   CustomerServiceRecordDerivedStatus,
   CustomerServiceRecordDetail,
+  CustomerServiceRecordListItem,
   CustomerServiceRecordLocalizedValue,
   CustomerServiceRecordOperationalStatus,
   CustomerServiceRecordInterval,
@@ -9,7 +12,7 @@ import type {
   UpdateCustomerServiceRecordAssetPayload,
 } from './types';
 
-type ApiLocalizedValue = {
+export type ApiLocalizedValue = {
   code: string;
   name: string;
   name_key: string | null;
@@ -47,6 +50,8 @@ export type ApiCustomerServiceRecordDetail = {
   requested_at: string;
   observations: string | null;
   operational_status: ApiLocalizedValue;
+  billing_status: ApiLocalizedValue;
+  billing_notification: ApiBillingNotification;
   customer: {
     customer_id: string;
     name: string;
@@ -98,8 +103,68 @@ export type ApiCustomerServiceRecordDetail = {
   updated_at: string | null;
 };
 
+export type ApiBillingNotification = {
+  status: ApiLocalizedValue;
+  attempted_at: string | null;
+  sent_at: string | null;
+  failure_reason: string | null;
+};
+
+export type ApiCustomerServiceRecordListItem = {
+  customer_service_record_id: string;
+  service_number_display: string;
+  observations: string | null;
+  service_type: { service_type_code: string; name: string };
+  requested_at: string;
+  customer: { customer_id: string; name: string };
+  assets: Array<{
+    asset_id: string;
+    name: string;
+    identifier: string;
+    brand: string;
+    model: string;
+    serial_number: string;
+    observations: string | null;
+  }>;
+  operational_status: ApiLocalizedValue;
+  billing_status: ApiLocalizedValue;
+  billing_notification: ApiBillingNotification;
+  customer_delivery: {
+    received_at: string | null;
+    estimated_delivery_at: string | null;
+    delivered_to_customer_at: string | null;
+    status_materialization: ApiMaterialization | null;
+  };
+  provider: {
+    estimated_return_at: string | null;
+    status_materialization: ApiMaterialization | null;
+  } | null;
+  updated_at: string | null;
+};
+
 function mapLocalizedValue(value: ApiLocalizedValue): CustomerServiceRecordLocalizedValue {
   return { code: value.code, name: value.name, nameKey: value.name_key };
+}
+
+export function mapBillingNotification(
+  value: ApiBillingNotification
+): CustomerServiceRecordBillingNotification {
+  return {
+    status: {
+      ...mapLocalizedValue(value.status),
+      code: value.status.code as CustomerServiceRecordBillingNotification['status']['code'],
+    },
+    attemptedAt: value.attempted_at,
+    sentAt: value.sent_at,
+    failureReason: value.failure_reason,
+  };
+}
+
+export function mapBillingStatus(value: ApiLocalizedValue) {
+  return {
+    ...mapLocalizedValue(value),
+    code: value.code as CustomerServiceRecordBillingStatus,
+  };
 }
 
 function mapMaterialization(
@@ -148,6 +213,8 @@ export function mapCustomerServiceRecordDetail(
       ...mapLocalizedValue(value.operational_status),
       code: value.operational_status.code as CustomerServiceRecordOperationalStatus,
     },
+    billingStatus: mapBillingStatus(value.billing_status),
+    billingNotification: mapBillingNotification(value.billing_notification),
     customer: {
       customerId: value.customer.customer_id,
       name: value.customer.name,
@@ -211,6 +278,52 @@ export function mapCustomerServiceRecordDetail(
     },
     otherFiles: value.other_files.map(mapAttachment),
     createdAt: value.created_at,
+    updatedAt: value.updated_at,
+  };
+}
+
+export function mapCustomerServiceRecordListItem(
+  value: ApiCustomerServiceRecordListItem
+): CustomerServiceRecordListItem {
+  return {
+    customerServiceRecordId: value.customer_service_record_id,
+    serviceNumber: value.service_number_display,
+    observations: value.observations ?? null,
+    serviceType: {
+      serviceTypeCode: value.service_type.service_type_code,
+      name: value.service_type.name,
+    },
+    requestedAt: value.requested_at,
+    customer: { customerId: value.customer.customer_id, name: value.customer.name },
+    assets: value.assets.map((asset) => ({
+      assetId: asset.asset_id,
+      name: asset.name,
+      identifier: asset.identifier,
+      brand: asset.brand,
+      model: asset.model,
+      serialNumber: asset.serial_number,
+      observations: asset.observations ?? null,
+    })),
+    operationalStatus: {
+      code: value.operational_status
+        .code as CustomerServiceRecordListItem['operationalStatus']['code'],
+      name: value.operational_status.name,
+      nameKey: value.operational_status.name_key ?? '',
+    },
+    billingStatus: mapBillingStatus(value.billing_status),
+    billingNotification: mapBillingNotification(value.billing_notification),
+    customerDelivery: {
+      receivedAt: value.customer_delivery.received_at,
+      estimatedDeliveryAt: value.customer_delivery.estimated_delivery_at,
+      deliveredToCustomerAt: value.customer_delivery.delivered_to_customer_at,
+      statusMaterialization: mapMaterialization(value.customer_delivery.status_materialization),
+    },
+    provider: value.provider
+      ? {
+          estimatedReturnAt: value.provider.estimated_return_at,
+          statusMaterialization: mapMaterialization(value.provider.status_materialization),
+        }
+      : null,
     updatedAt: value.updated_at,
   };
 }

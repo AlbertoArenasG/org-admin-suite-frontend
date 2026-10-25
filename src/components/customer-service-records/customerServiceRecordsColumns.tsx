@@ -10,6 +10,7 @@ type CustomerServiceRecordsColumnLabels = {
   equipmentDetails: string;
   customer: string;
   operationalStatus: string;
+  billingStatus: string;
   customerCommitment: string;
   receivedAt: string;
   deliveryAt: string;
@@ -125,6 +126,14 @@ export function createCustomerServiceRecordsColumns({
         />
       ),
       width: { initial: 148, min: 148, max: 240, resizable: true },
+    },
+    {
+      id: 'billingStatus',
+      header: labels.billingStatus,
+      ariaLabel: labels.billingStatus,
+      accessor: (row) => row.billingStatus.name,
+      cell: (row) => <BadgeCell label={row.billingStatus.name} variant="outline" />,
+      width: { initial: 168, min: 152, max: 260, resizable: true },
     },
     {
       id: 'customerCommitment',

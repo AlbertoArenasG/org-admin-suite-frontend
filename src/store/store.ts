@@ -15,6 +15,7 @@ import expirationStatusPoliciesReducer from '@/features/expiration-status-polici
 import expirationNotificationPoliciesReducer from '@/features/expiration-notification-policies/expirationNotificationPoliciesSlice';
 import internalAssetControlReducer from '@/features/internal-asset-control/internalAssetControlSlice';
 import customerServiceRecordsReducer from '@/features/customer-service-records/customerServiceRecordsSlice';
+import billingCustomerServiceRecordsReducer from '@/features/billing-customer-service-records/billingCustomerServiceRecordsSlice';
 import customerServiceRecordsClientAccessReducer from '@/features/customer-service-records-client-access/customerServiceRecordsClientAccessSlice';
 import userRegistrationInvitationsReducer from '@/features/user-registration-invitations/userRegistrationInvitationsSlice';
 import userCustomerRelationshipsReducer from '@/features/user-customer-relationships/userCustomerRelationshipsSlice';
@@ -40,6 +41,7 @@ export const store = configureStore({
     expirationNotificationPolicies: expirationNotificationPoliciesReducer,
     internalAssetControl: internalAssetControlReducer,
     customerServiceRecords: customerServiceRecordsReducer,
+    billingCustomerServiceRecords: billingCustomerServiceRecordsReducer,
     customerServiceRecordsClientAccess: customerServiceRecordsClientAccessReducer,
     userRegistrationInvitations: userRegistrationInvitationsReducer,
     userCustomerRelationships: userCustomerRelationshipsReducer,

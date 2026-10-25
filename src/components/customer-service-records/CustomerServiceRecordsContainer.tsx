@@ -24,8 +24,9 @@ export function CustomerServiceRecordsContainer() {
     (state) => state.userCustomerRelationships.relatedOptions
   );
   const [createOpen, setCreateOpen] = useState(false);
-  const { rowActions, deletionDialog } = useCustomerServiceRecordRowActions({
+  const { rowActions, deletionDialog, billingDialog } = useCustomerServiceRecordRowActions({
     onDeleted: controller.refetch,
+    onBillingSubmitted: controller.refetch,
   });
   const canCreate = can('CREATE');
 
@@ -57,6 +58,7 @@ export function CustomerServiceRecordsContainer() {
         }
       />
       {deletionDialog}
+      {billingDialog}
       {canCreate ? (
         <CustomerServiceRecordCreateDialog
           open={createOpen}

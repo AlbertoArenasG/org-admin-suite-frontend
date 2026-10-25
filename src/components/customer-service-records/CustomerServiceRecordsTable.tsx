@@ -33,7 +33,9 @@ function loadingCell(columnId: string) {
   const width =
     columnId === 'serviceAndAssets'
       ? 'w-4/5'
-      : columnId === 'customerCommitment' || columnId === 'operationalStatus'
+      : columnId === 'customerCommitment' ||
+          columnId === 'operationalStatus' ||
+          columnId === 'billingStatus'
         ? 'w-3/5'
         : 'w-2/3';
   return <Skeleton className={`h-5 ${width}`} />;
@@ -54,6 +56,8 @@ export function CustomerServiceRecordsTable({
   const {
     list,
     options,
+    billingStatusOptions,
+    refetchBillingStatusOptions,
     customerOptions,
     page,
     limit,
@@ -95,6 +99,7 @@ export function CustomerServiceRecordsTable({
           serviceAndAssets: t('table.columns.serviceAndAssets'),
           equipmentDetails: t('table.columns.equipmentDetails'),
           operationalStatus: t('table.columns.status'),
+          billingStatus: t('table.columns.billingStatus'),
           customerCommitment: t('table.columns.customerDelivery'),
           receivedAt: t('table.columns.receivedAt'),
           deliveryAt: t('table.columns.deliveryAt'),
@@ -163,7 +168,14 @@ export function CustomerServiceRecordsTable({
               label: item.companyName,
             }))}
             providers={options.providers}
-            loadingOptions={options.status === 'loading' || customerOptions.status === 'loading'}
+            billingStatuses={billingStatusOptions.items}
+            billingStatusOptionsError={billingStatusOptions.error}
+            onRetryBillingStatusOptions={refetchBillingStatusOptions}
+            loadingOptions={
+              options.status === 'loading' ||
+              customerOptions.status === 'loading' ||
+              billingStatusOptions.status === 'loading'
+            }
             onFiltersChange={(nextFilters) => {
               setFilters(nextFilters);
               setPage(1);

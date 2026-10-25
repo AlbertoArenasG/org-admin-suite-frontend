@@ -1,18 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { API_BASE_URL } from '@/config/env';
-import { invalidateAuthSessionIfCurrent } from '@/features/auth/sessionInvalidation';
-import { jsonRequest } from '@/lib/api-client';
+import { ApiError, jsonRequest } from '@/lib/api-client';
 import type { RootState } from '@/store';
 import {
   mapCustomerServiceRecordDetail,
+  mapCustomerServiceRecordListItem,
+  type ApiLocalizedValue,
   type ApiCustomerServiceRecordDetail,
+  type ApiCustomerServiceRecordListItem,
 } from './customerServiceRecordMappers';
+import { uploadCustomerServiceRecordFilesRequest } from './customerServiceRecordFileUpload';
 import type {
-  CustomerServiceRecordDerivedStatus,
   CustomerServiceRecordListItem,
   CreateCustomerServiceRecordPayload,
   CustomerServiceRecordOption,
   CustomerServiceRecordDetail,
+  CustomerServiceRecordBillingMutationError,
   UpdateCustomerServiceRecordDetailsPayload,
   UpdateCustomerServiceRecordCustomerDeliveryPayload,
   UpdateCustomerServiceRecordAssetPayload,
@@ -27,52 +29,6 @@ interface PaginationMeta {
   per_page: number;
   total: number;
   total_pages: number;
-}
-
-interface ApiLocalizedValue {
-  code: string;
-  name: string;
-  name_key: string | null;
-}
-
-interface ApiMaterialization {
-  code: string;
-  name: string;
-  name_key: string | null;
-  color_hex: string;
-  source: ApiLocalizedValue;
-  effective_start_date: string | null;
-}
-
-interface ApiCustomerServiceRecordListItem {
-  customer_service_record_id: string;
-  service_number: number;
-  service_number_display: string;
-  observations: string | null;
-  service_type: { service_type_code: string; name: string };
-  requested_at: string;
-  customer: { customer_id: string; name: string };
-  assets: Array<{
-    asset_id: string;
-    name: string;
-    identifier: string;
-    brand: string;
-    model: string;
-    serial_number: string;
-    observations: string | null;
-  }>;
-  operational_status: ApiLocalizedValue;
-  customer_delivery: {
-    received_at: string | null;
-    estimated_delivery_at: string | null;
-    delivered_to_customer_at: string | null;
-    status_materialization: ApiMaterialization | null;
-  };
-  provider: {
-    estimated_return_at: string | null;
-    status_materialization: ApiMaterialization | null;
-  } | null;
-  updated_at: string | null;
 }
 
 interface ApiProviderOption {
@@ -110,69 +66,6 @@ interface ApiRecipientGroupOption {
 
 function getAuthToken(state: RootState) {
   return state.auth.token;
-}
-
-function mapMaterialization(
-  value: ApiMaterialization | null
-): CustomerServiceRecordDerivedStatus | null {
-  if (!value) {
-    return null;
-  }
-
-  return {
-    code: value.code,
-    name: value.name,
-    nameKey: value.name_key,
-    colorHex: value.color_hex,
-    source: {
-      code: value.source.code,
-      name: value.source.name,
-      nameKey: value.source.name_key ?? '',
-    },
-    effectiveStartDate: value.effective_start_date,
-  };
-}
-
-function mapListItem(value: ApiCustomerServiceRecordListItem): CustomerServiceRecordListItem {
-  return {
-    customerServiceRecordId: value.customer_service_record_id,
-    serviceNumber: value.service_number_display,
-    observations: value.observations ?? null,
-    serviceType: {
-      serviceTypeCode: value.service_type.service_type_code,
-      name: value.service_type.name,
-    },
-    requestedAt: value.requested_at,
-    customer: { customerId: value.customer.customer_id, name: value.customer.name },
-    assets: value.assets.map((asset) => ({
-      assetId: asset.asset_id,
-      name: asset.name,
-      identifier: asset.identifier,
-      brand: asset.brand,
-      model: asset.model,
-      serialNumber: asset.serial_number,
-      observations: asset.observations ?? null,
-    })),
-    operationalStatus: {
-      code: value.operational_status
-        .code as CustomerServiceRecordListItem['operationalStatus']['code'],
-      name: value.operational_status.name,
-      nameKey: value.operational_status.name_key ?? '',
-    },
-    customerDelivery: {
-      receivedAt: value.customer_delivery.received_at,
-      estimatedDeliveryAt: value.customer_delivery.estimated_delivery_at,
-      deliveredToCustomerAt: value.customer_delivery.delivered_to_customer_at,
-      statusMaterialization: mapMaterialization(value.customer_delivery.status_materialization),
-    },
-    provider: value.provider
-      ? {
-          estimatedReturnAt: value.provider.estimated_return_at,
-          statusMaterialization: mapMaterialization(value.provider.status_materialization),
-        }
-      : null,
-    updatedAt: value.updated_at,
-  };
 }
 
 function buildCreateCustomerServiceRecordBody(payload: CreateCustomerServiceRecordPayload) {
@@ -229,6 +122,7 @@ export const fetchCustomerServiceRecords = createAsyncThunk<
 
   if (search?.trim()) query.set('search', search.trim());
   if (filters.operationalStatus) query.set('operational_status', filters.operationalStatus);
+  if (filters.billingStatus) query.set('billing_status', filters.billingStatus);
   if (filters.serviceTypeCode) query.set('service_type_code', filters.serviceTypeCode);
   if (filters.customerId) query.set('customer_id', filters.customerId);
   if (filters.providerId) query.set('provider_id', filters.providerId);
@@ -264,7 +158,9 @@ export const fetchCustomerServiceRecords = createAsyncThunk<
       headers: { Accept: 'application/json' },
       token,
     });
-    const items = Array.isArray(response.data) ? response.data.map(mapListItem) : [];
+    const items = Array.isArray(response.data)
+      ? response.data.map(mapCustomerServiceRecordListItem)
+      : [];
     const pagination = response.meta?.pagination;
 
     return {
@@ -278,6 +174,59 @@ export const fetchCustomerServiceRecords = createAsyncThunk<
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible obtener los registros de servicio'
     );
+  }
+});
+
+export const fetchCustomerServiceRecordBillingStatusOptions = createAsyncThunk<
+  CustomerServiceRecordOption[],
+  void,
+  { state: RootState; rejectValue: string }
+>('customerServiceRecords/fetchBillingStatusOptions', async (_, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
+
+  try {
+    const response = await jsonRequest<ApiLocalizedValue[]>(
+      '/v1/customer-service-records/billing-statuses/options',
+      { method: 'GET', headers: { Accept: 'application/json' }, token }
+    );
+    return response.data.map(({ code, name }) => ({ value: code, label: name }));
+  } catch (error) {
+    return thunkAPI.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible obtener los estados de facturación'
+    );
+  }
+});
+
+export const submitCustomerServiceRecordToBilling = createAsyncThunk<
+  { record: CustomerServiceRecordDetail; message: string | null },
+  { recordId: string },
+  { state: RootState; rejectValue: CustomerServiceRecordBillingMutationError }
+>('customerServiceRecords/submitToBilling', async ({ recordId }, thunkAPI) => {
+  const token = getAuthToken(thunkAPI.getState());
+  if (!token) {
+    return thunkAPI.rejectWithValue({ message: 'No hay token de autenticación', status: 401 });
+  }
+
+  try {
+    const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+      `/v1/customer-service-records/${recordId}/billing-status`,
+      {
+        method: 'PATCH',
+        headers: { Accept: 'application/json' },
+        body: { billing_status: 'SUBMITTED' },
+        token,
+      }
+    );
+    return {
+      record: mapCustomerServiceRecordDetail(response.data),
+      message: response.successMessage,
+    };
+  } catch (error) {
+    return thunkAPI.rejectWithValue({
+      message: error instanceof Error ? error.message : 'No fue posible enviar a facturación',
+      status: error instanceof ApiError ? error.status : null,
+    });
   }
 });
 
@@ -706,13 +655,6 @@ export const updateCustomerServiceRecordProvider = createAsyncThunk<
   }
 });
 
-type ApiUploadedFile = {
-  id: string;
-  original_name: string;
-  mime_type: string;
-  size: number;
-};
-
 export const uploadCustomerServiceRecordFiles = createAsyncThunk<
   UploadedCustomerServiceRecordFile[],
   { files: File[] },
@@ -720,39 +662,8 @@ export const uploadCustomerServiceRecordFiles = createAsyncThunk<
 >('customerServiceRecords/uploadFiles', async ({ files }, thunkAPI) => {
   const token = getAuthToken(thunkAPI.getState());
   if (!token) return thunkAPI.rejectWithValue('No hay token de autenticación');
-  if (!files.length) return [];
-
-  const formData = new FormData();
-  files.forEach((file) => formData.append('files', file));
-
   try {
-    const response = await fetch(`${API_BASE_URL}/v1/files`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-        'x-user-lang':
-          typeof document !== 'undefined'
-            ? (document.documentElement.getAttribute('lang') ?? 'es')
-            : 'es',
-      },
-      body: formData,
-    });
-    if (response.status === 401) invalidateAuthSessionIfCurrent(token);
-    const body = (await response.json()) as {
-      data?: ApiUploadedFile[];
-      error_details?: { message?: string };
-    };
-    if (!response.ok) {
-      throw new Error(body.error_details?.message ?? 'No fue posible subir los archivos');
-    }
-
-    return (body.data ?? []).map((file) => ({
-      fileId: file.id,
-      originalName: file.original_name,
-      mimeType: file.mime_type,
-      size: file.size,
-    }));
+    return await uploadCustomerServiceRecordFilesRequest(files, token);
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible subir los archivos'

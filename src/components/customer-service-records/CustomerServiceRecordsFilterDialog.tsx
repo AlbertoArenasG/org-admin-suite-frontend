@@ -35,6 +35,9 @@ interface CustomerServiceRecordsFilterDialogProps {
   serviceTypes: CustomerServiceRecordOption[];
   customers: CustomerServiceRecordOption[];
   providers: CustomerServiceRecordOption[];
+  billingStatuses: CustomerServiceRecordOption[];
+  billingStatusOptionsError: string | null;
+  onRetryBillingStatusOptions: () => void;
   loadingOptions: boolean;
   onFiltersChange: (nextFilters: CustomerServiceRecordsListFilters) => void;
 }
@@ -62,6 +65,9 @@ export function CustomerServiceRecordsFilterDialog({
   serviceTypes,
   customers,
   providers,
+  billingStatuses,
+  billingStatusOptionsError,
+  onRetryBillingStatusOptions,
   loadingOptions,
   onFiltersChange,
 }: CustomerServiceRecordsFilterDialogProps) {
@@ -218,6 +224,31 @@ export function CustomerServiceRecordsFilterDialog({
                 placeholder={t('filters.statusPlaceholder')}
                 orientation="responsive"
               />
+              <TableFilterSelect
+                label={t('filters.dialog.billingStatus')}
+                options={billingStatuses}
+                emptyMessage={billingStatusOptionsError ?? undefined}
+                selectedValues={draft.billingStatus ? [draft.billingStatus] : []}
+                onSelectedValuesChange={(values) =>
+                  setDraft((current) => ({
+                    ...current,
+                    billingStatus: (values[0] as typeof current.billingStatus) ?? null,
+                  }))
+                }
+                placeholder={t('filters.billingStatusPlaceholder')}
+                orientation="responsive"
+                loading={loadingOptions}
+              />
+              {billingStatusOptionsError ? (
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  onClick={onRetryBillingStatusOptions}
+                >
+                  {t('actions.retry')}
+                </Button>
+              ) : null}
               <TableFilterSelect
                 label={t('filters.dialog.provider')}
                 options={providers}

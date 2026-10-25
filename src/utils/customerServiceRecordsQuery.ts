@@ -26,6 +26,7 @@ const DATE_FILTER_FIELDS = [
 
 const FILTER_PARAM_MAP: Record<keyof CustomerServiceRecordsListFilters, string> = {
   operationalStatus: 'operational_status',
+  billingStatus: 'billing_status',
   serviceTypeCode: 'service_type_code',
   customerId: 'customer_id',
   providerId: 'provider_id',
@@ -53,6 +54,7 @@ function normalizePositiveInteger(value: string | null, fallback: number, max: n
 function emptyFilters(): CustomerServiceRecordsListFilters {
   return {
     operationalStatus: null,
+    billingStatus: null,
     serviceTypeCode: null,
     customerId: null,
     providerId: null,
@@ -105,6 +107,13 @@ export function parseCustomerServiceRecordsFiltersFromParams(
     operationalStatus === 'COMPLETED' ||
     operationalStatus === 'CANCELLED'
       ? operationalStatus
+      : null;
+  const billingStatus = params.get('billing_status');
+  filters.billingStatus =
+    billingStatus === 'NOT_SUBMITTED' ||
+    billingStatus === 'SUBMITTED' ||
+    billingStatus === 'INVOICED'
+      ? billingStatus
       : null;
   filters.serviceTypeCode = params.get('service_type_code');
   filters.customerId = params.get('customer_id');

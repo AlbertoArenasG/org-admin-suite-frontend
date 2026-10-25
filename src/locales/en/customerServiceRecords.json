@@ -21,6 +21,7 @@
       "serviceAndAssets": "Equipment and service",
       "asset": "Asset",
       "status": "Status",
+      "billingStatus": "Billing",
       "customerDelivery": "Tracking",
       "receivedAt": "Collection",
       "deliveryAt": "Delivery",
@@ -51,6 +52,7 @@
     "customerPlaceholder": "All customers",
     "providerPlaceholder": "All providers",
     "statusPlaceholder": "All statuses",
+    "billingStatusPlaceholder": "All billing statuses",
     "providerStatePlaceholder": "With or without provider",
     "providerStateYes": "With provider",
     "providerStateNo": "Without provider",
@@ -77,6 +79,7 @@
       "serviceType": "Service type",
       "customer": "Customer",
       "operationalStatus": "Operational status",
+      "billingStatus": "Billing status",
       "provider": "Provider",
       "hasProvider": "Assigned provider",
       "period": {
@@ -133,6 +136,32 @@
     "created": "Service record created successfully.",
     "updated": "Service record updated successfully.",
     "error": "Unable to save the service record."
+  },
+  "billing": {
+    "send": {
+      "action": "Send to billing",
+      "title": "Send to billing",
+      "description": "An email will be sent to billing for record {{serviceNumber}}. Continue?",
+      "confirm": "Send",
+      "cancel": "Cancel",
+      "loading": "Sending...",
+      "success": "Record sent to billing.",
+      "error": "Could not send the record to billing. Check its status before trying again.",
+      "mailFailure": "The email could not be sent and the record status did not change. You can try again.",
+      "unknownResult": "The result could not be confirmed. Check the updated status before sending again.",
+      "conflict": "The record changed during this action. Review its current status."
+    },
+    "section": {
+      "title": "Billing",
+      "status": "Billing status",
+      "notification": "Latest email notification",
+      "lastAttempt": "Last attempt",
+      "noAttempt": "No attempts"
+    },
+    "invoice": {
+      "fileRequired": "An invoiced record must keep at least one invoice file.",
+      "fileRequiredGuidance": "Add or keep a file before saving."
+    }
   },
   "detail": {
     "breadcrumb": "Record {{folio}}",

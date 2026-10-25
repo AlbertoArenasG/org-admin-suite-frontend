@@ -82,6 +82,7 @@ export function CustomerServiceRecordDocumentsSection({
       <CustomerServiceRecordDocumentForm
         canUpdate={canUpdate}
         collectionId="invoice"
+        requireFile={record.billingStatus.code === 'INVOICED'}
         {...documentFormProps('invoice')}
         files={record.invoice.files}
         hasReferenceNumber

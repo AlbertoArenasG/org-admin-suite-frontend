@@ -46,6 +46,7 @@ const DEFAULT_VISIBLE_COLUMNS = [
   'serviceNumber',
   'serviceAndAssets',
   'operationalStatus',
+  'billingStatus',
   'customerCommitment',
   'receivedAt',
   'estimatedDeliveryAt',
@@ -57,6 +58,7 @@ const DEFAULT_VISIBLE_COLUMNS = [
 
 const EMPTY_FILTERS: CustomerServiceRecordsListFilters = {
   operationalStatus: null,
+  billingStatus: null,
   serviceTypeCode: null,
   customerId: null,
   providerId: null,

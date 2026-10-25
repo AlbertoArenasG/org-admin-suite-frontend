@@ -8,7 +8,9 @@ import {
   fetchCustomerServiceRecordCustomerDeliveryOptions,
   fetchCustomerServiceRecordCustomerUsers,
   fetchCustomerServiceRecordOptions,
+  fetchCustomerServiceRecordBillingStatusOptions,
   fetchCustomerServiceRecords,
+  submitCustomerServiceRecordToBilling,
   updateCustomerServiceRecordDetails,
   updateCustomerServiceRecordCustomerDelivery,
   updateCustomerServiceRecordAsset,
@@ -30,6 +32,11 @@ const initialState: CustomerServiceRecordsState = {
   options: {
     serviceTypes: [],
     providers: [],
+    status: 'idle',
+    error: null,
+  },
+  billingStatusOptions: {
+    items: [],
     status: 'idle',
     error: null,
   },
@@ -82,6 +89,10 @@ const initialState: CustomerServiceRecordsState = {
     updateProviderError: null,
     updateDocumentStatus: 'idle',
     updateDocumentError: null,
+    updateBillingStatus: 'idle',
+    updateBillingError: null,
+    updateBillingErrorStatus: null,
+    updateBillingRecordId: null,
   },
 };
 const customerServiceRecordsSlice = createSlice({
@@ -110,6 +121,16 @@ const customerServiceRecordsSlice = createSlice({
       state.mutations.updateProviderError = null;
       state.mutations.updateDocumentStatus = 'idle';
       state.mutations.updateDocumentError = null;
+      state.mutations.updateBillingStatus = 'idle';
+      state.mutations.updateBillingError = null;
+      state.mutations.updateBillingErrorStatus = null;
+      state.mutations.updateBillingRecordId = null;
+    },
+    resetCustomerServiceRecordBillingMutation: (state) => {
+      state.mutations.updateBillingStatus = 'idle';
+      state.mutations.updateBillingError = null;
+      state.mutations.updateBillingErrorStatus = null;
+      state.mutations.updateBillingRecordId = null;
     },
   },
   extraReducers: (builder) => {
@@ -148,6 +169,48 @@ const customerServiceRecordsSlice = createSlice({
           action.payload ??
           action.error.message ??
           'No fue posible obtener las opciones del listado';
+      })
+      .addCase(fetchCustomerServiceRecordBillingStatusOptions.pending, (state) => {
+        state.billingStatusOptions.status = 'loading';
+        state.billingStatusOptions.error = null;
+      })
+      .addCase(fetchCustomerServiceRecordBillingStatusOptions.fulfilled, (state, action) => {
+        state.billingStatusOptions.status = 'succeeded';
+        state.billingStatusOptions.items = action.payload;
+      })
+      .addCase(fetchCustomerServiceRecordBillingStatusOptions.rejected, (state, action) => {
+        state.billingStatusOptions.status = 'failed';
+        state.billingStatusOptions.error =
+          action.payload ??
+          action.error.message ??
+          'No fue posible obtener los estados de facturación';
+      })
+      .addCase(submitCustomerServiceRecordToBilling.pending, (state, action) => {
+        state.mutations.updateBillingStatus = 'loading';
+        state.mutations.updateBillingError = null;
+        state.mutations.updateBillingErrorStatus = null;
+        state.mutations.updateBillingRecordId = action.meta.arg.recordId;
+      })
+      .addCase(submitCustomerServiceRecordToBilling.fulfilled, (state, action) => {
+        state.mutations.updateBillingStatus = 'succeeded';
+        state.mutations.message = action.payload.message;
+        const record = action.payload.record;
+        if (state.detail.record?.customerServiceRecordId === record.customerServiceRecordId) {
+          state.detail.record = record;
+        }
+        const row = state.list.items.find(
+          (item) => item.customerServiceRecordId === record.customerServiceRecordId
+        );
+        if (row) {
+          row.billingStatus = record.billingStatus;
+          row.billingNotification = record.billingNotification;
+        }
+      })
+      .addCase(submitCustomerServiceRecordToBilling.rejected, (state, action) => {
+        state.mutations.updateBillingStatus = 'failed';
+        state.mutations.updateBillingError =
+          action.payload?.message ?? action.error.message ?? 'No fue posible enviar a facturación';
+        state.mutations.updateBillingErrorStatus = action.payload?.status ?? null;
       })
       .addCase(fetchCustomerServiceRecordDetail.pending, (state, action) => {
         state.detail.status = 'loading';
@@ -337,6 +400,9 @@ const customerServiceRecordsSlice = createSlice({
       });
   },
 });
-export const { resetCustomerServiceRecordCreateMutation, resetCustomerServiceRecordDetail } =
-  customerServiceRecordsSlice.actions;
+export const {
+  resetCustomerServiceRecordCreateMutation,
+  resetCustomerServiceRecordDetail,
+  resetCustomerServiceRecordBillingMutation,
+} = customerServiceRecordsSlice.actions;
 export default customerServiceRecordsSlice.reducer;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
@@ -48,11 +48,14 @@ import type { CustomerServiceRecordDocumentSubmissionItem } from './CustomerServ
 import { CustomerServiceRecordDetailRoute } from './CustomerServiceRecordDetailRoute';
 import { CustomerServiceRecordAssetPageHeader } from './CustomerServiceRecordAssetPageHeader';
 import { CustomerServiceRecordTimeline } from './CustomerServiceRecordTimeline';
+import { CustomerServiceRecordBillingSection } from './CustomerServiceRecordBillingSection';
+import { CustomerServiceRecordBillingSendDialog } from './CustomerServiceRecordBillingSendDialog';
 
 export function CustomerServiceRecordDetailPage() {
   const params = useParams<{ recordId: string }>();
   const dispatch = useAppDispatch();
   const pageContentScrollerRef = useRef<HTMLDivElement>(null);
+  const [billingSendOpen, setBillingSendOpen] = useState(false);
   const { can } = useDashboardViewAccess();
   const { resetSegments, setSegments } = useNextDashboardBreadcrumbs();
   const { t } = useTranslation(['customerServiceRecords', 'breadcrumbs']);
@@ -210,7 +213,9 @@ export function CustomerServiceRecordDetailPage() {
       {!isLoading && !loadError && detail.record ? (
         <CustomerServiceRecordAssetPageHeader
           asset={detail.record.assets[0]}
+          customerName={detail.record.customer.name}
           labels={{
+            customer: t('form.labels.customer'),
             unnamedAsset: t('detail.assetContext.unnamedAsset'),
             brand: t('form.labels.brand'),
             model: t('form.labels.model'),
@@ -265,6 +270,13 @@ export function CustomerServiceRecordDetailPage() {
                     serviceTypes={detailOptions.serviceTypes}
                     serviceTypesError={detailOptions.error}
                     serviceTypesLoading={detailOptions.status === 'loading'}
+                  />
+                </section>
+                <section className="scroll-mt-24 md:scroll-mt-5" id="billing" tabIndex={-1}>
+                  <CustomerServiceRecordBillingSection
+                    record={detail.record}
+                    canUpdate={canUpdate}
+                    onSend={() => setBillingSendOpen(true)}
                   />
                 </section>
                 <section
@@ -362,6 +374,21 @@ export function CustomerServiceRecordDetailPage() {
           ) : null}
         </div>
       </DashboardPageContentScroller>
+      <CustomerServiceRecordBillingSendDialog
+        open={billingSendOpen}
+        record={
+          detail.record
+            ? {
+                id: detail.record.customerServiceRecordId,
+                serviceNumber: detail.record.serviceNumber,
+              }
+            : null
+        }
+        onOpenChange={setBillingSendOpen}
+        onRefresh={() =>
+          void dispatch(fetchCustomerServiceRecordDetail({ recordId: params.recordId }))
+        }
+      />
     </DashboardPageComposition>
   );
 }

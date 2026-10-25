@@ -8,8 +8,8 @@
 
 ## Implementación
 
-- [ ] Integrar contratos, mapeos y estado remoto/URL de ambos módulos según Slice 1. Status: pending.
-- [ ] Incorporar columna, filtro, envío y detalle administrativos según Slice 2. Status: pending.
+- [x] Integrar contratos, mapeos y estado remoto/URL de ambos módulos según Slice 1. Status: done.
+- [x] Incorporar columna, filtro, envío y detalle administrativos según Slice 2. Status: done.
 - [ ] Crear navegación y listado autorizados de facturación según Slice 3. Status: pending.
 - [ ] Crear detalle y flujo de factura de facturación según Slice 4. Status: pending.
 

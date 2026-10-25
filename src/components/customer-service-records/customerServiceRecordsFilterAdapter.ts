@@ -1,6 +1,7 @@
 import type { TableFilterDateRangeValue } from '@/components/table-filter';
 import type {
   CustomerServiceRecordOperationalStatus,
+  CustomerServiceRecordBillingStatus,
   CustomerServiceRecordsListFilters,
 } from '@/features/customer-service-records';
 
@@ -24,6 +25,7 @@ export interface CustomerServiceRecordsFilterDialogValue {
   serviceTypeCode: string | null;
   customerId: string | null;
   operationalStatus: CustomerServiceRecordOperationalStatus | null;
+  billingStatus: CustomerServiceRecordBillingStatus | null;
   providerId: string | null;
   hasProvider: boolean | null;
   dateRange: TableFilterDateRangeValue;
@@ -66,6 +68,7 @@ export function clearCustomerServiceRecordsListFilters(
     serviceTypeCode: null,
     customerId: null,
     operationalStatus: null,
+    billingStatus: null,
     providerId: null,
     hasProvider: null,
   });
@@ -80,6 +83,7 @@ export function getCustomerServiceRecordsAppliedFilterCount(
     filters.serviceTypeCode !== null,
     filters.customerId !== null,
     filters.operationalStatus !== null,
+    filters.billingStatus !== null,
     filters.providerId !== null,
     filters.hasProvider !== null,
     hasPeriod,
@@ -106,6 +110,7 @@ export function toCustomerServiceRecordsFilterDialogValue(
     serviceTypeCode: filters.serviceTypeCode,
     customerId: filters.customerId,
     operationalStatus: filters.operationalStatus,
+    billingStatus: filters.billingStatus,
     providerId: filters.providerId,
     hasProvider: filters.hasProvider,
     dateRange,
@@ -123,6 +128,7 @@ export function createEmptyCustomerServiceRecordsFilterDialogValue(): CustomerSe
     serviceTypeCode: null,
     customerId: null,
     operationalStatus: null,
+    billingStatus: null,
     providerId: null,
     hasProvider: null,
     dateRange: { fieldId: null, from: null, to: null },
@@ -138,6 +144,7 @@ export function toCustomerServiceRecordsListFilters(
     serviceTypeCode: value.serviceTypeCode,
     customerId: value.customerId,
     operationalStatus: value.operationalStatus,
+    billingStatus: value.billingStatus,
     providerId: value.providerId,
     hasProvider: value.hasProvider,
   };
@@ -166,6 +173,7 @@ export function hasCustomerServiceRecordsFilterCriteria(
     value.serviceTypeCode ||
       value.customerId ||
       value.operationalStatus ||
+      value.billingStatus ||
       value.providerId ||
       value.hasProvider !== null ||
       value.dateRange.from ||

@@ -27,6 +27,7 @@ export function CustomerServiceRecordDetailRoute({
   const { t } = useTranslation('customerServiceRecords');
   const defaultNavigationItems = [
     { id: 'general-details', label: t('detail.general.title') },
+    { id: 'billing', label: t('billing.section.title') },
     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
     { id: 'equipment', label: t('detail.equipment.title') },
     { id: 'documents', label: t('detail.documents.title') },

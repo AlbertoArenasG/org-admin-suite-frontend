@@ -3,6 +3,8 @@ export type CustomerServiceRecordOperationalStatus =
   | 'IN_PROGRESS'
   | 'COMPLETED'
   | 'CANCELLED';
+export type CustomerServiceRecordBillingStatus = 'NOT_SUBMITTED' | 'SUBMITTED' | 'INVOICED';
+export type CustomerServiceRecordBillingNotificationStatus = 'NOT_REQUESTED' | 'SENT' | 'FAILED';
 export type CustomerServiceRecordSortField =
   | 'service_number'
   | 'requested_at'
@@ -41,6 +43,20 @@ export interface CustomerServiceRecordLocalizedValue {
   nameKey: string | null;
 }
 
+export interface CustomerServiceRecordBillingNotification {
+  status: CustomerServiceRecordLocalizedValue & {
+    code: CustomerServiceRecordBillingNotificationStatus;
+  };
+  attemptedAt: string | null;
+  sentAt: string | null;
+  failureReason: string | null;
+}
+
+export interface CustomerServiceRecordBillingMutationError {
+  message: string;
+  status: number | null;
+}
+
 export interface CustomerServiceRecordAttachment {
   fileId: string;
   originalName: string;
@@ -70,6 +86,10 @@ export interface CustomerServiceRecordDetail {
   operationalStatus: CustomerServiceRecordLocalizedValue & {
     code: CustomerServiceRecordOperationalStatus;
   };
+  billingStatus: CustomerServiceRecordLocalizedValue & {
+    code: CustomerServiceRecordBillingStatus;
+  };
+  billingNotification: CustomerServiceRecordBillingNotification;
   customer: {
     customerId: string;
     name: string;
@@ -191,6 +211,7 @@ export interface UploadedCustomerServiceRecordFile {
 
 export interface CustomerServiceRecordsListFilters {
   operationalStatus: CustomerServiceRecordOperationalStatus | null;
+  billingStatus: CustomerServiceRecordBillingStatus | null;
   serviceTypeCode: string | null;
   customerId: string | null;
   providerId: string | null;
@@ -240,6 +261,10 @@ export interface CustomerServiceRecordListItem {
     name: string;
     nameKey: string;
   };
+  billingStatus: CustomerServiceRecordLocalizedValue & {
+    code: CustomerServiceRecordBillingStatus;
+  };
+  billingNotification: CustomerServiceRecordBillingNotification;
   customerDelivery: {
     receivedAt: string | null;
     estimatedDeliveryAt: string | null;
@@ -300,6 +325,11 @@ export interface CustomerServiceRecordsState {
     status: CustomerServiceRecordRequestStatus;
     error: string | null;
   };
+  billingStatusOptions: {
+    items: CustomerServiceRecordOption[];
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
+  };
   detail: {
     record: CustomerServiceRecordDetail | null;
     status: CustomerServiceRecordRequestStatus;
@@ -349,5 +379,9 @@ export interface CustomerServiceRecordsState {
     updateProviderError: string | null;
     updateDocumentStatus: CustomerServiceRecordRequestStatus;
     updateDocumentError: string | null;
+    updateBillingStatus: CustomerServiceRecordRequestStatus;
+    updateBillingError: string | null;
+    updateBillingErrorStatus: number | null;
+    updateBillingRecordId: string | null;
   };
 }

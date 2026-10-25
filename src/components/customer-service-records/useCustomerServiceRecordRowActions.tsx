@@ -2,11 +2,12 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { Eye, Pencil, Send, Trash2 } from 'lucide-react';
 
 import { type DataTableRowAction, type DataTableRowActions } from '@/components/data-table';
 import { useDashboardViewAccess } from '@/components/dashboard-shell';
 import { DestructiveConfirmationDialog } from '@/components/shared/DestructiveConfirmationDialog';
+import { CustomerServiceRecordBillingSendDialog } from './CustomerServiceRecordBillingSendDialog';
 import { showToast } from '@/components/toast';
 import {
   deleteCustomerServiceRecord,
@@ -18,10 +19,12 @@ import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 
 type UseCustomerServiceRecordRowActionsOptions = {
   onDeleted: () => void;
+  onBillingSubmitted: () => void;
 };
 
 export function useCustomerServiceRecordRowActions({
   onDeleted,
+  onBillingSubmitted,
 }: UseCustomerServiceRecordRowActionsOptions) {
   const { t } = useTranslationHydrated('customerServiceRecords');
   const dispatch = useAppDispatch();
@@ -29,6 +32,8 @@ export function useCustomerServiceRecordRowActions({
   const router = useRouter();
   const mutations = useAppSelector((state) => state.customerServiceRecords.mutations);
   const [recordPendingDeletion, setRecordPendingDeletion] =
+    useState<CustomerServiceRecordListItem | null>(null);
+  const [recordPendingBilling, setRecordPendingBilling] =
     useState<CustomerServiceRecordListItem | null>(null);
   const canUpdate = can('UPDATE');
   const canDelete = can('DELETE');
@@ -76,6 +81,14 @@ export function useCustomerServiceRecordRowActions({
         ];
 
         if (canUpdate) {
+          if (row.billingStatus.code === 'NOT_SUBMITTED') {
+            actions.push({
+              id: 'submit-to-billing',
+              label: t('billing.send.action'),
+              icon: <Send />,
+              onSelect: () => setRecordPendingBilling(row),
+            });
+          }
           actions.push({
             id: 'edit',
             label: t('actions.edit'),
@@ -102,6 +115,23 @@ export function useCustomerServiceRecordRowActions({
 
   return {
     rowActions,
+    billingDialog: (
+      <CustomerServiceRecordBillingSendDialog
+        open={Boolean(recordPendingBilling)}
+        record={
+          recordPendingBilling
+            ? {
+                id: recordPendingBilling.customerServiceRecordId,
+                serviceNumber: recordPendingBilling.serviceNumber,
+              }
+            : null
+        }
+        onOpenChange={(open) => {
+          if (!open) setRecordPendingBilling(null);
+        }}
+        onRefresh={onBillingSubmitted}
+      />
+    ),
     deletionDialog: (
       <DestructiveConfirmationDialog
         open={Boolean(recordPendingDeletion)}

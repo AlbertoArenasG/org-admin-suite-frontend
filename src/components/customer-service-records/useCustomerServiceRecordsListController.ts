@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { fetchCustomerOptions } from '@/features/customers';
 import {
   fetchCustomerServiceRecordOptions,
+  fetchCustomerServiceRecordBillingStatusOptions,
   fetchCustomerServiceRecords,
 } from '@/features/customer-service-records';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
@@ -33,6 +34,9 @@ export function useCustomerServiceRecordsListController() {
   const pendingLocalQueriesRef = useRef(new Set<string>());
   const list = useAppSelector((state) => state.customerServiceRecords.list);
   const options = useAppSelector((state) => state.customerServiceRecords.options);
+  const billingStatusOptions = useAppSelector(
+    (state) => state.customerServiceRecords.billingStatusOptions
+  );
   const customerOptions = useAppSelector((state) => state.customers.options);
   const userId = useAppSelector((state) => state.auth.user?.id ?? null);
   const preferencesHydrated = useDataTablePreferencesStore((state) => state.hasHydrated);
@@ -123,6 +127,12 @@ export function useCustomerServiceRecordsListController() {
   }, [dispatch, options.status]);
 
   useEffect(() => {
+    if (billingStatusOptions.status === 'idle') {
+      void dispatch(fetchCustomerServiceRecordBillingStatusOptions());
+    }
+  }, [billingStatusOptions.status, dispatch]);
+
+  useEffect(() => {
     if (customerOptions.status === 'idle') void dispatch(fetchCustomerOptions());
   }, [customerOptions.status, dispatch]);
 
@@ -165,6 +175,9 @@ export function useCustomerServiceRecordsListController() {
   return {
     list,
     options,
+    billingStatusOptions,
+    refetchBillingStatusOptions: () =>
+      void dispatch(fetchCustomerServiceRecordBillingStatusOptions()),
     customerOptions,
     page,
     limit,
