@@ -11,7 +11,7 @@
     "columns": {
       "serviceNumber": "Record number",
       "customer": "Customer",
-      "equipment": "Equipment",
+      "serviceAndAssets": "Equipment and service",
       "serviceType": "Service type",
       "billingStatus": "Billing"
     },
@@ -62,8 +62,7 @@
       "title": "Service information",
       "operationalStatus": "Operational status",
       "requestedAt": "Requested",
-      "createdAt": "Created",
-      "observations": "Observations"
+      "createdAt": "Created"
     },
     "customerDelivery": {
       "title": "Customer and delivery",

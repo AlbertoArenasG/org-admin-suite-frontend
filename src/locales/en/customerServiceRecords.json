@@ -154,9 +154,7 @@
     "section": {
       "title": "Billing",
       "status": "Billing status",
-      "notification": "Latest email notification",
-      "lastAttempt": "Last attempt",
-      "noAttempt": "No attempts"
+      "notification": "Email notice"
     },
     "invoice": {
       "fileRequired": "An invoiced record must keep at least one invoice file.",

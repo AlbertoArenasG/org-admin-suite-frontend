@@ -277,6 +277,7 @@ export function CustomerServiceRecordDetailPage() {
                     record={detail.record}
                     canUpdate={canUpdate}
                     onSend={() => setBillingSendOpen(true)}
+                    onSubmit={updateDocument}
                   />
                 </section>
                 <section

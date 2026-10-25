@@ -43,10 +43,8 @@ export function BillingCustomerServiceRecordsTable({ controller, rowActions }: P
       createBillingCustomerServiceRecordsColumns({
         serviceNumber: t('table.columns.serviceNumber'),
         customer: t('table.columns.customer'),
-        equipment: t('table.columns.equipment'),
-        serviceType: t('table.columns.serviceType'),
+        serviceAndAssets: t('table.columns.serviceAndAssets'),
         billingStatus: t('table.columns.billingStatus'),
-        noEquipment: t('table.noEquipment'),
       }),
     [t]
   );
@@ -58,7 +56,7 @@ export function BillingCustomerServiceRecordsTable({ controller, rowActions }: P
       getRowId={(row) => row.customerServiceRecordId}
       loading={list.status === 'loading'}
       renderLoading={(columnId) => (
-        <Skeleton className={`h-5 ${columnId === 'equipment' ? 'w-4/5' : 'w-2/3'}`} />
+        <Skeleton className={`h-5 ${columnId === 'serviceAndAssets' ? 'w-4/5' : 'w-2/3'}`} />
       )}
       error={
         list.status === 'failed' && list.error
@@ -114,7 +112,7 @@ export function BillingCustomerServiceRecordsTable({ controller, rowActions }: P
       settingsPlacement="toolbar"
       scrollRegion={{ maxHeight: 'available', desktopOnly: true, overscrollBehavior: 'none' }}
       stickyHeader={{ desktopOnly: true }}
-      rowLayout="single-line"
+      rowLayout="multiline"
       pagination={{
         page,
         perPage: limit,
@@ -129,7 +127,7 @@ export function BillingCustomerServiceRecordsTable({ controller, rowActions }: P
       }}
       searchHighlight={{
         query: appliedSearch,
-        columnIds: ['serviceNumber', 'customer', 'equipment', 'serviceType'],
+        columnIds: ['serviceNumber', 'serviceAndAssets', 'customer'],
       }}
       rowActions={rowActions}
       labels={{

@@ -3,6 +3,7 @@ import { Ban, Check, ClockFading, Hammer } from 'lucide-react';
 import type { DataTableColumn } from '@/components/data-table';
 import { BadgeCell, DateWithRelativeTimeCell } from '@/components/data-table/cells';
 import type { CustomerServiceRecordListItem } from '@/features/customer-service-records';
+import { CustomerServiceRecordServiceAndAssetsCell } from './CustomerServiceRecordServiceAndAssetsCell';
 
 type CustomerServiceRecordsColumnLabels = {
   serviceNumber: string;
@@ -22,14 +23,6 @@ type CustomerServiceRecordsColumnLabels = {
   estimated: string;
   delivered: string;
 };
-
-function formatAssets(row: CustomerServiceRecordListItem) {
-  return row.assets
-    .map((asset) =>
-      [asset.name, asset.identifier ? `(${asset.identifier})` : ''].filter(Boolean).join(' ')
-    )
-    .join(', ');
-}
 
 function formatEquipmentDetails(row: CustomerServiceRecordListItem) {
   const brandAndModel = row.assets
@@ -86,30 +79,9 @@ export function createCustomerServiceRecordsColumns({
         [row.serviceType.name, ...row.assets.map((asset) => `${asset.name} ${asset.identifier}`)]
           .filter(Boolean)
           .join(' '),
-      cell: (row, { highlight }) => {
-        const assets = formatAssets(row);
-        return (
-          <div className="min-w-56 space-y-1">
-            <p className="font-medium text-foreground">
-              {row.assets.length
-                ? row.assets.map((asset, index) => (
-                    <span key={asset.assetId}>
-                      {index ? ', ' : null}
-                      {highlight(asset.name)}
-                      {asset.identifier ? (
-                        <span className="font-mono text-xs font-normal text-muted-foreground">
-                          {' '}
-                          [{highlight(asset.identifier)}]
-                        </span>
-                      ) : null}
-                    </span>
-                  ))
-                : highlight(assets || row.serviceType.name)}
-            </p>
-            <p className="text-xs text-muted-foreground">{highlight(row.serviceType.name)}</p>
-          </div>
-        );
-      },
+      cell: (row, { highlight }) => (
+        <CustomerServiceRecordServiceAndAssetsCell row={row} highlight={highlight} />
+      ),
       textBehavior: 'wrap',
       width: { initial: 360, min: 260, max: 580, resizable: true },
     },

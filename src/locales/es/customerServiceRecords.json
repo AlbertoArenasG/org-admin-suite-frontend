@@ -154,9 +154,7 @@
     "section": {
       "title": "Facturación",
       "status": "Estado de facturación",
-      "notification": "Último aviso por correo",
-      "lastAttempt": "Fecha del último intento",
-      "noAttempt": "Sin intentos"
+      "notification": "Aviso por correo"
     },
     "invoice": {
       "fileRequired": "Un registro facturado debe conservar al menos un archivo de factura.",

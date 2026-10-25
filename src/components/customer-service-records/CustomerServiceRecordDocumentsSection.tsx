@@ -23,23 +23,24 @@ type CustomerServiceRecordDocumentsSectionProps = {
   record: CustomerServiceRecordDetail;
 };
 
+type OtherDocumentType = Exclude<CustomerServiceRecordDocumentType, 'invoice'>;
+
 export function CustomerServiceRecordDocumentsSection({
   canUpdate,
   onSubmit,
   record,
 }: CustomerServiceRecordDocumentsSectionProps) {
   const { t } = useTranslationHydrated('customerServiceRecords');
-  const [expandedDocumentType, setExpandedDocumentType] =
-    useState<CustomerServiceRecordDocumentType | null>(null);
+  const [expandedDocumentType, setExpandedDocumentType] = useState<OtherDocumentType | null>(null);
 
-  const documentFormProps = (documentType: CustomerServiceRecordDocumentType) => ({
+  const documentFormProps = (documentType: OtherDocumentType) => ({
     expanded: expandedDocumentType === documentType,
     onExpandedChange: (expanded: boolean) =>
       setExpandedDocumentType(expanded ? documentType : null),
   });
 
   const submitDocument =
-    (documentType: CustomerServiceRecordDocumentType) =>
+    (documentType: OtherDocumentType) =>
     async ({
       items,
       referenceNumber,
@@ -81,17 +82,6 @@ export function CustomerServiceRecordDocumentsSection({
       />
       <CustomerServiceRecordDocumentForm
         canUpdate={canUpdate}
-        collectionId="invoice"
-        requireFile={record.billingStatus.code === 'INVOICED'}
-        {...documentFormProps('invoice')}
-        files={record.invoice.files}
-        hasReferenceNumber
-        onSubmit={submitDocument('invoice')}
-        referenceNumber={record.invoice.referenceNumber}
-        title={t('detail.documents.invoice.title')}
-      />
-      <CustomerServiceRecordDocumentForm
-        canUpdate={canUpdate}
         collectionId="other-files"
         {...documentFormProps('other-files')}
         files={record.otherFiles}
@@ -106,7 +96,7 @@ export function CustomerServiceRecordDocumentsSection({
 function getDocument(
   fallbackRecord: CustomerServiceRecordDetail,
   record: CustomerServiceRecordDetail,
-  documentType: CustomerServiceRecordDocumentType
+  documentType: OtherDocumentType
 ) {
   const source = record ?? fallbackRecord;
 
@@ -115,8 +105,6 @@ function getDocument(
       return source.quotation;
     case 'purchase-order':
       return source.purchaseOrder;
-    case 'invoice':
-      return source.invoice;
     case 'other-files':
       return { files: source.otherFiles, referenceNumber: null };
   }

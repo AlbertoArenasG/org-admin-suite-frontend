@@ -2,15 +2,14 @@ import Link from 'next/link';
 
 import type { DataTableColumn } from '@/components/data-table';
 import { BadgeCell } from '@/components/data-table/cells';
+import { CustomerServiceRecordServiceAndAssetsCell } from '@/components/customer-service-records/CustomerServiceRecordServiceAndAssetsCell';
 import type { BillingCustomerServiceRecordRow } from '@/features/billing-customer-service-records';
 
 type Labels = {
   serviceNumber: string;
   customer: string;
-  equipment: string;
-  serviceType: string;
+  serviceAndAssets: string;
   billingStatus: string;
-  noEquipment: string;
 };
 
 export function createBillingCustomerServiceRecordsColumns(
@@ -25,13 +24,35 @@ export function createBillingCustomerServiceRecordsColumns(
       cell: (row, { highlight }) => (
         <Link
           href={`/dashboard/billing/customer-service-records/${row.customerServiceRecordId}`}
-          className="font-mono text-muted-foreground hover:text-foreground hover:underline"
+          className="font-mono font-normal text-muted-foreground hover:text-foreground hover:underline"
         >
           {highlight(row.serviceNumber)}
         </Link>
       ),
-      width: { initial: 130, min: 100, max: 190, resizable: true },
+      width: { initial: 80, min: 80, max: 160, resizable: true },
       visibility: { hideable: false },
+    },
+    {
+      id: 'serviceAndAssets',
+      header: labels.serviceAndAssets,
+      ariaLabel: labels.serviceAndAssets,
+      accessor: (row) =>
+        [row.serviceType.name, ...row.assets.map((asset) => `${asset.name} ${asset.identifier}`)]
+          .filter(Boolean)
+          .join(' '),
+      cell: (row, { highlight }) => (
+        <CustomerServiceRecordServiceAndAssetsCell row={row} highlight={highlight} />
+      ),
+      textBehavior: 'wrap',
+      width: { initial: 360, min: 260, max: 580, resizable: true },
+    },
+    {
+      id: 'billingStatus',
+      header: labels.billingStatus,
+      ariaLabel: labels.billingStatus,
+      accessor: (row) => row.billingStatus.name,
+      cell: (row) => <BadgeCell label={row.billingStatus.name} variant="outline" />,
+      width: { initial: 168, min: 152, max: 260, resizable: true },
     },
     {
       id: 'customer',
@@ -44,68 +65,7 @@ export function createBillingCustomerServiceRecordsColumns(
         </span>
       ),
       textBehavior: 'truncate',
-      width: { initial: 260, min: 180, max: 420, resizable: true },
-    },
-    {
-      id: 'equipment',
-      header: labels.equipment,
-      ariaLabel: labels.equipment,
-      accessor: (row) =>
-        row.assets
-          .map((asset) =>
-            [asset.name, asset.identifier, asset.brand, asset.model].filter(Boolean).join(' ')
-          )
-          .join(', '),
-      cell: (row, { highlight }) => (
-        <span
-          className="block truncate"
-          title={
-            row.assets
-              .map((asset) =>
-                [asset.name, asset.identifier, asset.brand, asset.model].filter(Boolean).join(' · ')
-              )
-              .join(', ') || labels.noEquipment
-          }
-        >
-          {row.assets.length
-            ? row.assets.map((asset, index) => (
-                <span key={asset.assetId}>
-                  {index ? ', ' : null}
-                  {highlight(asset.name)}
-                  {asset.identifier ? (
-                    <span className="font-mono text-xs text-muted-foreground">
-                      {' '}
-                      [{highlight(asset.identifier)}]
-                    </span>
-                  ) : null}
-                </span>
-              ))
-            : labels.noEquipment}
-        </span>
-      ),
-      textBehavior: 'truncate',
-      width: { initial: 300, min: 210, max: 500, resizable: true },
-    },
-    {
-      id: 'serviceType',
-      header: labels.serviceType,
-      ariaLabel: labels.serviceType,
-      accessor: (row) => row.serviceType.name,
-      cell: (row, { highlight }) => (
-        <span className="block truncate" title={row.serviceType.name}>
-          {highlight(row.serviceType.name)}
-        </span>
-      ),
-      textBehavior: 'truncate',
-      width: { initial: 220, min: 160, max: 360, resizable: true },
-    },
-    {
-      id: 'billingStatus',
-      header: labels.billingStatus,
-      ariaLabel: labels.billingStatus,
-      accessor: (row) => row.billingStatus.name,
-      cell: (row) => <BadgeCell label={row.billingStatus.name} variant="outline" />,
-      width: { initial: 170, min: 150, max: 250, resizable: true },
+      width: { initial: 280, min: 180, max: 420, resizable: true },
     },
   ];
 }

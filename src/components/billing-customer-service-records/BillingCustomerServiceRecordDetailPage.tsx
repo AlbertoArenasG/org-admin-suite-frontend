@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 
 import { CustomerServiceRecordAssetPageHeader } from '@/components/customer-service-records/CustomerServiceRecordAssetPageHeader';
@@ -22,7 +22,10 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { BillingCustomerServiceRecordInvoiceSection } from './BillingCustomerServiceRecordInvoiceSection';
-import { BillingCustomerServiceRecordReadOnlySections } from './BillingCustomerServiceRecordReadOnlySections';
+import {
+  BillingCustomerServiceRecordReadOnlySections,
+  BillingCustomerServiceRecordServiceSection,
+} from './BillingCustomerServiceRecordReadOnlySections';
 
 export function BillingCustomerServiceRecordDetailPage() {
   const params = useParams<{ recordId: string }>();
@@ -39,16 +42,9 @@ export function BillingCustomerServiceRecordDetailPage() {
     (!record && (detail.currentRecordId !== params.recordId || detail.status === 'loading'));
   const loadError =
     detail.status === 'failed' && detail.currentRecordId === params.recordId ? detail.error : null;
-  const synchronizeBreadcrumb = useCallback(
-    (serviceNumber: string) => {
-      setSegments([
-        { label: t('detail.dashboard'), href: '/dashboard', hideOnDesktop: true },
-        { label: t('detail.list'), href: '/dashboard/billing/customer-service-records' },
-        { label: t('detail.breadcrumb', { folio: serviceNumber }) },
-      ]);
-    },
-    [setSegments, t]
-  );
+  const dashboardLabel = t('detail.dashboard');
+  const listLabel = t('detail.list');
+  const recordLabel = record ? t('detail.breadcrumb', { folio: record.serviceNumber }) : null;
 
   useEffect(() => {
     if (params.recordId && authHydrated)
@@ -61,17 +57,21 @@ export function BillingCustomerServiceRecordDetailPage() {
     [dispatch]
   );
   useEffect(() => {
-    if (!record) return;
-    synchronizeBreadcrumb(record.serviceNumber);
+    if (recordLabel === null) return;
+    setSegments([
+      { label: dashboardLabel, href: '/dashboard', hideOnDesktop: true },
+      { label: listLabel, href: '/dashboard/billing/customer-service-records' },
+      { label: recordLabel },
+    ]);
     return resetSegments;
-  }, [record, resetSegments, synchronizeBreadcrumb]);
+  }, [dashboardLabel, listLabel, recordLabel, resetSegments, setSegments]);
 
   const navigationItems = [
     { id: 'general-details', label: t('detail.service.title') },
+    { id: 'billing', label: t('detail.billing.title') },
     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
     { id: 'equipment', label: t('detail.equipment.title') },
     { id: 'documents', label: t('detail.documents.title') },
-    { id: 'billing', label: t('detail.billing.title') },
   ];
 
   return (
@@ -131,11 +131,12 @@ export function BillingCustomerServiceRecordDetailPage() {
               navigationLabel={t('detail.navigationLabel')}
               scrollContainerRef={scrollContainerRef}
             >
-              <BillingCustomerServiceRecordReadOnlySections record={record} />
+              <BillingCustomerServiceRecordServiceSection record={record} />
               <BillingCustomerServiceRecordInvoiceSection
                 canUpdate={can('UPDATE')}
                 record={record}
               />
+              <BillingCustomerServiceRecordReadOnlySections record={record} />
             </CustomerServiceRecordDetailRoute>
           </DashboardContentReveal>
         ) : null}

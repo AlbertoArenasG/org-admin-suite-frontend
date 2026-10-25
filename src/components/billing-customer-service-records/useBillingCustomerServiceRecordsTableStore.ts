@@ -20,13 +20,7 @@ type BillingCustomerServiceRecordsTableState = BillingCustomerServiceRecordsQuer
   reset: () => void;
 };
 
-const DEFAULT_VISIBLE_COLUMNS = [
-  'serviceNumber',
-  'customer',
-  'equipment',
-  'serviceType',
-  'billingStatus',
-];
+const DEFAULT_VISIBLE_COLUMNS = ['serviceNumber', 'serviceAndAssets', 'billingStatus', 'customer'];
 
 function initialState() {
   return {

@@ -78,34 +78,44 @@ function ReadDocuments({
   );
 }
 
+function formatDate(value: string | null, language: string) {
+  return value && !Number.isNaN(new Date(value).getTime())
+    ? new Intl.DateTimeFormat(language, { dateStyle: 'medium', timeStyle: 'short' }).format(
+        new Date(value)
+      )
+    : '—';
+}
+
+export function BillingCustomerServiceRecordServiceSection({ record }: Props) {
+  const { t, i18n } = useTranslationHydrated('billingCustomerServiceRecords');
+  return (
+    <ReadFrame id="general-details" title={t('detail.service.title')}>
+      <ResourceFormSection surface="bare">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <ReadField label={t('table.columns.serviceNumber')} value={record.serviceNumber} />
+          <ReadField label={t('table.columns.serviceType')} value={record.serviceType.name} />
+          <ReadField
+            label={t('detail.service.operationalStatus')}
+            value={record.operationalStatus.name}
+          />
+          <ReadField
+            label={t('detail.service.requestedAt')}
+            value={formatDate(record.requestedAt, i18n.language)}
+          />
+          <ReadField
+            label={t('detail.service.createdAt')}
+            value={formatDate(record.createdAt, i18n.language)}
+          />
+        </div>
+      </ResourceFormSection>
+    </ReadFrame>
+  );
+}
+
 export function BillingCustomerServiceRecordReadOnlySections({ record }: Props) {
   const { t, i18n } = useTranslationHydrated('billingCustomerServiceRecords');
-  const formatDate = (value: string | null) =>
-    value && !Number.isNaN(new Date(value).getTime())
-      ? new Intl.DateTimeFormat(i18n.language, { dateStyle: 'medium', timeStyle: 'short' }).format(
-          new Date(value)
-        )
-      : '—';
   return (
     <>
-      <ReadFrame id="general-details" title={t('detail.service.title')}>
-        <ResourceFormSection surface="bare">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <ReadField label={t('table.columns.serviceNumber')} value={record.serviceNumber} />
-            <ReadField label={t('table.columns.serviceType')} value={record.serviceType.name} />
-            <ReadField
-              label={t('detail.service.operationalStatus')}
-              value={record.operationalStatus.name}
-            />
-            <ReadField
-              label={t('detail.service.requestedAt')}
-              value={formatDate(record.requestedAt)}
-            />
-            <ReadField label={t('detail.service.createdAt')} value={formatDate(record.createdAt)} />
-            <ReadField label={t('detail.service.observations')} value={record.observations} />
-          </div>
-        </ResourceFormSection>
-      </ReadFrame>
       <ReadFrame id="customer-delivery" title={t('detail.customerDelivery.title')}>
         <ResourceFormSection surface="bare">
           <div className="grid gap-4 sm:grid-cols-2">
@@ -116,15 +126,15 @@ export function BillingCustomerServiceRecordReadOnlySections({ record }: Props) 
             />
             <ReadField
               label={t('detail.customerDelivery.receivedAt')}
-              value={formatDate(record.customerDelivery.receivedAt)}
+              value={formatDate(record.customerDelivery.receivedAt, i18n.language)}
             />
             <ReadField
               label={t('detail.customerDelivery.estimatedAt')}
-              value={formatDate(record.customerDelivery.estimatedDeliveryAt)}
+              value={formatDate(record.customerDelivery.estimatedDeliveryAt, i18n.language)}
             />
             <ReadField
               label={t('detail.customerDelivery.deliveredAt')}
-              value={formatDate(record.customerDelivery.deliveredToCustomerAt)}
+              value={formatDate(record.customerDelivery.deliveredToCustomerAt, i18n.language)}
             />
           </div>
         </ResourceFormSection>
@@ -146,7 +156,6 @@ export function BillingCustomerServiceRecordReadOnlySections({ record }: Props) 
                     label={t('detail.equipment.serialNumber')}
                     value={asset.serialNumber}
                   />
-                  <ReadField label={t('detail.service.observations')} value={asset.observations} />
                 </div>
                 <div className="divide-y divide-border/70 border-t border-border/70 pt-2">
                   <ReadDocuments

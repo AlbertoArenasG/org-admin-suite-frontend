@@ -11,7 +11,7 @@
     "columns": {
       "serviceNumber": "Folio",
       "customer": "Cliente",
-      "equipment": "Equipo",
+      "serviceAndAssets": "Equipo y servicio",
       "serviceType": "Tipo de servicio",
       "billingStatus": "Facturación"
     },
@@ -62,8 +62,7 @@
       "title": "Información del servicio",
       "operationalStatus": "Estado operativo",
       "requestedAt": "Fecha solicitada",
-      "createdAt": "Creado",
-      "observations": "Observaciones"
+      "createdAt": "Creado"
     },
     "customerDelivery": {
       "title": "Cliente y entrega",
