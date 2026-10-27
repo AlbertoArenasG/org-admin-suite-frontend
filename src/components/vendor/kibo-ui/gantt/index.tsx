@@ -351,25 +351,35 @@ const MonthlyHeader: FC = () => {
     <div className="relative flex flex-col" key={year.year}>
       <GanttContentHeader
         columns={year.quarters.flatMap((quarter) => quarter.months).length}
-        renderHeaderItem={(item: number) => (
-          <p>
-            {format(new Date(year.year, item, 1), 'MMM', {
-              locale: gantt.locale === 'es' ? es : enUS,
-            })}
-          </p>
-        )}
+        renderHeaderItem={(item: number) => {
+          const monthName = format(new Date(year.year, item, 1), 'MMM', {
+            locale: gantt.locale === 'es' ? es : enUS,
+          });
+          if (!gantt.showWeekGuides) return <p>{monthName}</p>;
+          const lastDay = getDaysInMonth(new Date(year.year, item, 1));
+          return (
+            <div className="relative flex items-center justify-between px-3 text-muted-foreground">
+              <span aria-hidden="true" className="absolute inset-y-0 left-0 w-0.5 bg-border" />
+              <span className="font-medium text-foreground">{monthName}</span>
+              <span
+                className="absolute -translate-x-1/2"
+                style={{ left: `${(14 / lastDay) * 100}%` }}
+              >
+                15
+              </span>
+              <span>{lastDay}</span>
+            </div>
+          );
+        }}
         title={`${year.year}`}
       />
       {gantt.showWeekGuides ? (
         <div
-          className="grid h-full w-full divide-x divide-border/50"
+          className="grid h-full w-full"
           style={{ gridTemplateColumns: 'repeat(12, var(--gantt-column-width))' }}
         >
           {Array.from({ length: 12 }, (_, month) => {
             const days = getDaysInMonth(new Date(year.year, month, 1));
-            const mondays = Array.from({ length: days }, (_, index) => index + 1).filter(
-              (day) => day > 1 && new Date(year.year, month, day).getDay() === 1
-            );
             const selected = gantt.highlightedWeek;
             const monthStart = new Date(year.year, month, 1);
             const monthEnd = new Date(year.year, month, days, 23, 59, 59);
@@ -390,14 +400,15 @@ const MonthlyHeader: FC = () => {
                     }}
                   />
                 )}
-                {mondays.map((day) => (
-                  <div
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-y-0 border-l border-border/35"
-                    key={day}
-                    style={{ left: `${((day - 1) / days) * 100}%` }}
-                  />
-                ))}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 left-0 w-0.5 bg-border"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-y-0 border-l border-border/30"
+                  style={{ left: `${(14 / days) * 100}%` }}
+                />
               </div>
             );
           })}
