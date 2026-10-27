@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import {
   CalendarDays,
   ChevronLeft,
@@ -9,6 +10,7 @@ import {
   Table2,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { DashboardTableWorkspace } from '@/components/dashboard-shell';
 import { CustomerServiceRecordsContainer } from '../CustomerServiceRecordsContainer';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
@@ -31,6 +33,9 @@ const views = [
 ] as const;
 
 export function CustomerServiceRecordsRoadmap() {
+  useEffect(() => {
+    void useCustomerServiceRecordRoadmapStore.persist.rehydrate();
+  }, []);
   const { t, i18n } = useTranslationHydrated('customerServiceRecords');
   const view = useCustomerServiceRecordRoadmapStore((state) => state.view);
   const scale = useCustomerServiceRecordRoadmapStore((state) => state.scale);
@@ -53,7 +58,7 @@ export function CustomerServiceRecordsRoadmap() {
       contentClassName={view === 'table' ? 'mx-auto max-w-[1600px]' : undefined}
     >
       <div
-        className={`flex min-h-0 min-w-0 flex-1 flex-col text-foreground ${view === 'table' ? 'overflow-visible' : 'overflow-hidden'}`}
+        className={`flex min-h-0 min-w-0 flex-1 flex-col text-foreground ${view === 'gantt' ? 'overflow-hidden' : 'overflow-visible'}`}
       >
         <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-b px-3 py-1">
           <h1 className="text-sm font-medium text-muted-foreground">{t('roadmap.title')}</h1>
@@ -63,18 +68,23 @@ export function CustomerServiceRecordsRoadmap() {
             className="flex flex-wrap gap-0.5 rounded-md bg-muted p-0.5"
           >
             {views.map(({ id, icon: Icon }) => (
-              <button
-                key={id}
-                type="button"
-                aria-label={t(`roadmap.${id}`)}
-                aria-pressed={view === id}
-                aria-controls="roadmap-panel"
-                title={t(`roadmap.${id}`)}
-                onClick={() => setView(id as RoadmapView)}
-                className="inline-flex size-8 items-center justify-center rounded hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary aria-pressed:bg-background aria-pressed:shadow-sm"
-              >
-                <Icon aria-hidden="true" className="size-4" />
-              </button>
+              <Tooltip key={id}>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label={t(`roadmap.${id}`)}
+                    aria-pressed={view === id}
+                    aria-controls="roadmap-panel"
+                    onClick={() => setView(id as RoadmapView)}
+                    className="inline-flex size-8 items-center justify-center rounded hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary aria-pressed:bg-background aria-pressed:shadow-sm"
+                  >
+                    <Icon aria-hidden="true" className="size-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" sideOffset={6}>
+                  {t(`roadmap.${id}`)}
+                </TooltipContent>
+              </Tooltip>
             ))}
           </div>
         </div>
@@ -132,7 +142,7 @@ export function CustomerServiceRecordsRoadmap() {
               ? 'min-w-0'
               : view === 'gantt'
                 ? 'flex min-h-0 min-w-0 flex-1 flex-col py-2 md:px-3'
-                : 'min-w-0 py-2 md:px-3'
+                : 'min-w-0 py-2 md:min-h-0 md:flex-1 md:overflow-y-auto md:px-3'
           }
         >
           {temporal && (timeline.status === 'loading' || timeline.key !== key) && (

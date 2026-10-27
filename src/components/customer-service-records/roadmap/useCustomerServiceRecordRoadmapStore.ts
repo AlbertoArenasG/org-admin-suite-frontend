@@ -1,5 +1,6 @@
 'use client';
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export type RoadmapView = 'gantt' | 'calendar' | 'list' | 'kanban' | 'table';
 export type RoadmapScale = 'week' | 'month';
@@ -14,18 +15,27 @@ type State = {
   today: () => void;
 };
 
-export const useCustomerServiceRecordRoadmapStore = create<State>((set) => ({
-  view: 'table',
-  scale: 'month',
-  anchor: new Date(),
-  setView: (view) => set({ view }),
-  setScale: (scale) => set({ scale }),
-  move: (direction) =>
-    set(({ anchor, scale }) => ({
-      anchor:
-        scale === 'week'
-          ? new Date(anchor.getFullYear(), anchor.getMonth(), anchor.getDate() + direction * 7)
-          : new Date(anchor.getFullYear(), anchor.getMonth() + direction, 1),
-    })),
-  today: () => set({ anchor: new Date() }),
-}));
+export const useCustomerServiceRecordRoadmapStore = create<State>()(
+  persist(
+    (set) => ({
+      view: 'table',
+      scale: 'month',
+      anchor: new Date(),
+      setView: (view) => set({ view }),
+      setScale: (scale) => set({ scale }),
+      move: (direction) =>
+        set(({ anchor, scale }) => ({
+          anchor:
+            scale === 'week'
+              ? new Date(anchor.getFullYear(), anchor.getMonth(), anchor.getDate() + direction * 7)
+              : new Date(anchor.getFullYear(), anchor.getMonth() + direction, 1),
+        })),
+      today: () => set({ anchor: new Date() }),
+    }),
+    {
+      name: 'icsa-customer-service-records-roadmap-scale',
+      partialize: (state) => ({ scale: state.scale }),
+      skipHydration: true,
+    }
+  )
+);
