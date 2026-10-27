@@ -416,6 +416,9 @@
       "CANCELLED": "Cancelled"
     },
     "service": "Service",
-    "period": "Period"
+    "period": "Period",
+    "customer": "Customer",
+    "equipment": "Equipment",
+    "dates": "Dates"
   }
 }

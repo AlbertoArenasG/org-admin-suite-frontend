@@ -416,6 +416,9 @@
       "CANCELLED": "Cancelado"
     },
     "service": "Servicio",
-    "period": "Tramo"
+    "period": "Tramo",
+    "customer": "Cliente",
+    "equipment": "Equipo",
+    "dates": "Fechas"
   }
 }

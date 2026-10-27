@@ -134,7 +134,12 @@ export function CustomerServiceRecordsRoadmap() {
           ready &&
           timeline.items.length > 0 &&
           (view === 'gantt' ? (
-            <CustomerServiceRecordGantt records={timeline.items} from={range.from} />
+            <CustomerServiceRecordGantt
+              records={timeline.items}
+              from={range.from}
+              to={range.to}
+              scale={scale}
+            />
           ) : (
             <CustomerServiceRecordCalendar
               records={timeline.items}

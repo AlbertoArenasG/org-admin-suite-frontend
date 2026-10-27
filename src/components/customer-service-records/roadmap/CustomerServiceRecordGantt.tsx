@@ -17,23 +17,56 @@ import type { TimelineRecord } from '@/features/customer-service-records';
 import { civilDate, neutralColor, recordLabel, span } from './roadmapDates';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 
-type Item = GanttFeature & { recordId: string; kind: 'customer' | 'provider' };
+type Item = GanttFeature & {
+  recordId: string;
+  serviceNumber: string;
+  customerName: string;
+  equipmentNames: string[];
+  kind: 'customer' | 'provider';
+};
 
 export function CustomerServiceRecordGantt({
   records,
   from,
+  to,
+  scale,
 }: {
   records: TimelineRecord[];
   from: string;
+  to: string;
+  scale: 'week' | 'month';
 }) {
   const { t, i18n } = useTranslationHydrated('customerServiceRecords');
   const focusDate = useMemo(() => civilDate(from), [from]);
+  const highlightedWeek = useMemo(
+    () => (scale === 'week' ? { from: civilDate(from), to: civilDate(to) } : undefined),
+    [from, to, scale]
+  );
+  const dateFormatter = useMemo(
+    () =>
+      new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'long', year: 'numeric' }),
+    [i18n.language]
+  );
+  const periodDates = (item: Item) => {
+    const start = dateFormatter.format(item.startAt);
+    const end = dateFormatter.format(item.endAt);
+    return `${start}${start === end ? '' : ` – ${end}`}`;
+  };
+  const equipmentNames = (item: Item) => item.equipmentNames.join(', ') || '—';
+  const accessibleLabel = (item: Item) =>
+    `${item.serviceNumber} · ${item.status.name} · ${t('roadmap.customer')}: ${item.customerName} · ${t('roadmap.equipment')}: ${equipmentNames(item)} · ${t('roadmap.dates')}: ${periodDates(item)}`;
   const groups = useMemo(() => {
     const grouped = new Map<string, { id: string; name: string; items: Item[] }>();
     for (const record of records) {
       const key = record.customer.id;
       const group = grouped.get(key) ?? { id: key, name: record.customer.name, items: [] };
-      const base = { name: recordLabel(record), recordId: record.id };
+      const base = {
+        name: recordLabel(record),
+        recordId: record.id,
+        serviceNumber: record.serviceNumber,
+        customerName: record.customer.name,
+        equipmentNames: record.assets.map((asset) => asset.name),
+      };
       const customerSpan = span(
         record.customerDelivery.receivedAt,
         record.customerDelivery.estimatedDeliveryAt
@@ -77,10 +110,12 @@ export function CustomerServiceRecordGantt({
       aria-label={t('roadmap.gantt')}
     >
       <GanttProvider
-        key={from.slice(0, 4)}
-        range="daily"
-        zoom={70}
+        key={`${from.slice(0, 4)}-${scale}`}
+        range="monthly"
+        zoom={scale === 'week' ? 500 : 100}
         focusDate={focusDate}
+        showWeekGuides={scale === 'week'}
+        highlightedWeek={highlightedWeek}
         locale={i18n.language.startsWith('es') ? 'es' : 'en'}
       >
         <GanttSidebar itemLabel={t('roadmap.service')} periodLabel={t('roadmap.period')}>
@@ -116,10 +151,33 @@ export function CustomerServiceRecordGantt({
                   <Link
                     key={item.id}
                     href={`/dashboard/customer-service-records/${item.recordId}`}
-                    aria-label={`${item.name} · ${item.status.name}`}
+                    aria-label={accessibleLabel(item)}
                     className="block h-9 focus-visible:outline-2 focus-visible:outline-primary"
                   >
-                    <GanttFeatureItem {...item}>
+                    <GanttFeatureItem
+                      {...item}
+                      tooltip={
+                        <div className="space-y-2">
+                          <p className="border-b border-background/20 pb-1 font-semibold">
+                            {item.serviceNumber} · {item.status.name}
+                          </p>
+                          <dl className="space-y-1">
+                            <div>
+                              <dt className="text-background/70">{t('roadmap.customer')}</dt>
+                              <dd className="break-words">{item.customerName}</dd>
+                            </div>
+                            <div>
+                              <dt className="text-background/70">{t('roadmap.equipment')}</dt>
+                              <dd className="break-words">{equipmentNames(item)}</dd>
+                            </div>
+                            <div>
+                              <dt className="text-background/70">{t('roadmap.dates')}</dt>
+                              <dd>{periodDates(item)}</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      }
+                    >
                       <span className="truncate">{item.name}</span>
                     </GanttFeatureItem>
                   </Link>

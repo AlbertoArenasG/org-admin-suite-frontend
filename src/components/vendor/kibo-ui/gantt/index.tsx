@@ -14,7 +14,6 @@ import {
   format,
   formatDate,
   formatDistance,
-  getDate,
   getDaysInMonth,
   isSameDay,
   startOfDay,
@@ -44,6 +43,7 @@ import {
   useState,
 } from 'react';
 import { Card } from '@/components/ui/card';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import {
   ContextMenu,
   ContextMenuContent,
@@ -103,6 +103,8 @@ export type GanttContextProps = {
   timelineData: TimelineData;
   ref: RefObject<HTMLDivElement | null> | null;
   scrollToFeature?: (feature: GanttFeature) => void;
+  showWeekGuides?: boolean;
+  highlightedWeek?: { from: Date; to: Date };
 };
 
 const getsDaysIn = (range: Range) => {
@@ -214,7 +216,7 @@ const getOffset = (date: Date, timelineStartDate: Date, context: GanttContextPro
     return parsedColumnWidth * fullColumns;
   }
 
-  const partialColumns = date.getDate();
+  const partialColumns = date.getDate() - 1;
   const daysInMonth = getDaysInMonth(date);
   const pixelsPerDay = parsedColumnWidth / daysInMonth;
 
@@ -227,40 +229,10 @@ const getWidth = (startAt: Date, endAt: Date | null, context: GanttContextProps)
   if (!endAt) {
     return parsedColumnWidth * 2;
   }
-
-  const differenceIn = getDifferenceIn(context.range);
-
-  if (context.range === 'daily') {
-    const delta = differenceIn(endAt, startAt);
-
-    return parsedColumnWidth * (delta ? delta : 1);
-  }
-
-  const daysInStartMonth = getDaysInMonth(startAt);
-  const pixelsPerDayInStartMonth = parsedColumnWidth / daysInStartMonth;
-
-  if (isSameDay(startAt, endAt)) {
-    return pixelsPerDayInStartMonth;
-  }
-
-  const innerDifferenceIn = getInnerDifferenceIn(context.range);
-  const startOf = getStartOf(context.range);
-
-  if (isSameDay(startOf(startAt), startOf(endAt))) {
-    return innerDifferenceIn(endAt, startAt) * pixelsPerDayInStartMonth;
-  }
-
-  const startRangeOffset = daysInStartMonth - getDate(startAt);
-  const endRangeOffset = getDate(endAt);
-  const fullRangeOffset = differenceIn(startOf(endAt), startOf(startAt));
-  const daysInEndMonth = getDaysInMonth(endAt);
-  const pixelsPerDayInEndMonth = parsedColumnWidth / daysInEndMonth;
-
-  return (
-    (fullRangeOffset - 1) * parsedColumnWidth +
-    startRangeOffset * pixelsPerDayInStartMonth +
-    endRangeOffset * pixelsPerDayInEndMonth
-  );
+  const timelineStart = new Date(context.timelineData[0]?.year ?? startAt.getFullYear(), 0, 1);
+  const endOffset = getOffset(addDays(endAt, 1), timelineStart, context);
+  const startOffset = getOffset(startAt, timelineStart, context);
+  return Math.max(context.range === 'daily' ? 1 : 12, endOffset - startOffset);
 };
 
 const calculateInnerOffset = (date: Date, range: Range, columnWidth: number) => {
@@ -388,7 +360,51 @@ const MonthlyHeader: FC = () => {
         )}
         title={`${year.year}`}
       />
-      <GanttColumns columns={year.quarters.flatMap((quarter) => quarter.months).length} />
+      {gantt.showWeekGuides ? (
+        <div
+          className="grid h-full w-full divide-x divide-border/50"
+          style={{ gridTemplateColumns: 'repeat(12, var(--gantt-column-width))' }}
+        >
+          {Array.from({ length: 12 }, (_, month) => {
+            const days = getDaysInMonth(new Date(year.year, month, 1));
+            const mondays = Array.from({ length: days }, (_, index) => index + 1).filter(
+              (day) => day > 1 && new Date(year.year, month, day).getDay() === 1
+            );
+            const selected = gantt.highlightedWeek;
+            const monthStart = new Date(year.year, month, 1);
+            const monthEnd = new Date(year.year, month, days, 23, 59, 59);
+            const overlaps = selected && selected.from <= monthEnd && selected.to >= monthStart;
+            const first = overlaps && selected.from > monthStart ? selected.from.getDate() : 1;
+            const last = overlaps && selected.to < monthEnd ? selected.to.getDate() : days;
+
+            return (
+              <div className="relative h-full" key={`${year.year}-${month}`}>
+                <GanttColumn index={month} />
+                {overlaps && (
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-0 bg-primary/8"
+                    style={{
+                      left: `${((first - 1) / days) * 100}%`,
+                      width: `${((last - first + 1) / days) * 100}%`,
+                    }}
+                  />
+                )}
+                {mondays.map((day) => (
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-0 border-l border-border/35"
+                    key={day}
+                    style={{ left: `${((day - 1) / days) * 100}%` }}
+                  />
+                ))}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <GanttColumns columns={year.quarters.flatMap((quarter) => quarter.months).length} />
+      )}
     </div>
   ));
 };
@@ -756,6 +772,7 @@ export type GanttFeatureItemCardProps = Pick<GanttFeature, 'id'> & {
   children?: ReactNode;
   readOnly?: boolean;
   color?: string;
+  tooltip?: ReactNode;
 };
 
 export const GanttFeatureItemCard: FC<GanttFeatureItemCardProps> = ({
@@ -763,6 +780,7 @@ export const GanttFeatureItemCard: FC<GanttFeatureItemCardProps> = ({
   children,
   readOnly = false,
   color,
+  tooltip,
 }) => {
   const [, setDragging] = useGanttDragging();
   const { attributes, listeners, setNodeRef } = useDraggable({ id, disabled: readOnly });
@@ -770,7 +788,7 @@ export const GanttFeatureItemCard: FC<GanttFeatureItemCardProps> = ({
 
   useEffect(() => setDragging(isPressed), [isPressed, setDragging]);
 
-  return (
+  const card = (
     <Card
       className="h-full w-full rounded-md border-l-4 bg-background p-2 text-xs shadow-sm"
       style={{ borderLeftColor: color }}
@@ -788,18 +806,31 @@ export const GanttFeatureItemCard: FC<GanttFeatureItemCardProps> = ({
       </div>
     </Card>
   );
+
+  if (!tooltip) return card;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{card}</TooltipTrigger>
+      <TooltipContent className="max-w-80 text-left" side="top">
+        {tooltip}
+      </TooltipContent>
+    </Tooltip>
+  );
 };
 
 export type GanttFeatureItemProps = GanttFeature & {
   onMove?: (id: string, startDate: Date, endDate: Date | null) => void;
   children?: ReactNode;
   className?: string;
+  tooltip?: ReactNode;
 };
 
 export const GanttFeatureItem: FC<GanttFeatureItemProps> = ({
   onMove,
   children,
   className,
+  tooltip,
   ...feature
 }) => {
   const [scrollX] = useGanttScrollX();
@@ -902,7 +933,12 @@ export const GanttFeatureItem: FC<GanttFeatureItemProps> = ({
           onDragStart={handleItemDragStart}
           sensors={[mouseSensor]}
         >
-          <GanttFeatureItemCard id={feature.id} readOnly={!onMove} color={feature.status.color}>
+          <GanttFeatureItemCard
+            id={feature.id}
+            readOnly={!onMove}
+            color={feature.status.color}
+            tooltip={tooltip}
+          >
             {children ?? <p className="flex-1 truncate text-xs">{feature.name}</p>}
           </GanttFeatureItemCard>
         </DndContext>
@@ -1092,6 +1128,8 @@ export type GanttProviderProps = {
   range?: Range;
   zoom?: number;
   focusDate?: Date;
+  showWeekGuides?: boolean;
+  highlightedWeek?: { from: Date; to: Date };
   onAddItem?: (date: Date) => void;
   children: ReactNode;
   className?: string;
@@ -1102,6 +1140,8 @@ export const GanttProvider: FC<GanttProviderProps> = ({
   zoom = 100,
   range = 'monthly',
   focusDate,
+  showWeekGuides = false,
+  highlightedWeek,
   onAddItem,
   children,
   className,
@@ -1314,6 +1354,8 @@ export const GanttProvider: FC<GanttProviderProps> = ({
         placeholderLength: 2,
         ref: scrollRef,
         scrollToFeature,
+        showWeekGuides,
+        highlightedWeek,
       }}
     >
       <div
