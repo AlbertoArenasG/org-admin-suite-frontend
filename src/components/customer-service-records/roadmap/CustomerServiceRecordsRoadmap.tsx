@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { DashboardTableWorkspace } from '@/components/dashboard-shell';
+import { DashboardContentReveal, DashboardTableWorkspace } from '@/components/dashboard-shell';
 import { CustomerServiceRecordsContainer } from '../CustomerServiceRecordsContainer';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { CustomerServiceRecordCalendar } from './CustomerServiceRecordCalendar';
@@ -163,18 +163,22 @@ export function CustomerServiceRecordsRoadmap() {
             ready &&
             timeline.items.length > 0 &&
             (view === 'gantt' ? (
-              <CustomerServiceRecordGantt
-                records={timeline.items}
-                from={range.from}
-                to={range.to}
-                scale={scale}
-              />
+              <DashboardContentReveal key="gantt" className="min-h-0 flex-1">
+                <CustomerServiceRecordGantt
+                  records={timeline.items}
+                  from={range.from}
+                  to={range.to}
+                  scale={scale}
+                />
+              </DashboardContentReveal>
             ) : (
-              <CustomerServiceRecordCalendar
-                records={timeline.items}
-                from={range.from}
-                scale={scale}
-              />
+              <DashboardContentReveal key="calendar">
+                <CustomerServiceRecordCalendar
+                  records={timeline.items}
+                  from={range.from}
+                  scale={scale}
+                />
+              </DashboardContentReveal>
             ))}
           {view === 'list' && <CustomerServiceRecordRoadmapList mode="list" />}
           {view === 'kanban' && <CustomerServiceRecordRoadmapList mode="kanban" />}
