@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import { differenceInCalendarMonths, differenceInCalendarWeeks } from 'date-fns';
 import {
   CalendarDays,
   ChevronLeft,
@@ -36,7 +37,7 @@ export function CustomerServiceRecordsRoadmap() {
   useEffect(() => {
     void useCustomerServiceRecordRoadmapStore.persist.rehydrate();
   }, []);
-  const { t, i18n } = useTranslationHydrated('customerServiceRecords');
+  const { t, i18n, hydrated } = useTranslationHydrated('customerServiceRecords');
   const view = useCustomerServiceRecordRoadmapStore((state) => state.view);
   const scale = useCustomerServiceRecordRoadmapStore((state) => state.scale);
   const setView = useCustomerServiceRecordRoadmapStore((state) => state.setView);
@@ -46,12 +47,37 @@ export function CustomerServiceRecordsRoadmap() {
   const { timeline, range, key, refetch } = useCustomerServiceRecordTimeline();
   const temporal = view === 'gantt' || view === 'calendar';
   const ready = timeline.status === 'succeeded' && timeline.key === key;
+  const currentDate = new Date();
+  const weekEnd = civilDate(range.to);
+  const weekStartLabel = new Intl.DateTimeFormat(i18n.language, {
+    day: 'numeric',
+    month: 'short',
+    ...(range.start.getFullYear() !== weekEnd.getFullYear() ? { year: 'numeric' as const } : {}),
+  }).format(range.start);
+  const weekEndLabel = new Intl.DateTimeFormat(i18n.language, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  }).format(weekEnd);
   const periodLabel =
     scale === 'week'
-      ? `${new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'short' }).format(range.start)} – ${new Intl.DateTimeFormat(i18n.language, { day: 'numeric', month: 'short', year: 'numeric' }).format(civilDate(range.to))}`
-      : new Intl.DateTimeFormat(i18n.language, { month: 'long', year: 'numeric' }).format(
-          range.start
-        );
+      ? `${t('roadmap.week')} ${weekStartLabel} – ${weekEndLabel}`
+      : `${t('roadmap.month')}: ${new Intl.DateTimeFormat(i18n.language, {
+          month: 'long',
+          year: 'numeric',
+        }).format(range.start)}`;
+  const relativeOffset =
+    scale === 'week'
+      ? differenceInCalendarWeeks(range.start, currentDate, { weekStartsOn: 1 })
+      : differenceInCalendarMonths(range.start, currentDate);
+  const relativeLabel = new Intl.RelativeTimeFormat(i18n.language, { numeric: 'auto' }).format(
+    relativeOffset,
+    scale === 'week' ? 'week' : 'month'
+  );
+  const previousPeriodLabel = t(
+    scale === 'week' ? 'roadmap.previousWeek' : 'roadmap.previousMonth'
+  );
+  const nextPeriodLabel = t(scale === 'week' ? 'roadmap.nextWeek' : 'roadmap.nextMonth');
   return (
     <DashboardTableWorkspace
       padding={view === 'table' ? 'default' : 'none'}
@@ -106,29 +132,44 @@ export function CustomerServiceRecordsRoadmap() {
                 {t('roadmap.month')}
               </Button>
             </div>
-            <div className="flex flex-wrap items-center gap-1">
-              <Button
-                variant="outline"
-                size="icon-sm"
-                aria-label={t('roadmap.previous')}
-                onClick={() => move(-1)}
-              >
-                <ChevronLeft />
-              </Button>
+            <div className="flex min-w-0 max-w-full flex-wrap items-center justify-end gap-1">
+              {hydrated && (
+                <span className="mr-1 text-xs text-muted-foreground first-letter:uppercase">
+                  {relativeLabel}
+                </span>
+              )}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon-sm"
+                    aria-label={previousPeriodLabel}
+                    onClick={() => move(-1)}
+                  >
+                    <ChevronLeft />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">{previousPeriodLabel}</TooltipContent>
+              </Tooltip>
               <span
                 aria-live="polite"
-                className="mx-1 min-w-[11rem] text-center text-sm font-semibold capitalize tabular-nums sm:min-w-[16rem]"
+                className="order-first w-full text-center text-sm font-semibold tabular-nums first-letter:uppercase sm:order-none sm:mx-1 sm:w-auto"
               >
                 {periodLabel}
               </span>
-              <Button
-                variant="outline"
-                size="icon-sm"
-                aria-label={t('roadmap.next')}
-                onClick={() => move(1)}
-              >
-                <ChevronRight />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon-sm"
+                    aria-label={nextPeriodLabel}
+                    onClick={() => move(1)}
+                  >
+                    <ChevronRight />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">{nextPeriodLabel}</TooltipContent>
+              </Tooltip>
               <Button variant="outline" size="sm" onClick={today}>
                 {t('roadmap.today')}
               </Button>

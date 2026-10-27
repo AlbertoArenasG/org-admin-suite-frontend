@@ -20,7 +20,7 @@ export function useCustomerServiceRecordTimeline() {
     const to = scale === 'week' ? endOfWeek(anchor, { weekStartsOn: 1 }) : endOfMonth(anchor);
     return { from: format(from, 'yyyy-MM-dd'), to: format(to, 'yyyy-MM-dd'), start: from };
   }, [anchor, scale]);
-  const match = view === 'calendar' ? 'customer_milestones' : 'periods';
+  const match = 'periods' as const;
   const key = `${range.from}:${range.to}:${match}`;
   const fetch = useCallback(
     () => dispatch(fetchCustomerServiceRecordTimeline({ from: range.from, to: range.to, match })),

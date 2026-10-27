@@ -40,22 +40,50 @@ function CalendarGrid({
           endAt: Date;
           status: { id: string; name: string; color: string };
         }> = [];
-        for (const [kind, date] of [
-          ['received', record.customerDelivery.receivedAt],
-          ['delivery', record.customerDelivery.estimatedDeliveryAt],
+        for (const [kind, date, label, color] of [
+          [
+            'received',
+            record.customerDelivery.receivedAt,
+            t('roadmap.received'),
+            record.customerDelivery.statusMaterialization?.colorHex,
+          ],
+          [
+            'delivery',
+            record.customerDelivery.estimatedDeliveryAt,
+            t('roadmap.delivery'),
+            record.customerDelivery.statusMaterialization?.colorHex,
+          ],
+          [
+            'provider-delivered',
+            record.provider?.deliveredAt,
+            t('roadmap.providerDelivered'),
+            record.provider?.statusMaterialization?.colorHex,
+          ],
+          [
+            'provider-returned',
+            record.provider?.returnedAt,
+            t('roadmap.providerReturned'),
+            record.provider?.statusMaterialization?.colorHex,
+          ],
+          [
+            'provider-estimated-return',
+            record.provider?.returnedAt ? null : record.provider?.estimatedReturnAt,
+            t('roadmap.providerEstimatedReturn'),
+            record.provider?.statusMaterialization?.colorHex,
+          ],
         ] as const) {
           if (!date) continue;
           const at = civilDate(date);
           result.push({
             id: `${record.id}-${kind}`,
             recordId: record.id,
-            name: `${kind === 'received' ? t('roadmap.received') : t('roadmap.delivery')}: ${recordLabel(record)}`,
+            name: `${label}: ${recordLabel(record)}`,
             startAt: at,
             endAt: at,
             status: {
               id: kind,
               name: kind,
-              color: record.customerDelivery.statusMaterialization?.colorHex ?? neutralColor,
+              color: color ?? neutralColor,
             },
           });
         }

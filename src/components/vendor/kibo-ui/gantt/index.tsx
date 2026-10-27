@@ -206,7 +206,11 @@ const createInitialTimelineData = (today: Date) => {
   return data;
 };
 
-const getOffset = (date: Date, timelineStartDate: Date, context: GanttContextProps) => {
+const getOffset = (
+  date: Date,
+  timelineStartDate: Date,
+  context: Pick<GanttContextProps, 'range' | 'columnWidth' | 'zoom'>
+) => {
   const parsedColumnWidth = (context.columnWidth * context.zoom) / 100;
   const differenceIn = getDifferenceIn(context.range);
   const startOf = getStartOf(context.range);
@@ -983,6 +987,15 @@ export const GanttFeatureListGroup: FC<GanttFeatureListGroupProps> = ({ children
   </div>
 );
 
+export const useGanttFeatureGeometry = (startAt: Date, endAt: Date) => {
+  const gantt = useContext(GanttContext);
+  const timelineStart = new Date(gantt.timelineData[0]?.year ?? startAt.getFullYear(), 0, 1);
+  return {
+    left: Math.round(getOffset(startAt, timelineStart, gantt)),
+    width: Math.round(getWidth(startAt, endAt, gantt)),
+  };
+};
+
 export type GanttFeatureRowProps = {
   features: GanttFeature[];
   onMove?: (id: string, startAt: Date, endAt: Date | null) => void;
@@ -1139,6 +1152,7 @@ export type GanttProviderProps = {
   range?: Range;
   zoom?: number;
   focusDate?: Date;
+  scrollBounds?: { from: Date; to: Date };
   showWeekGuides?: boolean;
   highlightedWeek?: { from: Date; to: Date };
   onAddItem?: (date: Date) => void;
@@ -1151,6 +1165,7 @@ export const GanttProvider: FC<GanttProviderProps> = ({
   zoom = 100,
   range = 'monthly',
   focusDate,
+  scrollBounds,
   showWeekGuides = false,
   highlightedWeek,
   onAddItem,
@@ -1172,15 +1187,7 @@ export const GanttProvider: FC<GanttProviderProps> = ({
     const offset = getOffset(focusDate, new Date(timelineData[0].year, 0, 1), {
       zoom,
       range,
-      locale,
       columnWidth: range === 'monthly' ? 150 : 50,
-      sidebarWidth,
-      headerHeight: 60,
-      rowHeight: 36,
-      onAddItem,
-      placeholderLength: 2,
-      timelineData,
-      ref: scrollRef,
     });
     scrollElement.scrollLeft = Math.max(0, offset);
     setScrollX(scrollElement.scrollLeft);
@@ -1248,8 +1255,24 @@ export const GanttProvider: FC<GanttProviderProps> = ({
     const scrollElement = scrollRef.current;
     if (!scrollElement) return;
 
-    const handleScroll = throttle(() => {
+    const updateScroll = () => {
       const { scrollLeft, scrollWidth, clientWidth } = scrollElement;
+      if (scrollBounds && timelineData.length) {
+        const timelineStart = new Date(timelineData[0].year, 0, 1);
+        const geometry = {
+          zoom,
+          range,
+          columnWidth,
+        };
+        const min = getOffset(scrollBounds.from, timelineStart, geometry);
+        const end = getOffset(addDays(scrollBounds.to, 1), timelineStart, geometry);
+        const visibleWidth = Math.max(0, clientWidth - sidebarWidth);
+        const max = Math.max(min, end - visibleWidth);
+        const bounded = Math.min(max, Math.max(min, scrollLeft));
+        if (bounded !== scrollLeft) scrollElement.scrollLeft = bounded;
+        setScrollX(bounded);
+        return;
+      }
       setScrollX(scrollLeft);
 
       if (scrollLeft === 0) {
@@ -1305,14 +1328,16 @@ export const GanttProvider: FC<GanttProviderProps> = ({
         scrollElement.scrollLeft = scrollElement.scrollWidth - scrollElement.clientWidth;
         setScrollX(scrollElement.scrollLeft);
       }
-    }, 100);
+    };
+    const throttledScroll = throttle(updateScroll, 100);
+    const handleScroll = scrollBounds ? updateScroll : throttledScroll;
     scrollElement.addEventListener('scroll', handleScroll);
 
     return () => {
       scrollElement.removeEventListener('scroll', handleScroll);
-      handleScroll.cancel();
+      throttledScroll.cancel();
     };
-  }, [timelineData, setScrollX]);
+  }, [timelineData, setScrollX, scrollBounds, zoom, range, columnWidth, sidebarWidth]);
 
   const scrollToFeature = useCallback(
     (feature: GanttFeature) => {
@@ -1326,17 +1351,9 @@ export const GanttProvider: FC<GanttProviderProps> = ({
 
       // Calculate the horizontal offset for the feature's start date
       const offset = getOffset(feature.startAt, timelineStartDate, {
-        locale,
         zoom,
         range,
         columnWidth,
-        sidebarWidth,
-        headerHeight,
-        rowHeight,
-        onAddItem,
-        placeholderLength: 2,
-        timelineData,
-        ref: scrollRef,
       });
 
       // Scroll to align the feature's start with the right side of the sidebar
@@ -1347,7 +1364,7 @@ export const GanttProvider: FC<GanttProviderProps> = ({
         behavior: 'smooth',
       });
     },
-    [timelineData, zoom, range, locale, columnWidth, sidebarWidth, onAddItem]
+    [timelineData, zoom, range, columnWidth]
   );
 
   return (
