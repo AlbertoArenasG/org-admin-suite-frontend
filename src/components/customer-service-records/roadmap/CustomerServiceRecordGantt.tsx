@@ -106,7 +106,7 @@ export function CustomerServiceRecordGantt({
   return (
     <div
       role="region"
-      className="h-[min(65vh,680px)] min-h-80 overflow-hidden rounded-md border"
+      className="h-[60dvh] min-h-80 overflow-hidden rounded-md border md:h-full md:min-h-0 md:flex-1"
       aria-label={t('roadmap.gantt')}
     >
       <GanttProvider
