@@ -388,9 +388,8 @@
     }
   },
   "roadmap": {
-    "title": "Service roadmap",
-    "description": "Browse services by period or status.",
-    "views": "Roadmap views",
+    "title": "Heijunka",
+    "views": "Record views",
     "gantt": "Gantt",
     "calendar": "Calendar",
     "list": "List",

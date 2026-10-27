@@ -15,7 +15,7 @@ type State = {
 };
 
 export const useCustomerServiceRecordRoadmapStore = create<State>((set) => ({
-  view: 'gantt',
+  view: 'table',
   scale: 'month',
   anchor: new Date(),
   setView: (view) => set({ view }),

@@ -62,7 +62,6 @@ export function resolveSidebarNavigationVisibility(
     internalAssetControlCreate: canCreateInternalAssetControl,
     customerServiceRecords: canReadCustomerServiceRecords || canCreateCustomerServiceRecords,
     customerServiceRecordsList: canReadCustomerServiceRecords,
-    customerServiceRecordsRoadmap: canReadCustomerServiceRecords,
     contacts: authorization.hasPermission('CONTACTS', 'READ'),
     recipientGroups: authorization.hasPermission('RECIPIENT_GROUPS', 'READ'),
     customers: authorization.hasModule('CUSTOMERS'),

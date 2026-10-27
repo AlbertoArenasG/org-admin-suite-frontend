@@ -68,7 +68,11 @@ function CalendarGrid({
       <div className="overflow-x-auto rounded-md border">
         <div className="min-w-[700px]">
           <CalendarHeader />
-          <CalendarBody features={events} weekStart={scale === 'week' ? start : undefined}>
+          <CalendarBody
+            features={events}
+            today={new Date()}
+            weekStart={scale === 'week' ? start : undefined}
+          >
             {({ feature }) => (
               <Link
                 href={`/dashboard/customer-service-records/${events.find((item) => item.id === feature.id)?.recordId}`}

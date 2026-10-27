@@ -46,6 +46,5 @@
   "services": "Servicios",
   "serviceEntries": "Entrega de certificados",
   "serviceEntrySurveys": "Encuestas de servicio",
-  "servicePackagesRecords": "Recepción, Recolección y Entrega",
-  "customerServiceRecordsRoadmap": "Cronograma"
+  "servicePackagesRecords": "Recepción, Recolección y Entrega"
 }

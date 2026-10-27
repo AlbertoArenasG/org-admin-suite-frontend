@@ -60,7 +60,7 @@ Las futuras entradas deben incluir:
 
 ### 2026-10-27 - Cronograma de Registros de Servicio
 
-- Alcance: `/dashboard/customer-service-records/roadmap` como ruta separada de la tabla administrativa.
+- Alcance: cinco vistas en la ruta principal `/dashboard/customer-service-records`; la ruta anterior `/roadmap` redirige a la principal.
 - Adopción: `DashboardViewAccessBoundary` con `CUSTOMER_SERVICE_RECORDS/READ`, `DashboardTableWorkspace`, cinco vistas del bloque Kibo aislado y DataTable administrativo reutilizado. Gantt y Calendario consumen el endpoint temporal; Lista y Kanban usan el listado paginado existente. Estado remoto en Redux y vista/periodo en Zustand.
 - Spec: `customer-service-record-roadmap` (cerrada por aceptación expresa del usuario el 2026-10-27; refinamiento visual posterior fuera de la spec).
 

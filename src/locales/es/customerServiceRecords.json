@@ -388,9 +388,8 @@
     }
   },
   "roadmap": {
-    "title": "Cronograma de servicios",
-    "description": "Consulta los servicios por periodo o estado.",
-    "views": "Vistas del cronograma",
+    "title": "Heijunka",
+    "views": "Vistas de registros",
     "gantt": "Gantt",
     "calendar": "Calendario",
     "list": "Lista",

@@ -160,10 +160,11 @@ const OutOfBoundsDay = ({ day }: OutOfBoundsDayProps) => (
 export type CalendarBodyProps = {
   features: Feature[];
   children: (props: { feature: Feature }) => ReactNode;
+  today?: Date;
   weekStart?: Date;
 };
 
-export const CalendarBody = ({ features, children, weekStart }: CalendarBodyProps) => {
+export const CalendarBody = ({ features, children, today, weekStart }: CalendarBodyProps) => {
   const [month] = useCalendarMonth();
   const [year] = useCalendarYear();
   const { startDay } = useContext(CalendarContext);
@@ -214,12 +215,24 @@ export const CalendarBody = ({ features, children, weekStart }: CalendarBodyProp
             weekStart.getMonth(),
             weekStart.getDate() + offset
           );
+          const isToday = today ? isSameDay(date, today) : false;
           return (
             <div
               key={date.toISOString()}
-              className="min-h-40 min-w-0 border-t border-r p-2 text-xs last:border-r-0"
+              className={cn(
+                'min-h-40 min-w-0 border-t border-r p-2 text-xs last:border-r-0',
+                isToday && 'bg-primary/5'
+              )}
             >
-              <span className="font-medium">{date.getDate()}</span>
+              <span
+                aria-current={isToday ? 'date' : undefined}
+                className={cn(
+                  'inline-flex size-6 items-center justify-center font-medium',
+                  isToday && 'rounded-full bg-primary text-primary-foreground'
+                )}
+              >
+                {date.getDate()}
+              </span>
               <div className="mt-2 space-y-1">
                 {features
                   .filter((feature) => isSameDay(feature.endAt, date))
@@ -244,13 +257,25 @@ export const CalendarBody = ({ features, children, weekStart }: CalendarBodyProp
 
   for (let day = 1; day <= daysInMonth; day++) {
     const featuresForDay = featuresByDay[day] || [];
+    const isToday = today ? isSameDay(new Date(year, month, day), today) : false;
 
     days.push(
       <div
-        className="relative flex h-full w-full flex-col gap-1 p-1 text-muted-foreground text-xs"
+        className={cn(
+          'relative flex h-full w-full flex-col gap-1 p-1 text-muted-foreground text-xs',
+          isToday && 'bg-primary/5'
+        )}
         key={day}
       >
-        {day}
+        <span
+          aria-current={isToday ? 'date' : undefined}
+          className={cn(
+            'inline-flex size-6 items-center justify-center',
+            isToday && 'rounded-full bg-primary font-semibold text-primary-foreground'
+          )}
+        >
+          {day}
+        </span>
         <div>{featuresForDay.map((feature) => children({ feature }))}</div>
       </div>
     );

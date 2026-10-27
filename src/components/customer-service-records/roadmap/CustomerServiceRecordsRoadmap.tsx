@@ -22,11 +22,11 @@ import { useCustomerServiceRecordTimeline } from './useCustomerServiceRecordTime
 import { civilDate } from './roadmapDates';
 
 const views = [
-  { id: 'gantt', icon: GanttChartSquare },
+  { id: 'table', icon: Table2 },
   { id: 'calendar', icon: CalendarDays },
+  { id: 'gantt', icon: GanttChartSquare },
   { id: 'list', icon: List },
   { id: 'kanban', icon: KanbanSquare },
-  { id: 'table', icon: Table2 },
 ] as const;
 
 export function CustomerServiceRecordsRoadmap() {
@@ -48,15 +48,12 @@ export function CustomerServiceRecordsRoadmap() {
         );
   return (
     <div className="min-w-0 flex-1 overflow-hidden rounded-lg border bg-card text-card-foreground shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b p-4">
-        <div>
-          <h1 className="font-semibold">{t('roadmap.title')}</h1>
-          <p className="text-sm text-muted-foreground">{t('roadmap.description')}</p>
-        </div>
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b px-3 py-1">
+        <h1 className="text-sm font-medium text-muted-foreground">{t('roadmap.title')}</h1>
         <div
           role="group"
           aria-label={t('roadmap.views')}
-          className="flex flex-wrap gap-1 rounded-md bg-muted p-1"
+          className="flex flex-wrap gap-0.5 rounded-md bg-muted p-0.5"
         >
           {views.map(({ id, icon: Icon }) => (
             <button
@@ -65,7 +62,7 @@ export function CustomerServiceRecordsRoadmap() {
               aria-pressed={view === id}
               aria-controls="roadmap-panel"
               onClick={() => setView(id as RoadmapView)}
-              className="inline-flex min-h-9 items-center gap-2 rounded px-2.5 text-sm hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary aria-pressed:bg-background aria-pressed:shadow-sm"
+              className="inline-flex min-h-8 items-center gap-1.5 rounded px-2 text-sm hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary aria-pressed:bg-background aria-pressed:shadow-sm"
             >
               <Icon className="size-4" />
               <span>{t(`roadmap.${id}`)}</span>
@@ -74,7 +71,7 @@ export function CustomerServiceRecordsRoadmap() {
         </div>
       </div>
       {temporal && (
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b p-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b px-3 py-2">
           <div className="flex gap-1">
             <Button
               size="sm"
@@ -91,7 +88,7 @@ export function CustomerServiceRecordsRoadmap() {
               {t('roadmap.month')}
             </Button>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex flex-wrap items-center gap-1">
             <Button
               variant="outline"
               size="icon-sm"
@@ -100,9 +97,12 @@ export function CustomerServiceRecordsRoadmap() {
             >
               <ChevronLeft />
             </Button>
-            <Button variant="outline" size="sm" onClick={today}>
-              {t('roadmap.today')}
-            </Button>
+            <span
+              aria-live="polite"
+              className="mx-1 min-w-[11rem] text-center text-sm font-semibold capitalize tabular-nums sm:min-w-[16rem]"
+            >
+              {periodLabel}
+            </span>
             <Button
               variant="outline"
               size="icon-sm"
@@ -111,7 +111,9 @@ export function CustomerServiceRecordsRoadmap() {
             >
               <ChevronRight />
             </Button>
-            <span className="ml-2 text-sm capitalize">{periodLabel}</span>
+            <Button variant="outline" size="sm" onClick={today}>
+              {t('roadmap.today')}
+            </Button>
           </div>
         </div>
       )}
