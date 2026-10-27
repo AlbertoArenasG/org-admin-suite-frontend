@@ -1,0 +1,8 @@
+# Análisis
+
+- La ruta administrativa `src/app/dashboard/customer-service-records/page.tsx` usa `DashboardViewAccessBoundary`, `DashboardTableWorkspace`, DataTable y Redux para listado remoto; Zustand mantiene criterios de tabla y URL.
+- El backend ya entrega `/v1/customer-service-records/timeline`, documentado en `org-admin-suite-api/docs/frontend/customer-service-record-timeline-handoff.md`; fechas `YYYY-MM-DD`, rango máximo inclusivo de 42 días, paginación y orden por ID.
+- El bloque fuente de `component-staging/component-lab/src/components/vendor/kibo-ui/roadmap/index.tsx` contiene cinco vistas de demostración y datos Faker. Las primitivas viven en `calendar`, `gantt`, `list`, `kanban` y `table`. No llevar datos ficticios ni acciones de mutación a producción.
+- El calendario fuente muestra un mes y limita a tres elementos visibles por día; requiere semana y acceso al resto de eventos. El Gantt fuente tiene drag interno y rango diario/mensual/trimestral; requiere modo de lectura y selector semana/mes. La Tabla del bloque usa TanStack v8, mientras la aplicación ya tiene DataTable propia.
+- El vendor usa dependencias `jotai`, `@uidotdev/usehooks`, `lodash.throttle`, `tunnel-rat`, `@dnd-kit/modifiers`; revisar instalación, compatibilidad con React/Next actuales y primitives locales durante la integración. El README local atribuye el bloque a Kibo bajo MIT.
+- La respuesta timeline tiene un registro por ID y puede incluir ambos tramos. Los datos no se deben duplicar en Redux entre Lista y Tabla. La ruta actual no debe compartir estado de criterios con la ruta nueva si eso provoca interferencias.
