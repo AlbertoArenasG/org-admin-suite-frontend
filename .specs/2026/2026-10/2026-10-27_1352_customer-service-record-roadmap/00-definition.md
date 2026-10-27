@@ -5,13 +5,13 @@
 - Initiative: customer-service-record-roadmap
 - Definition status: completed
 - Implementation ready: yes
-- Implementation status: pending
-- Validation status: pending
-- Spec status: in_progress
+- Implementation status: completed
+- Validation status: completed
+- Spec status: completed
 
 ## Resultado
 
-Agregar una ruta administrativa de Next Dashboard para consultar los registros de servicio en las cinco vistas del bloque Kibo Roadmap: Gantt, Calendario, Lista, Kanban y Tabla. Conservar la ruta administrativa actual para comparar ambas composiciones. El alcance es de lectura y navegación al detalle.
+Agregar una ruta administrativa de Next Dashboard para consultar los registros de servicio en las cinco vistas del bloque Kibo Roadmap: Gantt, Calendario, Lista, Kanban y Tabla. Conservar la ruta administrativa actual para comparar ambas composiciones. Gantt, Calendario, Lista y Kanban son de lectura y navegan al detalle; Tabla conserva las acciones administrativas habituales.
 
 ## Contrato y límites
 
@@ -20,7 +20,7 @@ Agregar una ruta administrativa de Next Dashboard para consultar los registros d
 - Gantt muestra tramo de recepción a entrega estimada y, cuando existe, tramo de entrega al proveedor a retorno real o estimado. Una sola fecha forma un hito de un día. Agrupar por cliente, colorear por materialización de estado y mostrar registros con solo tramo de proveedor.
 - Calendario muestra recepción y entrega estimada como hitos separados. Gantt y Calendario ofrecen semana y mes.
 - Lista y Kanban agrupan por estado operativo; Tabla reutiliza el DataTable administrativo existente dentro del bloque, con sus filtros, paginación, acciones y permisos habituales.
-- La vista es de lectura: sin arrastrar, cambiar fechas/estados, crear marcadores ni eliminar desde las primitivas Kibo. Las acciones de Tabla siguen sus permisos actuales.
+- Gantt, Calendario, Lista y Kanban son de lectura: sin arrastrar, cambiar fechas/estados, crear marcadores ni eliminar desde las primitivas Kibo. Las acciones de Tabla siguen sus permisos actuales.
 - Mantener temas, tokens, responsive, ES/EN, teclado, foco y estados de carga, error y vacío. No modificar DataTable, shell ni rutas existentes para acomodar el bloque.
 
 ## Aceptación
@@ -33,4 +33,4 @@ Agregar una ruta administrativa de Next Dashboard para consultar los registros d
 
 ## Decisiones abiertas
 
-Ninguna de producto. Las adaptaciones técnicas del vendor y la matriz están en diseño y validación. La validación manual corresponde al usuario después de la codificación.
+Ninguna de producto. El usuario aceptó cerrar la matriz y la spec el 2026-10-27. La presentación del Gantt se seguirá refinando fuera de esta spec.

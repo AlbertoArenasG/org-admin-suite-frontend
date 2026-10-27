@@ -87,6 +87,12 @@ export const sidebarNavigationGroups: SidebarNavigationGroupDefinition[] = [
             href: '/dashboard/customer-service-records',
             matchesPathname: isExactPath('/dashboard/customer-service-records'),
           },
+          {
+            id: 'customerServiceRecordsRoadmap',
+            labelKey: 'customerServiceRecordsRoadmap',
+            href: '/dashboard/customer-service-records/roadmap',
+            matchesPathname: isExactPath('/dashboard/customer-service-records/roadmap'),
+          },
         ],
       },
       {

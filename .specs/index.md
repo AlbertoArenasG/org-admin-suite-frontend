@@ -1,6 +1,6 @@
 # Frontend Specs Index
 
-- [customer-service-record-roadmap](./2026/2026-10/2026-10-27_1352_customer-service-record-roadmap/00-definition.md) - in_progress; cronograma de cinco vistas en Next Dashboard
+- [customer-service-record-roadmap](./2026/2026-10/2026-10-27_1352_customer-service-record-roadmap/00-definition.md) - completed; cinco vistas en Next Dashboard aceptadas para cierre por el usuario; mejoras visuales posteriores fuera de la spec
 - [customer-service-record-billing-frontend](./2026/2026-10/2026-10-24_1900_customer-service-record-billing-frontend/00-definition.md) - completed; administración y facturación de registros de servicio validadas en Next Dashboard
 - [service-package-zip-upload-backoffice](./2026/2026-10/2026-10-17_1703_service-package-zip-upload-backoffice/00-definition.md) - completed; carga ZIP desde Next Dashboard validada
 - [service-package-records-list-next-dashboard-migration](./2026/2026-09/2026-09-29_2230_service-package-records-list-next-dashboard-migration/00-definition.md) - completed; listado de recepcion, recoleccion y entrega migrado a DataTable de Next Dashboard

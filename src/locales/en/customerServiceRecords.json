@@ -386,5 +386,36 @@
       "cancel": "Cancel",
       "save": "Save changes"
     }
+  },
+  "roadmap": {
+    "title": "Service roadmap",
+    "description": "Browse services by period or status.",
+    "views": "Roadmap views",
+    "gantt": "Gantt",
+    "calendar": "Calendar",
+    "list": "List",
+    "kanban": "Kanban",
+    "table": "Table",
+    "week": "Week",
+    "month": "Month",
+    "today": "Today",
+    "previous": "Previous",
+    "next": "Next",
+    "loading": "Loading records...",
+    "empty": "No records in this period.",
+    "retry": "Retry",
+    "customerPeriod": "Customer",
+    "providerPeriod": "Provider",
+    "received": "Received",
+    "delivery": "Estimated delivery",
+    "pageSummary": "Page {{page}} · {{total}} records",
+    "status": {
+      "PENDING": "Pending",
+      "IN_PROGRESS": "In progress",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled"
+    },
+    "service": "Service",
+    "period": "Period"
   }
 }

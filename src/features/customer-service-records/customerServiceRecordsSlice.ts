@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { CustomerServiceRecordsState } from './types';
+import { fetchCustomerServiceRecordTimeline } from './customerServiceRecordsTimelineThunks';
 import {
   createCustomerServiceRecord,
   deleteCustomerServiceRecord,
@@ -20,6 +21,7 @@ import {
 } from './customerServiceRecordsThunks';
 
 const initialState: CustomerServiceRecordsState = {
+  timeline: { items: [], status: 'idle', error: null, key: null, requestId: null },
   list: {
     items: [],
     status: 'idle',
@@ -99,6 +101,9 @@ const customerServiceRecordsSlice = createSlice({
   name: 'customerServiceRecords',
   initialState,
   reducers: {
+    resetCustomerServiceRecordTimeline: (state) => {
+      state.timeline = initialState.timeline;
+    },
     resetCustomerServiceRecordCreateMutation: (state) => {
       state.mutations.createStatus = 'idle';
       state.mutations.error = null;
@@ -135,6 +140,26 @@ const customerServiceRecordsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchCustomerServiceRecordTimeline.pending, (state, action) => {
+        state.timeline.status = 'loading';
+        state.timeline.error = null;
+        state.timeline.items = [];
+        state.timeline.key = `${action.meta.arg.from}:${action.meta.arg.to}:${action.meta.arg.match}`;
+        state.timeline.requestId = action.meta.requestId;
+      })
+      .addCase(fetchCustomerServiceRecordTimeline.fulfilled, (state, action) => {
+        if (state.timeline.requestId !== action.meta.requestId) return;
+        state.timeline.status = 'succeeded';
+        state.timeline.items = action.payload.items;
+        state.timeline.requestId = null;
+      })
+      .addCase(fetchCustomerServiceRecordTimeline.rejected, (state, action) => {
+        if (state.timeline.requestId !== action.meta.requestId) return;
+        state.timeline.status = 'failed';
+        state.timeline.error =
+          action.payload ?? action.error.message ?? 'No fue posible obtener el cronograma';
+        state.timeline.requestId = null;
+      })
       .addCase(fetchCustomerServiceRecords.pending, (state) => {
         state.list.status = 'loading';
         state.list.error = null;
@@ -401,6 +426,7 @@ const customerServiceRecordsSlice = createSlice({
   },
 });
 export const {
+  resetCustomerServiceRecordTimeline,
   resetCustomerServiceRecordCreateMutation,
   resetCustomerServiceRecordDetail,
   resetCustomerServiceRecordBillingMutation,

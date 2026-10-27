@@ -386,5 +386,36 @@
       "cancel": "Cancelar",
       "save": "Guardar cambios"
     }
+  },
+  "roadmap": {
+    "title": "Cronograma de servicios",
+    "description": "Consulta los servicios por periodo o estado.",
+    "views": "Vistas del cronograma",
+    "gantt": "Gantt",
+    "calendar": "Calendario",
+    "list": "Lista",
+    "kanban": "Kanban",
+    "table": "Tabla",
+    "week": "Semana",
+    "month": "Mes",
+    "today": "Hoy",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "loading": "Cargando registros...",
+    "empty": "No hay registros en este periodo.",
+    "retry": "Reintentar",
+    "customerPeriod": "Cliente",
+    "providerPeriod": "Proveedor",
+    "received": "Recepción",
+    "delivery": "Entrega estimada",
+    "pageSummary": "Página {{page}} · {{total}} registros",
+    "status": {
+      "PENDING": "Pendiente",
+      "IN_PROGRESS": "En progreso",
+      "COMPLETED": "Completado",
+      "CANCELLED": "Cancelado"
+    },
+    "service": "Servicio",
+    "period": "Tramo"
   }
 }

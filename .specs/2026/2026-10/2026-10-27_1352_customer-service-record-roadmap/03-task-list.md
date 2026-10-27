@@ -7,13 +7,13 @@
 
 ## Implementación
 
-- [ ] Slice 1: integrar vendor de lectura y dependencias. Status: pending.
-- [ ] Slice 2: contrato timeline, estado remoto y coordinación de rango. Status: pending.
-- [ ] Slice 3: nueva ruta con Gantt y Calendario. Status: pending.
-- [ ] Slice 4: Lista, Kanban, Tabla, navegación y traducciones. Status: pending.
-- [ ] Slice 5: verificar código y actualizar documentación viva. Status: pending.
+- [x] Slice 1: integrar vendor de lectura y dependencias. Status: done.
+- [x] Slice 2: contrato timeline, estado remoto y coordinación de rango. Status: done.
+- [x] Slice 3: nueva ruta con Gantt y Calendario. Status: done.
+- [x] Slice 4: Lista, Kanban, Tabla, navegación y traducciones. Status: done.
+- [x] Slice 5: verificar código y actualizar documentación viva. Status: done.
 
 ## Validación y cierre
 
-- [ ] Usuario valida la matriz manual. Status: pending.
-- [ ] Auditar spec, documentación e índice y marcar completada. Status: pending.
+- [x] Usuario acepta cerrar la matriz manual; no se confirmó la ejecución individual de cada escenario. Status: done.
+- [x] Auditar spec, documentación e índice y marcar completada. Status: done.

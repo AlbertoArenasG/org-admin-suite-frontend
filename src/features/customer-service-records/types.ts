@@ -310,6 +310,13 @@ export interface CreateCustomerServiceRecordPayload {
 }
 
 export interface CustomerServiceRecordsState {
+  timeline: {
+    items: import('./customerServiceRecordTimelineMapper').TimelineRecord[];
+    status: CustomerServiceRecordRequestStatus;
+    error: string | null;
+    key: string | null;
+    requestId: string | null;
+  };
   list: {
     items: CustomerServiceRecordListItem[];
     status: CustomerServiceRecordRequestStatus;
