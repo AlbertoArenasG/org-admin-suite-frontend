@@ -113,8 +113,8 @@ export function CustomerServiceRecordsRoadmap() {
   const nextPeriodLabel = t(scale === 'week' ? 'roadmap.nextWeek' : 'roadmap.nextMonth');
   return (
     <DashboardTableWorkspace
-      padding={view === 'table' ? 'default' : 'none'}
-      contentClassName={view === 'table' ? 'mx-auto max-w-[1600px]' : undefined}
+      padding="none"
+      contentClassName={view === 'table' ? 'mx-auto max-w-[1656px] px-5 pb-5 sm:px-7' : undefined}
     >
       <div
         className={`flex min-h-0 min-w-0 flex-1 flex-col text-foreground ${view === 'gantt' ? 'overflow-hidden' : 'overflow-visible'}`}

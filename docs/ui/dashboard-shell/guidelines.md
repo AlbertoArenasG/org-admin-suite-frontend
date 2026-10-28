@@ -316,15 +316,21 @@ Scroller` solo establecen la geometría disponible; el viewport de resultados
   controla altura, overflow y overscroll. No se usa por el solo hecho de
   incluir una tabla: una vista donde la tabla comparte protagonismo con
   resumen, métricas, formularios u otras superficies debe adoptar una
-  composición de página normal.
+  composición de página normal. Cuando varias representaciones de la misma
+  colección se alternan en el mismo lugar, se aplica la
+  [receta de espacio de trabajo con varias vistas](../recipes/multi-view-workspace.md):
+  solo la superficie activa recibe scroll.
 - `Document Scroll` es el modo predeterminado en móvil. La ruta participa en el
   scroll natural del documento.
 
 `Workspace Canvas`, `Page Composition` y `Page Content Scroller` no pueden ser
 dueños del scroll vertical al mismo tiempo. `Table Workspace` es una excepción
 formal: ninguno de esos contenedores recibe overflow vertical en escritorio y
-el viewport de resultados de `DataTable` es el único dueño. En móvil, la
-composición vuelve al flujo del documento, sin región interna ni header sticky.
+el viewport de resultados de `DataTable` es el único dueño en una ruta tabular.
+En la receta de varias vistas, ese dueño es la superficie activa: `DataTable` en
+Tabla y el panel de la visualización correspondiente en los otros modos. En
+móvil, la composición vuelve al flujo del documento, sin región interna ni
+header sticky.
 
 En escritorio, el dueño activo debe usar `overscroll-behavior: none` para no
 propagar el rebote vertical u horizontal del trackpad al documento ni revelar
@@ -417,6 +423,8 @@ de una ruta adoptada. Aplica una sola entrada de `opacity` y `y: 16` durante
 Se usa una vez por ruta, alrededor de su tabla, formulario o composición
 principal. No envuelve skeletons, errores, drawers, diálogos ni bloques
 internos, y no se reproduce ante filtros, refetches o cambios locales de modo.
+La receta de varias vistas admite una transición propia al cambiar la superficie
+activa, sin repetir la entrada de la ruta durante una actualización de datos.
 
 ### Móvil
 

@@ -32,6 +32,7 @@ docs/ui/
 │  └─ table-filter-dialog.md
 ├─ recipes/
 │  ├─ resource-form.md
+│  ├─ multi-view-workspace.md
 │  └─ toasts.md
 └─ components/
    ├─ actions-and-buttons.md
@@ -65,6 +66,8 @@ docs/ui/
   adopciones sin introducir presets o componentes nuevos.
 - `recipes/resource-form.md`: recetas reutilizables de composición para
   `ResourceForm*`.
+- `recipes/multi-view-workspace.md`: composición de una colección con varias
+  representaciones alternables y scroll dentro de la superficie activa.
 - `recipes/toasts.md`: recetas de feedback inmediato, promesas y contenido
   expandible con información accionable.
 - `components/`: contratos aprobados de componentes compartidos. Cada archivo
