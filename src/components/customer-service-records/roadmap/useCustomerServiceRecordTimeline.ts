@@ -27,7 +27,7 @@ export function useCustomerServiceRecordTimeline() {
     [dispatch, range.from, range.to, match]
   );
   useEffect(() => {
-    if (view !== 'calendar' && view !== 'gantt') return;
+    if (view !== 'calendar') return;
     const promise = fetch();
     return () => promise.abort();
   }, [fetch, view]);

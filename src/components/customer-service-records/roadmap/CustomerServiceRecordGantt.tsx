@@ -1,5 +1,6 @@
 'use client';
-import { useMemo } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { endOfWeek, startOfWeek } from 'date-fns';
 import Link from 'next/link';
 import {
   GanttFeatureItem,
@@ -29,6 +30,10 @@ type Item = GanttFeature & {
 };
 
 type RecordRow = { id: string; main: Item; provider?: Item };
+type GanttRowEntry =
+  | { kind: 'header'; id: string; name: string; height: 36 }
+  | { kind: 'record'; id: string; row: RecordRow; height: number }
+  | { kind: 'gap'; id: string; height: 16 };
 
 function ProviderBranch({
   parent,
@@ -93,20 +98,41 @@ function ProviderBranch({
 export function CustomerServiceRecordGantt({
   records,
   from,
-  to,
   scale,
+  navigationToken,
+  visibleDate,
+  scrollBounds,
+  onViewportChange,
 }: {
   records: TimelineRecord[];
   from: string;
-  to: string;
   scale: 'week' | 'month';
+  navigationToken: number;
+  visibleDate: Date;
+  scrollBounds?: { from: Date; to: Date };
+  onViewportChange: (viewport: { from: Date; to: Date }) => void;
 }) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const anchorRef = useRef<{ id: string; offset: number } | null>(null);
+  const [verticalViewport, setVerticalViewport] = useState({ top: 0, height: 800 });
+  const handleVerticalViewportChange = useCallback((next: { top: number; height: number }) => {
+    setVerticalViewport((current) =>
+      Math.floor(current.top / 150) === Math.floor(next.top / 150) && current.height === next.height
+        ? current
+        : next
+    );
+  }, []);
   const { t, i18n } = useTranslationHydrated('customerServiceRecords');
   const focusDate = useMemo(() => civilDate(from), [from]);
-  const scrollBounds = useMemo(() => ({ from: civilDate(from), to: civilDate(to) }), [from, to]);
   const highlightedWeek = useMemo(
-    () => (scale === 'week' ? { from: civilDate(from), to: civilDate(to) } : undefined),
-    [from, to, scale]
+    () =>
+      scale === 'week'
+        ? {
+            from: startOfWeek(visibleDate, { weekStartsOn: 1 }),
+            to: endOfWeek(visibleDate, { weekStartsOn: 1 }),
+          }
+        : undefined,
+    [visibleDate, scale]
   );
   const dateFormatter = useMemo(
     () =>
@@ -177,28 +203,122 @@ export function CustomerServiceRecordGantt({
     }
     return [...grouped.values()].sort((a, b) => a.name.localeCompare(b.name));
   }, [records, t]);
+  const layout = useMemo(() => {
+    const offsets = new Map<string, number>();
+    const entries: GanttRowEntry[] = [];
+    const tops: number[] = [];
+    let total = 0;
+    const push = (entry: GanttRowEntry) => {
+      tops.push(total);
+      entries.push(entry);
+      total += entry.height;
+    };
+    groups.forEach((group, index) => {
+      if (index) push({ kind: 'gap', id: `gap-${group.id}`, height: 16 });
+      push({ kind: 'header', id: group.id, name: group.name, height: 36 });
+      for (const row of group.rows) {
+        offsets.set(row.id, 60 + total);
+        push({
+          kind: 'record',
+          id: row.id,
+          row,
+          height: 36 + (row.main.kind === 'customer' && row.provider ? 24 : 0),
+        });
+      }
+    });
+    return { entries, tops, offsets, total };
+  }, [groups]);
+  const window = useMemo(() => {
+    if (!layout.entries.length) return { first: 0, last: -1, top: 0, bottom: 0 };
+    const from = Math.max(0, verticalViewport.top - 60 - 600);
+    const to = verticalViewport.top + verticalViewport.height - 60 + 600;
+    let low = 0;
+    let high = layout.entries.length;
+    while (low < high) {
+      const mid = (low + high) >>> 1;
+      if (layout.tops[mid] + layout.entries[mid].height < from) low = mid + 1;
+      else high = mid;
+    }
+    const first = Math.min(low, layout.entries.length - 1);
+    low = first;
+    high = layout.entries.length;
+    while (low < high) {
+      const mid = (low + high) >>> 1;
+      if (layout.tops[mid] <= to) low = mid + 1;
+      else high = mid;
+    }
+    const last = Math.max(first, low - 1);
+    return {
+      first: Math.max(0, first),
+      last,
+      top: first > 0 ? layout.tops[first] : 0,
+      bottom: last >= 0 ? layout.total - layout.tops[last] - layout.entries[last].height : 0,
+    };
+  }, [layout, verticalViewport]);
+  useLayoutEffect(() => {
+    const frame = frameRef.current;
+    const scroll = frame?.querySelector<HTMLElement>('.gantt');
+    const anchor = anchorRef.current;
+    const newTop = anchor ? layout.offsets.get(anchor.id) : undefined;
+    if (scroll && newTop !== undefined && anchor) {
+      scroll.scrollTop = newTop - anchor.offset;
+      handleVerticalViewportChange({ top: scroll.scrollTop, height: scroll.clientHeight });
+    }
+    anchorRef.current = null;
+    return () => {
+      const currentScroll = frame?.querySelector<HTMLElement>('.gantt');
+      if (!currentScroll) return;
+      const top = currentScroll.getBoundingClientRect().top;
+      const row = Array.from(
+        currentScroll.querySelectorAll<HTMLElement>('[data-gantt-row-id]')
+      ).find((element) => element.getBoundingClientRect().bottom > top + 60);
+      if (row?.dataset.ganttRowId) {
+        anchorRef.current = {
+          id: row.dataset.ganttRowId,
+          offset: row.getBoundingClientRect().top - top,
+        };
+      }
+    };
+  }, [groups, handleVerticalViewportChange, layout]);
+  const visibleEntries = layout.entries.slice(window.first, window.last + 1);
+  const spacer = (height: number) =>
+    height > 0 ? <div aria-hidden="true" style={{ height }} /> : null;
   return (
     <div
+      ref={frameRef}
       role="region"
       className="h-[60dvh] min-h-80 overflow-hidden rounded-md border md:h-full md:min-h-0 md:flex-1"
       aria-label={t('roadmap.gantt')}
     >
       <GanttProvider
-        key={`${from.slice(0, 4)}-${scale}`}
+        key={`${from.slice(0, 4)}-${scale}-${navigationToken}`}
         range="monthly"
         zoom={scale === 'week' ? 500 : 100}
         focusDate={focusDate}
         scrollBounds={scrollBounds}
+        onViewportChange={onViewportChange}
+        onVerticalViewportChange={handleVerticalViewportChange}
         showWeekGuides={scale === 'week'}
         highlightedWeek={highlightedWeek}
         locale={i18n.language.startsWith('es') ? 'es' : 'en'}
       >
         <GanttSidebar itemLabel={t('roadmap.service')} periodLabel={t('roadmap.period')}>
-          {groups.map((group) => (
-            <GanttSidebarGroup key={group.id} name={group.name}>
-              {group.rows.map((row) => (
+          <div>
+            {spacer(window.top)}
+            {visibleEntries.map((entry) => {
+              if (entry.kind === 'gap')
+                return <div key={entry.id} aria-hidden="true" style={{ height: entry.height }} />;
+              if (entry.kind === 'header')
+                return (
+                  <GanttSidebarGroup key={entry.id} name={entry.name}>
+                    {null}
+                  </GanttSidebarGroup>
+                );
+              const { row } = entry;
+              return (
                 <div key={row.id}>
                   <Link
+                    data-gantt-row-id={row.id}
                     href={`/dashboard/customer-service-records/${row.id}`}
                     className="flex h-9 items-center gap-2 truncate px-3 text-xs hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
                   >
@@ -221,16 +341,23 @@ export function CustomerServiceRecordGantt({
                     </Link>
                   )}
                 </div>
-              ))}
-            </GanttSidebarGroup>
-          ))}
+              );
+            })}
+            {spacer(window.bottom)}
+          </div>
         </GanttSidebar>
         <GanttTimeline>
           <GanttHeader />
           <GanttFeatureList>
-            {groups.map((group) => (
-              <GanttFeatureListGroup key={group.id}>
-                {group.rows.map((row) => (
+            <div>
+              {spacer(window.top)}
+              {visibleEntries.map((entry) => {
+                if (entry.kind === 'gap')
+                  return <div key={entry.id} aria-hidden="true" style={{ height: entry.height }} />;
+                if (entry.kind === 'header')
+                  return <GanttFeatureListGroup key={entry.id}>{null}</GanttFeatureListGroup>;
+                const { row } = entry;
+                return (
                   <div key={row.id} className="relative">
                     <Link
                       href={`/dashboard/customer-service-records/${row.id}`}
@@ -284,9 +411,10 @@ export function CustomerServiceRecordGantt({
                       />
                     )}
                   </div>
-                ))}
-              </GanttFeatureListGroup>
-            ))}
+                );
+              })}
+              {spacer(window.bottom)}
+            </div>
           </GanttFeatureList>
           <GanttToday label={t('roadmap.today')} />
         </GanttTimeline>

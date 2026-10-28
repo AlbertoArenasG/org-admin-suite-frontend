@@ -388,7 +388,6 @@
     }
   },
   "roadmap": {
-    "title": "Heijunka",
     "views": "Record views",
     "gantt": "Gantt",
     "calendar": "Calendar",

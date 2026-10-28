@@ -38,6 +38,7 @@ import {
   useContext,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -184,27 +185,17 @@ const getDateByMousePosition = (context: GanttContextProps, mouseX: number) => {
 };
 
 const createInitialTimelineData = (today: Date) => {
-  const data: TimelineData = [];
-
-  data.push(
-    { year: today.getFullYear() - 1, quarters: new Array(4).fill(null) },
-    { year: today.getFullYear(), quarters: new Array(4).fill(null) },
-    { year: today.getFullYear() + 1, quarters: new Array(4).fill(null) }
-  );
-
-  for (const yearObj of data) {
-    yearObj.quarters = new Array(4).fill(null).map((_, quarterIndex) => ({
-      months: new Array(3).fill(null).map((_, monthIndex) => {
-        const month = quarterIndex * 3 + monthIndex;
-        return {
-          days: getDaysInMonth(new Date(yearObj.year, month, 1)),
-        };
-      }),
-    }));
-  }
-
-  return data;
+  return [-1, 0, 1].map((offset) => createTimelineYear(today.getFullYear() + offset));
 };
+
+const createTimelineYear = (year: number): TimelineData[number] => ({
+  year,
+  quarters: Array.from({ length: 4 }, (_, quarterIndex) => ({
+    months: Array.from({ length: 3 }, (_, monthIndex) => ({
+      days: getDaysInMonth(new Date(year, quarterIndex * 3 + monthIndex, 1)),
+    })),
+  })),
+});
 
 const getOffset = (
   date: Date,
@@ -1153,6 +1144,8 @@ export type GanttProviderProps = {
   zoom?: number;
   focusDate?: Date;
   scrollBounds?: { from: Date; to: Date };
+  onViewportChange?: (viewport: { from: Date; to: Date }) => void;
+  onVerticalViewportChange?: (viewport: { top: number; height: number }) => void;
   showWeekGuides?: boolean;
   highlightedWeek?: { from: Date; to: Date };
   onAddItem?: (date: Date) => void;
@@ -1166,6 +1159,8 @@ export const GanttProvider: FC<GanttProviderProps> = ({
   range = 'monthly',
   focusDate,
   scrollBounds,
+  onViewportChange,
+  onVerticalViewportChange,
   showWeekGuides = false,
   highlightedWeek,
   onAddItem,
@@ -1179,6 +1174,8 @@ export const GanttProvider: FC<GanttProviderProps> = ({
   const [, setScrollX] = useGanttScrollX();
   const [sidebarWidth, setSidebarWidth] = useState(0);
   const lastFocusedDate = useRef<number | null>(null);
+  const pendingScrollShift = useRef(0);
+  const extendingTimeline = useRef(false);
 
   useEffect(() => {
     const scrollElement = scrollRef.current;
@@ -1203,6 +1200,17 @@ export const GanttProvider: FC<GanttProviderProps> = ({
   } else if (range === 'quarterly') {
     columnWidth = 100;
   }
+
+  useLayoutEffect(() => {
+    if (!extendingTimeline.current) return;
+    const scrollElement = scrollRef.current;
+    if (scrollElement && pendingScrollShift.current) {
+      scrollElement.scrollLeft += pendingScrollShift.current;
+      setScrollX(scrollElement.scrollLeft);
+    }
+    pendingScrollShift.current = 0;
+    extendingTimeline.current = false;
+  }, [timelineData, setScrollX]);
 
   // Memoize CSS variables to prevent unnecessary re-renders
   const cssVariables = useMemo(
@@ -1257,6 +1265,7 @@ export const GanttProvider: FC<GanttProviderProps> = ({
 
     const updateScroll = () => {
       const { scrollLeft, scrollWidth, clientWidth } = scrollElement;
+      let bounded = scrollLeft;
       if (scrollBounds && timelineData.length) {
         const timelineStart = new Date(timelineData[0].year, 0, 1);
         const geometry = {
@@ -1268,14 +1277,39 @@ export const GanttProvider: FC<GanttProviderProps> = ({
         const end = getOffset(addDays(scrollBounds.to, 1), timelineStart, geometry);
         const visibleWidth = Math.max(0, clientWidth - sidebarWidth);
         const max = Math.max(min, end - visibleWidth);
-        const bounded = Math.min(max, Math.max(min, scrollLeft));
+        bounded = Math.min(max, Math.max(min, scrollLeft));
         if (bounded !== scrollLeft) scrollElement.scrollLeft = bounded;
         setScrollX(bounded);
-        return;
+      } else {
+        setScrollX(scrollLeft);
       }
-      setScrollX(scrollLeft);
 
-      if (scrollLeft === 0) {
+      if (onViewportChange && timelineData.length && range === 'monthly') {
+        const monthWidth = (columnWidth * zoom) / 100;
+        const firstMonth = new Date(timelineData[0].year, 0, 1);
+        const atOffset = (offset: number) => {
+          const monthIndex = Math.floor(offset / monthWidth);
+          const month = addMonths(firstMonth, monthIndex);
+          const days = getDaysInMonth(month);
+          const fraction = (offset - monthIndex * monthWidth) / monthWidth;
+          return new Date(
+            month.getFullYear(),
+            month.getMonth(),
+            Math.min(days, Math.floor(fraction * days) + 1),
+            12
+          );
+        };
+        onViewportChange({
+          from: atOffset(bounded),
+          to: atOffset(bounded + Math.max(0, clientWidth - sidebarWidth)),
+        });
+      }
+      onVerticalViewportChange?.({
+        top: scrollElement.scrollTop,
+        height: scrollElement.clientHeight,
+      });
+
+      if (bounded === 0 && !extendingTimeline.current) {
         // Extend timelineData to the past
         const firstYear = timelineData[0]?.year;
 
@@ -1283,25 +1317,13 @@ export const GanttProvider: FC<GanttProviderProps> = ({
           return;
         }
 
-        const newTimelineData: TimelineData = [...timelineData];
-        newTimelineData.unshift({
-          year: firstYear - 1,
-          quarters: new Array(4).fill(null).map((_, quarterIndex) => ({
-            months: new Array(3).fill(null).map((_, monthIndex) => {
-              const month = quarterIndex * 3 + monthIndex;
-              return {
-                days: getDaysInMonth(new Date(firstYear, month, 1)),
-              };
-            }),
-          })),
-        });
+        const newTimelineData: TimelineData = [createTimelineYear(firstYear - 1), ...timelineData];
+        if (newTimelineData.length > 5) newTimelineData.pop();
 
+        extendingTimeline.current = true;
+        pendingScrollShift.current = (12 * columnWidth * zoom) / 100;
         setTimelineData(newTimelineData);
-
-        // Scroll a bit forward so it's not at the very start
-        scrollElement.scrollLeft = scrollElement.clientWidth;
-        setScrollX(scrollElement.scrollLeft);
-      } else if (scrollLeft + clientWidth >= scrollWidth) {
+      } else if (bounded + clientWidth >= scrollWidth && !extendingTimeline.current) {
         // Extend timelineData to the future
         const lastYear = timelineData.at(-1)?.year;
 
@@ -1309,35 +1331,36 @@ export const GanttProvider: FC<GanttProviderProps> = ({
           return;
         }
 
-        const newTimelineData: TimelineData = [...timelineData];
-        newTimelineData.push({
-          year: lastYear + 1,
-          quarters: new Array(4).fill(null).map((_, quarterIndex) => ({
-            months: new Array(3).fill(null).map((_, monthIndex) => {
-              const month = quarterIndex * 3 + monthIndex;
-              return {
-                days: getDaysInMonth(new Date(lastYear, month, 1)),
-              };
-            }),
-          })),
-        });
+        const newTimelineData: TimelineData = [...timelineData, createTimelineYear(lastYear + 1)];
+        if (newTimelineData.length > 5) {
+          newTimelineData.shift();
+          pendingScrollShift.current = -(12 * columnWidth * zoom) / 100;
+        }
 
+        extendingTimeline.current = true;
         setTimelineData(newTimelineData);
-
-        // Scroll a bit back so it's not at the very end
-        scrollElement.scrollLeft = scrollElement.scrollWidth - scrollElement.clientWidth;
-        setScrollX(scrollElement.scrollLeft);
       }
     };
     const throttledScroll = throttle(updateScroll, 100);
     const handleScroll = scrollBounds ? updateScroll : throttledScroll;
     scrollElement.addEventListener('scroll', handleScroll);
+    updateScroll();
 
     return () => {
       scrollElement.removeEventListener('scroll', handleScroll);
       throttledScroll.cancel();
     };
-  }, [timelineData, setScrollX, scrollBounds, zoom, range, columnWidth, sidebarWidth]);
+  }, [
+    timelineData,
+    setScrollX,
+    scrollBounds,
+    zoom,
+    range,
+    columnWidth,
+    sidebarWidth,
+    onViewportChange,
+    onVerticalViewportChange,
+  ]);
 
   const scrollToFeature = useCallback(
     (feature: GanttFeature) => {

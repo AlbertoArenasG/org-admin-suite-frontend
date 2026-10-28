@@ -310,6 +310,18 @@ export interface CreateCustomerServiceRecordPayload {
 }
 
 export interface CustomerServiceRecordsState {
+  ganttTimeline: {
+    chunks: Record<
+      number,
+      {
+        items: import('./customerServiceRecordTimelineMapper').TimelineRecord[];
+        status: CustomerServiceRecordRequestStatus;
+        error: string | null;
+        requestId: string | null;
+      }
+    >;
+    retainedRange: { first: number; last: number } | null;
+  };
   timeline: {
     items: import('./customerServiceRecordTimelineMapper').TimelineRecord[];
     status: CustomerServiceRecordRequestStatus;

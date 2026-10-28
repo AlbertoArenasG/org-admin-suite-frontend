@@ -1,6 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { CustomerServiceRecordsState } from './types';
-import { fetchCustomerServiceRecordTimeline } from './customerServiceRecordsTimelineThunks';
+import {
+  fetchCustomerServiceRecordTimeline,
+  fetchCustomerServiceRecordGanttChunk,
+} from './customerServiceRecordsTimelineThunks';
 import {
   createCustomerServiceRecord,
   deleteCustomerServiceRecord,
@@ -21,6 +24,7 @@ import {
 } from './customerServiceRecordsThunks';
 
 const initialState: CustomerServiceRecordsState = {
+  ganttTimeline: { chunks: {}, retainedRange: null },
   timeline: { items: [], status: 'idle', error: null, key: null, requestId: null },
   list: {
     items: [],
@@ -101,8 +105,17 @@ const customerServiceRecordsSlice = createSlice({
   name: 'customerServiceRecords',
   initialState,
   reducers: {
+    retainGanttTimelineChunks: (state, action: { payload: { first: number; last: number } }) => {
+      state.ganttTimeline.retainedRange = action.payload;
+      for (const id of Object.keys(state.ganttTimeline.chunks)) {
+        const index = Number(id);
+        if (index < action.payload.first || index > action.payload.last)
+          delete state.ganttTimeline.chunks[index];
+      }
+    },
     resetCustomerServiceRecordTimeline: (state) => {
       state.timeline = initialState.timeline;
+      state.ganttTimeline = initialState.ganttTimeline;
     },
     resetCustomerServiceRecordCreateMutation: (state) => {
       state.mutations.createStatus = 'idle';
@@ -140,6 +153,40 @@ const customerServiceRecordsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchCustomerServiceRecordGanttChunk.pending, (state, action) => {
+        const id = action.meta.arg;
+        state.ganttTimeline.chunks[id] = {
+          items: [],
+          status: 'loading',
+          error: null,
+          requestId: action.meta.requestId,
+        };
+      })
+      .addCase(fetchCustomerServiceRecordGanttChunk.fulfilled, (state, action) => {
+        const id = action.meta.arg;
+        if (state.ganttTimeline.chunks[id]?.requestId !== action.meta.requestId) return;
+        const range = state.ganttTimeline.retainedRange;
+        if (range && (id < range.first || id > range.last)) {
+          delete state.ganttTimeline.chunks[id];
+          return;
+        }
+        state.ganttTimeline.chunks[id] = {
+          items: action.payload.items,
+          status: 'succeeded',
+          error: null,
+          requestId: null,
+        };
+      })
+      .addCase(fetchCustomerServiceRecordGanttChunk.rejected, (state, action) => {
+        const id = action.meta.arg;
+        if (state.ganttTimeline.chunks[id]?.requestId !== action.meta.requestId) return;
+        state.ganttTimeline.chunks[id] = {
+          items: [],
+          status: 'failed',
+          error: action.payload ?? action.error.message ?? 'No fue posible obtener el cronograma',
+          requestId: null,
+        };
+      })
       .addCase(fetchCustomerServiceRecordTimeline.pending, (state, action) => {
         state.timeline.status = 'loading';
         state.timeline.error = null;
@@ -426,6 +473,7 @@ const customerServiceRecordsSlice = createSlice({
   },
 });
 export const {
+  retainGanttTimelineChunks,
   resetCustomerServiceRecordTimeline,
   resetCustomerServiceRecordCreateMutation,
   resetCustomerServiceRecordDetail,
