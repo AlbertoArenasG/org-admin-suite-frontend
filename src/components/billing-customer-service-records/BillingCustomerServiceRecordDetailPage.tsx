@@ -74,7 +74,6 @@ export function BillingCustomerServiceRecordDetailPage() {
     { id: 'general-details', label: t('detail.service.title') },
     { id: 'billing', label: t('detail.billing.title') },
     { id: 'billing-lifecycle', label: t('lifecycle.title') },
-    { id: 'billing-documents', label: t('documents.title') },
     { id: 'billing-archives', label: t('archives.title') },
     { id: 'billing-comments', label: t('comments.title') },
     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
@@ -148,10 +147,6 @@ export function BillingCustomerServiceRecordDetailPage() {
                 canUpdate={can('UPDATE')}
                 record={record}
               />
-              <BillingCustomerServiceRecordDocumentsSection
-                canUpdate={can('UPDATE')}
-                record={record}
-              />
               <BillingCustomerServiceRecordArchivesSection
                 canUpdate={can('UPDATE')}
                 record={record}
@@ -161,6 +156,10 @@ export function BillingCustomerServiceRecordDetailPage() {
                 record={record}
               />
               <BillingCustomerServiceRecordReadOnlySections record={record} />
+              <BillingCustomerServiceRecordDocumentsSection
+                canUpdate={can('UPDATE')}
+                record={record}
+              />
             </CustomerServiceRecordDetailRoute>
           </DashboardContentReveal>
         ) : null}

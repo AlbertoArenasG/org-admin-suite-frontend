@@ -74,11 +74,7 @@
       "deliveredAt": "Entregado al cliente"
     },
     "equipment": {
-      "title": "Equipos",
-      "serialNumber": "Número de serie",
-      "intake": "Condición de recepción",
-      "delivery": "Condición de entrega",
-      "reports": "Reportes"
+      "title": "Equipo"
     },
     "documents": {
       "title": "Documentos",
@@ -130,7 +126,7 @@
     "optionsError": "No fue posible cargar los estados de factura."
   },
   "documents": {
-    "title": "Orden de compra y complementos",
+    "complementsTitle": "Complementos de pago",
     "complement": "Complemento de pago {{number}}",
     "newComplement": "Nuevo complemento de pago",
     "addComplement": "Agregar complemento de pago"

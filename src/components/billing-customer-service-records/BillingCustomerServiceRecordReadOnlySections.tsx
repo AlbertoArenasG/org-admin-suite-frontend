@@ -2,10 +2,11 @@
 
 import { useState, type ReactNode } from 'react';
 
-import { DocumentCollection } from '@/components/documents/DocumentCollection';
+import { DocumentCollectionList } from '@/components/documents/DocumentCollection';
 import { DocumentCollectionReadOnlyItem } from '@/components/documents/DocumentCollectionReadOnlyItem';
-import { FormReadValue } from '@/components/forms';
+import { FormField, FormReadValue } from '@/components/forms';
 import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-form';
+import { FieldGroup } from '@/components/ui/field';
 import type {
   CustomerServiceRecordAttachment,
   CustomerServiceRecordDetail,
@@ -114,6 +115,18 @@ export function BillingCustomerServiceRecordServiceSection({ record }: Props) {
 
 export function BillingCustomerServiceRecordReadOnlySections({ record }: Props) {
   const { t, i18n } = useTranslationHydrated('billingCustomerServiceRecords');
+  const { t: tRecord } = useTranslationHydrated('customerServiceRecords');
+  const asset = record.assets[0];
+  const equipmentFields = asset
+    ? [
+        { label: tRecord('form.labels.assetName'), value: asset.name },
+        { label: tRecord('form.labels.identifier'), value: asset.identifier },
+        { label: tRecord('form.labels.brand'), value: asset.brand },
+        { label: tRecord('form.labels.model'), value: asset.model },
+        { label: tRecord('form.labels.serialNumber'), value: asset.serialNumber },
+        { label: tRecord('form.labels.assetObservations'), value: asset.observations },
+      ]
+    : [];
   return (
     <>
       <ReadFrame id="customer-delivery" title={t('detail.customerDelivery.title')}>
@@ -140,64 +153,41 @@ export function BillingCustomerServiceRecordReadOnlySections({ record }: Props) 
         </ResourceFormSection>
       </ReadFrame>
       <ReadFrame id="equipment" title={t('detail.equipment.title')}>
-        <div className="space-y-5">
-          {record.assets.length ? (
-            record.assets.map((asset) => (
-              <ResourceFormSection
-                key={asset.assetId}
-                surface="bare"
-                title={asset.name || t('detail.unnamedAsset')}
-              >
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <ReadField label={t('detail.identifier')} value={asset.identifier} />
-                  <ReadField label={t('detail.brand')} value={asset.brand} />
-                  <ReadField label={t('detail.model')} value={asset.model} />
-                  <ReadField
-                    label={t('detail.equipment.serialNumber')}
-                    value={asset.serialNumber}
-                  />
-                </div>
-                <div className="divide-y divide-border/70 border-t border-border/70 pt-2">
-                  <BillingReadDocuments
-                    collectionId={`${asset.assetId}-intake`}
-                    files={asset.intakeConditionFiles}
-                    title={t('detail.equipment.intake')}
-                  />
-                  <BillingReadDocuments
-                    collectionId={`${asset.assetId}-delivery`}
-                    files={asset.deliveryConditionFiles}
-                    title={t('detail.equipment.delivery')}
-                  />
-                  <BillingReadDocuments
-                    collectionId={`${asset.assetId}-reports`}
-                    files={asset.reports}
-                    title={t('detail.equipment.reports')}
-                  />
-                </div>
-              </ResourceFormSection>
-            ))
-          ) : (
+        {asset ? (
+          <>
             <ResourceFormSection surface="bare">
-              <FormReadValue>{t('table.noEquipment')}</FormReadValue>
+              <FieldGroup className="md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-7">
+                {equipmentFields.map(({ label, value }) => (
+                  <FormField key={label} label={label} orientation="vertical">
+                    <FormReadValue>{value?.trim() || '—'}</FormReadValue>
+                  </FormField>
+                ))}
+              </FieldGroup>
             </ResourceFormSection>
-          )}
-        </div>
+            <DocumentCollectionList className="border-t border-border/70 pt-2">
+              <BillingReadDocuments
+                collectionId={`${asset.assetId}-intake-condition`}
+                files={asset.intakeConditionFiles}
+                title={tRecord('detail.equipment.documents.intakeCondition')}
+              />
+              <BillingReadDocuments
+                collectionId={`${asset.assetId}-delivery-condition`}
+                files={asset.deliveryConditionFiles}
+                title={tRecord('detail.equipment.documents.deliveryCondition')}
+              />
+              <BillingReadDocuments
+                collectionId={`${asset.assetId}-reports`}
+                files={asset.reports}
+                title={tRecord('detail.equipment.documents.reports')}
+              />
+            </DocumentCollectionList>
+          </>
+        ) : (
+          <ResourceFormSection surface="bare">
+            <FormReadValue>{t('table.noEquipment')}</FormReadValue>
+          </ResourceFormSection>
+        )}
       </ReadFrame>
-      <section className="scroll-mt-24 md:scroll-mt-5" id="documents" tabIndex={-1}>
-        <DocumentCollection title={t('detail.documents.title')}>
-          <BillingReadDocuments
-            collectionId="billing-quotation"
-            files={record.quotation.files}
-            referenceNumber={record.quotation.referenceNumber}
-            title={t('detail.documents.quotation')}
-          />
-          <BillingReadDocuments
-            collectionId="billing-other-files"
-            files={record.otherFiles}
-            title={t('detail.documents.otherFiles')}
-          />
-        </DocumentCollection>
-      </section>
     </>
   );
 }

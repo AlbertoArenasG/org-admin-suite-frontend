@@ -9,6 +9,7 @@ import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-fo
 import type { BillingCustomerServiceRecord } from '@/features/billing-customer-service-records';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { useBillingCustomerServiceRecordInvoiceWorkflow } from './useBillingCustomerServiceRecordInvoiceWorkflow';
+import { BillingCustomerServiceRecordPaymentComplements } from './BillingCustomerServiceRecordPaymentComplements';
 
 type Props = { canUpdate: boolean; record: BillingCustomerServiceRecord };
 
@@ -87,6 +88,7 @@ export function BillingCustomerServiceRecordInvoiceSection({ canUpdate, record }
             title={t('detail.billing.invoice')}
           />
         </DocumentCollectionList>
+        <BillingCustomerServiceRecordPaymentComplements canUpdate={canUpdate} record={record} />
       </ResourceFormFrame>
     </section>
   );

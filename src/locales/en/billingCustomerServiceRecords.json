@@ -74,11 +74,7 @@
       "deliveredAt": "Delivered to customer"
     },
     "equipment": {
-      "title": "Equipment",
-      "serialNumber": "Serial number",
-      "intake": "Intake condition",
-      "delivery": "Delivery condition",
-      "reports": "Reports"
+      "title": "Equipment"
     },
     "documents": {
       "title": "Documents",
@@ -130,7 +126,7 @@
     "optionsError": "Invoice statuses could not be loaded."
   },
   "documents": {
-    "title": "Purchase order and payment complements",
+    "complementsTitle": "Payment complements",
     "complement": "Payment complement {{number}}",
     "newComplement": "New payment complement",
     "addComplement": "Add payment complement"
