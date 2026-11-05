@@ -200,9 +200,9 @@ export const fetchCustomerServiceRecordBillingStatusOptions = createAsyncThunk<
 
 export const submitCustomerServiceRecordToBilling = createAsyncThunk<
   { record: CustomerServiceRecordDetail; message: string | null },
-  { recordId: string },
+  { recordId: string; billingInstructions?: string | null },
   { state: RootState; rejectValue: CustomerServiceRecordBillingMutationError }
->('customerServiceRecords/submitToBilling', async ({ recordId }, thunkAPI) => {
+>('customerServiceRecords/submitToBilling', async ({ recordId, billingInstructions }, thunkAPI) => {
   const token = getAuthToken(thunkAPI.getState());
   if (!token) {
     return thunkAPI.rejectWithValue({ message: 'No hay token de autenticación', status: 401 });
@@ -214,7 +214,12 @@ export const submitCustomerServiceRecordToBilling = createAsyncThunk<
       {
         method: 'PATCH',
         headers: { Accept: 'application/json' },
-        body: { billing_status: 'SUBMITTED' },
+        body: {
+          billing_status: 'SUBMITTED',
+          ...(billingInstructions === undefined
+            ? {}
+            : { billing_instructions: billingInstructions }),
+        },
         token,
       }
     );
@@ -229,6 +234,39 @@ export const submitCustomerServiceRecordToBilling = createAsyncThunk<
     });
   }
 });
+
+export const updateCustomerServiceRecordBillingInstructions = createAsyncThunk<
+  { record: CustomerServiceRecordDetail; message: string | null },
+  { recordId: string; billingInstructions: string | null },
+  { state: RootState; rejectValue: CustomerServiceRecordBillingMutationError }
+>(
+  'customerServiceRecords/updateBillingInstructions',
+  async ({ recordId, billingInstructions }, thunkAPI) => {
+    const token = getAuthToken(thunkAPI.getState());
+    if (!token)
+      return thunkAPI.rejectWithValue({ message: 'No hay token de autenticación', status: 401 });
+    try {
+      const response = await jsonRequest<ApiCustomerServiceRecordDetail>(
+        `/v1/customer-service-records/${recordId}/billing-instructions`,
+        {
+          method: 'PATCH',
+          headers: { Accept: 'application/json' },
+          body: { billing_instructions: billingInstructions },
+          token,
+        }
+      );
+      return {
+        record: mapCustomerServiceRecordDetail(response.data),
+        message: response.successMessage,
+      };
+    } catch (error) {
+      return thunkAPI.rejectWithValue({
+        message: error instanceof Error ? error.message : 'No fue posible guardar las indicaciones',
+        status: error instanceof ApiError ? error.status : null,
+      });
+    }
+  }
+);
 
 export const fetchCustomerServiceRecordOptions = createAsyncThunk<
   { serviceTypes: CustomerServiceRecordOption[]; providers: CustomerServiceRecordOption[] },

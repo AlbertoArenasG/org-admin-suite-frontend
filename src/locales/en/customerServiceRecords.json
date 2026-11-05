@@ -145,6 +145,9 @@
       "confirm": "Send",
       "cancel": "Cancel",
       "loading": "Sending...",
+      "instructions": "Instructions for billing",
+      "instructionsHint": "You can add instructions for the billing team.",
+      "loadInstructionsError": "Current instructions could not be loaded. Close and reopen to retry.",
       "success": "Record sent to billing.",
       "error": "Could not send the record to billing. Check its status before trying again.",
       "mailFailure": "The email could not be sent and the record status did not change. You can try again.",
@@ -154,7 +157,12 @@
     "section": {
       "title": "Billing",
       "status": "Billing status",
-      "notification": "Email notice"
+      "notification": "Email notice",
+      "instructions": "Instructions for billing",
+      "editInstructions": "Edit",
+      "saveInstructions": "Save",
+      "cancelInstructions": "Cancel",
+      "instructionsError": "Instructions could not be saved."
     },
     "invoice": {
       "fileRequired": "An invoiced record must keep at least one invoice file.",

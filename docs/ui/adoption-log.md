@@ -58,6 +58,22 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-11-05 - Ciclo de facturación de registros de servicio
+
+- Alcance: detalle y lista de `/dashboard/billing/customer-service-records`, y
+  envío a facturación en `/dashboard/customer-service-records`.
+- Adopción: `DashboardViewAccessBoundary` y `useDashboardViewAccess` conservan
+  la separación READ/UPDATE. Los nuevos datos del ciclo se presentan mediante
+  `ResourceFormFrame` y `ResourceFormSection`; orden de compra, complementos y
+  snapshots utilizan la composición documental existente. El diálogo de envío
+  especializado incorpora las indicaciones y las precarga desde el detalle.
+  Redux conserva recursos remotos, opciones, historial y comentarios; React
+  mantiene borradores y confirmaciones de cada sección. No cambia el contrato
+  de `Dialog`, `DataTable` ni `CustomerServiceRecordDocumentForm`.
+- Spec: `customer-service-record-billing-lifecycle-frontend`.
+- Compatibilidad temporal: los comentarios externos quedan visibles solo en
+  facturación; el portal cliente conserva su contrato actual.
+
 ### 2026-10-27 - Cronograma de Registros de Servicio
 
 - Alcance: cinco vistas en la ruta principal `/dashboard/customer-service-records`; la ruta anterior `/roadmap` redirige a la principal.

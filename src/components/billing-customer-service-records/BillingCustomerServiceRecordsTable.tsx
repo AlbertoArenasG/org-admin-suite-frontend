@@ -16,7 +16,7 @@ type Props = {
 };
 
 export function BillingCustomerServiceRecordsTable({ controller, rowActions }: Props) {
-  const { t } = useTranslationHydrated('billingCustomerServiceRecords');
+  const { t, i18n } = useTranslationHydrated('billingCustomerServiceRecords');
   const {
     list,
     options,
@@ -45,8 +45,12 @@ export function BillingCustomerServiceRecordsTable({ controller, rowActions }: P
         customer: t('table.columns.customer'),
         serviceAndAssets: t('table.columns.serviceAndAssets'),
         billingStatus: t('table.columns.billingStatus'),
+        invoiceStatus: t('table.columns.invoiceStatus'),
+        estimatedPaymentAt: t('table.columns.estimatedPaymentAt'),
+        empty: '—',
+        locale: i18n.language,
       }),
-    [t]
+    [t, i18n.language]
   );
 
   return (

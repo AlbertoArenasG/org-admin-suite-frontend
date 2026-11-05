@@ -7,6 +7,7 @@ import { DocumentCollectionList } from '@/components/documents/DocumentCollectio
 import { FormReadValue } from '@/components/forms';
 import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-form';
 import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import type {
   CustomerServiceRecordDetail,
   CustomerServiceRecordDocumentType,
@@ -21,6 +22,7 @@ type Props = {
   record: CustomerServiceRecordDetail;
   canUpdate: boolean;
   onSend: () => void;
+  onSaveInstructions: (instructions: string | null) => Promise<void>;
   onSubmit: (input: {
     documentType: CustomerServiceRecordDocumentType;
     items: CustomerServiceRecordDocumentSubmissionItem[];
@@ -32,10 +34,15 @@ export function CustomerServiceRecordBillingSection({
   record,
   canUpdate,
   onSend,
+  onSaveInstructions,
   onSubmit,
 }: Props) {
   const { t, i18n } = useTranslationHydrated('customerServiceRecords');
   const [invoiceExpanded, setInvoiceExpanded] = useState(false);
+  const [editingInstructions, setEditingInstructions] = useState(false);
+  const [instructions, setInstructions] = useState(record.billingInstructions ?? '');
+  const [instructionsPending, setInstructionsPending] = useState(false);
+  const [instructionsError, setInstructionsError] = useState<string | null>(null);
   const notification = record.billingNotification;
   const noticeAt = notification.sentAt ?? notification.attemptedAt;
   const noticeDate = noticeAt
@@ -57,6 +64,21 @@ export function CustomerServiceRecordBillingSection({
       message: result.message,
       referenceNumber: result.record.invoice.referenceNumber,
     };
+  };
+
+  const saveInstructions = async () => {
+    setInstructionsPending(true);
+    setInstructionsError(null);
+    try {
+      await onSaveInstructions(instructions.trim() || null);
+      setEditingInstructions(false);
+    } catch (error) {
+      setInstructionsError(
+        error instanceof Error ? error.message : t('billing.section.instructionsError')
+      );
+    } finally {
+      setInstructionsPending(false);
+    }
   };
 
   return (
@@ -94,6 +116,68 @@ export function CustomerServiceRecordBillingSection({
               {noticeDate ? <span className="text-muted-foreground"> · {noticeDate}</span> : null}
             </FormReadValue>
           </div>
+        </div>
+        <div className="mt-4 space-y-2">
+          <p className="text-sm font-medium text-muted-foreground">
+            {t('billing.section.instructions')}
+          </p>
+          {editingInstructions ? (
+            <div className="space-y-2">
+              <Textarea
+                value={instructions}
+                onChange={(event) => setInstructions(event.target.value)}
+                maxLength={5000}
+                rows={4}
+                disabled={instructionsPending}
+                aria-label={t('billing.section.instructions')}
+              />
+              {instructionsError ? (
+                <p role="alert" className="text-sm text-destructive">
+                  {instructionsError}
+                </p>
+              ) : null}
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  type="button"
+                  loading={instructionsPending}
+                  onClick={() => void saveInstructions()}
+                >
+                  {t('billing.section.saveInstructions')}
+                </Button>
+                <Button
+                  size="sm"
+                  type="button"
+                  variant="outline"
+                  disabled={instructionsPending}
+                  onClick={() => {
+                    setInstructions(record.billingInstructions ?? '');
+                    setEditingInstructions(false);
+                    setInstructionsError(null);
+                  }}
+                >
+                  {t('billing.section.cancelInstructions')}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-start justify-between gap-2">
+              <FormReadValue>{record.billingInstructions || '—'}</FormReadValue>
+              {canUpdate ? (
+                <Button
+                  size="sm"
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setInstructions(record.billingInstructions ?? '');
+                    setEditingInstructions(true);
+                  }}
+                >
+                  {t('billing.section.editInstructions')}
+                </Button>
+              ) : null}
+            </div>
+          )}
         </div>
       </ResourceFormSection>
       <DocumentCollectionList className="border-t border-border/70 pt-2">

@@ -52,6 +52,16 @@ export type ApiCustomerServiceRecordDetail = {
   operational_status: ApiLocalizedValue;
   billing_status: ApiLocalizedValue;
   billing_notification: ApiBillingNotification;
+  billing_instructions?: string | null;
+  billing?: {
+    instructions: string | null;
+    invoice_status: ApiLocalizedValue | null;
+    issued_at: string | null;
+    delivered_at: string | null;
+    payment_term: CustomerServiceRecordInterval | null;
+    estimated_payment_at: string | null;
+    paid_at: string | null;
+  };
   customer: {
     customer_id: string;
     name: string;
@@ -97,7 +107,15 @@ export type ApiCustomerServiceRecordDetail = {
   attachments_count: number;
   quotation: { reference_number: string | null; files: ApiAttachment[] };
   purchase_order: { reference_number: string | null; files: ApiAttachment[] };
-  invoice: { reference_number: string | null; files: ApiAttachment[] };
+  invoice: {
+    reference_number: string | null;
+    files: ApiAttachment[];
+    payment_complements?: Array<{
+      complement_id: string;
+      reference_number: string | null;
+      files: ApiAttachment[];
+    }>;
+  };
   other_files: ApiAttachment[];
   created_at: string | null;
   updated_at: string | null;
@@ -129,6 +147,8 @@ export type ApiCustomerServiceRecordListItem = {
   operational_status: ApiLocalizedValue;
   billing_status: ApiLocalizedValue;
   billing_notification: ApiBillingNotification;
+  invoice_status?: ApiLocalizedValue | null;
+  estimated_payment_at?: string | null;
   customer_delivery: {
     received_at: string | null;
     estimated_delivery_at: string | null;
@@ -215,6 +235,20 @@ export function mapCustomerServiceRecordDetail(
     },
     billingStatus: mapBillingStatus(value.billing_status),
     billingNotification: mapBillingNotification(value.billing_notification),
+    billingInstructions: value.billing?.instructions ?? value.billing_instructions ?? null,
+    billing: value.billing
+      ? {
+          instructions: value.billing.instructions,
+          invoiceStatus: value.billing.invoice_status
+            ? mapLocalizedValue(value.billing.invoice_status)
+            : null,
+          issuedAt: value.billing.issued_at,
+          deliveredAt: value.billing.delivered_at,
+          paymentTerm: value.billing.payment_term,
+          estimatedPaymentAt: value.billing.estimated_payment_at,
+          paidAt: value.billing.paid_at,
+        }
+      : undefined,
     customer: {
       customerId: value.customer.customer_id,
       name: value.customer.name,
@@ -275,6 +309,11 @@ export function mapCustomerServiceRecordDetail(
     invoice: {
       referenceNumber: value.invoice.reference_number,
       files: value.invoice.files.map(mapAttachment),
+      paymentComplements: (value.invoice.payment_complements ?? []).map((item) => ({
+        complementId: item.complement_id,
+        referenceNumber: item.reference_number,
+        files: item.files.map(mapAttachment),
+      })),
     },
     otherFiles: value.other_files.map(mapAttachment),
     createdAt: value.created_at,
@@ -312,6 +351,8 @@ export function mapCustomerServiceRecordListItem(
     },
     billingStatus: mapBillingStatus(value.billing_status),
     billingNotification: mapBillingNotification(value.billing_notification),
+    invoiceStatus: value.invoice_status ? mapLocalizedValue(value.invoice_status) : null,
+    estimatedPaymentAt: value.estimated_payment_at ?? null,
     customerDelivery: {
       receivedAt: value.customer_delivery.received_at,
       estimatedDeliveryAt: value.customer_delivery.estimated_delivery_at,

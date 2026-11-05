@@ -41,7 +41,7 @@ function ReadFrame({ id, title, children }: { id: string; title: string; childre
   );
 }
 
-function ReadDocuments({
+export function BillingReadDocuments({
   collectionId,
   files,
   title,
@@ -158,17 +158,17 @@ export function BillingCustomerServiceRecordReadOnlySections({ record }: Props) 
                   />
                 </div>
                 <div className="divide-y divide-border/70 border-t border-border/70 pt-2">
-                  <ReadDocuments
+                  <BillingReadDocuments
                     collectionId={`${asset.assetId}-intake`}
                     files={asset.intakeConditionFiles}
                     title={t('detail.equipment.intake')}
                   />
-                  <ReadDocuments
+                  <BillingReadDocuments
                     collectionId={`${asset.assetId}-delivery`}
                     files={asset.deliveryConditionFiles}
                     title={t('detail.equipment.delivery')}
                   />
-                  <ReadDocuments
+                  <BillingReadDocuments
                     collectionId={`${asset.assetId}-reports`}
                     files={asset.reports}
                     title={t('detail.equipment.reports')}
@@ -185,19 +185,13 @@ export function BillingCustomerServiceRecordReadOnlySections({ record }: Props) 
       </ReadFrame>
       <section className="scroll-mt-24 md:scroll-mt-5" id="documents" tabIndex={-1}>
         <DocumentCollection title={t('detail.documents.title')}>
-          <ReadDocuments
+          <BillingReadDocuments
             collectionId="billing-quotation"
             files={record.quotation.files}
             referenceNumber={record.quotation.referenceNumber}
             title={t('detail.documents.quotation')}
           />
-          <ReadDocuments
-            collectionId="billing-purchase-order"
-            files={record.purchaseOrder.files}
-            referenceNumber={record.purchaseOrder.referenceNumber}
-            title={t('detail.documents.purchaseOrder')}
-          />
-          <ReadDocuments
+          <BillingReadDocuments
             collectionId="billing-other-files"
             files={record.otherFiles}
             title={t('detail.documents.otherFiles')}

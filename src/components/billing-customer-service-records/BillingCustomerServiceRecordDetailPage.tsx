@@ -22,6 +22,10 @@ import { useAppDispatch } from '@/hooks/useAppDispatch';
 import { useAppSelector } from '@/hooks/useAppSelector';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { BillingCustomerServiceRecordInvoiceSection } from './BillingCustomerServiceRecordInvoiceSection';
+import { BillingCustomerServiceRecordLifecycleSection } from './BillingCustomerServiceRecordLifecycleSection';
+import { BillingCustomerServiceRecordDocumentsSection } from './BillingCustomerServiceRecordDocumentsSection';
+import { BillingCustomerServiceRecordArchivesSection } from './BillingCustomerServiceRecordArchivesSection';
+import { BillingCustomerServiceRecordCommentsSection } from './BillingCustomerServiceRecordCommentsSection';
 import {
   BillingCustomerServiceRecordReadOnlySections,
   BillingCustomerServiceRecordServiceSection,
@@ -69,6 +73,10 @@ export function BillingCustomerServiceRecordDetailPage() {
   const navigationItems = [
     { id: 'general-details', label: t('detail.service.title') },
     { id: 'billing', label: t('detail.billing.title') },
+    { id: 'billing-lifecycle', label: t('lifecycle.title') },
+    { id: 'billing-documents', label: t('documents.title') },
+    { id: 'billing-archives', label: t('archives.title') },
+    { id: 'billing-comments', label: t('comments.title') },
     { id: 'customer-delivery', label: t('detail.customerDelivery.title') },
     { id: 'equipment', label: t('detail.equipment.title') },
     { id: 'documents', label: t('detail.documents.title') },
@@ -133,6 +141,22 @@ export function BillingCustomerServiceRecordDetailPage() {
             >
               <BillingCustomerServiceRecordServiceSection record={record} />
               <BillingCustomerServiceRecordInvoiceSection
+                canUpdate={can('UPDATE')}
+                record={record}
+              />
+              <BillingCustomerServiceRecordLifecycleSection
+                canUpdate={can('UPDATE')}
+                record={record}
+              />
+              <BillingCustomerServiceRecordDocumentsSection
+                canUpdate={can('UPDATE')}
+                record={record}
+              />
+              <BillingCustomerServiceRecordArchivesSection
+                canUpdate={can('UPDATE')}
+                record={record}
+              />
+              <BillingCustomerServiceRecordCommentsSection
                 canUpdate={can('UPDATE')}
                 record={record}
               />

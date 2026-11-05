@@ -10,6 +10,10 @@ type Labels = {
   customer: string;
   serviceAndAssets: string;
   billingStatus: string;
+  invoiceStatus: string;
+  estimatedPaymentAt: string;
+  empty: string;
+  locale: string;
 };
 
 export function createBillingCustomerServiceRecordsColumns(
@@ -53,6 +57,36 @@ export function createBillingCustomerServiceRecordsColumns(
       accessor: (row) => row.billingStatus.name,
       cell: (row) => <BadgeCell label={row.billingStatus.name} variant="outline" />,
       width: { initial: 168, min: 152, max: 260, resizable: true },
+    },
+    {
+      id: 'invoiceStatus',
+      header: labels.invoiceStatus,
+      ariaLabel: labels.invoiceStatus,
+      accessor: (row) => row.invoiceStatus?.name ?? labels.empty,
+      cell: (row) =>
+        row.invoiceStatus ? (
+          <BadgeCell label={row.invoiceStatus.name} variant="outline" />
+        ) : (
+          <span className="text-muted-foreground">{labels.empty}</span>
+        ),
+      width: { initial: 170, min: 145, max: 240, resizable: true },
+    },
+    {
+      id: 'estimatedPaymentAt',
+      header: labels.estimatedPaymentAt,
+      ariaLabel: labels.estimatedPaymentAt,
+      accessor: (row) => row.estimatedPaymentAt ?? '',
+      cell: (row) => (
+        <span>
+          {row.estimatedPaymentAt
+            ? new Intl.DateTimeFormat(labels.locale, {
+                dateStyle: 'medium',
+                timeZone: 'UTC',
+              }).format(new Date(`${row.estimatedPaymentAt}T12:00:00Z`))
+            : labels.empty}
+        </span>
+      ),
+      width: { initial: 180, min: 155, max: 235, resizable: true },
     },
     {
       id: 'customer',

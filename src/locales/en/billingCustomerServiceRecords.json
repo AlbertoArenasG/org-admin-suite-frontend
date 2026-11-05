@@ -13,7 +13,9 @@
       "customer": "Customer",
       "serviceAndAssets": "Equipment and service",
       "serviceType": "Service type",
-      "billingStatus": "Billing"
+      "billingStatus": "Billing",
+      "invoiceStatus": "Invoice",
+      "estimatedPaymentAt": "Estimated payment"
     },
     "noEquipment": "No equipment",
     "loadingResults": "Loading billing results",
@@ -89,7 +91,8 @@
       "status": "Billing status",
       "notification": "Billing notice",
       "lastNotice": "Last notice",
-      "invoice": "Invoice"
+      "invoice": "Invoice",
+      "instructions": "Billing instructions"
     }
   },
   "invoice": {
@@ -105,5 +108,60 @@
     "invoiceChanged": "The invoice changed on the server after it was saved.",
     "invoiceChangedGuidance": "Review the current invoice before trying to change the status.",
     "savedAfterVerification": "Invoice confirmed after checking the record."
+  },
+  "lifecycle": {
+    "title": "Status and payments",
+    "invoiceStatus": "Invoice status",
+    "issuedAt": "Issued",
+    "deliveredAt": "Invoice delivered",
+    "estimatedPaymentAt": "Estimated payment",
+    "paidAt": "Payment date",
+    "paymentTerm": "Payment term",
+    "years": "years",
+    "months": "months",
+    "weeks": "weeks",
+    "days": "days",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "openCalendar": "Open calendar",
+    "invalidDate": "Invalid date",
+    "saveError": "Billing details could not be saved.",
+    "optionsError": "Invoice statuses could not be loaded."
+  },
+  "documents": {
+    "title": "Purchase order and payment complements",
+    "complement": "Payment complement {{number}}",
+    "newComplement": "New payment complement",
+    "addComplement": "Add payment complement"
+  },
+  "archives": {
+    "title": "Archived invoices",
+    "archive": "Archive current invoice",
+    "loading": "Loading archived invoices...",
+    "error": "The invoice could not be retrieved or archived.",
+    "empty": "No archived invoices.",
+    "revision": "Archived invoice {{number}}",
+    "view": "View files",
+    "previous": "Previous",
+    "next": "Next",
+    "confirmTitle": "Archive current invoice",
+    "confirmDescription": "The invoice, its complements and dates will move to history. The current invoice will be cleared.",
+    "removedFiles": "Removed invoice files",
+    "removedComplementFiles": "Removed files from complement {{number}}"
+  },
+  "comments": {
+    "title": "Billing comments",
+    "text": "Comment",
+    "visibility": "Visibility",
+    "internal": "Internal",
+    "external": "External",
+    "add": "Add comment",
+    "loading": "Loading comments...",
+    "error": "Comments could not be saved or retrieved.",
+    "empty": "No comments.",
+    "previous": "Previous",
+    "next": "Next",
+    "author": "Created by"
   }
 }

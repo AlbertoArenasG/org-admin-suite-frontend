@@ -25,6 +25,7 @@ import {
   updateCustomerServiceRecordAsset,
   updateCustomerServiceRecordProvider,
   updateCustomerServiceRecordDocument,
+  updateCustomerServiceRecordBillingInstructions,
   uploadCustomerServiceRecordFiles,
   type CustomerServiceRecordDetail,
   type CustomerServiceRecordDocumentType,
@@ -277,6 +278,14 @@ export function CustomerServiceRecordDetailPage() {
                     record={detail.record}
                     canUpdate={canUpdate}
                     onSend={() => setBillingSendOpen(true)}
+                    onSaveInstructions={async (billingInstructions) => {
+                      await dispatch(
+                        updateCustomerServiceRecordBillingInstructions({
+                          recordId: params.recordId,
+                          billingInstructions,
+                        })
+                      ).unwrap();
+                    }}
                     onSubmit={updateDocument}
                   />
                 </section>
@@ -382,6 +391,7 @@ export function CustomerServiceRecordDetailPage() {
             ? {
                 id: detail.record.customerServiceRecordId,
                 serviceNumber: detail.record.serviceNumber,
+                billingInstructions: detail.record.billingInstructions,
               }
             : null
         }

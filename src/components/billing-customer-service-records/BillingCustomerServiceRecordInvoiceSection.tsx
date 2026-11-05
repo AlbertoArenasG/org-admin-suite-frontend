@@ -39,6 +39,14 @@ export function BillingCustomerServiceRecordInvoiceSection({ canUpdate, record }
       >
         <ResourceFormSection surface="bare">
           <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-1 sm:col-span-2">
+              <p className="text-sm font-medium text-muted-foreground">
+                {t('detail.billing.instructions')}
+              </p>
+              <FormReadValue>
+                <span className="whitespace-pre-wrap">{record.billingInstructions || '—'}</span>
+              </FormReadValue>
+            </div>
             <div className="space-y-1">
               <p className="text-sm font-medium text-muted-foreground">
                 {t('detail.billing.status')}

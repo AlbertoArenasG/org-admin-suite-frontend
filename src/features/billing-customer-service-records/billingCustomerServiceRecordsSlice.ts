@@ -1,4 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import {
+  archiveBillingInvoice,
+  createBillingPaymentComplement,
+  createBillingRecordComment,
+  fetchBillingInvoiceArchiveDetail,
+  fetchBillingInvoiceArchives,
+  fetchBillingInvoiceStatusOptions,
+  fetchBillingRecordComments,
+  updateBillingInvoiceStatus,
+  updateBillingPaymentComplement,
+  updateBillingPurchaseOrder,
+  updateBillingRecordDetails,
+} from './billingCustomerServiceRecordLifecycleThunks';
 import {
   fetchBillingCustomerServiceRecordDetail,
   fetchBillingCustomerServiceRecordStatusOptions,
@@ -10,6 +23,18 @@ import {
 import type { BillingCustomerServiceRecordsState } from './types';
 
 const initialState: BillingCustomerServiceRecordsState = {
+  invoiceStatusOptions: { items: [], status: 'idle', error: null },
+  archives: {
+    recordId: null,
+    items: [],
+    selected: null,
+    status: 'idle',
+    detailStatus: 'idle',
+    error: null,
+    page: 1,
+    totalPages: 1,
+  },
+  comments: { recordId: null, items: [], status: 'idle', error: null, page: 1, totalPages: 1 },
   list: {
     items: [],
     status: 'idle',
@@ -35,9 +60,15 @@ const billingCustomerServiceRecordsSlice = createSlice({
   name: 'billingCustomerServiceRecords',
   initialState,
   reducers: {
+    clearArchiveSelection: (state) => {
+      state.archives.selected = null;
+      state.archives.detailStatus = 'idle';
+    },
     resetBillingCustomerServiceRecordDetail: (state) => {
       state.detail = initialState.detail;
       state.mutations = initialState.mutations;
+      state.archives = initialState.archives;
+      state.comments = initialState.comments;
     },
     resetBillingCustomerServiceRecords: () => initialState,
   },
@@ -130,10 +161,89 @@ const billingCustomerServiceRecordsSlice = createSlice({
         state.mutations.uploadStatus = 'failed';
         state.mutations.uploadError =
           action.payload ?? action.error.message ?? 'No fue posible subir archivos';
-      });
+      })
+      .addCase(fetchBillingInvoiceStatusOptions.pending, (state) => {
+        state.invoiceStatusOptions.status = 'loading';
+        state.invoiceStatusOptions.error = null;
+      })
+      .addCase(fetchBillingInvoiceStatusOptions.fulfilled, (state, action) => {
+        state.invoiceStatusOptions.status = 'succeeded';
+        state.invoiceStatusOptions.items = action.payload;
+      })
+      .addCase(fetchBillingInvoiceStatusOptions.rejected, (state, action) => {
+        state.invoiceStatusOptions.status = 'failed';
+        state.invoiceStatusOptions.error = action.payload?.message ?? action.error.message ?? null;
+      })
+      .addCase(fetchBillingInvoiceArchives.pending, (state, action) => {
+        state.archives.status = 'loading';
+        state.archives.error = null;
+        if (state.archives.recordId !== action.meta.arg.recordId) {
+          state.archives.items = [];
+          state.archives.selected = null;
+        }
+        state.archives.recordId = action.meta.arg.recordId;
+      })
+      .addCase(fetchBillingInvoiceArchives.fulfilled, (state, action) => {
+        state.archives.status = 'succeeded';
+        Object.assign(state.archives, action.payload);
+      })
+      .addCase(fetchBillingInvoiceArchives.rejected, (state, action) => {
+        state.archives.status = 'failed';
+        state.archives.error = action.payload?.message ?? action.error.message ?? null;
+      })
+      .addCase(fetchBillingInvoiceArchiveDetail.pending, (state) => {
+        state.archives.detailStatus = 'loading';
+        state.archives.error = null;
+        state.archives.selected = null;
+      })
+      .addCase(fetchBillingInvoiceArchiveDetail.fulfilled, (state, action) => {
+        state.archives.detailStatus = 'succeeded';
+        state.archives.selected = action.payload;
+      })
+      .addCase(fetchBillingInvoiceArchiveDetail.rejected, (state, action) => {
+        state.archives.detailStatus = 'failed';
+        state.archives.error = action.payload?.message ?? action.error.message ?? null;
+      })
+      .addCase(fetchBillingRecordComments.pending, (state, action) => {
+        state.comments.status = 'loading';
+        state.comments.error = null;
+        if (state.comments.recordId !== action.meta.arg.recordId) state.comments.items = [];
+        state.comments.recordId = action.meta.arg.recordId;
+      })
+      .addCase(fetchBillingRecordComments.fulfilled, (state, action) => {
+        state.comments.status = 'succeeded';
+        Object.assign(state.comments, action.payload);
+      })
+      .addCase(fetchBillingRecordComments.rejected, (state, action) => {
+        state.comments.status = 'failed';
+        state.comments.error = action.payload?.message ?? action.error.message ?? null;
+      })
+      .addCase(createBillingRecordComment.fulfilled, (state, action) => {
+        if (state.comments.page === 1) state.comments.items.unshift(action.payload);
+      })
+      .addCase(archiveBillingInvoice.fulfilled, (state, action) => {
+        state.detail.record = action.payload.record;
+        state.archives.status = 'idle';
+        state.archives.selected = null;
+      })
+      .addMatcher(
+        isAnyOf(
+          updateBillingRecordDetails.fulfilled,
+          updateBillingInvoiceStatus.fulfilled,
+          updateBillingPurchaseOrder.fulfilled,
+          createBillingPaymentComplement.fulfilled,
+          updateBillingPaymentComplement.fulfilled
+        ),
+        (state, action) => {
+          state.detail.record = action.payload.record;
+        }
+      );
   },
 });
 
-export const { resetBillingCustomerServiceRecordDetail, resetBillingCustomerServiceRecords } =
-  billingCustomerServiceRecordsSlice.actions;
+export const {
+  clearArchiveSelection,
+  resetBillingCustomerServiceRecordDetail,
+  resetBillingCustomerServiceRecords,
+} = billingCustomerServiceRecordsSlice.actions;
 export default billingCustomerServiceRecordsSlice.reducer;

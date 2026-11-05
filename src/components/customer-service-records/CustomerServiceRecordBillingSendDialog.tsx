@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,7 +11,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { showToast } from '@/components/toast';
+import { Textarea } from '@/components/ui/textarea';
 import {
+  fetchCustomerServiceRecordDetail,
   submitCustomerServiceRecordToBilling,
   type CustomerServiceRecordBillingMutationError,
 } from '@/features/customer-service-records';
@@ -20,7 +22,7 @@ import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 
 type Props = {
   open: boolean;
-  record: { id: string; serviceNumber: string } | null;
+  record: { id: string; serviceNumber: string; billingInstructions?: string | null } | null;
   onOpenChange: (open: boolean) => void;
   onRefresh: () => void;
 };
@@ -35,6 +37,42 @@ export function CustomerServiceRecordBillingSendDialog({
   const dispatch = useAppDispatch();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [instructions, setInstructions] = useState('');
+  const [loadingInstructions, setLoadingInstructions] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const recordId = record?.id;
+  const initialInstructions = record?.billingInstructions;
+
+  useEffect(() => {
+    if (!open || !recordId || initialInstructions !== undefined) return;
+    let active = true;
+    void dispatch(fetchCustomerServiceRecordDetail({ recordId }))
+      .unwrap()
+      .then((detail) => {
+        if (active) setInstructions(detail.billingInstructions ?? '');
+      })
+      .catch(() => {
+        if (active) {
+          setLoadFailed(true);
+          setError(t('billing.send.loadInstructionsError'));
+        }
+      })
+      .finally(() => {
+        if (active) setLoadingInstructions(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [dispatch, open, recordId, initialInstructions, t]);
+
+  // A new selection always starts with its own instructions, including an empty value.
+  useEffect(() => {
+    if (!open) return;
+    setInstructions(initialInstructions ?? '');
+    setLoadingInstructions(Boolean(recordId && initialInstructions === undefined));
+    setLoadFailed(false);
+    setError(null);
+  }, [open, recordId, initialInstructions]);
 
   const close = () => {
     if (pending) return;
@@ -48,7 +86,10 @@ export function CustomerServiceRecordBillingSendDialog({
     setError(null);
     try {
       const result = await dispatch(
-        submitCustomerServiceRecordToBilling({ recordId: record.id })
+        submitCustomerServiceRecordToBilling({
+          recordId: record.id,
+          billingInstructions: instructions.trim() || null,
+        })
       ).unwrap();
       showToast({
         duration: 4000,
@@ -95,6 +136,20 @@ export function CustomerServiceRecordBillingSendDialog({
             {t('billing.send.description', { serviceNumber: record?.serviceNumber ?? '' })}
           </DialogDescription>
         </DialogHeader>
+        <div className="space-y-2">
+          <label htmlFor="billing-send-instructions" className="text-sm font-medium">
+            {t('billing.send.instructions')}
+          </label>
+          <Textarea
+            id="billing-send-instructions"
+            value={instructions}
+            onChange={(event) => setInstructions(event.target.value)}
+            disabled={pending || loadingInstructions || loadFailed}
+            rows={4}
+            maxLength={5000}
+          />
+          <p className="text-xs text-muted-foreground">{t('billing.send.instructionsHint')}</p>
+        </div>
         {error ? (
           <p
             role="alert"
@@ -109,6 +164,7 @@ export function CustomerServiceRecordBillingSendDialog({
           </Button>
           <Button
             type="button"
+            disabled={loadingInstructions || loadFailed}
             loading={pending}
             loadingLabel={t('billing.send.loading')}
             onClick={() => void confirm()}

@@ -5,6 +5,13 @@ export type CustomerServiceRecordOperationalStatus =
   | 'CANCELLED';
 export type CustomerServiceRecordBillingStatus = 'NOT_SUBMITTED' | 'SUBMITTED' | 'INVOICED';
 export type CustomerServiceRecordBillingNotificationStatus = 'NOT_REQUESTED' | 'SENT' | 'FAILED';
+export type CustomerServiceRecordInvoiceStatus =
+  | 'PENDING'
+  | 'IN_PROCESS_PAYMENT'
+  | 'PAID'
+  | 'OVERDUE'
+  | 'CANCELLED'
+  | 'REJECTED';
 export type CustomerServiceRecordSortField =
   | 'service_number'
   | 'requested_at'
@@ -90,6 +97,16 @@ export interface CustomerServiceRecordDetail {
     code: CustomerServiceRecordBillingStatus;
   };
   billingNotification: CustomerServiceRecordBillingNotification;
+  billingInstructions: string | null;
+  billing?: {
+    instructions: string | null;
+    invoiceStatus: CustomerServiceRecordLocalizedValue | null;
+    issuedAt: string | null;
+    deliveredAt: string | null;
+    paymentTerm: CustomerServiceRecordInterval | null;
+    estimatedPaymentAt: string | null;
+    paidAt: string | null;
+  };
   customer: {
     customerId: string;
     name: string;
@@ -135,7 +152,15 @@ export interface CustomerServiceRecordDetail {
   attachmentsCount: number;
   quotation: { referenceNumber: string | null; files: CustomerServiceRecordAttachment[] };
   purchaseOrder: { referenceNumber: string | null; files: CustomerServiceRecordAttachment[] };
-  invoice: { referenceNumber: string | null; files: CustomerServiceRecordAttachment[] };
+  invoice: {
+    referenceNumber: string | null;
+    files: CustomerServiceRecordAttachment[];
+    paymentComplements: Array<{
+      complementId: string;
+      referenceNumber: string | null;
+      files: CustomerServiceRecordAttachment[];
+    }>;
+  };
   otherFiles: CustomerServiceRecordAttachment[];
   createdAt: string | null;
   updatedAt: string | null;
@@ -265,6 +290,8 @@ export interface CustomerServiceRecordListItem {
     code: CustomerServiceRecordBillingStatus;
   };
   billingNotification: CustomerServiceRecordBillingNotification;
+  invoiceStatus: CustomerServiceRecordLocalizedValue | null;
+  estimatedPaymentAt: string | null;
   customerDelivery: {
     receivedAt: string | null;
     estimatedDeliveryAt: string | null;

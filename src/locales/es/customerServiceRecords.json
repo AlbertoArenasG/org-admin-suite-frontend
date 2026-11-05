@@ -145,6 +145,9 @@
       "confirm": "Enviar",
       "cancel": "Cancelar",
       "loading": "Enviando...",
+      "instructions": "Indicaciones para facturación",
+      "instructionsHint": "Puedes añadir indicaciones para el equipo de facturación.",
+      "loadInstructionsError": "No se pudieron cargar las indicaciones vigentes. Cierra y vuelve a abrir para reintentar.",
       "success": "Registro enviado a facturación.",
       "error": "No se pudo enviar el registro a facturación. Verifica el estado antes de reintentarlo.",
       "mailFailure": "Falló el envío del correo y el registro no cambió de estado. Puedes reintentarlo.",
@@ -154,7 +157,12 @@
     "section": {
       "title": "Facturación",
       "status": "Estado de facturación",
-      "notification": "Aviso por correo"
+      "notification": "Aviso por correo",
+      "instructions": "Indicaciones para facturación",
+      "editInstructions": "Editar",
+      "saveInstructions": "Guardar",
+      "cancelInstructions": "Cancelar",
+      "instructionsError": "No fue posible guardar las indicaciones."
     },
     "invoice": {
       "fileRequired": "Un registro facturado debe conservar al menos un archivo de factura.",

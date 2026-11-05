@@ -15,6 +15,7 @@ import {
   fetchCustomerServiceRecordBillingStatusOptions,
   fetchCustomerServiceRecords,
   submitCustomerServiceRecordToBilling,
+  updateCustomerServiceRecordBillingInstructions,
   updateCustomerServiceRecordDetails,
   updateCustomerServiceRecordCustomerDelivery,
   updateCustomerServiceRecordAsset,
@@ -283,6 +284,14 @@ const customerServiceRecordsSlice = createSlice({
         state.mutations.updateBillingError =
           action.payload?.message ?? action.error.message ?? 'No fue posible enviar a facturación';
         state.mutations.updateBillingErrorStatus = action.payload?.status ?? null;
+      })
+      .addCase(updateCustomerServiceRecordBillingInstructions.fulfilled, (state, action) => {
+        if (
+          state.detail.record?.customerServiceRecordId ===
+          action.payload.record.customerServiceRecordId
+        ) {
+          state.detail.record = action.payload.record;
+        }
       })
       .addCase(fetchCustomerServiceRecordDetail.pending, (state, action) => {
         state.detail.status = 'loading';
