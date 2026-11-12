@@ -4,6 +4,7 @@ export type ServicePackageRecordRequestStatus = 'idle' | 'loading' | 'succeeded'
 
 export interface ServicePackageRecordListItem {
   id: string;
+  convertedToCustomerServiceRecords: boolean;
   serviceOrder: string;
   serviceType: string | null;
   company: string | null;
@@ -58,6 +59,7 @@ export interface ServicePackageRecordDetails {
 
 export interface ServicePackageRecordDetail {
   id: string;
+  convertedToCustomerServiceRecords: boolean;
   packageId: string;
   serviceOrder: string;
   originalFilename: string | null;

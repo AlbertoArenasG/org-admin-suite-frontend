@@ -47,6 +47,7 @@ export function DataTableRowActions<T extends RowData>({
           <DropdownMenuItem
             key={action.id}
             variant={action.variant}
+            disabled={action.disabled}
             onSelect={() => action.onSelect(row)}
           >
             {action.icon}

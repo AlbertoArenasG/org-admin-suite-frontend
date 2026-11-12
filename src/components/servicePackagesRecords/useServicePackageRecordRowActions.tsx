@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Eye, Trash2 } from 'lucide-react';
+import { Eye, RefreshCw, Trash2 } from 'lucide-react';
 
 import { type DataTableRowAction, type DataTableRowActions } from '@/components/data-table';
 import { useDashboardViewAccess } from '@/components/dashboard-shell';
@@ -33,6 +33,7 @@ export function useServicePackageRecordRowActions({
     useState<ServicePackageRecordListItem | null>(null);
   const canRead = can('READ');
   const canDelete = can('DELETE');
+  const canConvert = can('CONVERT');
 
   useEffect(() => {
     if (!recordPendingDeletion || mutations.currentRecordId !== recordPendingDeletion.id) {
@@ -76,6 +77,16 @@ export function useServicePackageRecordRowActions({
           },
         ];
 
+        if (canConvert) {
+          actions.push({
+            id: 'convert',
+            label: t('conversion.action'),
+            icon: <RefreshCw />,
+            disabled: row.convertedToCustomerServiceRecords,
+            onSelect: () => router.push(`${recordUrl}/convert`),
+          });
+        }
+
         if (canDelete) {
           actions.push({
             id: 'delete',
@@ -89,7 +100,7 @@ export function useServicePackageRecordRowActions({
         return actions;
       },
     }),
-    [canDelete, canRead, router, t]
+    [canConvert, canDelete, canRead, router, t]
   );
 
   return {

@@ -8,6 +8,7 @@ import type {
 
 export type ApiServicePackageRecordDetail = {
   record_id: string;
+  converted_to_customer_service_records: boolean;
   package_id: string;
   service_order: string | null;
   original_filename: string | null;
@@ -31,6 +32,7 @@ export type ApiServicePackageRecordDetail = {
 export type ApiServicePackageRecordListItem = Pick<
   ApiServicePackageRecordDetail,
   | 'record_id'
+  | 'converted_to_customer_service_records'
   | 'service_order'
   | 'service_type'
   | 'company'
@@ -150,6 +152,7 @@ export function mapServicePackageRecordListItem(
 ): ServicePackageRecordListItem {
   return {
     id: value.record_id,
+    convertedToCustomerServiceRecords: Boolean(value.converted_to_customer_service_records),
     serviceOrder: toNullableString(value.service_order) ?? '',
     serviceType: toNullableString(value.service_type),
     company: toNullableString(value.company),
@@ -164,6 +167,7 @@ export function mapServicePackageRecordDetail(
 ): ServicePackageRecordDetail {
   return {
     id: value.record_id,
+    convertedToCustomerServiceRecords: Boolean(value.converted_to_customer_service_records),
     packageId: value.package_id,
     serviceOrder: value.service_order ?? '',
     originalFilename: value.original_filename,

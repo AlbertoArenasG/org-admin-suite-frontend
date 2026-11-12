@@ -30,6 +30,7 @@ export function DataTableRowContextMenu<T extends RowData>({
           <ContextMenuItem
             key={action.id}
             variant={action.variant}
+            disabled={action.disabled}
             onSelect={() => action.onSelect(row)}
           >
             {action.icon}

@@ -58,6 +58,20 @@ Las futuras entradas deben incluir:
 
 ## Vistas De Negocio
 
+### 2026-11-11 - Conversión de recolección a servicios a clientes
+
+- Alcance: `/dashboard/service-packages-records/[recordId]/convert` y acción por
+  fila en la tabla de recolecciones.
+- Adopción: ruta de Next Dashboard con acceso `READ` y `CONVERT`, `Stepper`,
+  `ResourceFormFrame` y campos compartidos. El origen se muestra junto al
+  formulario en escritorio y antes de él en móvil. Cada equipo selecciona sus
+  fotos de manera independiente; Redux administra opciones y conversión remota.
+- Contrato compartido: `DataTableRowAction.disabled` es opcional y permite
+  mostrar como no disponible la conversión de un origen ya utilizado sin
+  alterar las acciones existentes.
+- Spec: `service-package-record-conversion-frontend`.
+- Compatibilidad temporal: ninguna.
+
 ### 2026-11-05 - Ciclo de facturación de registros de servicio
 
 - Alcance: detalle y lista de `/dashboard/billing/customer-service-records`, y

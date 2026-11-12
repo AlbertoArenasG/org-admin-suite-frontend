@@ -39,6 +39,7 @@ export type DataTableRowAction<T extends RowData> = {
   icon?: ReactNode;
   variant?: 'default' | 'destructive';
   isPrimary?: boolean;
+  disabled?: boolean;
   onSelect: (row: T) => void;
 };
 

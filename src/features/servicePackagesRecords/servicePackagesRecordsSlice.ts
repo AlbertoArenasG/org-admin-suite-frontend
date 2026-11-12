@@ -10,6 +10,14 @@ import type {
 } from '@/features/servicePackagesRecords/types';
 import type { ServicePackageZipUploadOutcome } from '@/features/servicePackagesRecords/servicePackageZipUpload';
 import {
+  convertServicePackageRecord,
+  fetchServicePackageConversionCustomerUsers,
+  fetchServicePackageConversionOptions,
+  type ServicePackageConversionError,
+  type ServicePackageConversionOption,
+  type ServicePackageConversionResult,
+} from '@/features/servicePackagesRecords/servicePackageConversionThunks';
+import {
   deleteServicePackageRecord,
   fetchServicePackageRecordDetail,
   fetchServicePackageRecordServiceTypeOptions,
@@ -18,6 +26,18 @@ import {
 } from '@/features/servicePackagesRecords/servicePackagesRecordsThunks';
 
 export interface ServicePackagesRecordsState {
+  conversion: {
+    status: ServicePackageRecordRequestStatus;
+    result: ServicePackageConversionResult | null;
+    error: ServicePackageConversionError | null;
+    optionsStatus: ServicePackageRecordRequestStatus;
+    optionsError: ServicePackageConversionError | null;
+    customers: ServicePackageConversionOption[];
+    serviceTypes: ServicePackageConversionOption[];
+    usersByCustomer: Record<string, ServicePackageConversionOption[]>;
+    usersLoadingCustomerId: string | null;
+    usersError: ServicePackageConversionError | null;
+  };
   list: {
     items: ServicePackageRecordListItem[];
     status: ServicePackageRecordRequestStatus;
@@ -54,6 +74,18 @@ export interface ServicePackagesRecordsState {
 }
 
 const initialState: ServicePackagesRecordsState = {
+  conversion: {
+    status: 'idle',
+    result: null,
+    error: null,
+    optionsStatus: 'idle',
+    optionsError: null,
+    customers: [],
+    serviceTypes: [],
+    usersByCustomer: {},
+    usersLoadingCustomerId: null,
+    usersError: null,
+  },
   list: {
     items: [],
     status: 'idle',
@@ -93,6 +125,11 @@ const servicePackagesRecordsSlice = createSlice({
   name: 'servicePackagesRecords',
   initialState,
   reducers: {
+    resetServicePackageConversion(state) {
+      state.conversion.status = 'idle';
+      state.conversion.result = null;
+      state.conversion.error = null;
+    },
     resetServicePackageRecordDeleteMutation(state) {
       state.mutations = {
         deleteStatus: 'idle',
@@ -116,6 +153,60 @@ const servicePackagesRecordsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchServicePackageConversionOptions.pending, (state) => {
+        state.conversion.optionsStatus = 'loading';
+        state.conversion.optionsError = null;
+      })
+      .addCase(fetchServicePackageConversionOptions.fulfilled, (state, action) => {
+        state.conversion.optionsStatus = 'succeeded';
+        state.conversion.customers = action.payload.customers;
+        state.conversion.serviceTypes = action.payload.serviceTypes;
+      })
+      .addCase(fetchServicePackageConversionOptions.rejected, (state, action) => {
+        state.conversion.optionsStatus = 'failed';
+        state.conversion.optionsError = action.payload ?? {
+          message: action.error.message ?? '',
+          status: 0,
+          uncertain: true,
+        };
+      })
+      .addCase(fetchServicePackageConversionCustomerUsers.pending, (state, action) => {
+        state.conversion.usersLoadingCustomerId = action.meta.arg.customerId;
+        state.conversion.usersError = null;
+      })
+      .addCase(fetchServicePackageConversionCustomerUsers.fulfilled, (state, action) => {
+        state.conversion.usersByCustomer[action.payload.customerId] = action.payload.users;
+        state.conversion.usersLoadingCustomerId = null;
+      })
+      .addCase(fetchServicePackageConversionCustomerUsers.rejected, (state, action) => {
+        state.conversion.usersLoadingCustomerId = null;
+        state.conversion.usersError = action.payload ?? {
+          message: action.error.message ?? '',
+          status: 0,
+          uncertain: true,
+        };
+      })
+      .addCase(convertServicePackageRecord.pending, (state) => {
+        state.conversion.status = 'loading';
+        state.conversion.error = null;
+      })
+      .addCase(convertServicePackageRecord.fulfilled, (state, action) => {
+        state.conversion.status = 'succeeded';
+        state.conversion.result = action.payload;
+        const source = state.list.items.find((item) => item.id === action.payload.sourceRecordId);
+        if (source) source.convertedToCustomerServiceRecords = true;
+        if (state.detail.record?.id === action.payload.sourceRecordId) {
+          state.detail.record.convertedToCustomerServiceRecords = true;
+        }
+      })
+      .addCase(convertServicePackageRecord.rejected, (state, action) => {
+        state.conversion.status = 'failed';
+        state.conversion.error = action.payload ?? {
+          message: action.error.message ?? '',
+          status: 0,
+          uncertain: true,
+        };
+      })
       .addCase(fetchServicePackagesRecords.pending, (state, action) => {
         state.list.status = 'loading';
         state.list.error = null;
@@ -228,6 +319,7 @@ const servicePackagesRecordsSlice = createSlice({
 });
 
 export const {
+  resetServicePackageConversion,
   resetServicePackageRecordDeleteMutation,
   resetServicePackageRecordDetail,
   resetServicePackageZipUpload,

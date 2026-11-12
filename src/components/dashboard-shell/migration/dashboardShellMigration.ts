@@ -56,6 +56,21 @@ const nextDashboardShellRoutes: readonly DashboardShellMigrationEntry[] = [
     },
   },
   {
+    matches: (pathname) => /^\/dashboard\/service-packages-records\/[^/]+\/convert$/.test(pathname),
+    config: {
+      breadcrumbs: [
+        { label: 'Panel', labelKey: 'dashboard', href: '/dashboard', hideOnDesktop: true },
+        {
+          label: 'Recepción, Recolección y Entrega',
+          labelKey: 'servicePackagesRecords',
+          href: '/dashboard/service-packages-records',
+        },
+        { label: 'Convertir a servicios a clientes', labelKey: 'servicePackageRecordConversion' },
+      ],
+      scrollMode: 'page-content',
+    },
+  },
+  {
     matches: (pathname) => /^\/dashboard\/service-packages-records\/[^/]+$/.test(pathname),
     config: {
       breadcrumbs: [

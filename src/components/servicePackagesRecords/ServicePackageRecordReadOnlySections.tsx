@@ -69,6 +69,14 @@ export function ServicePackageRecordServiceInformationSection({
           <ReadField label={t('detail.fields.serviceTime')} value={record.details.serviceTime} />
           <ReadField label={t('detail.fields.serviceType')} value={record.serviceType} />
           <ReadField
+            label={t('conversion.statusLabel')}
+            value={t(
+              record.convertedToCustomerServiceRecords
+                ? 'conversion.statusConverted'
+                : 'conversion.statusAvailable'
+            )}
+          />
+          <ReadField
             label={t('detail.fields.createdAt')}
             value={formatDateTime(record.createdAt, i18n.language, empty)}
           />
