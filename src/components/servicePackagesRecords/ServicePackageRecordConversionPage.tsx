@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, ArrowRight, Check, ClipboardList, RotateCcw } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Camera, Check, ClipboardList, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -42,6 +42,7 @@ import {
 } from './servicePackageRecordConversionSchema';
 import { ServicePackageRecordConversionSource } from './ServicePackageRecordConversionSource';
 import { ServicePackageRecordConversionStep } from './ServicePackageRecordConversionStep';
+import { ServicePackageRecordConversionPhotosStep } from './ServicePackageRecordConversionPhotosStep';
 
 export function ServicePackageRecordConversionPage() {
   const { recordId } = useParams<{ recordId: string }>();
@@ -64,9 +65,12 @@ export function ServicePackageRecordConversionPage() {
   });
   const source = detail.currentRecordId === recordId ? detail.record : null;
   const count = source?.details.equipment.length ?? 0;
+  const reviewStep = count * 2;
+  const equipmentIndex = Math.min(Math.floor(step / 2), count - 1);
+  const isPhotoStep = step < reviewStep && step % 2 === 1;
   const result = conversion.status === 'succeeded' ? conversion.result : null;
   const isSubmitting = conversion.status === 'loading';
-  const currentCustomerId = form.watch(`records.${step}.customerId`);
+  const currentCustomerId = form.watch(`records.${Math.max(0, equipmentIndex)}.customerId`);
   const users = currentCustomerId ? (conversion.usersByCustomer[currentCustomerId] ?? []) : [];
 
   useEffect(() => {
@@ -117,8 +121,8 @@ export function ServicePackageRecordConversionPage() {
   };
 
   const goNext = async () => {
-    if (step >= count) return;
-    const valid = await form.trigger(`records.${step}`);
+    if (step >= reviewStep) return;
+    const valid = isPhotoStep || (await form.trigger(`records.${equipmentIndex}`));
     if (valid) setStep(step + 1);
   };
 
@@ -152,13 +156,21 @@ export function ServicePackageRecordConversionPage() {
 
   const steps: StepperStep[] = source
     ? [
-        ...source.details.equipment.map((item, index) => ({
-          id: String(index),
-          label: t('conversion.equipmentStep', { number: index + 1, total: count }),
-          description: item.equipment || undefined,
-          icon: ClipboardList,
-          status: form.formState.errors.records?.[index] ? ('error' as const) : undefined,
-        })),
+        ...source.details.equipment.flatMap((item, index) => [
+          {
+            id: String(index * 2),
+            label: t('conversion.equipmentStep', { number: index + 1, total: count }),
+            description: item.equipment || undefined,
+            icon: ClipboardList,
+            status: form.formState.errors.records?.[index] ? ('error' as const) : undefined,
+          },
+          {
+            id: String(index * 2 + 1),
+            label: t('conversion.photosStep', { number: index + 1, total: count }),
+            description: item.equipment || undefined,
+            icon: Camera,
+          },
+        ]),
         { id: 'review', label: t('conversion.review'), icon: Check },
       ]
     : [];
@@ -207,7 +219,7 @@ export function ServicePackageRecordConversionPage() {
               <div className="grid min-w-0 gap-5 lg:grid-cols-[minmax(17rem,21rem)_minmax(0,1fr)]">
                 <ServicePackageRecordConversionSource
                   source={source}
-                  equipmentIndex={Math.min(step, count - 1)}
+                  equipmentIndex={equipmentIndex}
                 />
                 <div className="min-w-0 space-y-4">
                   {source.convertedToCustomerServiceRecords && !result ? (
@@ -259,7 +271,7 @@ export function ServicePackageRecordConversionPage() {
                     <>
                       <Stepper
                         steps={steps}
-                        value={step === count ? 'review' : String(step)}
+                        value={step === reviewStep ? 'review' : String(step)}
                         onValueChange={(_, context) => setStep(context.targetIndex)}
                         canNavigateTo={(context) => context.targetIndex <= context.currentIndex}
                         ariaLabel={t('conversion.steps')}
@@ -285,11 +297,13 @@ export function ServicePackageRecordConversionPage() {
                           </Button>
                         </div>
                       ) : null}
-                      {conversion.optionsStatus === 'succeeded' && step < count ? (
+                      {conversion.optionsStatus === 'succeeded' &&
+                      step < reviewStep &&
+                      !isPhotoStep ? (
                         <ServicePackageRecordConversionStep
                           form={form}
                           source={source}
-                          index={step}
+                          index={equipmentIndex}
                           customers={conversion.customers}
                           serviceTypes={conversion.serviceTypes}
                           users={users}
@@ -303,7 +317,15 @@ export function ServicePackageRecordConversionPage() {
                           }}
                         />
                       ) : null}
-                      {conversion.usersError ? (
+                      {step < reviewStep && isPhotoStep ? (
+                        <ServicePackageRecordConversionPhotosStep
+                          form={form}
+                          source={source}
+                          index={equipmentIndex}
+                          disabled={isSubmitting}
+                        />
+                      ) : null}
+                      {conversion.usersError && step < reviewStep && !isPhotoStep ? (
                         <div
                           role="alert"
                           className="rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive"
@@ -326,7 +348,7 @@ export function ServicePackageRecordConversionPage() {
                           </Button>
                         </div>
                       ) : null}
-                      {step === count ? (
+                      {step === reviewStep ? (
                         <ResourceFormFrame
                           title={t('conversion.review')}
                           mode="read"
@@ -398,13 +420,19 @@ export function ServicePackageRecordConversionPage() {
                             <RotateCcw aria-hidden="true" />
                             {t('conversion.verify')}
                           </Button>
-                        ) : step < count ? (
+                        ) : step < reviewStep ? (
                           <Button
                             type="button"
                             disabled={conversion.optionsStatus !== 'succeeded'}
                             onClick={() => void goNext()}
                           >
-                            {t('conversion.next')}
+                            {t(
+                              !isPhotoStep
+                                ? 'conversion.nextToPhotos'
+                                : step === reviewStep - 1
+                                  ? 'conversion.review'
+                                  : 'conversion.nextEquipment'
+                            )}
                             <ArrowRight aria-hidden="true" />
                           </Button>
                         ) : (

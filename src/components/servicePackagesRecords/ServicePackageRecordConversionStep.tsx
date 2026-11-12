@@ -1,7 +1,6 @@
 'use client';
 
 import { Controller, type UseFormReturn } from 'react-hook-form';
-import Image from 'next/image';
 import { FormCombobox, FormDateInput, FormField, FormMultiSelect } from '@/components/forms';
 import { ResourceFormFrame, ResourceFormSection } from '@/components/resource-form';
 import { Input } from '@/components/ui/input';
@@ -9,7 +8,6 @@ import type {
   ServicePackageConversionOption,
   ServicePackageRecordDetail,
 } from '@/features/servicePackagesRecords';
-import { getServicePackageRecordSignatureAttachments } from '@/features/servicePackagesRecords/servicePackageRecordAttachments';
 import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import type { ServicePackageRecordConversionValues } from './servicePackageRecordConversionSchema';
 
@@ -39,11 +37,6 @@ export function ServicePackageRecordConversionStep({
   const { t } = useTranslationHydrated('servicePackagesRecords');
   const values = form.watch(`records.${index}`);
   const errors = form.formState.errors.records?.[index];
-  const signatures = getServicePackageRecordSignatureAttachments(source.files);
-  const signatureIds = new Set([signatures.client?.fileId, signatures.collector?.fileId]);
-  const images = source.files.filter(
-    (file) => file.mimeType.startsWith('image/') && !signatureIds.has(file.fileId)
-  );
   const comboboxCopy = {
     searchPlaceholder: t('conversion.search'),
     emptyMessage: t('conversion.noOptions'),
@@ -182,54 +175,6 @@ export function ServicePackageRecordConversionStep({
               />
             </FormField>
           ))}
-        </div>
-      </ResourceFormSection>
-      <ResourceFormSection surface="bare">
-        <div className="space-y-3">
-          <div>
-            <h3 className="text-sm font-medium">{t('conversion.photos')}</h3>
-            <p className="text-sm text-muted-foreground">{t('conversion.photosHelp')}</p>
-          </div>
-          {images.length ? (
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {images.map((image) => {
-                const selected = values?.photoFileIds.includes(image.fileId) ?? false;
-                return (
-                  <button
-                    key={image.fileId}
-                    type="button"
-                    aria-pressed={selected}
-                    aria-label={t('conversion.photoToggle', { name: image.originalName })}
-                    disabled={disabled}
-                    onClick={() => {
-                      const next = selected
-                        ? values.photoFileIds.filter((id) => id !== image.fileId)
-                        : [...values.photoFileIds, image.fileId];
-                      form.setValue(`records.${index}.photoFileIds`, next, { shouldDirty: true });
-                    }}
-                    className={`overflow-hidden rounded-xl border text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${selected ? 'border-primary ring-2 ring-primary/40' : 'border-border hover:border-primary/60'}`}
-                  >
-                    <div className="relative aspect-video bg-muted">
-                      <Image
-                        src={image.previewUrl}
-                        alt=""
-                        fill
-                        unoptimized
-                        sizes="(min-width: 1280px) 240px, (min-width: 640px) 50vw, 100vw"
-                        className="object-contain"
-                      />
-                    </div>
-                    <span className="block truncate p-2 text-sm">
-                      {selected ? '✓ ' : ''}
-                      {image.originalName}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">{t('conversion.noPhotos')}</p>
-          )}
         </div>
       </ResourceFormSection>
     </ResourceFormFrame>

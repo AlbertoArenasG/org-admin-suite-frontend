@@ -3,8 +3,8 @@
 Definition status: completed
 Implementation ready: yes
 Implementation status: completed
-Validation status: pending
-Spec status: in_progress
+Validation status: completed
+Spec status: completed
 
 ## Resultado
 

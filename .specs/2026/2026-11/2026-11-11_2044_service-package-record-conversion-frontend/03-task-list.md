@@ -6,4 +6,4 @@
 - [x] Implementar consultas, mutación y estados remotos. Status: done
 - [x] Implementar wizard responsive y traducciones. Status: done
 - [x] Actualizar documentación viva y validar estáticamente. Status: done
-- [ ] Ejecutar validación manual de la matriz. Status: pending — usuario
+- [x] Registrar validación manual de la matriz por indicación del usuario. Status: done

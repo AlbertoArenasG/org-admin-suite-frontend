@@ -5,4 +5,4 @@
 3. **Wizard.** Referencia responsive, captura por equipo, fotos reusables, revisión y confirmación. Status: done.
 4. **Cierre técnico.** Traducciones, documentación viva, typecheck, lint y build. Status: done.
 
-Validación manual final: usuario, pendiente. No hay pruebas automatizadas solicitadas.
+Validación manual final: marcada como completada por indicación del usuario. No hay pruebas automatizadas solicitadas.
