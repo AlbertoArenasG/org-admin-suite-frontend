@@ -16,10 +16,12 @@ function CalendarGrid({
   records,
   from,
   scale,
+  detailBasePath,
 }: {
   records: TimelineRecord[];
   from: string;
   scale: 'week' | 'month';
+  detailBasePath: string;
 }) {
   const [, setMonth] = useCalendarMonth();
   const [, setYear] = useCalendarYear();
@@ -103,7 +105,7 @@ function CalendarGrid({
           >
             {({ feature }) => (
               <Link
-                href={`/dashboard/customer-service-records/${events.find((item) => item.id === feature.id)?.recordId}`}
+                href={`${detailBasePath}/${events.find((item) => item.id === feature.id)?.recordId}`}
                 key={feature.id}
                 className="mb-1 flex items-start gap-1 rounded px-1 py-0.5 text-xs hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
               >
@@ -125,6 +127,12 @@ export function CustomerServiceRecordCalendar(props: {
   records: TimelineRecord[];
   from: string;
   scale: 'week' | 'month';
+  detailBasePath?: string;
 }) {
-  return <CalendarGrid {...props} />;
+  return (
+    <CalendarGrid
+      {...props}
+      detailBasePath={props.detailBasePath ?? '/dashboard/customer-service-records'}
+    />
+  );
 }

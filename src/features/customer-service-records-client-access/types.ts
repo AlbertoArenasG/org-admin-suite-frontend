@@ -97,6 +97,22 @@ export interface FetchClientAccessCustomerServiceRecordsParams {
   search?: string;
   sort?: ClientAccessSort | null;
   sortStrategy?: 'work_priority' | null;
+  filters?: ClientAccessListFilters;
+}
+
+export interface ClientAccessListFilters {
+  customerId: string | null;
+  serviceTypeCode: string | null;
+  dateRange: {
+    fieldId: 'receivedAt' | 'estimatedDeliveryAt' | null;
+    from: string | null;
+    to: string | null;
+  };
+}
+
+export interface ClientAccessFilterOption {
+  value: string;
+  label: string;
 }
 
 export interface FetchClientAccessCustomerServiceRecordDetailParams {
@@ -104,6 +120,31 @@ export interface FetchClientAccessCustomerServiceRecordDetailParams {
 }
 
 export interface ClientAccessCustomerServiceRecordsState {
+  ganttTimeline: {
+    chunks: Record<
+      number,
+      {
+        items: import('@/features/customer-service-records/customerServiceRecordTimelineMapper').TimelineRecord[];
+        status: ClientAccessRequestStatus;
+        error: string | null;
+        requestId: string | null;
+      }
+    >;
+    retainedRange: { first: number; last: number } | null;
+  };
+  timeline: {
+    items: import('@/features/customer-service-records/customerServiceRecordTimelineMapper').TimelineRecord[];
+    status: ClientAccessRequestStatus;
+    error: string | null;
+    key: string | null;
+    requestId: string | null;
+  };
+  options: {
+    customers: ClientAccessFilterOption[];
+    serviceTypes: ClientAccessFilterOption[];
+    status: ClientAccessRequestStatus;
+    error: string | null;
+  };
   list: {
     items: ClientAccessCustomerServiceRecord[];
     status: ClientAccessRequestStatus;

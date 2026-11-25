@@ -7,6 +7,7 @@ import { DashboardContentReveal } from '@/components/dashboard-shell';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   fetchClientAccessCustomerServiceRecords,
+  fetchClientAccessFilterOptions,
   type ClientAccessCustomerServiceRecord,
 } from '@/features/customer-service-records-client-access';
 import { useAppDispatch } from '@/hooks/useAppDispatch';
@@ -15,6 +16,7 @@ import { useTranslationHydrated } from '@/hooks/useTranslationHydrated';
 import { useDataTablePreferencesStore } from '@/stores/useDataTablePreferencesStore';
 import {
   buildClientAccessQuery,
+  parseClientAccessFilters,
   getClientAccessInitialPagination,
   mapClientAccessSortingToApi,
   parseClientAccessSorting,
@@ -25,6 +27,8 @@ import {
   hasClientAccessObservations,
 } from './ClientAccessObservationsDetail';
 import { useClientAccessServicesTableStore } from './useClientAccessServicesTableStore';
+import { ClientAccessServicesFilterDialog } from './ClientAccessServicesFilterDialog';
+import { ClientAccessRoadmapList } from './roadmap/ClientAccessRoadmapList';
 
 function loadingCell(columnId: string) {
   const width =
@@ -36,7 +40,11 @@ function loadingCell(columnId: string) {
   return <Skeleton className={`h-5 ${width}`} />;
 }
 
-export function ClientAccessServicesContainer() {
+export function ClientAccessServicesContainer({
+  mode = 'table',
+}: {
+  mode?: 'table' | 'list' | 'kanban';
+}) {
   const { t, hydrated, i18n } = useTranslationHydrated('clientAccessServices');
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -45,6 +53,7 @@ export function ClientAccessServicesContainer() {
   const searchParamsString = searchParams.toString();
   const pendingLocalQueriesRef = useRef(new Set<string>());
   const list = useAppSelector((state) => state.customerServiceRecordsClientAccess.list);
+  const options = useAppSelector((state) => state.customerServiceRecordsClientAccess.options);
   const userId = useAppSelector((state) => state.auth.user?.id ?? null);
   const preferencesHydrated = useDataTablePreferencesStore((state) => state.hasHydrated);
   const preferredLimit = useDataTablePreferencesStore((state) =>
@@ -59,6 +68,8 @@ export function ClientAccessServicesContainer() {
   const search = useClientAccessServicesTableStore((state) => state.search);
   const appliedSearch = useClientAccessServicesTableStore((state) => state.appliedSearch);
   const sorting = useClientAccessServicesTableStore((state) => state.sorting);
+  const filters = useClientAccessServicesTableStore((state) => state.filters);
+  const setFilters = useClientAccessServicesTableStore((state) => state.setFilters);
   const visibleColumnIds = useClientAccessServicesTableStore((state) => state.visibleColumnIds);
   const expandedRowIds = useClientAccessServicesTableStore((state) => state.expandedRowIds);
   const initialized = useClientAccessServicesTableStore((state) => state.initialized);
@@ -94,6 +105,7 @@ export function ClientAccessServicesContainer() {
         ...pagination,
         search: params.get('search') ?? '',
         sorting: parseClientAccessSorting(params),
+        filters: parseClientAccessFilters(params),
       },
       { ignoreIfInitialized: isLocalQueryUpdate }
     );
@@ -105,6 +117,11 @@ export function ClientAccessServicesContainer() {
       setPreferredPageSize(userId, nextLimit);
     }
   };
+
+  useEffect(() => {
+    const request = dispatch(fetchClientAccessFilterOptions());
+    return () => request.abort();
+  }, [dispatch]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setAppliedSearch(search.trim()), 350);
@@ -120,18 +137,35 @@ export function ClientAccessServicesContainer() {
         search: appliedSearch,
         sort: mapClientAccessSortingToApi(sorting),
         sortStrategy,
+        filters,
       })
     );
-  }, [appliedSearch, dispatch, initialized, limit, page, sortStrategy, sorting]);
+  }, [appliedSearch, dispatch, filters, initialized, limit, page, sortStrategy, sorting]);
 
   useEffect(() => {
     if (!initialized) return;
-    const next = buildClientAccessQuery({ page, limit, search: appliedSearch, sorting }).toString();
+    const next = buildClientAccessQuery({
+      page,
+      limit,
+      search: appliedSearch,
+      sorting,
+      filters,
+    }).toString();
     if (next !== searchParamsString) {
       pendingLocalQueriesRef.current.add(next);
       router.replace(`${pathname}?${next}`, { scroll: false });
     }
-  }, [appliedSearch, initialized, limit, page, pathname, router, searchParamsString, sorting]);
+  }, [
+    appliedSearch,
+    filters,
+    initialized,
+    limit,
+    page,
+    pathname,
+    router,
+    searchParamsString,
+    sorting,
+  ]);
 
   useEffect(() => {
     if (!initialized || list.status !== 'succeeded') return;
@@ -180,8 +214,31 @@ export function ClientAccessServicesContainer() {
         search: appliedSearch,
         sort: mapClientAccessSortingToApi(sorting),
         sortStrategy,
+        filters,
       })
     );
+  };
+
+  if (mode !== 'table')
+    return (
+      <ClientAccessRoadmapList
+        mode={mode}
+        list={list}
+        page={page}
+        setPage={setPage}
+        onRetry={retry}
+      />
+    );
+
+  const clearCriteria = () => {
+    setSearch('');
+    setAppliedSearch('');
+    setFilters({
+      customerId: null,
+      serviceTypeCode: null,
+      dateRange: { fieldId: null, from: null, to: null },
+    });
+    setPage(1);
   };
 
   return (
@@ -197,12 +254,13 @@ export function ClientAccessServicesContainer() {
             ? { message: list.error, onRetry: retry }
             : undefined
         }
-        hasActiveCriteria={Boolean(search.trim())}
-        onClearCriteria={() => {
-          setSearch('');
-          setAppliedSearch('');
-          setPage(1);
-        }}
+        hasActiveCriteria={Boolean(
+          search.trim() ||
+            filters.customerId ||
+            filters.serviceTypeCode ||
+            (filters.dateRange.fieldId && (filters.dateRange.from || filters.dateRange.to))
+        )}
+        onClearCriteria={clearCriteria}
         renderEmpty={({ filtered, onClearCriteria }) => (
           <div className="mx-auto max-w-sm space-y-2">
             <p className="font-medium text-foreground">
@@ -222,6 +280,22 @@ export function ClientAccessServicesContainer() {
         )}
         toolbar={{
           compact: true,
+          trailing: (
+            <ClientAccessServicesFilterDialog
+              filters={filters}
+              customers={options.customers}
+              serviceTypes={options.serviceTypes}
+              loading={options.status === 'loading'}
+              error={options.error}
+              onRetry={() => {
+                void dispatch(fetchClientAccessFilterOptions());
+              }}
+              onChange={(next) => {
+                setFilters(next);
+                setPage(1);
+              }}
+            />
+          ),
           search: {
             value: search,
             onChange: (value) => {

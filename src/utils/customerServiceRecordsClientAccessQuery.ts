@@ -1,4 +1,26 @@
-import type { ClientAccessSort } from '@/features/customer-service-records-client-access';
+import type {
+  ClientAccessSort,
+  ClientAccessListFilters,
+} from '@/features/customer-service-records-client-access';
+
+export const EMPTY_CLIENT_ACCESS_FILTERS: ClientAccessListFilters = {
+  customerId: null,
+  serviceTypeCode: null,
+  dateRange: { fieldId: null, from: null, to: null },
+};
+
+export function parseClientAccessFilters(params: URLSearchParams): ClientAccessListFilters {
+  const fieldId = params.get('date_field');
+  return {
+    customerId: params.get('customer_id'),
+    serviceTypeCode: params.get('service_type_code'),
+    dateRange: {
+      fieldId: fieldId === 'receivedAt' || fieldId === 'estimatedDeliveryAt' ? fieldId : null,
+      from: params.get('date_from'),
+      to: params.get('date_to'),
+    },
+  };
+}
 
 const SORT_FIELDS = {
   serviceNumber: 'service_number',
@@ -45,9 +67,17 @@ export function buildClientAccessQuery(value: {
   limit: number;
   search: string;
   sorting: ClientAccessTableSorting | null;
+  filters: ClientAccessListFilters;
 }) {
   const params = new URLSearchParams({ page: String(value.page), limit: String(value.limit) });
   if (value.search.trim()) params.set('search', value.search.trim());
+  if (value.filters.customerId) params.set('customer_id', value.filters.customerId);
+  if (value.filters.serviceTypeCode) params.set('service_type_code', value.filters.serviceTypeCode);
+  if (value.filters.dateRange.fieldId) {
+    params.set('date_field', value.filters.dateRange.fieldId);
+    if (value.filters.dateRange.from) params.set('date_from', value.filters.dateRange.from);
+    if (value.filters.dateRange.to) params.set('date_to', value.filters.dateRange.to);
+  }
   if (value.sorting) {
     params.set('sort[0][field]', SORT_FIELDS[value.sorting.columnId]);
     params.set('sort[0][direction]', value.sorting.direction);

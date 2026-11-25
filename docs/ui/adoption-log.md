@@ -16,6 +16,15 @@ Las futuras entradas deben incluir:
 - Spec o iniciativa relacionada.
 - Compatibilidad temporal pendiente, si existe.
 
+### 2026-11-24 - Cinco vistas de seguimiento para clientes
+
+- Alcance: `/dashboard/portal/services`.
+- Adopción: `DashboardTableWorkspace`, `DataTable`, diálogo de filtros y la
+  composición de cinco vistas de `multi-view-workspace`; calendario y Gantt
+  reutilizan la presentación y consultan el alcance propio del portal.
+- Spec: `client-access-five-views`.
+- Compatibilidad temporal: ninguna.
+
 ## Catálogo Oficial
 
 ### 2026-09-08 - DataTable Catalog Preview

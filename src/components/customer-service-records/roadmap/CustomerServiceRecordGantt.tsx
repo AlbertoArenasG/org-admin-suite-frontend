@@ -40,11 +40,13 @@ function ProviderBranch({
   provider,
   label,
   dates,
+  detailBasePath,
 }: {
   parent: Item;
   provider: Item;
   label: string;
   dates: string;
+  detailBasePath: string;
 }) {
   const parentGeometry = useGanttFeatureGeometry(parent.startAt, parent.endAt);
   const providerGeometry = useGanttFeatureGeometry(provider.startAt, provider.endAt);
@@ -74,7 +76,7 @@ function ProviderBranch({
       <Tooltip>
         <TooltipTrigger asChild>
           <Link
-            href={`/dashboard/customer-service-records/${provider.recordId}`}
+            href={`${detailBasePath}/${provider.recordId}`}
             aria-label={`${provider.serviceNumber} · ${branchLabel} · ${dates}`}
             className="absolute top-2 flex h-3.5 items-center overflow-hidden rounded-full border border-border/60 border-l-[3px] px-1.5 text-[10px] leading-none text-foreground shadow-sm hover:brightness-95 focus-visible:outline-2 focus-visible:outline-primary"
             style={{
@@ -103,6 +105,7 @@ export function CustomerServiceRecordGantt({
   visibleDate,
   scrollBounds,
   onViewportChange,
+  detailBasePath = '/dashboard/customer-service-records',
 }: {
   records: TimelineRecord[];
   from: string;
@@ -111,6 +114,7 @@ export function CustomerServiceRecordGantt({
   visibleDate: Date;
   scrollBounds?: { from: Date; to: Date };
   onViewportChange: (viewport: { from: Date; to: Date }) => void;
+  detailBasePath?: string;
 }) {
   const frameRef = useRef<HTMLDivElement>(null);
   const anchorRef = useRef<{ id: string; offset: number } | null>(null);
@@ -319,7 +323,7 @@ export function CustomerServiceRecordGantt({
                 <div key={row.id}>
                   <Link
                     data-gantt-row-id={row.id}
-                    href={`/dashboard/customer-service-records/${row.id}`}
+                    href={`${detailBasePath}/${row.id}`}
                     className="flex h-9 items-center gap-2 truncate px-3 text-xs hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
                   >
                     <span
@@ -333,7 +337,7 @@ export function CustomerServiceRecordGantt({
                   </Link>
                   {row.main.kind === 'customer' && row.provider && (
                     <Link
-                      href={`/dashboard/customer-service-records/${row.id}`}
+                      href={`${detailBasePath}/${row.id}`}
                       className="flex h-6 items-center truncate pl-7 pr-3 text-[11px] text-muted-foreground hover:bg-accent focus-visible:outline-2 focus-visible:outline-primary"
                     >
                       {t('roadmap.providerPeriod')}
@@ -360,7 +364,7 @@ export function CustomerServiceRecordGantt({
                 return (
                   <div key={row.id} className="relative">
                     <Link
-                      href={`/dashboard/customer-service-records/${row.id}`}
+                      href={`${detailBasePath}/${row.id}`}
                       aria-label={`${accessibleLabel(row.main)}${row.main.kind === 'customer' && row.provider ? ` · ${t('roadmap.providerPeriod')}: ${periodDates(row.provider)}` : ''}`}
                       className="block h-9 focus-visible:outline-2 focus-visible:outline-primary"
                     >
@@ -408,6 +412,7 @@ export function CustomerServiceRecordGantt({
                         provider={row.provider}
                         label={t('roadmap.providerPeriod')}
                         dates={periodDates(row.provider)}
+                        detailBasePath={detailBasePath}
                       />
                     )}
                   </div>

@@ -1,5 +1,7 @@
 # Frontend Specs Index
 
+- [client-access-five-views](./2026/2026-11/2026-11-24_1732_client_access_five_views/00-definition.md) - Completada
+
 - [service-package-record-conversion-frontend](./2026/2026-11/2026-11-11_2044_service-package-record-conversion-frontend/00-definition.md) - completada
 - [customer-service-record-billing-lifecycle-frontend](./2026/2026-11/2026-11-05_1442_customer-service-record-billing-lifecycle-frontend/00-definition.md) - in_progress; código implementado; validación manual del usuario pendiente
 - [customer-service-record-roadmap](./2026/2026-10/2026-10-27_1352_customer-service-record-roadmap/00-definition.md) - completed; cinco vistas en Next Dashboard aceptadas para cierre por el usuario; mejoras visuales posteriores fuera de la spec

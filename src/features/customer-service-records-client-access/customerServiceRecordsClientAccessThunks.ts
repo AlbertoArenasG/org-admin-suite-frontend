@@ -8,6 +8,7 @@ import type {
   ClientAccessCustomerServiceRecordDetail,
   FetchClientAccessCustomerServiceRecordsParams,
   FetchClientAccessCustomerServiceRecordDetailParams,
+  ClientAccessFilterOption,
 } from './types';
 
 interface PaginationMeta {
@@ -219,6 +220,16 @@ export const fetchClientAccessCustomerServiceRecords = createAsyncThunk<
     query.set('sort[0][direction]', params.sort.direction);
   }
   if (!params.sort && params.sortStrategy) query.set('sort_strategy', params.sortStrategy);
+  if (params.filters?.customerId) query.set('customer_id', params.filters.customerId);
+  if (params.filters?.serviceTypeCode)
+    query.set('service_type_code', params.filters.serviceTypeCode);
+  const dateRange = params.filters?.dateRange;
+  if (dateRange?.fieldId) {
+    const field =
+      dateRange.fieldId === 'receivedAt' ? 'received_at' : 'estimated_customer_delivery_at';
+    if (dateRange.from) query.set(`${field}_from`, dateRange.from);
+    if (dateRange.to) query.set(`${field}_to`, dateRange.to);
+  }
 
   try {
     const response = await jsonRequest<ApiClientAccessRecord[], { pagination?: PaginationMeta }>(
@@ -237,6 +248,39 @@ export const fetchClientAccessCustomerServiceRecords = createAsyncThunk<
   } catch (error) {
     return thunkAPI.rejectWithValue(
       error instanceof Error ? error.message : 'No fue posible obtener los servicios'
+    );
+  }
+});
+
+export const fetchClientAccessFilterOptions = createAsyncThunk<
+  { customers: ClientAccessFilterOption[]; serviceTypes: ClientAccessFilterOption[] },
+  void,
+  { state: RootState; rejectValue: string }
+>('customerServiceRecordsClientAccess/fetchOptions', async (_, api) => {
+  const token = api.getState().auth.token;
+  if (!token) return api.rejectWithValue('No hay token de autenticación');
+  const base = '/v1/customer-service-records-client-access';
+  try {
+    const [customers, serviceTypes] = await Promise.all([
+      jsonRequest<Array<{ customer_id: string; company_name: string }>>(
+        `${base}/customers/options`,
+        { token, signal: api.signal }
+      ),
+      jsonRequest<Array<{ code: string; name: string }>>(`${base}/service-types/options`, {
+        token,
+        signal: api.signal,
+      }),
+    ]);
+    return {
+      customers: customers.data.map((item) => ({
+        value: item.customer_id,
+        label: item.company_name,
+      })),
+      serviceTypes: serviceTypes.data.map((item) => ({ value: item.code, label: item.name })),
+    };
+  } catch (error) {
+    return api.rejectWithValue(
+      error instanceof Error ? error.message : 'No fue posible obtener los filtros'
     );
   }
 });
